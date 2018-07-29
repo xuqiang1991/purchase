@@ -505,4 +505,19 @@ public class AdminServiceImpl implements AdminService {
 		List<TbMenus> data = tbMenusMapper.selectByExample(example);
 		return data;
 	}
+
+	@Override
+	public ResultUtil selDepartments(Integer page, Integer limit) {
+		return null;
+	}
+
+	@Override
+	public void delDepartmentById(Long id) {
+
+	}
+
+	@Override
+	public void delDepartments(String departmentStr) {
+
+	}
 }

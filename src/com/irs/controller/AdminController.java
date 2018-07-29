@@ -1,19 +1,15 @@
 package com.irs.controller;
 
-import java.awt.image.BufferedImage;
-import java.util.List;
-
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.google.code.kaptcha.Producer;
+import com.irs.annotation.SysLog;
+import com.irs.pojo.*;
+import com.irs.service.AdminService;
+import com.irs.util.RRException;
+import com.irs.util.ResultUtil;
+import com.irs.util.ShiroUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.LockedAccountException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,22 +21,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.code.kaptcha.Producer;
-import com.irs.annotation.SysLog;
-import com.irs.pojo.Menu;
-import com.irs.pojo.TbAdmin;
-import com.irs.pojo.TbMenus;
-import com.irs.pojo.TbRoles;
-import com.irs.pojo.XtreeData;
-import com.irs.service.AdminService;
-import com.irs.util.RRException;
-import com.irs.util.ResultUtil;
-import com.irs.util.ShiroUtils;
-import com.irs.util.VerifyCode;
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
+import java.util.List;
 
 @Controller
 @RequestMapping("sys")
 public class AdminController {
+
 	@Autowired
 	private AdminService adminServiceImpl;
 	@Autowired  
@@ -115,7 +105,6 @@ public class AdminController {
 
 	/**
 	 * 登出
-	 * @param req
 	 * @return
 	 */
 	@RequestMapping(value="/loginOut")
@@ -209,8 +198,6 @@ public class AdminController {
 
 	/**
 	 * 管理员列表
-	 * @param req
-	 * @param resp
 	 * @return
 	 */
 	@RequestMapping("/getRoleList")
@@ -242,7 +229,6 @@ public class AdminController {
 	/**
 	 * 得到指定角色权限树
 	 * @param roleId
-	 * @param roleName
 	 * @return
 	 */
 	@RequestMapping("/xtreedata")
@@ -255,7 +241,7 @@ public class AdminController {
 	
 	/**
 	 * 更新角色信息
-	 * @param roles 角色信息
+	 * @param role 角色信息
 	 * @param m 权限字符串
 	 */
 	@SysLog(value="更新角色信息")
@@ -376,7 +362,7 @@ public class AdminController {
 	
 	/**
 	 * 批量删除指定管理员
-	 * @param id
+	 * @param adminStr
 	 * @return
 	 */
 	@SysLog(value="批量删除指定管理员")
@@ -413,7 +399,7 @@ public class AdminController {
 	
 	/**
 	 * 管理员用户名唯一性检查
-	 * @param roleName
+	 * @param username
 	 * @return
 	 */
 	@RequestMapping("/checkAdminName/{username}")
@@ -444,7 +430,7 @@ public class AdminController {
 	/**
 	 * 增加管理員
 	 * 日期类型会导致数据填充失败，请求没反应
-	 * @param username
+	 * @param admin
 	 * @return
 	 */
 	@SysLog(value="添加管理员")
@@ -546,7 +532,6 @@ public class AdminController {
 	
 	/**
 	 * 获取菜单信息
-	 * @param menu
 	 * @return
 	 */
 	@RequestMapping("/menuData")
@@ -639,4 +624,55 @@ public class AdminController {
 			return ResultUtil.error("系统错误！");
 		}
 	}
+
+	/**
+	 * 部门管理
+	 * @return
+	 */
+	@RequestMapping("/departmentList")
+	@RequiresPermissions("sys:role:department")
+	public String departmentList() {
+		return "page/admin/departmentList";
+	}
+
+	/**
+	 * 部门管理
+	 * @return
+	 */
+	@RequestMapping("/getDepartmentList")
+	@RequiresPermissions("sys:department:list")
+	@ResponseBody
+	public ResultUtil getDepartmentList(Integer page,Integer limit) {
+		ResultUtil admins = adminServiceImpl.selDepartments(page, limit);
+		return admins;
+	}
+
+	/**
+	 * 通过id删除部门
+	 * @param id
+	 * @return
+	 */
+	@SysLog(value="删除指定部门")
+	@RequestMapping("/delDepartmentById/{id}")
+	@RequiresPermissions("sys:department:delete")
+	@ResponseBody
+	public ResultUtil delDepartmentById(@PathVariable("id")Long id) {
+		adminServiceImpl.delDepartmentById(id);
+		return ResultUtil.ok();
+	}
+
+	/**
+	 * 批量删除指定部门
+	 * @return
+	 */
+	@SysLog(value="批量删除指定部门")
+	@RequestMapping("/delDepartments/{departmentStr}")
+	@RequiresPermissions("sys:department:delete")
+	@ResponseBody
+	public ResultUtil delDepartments(@PathVariable("departmentStr")String departmentStr) {
+		adminServiceImpl.delDepartments(departmentStr);
+		return ResultUtil.ok();
+	}
+
+
 }

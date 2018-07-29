@@ -84,4 +84,11 @@ public interface AdminService {
 	public void delMenuById(Long menuId);
 
 	public List<TbMenus> selMenusById1(Long menuId);
+
+    ResultUtil selDepartments(Integer page, Integer limit);
+
+	void delDepartmentById(Long id);
+
+	void delDepartments(String departmentStr);
+
 }
