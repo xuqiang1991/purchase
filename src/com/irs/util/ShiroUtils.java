@@ -4,7 +4,8 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
-import com.irs.pojo.TbAdmin;
+import com.irs.pojo.admin.TbAdmin;
+
 
 /**
  * 

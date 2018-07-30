@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.irs.mapper.TbLogMapper;
-import com.irs.pojo.TbLog;
-import com.irs.pojo.TbLogExample;
-import com.irs.pojo.UserSearch;
-import com.irs.pojo.TbLogExample.Criteria;
+import com.irs.mapper.admin.TbLogMapper;
+import com.irs.pojo.admin.TbLog;
+import com.irs.pojo.admin.TbLogExample;
+import com.irs.pojo.admin.TbLogExample.Criteria;
 import com.irs.service.LogService;
 import com.irs.util.MyUtil;
 import com.irs.util.ResultUtil;
+import com.irs.vo.admin.UserSearch;
 
 @Service
 public class LogServiceImpl implements LogService {

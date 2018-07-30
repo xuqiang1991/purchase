@@ -1,24 +1,27 @@
 package com.irs.annotation;
   
+import java.lang.reflect.Method;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.shiro.SecurityUtils;
-import org.aspectj.lang.JoinPoint;    
-import org.aspectj.lang.annotation.*;    
-import org.slf4j.Logger;    
-import org.slf4j.LoggerFactory;    
-import org.springframework.stereotype.Component;    
-import org.springframework.web.context.request.RequestContextHolder;    
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.irs.pojo.TbAdmin;
-import com.irs.pojo.TbLog;
+import com.irs.pojo.admin.TbAdmin;
+import com.irs.pojo.admin.TbLog;
 import com.irs.service.LogService;
 import com.irs.util.MyUtil;
 import com.irs.util.WebUtils;
-
-import javax.annotation.Resource;    
-import javax.servlet.http.HttpServletRequest;    
-import javax.servlet.http.HttpSession;    
-import java.lang.reflect.Method;
     
 /**
  * 切点类   

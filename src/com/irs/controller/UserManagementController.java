@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.irs.annotation.SysLog;
-import com.irs.pojo.TbUsers;
-import com.irs.pojo.UserSearch;
+import com.irs.pojo.admin.TbUsers;
 import com.irs.service.UserService;
 import com.irs.util.ResultUtil;
+import com.irs.vo.admin.UserSearch;
 
 @Controller
 @RequestMapping("user/")

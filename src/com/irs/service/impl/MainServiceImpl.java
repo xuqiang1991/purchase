@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.irs.mapper.MainMapper;
-import com.irs.mapper.TbUsersMapper;
-import com.irs.pojo.TbUsers;
-import com.irs.pojo.TbUsersExample;
-import com.irs.pojo.TbUsersExample.Criteria;
+import com.irs.mapper.admin.MainMapper;
+import com.irs.mapper.admin.TbUsersMapper;
+import com.irs.pojo.admin.TbUsers;
+import com.irs.pojo.admin.TbUsersExample;
+import com.irs.pojo.admin.TbUsersExample.Criteria;
 import com.irs.service.MainService;
 @Service
 public class MainServiceImpl implements MainService {

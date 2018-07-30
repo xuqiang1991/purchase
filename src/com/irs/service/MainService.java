@@ -2,7 +2,7 @@ package com.irs.service;
 
 import java.util.List;
 
-import com.irs.pojo.TbUsers;
+import com.irs.pojo.admin.TbUsers;
 
 public interface MainService {
 

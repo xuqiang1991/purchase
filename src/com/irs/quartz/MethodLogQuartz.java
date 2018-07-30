@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.irs.pojo.TbLog;
+import com.irs.pojo.admin.TbLog;
 import com.irs.service.LogService;
 import com.irs.util.DateUtil;
 import com.irs.util.GlobalUtil;

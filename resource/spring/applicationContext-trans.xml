@@ -34,22 +34,20 @@
 		<aop:advisor advice-ref="Advice" pointcut="execution(* com.irs.service.*.*(..))" />
 	</aop:config>
 	
-	<bean id="druid-stat-interceptor"
-    class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
+	<bean id="druid-stat-interceptor" class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
   </bean>
 
-<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
-    scope="prototype">
-    <property name="patterns">
-        <list>
-            <value>com.irs.service.*</value>
-            <value>com.irs.mapper.*</value>
-        </list>
-    </property>
-</bean>
+	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
+	    scope="prototype">
+	    <property name="patterns">
+	        <list>
+	            <value>com.irs.service.*</value>
+	            <value>com.irs.mapper.*</value>
+	        </list>
+	    </property>
+	</bean>
 
-<aop:config>
-    <aop:advisor advice-ref="druid-stat-interceptor"
-        pointcut-ref="druid-stat-pointcut" />
-</aop:config>
+	<aop:config>
+	    <aop:advisor advice-ref="druid-stat-interceptor" pointcut-ref="druid-stat-pointcut" />
+	</aop:config>
 </beans>
