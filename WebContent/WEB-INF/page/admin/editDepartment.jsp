@@ -67,6 +67,6 @@
 		</div>
 	</form>
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>
-	<script type="text/javascript" src="${ctx }/page/admin/editdepartment.js"></script>
+	<script type="text/javascript" src="${ctx }/js/admin/editdepartment.js"></script>
 </body>
 </html>

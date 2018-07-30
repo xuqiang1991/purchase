@@ -43,7 +43,7 @@
 	<!-- 数据表格 -->
 	<table id="roleList" class="roleList" lay-filter="roleList"></table>
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>
-	<script type="text/javascript" src="${ctx }/page/admin/roleList.js"></script>
+	<script type="text/javascript" src="${ctx }/js/admin/roleList.js"></script>
 	<script type="text/html" id="barEdit">
   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
