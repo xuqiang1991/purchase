@@ -13,6 +13,14 @@
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="role_id" property="roleId" jdbcType="BIGINT" />
+
+    <result column="quarters" property="quarters" jdbcType="VARCHAR" />
+    <result column="dept_id" property="deptId" jdbcType="VARCHAR" />
+    <result column="entry_date" property="entryDate" jdbcType="DATE" />
+    <result column="is_on_job" property="isOnJob" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+
+
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -109,11 +117,12 @@
     insert into tb_admin (id, username, password, 
       salt, fullname, e_mail, 
       sex, birthday, address, 
-      phone, role_id)
+      phone, role_id, quarters,dept_id,entry_date,is_on_job,remark)
     values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{salt,jdbcType=VARCHAR}, #{fullname,jdbcType=VARCHAR}, #{eMail,jdbcType=VARCHAR}, 
       #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{address,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{roleId,jdbcType=BIGINT})
+      #{phone,jdbcType=VARCHAR}, #{roleId,jdbcType=BIGINT}, #{quarters,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR},
+      #{entryDate,jdbcType=DATE}, #{isOnJob,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.purchase.pojo.admin.TbAdmin" >
     insert into tb_admin
@@ -151,6 +160,21 @@
       <if test="roleId != null" >
         role_id,
       </if>
+      <if test="quarters != null" >
+        quarters,
+      </if>
+      <if test="deptId != null" >
+        dept_id,
+      </if>
+      <if test="entryDate != null" >
+        entry_date,
+      </if>
+      <if test="isOnJob != null" >
+        is_on_job,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -185,6 +209,21 @@
       </if>
       <if test="roleId != null" >
         #{roleId,jdbcType=BIGINT},
+      </if>
+      <if test="quarters != null" >
+        #{quarters,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null" >
+        #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="entryDate != null" >
+        #{entryDate,jdbcType=DATE},
+      </if>
+      <if test="isOnJob != null" >
+        #{isOnJob,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -230,6 +269,21 @@
       <if test="record.roleId != null" >
         role_id = #{record.roleId,jdbcType=BIGINT},
       </if>
+      <if test="record.quarters != null" >
+        quarters = #{quarters,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptId != null" >
+        dept_id = #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.entryDate != null" >
+        entry_date = #{entryDate,jdbcType=DATE},
+      </if>
+      <if test="record.isOnJob != null" >
+        is_on_job = #{isOnJob,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -247,7 +301,12 @@
       birthday = #{record.birthday,jdbcType=DATE},
       address = #{record.address,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
-      role_id = #{record.roleId,jdbcType=BIGINT}
+      role_id = #{record.roleId,jdbcType=BIGINT},
+      quarters = #{quarters,jdbcType=VARCHAR},
+      dept_id = #{deptId,jdbcType=VARCHAR},
+      entry_date = #{entryDate,jdbcType=DATE},
+      is_on_job = #{isOnJob,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -285,6 +344,21 @@
       <if test="roleId != null" >
         role_id = #{roleId,jdbcType=BIGINT},
       </if>
+      <if test="quarters != null" >
+        quarters = #{quarters,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null" >
+        dept_id = #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="entryDate != null" >
+        entry_date = #{entryDate,jdbcType=DATE},
+      </if>
+      <if test="isOnJob != null" >
+        is_on_job = #{isOnJob,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -300,6 +374,11 @@
       address = #{address,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       role_id = #{roleId,jdbcType=BIGINT}
+      quarters = #{quarters,jdbcType=VARCHAR},
+      dept_id = #{deptId,jdbcType=VARCHAR},
+      entry_date = #{entryDate,jdbcType=DATE},
+      is_on_job = #{isOnJob,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

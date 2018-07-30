@@ -96,10 +96,35 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">手机号</label>
 			<div class="layui-input-block">
-				<input type="text" name="phone" class="layui-input userName"
-					lay-verify="phone" placeholder="请输入手机号" value="">
+				<input type="text" name="phone" class="layui-input userName" lay-verify="phone" placeholder="请输入手机号" value="">
 			</div>
 		</div>
+
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">岗位</label>
+			<div class="layui-input-block">
+				<input type="text" name="quarters" class="layui-input userName" lay-verify="phone" placeholder="请输入岗位名称" value="">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">岗位</label>
+			<div class="layui-input-block">
+				<select name="dept_id">
+					<option value="">请选择</option>
+					<c:forEach items="${roles }" var="r">
+						<option value="${r.roleId }">${r.roleName }</option>
+					</c:forEach>
+				</select>
+			</div>
+		</div>
+
+
+
+
+
+
 		<div class="layui-form-item">
 			<label class="layui-form-label">分配角色</label>
 			<div class="layui-input-block">
