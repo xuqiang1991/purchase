@@ -3,12 +3,12 @@ package com.irs.service;
 
 import java.util.List;
 
-import com.irs.pojo.Menu;
-import com.irs.pojo.TbAdmin;
-import com.irs.pojo.TbMenus;
-import com.irs.pojo.TbRoles;
-import com.irs.pojo.XtreeData;
+import com.irs.pojo.admin.TbAdmin;
+import com.irs.pojo.admin.TbMenus;
+import com.irs.pojo.admin.TbRoles;
 import com.irs.util.ResultUtil;
+import com.irs.vo.admin.Menu;
+import com.irs.vo.admin.XtreeData;
 
 public interface AdminService {
 	// 登陆

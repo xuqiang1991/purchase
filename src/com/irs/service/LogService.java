@@ -1,9 +1,9 @@
 package com.irs.service;
 import java.util.Date;
 
-import com.irs.pojo.TbLog;
-import com.irs.pojo.UserSearch;
+import com.irs.pojo.admin.TbLog;
 import com.irs.util.ResultUtil;
+import com.irs.vo.admin.UserSearch;
 
 public interface LogService {
 	//添加日志

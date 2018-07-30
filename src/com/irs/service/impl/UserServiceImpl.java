@@ -9,16 +9,16 @@ import org.springframework.util.DigestUtils;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.irs.mapper.TbUsersMapper;
-import com.irs.pojo.TbUsers;
-import com.irs.pojo.TbUsersExample;
-import com.irs.pojo.UserSearch;
-import com.irs.pojo.TbUsersExample.Criteria;
+import com.irs.mapper.admin.TbUsersMapper;
+import com.irs.pojo.admin.TbUsers;
+import com.irs.pojo.admin.TbUsersExample;
+import com.irs.pojo.admin.TbUsersExample.Criteria;
 import com.irs.service.UserService;
 import com.irs.util.EmailUtil;
 import com.irs.util.GlobalUtil;
 import com.irs.util.MyUtil;
 import com.irs.util.ResultUtil;
+import com.irs.vo.admin.UserSearch;
 
 @Service
 public class UserServiceImpl implements UserService {

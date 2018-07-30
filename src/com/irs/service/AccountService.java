@@ -1,6 +1,6 @@
 package com.irs.service;
 
-import com.irs.pojo.TbUsers;
+import com.irs.pojo.admin.TbUsers;
 
 public interface AccountService {
 	

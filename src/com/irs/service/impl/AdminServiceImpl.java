@@ -9,24 +9,24 @@ import org.springframework.util.DigestUtils;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.irs.mapper.AdminMenusMapper;
-import com.irs.mapper.TbAdminMapper;
-import com.irs.mapper.TbMenusMapper;
-import com.irs.mapper.TbRolesMapper;
-import com.irs.mapper.TbRolesMenusMapper;
-import com.irs.pojo.Menu;
-import com.irs.pojo.TbAdmin;
-import com.irs.pojo.TbAdminExample;
-import com.irs.pojo.TbAdminExample.Criteria;
-import com.irs.pojo.TbMenus;
-import com.irs.pojo.TbMenusExample;
-import com.irs.pojo.TbRoles;
-import com.irs.pojo.TbRolesExample;
-import com.irs.pojo.TbRolesMenusExample;
-import com.irs.pojo.TbRolesMenusKey;
-import com.irs.pojo.XtreeData;
+import com.irs.mapper.admin.AdminMenusMapper;
+import com.irs.mapper.admin.TbAdminMapper;
+import com.irs.mapper.admin.TbMenusMapper;
+import com.irs.mapper.admin.TbRolesMapper;
+import com.irs.mapper.admin.TbRolesMenusMapper;
+import com.irs.pojo.admin.TbAdmin;
+import com.irs.pojo.admin.TbAdminExample;
+import com.irs.pojo.admin.TbAdminExample.Criteria;
+import com.irs.pojo.admin.TbMenus;
+import com.irs.pojo.admin.TbMenusExample;
+import com.irs.pojo.admin.TbRoles;
+import com.irs.pojo.admin.TbRolesExample;
+import com.irs.pojo.admin.TbRolesMenusExample;
+import com.irs.pojo.admin.TbRolesMenusKey;
 import com.irs.service.AdminService;
 import com.irs.util.ResultUtil;
+import com.irs.vo.admin.Menu;
+import com.irs.vo.admin.XtreeData;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -114,7 +114,7 @@ public class AdminServiceImpl implements AdminService {
 		List<Menu> results = new ArrayList<>();
 		Long roleId = admin.getRoleId();
 		TbRolesMenusExample example = new TbRolesMenusExample();
-		com.irs.pojo.TbRolesMenusExample.Criteria criteria = example.createCriteria();
+		com.irs.pojo.admin.TbRolesMenusExample.Criteria criteria = example.createCriteria();
 		criteria.andRoleIdEqualTo(roleId);
 		List<TbRolesMenusKey> list = tbRolesMenusMapper.selectByExample(example);
 		if (list != null && list.size() > 0) {
@@ -283,7 +283,7 @@ public class AdminServiceImpl implements AdminService {
 		tbRolesMapper.updateByPrimaryKey(role);
 		// 先删除角色所有权限
 		TbRolesMenusExample example = new TbRolesMenusExample();
-		com.irs.pojo.TbRolesMenusExample.Criteria criteria = example.createCriteria();
+		com.irs.pojo.admin.TbRolesMenusExample.Criteria criteria = example.createCriteria();
 		criteria.andRoleIdEqualTo(role.getRoleId());
 		tbRolesMenusMapper.deleteByExample(example);
 		// 更新权限信息
@@ -332,7 +332,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public TbRoles selRoleByRoleName(String roleName) {
 		TbRolesExample example = new TbRolesExample();
-		com.irs.pojo.TbRolesExample.Criteria criteria = example.createCriteria();
+		com.irs.pojo.admin.TbRolesExample.Criteria criteria = example.createCriteria();
 		criteria.andRoleNameEqualTo(roleName);
 		List<TbRoles> roles = tbRolesMapper.selectByExample(example);
 		if (roles != null && roles.size() > 0) {
@@ -393,7 +393,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public TbAdmin selAdminByUserName(String username) {
 		TbAdminExample example = new TbAdminExample();
-		com.irs.pojo.TbAdminExample.Criteria criteria = example.createCriteria();
+		com.irs.pojo.admin.TbAdminExample.Criteria criteria = example.createCriteria();
 		criteria.andUsernameEqualTo(username);
 		List<TbAdmin> admins = tbAdminMapper.selectByExample(example);
 		if (admins != null && admins.size() > 0) {
@@ -420,7 +420,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public TbAdmin selAdminByEmail(String eMail,String username) {
 		TbAdminExample example = new TbAdminExample();
-		com.irs.pojo.TbAdminExample.Criteria criteria = example.createCriteria();
+		com.irs.pojo.admin.TbAdminExample.Criteria criteria = example.createCriteria();
 		criteria.andEMailEqualTo(eMail);
 		if(username!=null&&!"".equals(username)){
 			criteria.andUsernameNotEqualTo(username);
@@ -471,7 +471,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public TbMenus selMenuByTitle(String title) {
 		TbMenusExample example=new TbMenusExample();
-		com.irs.pojo.TbMenusExample.Criteria criteria = example.createCriteria();
+		com.irs.pojo.admin.TbMenusExample.Criteria criteria = example.createCriteria();
 		criteria.andTitleEqualTo(title);
 		List<TbMenus> data = tbMenusMapper.selectByExample(example);
 		if(data!=null&&data.size()>0){
@@ -483,7 +483,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public TbMenus selMenusById(Long menuId) {
 		TbMenusExample example=new TbMenusExample();
-		com.irs.pojo.TbMenusExample.Criteria criteria = example.createCriteria();
+		com.irs.pojo.admin.TbMenusExample.Criteria criteria = example.createCriteria();
 		criteria.andMenuIdEqualTo(menuId);
 		List<TbMenus> data = tbMenusMapper.selectByExample(example);
 		if(data!=null&&data.size()>0){
@@ -500,7 +500,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<TbMenus> selMenusById1(Long menuId) {
 		TbMenusExample example=new TbMenusExample();
-		com.irs.pojo.TbMenusExample.Criteria criteria = example.createCriteria();
+		com.irs.pojo.admin.TbMenusExample.Criteria criteria = example.createCriteria();
 		criteria.andParentIdEqualTo(menuId);
 		List<TbMenus> data = tbMenusMapper.selectByExample(example);
 		return data;

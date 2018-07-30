@@ -22,12 +22,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.irs.mapper.AdminMenusMapper;
-import com.irs.mapper.TbAdminMapper;
-import com.irs.pojo.TbAdmin;
-import com.irs.pojo.TbAdminExample;
-import com.irs.pojo.TbMenus;
-import com.irs.pojo.TbAdminExample.Criteria;
+import com.irs.mapper.admin.AdminMenusMapper;
+import com.irs.mapper.admin.TbAdminMapper;
+import com.irs.pojo.admin.TbAdmin;
+import com.irs.pojo.admin.TbAdminExample;
+import com.irs.pojo.admin.TbAdminExample.Criteria;
+import com.irs.pojo.admin.TbMenus;
 
 /**
  * 
@@ -103,7 +103,12 @@ public class CustomRealm extends AuthorizingRealm {
 		TbAdminExample example = new TbAdminExample();
 		Criteria criteria = example.createCriteria();
 		criteria.andUsernameEqualTo(username);
-		List<TbAdmin> admins = tbAdminMapper.selectByExample(example);
+		List<TbAdmin> admins = null;
+		try {
+			admins = tbAdminMapper.selectByExample(example);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		// 账号不存在
 		if (admins == null || admins.size() == 0) {
 			throw new UnknownAccountException("账号不存在!");

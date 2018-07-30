@@ -1,8 +1,8 @@
 package com.irs.service;
 
-import com.irs.pojo.TbUsers;
-import com.irs.pojo.UserSearch;
+import com.irs.pojo.admin.TbUsers;
 import com.irs.util.ResultUtil;
+import com.irs.vo.admin.UserSearch;
 
 public interface UserService {
 	//用户邮箱唯一性检验
