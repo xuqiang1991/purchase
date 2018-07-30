@@ -63,7 +63,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	
 		<!-- 自定义Realm -->
-	<bean id="customRealm" class="com.irs.shiro.CustomRealm">
+	<bean id="customRealm" class="com.purchase.shiro.CustomRealm">
 		<!-- 将凭证匹配器设置到realm中，realm按照凭证匹配器的要求进行散列 -->
 		<property name="credentialsMatcher" ref="credentialsMatcher"/>
 	</bean>

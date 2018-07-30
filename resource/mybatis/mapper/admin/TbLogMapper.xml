@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.irs.mapper.admin.TbLogMapper" >
-  <resultMap id="BaseResultMap" type="com.irs.pojo.admin.TbLog" >
+<mapper namespace="com.purchase.mapper.admin.TbLogMapper" >
+  <resultMap id="BaseResultMap" type="com.purchase.pojo.admin.TbLog" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="username" property="username" jdbcType="VARCHAR" />
     <result column="operation" property="operation" jdbcType="VARCHAR" />
@@ -71,7 +71,7 @@
   <sql id="Base_Column_List" >
     id, username, operation, method, params, ip, create_time
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.irs.pojo.admin.TbLogExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.purchase.pojo.admin.TbLogExample" >
     select
     <if test="distinct" >
       distinct
@@ -95,13 +95,13 @@
     delete from tb_log
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.irs.pojo.admin.TbLogExample" >
+  <delete id="deleteByExample" parameterType="com.purchase.pojo.admin.TbLogExample" >
     delete from tb_log
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.irs.pojo.admin.TbLog" >
+  <insert id="insert" parameterType="com.purchase.pojo.admin.TbLog" >
     insert into tb_log (id, username, operation, 
       method, params, ip, 
       create_time)
@@ -109,7 +109,7 @@
       #{method,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.irs.pojo.admin.TbLog" >
+  <insert id="insertSelective" parameterType="com.purchase.pojo.admin.TbLog" >
     insert into tb_log
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -158,7 +158,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.irs.pojo.admin.TbLogExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.purchase.pojo.admin.TbLogExample" resultType="java.lang.Integer" >
     select count(*) from tb_log
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -206,7 +206,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.irs.pojo.admin.TbLog" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.purchase.pojo.admin.TbLog" >
     update tb_log
     <set >
       <if test="username != null" >
@@ -230,7 +230,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.irs.pojo.admin.TbLog" >
+  <update id="updateByPrimaryKey" parameterType="com.purchase.pojo.admin.TbLog" >
     update tb_log
     set username = #{username,jdbcType=VARCHAR},
       operation = #{operation,jdbcType=VARCHAR},

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.irs.mapper.admin.TbMenusMapper" >
-  <resultMap id="BaseResultMap" type="com.irs.pojo.admin.TbMenus" >
+<mapper namespace="com.purchase.mapper.admin.TbMenusMapper" >
+  <resultMap id="BaseResultMap" type="com.purchase.pojo.admin.TbMenus" >
     <id column="menu_id" property="menuId" jdbcType="BIGINT" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="icon" property="icon" jdbcType="VARCHAR" />
@@ -71,7 +71,7 @@
   <sql id="Base_Column_List" >
     menu_id, title, icon, href, perms, spread, parent_id
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.irs.pojo.admin.TbMenus" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.purchase.pojo.admin.TbMenus" >
     select
     <if test="distinct" >
       distinct
@@ -95,13 +95,13 @@
     delete from tb_menus
     where menu_id = #{menuId,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.irs.pojo.admin.TbMenus" >
+  <delete id="deleteByExample" parameterType="com.purchase.pojo.admin.TbMenus" >
     delete from tb_menus
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.irs.pojo.admin.TbMenus" >
+  <insert id="insert" parameterType="com.purchase.pojo.admin.TbMenus" >
     insert into tb_menus (menu_id, title, icon, 
       href, perms, spread, 
       parent_id)
@@ -109,7 +109,7 @@
       #{href,jdbcType=VARCHAR}, #{perms,jdbcType=VARCHAR}, #{spread,jdbcType=VARCHAR}, 
       #{parentId,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.irs.pojo.admin.TbMenus" >
+  <insert id="insertSelective" parameterType="com.purchase.pojo.admin.TbMenus" >
     insert into tb_menus
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="menuId != null" >
@@ -158,7 +158,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.irs.pojo.admin.TbMenus" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.purchase.pojo.admin.TbMenus" resultType="java.lang.Integer" >
     select count(*) from tb_menus
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -206,7 +206,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.irs.pojo.admin.TbMenus" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.purchase.pojo.admin.TbMenus" >
     update tb_menus
     <set >
       <if test="title != null" >
@@ -230,7 +230,7 @@
     </set>
     where menu_id = #{menuId,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.irs.pojo.admin.TbMenus" >
+  <update id="updateByPrimaryKey" parameterType="com.purchase.pojo.admin.TbMenus" >
     update tb_menus
     set title = #{title,jdbcType=VARCHAR},
       icon = #{icon,jdbcType=VARCHAR},

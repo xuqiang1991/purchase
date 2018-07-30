@@ -111,7 +111,7 @@
   </root>
   
   <!-- spring -->
-  <logger name="com.irs" level="DEBUG" />
+  <logger name="com.purchase" level="DEBUG" />
   <logger name="org.mybatis.spring" level="DEBUG" />
   <logger name="org.mybatis" level="DEBUG" />
   <!-- <logger name="com.sunshine.task.biz" level="INFO" >

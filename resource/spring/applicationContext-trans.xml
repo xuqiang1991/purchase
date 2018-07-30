@@ -31,7 +31,7 @@
 	
 	<!-- 切面 -->
 	<aop:config>
-		<aop:advisor advice-ref="Advice" pointcut="execution(* com.irs.service.*.*(..))" />
+		<aop:advisor advice-ref="Advice" pointcut="execution(* com.purchase.service.*.*(..))" />
 	</aop:config>
 	
 	<bean id="druid-stat-interceptor" class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
@@ -41,8 +41,8 @@
 	    scope="prototype">
 	    <property name="patterns">
 	        <list>
-	            <value>com.irs.service.*</value>
-	            <value>com.irs.mapper.*</value>
+	            <value>com.purchase.service.*</value>
+	            <value>com.purchase.mapper.*</value>
 	        </list>
 	    </property>
 	</bean>

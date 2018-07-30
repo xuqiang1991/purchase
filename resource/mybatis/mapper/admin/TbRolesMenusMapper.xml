@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.irs.mapper.admin.TbRolesMenusMapper" >
-  <resultMap id="BaseResultMap" type="com.irs.pojo.admin.TbRolesMenusKey" >
+<mapper namespace="com.purchase.mapper.admin.TbRolesMenusMapper" >
+  <resultMap id="BaseResultMap" type="com.purchase.pojo.admin.TbRolesMenusKey" >
     <id column="menu_id" property="menuId" jdbcType="BIGINT" />
     <id column="role_id" property="roleId" jdbcType="BIGINT" />
   </resultMap>
@@ -67,7 +67,7 @@
     menu_id, role_id
   </sql>
 
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.irs.pojo.admin.TbRolesMenusExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.purchase.pojo.admin.TbRolesMenusExample" >
     select
     <if test="distinct" >
       distinct
@@ -81,22 +81,22 @@
       order by ${orderByClause}
     </if>
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="com.irs.pojo.admin.TbRolesMenusKey" >
+  <delete id="deleteByPrimaryKey" parameterType="com.purchase.pojo.admin.TbRolesMenusKey" >
     delete from tb_roles_menus
     where menu_id = #{menuId,jdbcType=BIGINT}
       and role_id = #{roleId,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.irs.pojo.admin.TbRolesMenusExample" >
+  <delete id="deleteByExample" parameterType="com.purchase.pojo.admin.TbRolesMenusExample" >
     delete from tb_roles_menus
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.irs.pojo.admin.TbRolesMenusKey" >
+  <insert id="insert" parameterType="com.purchase.pojo.admin.TbRolesMenusKey" >
     insert into tb_roles_menus (menu_id, role_id)
     values (#{menuId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.irs.pojo.admin.TbRolesMenusKey" >
+  <insert id="insertSelective" parameterType="com.purchase.pojo.admin.TbRolesMenusKey" >
     insert into tb_roles_menus
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="menuId != null" >
@@ -115,7 +115,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.irs.pojo.admin.TbRolesMenusExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.purchase.pojo.admin.TbRolesMenusExample" resultType="java.lang.Integer" >
     select count(*) from tb_roles_menus
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />

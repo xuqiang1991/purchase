@@ -11,7 +11,7 @@
 		<param-value>classpath:/logback/logback.xml</param-value>
 	</context-param>;
 	<listener>
-		<listener-class>com.irs.logback.web.LogbackConfigListener</listener-class>
+		<listener-class>com.purchase.logback.web.LogbackConfigListener</listener-class>
 	</listener>
 	
 	<filter>  

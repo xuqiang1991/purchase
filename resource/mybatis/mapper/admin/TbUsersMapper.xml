@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.irs.mapper.admin.TbUsersMapper" >
-  <resultMap id="BaseResultMap" type="com.irs.pojo.admin.TbUsers" >
+<mapper namespace="com.purchase.mapper.admin.TbUsersMapper" >
+  <resultMap id="BaseResultMap" type="com.purchase.pojo.admin.TbUsers" >
     <id column="uid" property="uid" jdbcType="BIGINT" />
     <result column="e_mail" property="eMail" jdbcType="VARCHAR" />
     <result column="nickname" property="nickname" jdbcType="VARCHAR" />
@@ -75,7 +75,7 @@
   <sql id="Base_Column_List" >
     uid, e_mail, nickname, password, sex, birthday, address, phone, e_code, status, create_time
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.irs.pojo.admin.TbUsersExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.purchase.pojo.admin.TbUsersExample" >
     select
     <if test="distinct" >
       distinct
@@ -99,13 +99,13 @@
     delete from tb_users
     where uid = #{uid,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.irs.pojo.admin.TbUsersExample" >
+  <delete id="deleteByExample" parameterType="com.purchase.pojo.admin.TbUsersExample" >
     delete from tb_users
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.irs.pojo.admin.TbUsers" >
+  <insert id="insert" parameterType="com.purchase.pojo.admin.TbUsers" >
     insert into tb_users (uid, e_mail, nickname, 
       password, sex, birthday, 
       address, phone, e_code, 
@@ -115,7 +115,7 @@
       #{address,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{eCode,jdbcType=VARCHAR}, 
       #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.irs.pojo.admin.TbUsers" >
+  <insert id="insertSelective" parameterType="com.purchase.pojo.admin.TbUsers" >
     insert into tb_users
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="uid != null" >
@@ -188,7 +188,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.irs.pojo.admin.TbUsersExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.purchase.pojo.admin.TbUsersExample" resultType="java.lang.Integer" >
     select count(*) from tb_users
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -252,7 +252,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.irs.pojo.admin.TbUsers" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.purchase.pojo.admin.TbUsers" >
     update tb_users
     <set >
       <if test="eMail != null" >
@@ -288,7 +288,7 @@
     </set>
     where uid = #{uid,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.irs.pojo.admin.TbUsers" >
+  <update id="updateByPrimaryKey" parameterType="com.purchase.pojo.admin.TbUsers" >
     update tb_users
     set e_mail = #{eMail,jdbcType=VARCHAR},
       nickname = #{nickname,jdbcType=VARCHAR},
