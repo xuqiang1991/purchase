@@ -1,14 +1,15 @@
 package com.purchase.service;
 
 
-import java.util.List;
-
 import com.purchase.pojo.admin.TbAdmin;
+import com.purchase.pojo.admin.TbDepartment;
 import com.purchase.pojo.admin.TbMenus;
 import com.purchase.pojo.admin.TbRoles;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.Menu;
 import com.purchase.vo.admin.XtreeData;
+
+import java.util.List;
 
 public interface AdminService {
 	// 登陆
@@ -85,10 +86,11 @@ public interface AdminService {
 
 	public List<TbMenus> selMenusById1(Long menuId);
 
-    ResultUtil selDepartments(Integer page, Integer limit);
+	List<TbDepartment> selDepartmentByParentId();
 
-	void delDepartmentById(Long id);
+	void insDepartment(TbDepartment department);
 
-	void delDepartments(String departmentStr);
+	int updDepartment(TbDepartment department);
 
+	TbDepartment selDepartmentById(Long id);
 }

@@ -5,49 +5,49 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta charset="utf-8">
-<title>部门管理列表</title>
-<meta name="renderer" content="webkit">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="format-detection" content="telephone=no">
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
-<meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT">
-<link rel="stylesheet" href="${ctx }/layui/css/layui.css" media="all" />
-<link rel="stylesheet" href="${ctx }/css/font_eolqem241z66flxr.css"
-	media="all" />
-<link rel="stylesheet" href="${ctx }/css/list.css" media="all" />
-<script>
-	var ctx = "${ctx}";
-</script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>layout Layui</title>
+	<link rel="stylesheet" href="${ctx }/layui/css/layui.css">
+	<style type="text/css">
+		/* 数据表格复选框正常显示 */
+		.layui-table-cell .layui-form-checkbox[lay-skin="primary"]{
+			top: 50%;
+			transform: translateY(-50%);
+		}
+	</style>
+	<script src="${ctx }/layui/layui.js"></script>
+	<script>
+        var ctx = "${ctx}";
+	</script>
 </head>
-<body class="childrenBody">
-	<input type="hidden" id="id" value="<shiro:principal property="id"/>" />
-	<blockquote class="layui-elem-quote list_search">
-		<shiro:hasPermission name="sys:admin:save">
-			<div class="layui-inline">
-				<a class="layui-btn layui-btn-normal departmentAdd_btn"><i
-					class="layui-icon">&#xe608;</i> 添加部门</a>
-			</div>
+<body class="layui-layout-body" style="overflow:auto">
+	<br />
+	<div class="layui-btn-group TableTools" style="margin-left: 10px">
+		<shiro:hasPermission name="sys:department:save">
+			<button class="layui-btn" id="addDepartment">添加部门</button>
 		</shiro:hasPermission>
-		<shiro:hasPermission name="sys:admin:delete">
-			<div class="layui-inline">
-				<a class="layui-btn layui-btn-danger batchDel"><i
-					class="layui-icon">&#xe640;</i>批量删除</a>
-			</div>
+		<shiro:hasPermission name="sys:department:update">
+			<button class="layui-btn" id="editDepartment">编辑部门</button>
 		</shiro:hasPermission>
-	</blockquote>
+		<shiro:hasPermission name="sys:department:delete">
+			<button class="layui-btn layui-btn-danger" id="delDepartment">删除部门</button>
+		</shiro:hasPermission>
+		<button class="layui-btn layui-btn-primary">（不选中为添加顶级部门，选中添加子部门）</button>
+	</div>
 	<!-- 数据表格 -->
-	<table id="departmentList" lay-filter="test"></table>
+	<div><table class="layui-hidden" id="treeTable" lay-filter="treeTable"></table></div>
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>
 	<script type="text/javascript" src="${ctx }/js/admin/departmentList.js"></script>
-	<script type="text/html" id="barEdit">
-  		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-  		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+	<script type="text/html" id="radioTpl">
+		<input type="radio" name="menuId" value="{{d.menuId}}" title=" " lay-filter="radiodemo">
+	</script>
+	<script type="text/html" id="validTpl">
+		{{#  if(d.valid === true){ }}
+		是
+		{{#  } else{ }}
+		否
+		{{#  } }}
 	</script>
 </body>
 </html>

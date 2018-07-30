@@ -1,19 +1,20 @@
 package com.purchase.controller;
 
-import java.awt.image.BufferedImage;
-import java.util.List;
-
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.google.code.kaptcha.Producer;
+import com.purchase.annotation.SysLog;
+import com.purchase.pojo.admin.TbAdmin;
+import com.purchase.pojo.admin.TbDepartment;
+import com.purchase.pojo.admin.TbMenus;
+import com.purchase.pojo.admin.TbRoles;
+import com.purchase.service.AdminService;
+import com.purchase.util.RRException;
+import com.purchase.util.ResultUtil;
+import com.purchase.util.ShiroUtils;
+import com.purchase.vo.admin.Menu;
+import com.purchase.vo.admin.XtreeData;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.LockedAccountException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,17 +26,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.code.kaptcha.Producer;
-import com.purchase.annotation.SysLog;
-import com.purchase.pojo.admin.TbAdmin;
-import com.purchase.pojo.admin.TbMenus;
-import com.purchase.pojo.admin.TbRoles;
-import com.purchase.service.AdminService;
-import com.purchase.util.RRException;
-import com.purchase.util.ResultUtil;
-import com.purchase.util.ShiroUtils;
-import com.purchase.vo.admin.Menu;
-import com.purchase.vo.admin.XtreeData;
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
+import java.util.List;
 
 @Controller
 @RequestMapping("sys")
@@ -652,9 +647,40 @@ public class AdminController {
 	@RequestMapping("/getDepartmentList")
 	@RequiresPermissions("sys:department:list")
 	@ResponseBody
-	public ResultUtil getDepartmentList(Integer page,Integer limit) {
-		ResultUtil admins = adminServiceImpl.selDepartments(page, limit);
-		return admins;
+	public ResultUtil getDepartmentList() {
+		List<TbDepartment> list = adminServiceImpl.selDepartmentByParentId();
+		return ResultUtil.ok(list);
+	}
+
+	@RequestMapping("/toSaveDepartment/{id}")
+	@RequiresPermissions("sys:department:save")
+	public String toSaveDepartment(@PathVariable("id") Long id,Model model){
+		if(id!=null){
+			TbDepartment department=new TbDepartment();
+			department.setId(id);
+			model.addAttribute("department",department);
+			model.addAttribute("flag","1");
+			return "page/admin/departmentForm";
+		}else{
+			model.addAttribute("msg","不允许操作！");
+			return "page/active";
+		}
+	}
+
+	@SysLog("维护部门信息")
+	@RequestMapping("/departmentForm")
+	@RequiresPermissions(value={"sys:department:save","sys:department:update"})
+	@ResponseBody
+	public ResultUtil departmentForm(TbDepartment department,String flag){
+		if(StringUtils.isBlank(flag)){
+			adminServiceImpl.updDepartment(department);
+			return ResultUtil.ok("修改成功！");
+		}else {
+			department.setParentId(department.getId() == 0 ? null : department.getId());
+			department.setId(null);
+			adminServiceImpl.insDepartment(department);
+			return ResultUtil.ok("添加成功！");
+		}
 	}
 
 	/**
@@ -667,7 +693,6 @@ public class AdminController {
 	@RequiresPermissions("sys:department:delete")
 	@ResponseBody
 	public ResultUtil delDepartmentById(@PathVariable("id")Long id) {
-		adminServiceImpl.delDepartmentById(id);
 		return ResultUtil.ok();
 	}
 
@@ -680,9 +705,10 @@ public class AdminController {
 	@RequiresPermissions("sys:department:delete")
 	@ResponseBody
 	public ResultUtil delDepartments(@PathVariable("departmentStr")String departmentStr) {
-		adminServiceImpl.delDepartments(departmentStr);
 		return ResultUtil.ok();
 	}
+
+
 
 
 }

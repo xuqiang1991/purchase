@@ -3,26 +3,15 @@ package com.purchase.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.purchase.mapper.admin.*;
+import com.purchase.pojo.admin.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.purchase.mapper.admin.AdminMenusMapper;
-import com.purchase.mapper.admin.TbAdminMapper;
-import com.purchase.mapper.admin.TbMenusMapper;
-import com.purchase.mapper.admin.TbRolesMapper;
-import com.purchase.mapper.admin.TbRolesMenusMapper;
-import com.purchase.pojo.admin.TbAdmin;
-import com.purchase.pojo.admin.TbAdminExample;
 import com.purchase.pojo.admin.TbAdminExample.Criteria;
-import com.purchase.pojo.admin.TbMenus;
-import com.purchase.pojo.admin.TbMenusExample;
-import com.purchase.pojo.admin.TbRoles;
-import com.purchase.pojo.admin.TbRolesExample;
-import com.purchase.pojo.admin.TbRolesMenusExample;
-import com.purchase.pojo.admin.TbRolesMenusKey;
 import com.purchase.service.AdminService;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.Menu;
@@ -47,6 +36,9 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	private TbMenusMapper tbMenusMapper;
+
+	@Autowired
+	private TbDepartmentMapper tbDepartmentMapper;
 
 	/**
 	 * 管理员登陆
@@ -507,17 +499,24 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public ResultUtil selDepartments(Integer page, Integer limit) {
-		return null;
+	public List<TbDepartment> selDepartmentByParentId() {
+		TbDepartmentExample example=new TbDepartmentExample();
+		List<TbDepartment> data = tbDepartmentMapper.selectByExample(example);
+		return data;
 	}
 
 	@Override
-	public void delDepartmentById(Long id) {
-
+	public void insDepartment(TbDepartment department) {
+		tbDepartmentMapper.insert(department);
 	}
 
 	@Override
-	public void delDepartments(String departmentStr) {
+	public int updDepartment(TbDepartment department) {
+		return tbDepartmentMapper.updateByPrimaryKey(department);
+	}
 
+	@Override
+	public TbDepartment selDepartmentById(Long id) {
+		return tbDepartmentMapper.selectByPrimaryKey(id);
 	}
 }
