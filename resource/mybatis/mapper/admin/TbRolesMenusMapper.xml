@@ -66,6 +66,7 @@
   <sql id="Base_Column_List" >
     menu_id, role_id
   </sql>
+
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.irs.pojo.admin.TbRolesMenusExample" >
     select
     <if test="distinct" >
