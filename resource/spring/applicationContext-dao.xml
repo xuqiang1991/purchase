@@ -25,9 +25,15 @@
 		<property name="mapperLocations" value="classpath:/mybatis/mapper/**/*.xml" />
 	</bean>
 	<!-- 配置扫描包，加载mapper代理对象 -->
+<<<<<<< HEAD
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.irs.mapper.*"></property>
 	</bean> 
+=======
+	<!-- <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.irs.mapper"></property>
+	</bean> -->
+>>>>>>> branch 'master' of https://github.com/xuqiang1991/purchase.git
 	
 	<!-- 验证码 -->
 	<bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">  

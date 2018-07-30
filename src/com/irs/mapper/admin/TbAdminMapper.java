@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 
 import com.irs.pojo.admin.TbAdmin;
 import com.irs.pojo.admin.TbAdminExample;
-
 public interface TbAdminMapper {
     int countByExample(TbAdminExample example);
 

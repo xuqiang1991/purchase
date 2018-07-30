@@ -66,6 +66,7 @@
   <sql id="Base_Column_List" >
     menu_id, role_id
   </sql>
+<<<<<<< HEAD
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.irs.pojo.admin.TbRolesMenusExample" >
     select
     <if test="distinct" >
@@ -115,6 +116,57 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.irs.pojo.admin.TbRolesMenusExample" resultType="java.lang.Integer" >
+=======
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.irs.pojo.TbRolesMenusExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_roles_menus
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.irs.pojo.admin.TbRolesMenusKey" >
+    delete from tb_roles_menus
+    where menu_id = #{menuId,jdbcType=BIGINT}
+      and role_id = #{roleId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.irs.pojo.TbRolesMenusExample" >
+    delete from tb_roles_menus
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.irs.pojo.admin.TbRolesMenusKey" >
+    insert into tb_roles_menus (menu_id, role_id)
+    values (#{menuId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.irs.pojo.admin.TbRolesMenusKey" >
+    insert into tb_roles_menus
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="menuId != null" >
+        menu_id,
+      </if>
+      <if test="roleId != null" >
+        role_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="menuId != null" >
+        #{menuId,jdbcType=BIGINT},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.irs.pojo.TbRolesMenusExample" resultType="java.lang.Integer" >
+>>>>>>> branch 'master' of https://github.com/xuqiang1991/purchase.git
     select count(*) from tb_roles_menus
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
