@@ -3,7 +3,9 @@ package com.irs.util;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * 公用的配置文件处理类
@@ -12,7 +14,7 @@ import org.apache.log4j.Logger;
  */
 
 public class GlobalUtil {
-    private static Logger LOGGER = Logger.getLogger(GlobalUtil.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(GlobalUtil.class);
 
     /**
      * 文件配置路径
@@ -33,7 +35,7 @@ public class GlobalUtil {
             in.close();
             return properties.getProperty(key);
         } catch (Exception e) {
-            LOGGER.error(e, e);
+            LOGGER.error(e.getMessage());
         }
         return null;
     }

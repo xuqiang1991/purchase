@@ -2,7 +2,8 @@ package com.irs.quartz;
 
 import java.util.Date;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ import com.irs.util.GlobalUtil;
 
 @Component
 public class MethodLogQuartz {
-    private static Logger LOGGER = Logger.getLogger(MethodLogQuartz.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(MethodLogQuartz.class);
     private static final String LOGDAYS = "log.days";
 
     @Autowired

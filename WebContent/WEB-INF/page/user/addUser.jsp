@@ -99,6 +99,6 @@
 		</div>
 	</form>
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>
-	<script type="text/javascript" src="${ctx }/page/user/addUser.js"></script>
+	<script type="text/javascript" src="${ctx }/js/user/addUser.js"></script>
 </body>
 </html>

@@ -120,6 +120,6 @@
 		</div>
 	</form>
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>
-	<script type="text/javascript" src="${ctx }/page/admin/editAdmin.js"></script>
+	<script type="text/javascript" src="${ctx }/js/admin/editAdmin.js"></script>
 </body>
 </html>
