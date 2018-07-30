@@ -25,6 +25,16 @@ public class TbAdmin {
     
     private String roleName;
 
+    private String quarters;
+
+    private String deptId;
+
+    private String entryDate;
+
+    private Integer isOnJob;
+
+    private String remark;
+
     public Long getId() {
         return id;
     }
@@ -121,7 +131,47 @@ public class TbAdmin {
         this.roleId = roleId;
     }
 
-	@Override
+    public String getQuarters() {
+        return quarters;
+    }
+
+    public String getDeptId() {
+        return deptId;
+    }
+
+    public String getEntryDate() {
+        return entryDate;
+    }
+
+    public Integer getIsOnJob() {
+        return isOnJob;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setQuarters(String quarters) {
+        this.quarters = quarters;
+    }
+
+    public void setDeptId(String deptId) {
+        this.deptId = deptId;
+    }
+
+    public void setEntryDate(String entryDate) {
+        this.entryDate = entryDate;
+    }
+
+    public void setIsOnJob(Integer isOnJob) {
+        this.isOnJob = isOnJob;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    @Override
 	public String toString() {
 		return "TbAdmin [id=" + id + ", username=" + username + ", password=" + password + ", salt=" + salt
 				+ ", fullname=" + fullname + ", eMail=" + eMail + ", sex=" + sex + ", birthday=" + birthday
