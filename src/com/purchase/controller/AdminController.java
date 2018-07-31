@@ -658,6 +658,7 @@ public class AdminController {
 		if(id!=null){
 			TbDepartment department=new TbDepartment();
 			department.setId(id);
+            department.setValid(true);
 			model.addAttribute("department",department);
 			model.addAttribute("flag","1");
 			return "page/admin/departmentForm";
