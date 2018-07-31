@@ -8,8 +8,7 @@
 <title>编辑管理员</title>
 <meta name="renderer" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
@@ -81,7 +80,7 @@
 			<label class="layui-form-label">出生日期</label>
 			<div class="layui-input-block">
 				<input type="text" id="birthday" class="layui-input userName"
-					name="birthday" lay-verify="required" placeholder="请输入出生日期" value="${ad.birthday }">
+					name="birthday" lay-verify="required" placeholder="请输入出生日期" readonly value="${ad.birthday }">
 			</div>
 		</div>
 		<div class="layui-form-item">
@@ -97,6 +96,51 @@
 					lay-verify="phone" placeholder="请输入手机号" value="${ad.phone }">
 			</div>
 		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">岗位</label>
+			<div class="layui-input-block">
+				<input type="text" name="quarters" class="layui-input userName" placeholder="请输入岗位名称" value="${ad.quarters}">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">部门</label>
+			<div class="layui-input-block">
+				<select name="deptId">
+					<option value="">请选择</option>
+					<c:forEach items="${roles }" var="r">
+						<c:if test="${ad.roleId==r.roleId }">
+							<option value="${r.roleId }" selected>${r.roleName }</option>
+						</c:if>
+						<c:if test="${ad.roleId!=r.roleId }">
+							<option value="${r.roleId }">${r.roleName }</option>
+						</c:if>
+					</c:forEach>
+				</select>
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">入职日期</label>
+			<div class="layui-input-block">
+				<input type="text" id="entryDate" name="entryDate" class="layui-input userName" lay-verify="required" readonly placeholder="请输入选择日期" value="${ad.entryDate}">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">备注</label>
+			<div class="layui-input-block">
+				<textarea type="text" name="remark" class="layui-textarea" placeholder="请输入备注">${ad.remark}</textarea>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">用户状态</label>
+			<div class="layui-input-block">
+				<input type="checkbox" name="isOnJob" lay-skin="switch" lay-text="激活|停用" value="${ad.isOnJob}" checked>
+			</div>
+		</div>
+
 		<div class="layui-form-item">
 			<label class="layui-form-label">分配角色</label>
 			<div class="layui-input-block">
@@ -113,6 +157,7 @@
 				</select>
 			</div>
 		</div>
+
 		<div class="layui-form-item">
 			<div class="layui-input-block">
 				<button class="layui-btn" lay-submit="" lay-filter="updAdmin">立即保存</button>

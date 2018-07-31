@@ -23,7 +23,11 @@ layui.config({
               ,{field:'birthday', title: '出生日期',templet: '<div>{{ formatTime(d.birthday,"yyyy-MM-dd")}}</div>'}
               ,{field:'address', title: '地址'}
               ,{field:'phone', title: '联系方式'}
-              ,{field:'roleName', title: '角色'}
+				,{field:'quarters', title: '岗位'}
+				,{field:'deptId', title: '部门'}
+                ,{field:'entryDate', title: '入职日期'}
+                ,{field:'phone', title: '备注'}
+              ,{field:'remark', title: '角色'}
               ,{title: '操作',toolbar: '#barEdit'}
 		    ]]
 				,page: true //开启分页
@@ -64,7 +68,7 @@ layui.config({
 		      layer.open({
 		    	  type: 2,
 		    	  title:"编辑角色",
-		    	  area: ['380px', '560px'],
+		    	  area: ['580px', '560px'],
 		    	  content:ctx+"/sys/editAdmin/"+data.id //这里content是一个普通的String
 		      })
 		    }

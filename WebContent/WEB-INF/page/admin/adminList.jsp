@@ -9,8 +9,7 @@
 <title>管理员列表</title>
 <meta name="renderer" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
@@ -18,16 +17,14 @@
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT">
 <link rel="stylesheet" href="${ctx }/layui/css/layui.css" media="all" />
-<link rel="stylesheet" href="${ctx }/css/font_eolqem241z66flxr.css"
-	media="all" />
+<link rel="stylesheet" href="${ctx }/css/font_eolqem241z66flxr.css" media="all" />
 <link rel="stylesheet" href="${ctx }/css/list.css" media="all" />
 <script>
 	var ctx = "${ctx}";
 </script>
 </head>
 <body class="childrenBody">
-	<input type="hidden" id="adminId"
-		value="<shiro:principal property="id"/>" />
+	<input type="hidden" id="adminId" value="<shiro:principal property="id"/>" />
 	<blockquote class="layui-elem-quote list_search">
 		<shiro:hasPermission name="sys:admin:save">
 			<div class="layui-inline">

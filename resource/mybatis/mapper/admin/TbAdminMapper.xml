@@ -81,7 +81,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, username, password, salt, fullname, e_mail, sex, birthday, address, phone, role_id
+    id, username, password, salt, fullname, e_mail, sex, birthday, address, phone, role_id,quarters,dept_id,entry_date,is_on_job,remark
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.purchase.pojo.admin.TbAdminExample" >
     select
@@ -350,7 +350,7 @@
       <if test="deptId != null" >
         dept_id = #{deptId,jdbcType=VARCHAR},
       </if>
-      <if test="entryDate != null" >
+     <if test="entryDate != null" >
         entry_date = #{entryDate,jdbcType=DATE},
       </if>
       <if test="isOnJob != null" >
@@ -373,7 +373,7 @@
       birthday = #{birthday,jdbcType=DATE},
       address = #{address,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
-      role_id = #{roleId,jdbcType=BIGINT}
+      role_id = #{roleId,jdbcType=BIGINT},
       quarters = #{quarters,jdbcType=VARCHAR},
       dept_id = #{deptId,jdbcType=VARCHAR},
       entry_date = #{entryDate,jdbcType=DATE},

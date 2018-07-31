@@ -198,7 +198,9 @@ public class DateUtil {
         long minutes = diff / oneMinute;
         diff -= minutes * oneMinute;
         long seconds = diff / oneSecond;
-        if (hours > 0) showtime += hours + "时";
+        if (hours > 0) {
+            showtime += hours + "时";
+        }
         if (minutes > 0) showtime += minutes + "分";
         if (seconds > 0) showtime += seconds + "秒";
         return showtime;

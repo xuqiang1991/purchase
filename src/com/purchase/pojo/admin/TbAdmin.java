@@ -175,7 +175,8 @@ public class TbAdmin {
 	public String toString() {
 		return "TbAdmin [id=" + id + ", username=" + username + ", password=" + password + ", salt=" + salt
 				+ ", fullname=" + fullname + ", eMail=" + eMail + ", sex=" + sex + ", birthday=" + birthday
-				+ ", address=" + address + ", phone=" + phone + ", roleId=" + roleId + ", roleName=" + roleName + "]";
+				+ ", address=" + address + ", phone=" + phone + ", roleId=" + roleId + ", roleName=" + roleName + "]" + ", quarters=" + quarters + "]"
+                + ", deptId=" + deptId + "]" + ", entryDate=" + entryDate + "]" + ", isOnJob=" + isOnJob + "]" + ", remark=" + remark + "]";
 	}
     
 }

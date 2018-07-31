@@ -14,7 +14,7 @@ layui.config({
 		//loadProvince();
 		
 		laydate.render({
-			elem: '#birthday' //指定元素
+			elem: '#birthday,#entryDate' //指定元素
 			,max: 'new Date()'
 		});
 		

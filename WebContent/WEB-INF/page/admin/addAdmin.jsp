@@ -82,8 +82,7 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">出生日期</label>
 			<div class="layui-input-block">
-				<input type="text" id="birthday" class="layui-input userName"
-					name="birthday" lay-verify="required" placeholder="请输入出生日期">
+				<input type="text" id="birthday" class="layui-input" name="birthday" lay-verify="required" readonly placeholder="请输入出生日期">
 			</div>
 		</div>
 		<div class="layui-form-item">
@@ -104,14 +103,14 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">岗位</label>
 			<div class="layui-input-block">
-				<input type="text" name="quarters" class="layui-input userName" lay-verify="phone" placeholder="请输入岗位名称" value="">
+				<input type="text" name="quarters" class="layui-input userName" placeholder="请输入岗位名称" value="">
 			</div>
 		</div>
 
 		<div class="layui-form-item">
-			<label class="layui-form-label">岗位</label>
+			<label class="layui-form-label">部门</label>
 			<div class="layui-input-block">
-				<select name="dept_id">
+				<select name="deptId">
 					<option value="">请选择</option>
 					<c:forEach items="${roles }" var="r">
 						<option value="${r.roleId }">${r.roleName }</option>
@@ -120,10 +119,19 @@
 			</div>
 		</div>
 
+		<div class="layui-form-item">
+			<label class="layui-form-label">入职日期</label>
+			<div class="layui-input-block">
+				<input type="text" id="entryDate" name="entryDate" class="layui-input userName" lay-verify="required" readonly placeholder="请输入选择日期" value="">
+			</div>
+		</div>
 
-
-
-
+		<div class="layui-form-item">
+			<label class="layui-form-label">备注</label>
+			<div class="layui-input-block">
+				<textarea type="text" name="remark" class="layui-textarea" placeholder="请输入备注"></textarea>
+			</div>
+		</div>
 
 		<div class="layui-form-item">
 			<label class="layui-form-label">分配角色</label>

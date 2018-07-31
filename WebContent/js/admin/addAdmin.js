@@ -9,7 +9,7 @@ layui.config({
 		$ = layui.jquery;
 		form = layui.form;
 		laydate.render({
-			elem: '#birthday' //指定元素
+			elem: '#birthday,#entryDate' //指定元素
 			,max: 'new Date()'
 		});
 		
