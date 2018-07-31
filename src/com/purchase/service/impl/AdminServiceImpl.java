@@ -499,8 +499,11 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<TbDepartment> selDepartmentByParentId() {
+	public List<TbDepartment> selDepartmentByParentId(Long parentId) {
 		TbDepartmentExample example=new TbDepartmentExample();
+		if(parentId != null){
+			example.createCriteria().andParentIdEqualTo(parentId);
+		}
 		List<TbDepartment> data = tbDepartmentMapper.selectByExample(example);
 		return data;
 	}
@@ -518,5 +521,10 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public TbDepartment selDepartmentById(Long id) {
 		return tbDepartmentMapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public void delDepartmentById(Long id) {
+		tbDepartmentMapper.deleteByPrimaryKey(id);
 	}
 }

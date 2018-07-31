@@ -63,8 +63,8 @@
 		<label class="layui-form-label">是否有效</label>
 		<div class="layui-input-block">
 			<div class="layui-input-block">
-				<input type="radio" name="valid" value="1" title="有效" checked>
-				<input type="radio" name="valid" value="0" title="无效">
+				<input type="radio" name="valid" value="1" title="有效" <c:if test="${department.valid}">checked</c:if>>
+				<input type="radio" name="valid" value="0" title="无效" <c:if test="${!department.valid}">checked</c:if>>
 			</div>
 		</div>
 	</div>

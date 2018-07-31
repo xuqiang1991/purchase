@@ -86,11 +86,13 @@ public interface AdminService {
 
 	public List<TbMenus> selMenusById1(Long menuId);
 
-	List<TbDepartment> selDepartmentByParentId();
+	List<TbDepartment> selDepartmentByParentId(Long parentId);
 
 	void insDepartment(TbDepartment department);
 
 	int updDepartment(TbDepartment department);
 
 	TbDepartment selDepartmentById(Long id);
+
+	void delDepartmentById(Long id);
 }
