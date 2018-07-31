@@ -648,7 +648,7 @@ public class AdminController {
 	@RequiresPermissions("sys:department:list")
 	@ResponseBody
 	public ResultUtil getDepartmentList() {
-		List<TbDepartment> list = adminServiceImpl.selDepartmentByParentId();
+		List<TbDepartment> list = adminServiceImpl.selDepartmentByParentId(null);
 		return ResultUtil.ok(list);
 	}
 
@@ -658,6 +658,7 @@ public class AdminController {
 		if(id!=null){
 			TbDepartment department=new TbDepartment();
 			department.setId(id);
+			department.setValid(true);
 			model.addAttribute("department",department);
 			model.addAttribute("flag","1");
 			return "page/admin/departmentForm";
@@ -683,6 +684,19 @@ public class AdminController {
 		}
 	}
 
+	@RequestMapping("/toEditDepartment/{id}")
+	@RequiresPermissions("sys:department:update")
+	public String toEditDepartment(@PathVariable("id") Long id,Model model){
+		if(id!=null){
+			TbDepartment department=adminServiceImpl.selDepartmentById(id);
+			model.addAttribute("department",department);
+			return "page/admin/departmentForm";
+		}else{
+			model.addAttribute("msg","不允许操作！");
+			return "page/active";
+		}
+	}
+
 	/**
 	 * 通过id删除部门
 	 * @param id
@@ -693,22 +707,17 @@ public class AdminController {
 	@RequiresPermissions("sys:department:delete")
 	@ResponseBody
 	public ResultUtil delDepartmentById(@PathVariable("id")Long id) {
-		return ResultUtil.ok();
+		try {
+			//查询是否有子菜单，不允许删除
+			List<TbDepartment> data=adminServiceImpl.selDepartmentByParentId(id);
+			if(data!=null&&data.size()>0){
+				return ResultUtil.error("包含子部门，不允许删除！");
+			}
+			adminServiceImpl.delDepartmentById(id);
+			return ResultUtil.ok("删除成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResultUtil.error("系统错误！");
+		}
 	}
-
-	/**
-	 * 批量删除指定部门
-	 * @return
-	 */
-	@SysLog(value="批量删除指定部门")
-	@RequestMapping("/delDepartments/{departmentStr}")
-	@RequiresPermissions("sys:department:delete")
-	@ResponseBody
-	public ResultUtil delDepartments(@PathVariable("departmentStr")String departmentStr) {
-		return ResultUtil.ok();
-	}
-
-
-
-
 }

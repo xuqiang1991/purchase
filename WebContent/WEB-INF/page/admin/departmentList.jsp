@@ -40,7 +40,7 @@
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>
 	<script type="text/javascript" src="${ctx }/js/admin/departmentList.js"></script>
 	<script type="text/html" id="radioTpl">
-		<input type="radio" name="menuId" value="{{d.menuId}}" title=" " lay-filter="radiodemo">
+		<input type="radio" name="id" value="{{d.id}}" title=" " lay-filter="radiodemo">
 	</script>
 	<script type="text/html" id="validTpl">
 		{{#  if(d.valid === true){ }}

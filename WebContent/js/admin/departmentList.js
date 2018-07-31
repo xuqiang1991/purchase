@@ -10,7 +10,7 @@ layui.use(['element', 'layer', 'form', 'upload', 'treeGrid','jquery'], function 
 			,treeUpId:'parentId'//树形父id字段名称
 			,treeShowName:'name'//以树形式显示的字段
 			,cols: [[
-				{field: 'id',title: ' ',templet:"#radioTpl",unresize:true}
+				{field: 'id',title: 'ID',templet:"#radioTpl",unresize:true}
 				,{field:'name', title: '组织名称'}
 				,{field:'principal', title: '负责人'}
 				,{field:'phone',title: '负责人电话'}
@@ -43,7 +43,7 @@ layui.use(['element', 'layer', 'form', 'upload', 'treeGrid','jquery'], function 
             type: 2,
             title:"编辑部门",
             area: ['470px', '360px'],
-            content:ctx+"/sys/editDepartment/"+a
+            content:ctx+"/sys/toEditDepartment/"+a
         })
 
     })
