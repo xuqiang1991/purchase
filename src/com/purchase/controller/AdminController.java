@@ -2,10 +2,7 @@ package com.purchase.controller;
 
 import com.google.code.kaptcha.Producer;
 import com.purchase.annotation.SysLog;
-import com.purchase.pojo.admin.TbAdmin;
-import com.purchase.pojo.admin.TbDepartment;
-import com.purchase.pojo.admin.TbMenus;
-import com.purchase.pojo.admin.TbRoles;
+import com.purchase.pojo.admin.*;
 import com.purchase.service.AdminService;
 import com.purchase.util.RRException;
 import com.purchase.util.ResultUtil;
@@ -718,6 +715,89 @@ public class AdminController {
 				return ResultUtil.error("包含子部门，不允许删除！");
 			}
 			adminServiceImpl.delDepartmentById(id);
+			return ResultUtil.ok("删除成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResultUtil.error("系统错误！");
+		}
+	}
+
+
+
+	/**
+	 * 地区管理
+	 * @return
+	 */
+	@RequestMapping("/getAreaList")
+	@RequiresPermissions("sys:area:list")
+	@ResponseBody
+	public ResultUtil getAreaList() {
+		List<TbArea> list = adminServiceImpl.selAreaByParentId(null);
+		return ResultUtil.ok(list);
+	}
+
+	@RequestMapping("/toSaveArea/{id}")
+	@RequiresPermissions("sys:area:save")
+	public String toSaveArea(@PathVariable("id") Long id,Model model){
+		if(id!=null){
+			TbArea area=new TbArea();
+			area.setId(id);
+			area.setValid(true);
+			model.addAttribute("area",area);
+			model.addAttribute("flag","1");
+			return "page/admin/areaForm";
+		}else{
+			model.addAttribute("msg","不允许操作！");
+			return "page/active";
+		}
+	}
+
+	@SysLog("维护地区信息")
+	@RequestMapping("/areaForm")
+	@RequiresPermissions(value={"sys:area:save","sys:area:update"})
+	@ResponseBody
+	public ResultUtil areaForm(TbArea area,String flag){
+		if(StringUtils.isBlank(flag)){
+			adminServiceImpl.updArea(area);
+			return ResultUtil.ok("修改成功！");
+		}else {
+			area.setParentId(area.getId() == 0 ? null : area.getId());
+			area.setId(null);
+			adminServiceImpl.insArea(area);
+			return ResultUtil.ok("添加成功！");
+		}
+	}
+
+	@RequestMapping("/toEditArea/{id}")
+	@RequiresPermissions("sys:area:update")
+	public String toEditArea(@PathVariable("id") Long id,Model model){
+		if(id!=null){
+			TbArea area=adminServiceImpl.selAreaById(id);
+			model.addAttribute("area",area);
+			return "page/admin/areaForm";
+		}else{
+			model.addAttribute("msg","不允许操作！");
+			return "page/active";
+		}
+	}
+
+	/**
+	 * 通过id删除地区
+	 * @param id
+	 * @return
+	 */
+	@SysLog(value="删除指定地区")
+	@RequestMapping("/delAreaById/{id}")
+	@RequiresPermissions("sys:area:delete")
+	@ResponseBody
+	public ResultUtil delAreaById(@PathVariable("id")Long id) {
+		try {
+			//查询是否有子地区，不允许删除
+			List<TbArea> data=adminServiceImpl.selAreaByParentId(id);
+			if(data!=null&&data.size()>0){
+				return ResultUtil.error("包含下级地区，不允许删除！");
+			}
+			adminServiceImpl.delAreaById(id);
 			return ResultUtil.ok("删除成功");
 		} catch (Exception e) {
 			e.printStackTrace();
