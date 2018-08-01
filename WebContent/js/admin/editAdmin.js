@@ -14,9 +14,15 @@ layui.config({
 		//loadProvince();
 		
 		laydate.render({
-			elem: '#birthday,#entryDate' //指定元素
+			elem: '#entryDate' //指定元素
 			,max: 'new Date()'
 		});
+
+		laydate.render({
+			elem: '#birthday' //指定元素
+			,max: 'new Date()'
+		});
+
 		
 		//自定义验证规则
 		form.verify({ 

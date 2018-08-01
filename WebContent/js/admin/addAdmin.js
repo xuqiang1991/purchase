@@ -8,6 +8,7 @@ layui.config({
 		laypage = layui.laypage,laydate = layui.laydate;
 		$ = layui.jquery;
 		form = layui.form;
+
 		laydate.render({
 			elem: '#birthday,#entryDate' //指定元素
 			,max: 'new Date()'

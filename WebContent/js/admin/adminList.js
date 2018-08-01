@@ -25,9 +25,9 @@ layui.config({
               ,{field:'phone', title: '联系方式'}
 				,{field:'quarters', title: '岗位'}
 				,{field:'deptId', title: '部门'}
-                ,{field:'entryDate', title: '入职日期'}
-                ,{field:'phone', title: '备注'}
-              ,{field:'remark', title: '角色'}
+                ,{field:'entryDate', title: '入职日期',templet: '<div>{{ formatTime(d.birthday,"yyyy-MM-dd")}}</div>'}
+                ,{field:'remark', title: '备注'}
+              ,{field:'roleName', title: '角色'}
               ,{title: '操作',toolbar: '#barEdit'}
 		    ]]
 				,page: true //开启分页
