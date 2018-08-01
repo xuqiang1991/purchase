@@ -246,3 +246,62 @@ INSERT INTO `tb_users` VALUES ('8', 'isduxd@163.com', 'admin', '96e79218965eb72c
 INSERT INTO `tb_users` VALUES ('14', '99392429@qq.com', 'test2', '96e79218965eb72c92a549dd5a330112', '1', '2018-02-08', '北京市通州区', '17693109998', '81181e3c53624effa07f9256a0efc154825', '2', '2018-02-18 22:44:43');
 INSERT INTO `tb_users` VALUES ('15', 'isduxd@gmail.com', 'test1', '96e79218965eb72c92a549dd5a330112', '0', '2018-02-14', '北京通州科创十四街区', '17693109923', 'aa06647e073f4f26bbe62c1bf8ac3b15806', '0', '2018-02-20 19:01:39');
 INSERT INTO `tb_users` VALUES ('27', 'isduxd@qq.com', 'test', '96e79218965eb72c92a549dd5a330112', '1', '2018-03-25', '北京通州科创十四街区', '17693109923', 'b3f28566dac54f86bd4f4c2ce36e23d8019', '1', '2018-03-25 14:48:48');
+
+
+
+CREATE TABLE `tb_department` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) NOT NULL COMMENT '部门名称',
+  `parent_id` bigint(20) DEFAULT NULL COMMENT '上级部门ID',
+  `principal` varchar(64) DEFAULT NULL COMMENT '负责人',
+  `phone` varchar(20) DEFAULT NULL COMMENT '负责人电话',
+  `valid` tinyint(1) DEFAULT NULL COMMENT '是否有效(1.有效；0.无效)',
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+
+
+
+CREATE TABLE `tb_area` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) NOT NULL COMMENT '名称',
+  `parent_id` bigint(20) DEFAULT NULL COMMENT '上级地区ID',
+  `valid` tinyint(1) DEFAULT NULL COMMENT '是否有效(1.有效；0.无效)',
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `tb_supplier` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL COMMENT '供应商名称',
+  `nick` varchar(100) DEFAULT NULL COMMENT '简称',
+  `type` int(2) DEFAULT NULL COMMENT '供应商类别(0.材料供应商；1.工程分包商)',
+  `principal_name` varchar(64) DEFAULT NULL COMMENT '负责人',
+  `principal_phone` varchar(20) DEFAULT NULL COMMENT '负责人电话',
+  `contact_name` varchar(100) DEFAULT NULL COMMENT '联系人',
+  `contact_phone` varchar(20) DEFAULT NULL COMMENT '联系人电话',
+  `area_id` bigint(20) DEFAULT NULL COMMENT '地区ID',
+  `address` varchar(256) DEFAULT NULL COMMENT '地址',
+  `valid` tinyint(1) DEFAULT NULL COMMENT '是否有效(1.有效；0.无效)',
+  `remark` varchar(512) DEFAULT NULL COMMENT '备注',
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_customers` (
+  `id` bigint(20) NOT NULL COMMENT '主键id',
+  `full_name` varchar(50) DEFAULT NULL COMMENT '客户名称',
+  `short_name` varchar(50) DEFAULT NULL COMMENT '客户简称',
+  `type` int(1) DEFAULT NULL COMMENT '客户类别 0：发展商\r\n1：委托商',
+  `charge_name` varchar(20) DEFAULT NULL COMMENT '负责人姓名',
+  `charge_phone` varchar(20) DEFAULT NULL COMMENT '负责人电话',
+  `link_name` varchar(20) DEFAULT NULL COMMENT '联系人电话',
+  `link_phone` varchar(20) DEFAULT NULL COMMENT '联系人电话\n',
+  `area` bigint(20) DEFAULT NULL COMMENT '所属区域',
+  `address` varchar(200) DEFAULT NULL COMMENT '地址',
+  `is_force` int(1) DEFAULT NULL COMMENT '是否生效 1:生效 0:未生效',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  `add_date` datetime DEFAULT NULL COMMENT '新增时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
