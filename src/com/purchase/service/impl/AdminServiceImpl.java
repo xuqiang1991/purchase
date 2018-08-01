@@ -1,21 +1,20 @@
 package com.purchase.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.purchase.mapper.admin.*;
-import com.purchase.pojo.admin.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.purchase.mapper.admin.*;
+import com.purchase.pojo.admin.*;
 import com.purchase.pojo.admin.TbAdminExample.Criteria;
 import com.purchase.service.AdminService;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.Menu;
 import com.purchase.vo.admin.XtreeData;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -39,6 +38,10 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	private TbDepartmentMapper tbDepartmentMapper;
+
+
+	@Autowired
+	private TbAreaMapper tbAreaMapper;
 
 	/**
 	 * 管理员登陆
@@ -526,5 +529,35 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public void delDepartmentById(Long id) {
 		tbDepartmentMapper.deleteByPrimaryKey(id);
+	}
+
+	@Override
+	public List<TbArea> selAreaByParentId(Long parentId) {
+		TbAreaExample example=new TbAreaExample();
+		if(parentId != null){
+			example.createCriteria().andParentIdEqualTo(parentId);
+		}
+		List<TbArea> data = tbAreaMapper.selectByExample(example);
+		return data;
+	}
+
+	@Override
+	public void updArea(TbArea area) {
+		tbAreaMapper.updateByPrimaryKey(area);
+	}
+
+	@Override
+	public void insArea(TbArea area) {
+		tbAreaMapper.insert(area);
+	}
+
+	@Override
+	public TbArea selAreaById(Long id) {
+		return tbAreaMapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public void delAreaById(Long id) {
+		tbAreaMapper.deleteByPrimaryKey(id);
 	}
 }

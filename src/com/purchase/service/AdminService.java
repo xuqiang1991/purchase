@@ -1,10 +1,7 @@
 package com.purchase.service;
 
 
-import com.purchase.pojo.admin.TbAdmin;
-import com.purchase.pojo.admin.TbDepartment;
-import com.purchase.pojo.admin.TbMenus;
-import com.purchase.pojo.admin.TbRoles;
+import com.purchase.pojo.admin.*;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.Menu;
 import com.purchase.vo.admin.XtreeData;
@@ -95,4 +92,14 @@ public interface AdminService {
 	TbDepartment selDepartmentById(Long id);
 
 	void delDepartmentById(Long id);
+
+    List<TbArea> selAreaByParentId(Long id);
+
+	void updArea(TbArea area);
+
+	void insArea(TbArea area);
+
+	TbArea selAreaById(Long id);
+
+	void delAreaById(Long id);
 }
