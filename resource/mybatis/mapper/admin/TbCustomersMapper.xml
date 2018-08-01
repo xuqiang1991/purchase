@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.purchase.mapper.admin.TbCustomersMapper" >
+  <resultMap id="BaseResultMap" type="com.purchase.pojo.admin.TbCustomers" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="full_name" property="fullName" jdbcType="VARCHAR" />
+    <result column="short_name" property="shortName" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="charge_name" property="chargeName" jdbcType="VARCHAR" />
+    <result column="charge_phone" property="chargePhone" jdbcType="VARCHAR" />
+    <result column="link_name" property="linkName" jdbcType="VARCHAR" />
+    <result column="link_phone" property="linkPhone" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="BIGINT" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="is_force" property="isForce" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="add_date" property="addDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, full_name, short_name, type, charge_name, charge_phone, link_name, link_phone, 
+    area, address, is_force, remark, add_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.purchase.pojo.admin.TbCustomersExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_customers
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_customers
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_customers
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.purchase.pojo.admin.TbCustomersExample" >
+    delete from tb_customers
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.purchase.pojo.admin.TbCustomers" >
+    insert into tb_customers (id, full_name, short_name, 
+      type, charge_name, charge_phone, 
+      link_name, link_phone, area, 
+      address, is_force, remark, 
+      add_date)
+    values (#{id,jdbcType=BIGINT}, #{fullName,jdbcType=VARCHAR}, #{shortName,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{chargeName,jdbcType=VARCHAR}, #{chargePhone,jdbcType=VARCHAR}, 
+      #{linkName,jdbcType=VARCHAR}, #{linkPhone,jdbcType=VARCHAR}, #{area,jdbcType=BIGINT}, 
+      #{address,jdbcType=VARCHAR}, #{isForce,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{addDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.purchase.pojo.admin.TbCustomers" >
+    insert into tb_customers
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="fullName != null" >
+        full_name,
+      </if>
+      <if test="shortName != null" >
+        short_name,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="chargeName != null" >
+        charge_name,
+      </if>
+      <if test="chargePhone != null" >
+        charge_phone,
+      </if>
+      <if test="linkName != null" >
+        link_name,
+      </if>
+      <if test="linkPhone != null" >
+        link_phone,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="isForce != null" >
+        is_force,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="addDate != null" >
+        add_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="fullName != null" >
+        #{fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="shortName != null" >
+        #{shortName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="chargeName != null" >
+        #{chargeName,jdbcType=VARCHAR},
+      </if>
+      <if test="chargePhone != null" >
+        #{chargePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="linkName != null" >
+        #{linkName,jdbcType=VARCHAR},
+      </if>
+      <if test="linkPhone != null" >
+        #{linkPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=BIGINT},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="isForce != null" >
+        #{isForce,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="addDate != null" >
+        #{addDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.purchase.pojo.admin.TbCustomersExample" resultType="java.lang.Integer" >
+    select count(*) from tb_customers
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_customers
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.fullName != null" >
+        full_name = #{record.fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shortName != null" >
+        short_name = #{record.shortName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.chargeName != null" >
+        charge_name = #{record.chargeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chargePhone != null" >
+        charge_phone = #{record.chargePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkName != null" >
+        link_name = #{record.linkName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkPhone != null" >
+        link_phone = #{record.linkPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.area != null" >
+        area = #{record.area,jdbcType=BIGINT},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isForce != null" >
+        is_force = #{record.isForce,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addDate != null" >
+        add_date = #{record.addDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_customers
+    set id = #{record.id,jdbcType=BIGINT},
+      full_name = #{record.fullName,jdbcType=VARCHAR},
+      short_name = #{record.shortName,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=INTEGER},
+      charge_name = #{record.chargeName,jdbcType=VARCHAR},
+      charge_phone = #{record.chargePhone,jdbcType=VARCHAR},
+      link_name = #{record.linkName,jdbcType=VARCHAR},
+      link_phone = #{record.linkPhone,jdbcType=VARCHAR},
+      area = #{record.area,jdbcType=BIGINT},
+      address = #{record.address,jdbcType=VARCHAR},
+      is_force = #{record.isForce,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      add_date = #{record.addDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.purchase.pojo.admin.TbCustomers" >
+    update tb_customers
+    <set >
+      <if test="fullName != null" >
+        full_name = #{fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="shortName != null" >
+        short_name = #{shortName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="chargeName != null" >
+        charge_name = #{chargeName,jdbcType=VARCHAR},
+      </if>
+      <if test="chargePhone != null" >
+        charge_phone = #{chargePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="linkName != null" >
+        link_name = #{linkName,jdbcType=VARCHAR},
+      </if>
+      <if test="linkPhone != null" >
+        link_phone = #{linkPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=BIGINT},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="isForce != null" >
+        is_force = #{isForce,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="addDate != null" >
+        add_date = #{addDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.purchase.pojo.admin.TbCustomers" >
+    update tb_customers
+    set full_name = #{fullName,jdbcType=VARCHAR},
+      short_name = #{shortName,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      charge_name = #{chargeName,jdbcType=VARCHAR},
+      charge_phone = #{chargePhone,jdbcType=VARCHAR},
+      link_name = #{linkName,jdbcType=VARCHAR},
+      link_phone = #{linkPhone,jdbcType=VARCHAR},
+      area = #{area,jdbcType=BIGINT},
+      address = #{address,jdbcType=VARCHAR},
+      is_force = #{isForce,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      add_date = #{addDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
