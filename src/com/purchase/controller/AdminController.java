@@ -395,7 +395,9 @@ public class AdminController {
 	@RequiresPermissions("sys:admin:save")
 	public String addAdmin(HttpServletRequest req){
 		List<TbRoles> roles = adminServiceImpl.selRoles();
+		List<TbDepartment> depts = adminServiceImpl.selDepartmentByParentId(null);
 		req.setAttribute("roles", roles);
+		req.setAttribute("depts", depts);
 		return "page/admin/addAdmin";
 	}
 	
@@ -454,8 +456,10 @@ public class AdminController {
 	public String editAdmin(HttpServletRequest req,@PathVariable("id")Long id) {
 		TbAdmin ad = adminServiceImpl.selAdminById(id);
 		List<TbRoles> roles = adminServiceImpl.selRoles();
+		List<TbDepartment> depts = adminServiceImpl.selDepartmentByParentId(null);
 		req.setAttribute("ad",ad);
 		req.setAttribute("roles", roles);
+		req.setAttribute("depts", depts);
 		return "page/admin/editAdmin";
 	}
 	

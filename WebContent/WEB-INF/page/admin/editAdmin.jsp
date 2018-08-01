@@ -109,12 +109,12 @@
 			<div class="layui-input-block">
 				<select name="deptId">
 					<option value="">请选择</option>
-					<c:forEach items="${roles }" var="r">
-						<c:if test="${ad.roleId==r.roleId }">
-							<option value="${r.roleId }" selected>${r.roleName }</option>
+					<c:forEach items="${depts }" var="d">
+						<c:if test="${ad.deptId==d.id }">
+							<option value="${d.id }" selected>${d.name }</option>
 						</c:if>
-						<c:if test="${ad.roleId!=r.roleId }">
-							<option value="${r.roleId }">${r.roleName }</option>
+						<c:if test="${ad.deptId!=d.id }">
+							<option value="${d.id }" selected>${d.name }</option>
 						</c:if>
 					</c:forEach>
 				</select>
@@ -124,7 +124,7 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">入职日期</label>
 			<div class="layui-input-block">
-				<input type="text" id="entryDate" name="entryDate" class="layui-input userName" lay-verify="required" readonly placeholder="请输入选择日期" value="${ad.entryDate}">
+				<input type="text" id="entryDate" name="entryDate" class="layui-input userName" lay-verify="required" readonly placeholder="请选择日期" value="${ad.entryDate}">
 			</div>
 		</div>
 

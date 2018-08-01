@@ -112,8 +112,8 @@
 			<div class="layui-input-block">
 				<select name="deptId">
 					<option value="">请选择</option>
-					<c:forEach items="${roles }" var="r">
-						<option value="${r.roleId }">${r.roleName }</option>
+					<c:forEach items="${depts }" var="d">
+						<option value="${d.id }">${d.name }</option>
 					</c:forEach>
 				</select>
 			</div>
