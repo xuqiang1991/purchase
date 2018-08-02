@@ -75,17 +75,17 @@
   		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 	</script>
 	<script type="text/html" id="typeTpl">
-		{{#  if(d.status === '0'){ }}
+		{{#  if(d.type === 0){ }}
 		材料供应商
-		{{#  } else if(d.status === '1'){ }}
+		{{#  } else if(d.type === 1){ }}
 		工程分包商
 		{{#  } }}
 	</script>
 	<script type="text/html" id="validTpl">
- 		 {{#  if(d.status === '0'){ }}
-   		 <span style="color: #FFB800;">无效</span>
-  		{{#  } else if(d.status === '1'){ }}
-			<span style="color: #01AAED;">有效</span>
+ 		 {{#  if(d.valid){ }}
+   		 <span style="color: #FFB800;">有效</span>
+  		{{#  } else if(!d.valid){ }}
+			<span style="color: #01AAED;">无效</span>
 		 {{#  } }}
 	</script>
 	<script>

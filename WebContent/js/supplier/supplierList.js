@@ -100,7 +100,7 @@ layui.config({
         layer.open({
             type: 2,
             title:"编辑供应商",
-            area: ['800px', '600px'],
+            area: ['900px', '600px'],
             content:ctx+"/supplier/toEditSupplier/"+a
         })
     }
