@@ -10,7 +10,7 @@ layui.config({
 		table.render({
 			id:'supplierList',
 		    elem: '#supplierList'
-		    ,url: ctx+'/sys/getSupplierList' //数据接口
+		    ,url: ctx+'/supplier/getSupplierList' //数据接口
 		    ,cellMinWidth: 80
 		    ,limit:10//每页默认数
 		    ,limits:[10,20,30,40]
@@ -41,6 +41,29 @@ layui.config({
                 }
 		  });
 
+    //查询
+    $(".search_btn").click(function() {
+        search()
+    })
+
+    function search() {
+        var name = $('#name'), type = $('#type option:selected'),areaId = $('#areaId option:selected'), valid = $('#valid option:selected');
+        //执行重载
+        table.reload('supplierList',
+                {
+                    page : {
+                        curr : 1 //重新从第 1 页开始
+                    },
+                    where : {
+                        name : name .val(),
+                        type : type.val(),
+                        areaId : areaId.val(),
+                        valid : valid.val()
+                    }
+                });
+    }
+
+
 	//添加供应商
     $("#addSupplier").click(function(){
         addSupplier();
@@ -55,8 +78,8 @@ layui.config({
         layer.open({
             type: 2,
             title:"添加供应商",
-            area: ['800px', '600px'],
-            content:ctx+"/sys/toSaveSupplier/"+a
+            area: ['900px', '600px'],
+            content:ctx+"/supplier/toSaveSupplier/"+a
         })
     }
 
@@ -77,8 +100,8 @@ layui.config({
         layer.open({
             type: 2,
             title:"编辑供应商",
-            area: ['800px', '600px'],
-            content:ctx+"/sys/toEditSupplier/"+a
+            area: ['900px', '600px'],
+            content:ctx+"/supplier/toEditSupplier/"+a
         })
     }
 
@@ -99,7 +122,7 @@ layui.config({
         }
         layer.confirm('真的删除行么', function(index){
             $.ajax({
-                url:ctx+'/sys/delSupplierById/'+a,
+                url:ctx+'/supplier/delSupplierById/'+a,
                 type : "post",
                 success : function(d){
                     if(d.code==0){

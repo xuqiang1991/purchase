@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
+
 /**
  * 供应商管理
  * Created by xuqiang
@@ -28,14 +30,14 @@ public class SupplierManagementController {
 
 
     @RequestMapping("supplierList")
-    @RequiresPermissions("user:supplier:list")
+    @RequiresPermissions("sys:role:supplier")
     public String supplierList(){
-        return "page/user/supplierList";
+        return "page/supplier/supplierList";
     }
 
 
     @RequestMapping("getSupplierList")
-    @RequiresPermissions("user:supplier:list")
+    @RequiresPermissions("sys:supplier:list")
     @ResponseBody
     public ResultUtil getSupplierList(Integer page, Integer limit, SupplierSearch search){
         return supplierService.selSuppliers(page,limit,search);
@@ -51,7 +53,7 @@ public class SupplierManagementController {
             supplier.setValid(true);
             model.addAttribute("supplier",supplier);
             model.addAttribute("flag","1");
-            return "page/admin/supplierForm";
+            return "page/supplier/supplierForm";
         }else{
             model.addAttribute("msg","不允许操作！");
             return "page/active";
@@ -68,6 +70,7 @@ public class SupplierManagementController {
             return ResultUtil.ok("修改成功！");
         }else {
             supplier.setId(null);
+            supplier.setCreateTime(new Date());
             supplierService.insSupplier(supplier);
             return ResultUtil.ok("添加成功！");
         }
@@ -79,7 +82,7 @@ public class SupplierManagementController {
         if(id!=null){
             TbSupplier supplier=supplierService.selSupplierById(id);
             model.addAttribute("supplier",supplier);
-            return "page/admin/supplierForm";
+            return "page/supplier/supplierForm";
         }else{
             model.addAttribute("msg","不允许操作！");
             return "page/active";

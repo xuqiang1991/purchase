@@ -55,37 +55,37 @@
 							<option value="0">无效</option>
 						</select>
 					</div>
-					<a class="layui-btn search_btn" lay-submit="" data-type="search"
-					   lay-filter="search">查询</a>
+					<a class="layui-btn search_btn" lay-submit="" data-type="search" lay-filter="search">查询</a>
 					<shiro:hasPermission name="user:user:save">
 						<div class="layui-inline">
-							<a class="layui-btn layui-btn-normal supplierAdd_btn">添加供应商</a>
+							<a class="layui-btn layui-btn-normal" id="addSupplier">添加供应商</a>
 						</div>
 					</shiro:hasPermission>
 				</div>
 			</div>
+		</form>
 	</blockquote>
-	</form>
 	<div class="layui-form">
 		<table id="supplierList" lay-filter="supplierList"></table>
 	</div>
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>
+	<script type="text/javascript" src="${ctx }/js/supplier/supplierList.js"></script>
 	<script type="text/html" id="barEdit">
   		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
   		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 	</script>
 	<script type="text/html" id="typeTpl">
-		{{#  if(d.status === '0'){ }}
+		{{#  if(d.type === 0){ }}
 		材料供应商
-		{{#  } else if(d.status === '1'){ }}
+		{{#  } else if(d.type === 1){ }}
 		工程分包商
 		{{#  } }}
 	</script>
 	<script type="text/html" id="validTpl">
- 		 {{#  if(d.status === '0'){ }}
-   		 <span style="color: #FFB800;">无效</span>
-  		{{#  } else if(d.status === '1'){ }}
-			<span style="color: #01AAED;">有效</span>
+ 		 {{#  if(d.valid){ }}
+   		 <span style="color: #FFB800;">有效</span>
+  		{{#  } else if(!d.valid){ }}
+			<span style="color: #01AAED;">无效</span>
 		 {{#  } }}
 	</script>
 	<script>
