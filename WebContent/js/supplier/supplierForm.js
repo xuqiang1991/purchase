@@ -19,28 +19,20 @@ layui.config({
  		var msg,flag=false;
  		$.ajax({
     		type: "post",
-            url: ctx+"/user/insSupplier",
+            url: ctx+"/supplier/supplierForm",
             async:false,
             data:data.field,
 			dataType:"json",
 			success:function(d){
-				if(d.code==0){
-		        	msg="供应商添加成功！";
-		        	flag=true;
-		        	$("#auf")[0].reset();
-				}else{
-		        	msg=d.msg;
-				}
+                msg=d.msg;
+                layer.msg(msg,{icon: 1});
+                setTimeout(function(){
+                    top.layer.close(index);
+                    layer.closeAll("iframe");
+                    parent.location.reload();
+                },1000);
 			}
         });
- 		setTimeout(function(){
- 			top.layer.close(index);
- 			if(flag){
- 				top.layer.msg(msg,{icon: 1});
- 			}else{
- 				top.layer.msg(msg,{icon: 5});
- 			}
-        },2000);
  		return false;
  	})
 	

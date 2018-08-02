@@ -55,21 +55,21 @@
 							<option value="0">无效</option>
 						</select>
 					</div>
-					<a class="layui-btn search_btn" lay-submit="" data-type="search"
-					   lay-filter="search">查询</a>
+					<a class="layui-btn search_btn" lay-submit="" data-type="search" lay-filter="search">查询</a>
 					<shiro:hasPermission name="user:user:save">
 						<div class="layui-inline">
-							<a class="layui-btn layui-btn-normal supplierAdd_btn">添加供应商</a>
+							<a class="layui-btn layui-btn-normal" id="addSupplier">添加供应商</a>
 						</div>
 					</shiro:hasPermission>
 				</div>
 			</div>
+		</form>
 	</blockquote>
-	</form>
 	<div class="layui-form">
 		<table id="supplierList" lay-filter="supplierList"></table>
 	</div>
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>
+	<script type="text/javascript" src="${ctx }/js/supplier/supplierList.js"></script>
 	<script type="text/html" id="barEdit">
   		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
   		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>

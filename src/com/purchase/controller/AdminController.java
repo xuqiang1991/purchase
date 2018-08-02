@@ -27,6 +27,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -680,6 +681,7 @@ public class AdminController {
 		}else {
 			department.setParentId(department.getId() == 0 ? null : department.getId());
 			department.setId(null);
+			department.setCreateTime(new Date());
 			adminServiceImpl.insDepartment(department);
 			return ResultUtil.ok("添加成功！");
 		}
@@ -775,6 +777,7 @@ public class AdminController {
 		}else {
 			area.setParentId(area.getId() == 0 ? null : area.getId());
 			area.setId(null);
+			area.setCreateTime(new Date());
 			adminServiceImpl.insArea(area);
 			return ResultUtil.ok("添加成功！");
 		}
