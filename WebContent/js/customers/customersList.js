@@ -19,7 +19,7 @@ layui.config({
               ,{field:'id', title: 'ID', sort: true}
               ,{field:'fullName', title: '客户名称'}
               ,{field:'shortName', title: '客户简称'}
-              ,{field:'type', title: '客户类别'}
+              ,{field:'type', title: '客户类别',templet: '#customersType'}
               ,{field:'chargeName', title: '负责人'}
               ,{field:'chargePhone', title: '负责人电话'}
               ,{field:'linkName', title: '联系人'}

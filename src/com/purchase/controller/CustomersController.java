@@ -55,7 +55,6 @@ public class CustomersController {
         ResultUtil result = new ResultUtil();
            try {
                 result = customersService.selCustomers(page, limit);
-               logger.info("查询结果:{}", JSONUtils.toJSONString(result));
            }catch (Exception e){
                e.printStackTrace();
            }

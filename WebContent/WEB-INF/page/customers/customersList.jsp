@@ -39,8 +39,15 @@
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>
 	<script type="text/javascript" src="${ctx }/js/customers/customersList.js"></script>
 	<script type="text/html" id="barEdit">
-  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+	  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+	  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+	</script>
+	<script type="text/html" id="customersType">
+		{{#  if(d.type === '0'){ }}
+		发展商
+		{{#  } else{ }}
+		委托商
+		{{#  } }}
 	</script>
 </body>
 </html>

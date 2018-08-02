@@ -46,8 +46,20 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">客户类型</label>
 			<div class="layui-input-block">
-				<input type="radio" name="type" value="0" title="发展商" <c:if test="${customers.type == 0 }">checked</c:if> >
-				<input type="radio" name="type" value="1" title="委托商" <c:if test="${customers.type == 0 }">checked</c:if>>
+				<c:if test="${customers.id != null }">
+					<c:if test="${customers.type == 0 }">
+						<input type="radio" name="type" value="0" title="发展商" checked>
+						<input type="radio" name="type" value="1" title="委托商">
+					</c:if>
+					<c:if test="${customers.type == 1 }">
+						<input type="radio" name="type" value="0" title="发展商" >
+						<input type="radio" name="type" value="1" title="委托商" checked>
+					</c:if>
+				</c:if>
+				<c:if test="${customers.id == null }">
+					<input type="radio" name="type" value="0" title="发展商" checked>
+					<input type="radio" name="type" value="1" title="委托商">
+				</c:if>
 			</div>
 		</div>
 		<div class="layui-form-item">
