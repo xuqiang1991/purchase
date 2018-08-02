@@ -30,17 +30,15 @@
 <body class="childrenBody">
 	<form class="layui-form" style="width: 80%;" id="aaf">
 		<div class="layui-form-item">
-			<label class="layui-form-label">登录名</label>
+			<label class="layui-form-label">客户名称</label>
 			<div class="layui-input-block">
-				<input type="text" id="username" class="layui-input userName"
-					lay-verify="required" placeholder="请输入登陆名" name="username" value="">
+				<input type="text" id="fullName" class="layui-input" lay-verify="required" placeholder="请输入客户名称" name="fullName" value="">
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label">密码</label>
+			<label class="layui-form-label">客户简称</label>
 			<div class="layui-input-block">
-				<input type="password" id="password" class="layui-input userName"
-					lay-verify="pass" placeholder="请输入密码" name="password" value="">
+				<input type="text" id="shortName" class="layui-input" lay-verify="pass" placeholder="请输入客户简称" name="shortName" value="">
 			</div>
 		</div>
 		<div class="layui-form-item">
