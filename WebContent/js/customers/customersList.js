@@ -88,11 +88,11 @@ layui.config({
 		  });
 		  
 	//添加角色
-	$(".roleAdd_btn").click(function(){
+	$(".customersAdd_btn").click(function(){
 		var index = layui.layer.open({
-			title : "添加角色",
+			title : "添加客户",
 			type : 2,
-			content : "addRole",
+			content : "addCustomers",
 			success : function(layero, index){
 				layui.layer.tips('点击此处返回角色列表', '.layui-layer-setwin .layui-layer-close', {
 					tips: 3

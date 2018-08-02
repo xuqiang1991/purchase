@@ -25,7 +25,7 @@
 	<blockquote class="layui-elem-quote list_search">
 		<shiro:hasPermission name="sys:customers:save">
 			<div class="layui-inline">
-				<a class="layui-btn layui-btn-normal roleAdd_btn"><i class="layui-icon">&#xe608;</i>添加客户</a>
+				<a class="layui-btn layui-btn-normal customersAdd_btn"><i class="layui-icon">&#xe608;</i>添加客户</a>
 			</div>
 		</shiro:hasPermission>
 		<shiro:hasPermission name="sys:customers:delete">

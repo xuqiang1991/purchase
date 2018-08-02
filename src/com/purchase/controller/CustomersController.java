@@ -39,4 +39,10 @@ public class CustomersController {
 		logger.info("请求客户数据");
 		return customersService.selCustomers(page, limit);
 	}
+
+	@RequestMapping(value = "/addCustomers")
+	@RequiresPermissions("sys:customers:save")
+	public String addCustomers(){
+		return "page/customers/customersAdd";
+	}
 }
