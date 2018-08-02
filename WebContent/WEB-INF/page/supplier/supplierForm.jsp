@@ -55,11 +55,9 @@
 					<div class="layui-inline">
 						<label class="layui-form-label">地区</label>
 						<div class="layui-input-block">
-							<select name="areaId" class="" id="areaId">
-								<option value="">请选择地区</option>
-								<option value="1">测试1</option>
-								<option value="2">测试2</option>
-							</select>
+							<input type="text" id="areaName" class="layui-input"
+								   lay-verify="required" placeholder="请选择地区" name="areaName">
+							<input type="hidden" id="areaId" name="areaId" value="${supplier.areaId }">
 						</div>
 					</div>
 				</div>

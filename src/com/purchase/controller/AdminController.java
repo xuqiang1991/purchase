@@ -819,4 +819,16 @@ public class AdminController {
 			return ResultUtil.error("系统错误！");
 		}
 	}
+
+	@RequestMapping("/selectArea")
+	public String selectArea() {
+		return "page/admin/selectArea";
+	}
+
+	@RequestMapping("/getSelectArea")
+	@ResponseBody
+	public ResultUtil getSelectArea() {
+		List<TbArea> list = adminServiceImpl.selAreaByParentId(null);
+		return ResultUtil.ok(list);
+	}
 }
