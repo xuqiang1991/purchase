@@ -631,7 +631,7 @@ public class AdminController {
 		}
 	}
 
-	/**
+	/**部门管理
 	 * 部门管理
 	 * @return
 	 */

@@ -1,5 +1,6 @@
 package com.purchase.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,38 @@ public class CustomersServiceImpl implements CustomersService {
 	@Autowired
 	private TbCustomersMapper customersMapper;
 
-	@Override
+    @Override
+    public boolean checkCustomersFullName(TbCustomers customers) {
+        TbCustomersExample example = new TbCustomersExample();
+        com.purchase.pojo.admin.TbCustomersExample.Criteria criteria = example.createCriteria();
+        criteria.andFullNameEqualTo(customers.getFullName());
+        if(customers.getId() != null){
+            criteria.andIdNotEqualTo(customers.getId());
+        }
+        List<TbCustomers> checkCustomers = customersMapper.selectByExample(example);
+        if (checkCustomers != null && checkCustomers.size() > 0) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    public void editCustomers(TbCustomers customers) {
+        if(customers.getId() != null){
+            customersMapper.updateByPrimaryKey(customers);
+        }else{
+            customers.setAddDate(new Date());
+            customersMapper.insert(customers);
+        }
+    }
+
+    @Override
+    public TbCustomers findById(Long id) {
+        return customersMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
 	public ResultUtil selCustomers(Integer page, Integer limit) {
 		
 		PageHelper.startPage(page, limit);

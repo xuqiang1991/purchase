@@ -10,7 +10,7 @@ layui.config({
 		table.render({
 			id:'customersList',
 		    elem: '#customersList'
-		    ,url: ctx+'/customers/customersList' //数据接口
+		    ,url: ctx+'/customers/getCustomersList' //数据接口
 		    ,cellMinWidth: 80
 		    ,limit:10//每页默认数
 		    ,limits:[10,20,30,40]
@@ -82,7 +82,7 @@ layui.config({
 		    	  type: 2,
 		    	  title:"编辑角色",
 		    	  area: ['500px', '600px'],
-		    	  content:ctx+"/sys/editRole?roleId="+data.roleId+"&roleName="+data.roleName+"&roleRemark="+data.roleRemark, //这里content是一个普通的String
+		    	  content:ctx+"/customers/configCustomers?id="+data.id, //这里content是一个普通的String
 		      })
 		    }
 		  });
@@ -92,7 +92,7 @@ layui.config({
 		var index = layui.layer.open({
 			title : "添加客户",
 			type : 2,
-			content : "addCustomers",
+			content : "configCustomers",
 			success : function(layero, index){
 				layui.layer.tips('点击此处返回角色列表', '.layui-layer-setwin .layui-layer-close', {
 					tips: 3
