@@ -728,8 +728,20 @@ public class AdminController {
 	 * 地区管理
 	 * @return
 	 */
+	@RequestMapping("/areaList")
+	@RequiresPermissions("sys:role:area")
+	public String areaList() {
+		return "page/admin/areaList";
+	}
+
+
+
+	/**
+	 * 地区管理
+	 * @return
+	 */
 	@RequestMapping("/getAreaList")
-	@RequiresPermissions("sys:area:list")
+		@RequiresPermissions("sys:area:list")
 	@ResponseBody
 	public ResultUtil getAreaList() {
 		List<TbArea> list = adminServiceImpl.selAreaByParentId(null);
