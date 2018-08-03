@@ -56,7 +56,7 @@
 						<label class="layui-form-label">地区</label>
 						<div class="layui-input-block">
 							<input type="text" id="areaName" class="layui-input"
-								   lay-verify="required" placeholder="请选择地区" name="areaName">
+								   lay-verify="required" placeholder="请选择地区" name="areaName" value="${!empty area ? area.name : ''}">
 							<input type="hidden" id="areaId" name="areaId" value="${supplier.areaId }">
 						</div>
 					</div>
@@ -126,5 +126,6 @@
 </div>
 <script type="text/javascript" src="${ctx }/layui/layui.js"></script>
 <script type="text/javascript" src="${ctx }/js/supplier/supplierForm.js"></script>
+<script type="text/javascript" src="${ctx }/js/admin/areaSelect.js"></script>
 </body>
 </html>

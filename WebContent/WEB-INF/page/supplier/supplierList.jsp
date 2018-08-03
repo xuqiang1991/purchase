@@ -42,11 +42,9 @@
 						</select>
 					</div>
 					<div class="layui-input-inline layui-form">
-						<select name="areaId" class="" id="areaId">
-							<option value="">请选择地区</option>
-							<option value="1">测试1</option>
-							<option value="2">测试2</option>
-						</select>
+						<input type="text" id="areaName" class="layui-input"
+							   lay-verify="required" placeholder="请选择地区" name="areaName">
+						<input type="hidden" id="areaId" name="areaId" value="${supplier.areaId }">
 					</div>
 					<div class="layui-input-inline layui-form">
 						<select name="valid" class="" id="valid">
@@ -70,6 +68,7 @@
 	</div>
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>
 	<script type="text/javascript" src="${ctx }/js/supplier/supplierList.js"></script>
+	<script type="text/javascript" src="${ctx }/js/admin/areaSelect.js"></script>
 	<script type="text/html" id="barEdit">
   		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
   		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>

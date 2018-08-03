@@ -1,7 +1,9 @@
 package com.purchase.controller;
 
 import com.purchase.annotation.SysLog;
+import com.purchase.pojo.admin.TbArea;
 import com.purchase.pojo.admin.TbSupplier;
+import com.purchase.service.AdminService;
 import com.purchase.service.SupplierService;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.SupplierSearch;
@@ -27,6 +29,10 @@ public class SupplierManagementController {
 
     @Autowired
     private SupplierService supplierService;
+
+
+    @Autowired
+    private AdminService adminService;
 
 
     @RequestMapping("supplierList")
@@ -81,6 +87,11 @@ public class SupplierManagementController {
     public String toEditSupplier(@PathVariable("id") Long id,Model model){
         if(id!=null){
             TbSupplier supplier=supplierService.selSupplierById(id);
+            TbArea area = null;
+            if(supplier.getAreaId() != null){
+                area = adminService.selAreaById(supplier.getAreaId());
+            }
+            model.addAttribute("area",area);
             model.addAttribute("supplier",supplier);
             return "page/supplier/supplierForm";
         }else{
