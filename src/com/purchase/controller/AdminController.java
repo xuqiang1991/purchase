@@ -820,6 +820,13 @@ public class AdminController {
 		}
 	}
 
+
+	/** select 选项，不需要权限		**/
+
+	/**
+	 * 地区
+	 * @return
+	 */
 	@RequestMapping("/selectArea")
 	public String selectArea() {
 		return "page/admin/selectArea";
@@ -831,4 +838,23 @@ public class AdminController {
 		List<TbArea> list = adminServiceImpl.selAreaByParentId(null);
 		return ResultUtil.ok(list);
 	}
+
+
+	/**
+	 * 部门
+	 * @return
+	 */
+	@RequestMapping("/selectDepartment")
+	public String selectDepartment() {
+		return "page/admin/selectDepartment";
+	}
+
+	@RequestMapping("/getSelectDepartment")
+	@ResponseBody
+	public ResultUtil getSelectDepartment() {
+		List<TbDepartment> list = adminServiceImpl.selDepartmentByParentId(null);
+		return ResultUtil.ok(list);
+	}
+
+	/** select 选项，不需要权限		**/
 }
