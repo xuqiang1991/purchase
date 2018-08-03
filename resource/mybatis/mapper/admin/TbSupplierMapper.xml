@@ -24,16 +24,16 @@
             <foreach collection="criteria.criteria" item="criterion" >
               <choose >
                 <when test="criterion.noValue" >
-                  and ${criterion.condition}
+                  and tb_supplier.${criterion.condition}
                 </when>
                 <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
+                  and tb_supplier.${criterion.condition} #{criterion.value}
                 </when>
                 <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  and tb_supplier.${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
                 <when test="criterion.listValue" >
-                  and ${criterion.condition}
+                  and tb_supplier.${criterion.condition}
                   <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
                     #{listItem}
                   </foreach>
@@ -335,4 +335,23 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+
+  <resultMap id="BaseResultMapExt" type="com.purchase.vo.admin.SupplierVo" extends="BaseResultMap">
+    <result column="area_name" property="areaName" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectByExampleExt" resultMap="BaseResultMapExt" parameterType="com.purchase.pojo.admin.TbSupplierExample" >
+    select
+    tb_supplier.id, tb_supplier.name, tb_supplier.nick, tb_supplier.type, tb_supplier.principal_name, tb_supplier.principal_phone, tb_supplier.contact_name, tb_supplier.contact_phone,
+    tb_supplier.area_id, tb_supplier.address, tb_supplier.valid, tb_supplier.remark, tb_supplier.create_time, tb_area.name as area_name
+    from tb_supplier
+    LEFT join tb_area ON (tb_supplier.area_id = tb_area.id)
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+
 </mapper>

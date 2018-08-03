@@ -2,8 +2,10 @@ package com.purchase.mapper.admin;
 
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.admin.TbSupplierExample;
-import java.util.List;
+import com.purchase.vo.admin.SupplierVo;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface TbSupplierMapper {
     int countByExample(TbSupplierExample example);
@@ -27,4 +29,6 @@ public interface TbSupplierMapper {
     int updateByPrimaryKeySelective(TbSupplier record);
 
     int updateByPrimaryKey(TbSupplier record);
+
+    List<SupplierVo> selectByExampleExt(TbSupplierExample example);
 }

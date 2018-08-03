@@ -8,6 +8,7 @@ import com.purchase.pojo.admin.TbSupplierExample;
 import com.purchase.service.SupplierService;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.SupplierSearch;
+import com.purchase.vo.admin.SupplierVo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,8 +45,8 @@ public class SupplierServiceImpl implements SupplierService {
             criteria.andValidEqualTo(search.getValid());
         }
 
-        List<TbSupplier> users = tbSupplierMapper.selectByExample(example);
-        PageInfo<TbSupplier> pageInfo = new PageInfo<TbSupplier>(users);
+        List<SupplierVo> users = tbSupplierMapper.selectByExampleExt(example);
+        PageInfo<SupplierVo> pageInfo = new PageInfo<SupplierVo>(users);
         ResultUtil resultUtil = new ResultUtil();
         resultUtil.setCode(0);
         resultUtil.setCount(pageInfo.getTotal());
