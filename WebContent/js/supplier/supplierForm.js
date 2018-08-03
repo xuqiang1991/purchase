@@ -56,11 +56,7 @@ layui.config({
                 }else {
                     layer.msg('请选择地区', {time: 5000, icon:6});
                 }
-            },
-            cancel: function(){
-                layer.msg('捕获就是从页面已经存在的元素上，包裹layer的结构', {time: 5000, icon:6});
             }
-
         })
     })
 

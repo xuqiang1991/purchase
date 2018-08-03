@@ -200,10 +200,10 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
     Class.prototype.render = function(){
         var that = this
             ,options = that.config;
-
         options.elem = $(options.elem);
         options.where = options.where || {};
         options.id = options.id || options.elem.attr('id');
+        options.isOpen = options.isOpen || false;
 
         //请求参数的自定义格式
         options.request = $.extend({
@@ -417,7 +417,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
                 ,data: $.extend(params, options.where)
                 ,dataType: 'json'
                 ,success: function(res){
-                    var data = that.filterArray(res.data,options.treeId,options.treeUpId);
+                    var data = that.filterArray(options.isOpen,res.data,options.treeId,options.treeUpId);
                     res.data=data[0];
 
                     if(res[response.statusName] != response.statusCode){
@@ -442,7 +442,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
 
             console.log(options.data,options.treeId,options.treeUpId);
 
-            var data = that.filterArray(options.data,options.treeId,options.treeUpId);
+            var data = that.filterArray(options.isOpen,options.data,options.treeId,options.treeUpId);
             res.data=data[0];
 
             res[response.dataName] = res.data;//.concat().splice(startLimit, options.limit);
@@ -493,12 +493,13 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
 
     /**
      * 将列表数据转成树形结构和符合table展示的列表
+     * @param isOpen        是否展开
      * @param data          列表数据
      * @param field_Id      树形结构主键字段
      * @param field_upId    树形结构上级字段
      * @returns {Array}     [0]表格列表  [1]树形结构
      */
-    Class.prototype.filterArray=function(data,field_Id,field_upId) {
+    Class.prototype.filterArray=function(isOpen,data,field_Id,field_upId) {
         var list=[];
         var treeList=[];
         var tableList=[];
@@ -508,7 +509,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
         //设置默认参数
         for (var i = 0; i < data.length; i++) {
             var n = data[i];
-            n.isOpen=true;
+            n.isOpen= isOpen;
         }
 
         //处理树结构
@@ -578,9 +579,18 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
 
                         var treeImgHtml='';//树形图标
                         var treeShowName=options.treeShowName;//显示值
+
+                        //是否折疊,图标处理
+                        var headImgHtml;
+                        if(options.isOpen){
+                            headImgHtml = '&#xe625;'
+                        }else {
+                            headImgHtml = '&#xe623;'
+                        }
+
                         if(treeShowName==item3.field){//当前是否用于显示的值
                             treeImgHtml+='<div style="float: left;height: 28px;line-height: 28px;padding-left: 5px;">';
-                            var temTreeHtml='<i class="layui-icon layui-tree-head">&#xe625;</i> ';
+                            var temTreeHtml='<i class="layui-icon layui-tree-head">'+headImgHtml+'</i> ';
 
                             var nbspHtml="<i>"//一次位移
                             for(var i=1;i<o.level;i++) {
@@ -650,7 +660,14 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
                         if(item3.fixed === 'right') tds_fixed_r.push(td);
                     });
 
-                    trs.push('<tr data-index="'+ i1 +'" upids="'+item1["upIds"]+'">'+ tds.join('') + '</tr>');
+                    //是否折叠,样式处理
+                    var tdUpidsStyle;
+                    if(options.isOpen || item1["upIds"] === ''){
+                        tdUpidsStyle = '';
+                    }else {
+                        tdUpidsStyle = 'style="display: none;"';
+                    }
+                    trs.push('<tr data-index="'+ i1 +'" upids="'+item1["upIds"]+'" '+tdUpidsStyle+'>'+ tds.join('') + '</tr>');
                     trs_fixed.push('<tr data-index="'+ i1 +'">'+ tds_fixed.join('') + '</tr>');
                     trs_fixed_r.push('<tr data-index="'+ i1 +'">'+ tds_fixed_r.join('') + '</tr>');
                 });
