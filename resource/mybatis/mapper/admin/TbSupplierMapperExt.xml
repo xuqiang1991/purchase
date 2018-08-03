@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.purchase.mapper.admin.TbSupplierMapper">
+
+  <sql id="Example_Where_Clause_Ext" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and tb_supplier.${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and tb_supplier.${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and tb_supplier.${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and tb_supplier.${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+  <resultMap id="BaseResultMapExt" type="com.purchase.vo.admin.SupplierVo" extends="BaseResultMap">
+    <result column="area_name" property="areaName" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectByExampleExt" resultMap="BaseResultMapExt" parameterType="com.purchase.pojo.admin.TbSupplierExample" >
+    select
+    tb_supplier.id, tb_supplier.name, tb_supplier.nick, tb_supplier.type, tb_supplier.principal_name, tb_supplier.principal_phone, tb_supplier.contact_name, tb_supplier.contact_phone,
+    tb_supplier.area_id, tb_supplier.address, tb_supplier.valid, tb_supplier.remark, tb_supplier.create_time, tb_area.name as area_name
+    from tb_supplier
+    LEFT join tb_area ON (tb_supplier.area_id = tb_area.id)
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause_Ext" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+
+</mapper>
