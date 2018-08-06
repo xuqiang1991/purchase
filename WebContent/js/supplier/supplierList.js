@@ -16,7 +16,7 @@ layui.config({
 		    ,limits:[10,20,30,40]
 		    ,cols: [[ //表头
               {type:'checkbox'}
-              ,{field:'id', title: 'ID', sort: true}
+              ,{field:'id', title: 'ID', width: 50, sort: true}
               ,{field:'name', title: '名称'}
               ,{field:'nick', title: '简称'}
               ,{field:'type', title: '供应商类别',templet:"#typeTpl",unresize:true}
@@ -25,7 +25,7 @@ layui.config({
 			  ,{field:'contactName', title: '联系人'}
 			  ,{field:'contactPhone', title: '联系人电话'}
 			  ,{field:'valid', title: '是否有效',templet:"#validTpl",unresize:true}
-              ,{title: '操作',toolbar: '#barEdit'}
+              //,{title: '操作',toolbar: '#barEdit'}
 		    ]]
 				,page: true //开启分页
 				,where: {timestamp: (new Date()).valueOf()}

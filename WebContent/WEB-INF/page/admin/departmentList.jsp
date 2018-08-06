@@ -21,20 +21,38 @@
         var ctx = "${ctx}";
 	</script>
 </head>
-<body class="layui-layout-body" style="overflow:auto">
-	<br />
+<body class="childrenBody">
+	<blockquote class="layui-elem-quote list_search">
+		<shiro:hasPermission name="sys:area:save">
+			<div class="layui-inline">
+				<a class="layui-btn" id="addDepartment"><i class="layui-icon">&#xe608;</i>添加</a>
+			</div>
+		</shiro:hasPermission>
+		<shiro:hasPermission name="sys:area:update">
+			<div class="layui-inline">
+				<a class="layui-btn" id="editDepartment"><i class="layui-icon">&#xe642;</i>编辑</a>
+			</div>
+		</shiro:hasPermission>
+		<shiro:hasPermission name="sys:area:delete">
+			<div class="layui-inline">
+				<a class="layui-btn layui-btn-danger" id="delDepartment"><i class="layui-icon">&#xe640;</i>删除</a>
+			</div>
+		</shiro:hasPermission>
+        <button class="layui-btn layui-btn-primary">（不选中为添加顶级部门，选中添加子部门）</button>
+	</blockquote>
+	<%--<br />
 	<div class="layui-btn-group TableTools" style="margin-left: 10px">
 		<shiro:hasPermission name="sys:department:save">
-			<button class="layui-btn" id="addDepartment">添加部门</button>
+			<button class="layui-btn" id="addDepartment"><i class="layui-icon">&#xe608;</i>添加</button>
 		</shiro:hasPermission>
 		<shiro:hasPermission name="sys:department:update">
-			<button class="layui-btn" id="editDepartment">编辑部门</button>
+			<button class="layui-btn" id="editDepartment"><i class="layui-icon">&#xe642;</i>编辑</button>
 		</shiro:hasPermission>
 		<shiro:hasPermission name="sys:department:delete">
-			<button class="layui-btn layui-btn-danger" id="delDepartment">删除部门</button>
+			<button class="layui-btn layui-btn-danger" id="delDepartment"><i class="layui-icon">&#xe640;</i>删除</button>
 		</shiro:hasPermission>
 		<button class="layui-btn layui-btn-primary">（不选中为添加顶级部门，选中添加子部门）</button>
-	</div>
+	</div>--%>
 	<!-- 数据表格 -->
 	<div><table class="layui-hidden" id="treeTable" lay-filter="treeTable"></table></div>
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>

@@ -83,18 +83,14 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">联系人电话</label>
 			<div class="layui-input-block">
-				<input type="text" id="linkPhone" class="layui-input" name="linkPhone" lay-verify="phone" placeholder="请输入联系人电话" value="${customers.linkPhone}">
+				<input type="text" id="linkPhone" class="layui-input " name="linkPhone" lay-verify="phone" placeholder="请输入联系人电话" value="${customers.linkPhone}">
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">地区</label>
 			<div class="layui-input-block">
-				<select name="area">
-					<option value="">请选择</option>
-					<c:forEach items="${areas }" var="a">
-						<option value="${a.id }" <c:if test="${customers.area == a.id }">selected</c:if> >${a.name }</option>
-					</c:forEach>
-				</select>
+				<input type="text" id="areaName" class="layui-input" lay-verify="required" placeholder="请选择地区" name="areaName" value="${!empty area ? area.name : ''}">
+				<input type="hidden" id="areaId" name="area" value="${customers.area }">
 			</div>
 		</div>
 		<div class="layui-form-item">
@@ -119,5 +115,6 @@
 	</form>
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>
 	<script type="text/javascript" src="${ctx }/js/customers/configCustomers.js"></script>
+	<script type="text/javascript" src="${ctx }/js/admin/areaSelect.js"></script>
 </body>
 </html>

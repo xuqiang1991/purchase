@@ -22,9 +22,26 @@
     </script> 
     
 </head>
-<body class="layui-layout-body" style="overflow:auto">
-<br />
-<div class="layui-btn-group TableTools" style="margin-left: 10px">
+<body class="childrenBody">
+<blockquote class="layui-elem-quote list_search">
+    <shiro:hasPermission name="sys:menu:save">
+        <div class="layui-inline">
+            <a class="layui-btn" id="addMenu"><i class="layui-icon">&#xe608;</i>添加</a>
+        </div>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="sys:menu:update">
+        <div class="layui-inline">
+            <a class="layui-btn" id="editMenu"><i class="layui-icon">&#xe642;</i>编辑</a>
+        </div>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="sys:menu:delete">
+        <div class="layui-inline">
+            <a class="layui-btn layui-btn-danger" id="delMenu"><i class="layui-icon">&#xe640;</i>删除</a>
+        </div>
+    </shiro:hasPermission>
+    <button class="layui-btn layui-btn-primary">（不选中为添加顶级菜单，选中添加子菜单）</button>
+</blockquote>
+<%--<div class="layui-btn-group TableTools" style="margin-left: 10px">
     <shiro:hasPermission name="sys:menu:save">
 		<button class="layui-btn" id="addMenu">添加菜单</button>
     </shiro:hasPermission> 
@@ -35,7 +52,7 @@
 		<button class="layui-btn layui-btn-danger" id="delMenu">删除菜单</button>
 	</shiro:hasPermission>  
 <button class="layui-btn layui-btn-primary">（不选中为添加顶级菜单，选中添加子菜单）</button>
-</div>
+</div>--%>
 <div><table class="layui-hidden" id="treeTable" lay-filter="treeTable"></table></div>
 <script>
     layui.use(['element', 'layer', 'form', 'upload', 'treeGrid','jquery'], function () {
@@ -50,9 +67,9 @@
             ,treeUpId:'parentId'//树形父id字段名称
             ,treeShowName:'title'//以树形式显示的字段
             ,cols: [[
-                {field: 'menuId',title: ' ',templet:"#radioTpl",unresize:true}
+                {field: 'menuId',title: '选择', width: 70,templet:"#radioTpl",unresize:true}
                 ,{field:'title', title: '菜单名'}
-                ,{field:'icon', title: '图标',templet: '#iconTpl'}
+                ,{field:'icon', width: 70, title: '图标',templet: '#iconTpl'}
                 ,{field:'href',title: '链接'}
                 ,{field:'perms',title: '权限标识'}/* 
                 ,{ width: 220, align: 'center', toolbar: '#barTools' } */

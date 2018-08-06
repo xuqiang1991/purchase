@@ -25,12 +25,17 @@
 	<blockquote class="layui-elem-quote list_search">
 		<shiro:hasPermission name="sys:customers:save">
 			<div class="layui-inline">
-				<a class="layui-btn layui-btn-normal customersAdd_btn"><i class="layui-icon">&#xe608;</i>添加客户</a>
+				<a class="layui-btn customersAdd_btn"><i class="layui-icon">&#xe608;</i>添加</a>
+			</div>
+		</shiro:hasPermission>
+		<shiro:hasPermission name="sys:customers:update">
+			<div class="layui-inline">
+				<a class="layui-btn customersUpdate_btn"><i class="layui-icon">&#xe642;</i>修改</a>
 			</div>
 		</shiro:hasPermission>
 		<shiro:hasPermission name="sys:customers:delete">
 			<div class="layui-inline">
-				<a class="layui-btn layui-btn-danger batchDel" data-type="delCheckData"><i class="layui-icon">&#xe640;</i>客户删除</a>
+				<a class="layui-btn layui-btn-danger batchDel" data-type="delCheckData"><i class="layui-icon">&#xe640;</i>删除</a>
 			</div>
 		</shiro:hasPermission>
 	</blockquote>

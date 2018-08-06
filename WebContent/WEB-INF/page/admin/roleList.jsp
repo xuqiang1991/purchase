@@ -29,14 +29,17 @@
 	<blockquote class="layui-elem-quote list_search">
 		<shiro:hasPermission name="sys:role:save">
 			<div class="layui-inline">
-				<a class="layui-btn layui-btn-normal roleAdd_btn"><i
-					class="layui-icon">&#xe608;</i> 添加角色</a>
+				<a class="layui-btn  roleAdd_btn"><i class="layui-icon">&#xe608;</i> 添加</a>
+			</div>
+		</shiro:hasPermission>
+		<shiro:hasPermission name="sys:role:update">
+			<div class="layui-inline">
+				<a class="layui-btn roleUpdate_btn"><i class="layui-icon">&#xe642;</i> 编辑</a>
 			</div>
 		</shiro:hasPermission>
 		<shiro:hasPermission name="sys:role:delete">
 			<div class="layui-inline">
-				<a class="layui-btn layui-btn-danger batchDel"
-					data-type="delCheckData"><i class="layui-icon">&#xe640;</i>批量删除</a>
+				<a class="layui-btn layui-btn-danger batchDel" data-type="delCheckData"><i class="layui-icon">&#xe640;</i>删除</a>
 			</div>
 		</shiro:hasPermission>
 	</blockquote>

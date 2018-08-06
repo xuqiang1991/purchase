@@ -16,7 +16,7 @@ layui.config({
 		    ,limits:[10,20,30,40]
 		    ,cols: [[ //表头
               {type:'checkbox'}
-              ,{field:'id', title: 'ID', sort: true}
+              ,{field:'id', title: 'ID', width: 50, sort: true}
               ,{field:'fullName', title: '客户名称'}
               ,{field:'shortName', title: '客户简称'}
               ,{field:'type', title: '客户类别',templet: '#customersType'}
@@ -28,8 +28,8 @@ layui.config({
               ,{field:'area', title: '地区'}
               ,{field:'address', title: '地址'}
               ,{field:'isForce', title: '是否生效'}
-              ,{field:'remark', title: '备注'}
-              ,{title: '操作',toolbar: '#barEdit'}
+             // ,{field:'remark', title: '备注'}
+             // ,{title: '操作',toolbar: '#barEdit'}
 		    ]]
 				,page: true //开启分页
 				,where: {timestamp: (new Date()).valueOf()}

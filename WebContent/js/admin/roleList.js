@@ -16,11 +16,11 @@ layui.config({
 		    ,limits:[10,20,30,40]
 		    ,cols: [[ //表头
               {type:'checkbox'}
-              ,{field:'roleId', title: 'ID', sort: true}
+              ,{field:'roleId', title: 'ID', width: 50, sort: true}
               ,{field:'roleName', title: '角色名'}
               ,{field:'roleRemark', title: '角色描述'}
               //,{field:'roleName', title: '角色名',edit: 'text'}
-              ,{title: '操作',toolbar: '#barEdit'}
+              //,{title: '操作',toolbar: '#barEdit'}
 		    ]]
 				,page: true //开启分页
 				,where: {timestamp: (new Date()).valueOf()}

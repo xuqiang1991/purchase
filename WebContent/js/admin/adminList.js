@@ -15,20 +15,21 @@ layui.config({
 		    ,limits:[10,20,30,40]
 		    ,cols: [[ //表头
               {type:'checkbox'}
-              ,{field:'id', title: 'ID', sort: true}
-              ,{field:'username', title: '登陆名'}
-              ,{field:'fullname', title: '全称'}
-              ,{field:'eMail', title: '邮箱'}
-              ,{field:'sex', title: '性别',templet: '#sexTpl'}
-              ,{field:'birthday', title: '出生日期',templet: '<div>{{ formatTime(d.birthday,"yyyy-MM-dd")}}</div>'}
-              ,{field:'address', title: '地址'}
-              ,{field:'phone', title: '联系方式'}
-				,{field:'quarters', title: '岗位'}
-				,{field:'deptId', title: '部门'}
-                ,{field:'entryDate', title: '入职日期',templet: '<div>{{ formatTime(d.birthday,"yyyy-MM-dd")}}</div>'}
-                ,{field:'remark', title: '备注'}
-              ,{field:'roleName', title: '角色'}
-              ,{title: '操作',toolbar: '#barEdit'}
+              ,{field:'id', title: 'ID', width: 50, sort: true}
+              ,{field:'username', width: 100, title: '登陆名'}
+              ,{field:'fullname', width: 100, title: '全称'}
+              ,{field:'eMail', width: 150, title: '邮箱'}
+              ,{field:'sex', title: '性别', width: 60,templet: '#sexTpl'}
+              ,{field:'birthday', width: 100, title: '出生日期',templet: '<div>{{ formatTime(d.birthday,"yyyy-MM-dd")}}</div>'}
+              ,{field:'phone', width: 100, title: '联系方式'}
+				,{field:'quarters', width: 100, title: '岗位'}
+				,{field:'deptId', width: 100, title: '部门'}
+                ,{field:'entryDate', width: 100, title: '入职日期',templet: '<div>{{ formatTime(d.birthday,"yyyy-MM-dd")}}</div>'}
+                ,{field:'roleName', width: 100, title: '角色'}
+                ,{field:'address', title: '地址'}
+               // ,{field:'remark', title: '备注'}
+
+              //,{title: '操作',toolbar: '#barEdit'}
 		    ]]
 				,page: true //开启分页
 				,where: {timestamp: (new Date()).valueOf()}

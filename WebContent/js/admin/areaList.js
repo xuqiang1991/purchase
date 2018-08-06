@@ -10,7 +10,7 @@ layui.use(['element', 'layer', 'form', 'upload', 'treeGrid','jquery'], function 
 			,treeUpId:'parentId'//树形父id字段名称
 			,treeShowName:'name'//以树形式显示的字段
 			,cols: [[
-				{field: 'id',title: 'ID',templet:"#radioTpl",unresize:true}
+				{field: 'id',title: 'ID', width: 70,templet:"#radioTpl",unresize:true}
 				,{field:'name', title: '名称'}
 				,{field:'valid',title: '是否生效',templet:"#validTpl",unresize:true}
 			]]

@@ -28,14 +28,17 @@
 	<blockquote class="layui-elem-quote list_search">
 		<shiro:hasPermission name="sys:admin:save">
 			<div class="layui-inline">
-				<a class="layui-btn layui-btn-normal adminAdd_btn"><i
-					class="layui-icon">&#xe608;</i> 添加管理员</a>
+				<a class="layui-btn adminAdd_btn"><i class="layui-icon">&#xe608;</i> 添加</a>
+			</div>
+		</shiro:hasPermission>
+		<shiro:hasPermission name="sys:admin:update">
+			<div class="layui-inline">
+				<a class="layui-btn adminUpdate_btn"><i class="layui-icon">&#xe642;</i> 编辑</a>
 			</div>
 		</shiro:hasPermission>
 		<shiro:hasPermission name="sys:admin:delete">
 			<div class="layui-inline">
-				<a class="layui-btn layui-btn-danger batchDel"><i
-					class="layui-icon">&#xe640;</i>批量删除</a>
+				<a class="layui-btn layui-btn-danger batchDel"><i class="layui-icon">&#xe640;</i>删除</a>
 			</div>
 		</shiro:hasPermission>
 		<!-- <div class="layui-inline">

@@ -31,8 +31,7 @@
 			<div>
 				<div class="layui-inline">
 					<div class="layui-input-inline">
-						<input type="text" id="nickname" value="" placeholder="请输入昵称"
-							class="layui-input search_input">
+						<input type="text" id="nickname" value="" placeholder="请输入昵称" class="layui-input search_input">
 					</div>
 					<div class="layui-input-inline layui-form">
 						<select name="sex" class="" id="sex">
@@ -50,31 +49,27 @@
 							<option value="2">禁用</option>
 						</select>
 					</div>
+					<div class="layui-inline">
+						<input type="text" id="createTimeStart" class="layui-input userName" name="createTimeStart" placeholder="注册时间(开始)" value="">
+					</div>
+					<div class="layui-inline">
+						<input type="text" id="createTimeEnd" class="layui-input userName" name="createTimeEnd" placeholder="注册时间(结束)" value="">
+					</div>
+                    <div class="layui-inline">（支持模糊查询）</div>
 				</div>
 			</div>
 			<div style="margin-top: 1%">
-				<div class="layui-inline">
-					<input type="text" id="createTimeStart"
-						class="layui-input userName" name="createTimeStart"
-						placeholder="注册时间(开始)" value="">
-				</div>
-				<div class="layui-inline">
-					<input type="text" id="createTimeEnd" class="layui-input userName"
-						name="createTimeEnd" placeholder="注册时间(结束)" value="">
-				</div>
-				<a class="layui-btn search_btn" lay-submit="" data-type="search"
-					lay-filter="search">查询</a>
+				<a class="layui-btn search_btn" lay-submit="" data-type="search" lay-filter="search"><i class="layui-icon">&#xe615;</i>查询</a>
 				<shiro:hasPermission name="user:user:save">
 					<div class="layui-inline">
-						<a class="layui-btn layui-btn-normal userAdd_btn">添加用户</a>
+						<a class="layui-btn userAdd_btn"><i class="layui-icon">&#xe642;</i>添加</a>
 					</div>
 				</shiro:hasPermission>
 				<shiro:hasPermission name="user:user:delete">
 					<div class="layui-inline">
-						<a class="layui-btn layui-btn-danger batchDel">批量删除</a>
+						<a class="layui-btn layui-btn-danger batchDel"><i class="layui-icon">&#xe640;</i>删除</a>
 					</div>
 				</shiro:hasPermission>
-				<div class="layui-inline">（支持模糊查询）</div>
 			</div>
 	</blockquote>
 	</form>

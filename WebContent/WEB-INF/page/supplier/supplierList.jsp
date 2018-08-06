@@ -27,41 +27,58 @@
 </head>
 <body class="childrenBody">
 	<blockquote class="layui-elem-quote news_search">
-		<form class="layui-form">
-			<div>
-				<div class="layui-inline">
-					<div class="layui-input-inline">
-						<input type="text" id="name" value="" placeholder="请输入名称"
-							class="layui-input search_input">
-					</div>
-					<div class="layui-input-inline layui-form">
-						<select name="type" class="" id="type">
-							<option value="">请选择供应商类别</option>
-							<option value="0">材料供应商</option>
-							<option value="1">工程分包商</option>
-						</select>
-					</div>
-					<div class="layui-input-inline layui-form">
-						<input type="text" id="areaName" class="layui-input"
-							   lay-verify="required" placeholder="请选择地区" name="areaName">
-						<input type="hidden" id="areaId" name="areaId" value="${supplier.areaId }">
-					</div>
-					<div class="layui-input-inline layui-form">
-						<select name="valid" class="" id="valid">
-							<option value="">请选择是否有效</option>
-							<option value="1">有效</option>
-							<option value="0">无效</option>
-						</select>
-					</div>
-					<a class="layui-btn search_btn" lay-submit="" data-type="search" lay-filter="search">查询</a>
-					<shiro:hasPermission name="user:user:save">
-						<div class="layui-inline">
-							<a class="layui-btn layui-btn-normal" id="addSupplier">添加供应商</a>
-						</div>
-					</shiro:hasPermission>
-				</div>
-			</div>
-		</form>
+        <form class="layui-form">
+            <!-- 查询条件块 start -->
+            <div>
+                <div class="layui-input-inline">
+                    <input type="text" id="name" value="" placeholder="请输入名称" class="layui-input search_input">
+                </div>
+                <div class="layui-input-inline layui-form">
+                    <select name="type" class="" id="type">
+                        <option value="">请选择供应商类别</option>
+                        <option value="0">材料供应商</option>
+                        <option value="1">工程分包商</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline layui-form">
+                    <input type="text" id="areaName" class="layui-input" lay-verify="required" placeholder="请选择地区" name="areaName">
+                    <input type="hidden" id="areaId" name="areaId" value="${supplier.areaId }">
+                </div>
+                <div class="layui-input-inline layui-form">
+                    <select name="valid" class="" id="valid">
+                        <option value="">请选择是否有效</option>
+                        <option value="1">有效</option>
+                        <option value="0">无效</option>
+                    </select>
+                </div>
+            </div>
+            <!-- 查询条件块 end -->
+
+            <!-- 功能按钮块 start -->
+            <div style="padding-top: 1%;">
+                <shiro:hasPermission name="user:user:save">
+                    <div class="layui-inline">
+                        <a class="layui-btn search_btn" lay-submit="" data-type="search" lay-filter="search"><i class="layui-icon">&#xe615;</i>查询</a>
+                    </div>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="user:user:save">
+                    <div class="layui-inline">
+                        <a class="layui-btn" id="addSupplier"><i class="layui-icon">&#xe608;</i>添加</a>
+                    </div>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="user:user:save">
+                    <div class="layui-inline">
+                        <a class="layui-btn" id="editSupplier"><i class="layui-icon">&#xe642;</i>编辑</a>
+                    </div>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="user:user:save">
+                    <div class="layui-inline">
+                        <a class="layui-btn layui-btn-danger" id="delSupplier"><i class="layui-icon">&#xe640;</i>删除</a>
+                    </div>
+                </shiro:hasPermission>
+            </div>
+            <!-- 功能按钮块 end -->
+        </form>
 	</blockquote>
 	<div class="layui-form">
 		<table id="supplierList" lay-filter="supplierList"></table>
