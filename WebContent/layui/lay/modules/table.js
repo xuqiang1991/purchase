@@ -65,7 +65,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
     var rowCols = '{{#if(item2.colspan){}} colspan="{{item2.colspan}}"{{#} if(item2.rowspan){}} rowspan="{{item2.rowspan}}"{{#}}}';
     
     options = options || {};
-    return ['<table cellspacing="0" cellpadding="0" border="0" class="layui-table" style="width: 100%;"'
+    return ['<table cellspacing="0" cellpadding="0" border="0" class="layui-table" '
       ,'{{# if(d.data.skin){ }}lay-skin="{{d.data.skin}}"{{# } }} {{# if(d.data.size){ }}lay-size="{{d.data.size}}"{{# } }} {{# if(d.data.even){ }}lay-even{{# } }}>'
       ,'<thead>'
       ,'{{# layui.each(d.data.cols, function(i1, item1){ }}'
@@ -112,7 +112,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
   }
   
   //tbody区域模板
-  ,TPL_BODY = ['<table cellspacing="0" cellpadding="0" border="0" class="layui-table" style="width: 100%;"'
+  ,TPL_BODY = ['<table cellspacing="0" cellpadding="0" border="0" class="layui-table" '
     ,'{{# if(d.data.skin){ }}lay-skin="{{d.data.skin}}"{{# } }} {{# if(d.data.size){ }}lay-size="{{d.data.size}}"{{# } }} {{# if(d.data.even){ }}lay-even{{# } }}>'
     ,'<tbody></tbody>'
   ,'</table>'].join('')
@@ -257,11 +257,11 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
     that.layFixRight = reElem.find(ELEM_FIXR);
     that.layTool = reElem.find(ELEM_TOOL);
     that.layPage = reElem.find(ELEM_PAGE);
-    
+
     that.layTool.html(
       laytpl($(options.toolbar).html()||'').render(options)
     );
-    
+
     if(options.height) that.fullSize(); //设置body区域高度
     
     //如果多级表头，则填补表头高度
@@ -318,7 +318,12 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
       };
       return getWidth();
     }();
-    
+    //修复F5刷新获取不到隐藏的列宽
+    if(cntrWidth == null){
+        var top_ = $(".layui-show",top.window.document)
+        cntrWidth = top_.width();
+    }
+
     //统计列个数
     that.eachCols(function(){
       colNums++;
