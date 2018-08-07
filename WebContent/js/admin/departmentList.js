@@ -25,12 +25,16 @@ layui.use(['element', 'layer', 'form', 'upload', 'treeGrid','jquery'], function 
                 a=0;
             }
             //添加顶级菜单
-            layer.open({
+        var index =   layer.open({
                 type: 2,
                 title:"添加部门",
-                area: ['470px', '360px'],
                 content:ctx+"/sys/toSaveDepartment/"+a //这里content是一个普通的String
             })
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function(){
+            layui.layer.full(index);
+        })
+        layui.layer.full(index);
     })
 
     $("#editDepartment").click(function(){
@@ -39,12 +43,16 @@ layui.use(['element', 'layer', 'form', 'upload', 'treeGrid','jquery'], function 
             layer.msg("请选择要操作的菜单！",{icon: 5});
             return;
         }
-        layer.open({
+        var index =  layer.open({
             type: 2,
             title:"编辑部门",
-            area: ['470px', '360px'],
             content:ctx+"/sys/toEditDepartment/"+a
         })
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function(){
+            layui.layer.full(index);
+        })
+        layui.layer.full(index);
 
     })
 
