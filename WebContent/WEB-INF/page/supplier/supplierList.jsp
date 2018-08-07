@@ -41,7 +41,7 @@
                     </select>
                 </div>
                 <div class="layui-input-inline layui-form">
-                    <input type="text" id="areaName" class="layui-input" lay-verify="required" placeholder="请选择地区" name="areaName">
+                    <input type="text" id="areaName" class="layui-input" placeholder="请选择地区" name="areaName">
                     <input type="hidden" id="areaId" name="areaId" value="${supplier.areaId }">
                 </div>
                 <div class="layui-input-inline layui-form">

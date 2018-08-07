@@ -22,13 +22,17 @@ layui.use(['element', 'layer', 'form', 'upload', 'treeGrid','jquery'], function 
             if(a==undefined){
                 a=0;
             }
-            //添加顶级菜单
-            layer.open({
+        var index = layer.open({
                 type: 2,
                 title:"添加地区",
                 area: ['470px', '360px'],
                 content:ctx+"/sys/toSaveArea/"+a //这里content是一个普通的String
             })
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function(){
+            layui.layer.full(index);
+        })
+        layui.layer.full(index);
     })
 
     $("#editArea").click(function(){
@@ -37,12 +41,17 @@ layui.use(['element', 'layer', 'form', 'upload', 'treeGrid','jquery'], function 
             layer.msg("请选择要操作的地区！",{icon: 5});
             return;
         }
-        layer.open({
+       var index = layer.open({
             type: 2,
             title:"编辑地区",
             area: ['470px', '360px'],
             content:ctx+"/sys/toEditArea/"+a
         })
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function(){
+            layui.layer.full(index);
+        })
+        layui.layer.full(index);
 
     })
 
