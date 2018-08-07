@@ -11,8 +11,7 @@ layui.config({
 		    ,url: ctx+'/supplier/getSupplierList' //数据接口
             ,cellMinWidth: 100
 		    ,cols: [[ //表头
-              {type:'checkbox'}
-              ,{field:'id', title: 'ID', width: 50, sort: true}
+                {field: 'id',title: 'ID', width: 70,templet:"#radioTpl"}
               ,{field:'name', title: '名称'}
               ,{field:'nick', title: '简称'}
               ,{field:'type', title: '供应商类别',templet:"#typeTpl",unresize:true}

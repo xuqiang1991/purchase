@@ -104,8 +104,8 @@
 			<span style="color: #01AAED;">无效</span>
 		 {{#  } }}
 	</script>
-	<script>
-
-	</script>
+    <script type="text/html" id="radioTpl">
+        <input type="radio" name="id" value="{{d.id}}" title=" " lay-filter="radiodemo">
+    </script>
 </body>
 </html>
