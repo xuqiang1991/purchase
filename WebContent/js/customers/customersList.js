@@ -15,7 +15,7 @@ layui.config({
 		    ,limit:10//每页默认数
 		    ,limits:[10,20,30,40]
 		    ,cols: [[ //表头
-              {type:'checkbox'}
+              {type:'radio', width: 70,templet:"#radioTpl"}
               ,{field:'id', title: 'ID', width: 50, sort: true}
               ,{field:'fullName', title: '客户名称'}
               ,{field:'shortName', title: '客户简称'}
@@ -24,10 +24,10 @@ layui.config({
               ,{field:'chargePhone', title: '负责人电话'}
               ,{field:'linkName', title: '联系人'}
               ,{field:'linkPhone', title: '联系人电话'}
-              ,{field:'addDate', title: '新增时间'}
-              ,{field:'area', title: '地区'}
+              ,{field:'addDate', title: '新增时间',templet: '<div>{{ formatTime(d.addDate,"yyyy-MM-dd")}}</div>'}
+              ,{field:'areaName', title: '地区'}
               ,{field:'address', title: '地址'}
-              ,{field:'isForce', title: '是否生效'}
+              ,{field:'isForce', title: '是否生效',templet:"#customersIsForce"}
              // ,{field:'remark', title: '备注'}
              // ,{title: '操作',toolbar: '#barEdit'}
 		    ]]
@@ -105,9 +105,34 @@ layui.config({
 		})
 		layui.layer.full(index);
 	})
+
+
+    $(".customersUpdate_btn").click(function(){
+        var id = $(":radio[name='customersId']:checked").val();
+        if(id==undefined || id == null || id == ''){
+            layer.msg("请选择要操作的客户！",{icon: 5});
+            return;
+        }
+
+        var index = layui.layer.open({
+            title : "编辑客户",
+            type : 2,
+            content:ctx+"/customers/configCustomers?id="+id,
+            success : function(layero, index){
+                layui.layer.tips('点击此处返回客户列表', '.layui-layer-setwin .layui-layer-close', {
+                    tips: 3
+                });
+            }
+        })
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function(){
+            layui.layer.full(index);
+        })
+        layui.layer.full(index);
+    })
 	
-	//批量删除角色
-	$(".batchDel").click(function(){
+	//删除角色
+	$(".customersDel_btn").click(function(){
 		var checkStatus = table.checkStatus('roleList')
 	      ,data = checkStatus.data,roleStr='',flag=false;
 //	      layer.alert(JSON.stringify(data));

@@ -35,7 +35,7 @@ public class CustomersController {
 
 	@Autowired
 	private AdminService adminServiceImpl;
-	
+
 	@RequestMapping(value="/customersList")
 	@RequiresPermissions("sys:customers:list")
 	public String list() {
@@ -69,6 +69,11 @@ public class CustomersController {
             String id = req.getParameter("id");
             if(!StringUtils.isEmpty(id)){
                 customers = customersService.findById(Long.parseLong(id));
+                if(customers.getArea() != null){
+                	TbArea area = adminServiceImpl.selAreaById(customers.getArea());
+                	customers.setAreaName(area.getName());
+				}
+
             }
             req.setAttribute("customers",customers);
             List<TbArea> areas = adminServiceImpl.selAreaByParentId(null);

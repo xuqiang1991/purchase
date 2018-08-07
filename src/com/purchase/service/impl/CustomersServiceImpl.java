@@ -3,14 +3,14 @@ package com.purchase.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import com.purchase.mapper.admin.TbAreaMapper;
+import com.purchase.pojo.admin.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.purchase.mapper.admin.TbCustomersMapper;
-import com.purchase.pojo.admin.TbCustomers;
-import com.purchase.pojo.admin.TbCustomersExample;
 import com.purchase.service.CustomersService;
 import com.purchase.util.ResultUtil;
 
@@ -18,6 +18,9 @@ import com.purchase.util.ResultUtil;
 public class CustomersServiceImpl implements CustomersService {
 	@Autowired
 	private TbCustomersMapper customersMapper;
+
+	@Autowired
+    private TbAreaMapper areaMapper;
 
     @Override
     public boolean checkCustomersFullName(TbCustomers customers) {
@@ -56,16 +59,15 @@ public class CustomersServiceImpl implements CustomersService {
 		PageHelper.startPage(page, limit);
 		TbCustomersExample example = new TbCustomersExample();
 		List<TbCustomers> list = customersMapper.selectByExample(example);
-//		// 将roleName写进TbAdmin
-//		for (TbCustomers tbAdmin : list) {
-//			// tbAdmin.setRoleName();
-//			List<TbRoles> roles = selRoles();
-//			for (TbRoles tbRole : roles) {
-//				if (tbRole.getRoleId() == tbAdmin.getRoleId()) {
-//					tbAdmin.setRoleName(tbRole.getRoleName());
-//				}
-//			}
-//		}
+		// 将areaName写进TbCustomers
+		for (TbCustomers customers : list) {
+			List<TbArea> areas = areaMapper.selectByExample(new TbAreaExample());
+			for (TbArea area : areas) {
+				if (area.getId() == customers.getArea()) {
+                    customers.setAreaName(area.getName());
+				}
+			}
+		}
 		PageInfo<TbCustomers> pageInfo = new PageInfo<TbCustomers>(list);
 		ResultUtil resultUtil = new ResultUtil();
 		resultUtil.setCode(0);

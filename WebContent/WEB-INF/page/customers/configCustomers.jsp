@@ -46,20 +46,47 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">客户类型</label>
 			<div class="layui-input-block">
-				<c:if test="${customers.id != null }">
-					<c:if test="${customers.type == 0 }">
-						<input type="radio" name="type" value="0" title="发展商" checked>
-						<input type="radio" name="type" value="1" title="委托商">
-					</c:if>
-					<c:if test="${customers.type == 1 }">
-						<input type="radio" name="type" value="0" title="发展商" >
-						<input type="radio" name="type" value="1" title="委托商" checked>
-					</c:if>
-				</c:if>
-				<c:if test="${customers.id == null }">
-					<input type="radio" name="type" value="0" title="发展商" checked>
-					<input type="radio" name="type" value="1" title="委托商">
-				</c:if>
+                <c:choose>
+                    <c:when test="${customers.id != null && customers.id != ''}">
+                        <c:choose>
+                            <c:when test="${customers.type == 0}">0
+                                <input type="radio" name="type" value="0" title="发展商" checked>
+                                <input type="radio" name="type" value="1" title="委托商">
+                            </c:when>
+                            <c:otherwise>
+                                <input type="radio" name="type" value="0" title="发展商" >
+                                <input type="radio" name="type" value="1" title="委托商" checked>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:when>
+                    <c:otherwise>
+                        <input type="radio" name="type" value="0" title="发展商" checked>
+                        <input type="radio" name="type" value="1" title="委托商">
+                    </c:otherwise>
+                </c:choose>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">是否生效</label>
+			<div class="layui-input-block">
+                <c:choose>
+                    <c:when test="${customers.id != null && customers.id != ''}">
+                        <c:choose>
+                            <c:when test="${customers.isForce == 0}">
+                                <input type="radio" name="isForce" value="1" title="生效" >
+                                <input type="radio" name="isForce" value="0" title="失效" checked>
+                            </c:when>
+                            <c:otherwise>
+                                <input type="radio" name="isForce" value="1" title="生效" checked>
+                                <input type="radio" name="isForce" value="0" title="失效">
+                            </c:otherwise>
+                        </c:choose>
+                    </c:when>
+                    <c:otherwise>
+                        <input type="radio" name="isForce" value="1" title="生效">
+                        <input type="radio" name="isForce" value="0" title="失效" checked>
+                    </c:otherwise>
+                </c:choose>
 			</div>
 		</div>
 		<div class="layui-form-item">
@@ -89,7 +116,7 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">地区</label>
 			<div class="layui-input-block">
-				<input type="text" id="areaName" class="layui-input" lay-verify="required" placeholder="请选择地区" name="areaName" value="${!empty area ? area.name : ''}">
+				<input type="text" id="areaName" class="layui-input" lay-verify="required" placeholder="请选择地区" name="areaName" value="${!empty customers.areaName ? customers.areaName : ''}">
 				<input type="hidden" id="areaId" name="area" value="${customers.area }">
 			</div>
 		</div>
@@ -114,7 +141,7 @@
 		</div>
 	</form>
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>
-	<script type="text/javascript" src="${ctx }/js/customers/configCustomers.js"></script>
+	<script type="text/javascript" src="${ctx }/js/customers/configCustomers.js?v=123"></script>
 	<script type="text/javascript" src="${ctx }/js/admin/areaSelect.js"></script>
 </body>
 </html>

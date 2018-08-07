@@ -29,6 +29,8 @@ public class TbCustomers {
 
     private Date addDate;
 
+    private String areaName;
+
     public Long getId() {
         return id;
     }
@@ -131,5 +133,13 @@ public class TbCustomers {
 
     public void setAddDate(Date addDate) {
         this.addDate = addDate;
+    }
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
     }
 }

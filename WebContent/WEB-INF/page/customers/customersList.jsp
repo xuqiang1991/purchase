@@ -30,12 +30,12 @@
 		</shiro:hasPermission>
 		<shiro:hasPermission name="sys:customers:update">
 			<div class="layui-inline">
-				<a class="layui-btn customersUpdate_btn"><i class="layui-icon">&#xe642;</i>修改</a>
+				<a class="layui-btn customersUpdate_btn"><i class="layui-icon">&#xe642;</i>编辑</a>
 			</div>
 		</shiro:hasPermission>
 		<shiro:hasPermission name="sys:customers:delete">
 			<div class="layui-inline">
-				<a class="layui-btn layui-btn-danger batchDel" data-type="delCheckData"><i class="layui-icon">&#xe640;</i>删除</a>
+				<a class="layui-btn layui-btn-danger customersDel_btn" data-type="delCheckData"><i class="layui-icon">&#xe640;</i>删除</a>
 			</div>
 		</shiro:hasPermission>
 	</blockquote>
@@ -48,11 +48,21 @@
 	  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 	</script>
 	<script type="text/html" id="customersType">
-		{{#  if(d.type === '0'){ }}
+		{{#  if(d.type == 0){ }}
 		发展商
 		{{#  } else{ }}
 		委托商
 		{{#  } }}
 	</script>
+    <script type="text/html" id="customersIsForce">
+        {{#  if(d.isForce == 1){ }}
+        <span style="color: #FFB800;">有效</span>
+        {{#  } else{ }}
+        <span style="color: #01AAED;">失效</span>
+        {{#  } }}
+    </script>
+    <script type="text/html" id="radioTpl">
+        <input type="radio" name="customersId" value="{{d.id}}" title=" " lay-filter="radiodemo">
+    </script>
 </body>
 </html>
