@@ -65,7 +65,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
     var rowCols = '{{#if(item2.colspan){}} colspan="{{item2.colspan}}"{{#} if(item2.rowspan){}} rowspan="{{item2.rowspan}}"{{#}}}';
     
     options = options || {};
-    return ['<table cellspacing="0" cellpadding="0" border="0" class="layui-table" '
+    return ['<table cellspacing="0" cellpadding="0" border="0" class="layui-table" style="width: 100%;"'
       ,'{{# if(d.data.skin){ }}lay-skin="{{d.data.skin}}"{{# } }} {{# if(d.data.size){ }}lay-size="{{d.data.size}}"{{# } }} {{# if(d.data.even){ }}lay-even{{# } }}>'
       ,'<thead>'
       ,'{{# layui.each(d.data.cols, function(i1, item1){ }}'
@@ -112,7 +112,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
   }
   
   //tbody区域模板
-  ,TPL_BODY = ['<table cellspacing="0" cellpadding="0" border="0" class="layui-table" '
+  ,TPL_BODY = ['<table cellspacing="0" cellpadding="0" border="0" class="layui-table" style="width: 100%;"'
     ,'{{# if(d.data.skin){ }}lay-skin="{{d.data.skin}}"{{# } }} {{# if(d.data.size){ }}lay-size="{{d.data.size}}"{{# } }} {{# if(d.data.even){ }}lay-even{{# } }}>'
     ,'<tbody></tbody>'
   ,'</table>'].join('')
@@ -507,7 +507,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
           
           if(content === undefined || content === null) content = '';
           if(item3.colspan > 1) return;
-          
+
           //td内容
           var td = ['<td data-field="'+ field +'" '+ function(){
             var attr = [];
@@ -840,7 +840,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
         that.scrollPatchWStatus = true;
       });
     }
-    
+
     if(scollWidth && scollHeight){
       if(!that.elem.find('.layui-table-patch')[0]){
         var patchElem = $('<th class="layui-table-patch"><div class="layui-table-cell"></div></th>'); //补丁元素
