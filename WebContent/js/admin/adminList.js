@@ -14,7 +14,7 @@ layui.config({
 		    ,limit:10//每页默认数
 		    ,limits:[10,20,30,40]
 		    ,cols: [[ //表头
-              {type:'checkbox'}
+                {type:'radio', width: 70,templet:"#radioTpl"}
               ,{field:'id', title: 'ID', width: 50, sort: true}
               ,{field:'username', width: 100, title: '登陆名'}
               ,{field:'fullname', width: 100, title: '全称'}
@@ -94,6 +94,44 @@ layui.config({
 		})
 		layui.layer.full(index);
 	})
+
+    $(".adminUpdate_btn").click(function () {
+        var adminId=$("#adminId").val();
+        var id = $(":radio[name='adminId']:checked").val();
+        if(id==undefined || id == null || id == ''){
+            layer.msg("请选择要操作的客户！",{icon: 5});
+            return;
+        }
+        if(id=='1'){
+            layer.msg("不允许编辑此用户！",{icon: 5});
+            return;
+        }
+        if(id==adminId){
+            layer.msg("不允许编辑自己！",{icon: 5});
+            return;
+        }
+        /*layer.open({
+            type: 2,
+            title:"编辑角色",
+            area: ['580px', '560px'],
+            content:ctx+"/sys/editAdmin/"+id //这里content是一个普通的String
+        })*/
+        var index = layui.layer.open({
+            title : "编辑用户",
+            type : 2,
+            content:ctx+"/sys/editAdmin/"+id,
+            success : function(layero, index){
+                layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
+                    tips: 3
+                });
+            }
+        })
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function(){
+            layui.layer.full(index);
+        })
+        layui.layer.full(index);
+    });
 	
 	//批量删除角色
 	$(".batchDel").click(function(){

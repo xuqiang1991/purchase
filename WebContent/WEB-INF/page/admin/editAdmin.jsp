@@ -57,22 +57,22 @@
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label">性别</label>
+			<label class="layui-form-label">性别${ad.sex}</label>
 			<div class="layui-input-block">
 			<c:if test="${ad.sex=='0' }">
 				<input type="radio" name="sex" value="1" title="男" >
 				<input type="radio" name="sex" value="0" title="女" checked> 
-				<input type="radio" name="sex" value="3" title="保密">
+				<input type="radio" name="sex" value="2" title="保密">
 			</c:if>
 			<c:if test="${ad.sex=='1' }">
 				<input type="radio" name="sex" value="1" title="男" checked>
 				<input type="radio" name="sex" value="0" title="女" > 
-				<input type="radio" name="sex" value="3" title="保密">
+				<input type="radio" name="sex" value="2" title="保密">
 			</c:if>
 			<c:if test="${ad.sex=='2' }">
 				<input type="radio" name="sex" value="1" title="男" >
 				<input type="radio" name="sex" value="0" title="女"> 
-				<input type="radio" name="sex" value="3" title="保密" checked>
+				<input type="radio" name="sex" value="2" title="保密" checked>
 			</c:if>
 			</div>
 		</div>
@@ -124,7 +124,7 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">入职日期</label>
 			<div class="layui-input-block">
-				<input type="text" id="entryDate" name="entryDate" class="layui-input userName" lay-verify="required" readonly placeholder="请选择日期" value="${ad.entryDate}">
+				<input type="text" id="entryDate" name="entryDate" class="layui-input userName" lay-verify="required" readonly placeholder="请选择日期" value="${fn:substring(ad.entryDate, 0, 10)}">
 			</div>
 		</div>
 

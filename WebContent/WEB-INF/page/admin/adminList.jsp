@@ -62,5 +62,8 @@
    		 	保密
   		{{#  } }}
 	</script>
+    <script type="text/html" id="radioTpl">
+        <input type="radio" name="adminId" value="{{d.id}}" title=" " lay-filter="radiodemo">
+    </script>
 </body>
 </html>
