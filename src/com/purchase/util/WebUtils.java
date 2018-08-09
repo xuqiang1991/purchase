@@ -1,18 +1,17 @@
 package com.purchase.util;
 
-import java.io.PrintWriter;
-import java.net.InetAddress;
-import java.net.URLDecoder;
-import java.net.UnknownHostException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.URLDecoder;
+import java.net.UnknownHostException;
 
 public class WebUtils {
 	public static Logger log = LoggerFactory.getLogger(WebUtils.class);
@@ -139,4 +138,27 @@ public class WebUtils {
 	 		out.flush();
 	 		out.close();
 	 	}
+
+	/**
+	 * 是否手机端
+	 * @param requestHeader
+	 * @return
+	 */
+	public static boolean  isMobileDevice(String requestHeader){
+		/**
+		 * android : 所有android设备
+		 * mac os : iphone ipad
+		 * windows phone:Nokia等windows系统的手机
+		 */
+		String[] deviceArray = new String[]{"android","mac os","windows phone"};
+		if(requestHeader == null)
+			return false;
+		requestHeader = requestHeader.toLowerCase();
+		for(int i=0;i<deviceArray.length;i++){
+			if(requestHeader.indexOf(deviceArray[i])>0){
+				return true;
+			}
+		}
+		return false;
+	}
 }

@@ -27,6 +27,7 @@
 	<mvc:resources location="/css/" mapping="/css/**"/>
 	<mvc:resources location="/js/" mapping="/js/**"/>
 	<mvc:resources location="/layui/" mapping="/layui/**"/>
+	<mvc:resources location="/mui/" mapping="/mui/**"/>
 	<mvc:resources location="/json/" mapping="/json/**"/>
 	<mvc:resources location="/WEB-INF/page/" mapping="/page/**"/>
 	

@@ -7,6 +7,7 @@ import com.purchase.service.AdminService;
 import com.purchase.util.RRException;
 import com.purchase.util.ResultUtil;
 import com.purchase.util.ShiroUtils;
+import com.purchase.util.WebUtils;
 import com.purchase.vo.admin.Menu;
 import com.purchase.vo.admin.XtreeData;
 import org.apache.commons.lang.StringUtils;
@@ -47,7 +48,13 @@ public class AdminController {
 	public String index(HttpServletRequest req) {
 		TbAdmin admin = (TbAdmin)SecurityUtils.getSubject().getPrincipal();
 		req.setAttribute("admin", admin);
-		return "redirect:/index.jsp";
+		String requestHeader = req.getHeader("user-agent");
+
+		if(WebUtils.isMobileDevice(requestHeader)){
+			return "mobile/index";
+		}else {
+			return "redirect:/index.jsp";
+		}
 	}
 	@RequestMapping("/refuse")
 	public String refuse() {

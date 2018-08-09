@@ -30,6 +30,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
 				/css/**=anon
 				/js/**=anon
 				/layui/**=anon
+				/mui/**=anon
 				/sys/vcode=anon
 				/sys/getMenus=anon
 				/sys/login=anon
