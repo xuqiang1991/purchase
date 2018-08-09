@@ -16,16 +16,16 @@ layui.config({
 		    ,cols: [[ //表头
                 {type:'radio', width: 70,templet:"#radioTpl"}
               ,{field:'id', title: 'ID', width: 50, sort: true}
-              ,{field:'username', width: 100, title: '登陆名'}
-              ,{field:'fullname', width: 100, title: '全称'}
+              ,{field:'username', width: 120, title: '登陆名'}
+              ,{field:'fullname', width: 120, title: '全称'}
               ,{field:'eMail', width: 150, title: '邮箱'}
               ,{field:'sex', title: '性别', width: 60,templet: '#sexTpl'}
-              ,{field:'birthday', width: 100, title: '出生日期',templet: '<div>{{ formatTime(d.birthday,"yyyy-MM-dd")}}</div>'}
-              ,{field:'phone', width: 100, title: '联系方式'}
+              ,{field:'birthday', width: 120, title: '出生日期',templet: '<div>{{ formatTime(d.birthday,"yyyy-MM-dd")}}</div>'}
+              ,{field:'phone', width: 120, title: '联系方式'}
 				,{field:'quarters', width: 100, title: '岗位'}
 				,{field:'deptId', width: 100, title: '部门'}
-                ,{field:'entryDate', width: 100, title: '入职日期',templet: '<div>{{ formatTime(d.birthday,"yyyy-MM-dd")}}</div>'}
-                ,{field:'roleName', width: 100, title: '角色'}
+                ,{field:'entryDate', width: 120, title: '入职日期',templet: '<div>{{ formatTime(d.birthday,"yyyy-MM-dd")}}</div>'}
+                ,{field:'roleName', width: 120, title: '角色'}
                 ,{field:'address', title: '地址'}
                // ,{field:'remark', title: '备注'}
 

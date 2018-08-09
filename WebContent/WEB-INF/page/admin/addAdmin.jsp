@@ -132,7 +132,13 @@
 				<textarea type="text" name="remark" class="layui-textarea" placeholder="请输入备注"></textarea>
 			</div>
 		</div>
-
+		<div class="layui-form-item">
+			<label class="layui-form-label">用户状态</label>
+			<div class="layui-input-block">
+				<input type="radio" name="isOnJob" value="1" title="激活" checked>
+				<input type="radio" name="isOnJob" value="0" title="停用">
+			</div>
+		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">分配角色</label>
 			<div class="layui-input-block">

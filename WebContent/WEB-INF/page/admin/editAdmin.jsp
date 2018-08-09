@@ -138,6 +138,18 @@
 			<label class="layui-form-label">用户状态</label>
 			<div class="layui-input-block">
 				<input type="checkbox" name="isOnJob" lay-skin="switch" lay-text="激活|停用" value="${ad.isOnJob}" checked>
+				<c:when test="${ad.id != null && ad.id != ''}">
+					<c:choose>
+						<c:when test="${ad.isOnJob == 0}">
+							<input type="radio" name="isOnJob" value="1" title="激活" >
+							<input type="radio" name="isOnJob" value="0" title="停用" checked>
+						</c:when>
+						<c:otherwise>
+							<input type="radio" name="isOnJob" value="1" title="激活" checked>
+							<input type="radio" name="isOnJob" value="0" title="停用">
+						</c:otherwise>
+					</c:choose>
+				</c:when>
 			</div>
 		</div>
 
