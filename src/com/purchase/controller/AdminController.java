@@ -49,9 +49,14 @@ public class AdminController {
 		TbAdmin admin = (TbAdmin)SecurityUtils.getSubject().getPrincipal();
 		req.setAttribute("admin", admin);
 		String requestHeader = req.getHeader("user-agent");
+		boolean isMobile = WebUtils.isMobileDevice(requestHeader);
 
-		if(WebUtils.isMobileDevice(requestHeader)){
-			return "mobile/index";
+		if(isMobile){
+			if(requestHeader.indexOf("MicroMessenger")>-1){
+				return "redirect:/sys/wx/auth";
+			}else {
+				return "mobile/index";
+			}
 		}else {
 			return "redirect:/index.jsp";
 		}

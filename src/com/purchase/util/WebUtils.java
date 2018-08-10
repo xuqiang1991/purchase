@@ -144,7 +144,7 @@ public class WebUtils {
 	 * @param requestHeader
 	 * @return
 	 */
-	public static boolean  isMobileDevice(String requestHeader){
+	public static boolean isMobileDevice(String requestHeader){
 		/**
 		 * android : 所有android设备
 		 * mac os : iphone ipad

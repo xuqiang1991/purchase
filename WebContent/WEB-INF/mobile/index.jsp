@@ -1,13 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/page/include/taglib.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 	<title></title>
-	<link href="${ctx }/mui/css/mui.min.css" rel="stylesheet"/>
+	<link href="../../mui/css/mui.css" rel="stylesheet"/>
 </head>
 <body>
 <header class="mui-bar mui-bar-nav">
@@ -32,7 +29,7 @@
 		<span class="mui-tab-label">设置</span>
 	</a>
 </nav>
-<script src="${ctx }/mui/js/mui.min.js"></script>
+<script src="../../mui/js/mui.min.js"></script>
 <script type="text/javascript" charset="utf-8">
     //选项卡点击事件
     mui('.mui-bar-tab').on('tap', 'a', function(e) {
