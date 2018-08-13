@@ -52,6 +52,7 @@ public class WechatMpConfig {
         wxMpInMemoryConfigStorage.setAppId(WeiXinConfig.APPID);
         wxMpInMemoryConfigStorage.setSecret(WeiXinConfig.SECRET);
         wxMpInMemoryConfigStorage.setToken(WeiXinConfig.TOKEN);
+        wxMpInMemoryConfigStorage.setAesKey(WeiXinConfig.AESKEY);
         return wxMpInMemoryConfigStorage;
     }
 
