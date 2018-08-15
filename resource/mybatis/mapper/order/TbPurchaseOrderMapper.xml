@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.purchase.mapper.order.TbPurchaseOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.purchase.pojo.order.TbPurchaseOrder" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="supplier_id" property="supplierId" jdbcType="BIGINT" />
+    <result column="project_id" property="projectId" jdbcType="BIGINT" />
+    <result column="contract_id" property="contractId" jdbcType="BIGINT" />
+    <result column="contract_money" property="contractMoney" jdbcType="DECIMAL" />
+    <result column="payment_ratio" property="paymentRatio" jdbcType="DOUBLE" />
+    <result column="request_amount" property="requestAmount" jdbcType="DECIMAL" />
+    <result column="payment_amount" property="paymentAmount" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="summary" property="summary" jdbcType="VARCHAR" />
+    <result column="cost_depart_approval" property="costDepartApproval" jdbcType="BIT" />
+    <result column="cost_depart_user" property="costDepartUser" jdbcType="VARCHAR" />
+    <result column="cost_depart_date" property="costDepartDate" jdbcType="TIMESTAMP" />
+    <result column="cost_depart_opinion" property="costDepartOpinion" jdbcType="VARCHAR" />
+    <result column="project_depart_approval" property="projectDepartApproval" jdbcType="BIT" />
+    <result column="project_depart_user" property="projectDepartUser" jdbcType="VARCHAR" />
+    <result column="project_depart_date" property="projectDepartDate" jdbcType="TIMESTAMP" />
+    <result column="project_depart_opinion" property="projectDepartOpinion" jdbcType="VARCHAR" />
+    <result column="manager_depart_approval" property="managerDepartApproval" jdbcType="BIT" />
+    <result column="manager_depart_user" property="managerDepartUser" jdbcType="VARCHAR" />
+    <result column="manager_depart_date" property="managerDepartDate" jdbcType="TIMESTAMP" />
+    <result column="manager_depart_opinion" property="managerDepartOpinion" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, type, create_user, create_time, supplier_id, project_id, contract_id, contract_money, 
+    payment_ratio, request_amount, payment_amount, status, summary, cost_depart_approval, 
+    cost_depart_user, cost_depart_date, cost_depart_opinion, project_depart_approval, 
+    project_depart_user, project_depart_date, project_depart_opinion, manager_depart_approval, 
+    manager_depart_user, manager_depart_date, manager_depart_opinion
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.purchase.pojo.order.TbPurchaseOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_purchase_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_purchase_order
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tb_purchase_order
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.purchase.pojo.order.TbPurchaseOrderExample" >
+    delete from tb_purchase_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.purchase.pojo.order.TbPurchaseOrder" >
+    insert into tb_purchase_order (id, type, create_user, 
+      create_time, supplier_id, project_id, 
+      contract_id, contract_money, payment_ratio, 
+      request_amount, payment_amount, status, 
+      summary, cost_depart_approval, cost_depart_user, 
+      cost_depart_date, cost_depart_opinion, project_depart_approval, 
+      project_depart_user, project_depart_date, 
+      project_depart_opinion, manager_depart_approval, 
+      manager_depart_user, manager_depart_date, 
+      manager_depart_opinion)
+    values (#{id,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{createUser,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{supplierId,jdbcType=BIGINT}, #{projectId,jdbcType=BIGINT}, 
+      #{contractId,jdbcType=BIGINT}, #{contractMoney,jdbcType=DECIMAL}, #{paymentRatio,jdbcType=DOUBLE}, 
+      #{requestAmount,jdbcType=DECIMAL}, #{paymentAmount,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, 
+      #{summary,jdbcType=VARCHAR}, #{costDepartApproval,jdbcType=BIT}, #{costDepartUser,jdbcType=VARCHAR}, 
+      #{costDepartDate,jdbcType=TIMESTAMP}, #{costDepartOpinion,jdbcType=VARCHAR}, #{projectDepartApproval,jdbcType=BIT}, 
+      #{projectDepartUser,jdbcType=VARCHAR}, #{projectDepartDate,jdbcType=TIMESTAMP}, 
+      #{projectDepartOpinion,jdbcType=VARCHAR}, #{managerDepartApproval,jdbcType=BIT}, 
+      #{managerDepartUser,jdbcType=VARCHAR}, #{managerDepartDate,jdbcType=TIMESTAMP}, 
+      #{managerDepartOpinion,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.purchase.pojo.order.TbPurchaseOrder" >
+    insert into tb_purchase_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="supplierId != null" >
+        supplier_id,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="contractId != null" >
+        contract_id,
+      </if>
+      <if test="contractMoney != null" >
+        contract_money,
+      </if>
+      <if test="paymentRatio != null" >
+        payment_ratio,
+      </if>
+      <if test="requestAmount != null" >
+        request_amount,
+      </if>
+      <if test="paymentAmount != null" >
+        payment_amount,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="summary != null" >
+        summary,
+      </if>
+      <if test="costDepartApproval != null" >
+        cost_depart_approval,
+      </if>
+      <if test="costDepartUser != null" >
+        cost_depart_user,
+      </if>
+      <if test="costDepartDate != null" >
+        cost_depart_date,
+      </if>
+      <if test="costDepartOpinion != null" >
+        cost_depart_opinion,
+      </if>
+      <if test="projectDepartApproval != null" >
+        project_depart_approval,
+      </if>
+      <if test="projectDepartUser != null" >
+        project_depart_user,
+      </if>
+      <if test="projectDepartDate != null" >
+        project_depart_date,
+      </if>
+      <if test="projectDepartOpinion != null" >
+        project_depart_opinion,
+      </if>
+      <if test="managerDepartApproval != null" >
+        manager_depart_approval,
+      </if>
+      <if test="managerDepartUser != null" >
+        manager_depart_user,
+      </if>
+      <if test="managerDepartDate != null" >
+        manager_depart_date,
+      </if>
+      <if test="managerDepartOpinion != null" >
+        manager_depart_opinion,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="supplierId != null" >
+        #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=BIGINT},
+      </if>
+      <if test="contractId != null" >
+        #{contractId,jdbcType=BIGINT},
+      </if>
+      <if test="contractMoney != null" >
+        #{contractMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentRatio != null" >
+        #{paymentRatio,jdbcType=DOUBLE},
+      </if>
+      <if test="requestAmount != null" >
+        #{requestAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentAmount != null" >
+        #{paymentAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null" >
+        #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="costDepartApproval != null" >
+        #{costDepartApproval,jdbcType=BIT},
+      </if>
+      <if test="costDepartUser != null" >
+        #{costDepartUser,jdbcType=VARCHAR},
+      </if>
+      <if test="costDepartDate != null" >
+        #{costDepartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="costDepartOpinion != null" >
+        #{costDepartOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="projectDepartApproval != null" >
+        #{projectDepartApproval,jdbcType=BIT},
+      </if>
+      <if test="projectDepartUser != null" >
+        #{projectDepartUser,jdbcType=VARCHAR},
+      </if>
+      <if test="projectDepartDate != null" >
+        #{projectDepartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectDepartOpinion != null" >
+        #{projectDepartOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="managerDepartApproval != null" >
+        #{managerDepartApproval,jdbcType=BIT},
+      </if>
+      <if test="managerDepartUser != null" >
+        #{managerDepartUser,jdbcType=VARCHAR},
+      </if>
+      <if test="managerDepartDate != null" >
+        #{managerDepartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="managerDepartOpinion != null" >
+        #{managerDepartOpinion,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.purchase.pojo.order.TbPurchaseOrderExample" resultType="java.lang.Integer" >
+    select count(*) from tb_purchase_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_purchase_order
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null" >
+        create_user = #{record.createUser,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.supplierId != null" >
+        supplier_id = #{record.supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="record.projectId != null" >
+        project_id = #{record.projectId,jdbcType=BIGINT},
+      </if>
+      <if test="record.contractId != null" >
+        contract_id = #{record.contractId,jdbcType=BIGINT},
+      </if>
+      <if test="record.contractMoney != null" >
+        contract_money = #{record.contractMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="record.paymentRatio != null" >
+        payment_ratio = #{record.paymentRatio,jdbcType=DOUBLE},
+      </if>
+      <if test="record.requestAmount != null" >
+        request_amount = #{record.requestAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.paymentAmount != null" >
+        payment_amount = #{record.paymentAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.summary != null" >
+        summary = #{record.summary,jdbcType=VARCHAR},
+      </if>
+      <if test="record.costDepartApproval != null" >
+        cost_depart_approval = #{record.costDepartApproval,jdbcType=BIT},
+      </if>
+      <if test="record.costDepartUser != null" >
+        cost_depart_user = #{record.costDepartUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.costDepartDate != null" >
+        cost_depart_date = #{record.costDepartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.costDepartOpinion != null" >
+        cost_depart_opinion = #{record.costDepartOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectDepartApproval != null" >
+        project_depart_approval = #{record.projectDepartApproval,jdbcType=BIT},
+      </if>
+      <if test="record.projectDepartUser != null" >
+        project_depart_user = #{record.projectDepartUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectDepartDate != null" >
+        project_depart_date = #{record.projectDepartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.projectDepartOpinion != null" >
+        project_depart_opinion = #{record.projectDepartOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerDepartApproval != null" >
+        manager_depart_approval = #{record.managerDepartApproval,jdbcType=BIT},
+      </if>
+      <if test="record.managerDepartUser != null" >
+        manager_depart_user = #{record.managerDepartUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerDepartDate != null" >
+        manager_depart_date = #{record.managerDepartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.managerDepartOpinion != null" >
+        manager_depart_opinion = #{record.managerDepartOpinion,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_purchase_order
+    set id = #{record.id,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      supplier_id = #{record.supplierId,jdbcType=BIGINT},
+      project_id = #{record.projectId,jdbcType=BIGINT},
+      contract_id = #{record.contractId,jdbcType=BIGINT},
+      contract_money = #{record.contractMoney,jdbcType=DECIMAL},
+      payment_ratio = #{record.paymentRatio,jdbcType=DOUBLE},
+      request_amount = #{record.requestAmount,jdbcType=DECIMAL},
+      payment_amount = #{record.paymentAmount,jdbcType=DECIMAL},
+      status = #{record.status,jdbcType=VARCHAR},
+      summary = #{record.summary,jdbcType=VARCHAR},
+      cost_depart_approval = #{record.costDepartApproval,jdbcType=BIT},
+      cost_depart_user = #{record.costDepartUser,jdbcType=VARCHAR},
+      cost_depart_date = #{record.costDepartDate,jdbcType=TIMESTAMP},
+      cost_depart_opinion = #{record.costDepartOpinion,jdbcType=VARCHAR},
+      project_depart_approval = #{record.projectDepartApproval,jdbcType=BIT},
+      project_depart_user = #{record.projectDepartUser,jdbcType=VARCHAR},
+      project_depart_date = #{record.projectDepartDate,jdbcType=TIMESTAMP},
+      project_depart_opinion = #{record.projectDepartOpinion,jdbcType=VARCHAR},
+      manager_depart_approval = #{record.managerDepartApproval,jdbcType=BIT},
+      manager_depart_user = #{record.managerDepartUser,jdbcType=VARCHAR},
+      manager_depart_date = #{record.managerDepartDate,jdbcType=TIMESTAMP},
+      manager_depart_opinion = #{record.managerDepartOpinion,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.purchase.pojo.order.TbPurchaseOrder" >
+    update tb_purchase_order
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="supplierId != null" >
+        supplier_id = #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=BIGINT},
+      </if>
+      <if test="contractId != null" >
+        contract_id = #{contractId,jdbcType=BIGINT},
+      </if>
+      <if test="contractMoney != null" >
+        contract_money = #{contractMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentRatio != null" >
+        payment_ratio = #{paymentRatio,jdbcType=DOUBLE},
+      </if>
+      <if test="requestAmount != null" >
+        request_amount = #{requestAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentAmount != null" >
+        payment_amount = #{paymentAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null" >
+        summary = #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="costDepartApproval != null" >
+        cost_depart_approval = #{costDepartApproval,jdbcType=BIT},
+      </if>
+      <if test="costDepartUser != null" >
+        cost_depart_user = #{costDepartUser,jdbcType=VARCHAR},
+      </if>
+      <if test="costDepartDate != null" >
+        cost_depart_date = #{costDepartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="costDepartOpinion != null" >
+        cost_depart_opinion = #{costDepartOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="projectDepartApproval != null" >
+        project_depart_approval = #{projectDepartApproval,jdbcType=BIT},
+      </if>
+      <if test="projectDepartUser != null" >
+        project_depart_user = #{projectDepartUser,jdbcType=VARCHAR},
+      </if>
+      <if test="projectDepartDate != null" >
+        project_depart_date = #{projectDepartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectDepartOpinion != null" >
+        project_depart_opinion = #{projectDepartOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="managerDepartApproval != null" >
+        manager_depart_approval = #{managerDepartApproval,jdbcType=BIT},
+      </if>
+      <if test="managerDepartUser != null" >
+        manager_depart_user = #{managerDepartUser,jdbcType=VARCHAR},
+      </if>
+      <if test="managerDepartDate != null" >
+        manager_depart_date = #{managerDepartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="managerDepartOpinion != null" >
+        manager_depart_opinion = #{managerDepartOpinion,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.purchase.pojo.order.TbPurchaseOrder" >
+    update tb_purchase_order
+    set type = #{type,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      supplier_id = #{supplierId,jdbcType=BIGINT},
+      project_id = #{projectId,jdbcType=BIGINT},
+      contract_id = #{contractId,jdbcType=BIGINT},
+      contract_money = #{contractMoney,jdbcType=DECIMAL},
+      payment_ratio = #{paymentRatio,jdbcType=DOUBLE},
+      request_amount = #{requestAmount,jdbcType=DECIMAL},
+      payment_amount = #{paymentAmount,jdbcType=DECIMAL},
+      status = #{status,jdbcType=VARCHAR},
+      summary = #{summary,jdbcType=VARCHAR},
+      cost_depart_approval = #{costDepartApproval,jdbcType=BIT},
+      cost_depart_user = #{costDepartUser,jdbcType=VARCHAR},
+      cost_depart_date = #{costDepartDate,jdbcType=TIMESTAMP},
+      cost_depart_opinion = #{costDepartOpinion,jdbcType=VARCHAR},
+      project_depart_approval = #{projectDepartApproval,jdbcType=BIT},
+      project_depart_user = #{projectDepartUser,jdbcType=VARCHAR},
+      project_depart_date = #{projectDepartDate,jdbcType=TIMESTAMP},
+      project_depart_opinion = #{projectDepartOpinion,jdbcType=VARCHAR},
+      manager_depart_approval = #{managerDepartApproval,jdbcType=BIT},
+      manager_depart_user = #{managerDepartUser,jdbcType=VARCHAR},
+      manager_depart_date = #{managerDepartDate,jdbcType=TIMESTAMP},
+      manager_depart_opinion = #{managerDepartOpinion,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

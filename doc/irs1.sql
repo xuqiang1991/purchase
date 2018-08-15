@@ -305,3 +305,49 @@ CREATE TABLE `tb_customers` (
   `add_date` datetime DEFAULT NULL COMMENT '新增时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `tb_purchase_order` (
+  `id` varchar(32) NOT NULL COMMENT '单号',
+  `type` varchar(20) DEFAULT NULL COMMENT '订单类型',
+  `create_user` bigint(20) DEFAULT NULL COMMENT '开单人',
+  `create_time` datetime DEFAULT NULL COMMENT '开单日期',
+  `supplier_id` bigint(20) DEFAULT NULL COMMENT '供应商',
+  `project_id` bigint(20) DEFAULT NULL COMMENT '所属项目',
+  `contract_id` bigint(20) DEFAULT NULL COMMENT '所属合同',
+  `contract_money` decimal(10,2) DEFAULT NULL COMMENT '合同总金额',
+  `payment_ratio` double(4,0) DEFAULT '100' COMMENT '付款比例',
+  `request_amount` decimal(10,2) DEFAULT NULL COMMENT '已请款金额',
+  `payment_amount` decimal(10,2) DEFAULT NULL COMMENT '已付款金额',
+  `status` varchar(10) DEFAULT NULL COMMENT '单据状态(0：未提交,1：已提交,2：成本部已审核,3：工程部已审核,4：总经理已审核,5：已合同编号)',
+  `summary` varchar(512) DEFAULT NULL COMMENT '摘要',
+  `cost_depart_approval` tinyint(1) DEFAULT NULL COMMENT '成本部审批状态',
+  `cost_depart_user` varchar(64) DEFAULT NULL COMMENT '成本部审批人',
+  `cost_depart_date` datetime DEFAULT NULL COMMENT '成本部审批时间',
+  `cost_depart_opinion` varchar(255) DEFAULT NULL COMMENT '成本部审批意见',
+  `project_depart_approval` tinyint(1) DEFAULT NULL COMMENT '工程部审批状态',
+  `project_depart_user` varchar(64) DEFAULT NULL COMMENT '成本部审人',
+  `project_depart_date` datetime DEFAULT NULL COMMENT '成本部审批时间',
+  `project_depart_opinion` varchar(255) DEFAULT NULL COMMENT '成本部审批意见',
+  `manager_depart_approval` tinyint(1) DEFAULT NULL COMMENT '总经理审批状态',
+  `manager_depart_user` varchar(255) DEFAULT NULL COMMENT '总经理审批人',
+  `manager_depart_date` datetime DEFAULT NULL COMMENT '总经理审批时间',
+  `manager_depart_opinion` varchar(255) DEFAULT NULL COMMENT '总经理审批意见',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_purchase_order_detail` (
+  `id` varchar(64) NOT NULL,
+  `order_id` varchar(32) DEFAULT NULL COMMENT '采购订单ID',
+  `model` varchar(100) DEFAULT NULL COMMENT '规格',
+  `unit` varchar(10) DEFAULT NULL COMMENT '单位',
+  `price` decimal(10,2) DEFAULT NULL COMMENT '单价',
+  `amount` double(8,2) DEFAULT NULL,
+  `total_price` decimal(10,2) DEFAULT NULL COMMENT '金额=单价*数量',
+  `settle_amout` double(10,2) DEFAULT '0.00' COMMENT '已结算数量',
+  `remark` varchar(512) DEFAULT NULL COMMENT '备注',
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
