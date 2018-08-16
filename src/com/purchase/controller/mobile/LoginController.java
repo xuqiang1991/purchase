@@ -19,5 +19,14 @@ public class LoginController {
         return "page/mobile/index";
     }
 
+    @RequestMapping(value = "/list")
+    public String list() {
+        return "page/mobile/list";
+    }
+
+    @RequestMapping(value = "/details")
+    public String details() {
+        return "page/mobile/details";
+    }
 
 }

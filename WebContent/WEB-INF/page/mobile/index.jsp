@@ -14,7 +14,7 @@
 
 <div class="mui-content">
     <ul class="mui-table-view mui-grid-view mui-grid-9">
-        <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="#">
+        <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="${ctx }/mobile/list">
             <span class="mui-icon iconfont icon-zhengchangcaigoudingdan icon-color-F0AD4E"></span>
             <div class="mui-media-body">采购订单</div>
         </a></li>
