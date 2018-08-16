@@ -35,7 +35,7 @@
     <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
     <result column="userFullName" property="userFullName" jdbcType="VARCHAR" />
   </resultMap>
-  <select id="selectByExampleExt" resultMap="BaseResultMapExt" parameterType="com.purchase.pojo.order.BizPurchaseOrderExample" >
+  <select id="selectByExampleExt" resultMap="BaseResultMapExt">
     select
         a.id, a.purchase_no, a.type, a.create_user, a.create_time, a.supplier_id, a.project_id, a.contract_id,
         a.contract_money, a.payment_ratio, a.request_amount, a.payment_amount, a.status, a.update_date,
@@ -46,8 +46,12 @@
     from biz_purchase_order a
     INNER JOIN tb_supplier b ON (a.supplier_id = b.id)
     INNER JOIN tb_admin c ON (a.create_user = c.id)
+    where 1 = 1
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause_Ext" />
+    </if>
+    <if test="@import org.apache.commons.lang3.StringUtils@isNotBlank(search.createUserName)" >
+      c.fullname LIKE concat(concat('%',#{search.createUserName}),'%')
     </if>
     <if test="orderByClause != null" >
       order by ${orderByClause}

@@ -2,6 +2,7 @@ package com.purchase.service;
 
 import com.purchase.pojo.order.BizPurchaseOrder;
 import com.purchase.util.ResultUtil;
+import com.purchase.vo.order.BizPurchaseOrderSearch;
 
 /**
  * Created by xuqiang
@@ -9,5 +10,11 @@ import com.purchase.util.ResultUtil;
  */
 public interface PurchaseOrderService {
 
-    ResultUtil getOrderList(Integer page, Integer limit, BizPurchaseOrder order);
+    ResultUtil getOrderList(Integer page, Integer limit, BizPurchaseOrderSearch search);
+
+    ResultUtil addPurchaseOrder(BizPurchaseOrder order);
+
+    ResultUtil editPurchaseOrder(BizPurchaseOrder order);
+
+    ResultUtil selPurchaseOrder(String purchaseNo);
 }

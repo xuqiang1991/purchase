@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.SupplierVo;
+import com.purchase.vo.order.BizPurchaseOrderSearch;
 import com.purchase.vo.order.BizPurchaseOrderVo;
 import org.apache.ibatis.annotations.Param;
 
@@ -32,5 +33,5 @@ public interface BizPurchaseOrderMapper {
 
     int updateByPrimaryKey(BizPurchaseOrder record);
 
-    List<BizPurchaseOrderVo> selectByExampleExt(BizPurchaseOrderExample example);
+    List<BizPurchaseOrderVo> selectByExampleExt( @Param("example") BizPurchaseOrderExample example, @Param("search") BizPurchaseOrderSearch search);
 }
