@@ -3,7 +3,7 @@ package com.purchase.pojo.order;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class TbPurchaseOrderDetail {
+public class BizPurchaseOrderDetail {
     private String id;
 
     private String orderId;
@@ -23,6 +23,8 @@ public class TbPurchaseOrderDetail {
     private String remark;
 
     private Date createTime;
+
+    private Date updateDate;
 
     public String getId() {
         return id;
@@ -102,5 +104,13 @@ public class TbPurchaseOrderDetail {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.purchase.mapper.order.TbPurchaseOrderMapper" >
-  <resultMap id="BaseResultMap" type="com.purchase.pojo.order.TbPurchaseOrder" >
+<mapper namespace="com.purchase.mapper.order.BizPurchaseOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.purchase.pojo.order.BizPurchaseOrder" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="create_user" property="createUser" jdbcType="BIGINT" />
@@ -13,7 +13,8 @@
     <result column="payment_ratio" property="paymentRatio" jdbcType="DOUBLE" />
     <result column="request_amount" property="requestAmount" jdbcType="DECIMAL" />
     <result column="payment_amount" property="paymentAmount" jdbcType="DECIMAL" />
-    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="summary" property="summary" jdbcType="VARCHAR" />
     <result column="cost_depart_approval" property="costDepartApproval" jdbcType="BIT" />
     <result column="cost_depart_user" property="costDepartUser" jdbcType="VARCHAR" />
@@ -88,18 +89,18 @@
   </sql>
   <sql id="Base_Column_List" >
     id, type, create_user, create_time, supplier_id, project_id, contract_id, contract_money, 
-    payment_ratio, request_amount, payment_amount, status, summary, cost_depart_approval, 
+    payment_ratio, request_amount, payment_amount, status, update_date, summary, cost_depart_approval, 
     cost_depart_user, cost_depart_date, cost_depart_opinion, project_depart_approval, 
     project_depart_user, project_depart_date, project_depart_opinion, manager_depart_approval, 
     manager_depart_user, manager_depart_date, manager_depart_opinion
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.purchase.pojo.order.TbPurchaseOrderExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.purchase.pojo.order.BizPurchaseOrderExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from tb_purchase_order
+    from biz_purchase_order
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -110,43 +111,43 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from tb_purchase_order
+    from biz_purchase_order
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from tb_purchase_order
+    delete from biz_purchase_order
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.purchase.pojo.order.TbPurchaseOrderExample" >
-    delete from tb_purchase_order
+  <delete id="deleteByExample" parameterType="com.purchase.pojo.order.BizPurchaseOrderExample" >
+    delete from biz_purchase_order
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.purchase.pojo.order.TbPurchaseOrder" >
-    insert into tb_purchase_order (id, type, create_user, 
+  <insert id="insert" parameterType="com.purchase.pojo.order.BizPurchaseOrder" >
+    insert into biz_purchase_order (id, type, create_user, 
       create_time, supplier_id, project_id, 
       contract_id, contract_money, payment_ratio, 
       request_amount, payment_amount, status, 
-      summary, cost_depart_approval, cost_depart_user, 
-      cost_depart_date, cost_depart_opinion, project_depart_approval, 
-      project_depart_user, project_depart_date, 
+      update_date, summary, cost_depart_approval, 
+      cost_depart_user, cost_depart_date, cost_depart_opinion, 
+      project_depart_approval, project_depart_user, project_depart_date, 
       project_depart_opinion, manager_depart_approval, 
       manager_depart_user, manager_depart_date, 
       manager_depart_opinion)
     values (#{id,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{createUser,jdbcType=BIGINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{supplierId,jdbcType=BIGINT}, #{projectId,jdbcType=BIGINT}, 
       #{contractId,jdbcType=BIGINT}, #{contractMoney,jdbcType=DECIMAL}, #{paymentRatio,jdbcType=DOUBLE}, 
-      #{requestAmount,jdbcType=DECIMAL}, #{paymentAmount,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, 
-      #{summary,jdbcType=VARCHAR}, #{costDepartApproval,jdbcType=BIT}, #{costDepartUser,jdbcType=VARCHAR}, 
-      #{costDepartDate,jdbcType=TIMESTAMP}, #{costDepartOpinion,jdbcType=VARCHAR}, #{projectDepartApproval,jdbcType=BIT}, 
-      #{projectDepartUser,jdbcType=VARCHAR}, #{projectDepartDate,jdbcType=TIMESTAMP}, 
+      #{requestAmount,jdbcType=DECIMAL}, #{paymentAmount,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{summary,jdbcType=VARCHAR}, #{costDepartApproval,jdbcType=BIT}, 
+      #{costDepartUser,jdbcType=VARCHAR}, #{costDepartDate,jdbcType=TIMESTAMP}, #{costDepartOpinion,jdbcType=VARCHAR}, 
+      #{projectDepartApproval,jdbcType=BIT}, #{projectDepartUser,jdbcType=VARCHAR}, #{projectDepartDate,jdbcType=TIMESTAMP}, 
       #{projectDepartOpinion,jdbcType=VARCHAR}, #{managerDepartApproval,jdbcType=BIT}, 
       #{managerDepartUser,jdbcType=VARCHAR}, #{managerDepartDate,jdbcType=TIMESTAMP}, 
       #{managerDepartOpinion,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.purchase.pojo.order.TbPurchaseOrder" >
-    insert into tb_purchase_order
+  <insert id="insertSelective" parameterType="com.purchase.pojo.order.BizPurchaseOrder" >
+    insert into biz_purchase_order
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -183,6 +184,9 @@
       </if>
       <if test="status != null" >
         status,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
       </if>
       <if test="summary != null" >
         summary,
@@ -259,7 +263,10 @@
         #{paymentAmount,jdbcType=DECIMAL},
       </if>
       <if test="status != null" >
-        #{status,jdbcType=VARCHAR},
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
       </if>
       <if test="summary != null" >
         #{summary,jdbcType=VARCHAR},
@@ -302,14 +309,14 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.purchase.pojo.order.TbPurchaseOrderExample" resultType="java.lang.Integer" >
-    select count(*) from tb_purchase_order
+  <select id="countByExample" parameterType="com.purchase.pojo.order.BizPurchaseOrderExample" resultType="java.lang.Integer" >
+    select count(*) from biz_purchase_order
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update tb_purchase_order
+    update biz_purchase_order
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=VARCHAR},
@@ -345,7 +352,10 @@
         payment_amount = #{record.paymentAmount,jdbcType=DECIMAL},
       </if>
       <if test="record.status != null" >
-        status = #{record.status,jdbcType=VARCHAR},
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.summary != null" >
         summary = #{record.summary,jdbcType=VARCHAR},
@@ -392,7 +402,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update tb_purchase_order
+    update biz_purchase_order
     set id = #{record.id,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=VARCHAR},
       create_user = #{record.createUser,jdbcType=BIGINT},
@@ -404,7 +414,8 @@
       payment_ratio = #{record.paymentRatio,jdbcType=DOUBLE},
       request_amount = #{record.requestAmount,jdbcType=DECIMAL},
       payment_amount = #{record.paymentAmount,jdbcType=DECIMAL},
-      status = #{record.status,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
       summary = #{record.summary,jdbcType=VARCHAR},
       cost_depart_approval = #{record.costDepartApproval,jdbcType=BIT},
       cost_depart_user = #{record.costDepartUser,jdbcType=VARCHAR},
@@ -422,8 +433,8 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.purchase.pojo.order.TbPurchaseOrder" >
-    update tb_purchase_order
+  <update id="updateByPrimaryKeySelective" parameterType="com.purchase.pojo.order.BizPurchaseOrder" >
+    update biz_purchase_order
     <set >
       <if test="type != null" >
         type = #{type,jdbcType=VARCHAR},
@@ -456,7 +467,10 @@
         payment_amount = #{paymentAmount,jdbcType=DECIMAL},
       </if>
       <if test="status != null" >
-        status = #{status,jdbcType=VARCHAR},
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
       <if test="summary != null" >
         summary = #{summary,jdbcType=VARCHAR},
@@ -500,8 +514,8 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.purchase.pojo.order.TbPurchaseOrder" >
-    update tb_purchase_order
+  <update id="updateByPrimaryKey" parameterType="com.purchase.pojo.order.BizPurchaseOrder" >
+    update biz_purchase_order
     set type = #{type,jdbcType=VARCHAR},
       create_user = #{createUser,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -512,7 +526,8 @@
       payment_ratio = #{paymentRatio,jdbcType=DOUBLE},
       request_amount = #{requestAmount,jdbcType=DECIMAL},
       payment_amount = #{paymentAmount,jdbcType=DECIMAL},
-      status = #{status,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
       summary = #{summary,jdbcType=VARCHAR},
       cost_depart_approval = #{costDepartApproval,jdbcType=BIT},
       cost_depart_user = #{costDepartUser,jdbcType=VARCHAR},

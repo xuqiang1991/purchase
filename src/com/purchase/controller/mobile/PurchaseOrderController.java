@@ -1,6 +1,5 @@
 package com.purchase.controller.mobile;
 
-import com.purchase.pojo.order.TbPurchaseOrder;
 import com.purchase.service.PurchaseOrderService;
 import com.purchase.util.ResultUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

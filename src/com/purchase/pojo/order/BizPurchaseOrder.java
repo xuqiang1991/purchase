@@ -3,7 +3,7 @@ package com.purchase.pojo.order;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class TbPurchaseOrder {
+public class BizPurchaseOrder {
     private String id;
 
     private String type;
@@ -26,7 +26,9 @@ public class TbPurchaseOrder {
 
     private BigDecimal paymentAmount;
 
-    private String status;
+    private Integer status;
+
+    private Date updateDate;
 
     private String summary;
 
@@ -142,12 +144,20 @@ public class TbPurchaseOrder {
         this.paymentAmount = paymentAmount;
     }
 
-    public String getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 
     public String getSummary() {
