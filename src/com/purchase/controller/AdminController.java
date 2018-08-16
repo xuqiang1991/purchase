@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -166,6 +167,19 @@ public class AdminController {
 		if (admin != null) {
 			// 得到用户菜单
 			menus = adminServiceImpl.selMenus(admin);
+
+			//过滤mobile类型的菜单
+			if(!CollectionUtils.isEmpty(menus)){
+				int size = menus.size() - 1;
+				for (int i = size; i >= 0; i--){
+					Menu menu = menus.get(i);
+					String href = menu.getHref();
+					//过滤mobile开头的菜单
+					if(StringUtils.isNotBlank(href) && "mobile/".startsWith(menu.getHref())){
+						menus.remove(i);
+					}
+				}
+			}
 		}
 		return menus;
 	}

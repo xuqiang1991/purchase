@@ -1,5 +1,6 @@
 package com.purchase.controller.mobile;
 
+import com.purchase.pojo.order.BizPurchaseOrder;
 import com.purchase.service.PurchaseOrderService;
 import com.purchase.util.ResultUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -26,7 +27,7 @@ public class PurchaseOrderController {
     @RequestMapping("getOrderList")
     @RequiresPermissions("mobile:order:list")
     @ResponseBody
-    public ResultUtil getOrderList(Integer page, Integer limit, TbPurchaseOrder order){
+    public ResultUtil getOrderList(Integer page, Integer limit, BizPurchaseOrder order){
         return purchaseOrderService.getOrderList(page,limit,order);
     }
 
