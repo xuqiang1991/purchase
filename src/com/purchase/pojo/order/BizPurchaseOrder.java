@@ -6,6 +6,8 @@ import java.util.Date;
 public class BizPurchaseOrder {
     private String id;
 
+    private String purchaseNo;
+
     private String type;
 
     private Long createUser;
@@ -62,6 +64,14 @@ public class BizPurchaseOrder {
 
     public void setId(String id) {
         this.id = id == null ? null : id.trim();
+    }
+
+    public String getPurchaseNo() {
+        return purchaseNo;
+    }
+
+    public void setPurchaseNo(String purchaseNo) {
+        this.purchaseNo = purchaseNo == null ? null : purchaseNo.trim();
     }
 
     public String getType() {

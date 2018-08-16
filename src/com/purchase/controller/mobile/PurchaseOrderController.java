@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * 2018/8/15.
  */
 @Controller
-@RequestMapping("mobile/order")
+@RequestMapping("mobile/purchase")
 public class PurchaseOrderController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -24,8 +24,8 @@ public class PurchaseOrderController {
     @Autowired
     private PurchaseOrderService purchaseOrderService;
 
-    @RequestMapping("getOrderList")
-    @RequiresPermissions("mobile:order:list")
+    @RequestMapping("getPurchaseList")
+    @RequiresPermissions("mobile:purchase:list")
     @ResponseBody
     public ResultUtil getOrderList(Integer page, Integer limit, BizPurchaseOrder order){
         return purchaseOrderService.getOrderList(page,limit,order);

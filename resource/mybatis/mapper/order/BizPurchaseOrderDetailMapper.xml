@@ -1,38 +1,38 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.purchase.mapper.order.BizPurchaseOrderDetailMapper" >
-  <resultMap id="BaseResultMap" type="com.purchase.pojo.order.BizPurchaseOrderDetail" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
-    <result column="model" property="model" jdbcType="VARCHAR" />
-    <result column="unit" property="unit" jdbcType="VARCHAR" />
-    <result column="price" property="price" jdbcType="DECIMAL" />
-    <result column="amount" property="amount" jdbcType="DOUBLE" />
-    <result column="total_price" property="totalPrice" jdbcType="DECIMAL" />
-    <result column="settle_amout" property="settleAmout" jdbcType="DOUBLE" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.purchase.mapper.order.BizPurchaseOrderDetailMapper">
+  <resultMap id="BaseResultMap" type="com.purchase.pojo.order.BizPurchaseOrderDetail">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="purchase_no" jdbcType="VARCHAR" property="purchaseNo" />
+    <result column="model" jdbcType="VARCHAR" property="model" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="amount" jdbcType="DOUBLE" property="amount" />
+    <result column="total_price" jdbcType="DECIMAL" property="totalPrice" />
+    <result column="settle_amout" jdbcType="DOUBLE" property="settleAmout" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -43,25 +43,25 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -72,41 +72,343 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
-    id, order_id, model, unit, price, amount, total_price, settle_amout, remark, create_time, 
+  <sql id="Base_Column_List">
+    id, purchase_no, model, unit, price, amount, total_price, settle_amout, remark, create_time, 
     update_date
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.purchase.pojo.order.BizPurchaseOrderDetailExample" >
+  <select id="selectByExample" parameterType="com.purchase.pojo.order.BizPurchaseOrderDetailExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from biz_purchase_order_detail
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from biz_purchase_order_detail
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from biz_purchase_order_detail
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.purchase.pojo.order.BizPurchaseOrderDetailExample" >
+  <delete id="deleteByExample" parameterType="com.purchase.pojo.order.BizPurchaseOrderDetailExample">
     delete from biz_purchase_order_detail
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.purchase.pojo.order.BizPurchaseOrderDetail" >
+  <insert id="insert" parameterType="com.purchase.pojo.order.BizPurchaseOrderDetail">
+    insert into biz_purchase_order_detail (id, purchase_no, model, 
+      unit, price, amount, 
+      total_price, settle_amout, remark, 
+      create_time, update_date)
+    values (#{id,jdbcType=VARCHAR}, #{purchaseNo,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}, 
+      #{unit,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{amount,jdbcType=DOUBLE}, 
+      #{totalPrice,jdbcType=DECIMAL}, #{settleAmout,jdbcType=DOUBLE}, #{remark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.purchase.pojo.order.BizPurchaseOrderDetail">
+    insert into biz_purchase_order_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="purchaseNo != null">
+        purchase_no,
+      </if>
+      <if test="model != null">
+        model,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="totalPrice != null">
+        total_price,
+      </if>
+      <if test="settleAmout != null">
+        settle_amout,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseNo != null">
+        #{purchaseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null">
+        #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="settleAmout != null">
+        #{settleAmout,jdbcType=DOUBLE},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.purchase.pojo.order.BizPurchaseOrderDetailExample" resultType="java.lang.Integer">
+    select count(*) from biz_purchase_order_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update biz_purchase_order_detail
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.purchaseNo != null">
+        purchase_no = #{record.purchaseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.model != null">
+        model = #{record.model,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.amount != null">
+        amount = #{record.amount,jdbcType=DOUBLE},
+      </if>
+      <if test="record.totalPrice != null">
+        total_price = #{record.totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.settleAmout != null">
+        settle_amout = #{record.settleAmout,jdbcType=DOUBLE},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDate != null">
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update biz_purchase_order_detail
+    set id = #{record.id,jdbcType=VARCHAR},
+      purchase_no = #{record.purchaseNo,jdbcType=VARCHAR},
+      model = #{record.model,jdbcType=VARCHAR},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DECIMAL},
+      amount = #{record.amount,jdbcType=DOUBLE},
+      total_price = #{record.totalPrice,jdbcType=DECIMAL},
+      settle_amout = #{record.settleAmout,jdbcType=DOUBLE},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.purchase.pojo.order.BizPurchaseOrderDetail">
+    update biz_purchase_order_detail
+    <set>
+      <if test="purchaseNo != null">
+        purchase_no = #{purchaseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null">
+        model = #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="totalPrice != null">
+        total_price = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="settleAmout != null">
+        settle_amout = #{settleAmout,jdbcType=DOUBLE},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.purchase.pojo.order.BizPurchaseOrderDetail">
+    update biz_purchase_order_detail
+    set purchase_no = #{purchaseNo,jdbcType=VARCHAR},
+      model = #{model,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      amount = #{amount,jdbcType=DOUBLE},
+      total_price = #{totalPrice,jdbcType=DECIMAL},
+      settle_amout = #{settleAmout,jdbcType=DOUBLE},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <resultMap id="BaseResultMap" type="com.purchase.pojo.order.BizPurchaseOrderDetail">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="model" jdbcType="VARCHAR" property="model" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="amount" jdbcType="DOUBLE" property="amount" />
+    <result column="total_price" jdbcType="DECIMAL" property="totalPrice" />
+    <result column="settle_amout" jdbcType="DOUBLE" property="settleAmout" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_id, model, unit, price, amount, total_price, settle_amout, remark, create_time, 
+    update_date
+  </sql>
+  <select id="selectByExample" parameterType="com.purchase.pojo.order.BizPurchaseOrderDetailExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_purchase_order_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from biz_purchase_order_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from biz_purchase_order_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.purchase.pojo.order.BizPurchaseOrderDetailExample">
+    delete from biz_purchase_order_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.purchase.pojo.order.BizPurchaseOrderDetail">
     insert into biz_purchase_order_detail (id, order_id, model, 
       unit, price, amount, 
       total_price, settle_amout, remark, 
@@ -116,127 +418,127 @@
       #{totalPrice,jdbcType=DECIMAL}, #{settleAmout,jdbcType=DOUBLE}, #{remark,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.purchase.pojo.order.BizPurchaseOrderDetail" >
+  <insert id="insertSelective" parameterType="com.purchase.pojo.order.BizPurchaseOrderDetail">
     insert into biz_purchase_order_detail
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="orderId != null" >
+      <if test="orderId != null">
         order_id,
       </if>
-      <if test="model != null" >
+      <if test="model != null">
         model,
       </if>
-      <if test="unit != null" >
+      <if test="unit != null">
         unit,
       </if>
-      <if test="price != null" >
+      <if test="price != null">
         price,
       </if>
-      <if test="amount != null" >
+      <if test="amount != null">
         amount,
       </if>
-      <if test="totalPrice != null" >
+      <if test="totalPrice != null">
         total_price,
       </if>
-      <if test="settleAmout != null" >
+      <if test="settleAmout != null">
         settle_amout,
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         remark,
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time,
       </if>
-      <if test="updateDate != null" >
+      <if test="updateDate != null">
         update_date,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="orderId != null" >
+      <if test="orderId != null">
         #{orderId,jdbcType=VARCHAR},
       </if>
-      <if test="model != null" >
+      <if test="model != null">
         #{model,jdbcType=VARCHAR},
       </if>
-      <if test="unit != null" >
+      <if test="unit != null">
         #{unit,jdbcType=VARCHAR},
       </if>
-      <if test="price != null" >
+      <if test="price != null">
         #{price,jdbcType=DECIMAL},
       </if>
-      <if test="amount != null" >
+      <if test="amount != null">
         #{amount,jdbcType=DOUBLE},
       </if>
-      <if test="totalPrice != null" >
+      <if test="totalPrice != null">
         #{totalPrice,jdbcType=DECIMAL},
       </if>
-      <if test="settleAmout != null" >
+      <if test="settleAmout != null">
         #{settleAmout,jdbcType=DOUBLE},
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateDate != null" >
+      <if test="updateDate != null">
         #{updateDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.purchase.pojo.order.BizPurchaseOrderDetailExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.purchase.pojo.order.BizPurchaseOrderDetailExample" resultType="java.lang.Integer">
     select count(*) from biz_purchase_order_detail
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+  <update id="updateByExampleSelective" parameterType="map">
     update biz_purchase_order_detail
-    <set >
-      <if test="record.id != null" >
+    <set>
+      <if test="record.id != null">
         id = #{record.id,jdbcType=VARCHAR},
       </if>
-      <if test="record.orderId != null" >
+      <if test="record.orderId != null">
         order_id = #{record.orderId,jdbcType=VARCHAR},
       </if>
-      <if test="record.model != null" >
+      <if test="record.model != null">
         model = #{record.model,jdbcType=VARCHAR},
       </if>
-      <if test="record.unit != null" >
+      <if test="record.unit != null">
         unit = #{record.unit,jdbcType=VARCHAR},
       </if>
-      <if test="record.price != null" >
+      <if test="record.price != null">
         price = #{record.price,jdbcType=DECIMAL},
       </if>
-      <if test="record.amount != null" >
+      <if test="record.amount != null">
         amount = #{record.amount,jdbcType=DOUBLE},
       </if>
-      <if test="record.totalPrice != null" >
+      <if test="record.totalPrice != null">
         total_price = #{record.totalPrice,jdbcType=DECIMAL},
       </if>
-      <if test="record.settleAmout != null" >
+      <if test="record.settleAmout != null">
         settle_amout = #{record.settleAmout,jdbcType=DOUBLE},
       </if>
-      <if test="record.remark != null" >
+      <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
-      <if test="record.createTime != null" >
+      <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.updateDate != null" >
+      <if test="record.updateDate != null">
         update_date = #{record.updateDate,jdbcType=TIMESTAMP},
       </if>
     </set>
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map" >
+  <update id="updateByExample" parameterType="map">
     update biz_purchase_order_detail
     set id = #{record.id,jdbcType=VARCHAR},
       order_id = #{record.orderId,jdbcType=VARCHAR},
@@ -249,47 +551,47 @@
       remark = #{record.remark,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_date = #{record.updateDate,jdbcType=TIMESTAMP}
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.purchase.pojo.order.BizPurchaseOrderDetail" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.purchase.pojo.order.BizPurchaseOrderDetail">
     update biz_purchase_order_detail
-    <set >
-      <if test="orderId != null" >
+    <set>
+      <if test="orderId != null">
         order_id = #{orderId,jdbcType=VARCHAR},
       </if>
-      <if test="model != null" >
+      <if test="model != null">
         model = #{model,jdbcType=VARCHAR},
       </if>
-      <if test="unit != null" >
+      <if test="unit != null">
         unit = #{unit,jdbcType=VARCHAR},
       </if>
-      <if test="price != null" >
+      <if test="price != null">
         price = #{price,jdbcType=DECIMAL},
       </if>
-      <if test="amount != null" >
+      <if test="amount != null">
         amount = #{amount,jdbcType=DOUBLE},
       </if>
-      <if test="totalPrice != null" >
+      <if test="totalPrice != null">
         total_price = #{totalPrice,jdbcType=DECIMAL},
       </if>
-      <if test="settleAmout != null" >
+      <if test="settleAmout != null">
         settle_amout = #{settleAmout,jdbcType=DOUBLE},
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateDate != null" >
+      <if test="updateDate != null">
         update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.purchase.pojo.order.BizPurchaseOrderDetail" >
+  <update id="updateByPrimaryKey" parameterType="com.purchase.pojo.order.BizPurchaseOrderDetail">
     update biz_purchase_order_detail
     set order_id = #{orderId,jdbcType=VARCHAR},
       model = #{model,jdbcType=VARCHAR},

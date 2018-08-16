@@ -3,6 +3,10 @@ package com.purchase.mapper.order;
 import com.purchase.pojo.order.BizPurchaseOrder;
 import com.purchase.pojo.order.BizPurchaseOrderExample;
 import java.util.List;
+
+import com.purchase.util.ResultUtil;
+import com.purchase.vo.admin.SupplierVo;
+import com.purchase.vo.order.BizPurchaseOrderVo;
 import org.apache.ibatis.annotations.Param;
 
 public interface BizPurchaseOrderMapper {
@@ -27,4 +31,6 @@ public interface BizPurchaseOrderMapper {
     int updateByPrimaryKeySelective(BizPurchaseOrder record);
 
     int updateByPrimaryKey(BizPurchaseOrder record);
+
+    List<BizPurchaseOrderVo> selectByExampleExt(BizPurchaseOrderExample example);
 }

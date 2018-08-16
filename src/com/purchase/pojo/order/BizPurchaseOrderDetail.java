@@ -6,7 +6,7 @@ import java.util.Date;
 public class BizPurchaseOrderDetail {
     private String id;
 
-    private String orderId;
+    private String purchaseNo;
 
     private String model;
 
@@ -34,12 +34,12 @@ public class BizPurchaseOrderDetail {
         this.id = id == null ? null : id.trim();
     }
 
-    public String getOrderId() {
-        return orderId;
+    public String getPurchaseNo() {
+        return purchaseNo;
     }
 
-    public void setOrderId(String orderId) {
-        this.orderId = orderId == null ? null : orderId.trim();
+    public void setPurchaseNo(String purchaseNo) {
+        this.purchaseNo = purchaseNo == null ? null : purchaseNo.trim();
     }
 
     public String getModel() {
