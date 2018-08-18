@@ -1,5 +1,7 @@
 package com.purchase.vo.order;
 
+import com.purchase.pojo.admin.TbAdmin;
+import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.BizPurchaseOrder;
 
 /**
@@ -7,21 +9,50 @@ import com.purchase.pojo.order.BizPurchaseOrder;
  * 2018/8/16.
  */
 public class BizPurchaseOrderVo extends BizPurchaseOrder {
-    private String supplierName;
-    private String userFullName;
-    public String getSupplierName() {
-        return supplierName;
+
+    private TbSupplier supplier;
+    private TbAdmin admin;
+    private TbAdmin costAdmin;
+    private TbAdmin projectAdmin;
+    private TbAdmin managerAdmin;
+
+    public TbSupplier getSupplier() {
+        return supplier;
     }
 
-    public void setSupplierName(String supplierName) {
-        this.supplierName = supplierName;
+    public void setSupplier(TbSupplier supplier) {
+        this.supplier = supplier;
     }
 
-    public String getUserFullName() {
-        return userFullName;
+    public TbAdmin getAdmin() {
+        return admin;
     }
 
-    public void setUserFullName(String userFullName) {
-        this.userFullName = userFullName;
+    public void setAdmin(TbAdmin admin) {
+        this.admin = admin;
+    }
+
+    public TbAdmin getCostAdmin() {
+        return costAdmin;
+    }
+
+    public void setCostAdmin(TbAdmin costAdmin) {
+        this.costAdmin = costAdmin;
+    }
+
+    public TbAdmin getProjectAdmin() {
+        return projectAdmin;
+    }
+
+    public void setProjectAdmin(TbAdmin projectAdmin) {
+        this.projectAdmin = projectAdmin;
+    }
+
+    public TbAdmin getManagerAdmin() {
+        return managerAdmin;
+    }
+
+    public void setManagerAdmin(TbAdmin managerAdmin) {
+        this.managerAdmin = managerAdmin;
     }
 }

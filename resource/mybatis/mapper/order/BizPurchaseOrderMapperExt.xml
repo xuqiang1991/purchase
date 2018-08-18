@@ -34,6 +34,22 @@
   <resultMap id="BaseResultMapExt" type="com.purchase.vo.order.BizPurchaseOrderVo" extends="BaseResultMap">
     <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
     <result column="userFullName" property="userFullName" jdbcType="VARCHAR" />
+    <association property="admin" javaType="com.purchase.pojo.admin.TbAdmin">
+      <result column="admin_id" jdbcType="BIGINT" property="id"></result>
+      <result column="adminFullname" jdbcType="VARCHAR" property="fullname"></result>
+    </association>
+    <association property="costAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
+      <result column="costId" jdbcType="BIGINT" property="id"></result>
+      <result column="costFullname" jdbcType="VARCHAR" property="fullname"></result>
+    </association>
+    <association property="projectAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
+      <result column="projectId" jdbcType="BIGINT" property="id"></result>
+      <result column="projectFullname" jdbcType="VARCHAR" property="fullname"></result>
+    </association>
+    <association property="managerAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
+      <result column="managerId" jdbcType="BIGINT" property="id"></result>
+      <result column="managerFullname" jdbcType="VARCHAR" property="fullname"></result>
+    </association>
   </resultMap>
   <select id="selectByExampleExt" resultMap="BaseResultMapExt">
     select
@@ -42,10 +58,17 @@
         a.summary, a.cost_depart_approval, a.cost_depart_user, a.cost_depart_date, a.cost_depart_opinion,
         a.project_depart_approval, a.project_depart_user, a.project_depart_date, a.project_depart_opinion,
         a.manager_depart_approval, a.manager_depart_user, a.manager_depart_date, a.manager_depart_opinion,
-        b.name as supplier_name, c.fullname as userFullName
+        b.name as supplier_name,
+        c.id as costId, c.fullname as adminFullname,
+        tCost.id as costId, tCost.fullname as costFullname,
+        tProject.id as projectId, tProject.fullname as projectFullname,
+        tManager.id as managerId, tManager.fullname as managerFullname,
     from biz_purchase_order a
     INNER JOIN tb_supplier b ON (a.supplier_id = b.id)
     INNER JOIN tb_admin c ON (a.create_user = c.id)
+     LEFT JOIN tb_admin tCost ON (a.cost_depart_user = tCost.id)
+     LEFT JOIN tb_admin tProject ON (a.project_depart_user = tProject.id)
+     LEFT JOIN tb_admin tManager ON (a.manager_depart_user = tManager.id)
     where 1 = 1
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause_Ext" />

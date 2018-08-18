@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.URLDecoder;
 import java.net.UnknownHostException;
+import java.util.UUID;
 
 public class WebUtils {
 	public static Logger log = LoggerFactory.getLogger(WebUtils.class);
@@ -160,5 +161,14 @@ public class WebUtils {
 			}
 		}
 		return false;
+	}
+
+
+	/**
+	 * 32为ID
+	 * @return
+	 */
+	public static synchronized String generateUUID(){
+		return UUID.randomUUID().toString().replaceAll("-","");
 	}
 }
