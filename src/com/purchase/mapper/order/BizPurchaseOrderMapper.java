@@ -4,11 +4,10 @@ import com.purchase.pojo.order.BizPurchaseOrder;
 import com.purchase.pojo.order.BizPurchaseOrderExample;
 import java.util.List;
 
-import com.purchase.util.ResultUtil;
-import com.purchase.vo.admin.SupplierVo;
 import com.purchase.vo.order.BizPurchaseOrderSearch;
 import com.purchase.vo.order.BizPurchaseOrderVo;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 public interface BizPurchaseOrderMapper {
     int countByExample(BizPurchaseOrderExample example);
@@ -34,4 +33,7 @@ public interface BizPurchaseOrderMapper {
     int updateByPrimaryKey(BizPurchaseOrder record);
 
     List<BizPurchaseOrderVo> selectByExampleExt( @Param("example") BizPurchaseOrderExample example, @Param("search") BizPurchaseOrderSearch search);
+
+    @Select("select max(purchase_no) from biz_purchase_order where purchase_no like '#{0}%'")
+    String selMaxPurchaseNo(String prefix);
 }

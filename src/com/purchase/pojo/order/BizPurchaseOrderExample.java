@@ -1116,62 +1116,52 @@ public class BizPurchaseOrderExample {
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartUserEqualTo(String value) {
+        public Criteria andCostDepartUserEqualTo(Long value) {
             addCriterion("cost_depart_user =", value, "costDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartUserNotEqualTo(String value) {
+        public Criteria andCostDepartUserNotEqualTo(Long value) {
             addCriterion("cost_depart_user <>", value, "costDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartUserGreaterThan(String value) {
+        public Criteria andCostDepartUserGreaterThan(Long value) {
             addCriterion("cost_depart_user >", value, "costDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartUserGreaterThanOrEqualTo(String value) {
+        public Criteria andCostDepartUserGreaterThanOrEqualTo(Long value) {
             addCriterion("cost_depart_user >=", value, "costDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartUserLessThan(String value) {
+        public Criteria andCostDepartUserLessThan(Long value) {
             addCriterion("cost_depart_user <", value, "costDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartUserLessThanOrEqualTo(String value) {
+        public Criteria andCostDepartUserLessThanOrEqualTo(Long value) {
             addCriterion("cost_depart_user <=", value, "costDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartUserLike(String value) {
-            addCriterion("cost_depart_user like", value, "costDepartUser");
-            return (Criteria) this;
-        }
-
-        public Criteria andCostDepartUserNotLike(String value) {
-            addCriterion("cost_depart_user not like", value, "costDepartUser");
-            return (Criteria) this;
-        }
-
-        public Criteria andCostDepartUserIn(List<String> values) {
+        public Criteria andCostDepartUserIn(List<Long> values) {
             addCriterion("cost_depart_user in", values, "costDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartUserNotIn(List<String> values) {
+        public Criteria andCostDepartUserNotIn(List<Long> values) {
             addCriterion("cost_depart_user not in", values, "costDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartUserBetween(String value1, String value2) {
+        public Criteria andCostDepartUserBetween(Long value1, Long value2) {
             addCriterion("cost_depart_user between", value1, value2, "costDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartUserNotBetween(String value1, String value2) {
+        public Criteria andCostDepartUserNotBetween(Long value1, Long value2) {
             addCriterion("cost_depart_user not between", value1, value2, "costDepartUser");
             return (Criteria) this;
         }
@@ -1376,62 +1366,52 @@ public class BizPurchaseOrderExample {
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartUserEqualTo(String value) {
+        public Criteria andProjectDepartUserEqualTo(Long value) {
             addCriterion("project_depart_user =", value, "projectDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartUserNotEqualTo(String value) {
+        public Criteria andProjectDepartUserNotEqualTo(Long value) {
             addCriterion("project_depart_user <>", value, "projectDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartUserGreaterThan(String value) {
+        public Criteria andProjectDepartUserGreaterThan(Long value) {
             addCriterion("project_depart_user >", value, "projectDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartUserGreaterThanOrEqualTo(String value) {
+        public Criteria andProjectDepartUserGreaterThanOrEqualTo(Long value) {
             addCriterion("project_depart_user >=", value, "projectDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartUserLessThan(String value) {
+        public Criteria andProjectDepartUserLessThan(Long value) {
             addCriterion("project_depart_user <", value, "projectDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartUserLessThanOrEqualTo(String value) {
+        public Criteria andProjectDepartUserLessThanOrEqualTo(Long value) {
             addCriterion("project_depart_user <=", value, "projectDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartUserLike(String value) {
-            addCriterion("project_depart_user like", value, "projectDepartUser");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectDepartUserNotLike(String value) {
-            addCriterion("project_depart_user not like", value, "projectDepartUser");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectDepartUserIn(List<String> values) {
+        public Criteria andProjectDepartUserIn(List<Long> values) {
             addCriterion("project_depart_user in", values, "projectDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartUserNotIn(List<String> values) {
+        public Criteria andProjectDepartUserNotIn(List<Long> values) {
             addCriterion("project_depart_user not in", values, "projectDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartUserBetween(String value1, String value2) {
+        public Criteria andProjectDepartUserBetween(Long value1, Long value2) {
             addCriterion("project_depart_user between", value1, value2, "projectDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartUserNotBetween(String value1, String value2) {
+        public Criteria andProjectDepartUserNotBetween(Long value1, Long value2) {
             addCriterion("project_depart_user not between", value1, value2, "projectDepartUser");
             return (Criteria) this;
         }
@@ -1636,62 +1616,52 @@ public class BizPurchaseOrderExample {
             return (Criteria) this;
         }
 
-        public Criteria andManagerDepartUserEqualTo(String value) {
+        public Criteria andManagerDepartUserEqualTo(Long value) {
             addCriterion("manager_depart_user =", value, "managerDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andManagerDepartUserNotEqualTo(String value) {
+        public Criteria andManagerDepartUserNotEqualTo(Long value) {
             addCriterion("manager_depart_user <>", value, "managerDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andManagerDepartUserGreaterThan(String value) {
+        public Criteria andManagerDepartUserGreaterThan(Long value) {
             addCriterion("manager_depart_user >", value, "managerDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andManagerDepartUserGreaterThanOrEqualTo(String value) {
+        public Criteria andManagerDepartUserGreaterThanOrEqualTo(Long value) {
             addCriterion("manager_depart_user >=", value, "managerDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andManagerDepartUserLessThan(String value) {
+        public Criteria andManagerDepartUserLessThan(Long value) {
             addCriterion("manager_depart_user <", value, "managerDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andManagerDepartUserLessThanOrEqualTo(String value) {
+        public Criteria andManagerDepartUserLessThanOrEqualTo(Long value) {
             addCriterion("manager_depart_user <=", value, "managerDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andManagerDepartUserLike(String value) {
-            addCriterion("manager_depart_user like", value, "managerDepartUser");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartUserNotLike(String value) {
-            addCriterion("manager_depart_user not like", value, "managerDepartUser");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartUserIn(List<String> values) {
+        public Criteria andManagerDepartUserIn(List<Long> values) {
             addCriterion("manager_depart_user in", values, "managerDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andManagerDepartUserNotIn(List<String> values) {
+        public Criteria andManagerDepartUserNotIn(List<Long> values) {
             addCriterion("manager_depart_user not in", values, "managerDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andManagerDepartUserBetween(String value1, String value2) {
+        public Criteria andManagerDepartUserBetween(Long value1, Long value2) {
             addCriterion("manager_depart_user between", value1, value2, "managerDepartUser");
             return (Criteria) this;
         }
 
-        public Criteria andManagerDepartUserNotBetween(String value1, String value2) {
+        public Criteria andManagerDepartUserNotBetween(Long value1, Long value2) {
             addCriterion("manager_depart_user not between", value1, value2, "managerDepartUser");
             return (Criteria) this;
         }

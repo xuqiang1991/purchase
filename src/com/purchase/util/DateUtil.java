@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.commons.lang3.time.FastDateFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -204,5 +205,17 @@ public class DateUtil {
         if (minutes > 0) showtime += minutes + "分";
         if (seconds > 0) showtime += seconds + "秒";
         return showtime;
+    }
+
+
+    /**
+     * 日期格式化
+     * @param date
+     * @param format
+     * @return
+     */
+    public static String formatDate(Date date, String format){
+        FastDateFormat fdf = FastDateFormat.getInstance(format);
+        return fdf.format(date);
     }
 }

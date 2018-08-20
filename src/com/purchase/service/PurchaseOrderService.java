@@ -1,5 +1,6 @@
 package com.purchase.service;
 
+import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.order.BizPurchaseOrder;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.order.BizPurchaseOrderSearch;
@@ -17,4 +18,11 @@ public interface PurchaseOrderService {
     ResultUtil editPurchaseOrder(BizPurchaseOrder order);
 
     ResultUtil selPurchaseOrder(String purchaseNo);
+
+    ResultUtil delPurchaseOrder(String id);
+
+    ResultUtil submitPurchaseOrder(String id);
+
+    ResultUtil reviewPurchaseOrder(TbAdmin admin, String id);
+
 }
