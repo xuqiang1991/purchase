@@ -2,7 +2,6 @@ layui.config({
 	base : "js/"
 }).use(['form','layer','jquery','laypage','table'],function(){
 	var form = layui.form,table = layui.table;
-		layer = parent.layer === undefined ? layui.layer : parent.layer,
 		laypage = layui.laypage,
 		$ = layui.jquery;
 		
@@ -96,6 +95,27 @@ layui.config({
 		})
 		layui.layer.full(index);
 	})
+
+    //编辑角色
+    $(".roleUpdate_btn").click(function(){
+        var checkStatus = table.checkStatus('roleList')
+            ,data = checkStatus.data;
+        if(data.length != 1){
+            layer.msg('请选择单条角色编辑！',{icon: 5});
+            return;
+		}
+        var index =  layer.open({
+            type: 2,
+            title:"编辑角色",
+            content:ctx+"/sys/editRole?roleId="+data[0].roleId+"&roleName="+data[0].roleName+"&roleRemark="+data[0].roleRemark, //这里content是一个普通的String
+        })
+
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function(){
+            layui.layer.full(index);
+        })
+        layui.layer.full(index);
+    })
 	
 	//批量删除角色
 	$(".batchDel").click(function(){
