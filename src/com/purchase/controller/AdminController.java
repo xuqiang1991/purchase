@@ -450,8 +450,8 @@ public class AdminController {
 	 */
 	@RequestMapping("/checkMenuTitle/{title}")
 	@ResponseBody
-	public ResultUtil checkMenuTitle(@PathVariable("title")String title) {
-		TbMenus menu = adminServiceImpl.selMenuByTitle(title);
+	public ResultUtil checkMenuTitle(@PathVariable("title")String title, @RequestParam(value="menuId", defaultValue="-1") Long menuId) {
+		TbMenus menu = adminServiceImpl.selMenuByTitle(title, menuId);
 		if(menu!=null){
 			return new ResultUtil(500,"菜单已存在！");
 		}

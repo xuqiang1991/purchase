@@ -464,10 +464,18 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public TbMenus selMenuByTitle(String title) {
+	public TbMenus selMenuByTitle(String title, Long menuId) {
 		TbMenusExample example=new TbMenusExample();
 		com.purchase.pojo.admin.TbMenusExample.Criteria criteria = example.createCriteria();
 		criteria.andTitleEqualTo(title);
+
+		TbMenus menus = tbMenusMapper.selectByPrimaryKey(menuId);
+		Long parentId = menus.getParentId();
+		if(parentId != null && parentId > 0){
+			criteria.andParentIdEqualTo(parentId);
+		}
+		criteria.andMenuIdNotEqualTo(menuId);
+
 		List<TbMenus> data = tbMenusMapper.selectByExample(example);
 		if(data!=null&&data.size()>0){
 			return data.get(0);

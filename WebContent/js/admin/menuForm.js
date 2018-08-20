@@ -11,12 +11,13 @@ layui.config({
 		
 		$("#title").blur(function(){
 			var title=$("#title").val();
+            var menuId = $("#menuId").val();
 			if(title==''){
 				title="-1"
 			}
 			$.ajax({
 	            type: "get",
-	            url: ctx+"/sys/checkMenuTitle/"+$("#title").val(),
+	            url: ctx+"/sys/checkMenuTitle/"+$("#title").val()  + '?menuId=' + menuId,
 	            success:function(data){
 	            	if(data.code!=0){
 	            		top.layer.msg(data.msg);

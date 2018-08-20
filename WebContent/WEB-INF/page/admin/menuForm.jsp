@@ -35,8 +35,8 @@
 </head>
 <body class="childrenBody">
 	<form class="layui-form" style="width: 80%;">
-		<input type="hidden" name="menuId" value="${menu.menuId }"/>
-		<input type="hidden" name="parentId" value="${menu.parentId }"/>
+		<input type="hidden" id="menuId" name="menuId" value="${menu.menuId }"/>
+		<input type="hidden" id="parentId" name="parentId" value="${menu.parentId }"/>
 		<input type="hidden" name="flag" value="${flag }"/>
 		<div class="layui-form-item">
 			<label class="layui-form-label">菜单名</label>

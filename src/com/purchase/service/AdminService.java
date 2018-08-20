@@ -75,7 +75,7 @@ public interface AdminService {
 
 	public void updMenu(TbMenus menus);
 
-	public TbMenus selMenuByTitle(String title);
+	public TbMenus selMenuByTitle(String title, Long menuId);
 
 	public TbMenus selMenusById(Long menuId);
 
