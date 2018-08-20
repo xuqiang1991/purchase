@@ -160,14 +160,14 @@
 			<div class="layui-input-block">
 				<select name="roleId">
 					<option value="">请选择</option>
-					<%--<c:forEach items="${roles }" var="r">--%>
-						<%--<c:if test="${ad.roleId==r.roleId }">--%>
-							<%--<option value="${r.roleId }" selected>${r.roleName }</option>--%>
-						<%--</c:if>--%>
-						<%--<c:if test="${ad.roleId!=r.roleId }">--%>
-							<%--<option value="${r.roleId }">${r.roleName }</option>--%>
-						<%--</c:if>--%>
-					<%--</c:forEach>--%>
+					<c:forEach items="${roles }" var="r">
+						<c:if test="${ad.roleId==r.roleId }">
+							<option value="${r.roleId }" selected>${r.roleName }</option>
+						</c:if>
+						<c:if test="${ad.roleId!=r.roleId }">
+							<option value="${r.roleId }">${r.roleName }</option>
+						</c:if>
+					</c:forEach>
 				</select>
 			</div>
 		</div>
