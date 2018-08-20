@@ -51,6 +51,7 @@ public class WeiXinController {
         try {
             wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
             openId = wxMpOAuth2AccessToken.getOpenId();
+            logger.info("openId:" + openId);
         } catch (WxErrorException e) {
             logger.error("gotoPreAuthUrl", e);
             throw new RuntimeException(e);
