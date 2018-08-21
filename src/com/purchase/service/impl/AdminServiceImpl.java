@@ -575,16 +575,16 @@ public class AdminServiceImpl implements AdminService {
 		String nick = user.getNickname();
 		String openId = user.getOpenId();
 		TbAdmin admin = tbAdminMapper.selAdminByOpenId(openId);
-		if(admin != null){
-			return admin;
-		}else {
+		if(admin == null){
 			admin = tbAdminMapper.selAdminByWxNick(nick);
 			if(admin != null){
 				TbAdmin tmp = new TbAdmin();
 				tmp.setId(admin.getId());
-				//更新openid等
+				//tmp.setOpenId(openId);
+				tbAdminMapper.updateByPrimaryKey(tmp);
 			}
-			return admin;
 		}
+		return admin;
+
 	}
 }
