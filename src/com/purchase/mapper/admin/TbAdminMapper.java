@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Param;
 
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbAdminExample;
+import org.apache.ibatis.annotations.Select;
+
 public interface TbAdminMapper {
     int countByExample(TbAdminExample example);
 
@@ -28,4 +30,10 @@ public interface TbAdminMapper {
     int updateByPrimaryKeySelective(TbAdmin record);
 
     int updateByPrimaryKey(TbAdmin record);
+
+    @Select("SELECT * FROM tb_admin WHERE open_id = #{0}")
+    TbAdmin selAdminByOpenId(String openId);
+
+    @Select("SELECT * FROM tb_admin WHERE wx_nick = #{0}")
+    TbAdmin selAdminByWxNick(String wx_nick);
 }

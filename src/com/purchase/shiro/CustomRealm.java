@@ -7,12 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
-import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -96,6 +91,14 @@ public class CustomRealm extends AuthorizingRealm {
 	 */
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+
+		//若为微信用户token
+		if(token instanceof MockToken){
+			SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(token.getPrincipal(),null,getName());
+			return info;
+		}
+
+
 		String username = (String) token.getPrincipal();
 		String password = new String((char[]) token.getCredentials());
 
@@ -126,5 +129,11 @@ public class CustomRealm extends AuthorizingRealm {
 
 		SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(admins.get(0), password, getName());
 		return info;
+	}
+
+	@Override
+	public boolean supports(AuthenticationToken token) {
+
+		return token instanceof UsernamePasswordToken || token instanceof MockToken;
 	}
 }

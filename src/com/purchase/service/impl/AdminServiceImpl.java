@@ -9,6 +9,7 @@ import com.purchase.service.AdminService;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.Menu;
 import com.purchase.vo.admin.XtreeData;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -567,5 +568,23 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public void delAreaById(Long id) {
 		tbAreaMapper.deleteByPrimaryKey(id);
+	}
+
+	@Override
+	public TbAdmin wxLogin(WxMpUser user) {
+		String nick = user.getNickname();
+		String openId = user.getOpenId();
+		TbAdmin admin = tbAdminMapper.selAdminByOpenId(openId);
+		if(admin != null){
+			return admin;
+		}else {
+			admin = tbAdminMapper.selAdminByWxNick(nick);
+			if(admin != null){
+				TbAdmin tmp = new TbAdmin();
+				tmp.setId(admin.getId());
+				//更新openid等
+			}
+			return admin;
+		}
 	}
 }

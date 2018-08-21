@@ -5,6 +5,7 @@ import com.purchase.pojo.admin.*;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.Menu;
 import com.purchase.vo.admin.XtreeData;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 
 import java.util.List;
 
@@ -102,4 +103,6 @@ public interface AdminService {
 	TbArea selAreaById(Long id);
 
 	void delAreaById(Long id);
+
+	TbAdmin wxLogin(WxMpUser user);
 }

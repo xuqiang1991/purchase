@@ -13,7 +13,7 @@ public class WeiXinConfig {
     /**
      * 设置微信三方平台的app secret
      */
-    public static String SECRET = "af0b08c7244baebc0414a5fb529ddf04";
+    public static String SECRET = "247b3cb48900f5319c875c0d2a5e8cc8";
 
     /**
      * 设置微信三方平台的token
