@@ -81,7 +81,7 @@ public class WeiXinController {
             String json = gson.toJson(user);
             logger.info("user:" + json);
 
-            return "mobile/index";
+            return "redirect:/mobile/login";
         } catch (WxErrorException e) {
             logger.error("gotoPreAuthUrl", e);
             throw new RuntimeException(e);

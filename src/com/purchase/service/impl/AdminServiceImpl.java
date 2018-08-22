@@ -581,7 +581,7 @@ public class AdminServiceImpl implements AdminService {
 				TbAdmin tmp = new TbAdmin();
 				tmp.setId(admin.getId());
 				tmp.setOpenId(openId);
-				tbAdminMapper.updateByPrimaryKey(tmp);
+				tbAdminMapper.updateByPrimaryKeySelective(tmp);
 			}
 		}
 		return admin;
