@@ -18,9 +18,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,8 +58,7 @@ public class WeiXinController {
     }
 
     @RequestMapping("/auth/jump")
-    @ResponseBody
-    public String jump(@RequestParam("code") String code){
+    public String jump(Model model,@RequestParam("code") String code){
         Gson gson = new Gson();
         WxMpOAuth2AccessToken wxMpOAuth2AccessToken;
         String openId = null;
@@ -71,7 +70,9 @@ public class WeiXinController {
 
             TbAdmin admin = adminService.wxLogin(user);
             if(admin == null){
-               return null;//错误跳转处理
+                logger.info("没有绑定账号   openId：" + openId + ", nick:" + user.getNickname());
+                model.addAttribute("msg","请找管理员绑定微信！");
+                return "active";
             }
 
             login(admin);
@@ -79,7 +80,8 @@ public class WeiXinController {
             //登录成功跳转处理
             String json = gson.toJson(user);
             logger.info("user:" + json);
-            return json;
+
+            return "mobile/index";
         } catch (WxErrorException e) {
             logger.error("gotoPreAuthUrl", e);
             throw new RuntimeException(e);

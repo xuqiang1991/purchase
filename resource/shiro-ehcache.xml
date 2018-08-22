@@ -1,4 +1,4 @@
-<ehcache>
+<ehcache updateCheck="false">
 	<!--diskStore：缓存数据持久化的目录 地址  -->
 	<diskStore path="cache" />
 	<defaultCache 
@@ -12,4 +12,5 @@
 		diskExpiryThreadIntervalSeconds="120"
 		memoryStoreEvictionPolicy="LRU">
 	</defaultCache>
+
 </ehcache>
