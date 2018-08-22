@@ -54,7 +54,11 @@ public class AdminController {
 
 		if(isMobile){
 			if(requestHeader.indexOf("MicroMessenger")>-1){
-				return "redirect:/sys/wx/auth";
+				if(admin == null){
+					return "redirect:/sys/wx/auth";
+				}else {
+					return "redirect:/mobile/login";
+				}
 			}else {
 				return "mobile/index";
 			}
