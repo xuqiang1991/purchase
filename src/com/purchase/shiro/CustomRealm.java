@@ -23,6 +23,7 @@ import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbAdminExample;
 import com.purchase.pojo.admin.TbAdminExample.Criteria;
 import com.purchase.pojo.admin.TbMenus;
+import org.springframework.util.CollectionUtils;
 
 /**
  * 
@@ -94,7 +95,9 @@ public class CustomRealm extends AuthorizingRealm {
 
 		//若为微信用户token
 		if(token instanceof MockToken){
-			SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(token.getPrincipal(),null,getName());
+			String username = (String) token.getPrincipal();
+			TbAdmin admin = selAdmin(username);
+			SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(admin,token.getCredentials(),getName());
 			return info;
 		}
 
@@ -102,32 +105,19 @@ public class CustomRealm extends AuthorizingRealm {
 		String username = (String) token.getPrincipal();
 		String password = new String((char[]) token.getCredentials());
 
-		// 查询用户信息
-		TbAdminExample example = new TbAdminExample();
-		Criteria criteria = example.createCriteria();
-		criteria.andUsernameEqualTo(username);
-		List<TbAdmin> admins = null;
-		try {
-			admins = tbAdminMapper.selectByExample(example);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		// 账号不存在
-		if (admins == null || admins.size() == 0) {
-			throw new UnknownAccountException("账号不存在!");
-		}
+		TbAdmin admin = selAdmin(username);
 		password = new Md5Hash(password).toString();
 		// 密码错误
-		if (!password.equals(admins.get(0).getPassword())) {
+		if (!password.equals(admin.getPassword())) {
 			throw new IncorrectCredentialsException("账号或密码不正确!");
 		}
 
 		// 账号未分配角色
-		if (admins.get(0).getRoleId() == null || admins.get(0).getRoleId() == 0) {
+		if (admin.getRoleId() == null || admin.getRoleId() == 0) {
 			throw new UnknownAccountException("账号未分配角色!");
 		}
 
-		SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(admins.get(0), password, getName());
+		SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(admin, password, getName());
 		return info;
 	}
 
@@ -135,5 +125,30 @@ public class CustomRealm extends AuthorizingRealm {
 	public boolean supports(AuthenticationToken token) {
 
 		return token instanceof UsernamePasswordToken || token instanceof MockToken;
+	}
+
+
+	/**
+	 * 查询用户
+	 * @param userName
+	 * @return
+	 */
+	private TbAdmin selAdmin(String userName){
+		// 查询用户信息
+		TbAdminExample example = new TbAdminExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andUsernameEqualTo(userName);
+		List<TbAdmin> admins = null;
+		try {
+			admins = tbAdminMapper.selectByExample(example);
+		} catch (Exception e) {
+			logger.error("selAdmin",e);
+		}
+
+		if( CollectionUtils.isEmpty(admins)){
+			throw new UnknownAccountException("账号不存在!");
+		}
+
+		return admins.get(0);
 	}
 }

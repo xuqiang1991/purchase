@@ -100,6 +100,7 @@ public class WeiXinController {
         MockToken token = new MockToken();
         token.setRememberMe(true);
         token.setUsername(user.getUsername());
+        token.setPassword(user.getPassword().toCharArray());
         try{
             subject.login(token);
         }catch (AuthenticationException e){
