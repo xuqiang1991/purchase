@@ -35,6 +35,10 @@ public class TbAdmin {
 
     private String remark;
 
+    private String openId;
+
+    private String wxNick;
+
     public Long getId() {
         return id;
     }
@@ -171,12 +175,28 @@ public class TbAdmin {
         this.remark = remark;
     }
 
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
+    public String getWxNick() {
+        return wxNick;
+    }
+
+    public void setWxNick(String wxNick) {
+        this.wxNick = wxNick;
+    }
+
     @Override
 	public String toString() {
 		return "TbAdmin [id=" + id + ", username=" + username + ", password=" + password + ", salt=" + salt
 				+ ", fullname=" + fullname + ", eMail=" + eMail + ", sex=" + sex + ", birthday=" + birthday
-				+ ", address=" + address + ", phone=" + phone + ", roleId=" + roleId + ", roleName=" + roleName + "]" + ", quarters=" + quarters + "]"
-                + ", deptId=" + deptId + "]" + ", entryDate=" + entryDate + "]" + ", isOnJob=" + isOnJob + "]" + ", remark=" + remark + "]";
+				+ ", address=" + address + ", phone=" + phone + ", roleId=" + roleId + ", roleName=" + roleName  + ", quarters=" + quarters
+                + ", deptId=" + deptId  + ", entryDate=" + entryDate + ", isOnJob=" + isOnJob  + ", openId=" + openId + ", wxNick=" + wxNick + ", remark=" + remark + "]";
 	}
     
 }

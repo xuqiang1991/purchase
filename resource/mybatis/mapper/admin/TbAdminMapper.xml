@@ -18,7 +18,9 @@
     <result column="dept_id" property="deptId" jdbcType="VARCHAR" />
     <result column="entry_date" property="entryDate" jdbcType="DATE" />
     <result column="is_on_job" property="isOnJob" jdbcType="INTEGER" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
+      <result column="open_id" property="openId" jdbcType="VARCHAR" />
+      <result column="wx_nick" property="remark" jdbcType="VARCHAR" />
+    <result column="remark" property="wxNick" jdbcType="VARCHAR" />
 
 
   </resultMap>
@@ -81,7 +83,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, username, password, salt, fullname, e_mail, sex, birthday, address, phone, role_id,quarters,dept_id,entry_date,is_on_job,remark
+    id, username, password, salt, fullname, e_mail, sex, birthday, address, phone, role_id,quarters,dept_id,entry_date,is_on_job,open_id,wx_nick,remark
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.purchase.pojo.admin.TbAdminExample" >
     select
@@ -117,12 +119,12 @@
     insert into tb_admin (id, username, password, 
       salt, fullname, e_mail, 
       sex, birthday, address, 
-      phone, role_id, quarters,dept_id,entry_date,is_on_job,remark)
+      phone, role_id, quarters,dept_id,entry_date,is_on_job,open_id,wx_nick,remark)
     values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{salt,jdbcType=VARCHAR}, #{fullname,jdbcType=VARCHAR}, #{eMail,jdbcType=VARCHAR}, 
       #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{address,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{roleId,jdbcType=BIGINT}, #{quarters,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR},
-      #{entryDate,jdbcType=DATE}, #{isOnJob,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+      #{entryDate,jdbcType=DATE}, #{isOnJob,jdbcType=INTEGER}, #{openId,jdbcType=VARCHAR}, #{wxNick,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.purchase.pojo.admin.TbAdmin" >
     insert into tb_admin
@@ -172,6 +174,12 @@
       <if test="isOnJob != null" >
         is_on_job,
       </if>
+        <if test="openId != null" >
+            open_id,
+        </if>
+        <if test="wxNick != null" >
+            wx_nick,
+        </if>
       <if test="remark != null" >
         remark,
       </if>
@@ -222,6 +230,12 @@
       <if test="isOnJob != null" >
         #{isOnJob,jdbcType=INTEGER},
       </if>
+        <if test="openId != null" >
+            #{openId,jdbcType=VARCHAR},
+        </if>
+        <if test="wxNick != null" >
+            #{wxNick,jdbcType=VARCHAR},
+        </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
       </if>
@@ -281,6 +295,12 @@
       <if test="record.isOnJob != null" >
         is_on_job = #{isOnJob,jdbcType=INTEGER},
       </if>
+        <if test="record.openId != null" >
+            open_id = #{openId,jdbcType=VARCHAR},
+        </if>
+        <if test="record.wxNick != null" >
+            wx_nick = #{wxNick,jdbcType=VARCHAR},
+        </if>
       <if test="record.remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -306,6 +326,8 @@
       dept_id = #{deptId,jdbcType=VARCHAR},
       entry_date = #{entryDate,jdbcType=DATE},
       is_on_job = #{isOnJob,jdbcType=INTEGER},
+      open_id = #{openId,jdbcType=VARCHAR},
+      wx_nick = #{wxNick,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -356,6 +378,12 @@
       <if test="isOnJob != null" >
         is_on_job = #{isOnJob,jdbcType=INTEGER},
       </if>
+        <if test="openId != null" >
+            open_id = #{openId,jdbcType=VARCHAR},
+        </if>
+        <if test="wxNick != null" >
+            wx_nick = #{wxNick,jdbcType=VARCHAR},
+        </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -378,6 +406,8 @@
       dept_id = #{deptId,jdbcType=VARCHAR},
       entry_date = #{entryDate,jdbcType=DATE},
       is_on_job = #{isOnJob,jdbcType=INTEGER},
+      open_id = #{openId,jdbcType=VARCHAR},
+      wx_nick = #{wxNick,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
