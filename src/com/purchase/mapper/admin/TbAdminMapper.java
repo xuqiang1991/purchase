@@ -34,6 +34,6 @@ public interface TbAdminMapper {
     @Select("SELECT * FROM tb_admin WHERE open_id = #{0}")
     TbAdmin selAdminByOpenId(String openId);
 
-    @Select("SELECT * FROM tb_admin WHERE wx_nick = #{0}")
+    @Select("SELECT * FROM tb_admin WHERE wx_nick = #{0} and (open_id is null or open_id = '')")
     TbAdmin selAdminByWxNick(String wx_nick);
 }
