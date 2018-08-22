@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/page/include/taglib.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -125,7 +126,12 @@
 				<input type="text" id="entryDate" name="entryDate" class="layui-input userName" lay-verify="required" readonly placeholder="请输入选择日期" value="">
 			</div>
 		</div>
-
+        <div class="layui-form-item">
+            <label class="layui-form-label">微信昵称</label>
+            <div class="layui-input-block">
+                <input type="text" name="wxNick" class="layui-input userName" placeholder="请输入微信昵称" value="">
+            </div>
+        </div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">备注</label>
 			<div class="layui-input-block">

@@ -127,7 +127,12 @@
 				<input type="text" id="entryDate" name="entryDate" class="layui-input userName" lay-verify="required" readonly placeholder="请选择日期" value="${fn:substring(ad.entryDate, 0, 10)}">
 			</div>
 		</div>
-
+        <div class="layui-form-item">
+            <label class="layui-form-label">微信昵称</label>
+            <div class="layui-input-block">
+                <input type="text" name="wxNick" class="layui-input userName" placeholder="请输入微信昵称" value="${ad.wxNick}">
+            </div>
+        </div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">备注</label>
 			<div class="layui-input-block">

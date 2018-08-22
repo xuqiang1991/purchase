@@ -19,8 +19,8 @@
     <result column="entry_date" property="entryDate" jdbcType="DATE" />
     <result column="is_on_job" property="isOnJob" jdbcType="INTEGER" />
       <result column="open_id" property="openId" jdbcType="VARCHAR" />
-      <result column="wx_nick" property="remark" jdbcType="VARCHAR" />
-    <result column="remark" property="wxNick" jdbcType="VARCHAR" />
+      <result column="wx_nick" property="wxNick" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
 
 
   </resultMap>

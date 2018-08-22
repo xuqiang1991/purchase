@@ -85,4 +85,5 @@ public class ProjectMangerController {
         projectMangerService.editProjectManger(projectManger);
         return ResultUtil.ok();
     }
+
 }
