@@ -50,7 +50,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">项目来源</label>
         <div class="layui-input-block">
-            <select name="source">
+            <select name="source" lay-verify="required">
                 <option value="" selected>请选择</option>
                 <option value="0">议标</option>
                 <option value="1">投标</option>
@@ -61,7 +61,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">项目性质</label>
         <div class="layui-input-block">
-            <select name="nature">
+            <select name="nature" lay-verify="required">
                 <option value="">请选择</option>
                 <option value="0">地产景观</option>
                 <option value="1">市政公用</option>
@@ -72,7 +72,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">工程进度方案</label>
         <div class="layui-input-block">
-            <select name="progressPlan">
+            <select name="progressPlan" lay-verify="required">
                 <option value="">请选择</option>
                 <option value="0">综合方案</option>
                 <option value="1">园建方案</option>
@@ -85,22 +85,60 @@
     <div class="layui-form-item">
         <label class="layui-form-label">项目经理</label>
         <div class="layui-input-block">
-            <input type="text" id="projectManager" name="projectManager" class="layui-input" placeholder="请输入项目经理" value="${projectManger.projectManager}">
+           <%-- <input type="text" id="projectManager" name="projectManager" class="layui-input" placeholder="请输入项目经理" value="${projectManger.projectManager}">--%>
+            <select name="projectManager" lay-verify="required">
+                <option value="">请选择项目经理</option>
+                <c:forEach items="${admins }" var="ad">
+                    <c:choose>
+                        <c:when test="${projectManger.projectManager == ad.id }">
+                            <option value="${ad.id }" selected>${ad.fullname }</option>
+                        </c:when>
+                        <c:otherwise>
+                            <option value="${ad.id }">${ad.fullname }</option>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </select>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">预算负责人</label>
         <div class="layui-input-block">
-            <input type="text" name="budgetLeader" class="layui-input" lay-verify="required" placeholder="请输入预算负责人" value="${projectManger.budgetLeader}">
+            <select name="budgetLeader" lay-verify="required">
+                <option value="">请选择预算负责人</option>
+                <c:forEach items="${admins }" var="ad">
+                    <c:choose>
+                        <c:when test="${projectManger.budgetLeader == ad.id }">
+                            <option value="${ad.id }" selected>${ad.fullname }</option>
+                        </c:when>
+                        <c:otherwise>
+                            <option value="${ad.id }">${ad.fullname }</option>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </select>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">发展商</label>
         <div class="layui-input-block">
-            <input type="text" id="developer" class="layui-input " name="developer" placeholder="请输入发展商" value="${projectManger.developer}">
+           <%-- <input type="text" id="developer" class="layui-input " name="developer" placeholder="请输入发展商" value="${projectManger.developer}">--%>
+            <select name="budgetLeader" lay-verify="required">
+                <option value="">请选择发展商</option>
+                <c:forEach items="${customersList }" var="customers">
+                    <c:choose>
+                        <c:when test="${projectManger.budgetLeader == customers.id }">
+                            <option value="${customers.id }" selected>${customers.fullName } - ${customers.chargeName } - ${customers.chargePhone }</option>
+                        </c:when>
+                        <c:otherwise>
+                            <option value="${customers.id }">${customers.fullName } - ${customers.chargeName } - ${customers.chargePhone }</option>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </select>
         </div>
     </div>
-    <div class="layui-form-item">
+    <%--<div class="layui-form-item">
         <label class="layui-form-label">发展商项目负责人</label>
         <div class="layui-input-block">
             <input type="text" id="developerLeaderName" class="layui-input " name="developerLeaderName" placeholder="请输入发展商项目负责人" value="${projectManger.developerLeaderName}">
@@ -111,14 +149,27 @@
         <div class="layui-input-block">
             <input type="text" id="developerLeaderPhone" class="layui-input " name="developerLeaderPhone" lay-verify="phone" placeholder="请输入发展商项目负责人电话" value="${projectManger.developerLeaderPhone}">
         </div>
-    </div>
+    </div>--%>
     <div class="layui-form-item">
         <label class="layui-form-label">委托商</label>
         <div class="layui-input-block">
-            <input type="text" id="consignor" class="layui-input " name="consignor" placeholder="请输入委托商" value="${projectManger.consignor}">
+          <%--  <input type="text" id="consignor" class="layui-input " name="consignor" placeholder="请输入委托商" value="${projectManger.consignor}">--%>
+            <select name="consignor" lay-verify="required">
+                <option value="">请选择委托商</option>
+                <c:forEach items="${customersList }" var="customers">
+                    <c:choose>
+                        <c:when test="${projectManger.consignor == customers.id }">
+                            <option value="${customers.id }" selected>${customers.fullName } - ${customers.chargeName } - ${customers.chargePhone }</option>
+                        </c:when>
+                        <c:otherwise>
+                            <option value="${customers.id }">${customers.fullName } - ${customers.chargeName } - ${customers.chargePhone }</option>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </select>
         </div>
     </div>
-    <div class="layui-form-item">
+    <%--<div class="layui-form-item">
         <label class="layui-form-label">委托商项目负责人</label>
         <div class="layui-input-block">
             <input type="text" id="consignorLeaderName" class="layui-input " name="consignorLeaderName" placeholder="请输入委托商项目负责人" value="${projectManger.consignorLeaderName}">
@@ -129,7 +180,7 @@
         <div class="layui-input-block">
             <input type="text" id="consignorLeaderPhone" class="layui-input " name="consignorLeaderPhone" lay-verify="phone" placeholder="请输入委托商项目负责人电话" value="${projectManger.consignorLeaderPhone}">
         </div>
-    </div>
+    </div>--%>
     <div class="layui-form-item">
         <label class="layui-form-label">项目合同编号</label>
         <div class="layui-input-block">
@@ -145,7 +196,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">结算方式</label>
         <div class="layui-input-block">
-            <select name="progressPlan">
+            <select name="progressPlan" lay-verify="required">
                 <option value="">请选择</option>
                 <option value="0">总价包干</option>
                 <option value="1">单价包干</option>
@@ -156,12 +207,45 @@
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">备注</label>
+        <label class="layui-form-label">合同签定日期</label>
         <div class="layui-input-block">
-            <textarea type="text" name="remark" class="layui-textarea" placeholder="请输入备注"></textarea>
+            <input type="text" id="contractSignDate" class="layui-input " name="contractSignDate" placeholder="请选择合同签定日期" value="${projectManger.contractSignDate}">
         </div>
     </div>
 
+    <div class="layui-form-item">
+        <label class="layui-form-label">项目开工日期</label>
+        <div class="layui-input-block">
+            <input type="text" id="startDate" class="layui-input " name="startDate" placeholder="请选择合同签定日期" value="${projectManger.startDate}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">项目完工日期</label>
+        <div class="layui-input-block">
+            <input type="text" id="overDate" class="layui-input " name="overDate" placeholder="请选择合同签定日期" value="${projectManger.overDate}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">项目验收日期</label>
+        <div class="layui-input-block">
+            <input type="text" id="acceptanceDate" class="layui-input " name="acceptanceDate" placeholder="请选择合同签定日期" value="${projectManger.acceptanceDate}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">项目状态</label>
+        <div class="layui-input-block">
+            <select name="status" lay-verify="required">
+                <option value="">请选择</option>
+                <option value="0">未开工</option>
+                <option value="1">在建中</option>
+                <option value="2">已完工</option>
+                <option value="3">已验收</option>
+                <option value="4">已停工</option>
+            </select>
+        </div>
+    </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit="" lay-filter="projectMangerAdd">立即提交</button>

@@ -1,18 +1,20 @@
 package com.purchase.service.impl;
 
-import java.util.Date;
-import java.util.List;
-
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.purchase.mapper.admin.TbAreaMapper;
-import com.purchase.pojo.admin.*;
+import com.purchase.mapper.admin.TbCustomersMapper;
+import com.purchase.pojo.admin.TbArea;
+import com.purchase.pojo.admin.TbAreaExample;
+import com.purchase.pojo.admin.TbCustomers;
+import com.purchase.pojo.admin.TbCustomersExample;
+import com.purchase.service.CustomersService;
+import com.purchase.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.purchase.mapper.admin.TbCustomersMapper;
-import com.purchase.service.CustomersService;
-import com.purchase.util.ResultUtil;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class CustomersServiceImpl implements CustomersService {
@@ -51,6 +53,13 @@ public class CustomersServiceImpl implements CustomersService {
     @Override
     public TbCustomers findById(Long id) {
         return customersMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<TbCustomers> getCustomersList() {
+        List<TbCustomers> list = customersMapper.selectByExample(null);
+        return list;
+        // return customersMapper.getCustomersList();
     }
 
     @Override

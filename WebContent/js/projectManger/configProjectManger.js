@@ -3,11 +3,15 @@ var $form;
 var form;
 layui.config({
 	base : "js/"
-}).use(['form','layer','jquery'],function(){
+}).use(['form','layer','jquery','laydate'],function(){
 	var layer = parent.layer === undefined ? layui.layer : parent.layer,
+        laydate = layui.laydate;
 		$ = layui.jquery;
 		form = layui.form;
-
+        laydate.render({
+            elem: '#contractSignDate,#startDate,#overDate,#acceptanceDate' //指定元素
+            ,max: 'new Date()'
+        });
 
 
  	form.on("submit(projectMangerAdd)",function(data){

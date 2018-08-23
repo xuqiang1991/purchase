@@ -114,7 +114,7 @@
 							<option value="${d.id }" selected>${d.name }</option>
 						</c:if>
 						<c:if test="${ad.deptId!=d.id }">
-							<option value="${d.id }" selected>${d.name }</option>
+							<option value="${d.id }">${d.name }</option>
 						</c:if>
 					</c:forEach>
 				</select>

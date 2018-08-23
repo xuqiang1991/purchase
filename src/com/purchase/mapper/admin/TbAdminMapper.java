@@ -1,12 +1,11 @@
 package com.purchase.mapper.admin;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbAdminExample;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 public interface TbAdminMapper {
     int countByExample(TbAdminExample example);
@@ -36,4 +35,7 @@ public interface TbAdminMapper {
 
     @Select("SELECT * FROM tb_admin WHERE wx_nick = #{0} and (open_id is null or open_id = '')")
     TbAdmin selAdminByWxNick(String wx_nick);
+
+    @Select("SELECT * FROM tb_admin a WHERE a.is_on_job = #{0}")
+    List<TbAdmin> getAdmins(Integer isOnJob);
 }
