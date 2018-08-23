@@ -10,6 +10,33 @@
     <link href="${ctx }/mui/css/mui.min.css" rel="stylesheet"/>
     <link href="${ctx }/mui/css/iconfont.css" rel="stylesheet"/>
     <link href="${ctx }/mui/css/mui.picker.min.css" rel="stylesheet" />
+    <style>
+        .table {
+            border: 1px solid #cad9ea;
+            color: #666;
+            width: 96%;
+            margin-left: 15px;
+            margin-right: 1%;
+        }
+
+        .table th {
+            background-repeat: repeat-x;
+            height: 30px;
+        }
+
+        .table td,
+        .table th {
+            border: 1px solid #cad9ea;
+            padding: 0 1em 0;
+        }
+
+        .table tr.alter {
+            background-color: #f5fafe;
+        }
+        .table tbody {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 
@@ -69,6 +96,35 @@
                     <div class="mui-switch mui-active" style="float: left;">
                         <div class="mui-switch-handle"></div>
                     </div>
+                </div>
+                <div class="mui-control-content mui-active">
+                    <h5 style="margin-left: 15px; padding-top: 5px;">自定义详情块</h5>
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th width="16%">序号</th>
+                            <th width="16.6%">内容</th>
+                            <th width="16.6%">数量</th>
+                            <th width="16.6%">单价</th>
+                            <th width="16.6%">总价</th>
+                            <th width="16.6%">
+                                <span class="mui-icon mui-icon-plusempty icon-color-F0AD4E"></span>
+                                <!--<button type="button" data-loading-icon="mui-spinner mui-icon-plusempt" class="mui-btn"></button> -->
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><input placeholder="内容" style="width: 100%;"/></td>
+                            <td><input placeholder="内容" style="width: 100%;"/></td>
+                            <td><input placeholder="内容" style="width: 100%;"/></td>
+                            <td><input placeholder="内容" style="width: 100%;"/></td>
+                            <td><span class="mui-icon mui-icon-closeempty icon-color-F0AD4E"></span></td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <div>
                     <textarea id="textarea" rows="5" class="mui-input-clear" placeholder="备注意见"></textarea>
