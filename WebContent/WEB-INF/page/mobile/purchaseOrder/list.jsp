@@ -72,8 +72,7 @@
                 offset:'0px', //可选 默认0px,下拉刷新控件的起始位置
                 auto: true,//可选,默认false.首次加载自动上拉刷新一次
                 callback :function () {//必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
-
-                    var url = '${ctx}/mobile/purchase/getPurchaseList' + 'limit=' + limit + '&page=' + page;
+                    var url = '${ctx}/mobile/purchase/getPurchaseList?' + 'limit=' + limit + '&page=' + page;
                     mui.ajax({
                         url: url,
                         data: {},
@@ -81,20 +80,34 @@
                         type: 'post',
                         timeout: 10000,
                         success: function(result) {
+                            var refreshContainer = mui('#refreshContainer');
                             if(result.data != null && result.data.length != 0){
                                 var data = result.data;
                                 // 请求成功
                                 var listTargt = $('.mui-table-view-chevron')
-                                $.each(data, function(index,element){
-                                    var tpl = $("#listTpl").html();
-                                    //预编译模板
-                                    var template = Handlebars.compile(tpl);
-                                    //匹配json内容
-                                    var html = template({});//data
-                                    //输入模板
-                                    listTargt.append(html);
-                                    this.endPulldownToRefresh();
-                                });
+
+                                var tpl = $("#listTpl").html();
+                                //预编译模板
+                                var template = Handlebars.compile(tpl);
+                                //匹配json内容
+                                var html = template({data});//data
+                                //输入模板
+                                listTargt.append(html);
+
+
+                                //判断是否还有数据,若小于每次加载条数,结束
+                                if (data.length < limit) {
+                                    isOver = true;
+                                    refreshContainer.pullRefresh().endPullupToRefresh(true); //停止下拉显示暂无数据
+                                }
+                                //每次加载结束之后，如果还有数据则++
+                                if (isOver == false) {
+                                    page++;
+                                    refreshContainer.pullRefresh().endPullupToRefresh(true); //停止正在加载
+                                    refreshContainer.pullRefresh().enablePullupToRefresh(); //显示上拉加载文字
+                                }else {
+                                    refreshContainer.pullRefresh().endPullupToRefresh(true); //停止下拉显示暂无数据
+                                }
                             }
 
                         }
@@ -108,14 +121,15 @@
 </script>
 <!-- 采购订单 start -->
 <script type="text/template" id="listTpl">
+    {{#each data}}
     <div class="mui-card">
         <div class="mui-card-header mui-card-media">
             <img src="../images/icon/purchase_order.png">
             <div class="mui-media-body">
-                <label>单号:1234567890019847</label>
+                <label>单号:{{purchaseNo}}</label>
                 <p>
-                    <label>开单人:张三</label>&nbsp;
-                    <label>开单日期：2018-08-21</label>
+                    <label>开单人:{{admin.fullname}}</label>&nbsp;
+                    <label>开单日期：{{createTime}}</label>
                     <span class="mui-badge mui-badge-primary mui-pull-right">申请中</span>
                 </p>
             </div>
@@ -123,8 +137,8 @@
         <div class="mui-card-content">
             <div class="mui-card-content-inner">
                 <p>
-                    <label>合同号：1234567890019847</label>
-                    <label>供应商：xxxxXXXXXX</label>
+                    <label>合同号：{{admin.fullname}}</label>
+                    <label>供应商：{{supplier.fullname}}</label>
                 </p>
                 <p>
                     <label>所属项目：所属项目</label>
@@ -142,6 +156,7 @@
             </div>
         </div>
     </div>
+    {{/each}}
 </script>
 <!-- 采购订单 end -->
 </body>
