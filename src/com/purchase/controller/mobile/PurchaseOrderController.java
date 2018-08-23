@@ -28,6 +28,13 @@ public class PurchaseOrderController {
     @Autowired
     private PurchaseOrderService purchaseOrderService;
 
+
+    @RequestMapping("list")
+    @RequiresPermissions("mobile:purchase:list")
+    public String list(){
+        return "page/mobile/purchaseOrder/list";
+    }
+
     @RequestMapping("getPurchaseList")
     @RequiresPermissions("mobile:purchase:list")
     @ResponseBody
