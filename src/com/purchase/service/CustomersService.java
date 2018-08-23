@@ -3,6 +3,8 @@ package com.purchase.service;
 import com.purchase.pojo.admin.TbCustomers;
 import com.purchase.util.ResultUtil;
 
+import java.util.List;
+
 public interface CustomersService {
     /**
      * 获取客户集合
@@ -30,4 +32,10 @@ public interface CustomersService {
      * @return
      */
 	TbCustomers findById(Long id);
+
+    /**
+     * 获取所有客户
+     * @return
+     */
+    List<TbCustomers> getCustomersList();
 }

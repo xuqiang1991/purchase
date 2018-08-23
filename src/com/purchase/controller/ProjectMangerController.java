@@ -1,8 +1,11 @@
 package com.purchase.controller;
 
 import com.purchase.annotation.SysLog;
+import com.purchase.pojo.admin.TbAdmin;
+import com.purchase.pojo.admin.TbCustomers;
 import com.purchase.pojo.admin.TbProjectManger;
 import com.purchase.service.AdminService;
+import com.purchase.service.CustomersService;
 import com.purchase.service.ProjectMangerService;
 import com.purchase.util.ResultUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 @RequestMapping("projectManger")
@@ -27,6 +31,9 @@ public class ProjectMangerController {
 
 	@Autowired
 	private AdminService adminServiceImpl;
+
+	@Autowired
+    private CustomersService customersService;
 
 	@RequestMapping(value="/projectMangerList")
 	@RequiresPermissions("sys:projectManger:list")
@@ -63,6 +70,10 @@ public class ProjectMangerController {
                 projectManger = projectMangerService.findById(id);
             }
             req.setAttribute("projectManger",projectManger);
+            List<TbAdmin> admins = adminServiceImpl.getAdmins(1);
+            req.setAttribute("admins",admins);
+            List<TbCustomers> customersList = customersService.getCustomersList();
+            req.setAttribute("customersList",customersList);
           /*  List<TbArea> areas = adminServiceImpl.selAreaByParentId(null);
             req.setAttribute("areas",areas);*/
         }catch (Exception e){

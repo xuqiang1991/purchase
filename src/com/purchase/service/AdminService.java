@@ -105,4 +105,11 @@ public interface AdminService {
 	void delAreaById(Long id);
 
 	TbAdmin wxLogin(WxMpUser user);
+
+    /**
+     * 根据在职状态获取用户
+     * @param isOnJob
+     * @return
+     */
+    List<TbAdmin> getAdmins(Integer isOnJob);
 }

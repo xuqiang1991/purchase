@@ -587,4 +587,9 @@ public class AdminServiceImpl implements AdminService {
 		return admin;
 
 	}
+
+    @Override
+    public List<TbAdmin> getAdmins(Integer isOnJob) {
+        return tbAdminMapper.getAdmins(isOnJob);
+    }
 }
