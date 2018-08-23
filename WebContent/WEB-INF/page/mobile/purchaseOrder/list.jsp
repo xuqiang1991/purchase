@@ -124,7 +124,7 @@
     {{#each data}}
     <div class="mui-card">
         <div class="mui-card-header mui-card-media">
-            <img src="../images/icon/purchase_order.png">
+            <img src="${ctx}/images/icon/purchase_order.png">
             <div class="mui-media-body">
                 <label>单号:{{purchaseNo}}</label>
                 <p>
