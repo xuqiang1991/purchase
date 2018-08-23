@@ -9,6 +9,7 @@
     <title></title>
     <link href="${ctx }/mui/css/mui.min.css" rel="stylesheet"/>
     <link href="${ctx }/mui/css/iconfont.css" rel="stylesheet"/>
+    <link href="${ctx }/mui/css/mui.picker.min.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -19,72 +20,152 @@
 <div class="mui-content">
     <div class="mui-content-padded" style="margin: 5px;">
 
-        <!--<div class="mui-input-row mui-search">
-            <input type="search" class="mui-input-clear" placeholder="" data-input-clear="1" data-input-search="1"><span class="mui-icon mui-icon-clear mui-hidden"></span><span class="mui-placeholder"><span class="mui-icon mui-icon-search"></span><span></span></span>
-        </div>-->
-        <!--<h5 class="mui-plus-visible">语音输入搜索框：</h5>
-        <div class="mui-input-row mui-search mui-plus-visible">
-            <input id="search" type="search" class="mui-input-speech mui-input-clear" placeholder="" data-input-clear="2" data-input-speech="2" data-input-search="2"><span class="mui-icon mui-icon-clear mui-hidden"></span><span class="mui-icon mui-icon-speech"></span><span class="mui-placeholder"><span class="mui-icon mui-icon-search"></span><span>带语音输入的搜索框</span></span>
-        </div>-->
-        <!--<h5>密码框：</h5>
-        <div class="mui-input-row mui-password">
-            <input type="password" class="mui-input-password" data-input-password="3"><span class="mui-icon mui-icon-eye"></span>
-        </div>-->
-        <form class="mui-input-group">
-            <div class="mui-input-row">
-                <label>采购订单号</label>
-                <input type="text" readonly="readonly" placeholder="PC20180817001">
-            </div>
-            <div class="mui-input-row">
-                <label>采购内容</label>
-                <input type="text" placeholder="请输入">
-            </div>
-            <div class="mui-input-row">
-                <label>采购数量</label>
-                <input type="number" placeholder="请输入数字">
-            </div>
-            <div class="mui-input-row">
-                <label>单价(元)</label>
-                <input type="number" style="color: red;" placeholder="请输入金额">
-            </div>
-            <div class="mui-input-row">
-                <label>我可以清除</label>
-                <input type="text" class="mui-input-clear" placeholder="带清除按钮的输入框" data-input-clear="5"><span class="mui-icon mui-icon-clear mui-hidden"></span>
-            </div>
-            <!--<div class="mui-input-row">
-                <label>备注意见</label>
-                <textarea id="textarea" rows="5" placeholder="备注意见"></textarea>
-            </div>-->
-            <!--<div class="mui-input-row" data-numbox-step='1' data-numbox-min='0' data-numbox-max='100'>
-                <label>数量</label>
-                <div class="mui-numbox">
-                  <button class="mui-btn mui-numbox-btn-minus" type="button">-</button>
-                  <input class="mui-numbox-input" type="number" />
-                  <button class="mui-btn mui-numbox-btn-plus" type="button">+</button>
+        <div class="mui-content-padded mui-card" style="margin: 5px;">
+            <form class="mui-input-group">
+                <div class="mui-input-row">
+                    <label>普通文本框</label>
+                    <input type="text" readonly="readonly" class="mui-input-clear" placeholder="PC20180817001">
                 </div>
-            </div>-->
+                <div class="mui-input-row">
+                    <label>内容</label>
+                    <input type="text" class="mui-input-clear" placeholder="请输入">
+                </div>
+                <div class="mui-input-row">
+                    <label>数量</label>
+                    <input type="number" class="mui-input-clear" placeholder="请输入数字">
+                </div>
+                <div class="mui-input-row">
+                    <label>单价(元)</label>
+                    <input type="number" class="mui-input-clear" style="color: red;" placeholder="请输入金额">
+                </div>
+                <div class="mui-input-row">
+                    <label>下拉框</label>
+                    <select>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+                <div class="mui-input-row">
+                    <label>下拉框</label>
+                    <input type="text" id="selectChose" class="mui-input-clear" placeholder="请选择">
+                    <input type="hidden" id="selectValue">
+                </div>
+                <div class="mui-input-row">
+                    <label>日期</label>
+                    <input id="dateText" type="text" data-options='{"type":"date","beginYear":2014,"endYear":2016}' placeholder="请选择日期">
+                </div>
+                <div class="mui-input-row">
+                    <label>时间</label>
+                    <input id="dateTimeText" type="text" data-options='{"type":"time"}' placeholder="请选择时间">
+                </div>
+                <div class="mui-input-row mui-input-range">
+                    <label>滑块</label>
+                    <input type="range" min="0" max="100">
+                </div>
 
-
-            <!--<div class="mui-input-row mui-plus-visible">
-                <label>Input</label>
-                <input type="text" class="mui-input-speech mui-input-clear" placeholder="语音输入" data-input-clear="6" data-input-speech="6"><span class="mui-icon mui-icon-clear mui-hidden"></span><span class="mui-icon mui-icon-speech"></span>
-            </div>-->
-
-        </form>
-        <div class="mui-input-row" style="margin: 10px 5px;">
-            <textarea id="textarea" rows="5" placeholder="备注意见"></textarea>
+                <div class="mui-input-row mui-input-range">
+                    <label>开关切换</label>
+                    <div class="mui-switch mui-active" style="float: left;">
+                        <div class="mui-switch-handle"></div>
+                    </div>
+                </div>
+                <div>
+                    <textarea id="textarea" rows="5" class="mui-input-clear" placeholder="备注意见"></textarea>
+                </div>
+            </form>
+            <div class="mui-button-row" style="padding-bottom: 20px;">
+                <button type="button" class="mui-btn mui-btn-primary" onclick="return false;">同意</button>&nbsp;&nbsp;
+                <button type="button" class="mui-btn mui-btn-danger" onclick="return false;">驳回</button>
+            </div>
         </div>
-        <div class="mui-button-row">
-            <button type="button" class="mui-btn mui-btn-primary" onclick="return false;">同意</button>&nbsp;&nbsp;
-            <button type="button" class="mui-btn mui-btn-danger" onclick="return false;">驳回</button>
-        </div>
-    </div>
 </div>
 <script src="${ctx }/mui/js/mui.min.js"></script>
+<script src="${ctx }/mui/js/mui.picker.min.js"></script>
 <script type="text/javascript" charset="utf-8">
     mui.init({
         swipeBack:true //启用右滑关闭功能
     });
+    (function($) {
+        $.init();
+        //var result = $('#dateText');
+        var btns =  $('#dateText');
+        btns.each(function(i, btn) {
+            btn.addEventListener('tap', function() {
+                var optionsJson = this.getAttribute('data-options') || '{}';
+                var options = JSON.parse(optionsJson);
+                var id = this.getAttribute('id');
+                var picker = new $.DtPicker(options);
+                picker.show(function(rs) {
+                    dateText.value = rs.text;
+                    picker.dispose();
+                });
+            }, false);
+        });
+
+        var btns1 =  $('#dateTimeText');
+        btns1.each(function(i, btn) {
+            btn.addEventListener('tap', function() {
+                var optionsJson = this.getAttribute('data-options') || '{}';
+                var options = JSON.parse(optionsJson);
+                var id = this.getAttribute('id');
+                var picker = new $.DtPicker(options);
+                picker.show(function(rs) {
+                    dateTimeText.value = rs.text;
+                    picker.dispose();
+                });
+            }, false);
+        });
+
+        $.ready(function() {
+            var userPicker = new $.PopPicker();
+            userPicker.setData([{
+                value: 'ywj',
+                text: '董事长 叶文洁'
+            }, {
+                value: 'aaa',
+                text: '总经理 艾AA'
+            }, {
+                value: 'lj',
+                text: '罗辑'
+            }, {
+                value: 'ymt',
+                text: '云天明'
+            }, {
+                value: 'shq',
+                text: '史强'
+            }, {
+                value: 'zhbh',
+                text: '章北海'
+            }, {
+                value: 'zhy',
+                text: '庄颜'
+            }, {
+                value: 'gyf',
+                text: '关一帆'
+            }, {
+                value: 'zhz',
+                text: '智子'
+            }, {
+                value: 'gezh',
+                text: '歌者'
+            }]);
+            var selectChose = document.getElementById('selectChose');
+            var selectValue = document.getElementById('selectValue');
+            selectChose.addEventListener('tap', function(event) {
+                userPicker.show(function(items) {
+                    selectValue.value = items[0].value;
+                    selectChose.value = items[0].text;
+                    //返回 false 可以阻止选择框的关闭
+                    //return false;
+                });
+            }, false);
+        });
+
+        mui.toast('登陆成功',{ duration:'long', type:'div' })
+
+
+    })(mui);
 </script>
 </body>
 </html>
