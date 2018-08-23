@@ -15,14 +15,14 @@
     <h1 class="mui-title">采购订单列表</h1>
 </header>
 
-<div class="mui-content" id="refreshContainer">
+<div class="mui-content">
     <div class="mui-card" style="margin: 0px; margin-top: 5px; margin-bottom: 5px; padding-bottom: 5px; text-align: center;">
         <div class="mui-button-row">
             <button type="button" class="mui-btn mui-btn-primary">新建采购订单</button>
         </div>
     </div>
     <!-- 单号、订单类型、供应商、所属项目、合同号、开单人、开单日期、单据状态 -->
-    <ul class="mui-table-view">
+    <ul class="mui-table-view" style="z-index: 100">
         <li class="mui-table-view-cell mui-collapse">
             <a class="mui-navigate-right" href="#">搜索</a>
             <div class="mui-collapse-content">
@@ -45,6 +45,15 @@
             </div>
         </li>
     </ul>
+    <!--下拉刷新容器-->
+    <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 135px;">
+        <div class="mui-scroll">
+            <!--数据列表-->
+            <ul class="mui-table-view mui-table-view-chevron">
+
+            </ul>
+        </div>
+    </div>
 </div>
 <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
@@ -77,7 +86,7 @@
                             if(result.data != null && result.data.length != 0){
                                 var data = result.data;
                                 // 请求成功
-                                var listTargt = $('#refreshContainer')
+                                var listTargt = $('.mui-table-view-chevron')
 
                                 var tpl = $("#listTpl").html();
                                 //预编译模板
