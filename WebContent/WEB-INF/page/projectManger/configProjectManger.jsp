@@ -38,7 +38,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">项目名称</label>
         <div class="layui-input-block">
-            <input type="text" id="fullName" class="layui-input" lay-verify="required" placeholder="请输入客户名称" name="fullName" value="${projectManger.name}">
+            <input type="text" id="name" class="layui-input" lay-verify="required" placeholder="请输入客户名称" name="name" value="${projectManger.name}">
         </div>
     </div>
     <div class="layui-form-item">
@@ -52,9 +52,9 @@
         <div class="layui-input-block">
             <select name="source" lay-verify="required">
                 <option value="" selected>请选择</option>
-                <option value="0">议标</option>
-                <option value="1">投标</option>
-                <option value="2">年度战略</option>
+                <option value="0" <c:if test="${projectManger.source == 0}">selected</c:if> >议标</option>
+                <option value="1" <c:if test="${projectManger.source == 1}">selected</c:if> >投标</option>
+                <option value="2" <c:if test="${projectManger.source == 2}">selected</c:if> >年度战略</option>
             </select>
         </div>
     </div>
@@ -63,9 +63,9 @@
         <div class="layui-input-block">
             <select name="nature" lay-verify="required">
                 <option value="">请选择</option>
-                <option value="0">地产景观</option>
-                <option value="1">市政公用</option>
-                <option value="2">旅游度假</option>
+                <option value="0" <c:if test="${projectManger.nature == 0}">selected</c:if> >地产景观</option>
+                <option value="1" <c:if test="${projectManger.nature == 1}">selected</c:if> >市政公用</option>
+                <option value="2" <c:if test="${projectManger.nature == 2}">selected</c:if> >旅游度假</option>
             </select>
         </div>
     </div>
@@ -73,12 +73,12 @@
         <label class="layui-form-label">工程进度方案</label>
         <div class="layui-input-block">
             <select name="progressPlan" lay-verify="required">
-                <option value="">请选择</option>
-                <option value="0">综合方案</option>
-                <option value="1">园建方案</option>
-                <option value="2">水电工程</option>
-                <option value="3">(园建+水电)方案</option>
-                <option value="4">绿化方案</option>
+                <option value="">请选择工程进度方案</option>
+                <option value="0" <c:if test="${projectManger.progressPlan == 0}">selected</c:if> >综合方案</option>
+                <option value="1" <c:if test="${projectManger.progressPlan == 1}">selected</c:if> >园建方案</option>
+                <option value="2" <c:if test="${projectManger.progressPlan == 2}">selected</c:if> >水电工程</option>
+                <option value="3" <c:if test="${projectManger.progressPlan == 3}">selected</c:if> >(园建+水电)方案</option>
+                <option value="4" <c:if test="${projectManger.progressPlan == 4}">selected</c:if> >绿化方案</option>
             </select>
         </div>
     </div>
@@ -91,10 +91,10 @@
                 <c:forEach items="${admins }" var="ad">
                     <c:choose>
                         <c:when test="${projectManger.projectManager == ad.id }">
-                            <option value="${ad.id }" selected>${ad.fullname }</option>
+                            <option value="${ad.id }" selected>${ad.fullname }${projectManger.projectManager == ad.id }</option>
                         </c:when>
                         <c:otherwise>
-                            <option value="${ad.id }">${ad.fullname }</option>
+                            <option value="${ad.id }">${ad.fullname }${projectManger.projectManager == ad.id }</option>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
@@ -123,11 +123,11 @@
         <label class="layui-form-label">发展商</label>
         <div class="layui-input-block">
            <%-- <input type="text" id="developer" class="layui-input " name="developer" placeholder="请输入发展商" value="${projectManger.developer}">--%>
-            <select name="budgetLeader" lay-verify="required">
+            <select name="developer" lay-verify="required">
                 <option value="">请选择发展商</option>
                 <c:forEach items="${customersList }" var="customers">
                     <c:choose>
-                        <c:when test="${projectManger.budgetLeader == customers.id }">
+                        <c:when test="${projectManger.developer == customers.id }">
                             <option value="${customers.id }" selected>${customers.fullName } - ${customers.chargeName } - ${customers.chargePhone }</option>
                         </c:when>
                         <c:otherwise>
@@ -190,18 +190,18 @@
     <div class="layui-form-item">
         <label class="layui-form-label">合同金额</label>
         <div class="layui-input-block">
-            <input type="text" id="contractPrice" class="layui-input " name="contractPrice" lay-verify="price" placeholder="请输入项目合同编号" value="${projectManger.contractPrice}">
+            <input type="number" id="contractPrice" class="layui-input " name="contractPrice" lay-verify="price" placeholder="请输入项目合同编号" value="${projectManger.contractPrice}">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">结算方式</label>
         <div class="layui-input-block">
-            <select name="progressPlan" lay-verify="required">
+            <select name="settleType" lay-verify="required">
                 <option value="">请选择</option>
-                <option value="0">总价包干</option>
-                <option value="1">单价包干</option>
-                <option value="2">综合单价包干</option>
-                <option value="3">按实结算</option>
+                <option value="0" <c:if test="${projectManger.settleType == 0}">selected</c:if> >总价包干</option>
+                <option value="1" <c:if test="${projectManger.settleType == 1}">selected</c:if> >单价包干</option>
+                <option value="2" <c:if test="${projectManger.settleType == 2}">selected</c:if> >综合单价包干</option>
+                <option value="3" <c:if test="${projectManger.settleType == 3}">selected</c:if> >按实结算</option>
             </select>
         </div>
     </div>
@@ -209,40 +209,40 @@
     <div class="layui-form-item">
         <label class="layui-form-label">合同签定日期</label>
         <div class="layui-input-block">
-            <input type="text" id="contractSignDate" class="layui-input " name="contractSignDate" placeholder="请选择合同签定日期" value="${projectManger.contractSignDate}">
+            <input type="text" id="contractSignDate" class="layui-input" readonly="readonly" name="contractSignDate" placeholder="请选择合同签定日期" value="<fmt:formatDate value="${projectManger.contractSignDate}" pattern="yyyy-MM-dd"/>">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">项目开工日期</label>
         <div class="layui-input-block">
-            <input type="text" id="startDate" class="layui-input " name="startDate" placeholder="请选择合同签定日期" value="${projectManger.startDate}">
+            <input type="text" id="startDate" class="layui-input " readonly="readonly" name="startDate" placeholder="请选择合同签定日期" value="<fmt:formatDate value="${projectManger.startDate}" pattern="yyyy-MM-dd"/>">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">项目完工日期</label>
         <div class="layui-input-block">
-            <input type="text" id="overDate" class="layui-input " name="overDate" placeholder="请选择合同签定日期" value="${projectManger.overDate}">
+            <input type="text" id="overDate" class="layui-input " readonly="readonly" name="overDate" placeholder="请选择合同签定日期" value="<fmt:formatDate value="${projectManger.overDate}" pattern="yyyy-MM-dd"/>">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">项目验收日期</label>
         <div class="layui-input-block">
-            <input type="text" id="acceptanceDate" class="layui-input " name="acceptanceDate" placeholder="请选择合同签定日期" value="${projectManger.acceptanceDate}">
+            <input type="text" id="acceptanceDate" class="layui-input " readonly="readonly" name="acceptanceDate" placeholder="请选择合同签定日期" value="<fmt:formatDate value="${projectManger.acceptanceDate}" pattern="yyyy-MM-dd"/>">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">项目状态</label>
         <div class="layui-input-block">
-            <select name="status" lay-verify="required">
+            <select id="status" name="status" lay-verify="required">
                 <option value="">请选择</option>
-                <option value="0">未开工</option>
-                <option value="1">在建中</option>
-                <option value="2">已完工</option>
-                <option value="3">已验收</option>
-                <option value="4">已停工</option>
+                <option value="0" <c:if test="${projectManger.status == 0}">selected</c:if> >未开工</option>
+                <option value="1" <c:if test="${projectManger.status == 1}">selected</c:if> >在建中</option>
+                <option value="2" <c:if test="${projectManger.status == 2}">selected</c:if> >已完工</option>
+                <option value="3" <c:if test="${projectManger.status == 3}">selected</c:if> >已验收</option>
+                <option value="4" <c:if test="${projectManger.status == 4}">selected</c:if> >已停工</option>
             </select>
         </div>
     </div>

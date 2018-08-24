@@ -16,13 +16,13 @@ layui.config({
 		    ,limits:[10,20,30,40]
 		    ,cols: [[ //表头
               {type:'radio', width: 70,templet:"#radioTpl"}
-              ,{field:'id', title: 'ID', width: 50, sort: true}
-              ,{field:'projectNo', title: '项目编号'}
+              ,{field:'id', title: 'ID', width: 50, sort: true,templet:"#layIndex"}
+             /* ,{field:'projectNo', title: '项目编号'}*/
               ,{field:'shortName', title: '项目简称'}
-              ,{field:'projectManager', title: '项目经理'}
-              ,{field:'budgetLeader', title: '预算负责人'}
-              ,{field:'developer', title: '发展商'}
-              ,{field:'consignor', title: '委托商'}
+              ,{field:'projectManagerName', title: '项目经理'}
+              ,{field:'budgetLeaderName', title: '预算负责人'}
+              ,{field:'developerName', title: '发展商'}
+              ,{field:'consignorName', title: '委托商'}
               ,{field:'source', title: '项目来源',templet: '#sourceType'}
               ,{field:'nature', title: '项目性质',templet: '#natureType'}
               ,{field:'progressPlan', title: '工程进度方案',templet: '#progressPlanType'}
@@ -46,7 +46,30 @@ layui.config({
 	        },1000);
 		    layer.msg('角色名更改为：'+ value,{icon: 1});
 		  });*/
-		
+
+
+    //查询
+    $(".projectMangerQuery_btn").click(function() {
+        search()
+    })
+
+    function search() {
+        var name = $('#name'), projectManager = $('#projectManager option:selected'),developer = $('#developer option:selected'), consignor = $('#consignor option:selected'), status = $('#status option:selected');
+        //执行重载
+        table.reload('projectMangerList',
+            {
+                page : {
+                    curr : 1 //重新从第 1 页开始
+                },
+                where : {
+                    name : name .val(),
+                    projectManager : projectManager.val(),
+                    developer : developer.val(),
+                    consignor : consignor.val(),
+                    status : status.val()
+                }
+            });
+    }
 
 	//添加角色
 	$(".projectMangerAdd_btn").click(function(){

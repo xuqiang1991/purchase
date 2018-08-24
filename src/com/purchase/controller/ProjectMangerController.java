@@ -8,6 +8,7 @@ import com.purchase.service.AdminService;
 import com.purchase.service.CustomersService;
 import com.purchase.service.ProjectMangerService;
 import com.purchase.util.ResultUtil;
+import com.purchase.vo.admin.ProjectMangerSearch;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,8 +38,12 @@ public class ProjectMangerController {
 
 	@RequestMapping(value="/projectMangerList")
 	@RequiresPermissions("sys:projectManger:list")
-	public String list() {
+	public String list(HttpServletRequest req) {
 		logger.info("进入项目管理列表页面");
+        List<TbAdmin> admins = adminServiceImpl.getAdmins(1);
+        req.setAttribute("admins",admins);
+        List<TbCustomers> customersList = customersService.getCustomersList();
+        req.setAttribute("customersList",customersList);
 		return "page/projectManger/projectMangerList";
 	}
 	
@@ -49,14 +54,14 @@ public class ProjectMangerController {
 	@RequestMapping("/getProjectMangerList")
 	@RequiresPermissions("sys:projectManger:list")
 	@ResponseBody
-	public ResultUtil getProjectMangerList(Integer page,Integer limit) {
+	public ResultUtil getProjectMangerList(Integer page, Integer limit, ProjectMangerSearch search) {
 		logger.info("请求项目数据");
         ResultUtil result = new ResultUtil();
-           try {
-                result = projectMangerService.selProjectManger(page,limit);
-           }catch (Exception e){
-               e.printStackTrace();
-           }
+        try {
+            result = projectMangerService.selProjectManger(page,limit,search);
+        }catch (Exception e){
+           e.printStackTrace();
+        }
 		return result;
 	}
 

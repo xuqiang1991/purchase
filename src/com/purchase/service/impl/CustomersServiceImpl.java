@@ -69,8 +69,8 @@ public class CustomersServiceImpl implements CustomersService {
 		TbCustomersExample example = new TbCustomersExample();
 		List<TbCustomers> list = customersMapper.selectByExample(example);
 		// 将areaName写进TbCustomers
+        List<TbArea> areas = areaMapper.selectByExample(new TbAreaExample());
 		for (TbCustomers customers : list) {
-			List<TbArea> areas = areaMapper.selectByExample(new TbAreaExample());
 			for (TbArea area : areas) {
 				if (area.getId() == customers.getArea()) {
                     customers.setAreaName(area.getName());

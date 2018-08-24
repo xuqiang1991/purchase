@@ -54,6 +54,14 @@ public class TbProjectManger {
 
     private Integer status;
 
+    private String projectManagerName;
+
+    private String budgetLeaderName;
+
+    private String developerName;
+
+    private String consignorName;
+
     public String getId() {
         return id;
     }
@@ -228,5 +236,37 @@ public class TbProjectManger {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getProjectManagerName() {
+        return projectManagerName;
+    }
+
+    public void setProjectManagerName(String projectManagerName) {
+        this.projectManagerName = projectManagerName;
+    }
+
+    public String getBudgetLeaderName() {
+        return budgetLeaderName;
+    }
+
+    public void setBudgetLeaderName(String budgetLeaderName) {
+        this.budgetLeaderName = budgetLeaderName;
+    }
+
+    public String getDeveloperName() {
+        return developerName;
+    }
+
+    public void setDeveloperName(String developerName) {
+        this.developerName = developerName;
+    }
+
+    public String getConsignorName() {
+        return consignorName;
+    }
+
+    public void setConsignorName(String consignorName) {
+        this.consignorName = consignorName;
     }
 }

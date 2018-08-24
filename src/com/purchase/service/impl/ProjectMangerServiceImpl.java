@@ -2,13 +2,17 @@ package com.purchase.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.purchase.mapper.admin.TbAdminMapper;
+import com.purchase.mapper.admin.TbCustomersMapper;
 import com.purchase.mapper.admin.TbProjectMangerMapper;
-import com.purchase.pojo.admin.TbProjectManger;
-import com.purchase.pojo.admin.TbProjectMangerExample;
+import com.purchase.pojo.admin.*;
 import com.purchase.service.ProjectMangerService;
+import com.purchase.util.MyUtil;
 import com.purchase.util.ResultUtil;
+import com.purchase.vo.admin.ProjectMangerSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -22,11 +26,65 @@ public class ProjectMangerServiceImpl implements ProjectMangerService {
     @Autowired
     private TbProjectMangerMapper projectMangerMapper;
 
+    @Autowired
+    private TbAdminMapper adminMapper;
+
+    @Autowired
+    private TbCustomersMapper customersMapper;
+
     @Override
-    public ResultUtil selProjectManger(Integer page, Integer limit) {
+    public ResultUtil selProjectManger(Integer page, Integer limit, ProjectMangerSearch search) {
         PageHelper.startPage(page, limit);
         TbProjectMangerExample example = new TbProjectMangerExample();
+        example.setOrderByClause("id DESC");
+        TbProjectMangerExample.Criteria criteria = example.createCriteria();
+        if(!StringUtils.isEmpty(search.getName())){
+            //注意：模糊查询需要进行拼接”%“  如下，不进行拼接是不能完成查询的哦。
+            criteria.andNameLike("%"+search.getName()+"%");
+            /*criteria.andShortNameLike("%"+search.getName()+"%");*/
+        }
+        if(search.getProjectManager() != null){
+            criteria.andProjectManagerEqualTo(search.getProjectManager());
+        }
+        if(!StringUtils.isEmpty(search.getDeveloper())){
+            criteria.andDeveloperEqualTo(search.getDeveloper());
+        }
+        if(!StringUtils.isEmpty(search.getConsignor())){
+            criteria.andConsignorEqualTo(search.getConsignor());
+        }
+        if(search.getStatus() != null){
+            criteria.andStatusEqualTo(search.getStatus());
+        }
+
         List<TbProjectManger> list = projectMangerMapper.selectByExample(example);
+        List<TbAdmin> admins = adminMapper.selectByExample(new TbAdminExample());
+        for (TbProjectManger pm : list) {
+            for (TbAdmin admin : admins) {
+                if (admin.getId() == pm.getProjectManager()) {
+                    pm.setProjectManagerName(admin.getFullname());
+                }
+                if (admin.getId() == pm.getBudgetLeader()) {
+                    pm.setBudgetLeaderName(admin.getFullname());
+                }
+            }
+            if(pm.getDeveloper() != null){
+                TbCustomers customers = customersMapper.selectByPrimaryKey(Long.parseLong(pm.getDeveloper()));
+                if(customers != null){
+                    pm.setDeveloperName(customers.getFullName());
+                    /*pm.setDeveloperLeaderName(customers.getChargeName());
+                    pm.setDeveloperLeaderPhone(customers.getChargePhone());*/
+                }
+            }
+            if(pm.getConsignor() != null){
+                TbCustomers customers = customersMapper.selectByPrimaryKey(Long.parseLong(pm.getConsignor()));
+                if(customers != null){
+                    pm.setConsignorName(customers.getFullName());
+                    /*pm.setConsignorLeaderName(customers.getChargeName());
+                    pm.setConsignorLeaderPhone(customers.getChargePhone());*/
+                }
+            }
+
+        }
         PageInfo<TbProjectManger> pageInfo = new PageInfo<TbProjectManger>(list);
         ResultUtil resultUtil = new ResultUtil();
         resultUtil.setCode(0);
@@ -55,9 +113,10 @@ public class ProjectMangerServiceImpl implements ProjectMangerService {
 
     @Override
     public void editProjectManger(TbProjectManger projectManger) {
-        if(projectManger.getId() != null){
+        if(!StringUtils.isEmpty(projectManger.getId())){
             projectMangerMapper.updateByPrimaryKey(projectManger);
         }else{
+            projectManger.setId(MyUtil.getStrUUID());
             projectMangerMapper.insert(projectManger);
         }
     }

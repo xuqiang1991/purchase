@@ -3,7 +3,6 @@ package com.purchase.util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
 import java.util.UUID;
 
 public class MyUtil {
@@ -60,10 +59,11 @@ public class MyUtil {
 	 * @return
 	 */
 	public static String getStrUUID(){
-		Random random = new Random();
+		/*Random random = new Random();
 		int end = random.nextInt(999);
 		//如果不足三位前面补0
 		String endStr =String.format("%03d", end);
-		return UUID.randomUUID().toString().replace("-", "")+endStr;
+		return UUID.randomUUID().toString().replace("-", "")+endStr;*/
+        return UUID.randomUUID().toString().replace("-", "");
 	}
 }

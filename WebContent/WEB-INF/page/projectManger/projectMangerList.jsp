@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
+<%@ include file="/WEB-INF/page/include/taglib.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -23,21 +24,73 @@
 </head>
 <body class="childrenBody">
 	<blockquote class="layui-elem-quote list_search">
-		<shiro:hasPermission name="sys:projectManger:save">
-			<div class="layui-inline">
-				<a class="layui-btn projectMangerAdd_btn"><i class="layui-icon">&#xe608;</i>添加</a>
-			</div>
-		</shiro:hasPermission>
-		<shiro:hasPermission name="sys:projectManger:update">
-			<div class="layui-inline">
-				<a class="layui-btn projectMangerUpdate_btn"><i class="layui-icon">&#xe642;</i>编辑</a>
-			</div>
-		</shiro:hasPermission>
-		<shiro:hasPermission name="sys:projectManger:delete">
-			<div class="layui-inline">
-				<a class="layui-btn layui-btn-danger projectMangerDel_btn" data-type="delCheckData"><i class="layui-icon">&#xe640;</i>删除</a>
-			</div>
-		</shiro:hasPermission>
+        <form class="layui-form">
+            <!-- 查询条件块 start -->
+            <div>
+                <div class="layui-input-inline">
+                    <input type="text" id="name" value="" placeholder="请输入项目名称" class="layui-input search_input">
+                </div>
+                <div class="layui-input-inline layui-form">
+                    <select id="projectManager" name="projectManager" >
+                        <option value="">请选择项目经理</option>
+                        <c:forEach items="${admins }" var="ad">
+                            <option value="${ad.id }">${ad.fullname }</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="layui-input-inline layui-form">
+                    <select id="developer" name="developer">
+                        <option value="">请选择发展商</option>
+                        <c:forEach items="${customersList }" var="customers">
+                            <%--<option value="${customers.id }">${customers.fullName } - ${customers.chargeName } - ${customers.chargePhone }</option>--%>
+                            <option value="${customers.id }">${customers.fullName }</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="layui-input-inline layui-form">
+                    <select id="consignor" name="consignor">
+                        <option value="">请选择委托商</option>
+                        <c:forEach items="${customersList }" var="customers">
+                            <option value="${customers.id }">${customers.fullName }</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="layui-input-inline layui-form">
+                    <select id="status" name="status">
+                        <option value="">请选择项目状态</option>
+                        <option value="0">未开工</option>
+                        <option value="1">在建中</option>
+                        <option value="2">已完工</option>
+                        <option value="3">已验收</option>
+                        <option value="4">已停工</option>
+                    </select>
+                </div>
+            </div>
+            <!-- 查询条件块 end -->
+            <div class="layui-inline">
+                <a class="layui-btn projectMangerQuery_btn"><i class="layui-icon">&#xe615;</i>查询</a>
+            </div>
+           <%-- <shiro:hasPermission name="sys:projectManger:query">
+                <div class="layui-inline">
+                    <a class="layui-btn projectMangerQuery_btn"><i class="layui-icon">&#xe615;</i>查询</a>
+                </div>
+            </shiro:hasPermission>--%>
+            <shiro:hasPermission name="sys:projectManger:save">
+                <div class="layui-inline">
+                    <a class="layui-btn projectMangerAdd_btn"><i class="layui-icon">&#xe608;</i>添加</a>
+                </div>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="sys:projectManger:update">
+                <div class="layui-inline">
+                    <a class="layui-btn projectMangerUpdate_btn"><i class="layui-icon">&#xe642;</i>编辑</a>
+                </div>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="sys:projectManger:delete">
+                <div class="layui-inline">
+                    <a class="layui-btn layui-btn-danger projectMangerDel_btn" data-type="delCheckData"><i class="layui-icon">&#xe640;</i>删除</a>
+                </div>
+            </shiro:hasPermission>
+        </form>
 	</blockquote>
 	<!-- 数据表格 -->
 	<table id="projectMangerList" class="projectMangerList" lay-filter="projectMangerList"></table>
@@ -47,10 +100,15 @@
 	  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
 	  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 	</script>
+
+
+    <script type="text/html" id="layIndex">
+        {{d.LAY_INDEX}}
+    </script>
 	<script type="text/html" id="sourceType">
 		{{#  if(d.source == 0){ }}
 		议标
-        {{# else if(d.source == 1){ }}
+        {{# }else if(d.source == 1){ }}
         投标
         {{#  } else{ }}
         年度战略
@@ -59,7 +117,7 @@
     <script type="text/html" id="natureType">
         {{#  if(d.nature == 0){ }}
         地产景观
-        {{# else if(d.nature == 1){ }}
+        {{# }else if(d.nature == 1){ }}
         市政公用
         {{#  } else{ }}
         旅游度假
@@ -69,11 +127,11 @@
     <script type="text/html" id="progressPlanType">
         {{#  if(d.progressPlan == 0){ }}
         综合方案
-        {{# else if(d.progressPlan == 1){ }}
+        {{# }else if(d.progressPlan == 1){ }}
         园建方案
-        {{# else if(d.progressPlan == 2){ }}
+        {{# }else if(d.progressPlan == 2){ }}
         水电工程
-        {{# else if(d.progressPlan == 3){ }}
+        {{# }else if(d.progressPlan == 3){ }}
         (园建+水电)方案
         {{#  } else{ }}
         绿化方案
@@ -82,11 +140,11 @@
     <script type="text/html" id="statusType">
         {{#  if(d.status == 0){ }}
         未开工
-        {{# else if(d.status == 1){ }}
+        {{# }else if(d.status == 1){ }}
         在建中
-        {{# else if(d.status == 2){ }}
+        {{# }else if(d.status == 2){ }}
         已完工
-        {{# else if(d.status == 3){ }}
+        {{# }else if(d.status == 3){ }}
         已验收
         {{#  } else{ }}
         已停工

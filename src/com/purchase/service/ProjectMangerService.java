@@ -2,6 +2,7 @@ package com.purchase.service;
 
 import com.purchase.pojo.admin.TbProjectManger;
 import com.purchase.util.ResultUtil;
+import com.purchase.vo.admin.ProjectMangerSearch;
 
 /**
  * @Auther: zhoujb
@@ -16,7 +17,7 @@ public interface ProjectMangerService {
      * @param limit
      * @return
      */
-    ResultUtil selProjectManger(Integer page, Integer limit);
+    ResultUtil selProjectManger(Integer page, Integer limit, ProjectMangerSearch search);
 
     /**
      * 检查项目名称是否唯一

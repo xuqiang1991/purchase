@@ -12,9 +12,14 @@ layui.config({
             elem: '#contractSignDate,#startDate,#overDate,#acceptanceDate' //指定元素
             ,max: 'new Date()'
         });
+    form.verify({
+        price: [
+            /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/
+            ,'金额格式错误'
+        ]
+    });
 
-
- 	form.on("submit(projectMangerAdd)",function(data){
+    form.on("submit(projectMangerAdd)",function(data){
  		//弹出loading
  		var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
  		/*var json = JSON.parse(data);*/
