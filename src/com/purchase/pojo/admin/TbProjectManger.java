@@ -1,5 +1,7 @@
 package com.purchase.pojo.admin;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -38,12 +40,16 @@ public class TbProjectManger {
 
     private String consignorLeaderPhone;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date contractSignDate;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date startDate;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date overDate;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date acceptanceDate;
 
     private Integer status;
