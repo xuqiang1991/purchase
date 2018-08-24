@@ -84,10 +84,10 @@ public class ProjectMangerController {
 
 
     @SysLog(value="添加项目")
-    @RequestMapping("/editProjectManger")
+    @RequestMapping("/saveProjectManger")
     @RequiresPermissions("sys:projectManger:save")
     @ResponseBody
-    public ResultUtil editProjectManger(TbProjectManger projectManger) {
+    public ResultUtil saveProjectManger(TbProjectManger projectManger) {
         //防止浏览器提交
         boolean flag = projectMangerService.checkProjectMangerName(projectManger);
         if(flag){

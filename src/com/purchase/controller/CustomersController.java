@@ -1,25 +1,19 @@
 package com.purchase.controller;
 
-import com.alibaba.druid.support.json.JSONUtils;
 import com.purchase.annotation.SysLog;
-import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbArea;
 import com.purchase.pojo.admin.TbCustomers;
 import com.purchase.service.AdminService;
+import com.purchase.service.CustomersService;
+import com.purchase.util.ResultUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.portlet.ModelAndView;
-
-import com.purchase.service.CustomersService;
-import com.purchase.util.ResultUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -102,7 +96,7 @@ public class CustomersController {
 
     @SysLog(value="添加客户")
     @RequestMapping("/editCustomers")
-    @RequiresPermissions("sys:admin:save")
+    @RequiresPermissions("sys:customers:save")
     @ResponseBody
     public ResultUtil editCustomers(TbCustomers customers) {
         //防止浏览器提交

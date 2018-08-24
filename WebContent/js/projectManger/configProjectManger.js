@@ -17,10 +17,12 @@ layui.config({
  	form.on("submit(projectMangerAdd)",function(data){
  		//弹出loading
  		var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
+ 		/*var json = JSON.parse(data);*/
+
  		var msg;
  		$.ajax({
     		type: "post",
-            url: ctx+"/projectManger/editProjectManger",
+            url: ctx+"/projectManger/saveProjectManger",
             data:data.field,
 			dataType:"json",
 			success:function(d){

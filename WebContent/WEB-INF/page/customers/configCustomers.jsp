@@ -49,7 +49,7 @@
                 <c:choose>
                     <c:when test="${customers.id != null && customers.id != ''}">
                         <c:choose>
-                            <c:when test="${customers.type == 0}">0
+                            <c:when test="${customers.type == 0}">
                                 <input type="radio" name="type" value="0" title="发展商" checked>
                                 <input type="radio" name="type" value="1" title="委托商">
                             </c:when>
