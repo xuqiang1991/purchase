@@ -6,6 +6,7 @@ import com.purchase.pojo.admin.TbCustomers;
 import com.purchase.service.AdminService;
 import com.purchase.service.CustomersService;
 import com.purchase.util.ResultUtil;
+import com.purchase.vo.admin.CustomersSearch;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,11 +45,11 @@ public class CustomersController {
 	@RequestMapping("/getCustomersList")
 	@RequiresPermissions("sys:customers:list")
 	@ResponseBody
-	public ResultUtil getCustomersList(Integer page,Integer limit) {
+	public ResultUtil getCustomersList(Integer page, Integer limit, CustomersSearch search) {
 		logger.info("请求客户数据");
         ResultUtil result = new ResultUtil();
            try {
-                result = customersService.selCustomers(page, limit);
+                result = customersService.selCustomers(page, limit,search);
            }catch (Exception e){
                e.printStackTrace();
            }

@@ -19,73 +19,44 @@ layui.config({
               ,{field:'id', title: 'ID', width: 50, sort: true}
               ,{field:'fullName', title: '客户名称'}
               ,{field:'shortName', title: '客户简称'}
-              ,{field:'type', title: '客户类别',templet: '#customersType'}
+                ,{field:'areaName', title: '地区'}
+              /*,{field:'type', title: '客户类别',templet: '#customersType'}*/
               ,{field:'chargeName', title: '负责人'}
-              ,{field:'chargePhone', title: '负责人电话'}
+              /*,{field:'chargePhone', title: '负责人电话'}*/
               ,{field:'linkName', title: '联系人'}
-              ,{field:'linkPhone', title: '联系人电话'}
-              ,{field:'addDate', title: '新增时间',templet: '<div>{{ formatTime(d.addDate,"yyyy-MM-dd")}}</div>'}
-              ,{field:'areaName', title: '地区'}
-              ,{field:'address', title: '地址'}
+              /*,{field:'linkPhone', title: '联系人电话'}*/
+             /* ,{field:'addDate', title: '新增时间',templet: '<div>{{ formatTime(d.addDate,"yyyy-MM-dd")}}</div>'}*/
+              /*,{field:'address', title: '地址'}*/
               ,{field:'isForce', title: '是否生效',templet:"#customersIsForce"}
+                /*名称、简称、地区、负责人、联系人、联系人电话、是否有效*/
              // ,{field:'remark', title: '备注'}
              // ,{title: '操作',toolbar: '#barEdit'}
 		    ]]
 				,page: true //开启分页
 				,where: {timestamp: (new Date()).valueOf()}
 		  });
-		
-		//监听单元格编辑
-		  /*table.on('edit(test)', function(obj){
-		    var value = obj.value //得到修改后的值
-		    ,data = obj.data //得到所在行所有键值
-		    ,field = obj.field; //得到字段
-		    setTimeout(function(){
-	        	$.ajax({
-	                type: "POST",
-	                url: "saveRole",
-	                data:{'roleId':data.roleId,'roleName':value},
-	            });
-	        },1000);
-		    layer.msg('角色名更改为：'+ value,{icon: 1});
-		  });*/
-		
-		//监听工具条
-		  table.on('tool(customersList)', function(obj){
-		    var data = obj.data;
-		    if(obj.event === 'del'){
-		    	if(data.roleName=='超级管理员'){
-		    		layer.msg("不允许操作此角色！",{icon: 5});
-		    		return;
-		    	}
-		      layer.confirm('真的删除行么', function(index){
-		    	  $.ajax({
-		    		  url:ctx+'/sys/delRole/'+data.roleId,
-		    		  type : "get",
-		    		  success : function(d){
-		    			  if(d.code==0){
-		    				  //obj.del();
-		    				  table.reload('roleList', {})
-		    			  }else{
-		    				  layer.msg("权限不足，联系超管！",{icon: 5});
-		    			  }
-		    		  }
-		    	  })
-		        layer.close(index);
-		      });
-		    } else if(obj.event === 'edit'){
-		    	/*if(data.roleName=='超级管理员'){
-		    		layer.msg("不允许操作此角色！",{icon: 5});
-		    		return;
-		    	}*/
-		      layer.open({
-		    	  type: 2,
-		    	  title:"编辑角色",
-		    	  area: ['500px', '600px'],
-		    	  content:ctx+"/customers/configCustomers?id="+data.id, //这里content是一个普通的String
-		      })
-		    }
-		  });
+
+    //查询
+    $(".customersQuery_btn").click(function() {
+        search()
+    })
+
+    function search() {
+        var name = $('#name'), areaId = $('#areaId'),isForce = $('#isForce option:selected');
+        //执行重载
+        table.reload('customersList',
+            {
+                page : {
+                    curr : 1 //重新从第 1 页开始
+                },
+                where : {
+                    name : name .val(),
+                    areaId : areaId.val(),
+                    isForce : isForce.val()
+                }
+            });
+    }
+
 		  
 	//添加角色
 	$(".customersAdd_btn").click(function(){

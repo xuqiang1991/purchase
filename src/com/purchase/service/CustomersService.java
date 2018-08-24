@@ -2,6 +2,7 @@ package com.purchase.service;
 
 import com.purchase.pojo.admin.TbCustomers;
 import com.purchase.util.ResultUtil;
+import com.purchase.vo.admin.CustomersSearch;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface CustomersService {
      * @param limit
      * @return
      */
-	ResultUtil selCustomers(Integer page, Integer limit);
+	ResultUtil selCustomers(Integer page, Integer limit, CustomersSearch search);
 
     /**
      * 检查客户名称是否唯一

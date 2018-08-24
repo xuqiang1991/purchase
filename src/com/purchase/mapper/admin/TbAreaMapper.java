@@ -2,8 +2,10 @@ package com.purchase.mapper.admin;
 
 import com.purchase.pojo.admin.TbArea;
 import com.purchase.pojo.admin.TbAreaExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 public interface TbAreaMapper {
     int countByExample(TbAreaExample example);
@@ -27,4 +29,7 @@ public interface TbAreaMapper {
     int updateByPrimaryKeySelective(TbArea record);
 
     int updateByPrimaryKey(TbArea record);
+
+    @Select("SELECT id FROM tb_area WHERE id = #{0} or parent_id = #{0}")
+    List<Long> getAreaListById(Long areaId);
 }

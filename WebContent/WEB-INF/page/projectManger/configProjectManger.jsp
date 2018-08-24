@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/page/include/taglib.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -38,13 +38,13 @@
     <div class="layui-form-item">
         <label class="layui-form-label">项目名称</label>
         <div class="layui-input-block">
-            <input type="text" id="name" class="layui-input" lay-verify="required" placeholder="请输入客户名称" name="name" value="${projectManger.name}">
+            <input type="text" id="name" class="layui-input" lay-verify="required" maxlength="50" placeholder="请输入项目名称" name="name" value="${projectManger.name}">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">项目简称</label>
         <div class="layui-input-block">
-            <input type="text" id="shortName" class="layui-input" lay-verify="required" placeholder="请输入客户简称" name="shortName" value="${projectManger.shortName}">
+            <input type="text" id="shortName" class="layui-input" lay-verify="required" maxlength="20" placeholder="请输入项目简称" name="shortName" value="${projectManger.shortName}">
         </div>
     </div>
     <div class="layui-form-item">
@@ -184,13 +184,13 @@
     <div class="layui-form-item">
         <label class="layui-form-label">项目合同编号</label>
         <div class="layui-input-block">
-            <input type="text" id="projectNo" class="layui-input " name="projectNo" placeholder="请输入项目合同编号" value="${projectManger.projectNo}">
+            <input type="text" id="projectNo" class="layui-input " maxlength="20" name="projectNo" placeholder="请输入项目合同编号" value="${projectManger.projectNo}">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">合同金额</label>
         <div class="layui-input-block">
-            <input type="number" id="contractPrice" class="layui-input " name="contractPrice" lay-verify="price" placeholder="请输入项目合同编号" value="${projectManger.contractPrice}">
+            <input type="number" id="contractPrice" class="layui-input " maxlength="13" name="contractPrice" lay-verify="price" placeholder="请输入项目合同编号" value="${projectManger.contractPrice}">
         </div>
     </div>
     <div class="layui-form-item">

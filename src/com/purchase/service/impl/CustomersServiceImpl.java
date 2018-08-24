@@ -10,8 +10,10 @@ import com.purchase.pojo.admin.TbCustomers;
 import com.purchase.pojo.admin.TbCustomersExample;
 import com.purchase.service.CustomersService;
 import com.purchase.util.ResultUtil;
+import com.purchase.vo.admin.CustomersSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -63,10 +65,26 @@ public class CustomersServiceImpl implements CustomersService {
     }
 
     @Override
-	public ResultUtil selCustomers(Integer page, Integer limit) {
+	public ResultUtil selCustomers(Integer page, Integer limit, CustomersSearch search) {
 		
 		PageHelper.startPage(page, limit);
 		TbCustomersExample example = new TbCustomersExample();
+        example.setOrderByClause("add_date DESC");
+        TbCustomersExample.Criteria criteria = example.createCriteria();
+        if(!StringUtils.isEmpty(search.getName())){
+            //注意：模糊查询需要进行拼接”%“  如下，不进行拼接是不能完成查询的哦。
+            criteria.andFullNameLike("%"+search.getName()+"%");
+            /*criteria.andShortNameLike("%"+search.getName()+"%");*/
+        }
+        if(search.getAreaId() != null){
+            List<Long> areas = areaMapper.getAreaListById(search.getAreaId());
+            criteria.andAreaIn(areas);
+        }
+
+        if(search.getIsForce() != null){
+            criteria.andIsForceEqualTo(search.getIsForce());
+        }
+
 		List<TbCustomers> list = customersMapper.selectByExample(example);
 		// 将areaName写进TbCustomers
         List<TbArea> areas = areaMapper.selectByExample(new TbAreaExample());

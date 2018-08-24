@@ -23,30 +23,59 @@
 </head>
 <body class="childrenBody">
 	<blockquote class="layui-elem-quote list_search">
-		<shiro:hasPermission name="sys:customers:save">
-			<div class="layui-inline">
-				<a class="layui-btn customersAdd_btn"><i class="layui-icon">&#xe608;</i>添加</a>
-			</div>
-		</shiro:hasPermission>
-		<shiro:hasPermission name="sys:customers:update">
-			<div class="layui-inline">
-				<a class="layui-btn customersUpdate_btn"><i class="layui-icon">&#xe642;</i>编辑</a>
-			</div>
-		</shiro:hasPermission>
-		<shiro:hasPermission name="sys:customers:delete">
-			<div class="layui-inline">
-				<a class="layui-btn layui-btn-danger customersDel_btn" data-type="delCheckData"><i class="layui-icon">&#xe640;</i>删除</a>
-			</div>
-		</shiro:hasPermission>
+        <form class="layui-form">
+            <!-- 查询条件块 start -->
+            <div>
+                <div class="layui-input-inline">
+                    <input type="text" id="name" value="" placeholder="请输入客户名称" class="layui-input search_input">
+                </div>
+                <div class="layui-input-inline layui-form">
+                    <input type="text" id="areaName" class="layui-input search_input" placeholder="请选择地区" name="areaName" >
+                    <input type="hidden" id="areaId" name="areaId">
+                    <%--<select id="areaId" name="areaId" >
+                        <option value="1">请选择地区</option>
+                    </select>--%>
+                </div>
+                <div class="layui-input-inline layui-form">
+                    <select id="isForce" name="isForce">
+                        <option value="">请选择状态</option>
+                        <option value="1">有效</option>
+                        <option value="0">失效</option>
+                    </select>
+                </div>
+            </div>
+            <!-- 查询条件块 end -->
+
+            <div class="layui-inline">
+                <a class="layui-btn customersQuery_btn"><i class="layui-icon">&#xe615;</i>查询</a>
+            </div>
+            <%-- <shiro:hasPermission name="sys:customers:query">
+                 <div class="layui-inline">
+                     <a class="layui-btn projectMangerQuery_btn"><i class="layui-icon">&#xe615;</i>查询</a>
+                 </div>
+             </shiro:hasPermission>--%>
+            <shiro:hasPermission name="sys:customers:save">
+                <div class="layui-inline">
+                    <a class="layui-btn customersAdd_btn"><i class="layui-icon">&#xe608;</i>添加</a>
+                </div>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="sys:customers:update">
+                <div class="layui-inline">
+                    <a class="layui-btn customersUpdate_btn"><i class="layui-icon">&#xe642;</i>编辑</a>
+                </div>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="sys:customers:delete">
+                <div class="layui-inline">
+                    <a class="layui-btn layui-btn-danger customersDel_btn" data-type="delCheckData"><i class="layui-icon">&#xe640;</i>删除</a>
+                </div>
+            </shiro:hasPermission>
+        </form>
 	</blockquote>
 	<!-- 数据表格 -->
 	<table id="customersList" class="customersList" lay-filter="customersList"></table>
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>
 	<script type="text/javascript" src="${ctx }/js/customers/customersList.js"></script>
-	<script type="text/html" id="barEdit">
-	  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-	  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-	</script>
+    <script type="text/javascript" src="${ctx }/js/admin/areaSelect.js"></script>
 	<script type="text/html" id="customersType">
 		{{#  if(d.type == 0){ }}
 		发展商
