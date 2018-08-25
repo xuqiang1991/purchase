@@ -4,7 +4,7 @@
 purchaseOrder = {
     //状态转换
     statusConversion : function (helper) {
-        helper.registerHelper("statusConversion",function(obj){
+        helper.registerHelper("purchaseOrder_statusConversion",function(obj){
             var statusStr;
             switch (obj){
                 case 0:
@@ -28,7 +28,7 @@ purchaseOrder = {
     },
     //获取最后状态的人
     departUser:function (helper) {
-        helper.registerHelper("departUser",function(){
+        helper.registerHelper("purchaseOrder_departUser",function(){
             var str,obj = this.status;
             switch (obj){
                 case 0:
@@ -52,7 +52,7 @@ purchaseOrder = {
     },
     //获取最后状态的时间
     departDate:function (helper) {
-        helper.registerHelper("departDate",function(){
+        helper.registerHelper("purchaseOrder_departDate",function(){
             var str,obj = this.status;
             switch (obj){
                 case 0:
