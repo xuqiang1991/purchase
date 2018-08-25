@@ -27,18 +27,23 @@
             <a class="mui-navigate-right" href="#">搜索</a>
             <div class="mui-collapse-content">
                 <div class="mui-collapse-content">
-                    <form class="mui-input-group">
+                    <form class="mui-input-group" id="searchForm">
                         <div class="mui-input-row">
                             <label>单号</label>
-                            <input type="text" placeholder="普通输入框">
+                            <input type="text" placeholder="普通输入框" name="purchaseNo">
                         </div>
                         <div class="mui-input-row">
                             <label>订单类型</label>
-                            <input type="text" placeholder="普通输入框">
+                            <select>
+                                <option value="0">绿化苗木</option>
+                                <option value="1">园建水电</option>
+                                <option value="2">机械租赁</option>
+                                <option value="3">工程分包</option>
+                            </select>
                         </div>
                         <div class="mui-button-row">
-                            <button class="mui-btn mui-btn-primary" type="button" onclick="return false;">确认</button>&nbsp;&nbsp;
-                            <button class="mui-btn mui-btn-danger" type="button" onclick="return false;">取消</button>
+                            <button class="mui-btn mui-btn-primary" id="search-btn" type="button">确认</button>&nbsp;&nbsp;
+                            <button class="mui-btn mui-btn-danger" type="button" href="#sheet1">取消</button>
                         </div>
                     </form>
                 </div>
@@ -61,70 +66,91 @@
 <script type="text/javascript" src="${ctx}/js/handlebarsHelps.js"></script>
 <script type="text/javascript" charset="utf-8">
     var page = 1; //当前页
-    var limit = 10; //每页显示条数
-    var isOver = false; //是否加载完
+    var limit = 6; //每页显示条数
+    var enablePullUp = true; //是否加载
     mui.init({
         swipeBack: true, //启用右滑关闭功能
         pullRefresh : {
             container:"#refreshContainer",//下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
             down : {
                 style:'circle',//必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
-                color:'#2BD009', //可选，默认“#2BD009” 下拉刷新控件颜色
-                height:'50px',//可选,默认50px.下拉刷新控件的高度,
-                range:'100px', //可选 默认100px,控件可下拉拖拽的范围
-                offset:'0px', //可选 默认0px,下拉刷新控件的起始位置
                 auto: true,//可选,默认false.首次加载自动上拉刷新一次
-                callback :function () {//必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
-                    var url = '${ctx}/mobile/purchase/getPurchaseList?' + 'limit=' + limit + '&page=' + page;
-                    mui.ajax({
-                        url: url,
-                        data: {},
-                        dataType: 'json',
-                        type: 'post',
-                        timeout: 10000,
-                        success: function(result) {
-                            var refreshContainer = mui('#refreshContainer');
-                            if(result.data != null && result.data.length != 0){
-                                var data = result.data;
-                                // 请求成功
-                                var listTargt = $('.mui-table-view-chevron')
-
-                                var tpl = $("#listTpl").html();
-                                //预编译模板
-                                var template = Handlebars.compile(tpl);
-
-                                //数据转换
-                                purchaseOrder.statusConversion(Handlebars)
-                                purchaseOrder.departUser(Handlebars)
-                                purchaseOrder.departDate(Handlebars)
-
-                                //匹配json内容
-                                var html = template({data});//data
-                                //输入模板
-                                listTargt.append(html);
-
-
-                                //判断是否还有数据,若小于每次加载条数,结束
-                                if (data.length < limit) {
-                                    isOver = true;
-                                    refreshContainer.pullRefresh().endPullupToRefresh(true); //停止下拉显示暂无数据
-                                }
-                                //每次加载结束之后，如果还有数据则++
-                                if (isOver == false) {
-                                    page++;
-                                    refreshContainer.pullRefresh().endPullupToRefresh(true); //停止正在加载
-                                    refreshContainer.pullRefresh().enablePullupToRefresh(); //显示上拉加载文字
-                                }else {
-                                    refreshContainer.pullRefresh().endPullupToRefresh(true); //停止下拉显示暂无数据
-                                }
-                            }
-                        }
-                    });
-                }
+                callback :billRefresh
+            },
+            up: {
+                auto:false,
+                contentrefresh: '正在加载...',
+                contentnomore:'',
+                callback: billLoad
             }
         }
     });
-    
+
+    mui(document.body).on('tap', '#search-btn', function(e) {
+        mui(this).button('查询中...');
+        mui('#refreshContainer').pullRefresh().refresh(true);
+    });
+
+    function billLoad() {
+        if (!enablePullUp) {
+            mui('#refreshContainer').pullRefresh().endPullupToRefresh(false);
+            mui.toast("没有更多数据了");
+            return;
+        }
+        page++;
+        getBill();
+        mui('#refreshContainer').pullRefresh().endPullupToRefresh(false);
+    }
+
+    function billRefresh() {
+        $('.mui-table-view-chevron').empty();
+        enablePullUp = true;
+        page = 1;
+        getBill();
+        mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+    }
+
+    function getBill() {
+        var url = '${ctx}/mobile/purchase/getPurchaseList?' + 'limit=' + limit + '&page=' + page;
+        mui.ajax({
+            url: url,
+            data: $('searchForm').serialize(),
+            dataType: 'json',
+            type: 'post',
+            timeout: 10000,
+            success: function(result) {
+                var refreshContainer = mui('#refreshContainer');
+                if(result.data != null && result.data.length != 0){
+                    var data = result.data;
+                    // 请求成功
+                    var listTargt = $('.mui-table-view-chevron')
+
+                    var tpl = $("#listTpl").html();
+                    //预编译模板
+                    var template = Handlebars.compile(tpl);
+
+                    //数据转换
+                    purchaseOrder.statusConversion(Handlebars)
+                    purchaseOrder.departUser(Handlebars)
+                    purchaseOrder.departDate(Handlebars)
+
+                    //匹配json内容
+                    var html = template({data});//data
+                    //输入模板
+                    listTargt.append(html);
+
+                    if (data.length < limit) {
+                        enablePullUp = false;
+                    }
+                }
+            },
+            error: function () {
+                mui('#refreshContainer').pullRefresh().endPullupToRefresh(false); //参数为true代表没有更多数据了。
+                mui('#refreshContainer').pullRefresh().endPulldownToRefresh(); //refresh completed
+                enablePullUp = false;
+            }
+        });
+    }
 
 </script>
 <!-- 采购订单 start -->
@@ -138,7 +164,7 @@
                 <p>
                     <label>开单人:{{admin.fullname}}</label>&nbsp;
                     <label>开单日期：{{createTime}}</label>
-                    <span class="mui-badge mui-badge-primary mui-pull-right">{{statusConversion status}}</span>
+                    <span class="mui-badge mui-badge-primary mui-pull-right">{{purchaseOrder_statusConversion status}}</span>
                 </p>
             </div>
         </div>
@@ -155,8 +181,8 @@
         </div>
         <div class="mui-card-footer">
             <div class="mui-pull-left">
-                <label>{{departUser}}</label>
-                <label>{{departDate}}</label>
+                <label>{{purchaseOrder_departUser}}</label>
+                <label>{{purchaseOrder_departDate}}</label>
             </div>
             <div>
                 <button type="button" class="mui-btn mui-btn-primary">详情</button>
