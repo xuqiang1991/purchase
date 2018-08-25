@@ -58,6 +58,7 @@
 <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
 <script type="text/javascript" src="http://apps.bdimg.com/libs/handlebars.js/2.0.0-alpha.4/handlebars.js"></script>
+<script type="text/javascript" src="${ctx}/js/handlebarsHelps.js"></script>
 <script type="text/javascript" charset="utf-8">
     var page = 1; //当前页
     var limit = 10; //每页显示条数
@@ -91,6 +92,8 @@
                                 var tpl = $("#listTpl").html();
                                 //预编译模板
                                 var template = Handlebars.compile(tpl);
+                                //status
+                                purchaseOrder.statusConversion(Handlebars)
                                 //匹配json内容
                                 var html = template({data});//data
                                 //输入模板
@@ -111,7 +114,6 @@
                                     refreshContainer.pullRefresh().endPullupToRefresh(true); //停止下拉显示暂无数据
                                 }
                             }
-
                         }
                     });
                 }
@@ -132,7 +134,7 @@
                 <p>
                     <label>开单人:{{admin.fullname}}</label>&nbsp;
                     <label>开单日期：{{createTime}}</label>
-                    <span class="mui-badge mui-badge-primary mui-pull-right">申请中</span>
+                    <span class="mui-badge mui-badge-primary mui-pull-right">{{statusConversion status}} </span>
                 </p>
             </div>
         </div>
