@@ -56,22 +56,22 @@
 
             <!-- 功能按钮块 start -->
             <div style="padding-top: 1%;">
-                <shiro:hasPermission name="user:user:save">
+                <shiro:hasPermission name="sys:supplier:list">
                     <div class="layui-inline">
                         <a class="layui-btn search_btn" lay-submit="" data-type="search" lay-filter="search"><i class="layui-icon">&#xe615;</i>查询</a>
                     </div>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="user:user:save">
+                <shiro:hasPermission name="sys:supplier:save">
                     <div class="layui-inline">
                         <a class="layui-btn" id="addSupplier"><i class="layui-icon">&#xe608;</i>添加</a>
                     </div>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="user:user:save">
+                <shiro:hasPermission name="sys:supplier:update">
                     <div class="layui-inline">
                         <a class="layui-btn" id="editSupplier"><i class="layui-icon">&#xe642;</i>编辑</a>
                     </div>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="user:user:save">
+                <shiro:hasPermission name="sys:supplier:delete">
                     <div class="layui-inline">
                         <a class="layui-btn layui-btn-danger" id="delSupplier"><i class="layui-icon">&#xe640;</i>删除</a>
                     </div>

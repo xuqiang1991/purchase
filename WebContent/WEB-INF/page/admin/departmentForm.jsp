@@ -41,21 +41,21 @@
 	<div class="layui-form-item">
 		<label class="layui-form-label">部门名称</label>
 		<div class="layui-input-block">
-			<input type="text" id="name" class="layui-input name"
+			<input type="text" id="name" class="layui-input name" maxlength="50"
 				   lay-verify="required" placeholder="请输入部门名称" name="name" value="${department.name }">
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">负责人</label>
 		<div class="layui-input-block">
-			<input type="text" class="layui-input principal" name="principal" id="principal"
+			<input type="text" class="layui-input principal" name="principal" id="principal"  maxlength="50"
 				   placeholder="请填负责人" name="icon" value="${department.principal}">
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">负责人电话</label>
 		<div class="layui-input-block">
-			<input type="text" name="phone" class="layui-input userName"
+			<input type="text" name="phone" class="layui-input userName"  maxlength="20" lay-verify="phone"
 				   placeholder="请输入负责人电话" value="${department.phone }">
 		</div>
 	</div>

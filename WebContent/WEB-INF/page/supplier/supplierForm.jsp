@@ -30,14 +30,14 @@
 					<div class="layui-inline">
 						<label class="layui-form-label">供应商名称</label>
 						<div class="layui-input-block">
-							<input type="text" id="name" class="layui-input" lay-verify="required" placeholder="请输入供应商名称" name="name" value="${supplier.name}">
+							<input type="text" id="name" class="layui-input" lay-verify="required"  maxlength="80" placeholder="请输入供应商名称" name="name" value="${supplier.name}">
 						</div>
 					</div>
 					<div class="layui-inline">
 						<label class="layui-form-label">简称</label>
 						<div class="layui-input-block">
 							<input type="text" id="nick" class="layui-input nick"
-								   lay-verify="required" placeholder="请输入供应商名称" name="nick" value="${supplier.nick }">
+								   lay-verify="required"  maxlength="50" placeholder="请输入供应商名称" name="nick" value="${supplier.nick }">
 						</div>
 					</div>
 				</div>
@@ -45,7 +45,7 @@
 					<div class="layui-inline">
 						<label class="layui-form-label">供应商类别</label>
 						<div class="layui-input-block">
-							<select name="type" class="" id="type" lay-filter="aihao">
+							<select name="type" class="" id="type" lay-filter="required|aihao">
 								<option value="">请选择供应商类别</option>
 								<option value="0" <c:if test="${supplier.type == 0}">selected</c:if> >材料供应商</option>
 								<option value="1" <c:if test="${supplier.type == 1}">selected</c:if> >工程分包商</option>
@@ -65,14 +65,14 @@
 					<div class="layui-inline">
 						<label class="layui-form-label">负责人</label>
 						<div class="layui-input-block">
-							<input type="text" class="layui-input principalName" name="principalName" id="principalName"
+							<input type="text" class="layui-input principalName" name="principalName" id="principalName" maxlength="50"
 								   placeholder="请填负责人" name="icon" value="${supplier.principalName}">
 						</div>
 					</div>
 					<div class="layui-inline">
 						<label class="layui-form-label">负责人电话</label>
 						<div class="layui-input-block">
-							<input type="text" name="principalPhone" class="layui-input principalPhone" lay-verify="phone"
+							<input type="text" name="principalPhone" class="layui-input principalPhone" lay-verify="phone" maxlength="50"
 								   placeholder="请输入负责人电话" value="${supplier.principalPhone }">
 						</div>
 					</div>
@@ -82,14 +82,14 @@
 					<div class="layui-inline">
 						<label class="layui-form-label">联系人</label>
 						<div class="layui-input-block">
-							<input type="text" class="layui-input contact" name="contactName" id="contactName"
+							<input type="text" class="layui-input contact" name="contactName" id="contactName" maxlength="50"
 								   placeholder="请填联系人" name="icon" value="${supplier.contactName}">
 						</div>
 					</div>
 					<div class="layui-inline">
 						<label class="layui-form-label">联系人电话</label>
 						<div class="layui-input-block">
-							<input type="text" name="contactPhone" class="layui-input contactPhone" lay-verify="phone"
+							<input type="text" name="contactPhone" class="layui-input contactPhone" lay-verify="phone" maxlength="50"
 								   placeholder="请输入联系人电话" value="${supplier.contactPhone }">
 						</div>
 					</div>
@@ -106,13 +106,13 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">地址</label>
 					<div class="layui-input-block">
-						<input type="text" name="address" class="layui-input address"  placeholder="请输入地址" value="${supplier.address }">
+						<input type="text" name="address" class="layui-input address"  placeholder="请输入地址" value="${supplier.address }" maxlength="128">
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label">备注</label>
 					<div class="layui-input-block">
-						<textarea name="remark" placeholder="请输入备注" class="layui-textarea">${supplier.remark}</textarea>
+						<textarea name="remark" placeholder="请输入备注" class="layui-textarea" maxlength="500">${supplier.remark}</textarea>
 					</div>
 				</div>
 				<div class="layui-form-item">

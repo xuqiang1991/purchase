@@ -41,7 +41,7 @@
 	<div class="layui-form-item">
 		<label class="layui-form-label">地区名称</label>
 		<div class="layui-input-block">
-			<input type="text" id="name" class="layui-input name"
+			<input type="text" id="name" class="layui-input name"  maxlength="50"
 				   lay-verify="required" placeholder="请输入地区名称" name="name" value="${area.name }">
 		</div>
 	</div>
