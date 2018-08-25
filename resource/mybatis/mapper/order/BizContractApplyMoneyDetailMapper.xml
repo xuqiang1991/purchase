@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.purchase.mapper.order.BizContractApplyMoneyDetailMapper">
+  <resultMap id="BaseResultMap" type="com.purchase.pojo.order.BizContractApplyMoneyDetail">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="construction_site" jdbcType="VARCHAR" property="constructionSite" />
+    <result column="project_content" jdbcType="VARCHAR" property="projectContent" />
+    <result column="model" jdbcType="VARCHAR" property="model" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="contract_count" jdbcType="DOUBLE" property="contractCount" />
+    <result column="settle_amout" jdbcType="DOUBLE" property="settleAmout" />
+    <result column="settle_price" jdbcType="DECIMAL" property="settlePrice" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_no, construction_site, project_content, model, unit, price, contract_count, 
+    settle_amout, settle_price, remark, create_time, update_date
+  </sql>
+  <select id="selectByExample" parameterType="com.purchase.pojo.order.BizContractApplyMoneyDetailExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_contract_apply_money_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from biz_contract_apply_money_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from biz_contract_apply_money_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.purchase.pojo.order.BizContractApplyMoneyDetailExample">
+    delete from biz_contract_apply_money_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.purchase.pojo.order.BizContractApplyMoneyDetail">
+    insert into biz_contract_apply_money_detail (id, order_no, construction_site, 
+      project_content, model, unit, 
+      price, contract_count, settle_amout, 
+      settle_price, remark, create_time, 
+      update_date)
+    values (#{id,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{constructionSite,jdbcType=VARCHAR}, 
+      #{projectContent,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
+      #{price,jdbcType=DECIMAL}, #{contractCount,jdbcType=DOUBLE}, #{settleAmout,jdbcType=DOUBLE}, 
+      #{settlePrice,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.purchase.pojo.order.BizContractApplyMoneyDetail">
+    insert into biz_contract_apply_money_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="constructionSite != null">
+        construction_site,
+      </if>
+      <if test="projectContent != null">
+        project_content,
+      </if>
+      <if test="model != null">
+        model,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="contractCount != null">
+        contract_count,
+      </if>
+      <if test="settleAmout != null">
+        settle_amout,
+      </if>
+      <if test="settlePrice != null">
+        settle_price,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="constructionSite != null">
+        #{constructionSite,jdbcType=VARCHAR},
+      </if>
+      <if test="projectContent != null">
+        #{projectContent,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null">
+        #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="contractCount != null">
+        #{contractCount,jdbcType=DOUBLE},
+      </if>
+      <if test="settleAmout != null">
+        #{settleAmout,jdbcType=DOUBLE},
+      </if>
+      <if test="settlePrice != null">
+        #{settlePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.purchase.pojo.order.BizContractApplyMoneyDetailExample" resultType="java.lang.Integer">
+    select count(*) from biz_contract_apply_money_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update biz_contract_apply_money_detail
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.constructionSite != null">
+        construction_site = #{record.constructionSite,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectContent != null">
+        project_content = #{record.projectContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.model != null">
+        model = #{record.model,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.contractCount != null">
+        contract_count = #{record.contractCount,jdbcType=DOUBLE},
+      </if>
+      <if test="record.settleAmout != null">
+        settle_amout = #{record.settleAmout,jdbcType=DOUBLE},
+      </if>
+      <if test="record.settlePrice != null">
+        settle_price = #{record.settlePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDate != null">
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update biz_contract_apply_money_detail
+    set id = #{record.id,jdbcType=VARCHAR},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      construction_site = #{record.constructionSite,jdbcType=VARCHAR},
+      project_content = #{record.projectContent,jdbcType=VARCHAR},
+      model = #{record.model,jdbcType=VARCHAR},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DECIMAL},
+      contract_count = #{record.contractCount,jdbcType=DOUBLE},
+      settle_amout = #{record.settleAmout,jdbcType=DOUBLE},
+      settle_price = #{record.settlePrice,jdbcType=DECIMAL},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.purchase.pojo.order.BizContractApplyMoneyDetail">
+    update biz_contract_apply_money_detail
+    <set>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="constructionSite != null">
+        construction_site = #{constructionSite,jdbcType=VARCHAR},
+      </if>
+      <if test="projectContent != null">
+        project_content = #{projectContent,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null">
+        model = #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="contractCount != null">
+        contract_count = #{contractCount,jdbcType=DOUBLE},
+      </if>
+      <if test="settleAmout != null">
+        settle_amout = #{settleAmout,jdbcType=DOUBLE},
+      </if>
+      <if test="settlePrice != null">
+        settle_price = #{settlePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.purchase.pojo.order.BizContractApplyMoneyDetail">
+    update biz_contract_apply_money_detail
+    set order_no = #{orderNo,jdbcType=VARCHAR},
+      construction_site = #{constructionSite,jdbcType=VARCHAR},
+      project_content = #{projectContent,jdbcType=VARCHAR},
+      model = #{model,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      contract_count = #{contractCount,jdbcType=DOUBLE},
+      settle_amout = #{settleAmout,jdbcType=DOUBLE},
+      settle_price = #{settlePrice,jdbcType=DECIMAL},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
