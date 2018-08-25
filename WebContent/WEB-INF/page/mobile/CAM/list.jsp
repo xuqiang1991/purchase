@@ -75,7 +75,7 @@
                 <label>审核日期：2018-08-21</label>
             </div>
             <div>
-                <button type="button" class="mui-btn mui-btn-primary">详情</button>
+                <button type="button" class="mui-btn mui-btn-primary" onclick="details()">详情</button>
                 <button type="button" class="mui-btn mui-btn-primary">审核</button>
             </div>
         </div>
@@ -87,6 +87,10 @@
     mui.init({
         swipeBack: true //启用右滑关闭功能
     });
+    var ctx = '${ctx }';
+    function details(){
+        location.href = ctx + '/mobile/CAM/camDetails';
+    }
 </script>
 </body>
 </html>

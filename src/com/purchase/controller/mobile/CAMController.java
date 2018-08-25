@@ -3,6 +3,7 @@ package com.purchase.controller.mobile;
 import com.purchase.annotation.SysLog;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.order.BizContractApplyMoney;
+import com.purchase.service.AdminService;
 import com.purchase.service.CAMService;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.order.CAMSearch;
@@ -14,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @Auther: zhoujb
@@ -29,6 +33,9 @@ public class CAMController {
     @Autowired
     private CAMService camService;
 
+    @Autowired
+    private AdminService adminService;
+
     @SysLog(value="进入合同内请款单")
     @RequestMapping("list")
     @RequiresPermissions("mobile:CAM:list")
@@ -36,11 +43,13 @@ public class CAMController {
         return "page/mobile/CAM/list";
     }
 
-    @SysLog(value="进入合同内请款单")
-    @RequestMapping("detial")
+    @SysLog(value="进入合同内请款单详情")
+    @RequestMapping("camDetails")
     @RequiresPermissions("mobile:CAM:list")
-    public String detial(){
-        return "page/mobile/CAM/detial";
+    public String camDetails(HttpServletRequest req){
+        List<TbAdmin> admins = adminService.getAdmins(1);
+        req.setAttribute("admins",admins);
+        return "page/mobile/CAM/camDetails";
     }
 
     @SysLog(value="获取合同内请款单数据")
