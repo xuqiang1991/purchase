@@ -1,5 +1,7 @@
 package com.purchase.pojo.order;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -90,6 +92,7 @@ public class BizPurchaseOrder {
         this.createUser = createUser;
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     public Date getCreateTime() {
         return createTime;
     }
@@ -162,6 +165,7 @@ public class BizPurchaseOrder {
         this.status = status;
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     public Date getUpdateDate() {
         return updateDate;
     }
@@ -194,6 +198,7 @@ public class BizPurchaseOrder {
         this.costDepartUser = costDepartUser;
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     public Date getCostDepartDate() {
         return costDepartDate;
     }
@@ -226,6 +231,7 @@ public class BizPurchaseOrder {
         this.projectDepartUser = projectDepartUser;
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     public Date getProjectDepartDate() {
         return projectDepartDate;
     }
@@ -258,6 +264,7 @@ public class BizPurchaseOrder {
         this.managerDepartUser = managerDepartUser;
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     public Date getManagerDepartDate() {
         return managerDepartDate;
     }

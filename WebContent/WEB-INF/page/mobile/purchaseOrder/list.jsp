@@ -92,8 +92,12 @@
                                 var tpl = $("#listTpl").html();
                                 //预编译模板
                                 var template = Handlebars.compile(tpl);
-                                //status
+
+                                //数据转换
                                 purchaseOrder.statusConversion(Handlebars)
+                                purchaseOrder.departUser(Handlebars)
+                                purchaseOrder.departDate(Handlebars)
+
                                 //匹配json内容
                                 var html = template({data});//data
                                 //输入模板
@@ -134,7 +138,7 @@
                 <p>
                     <label>开单人:{{admin.fullname}}</label>&nbsp;
                     <label>开单日期：{{createTime}}</label>
-                    <span class="mui-badge mui-badge-primary mui-pull-right">{{statusConversion status}} </span>
+                    <span class="mui-badge mui-badge-primary mui-pull-right">{{statusConversion status}}</span>
                 </p>
             </div>
         </div>
@@ -151,8 +155,8 @@
         </div>
         <div class="mui-card-footer">
             <div class="mui-pull-left">
-                <label>审核人：张三</label>
-                <label>审核日期：2018-08-21</label>
+                <label>{{departUser}}</label>
+                <label>{{departDate}}</label>
             </div>
             <div>
                 <button type="button" class="mui-btn mui-btn-primary">详情</button>
