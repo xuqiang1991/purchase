@@ -49,11 +49,17 @@
         <div class="mui-content-padded mui-card" style="margin: 5px;">
             <form class="mui-input-group">
                 <div class="mui-input-row">
-                    <label>普通文本框</label>
+                    <label>单号</label>
                     <input type="text" readonly="readonly" class="mui-input-clear" placeholder="PC20180817001">
                 </div>
                 <div class="mui-input-row">
-                    <label>内容</label>
+                    <label>请款人</label>
+                    <input type="text" id="selectApplyUser" class="mui-input-clear" placeholder="请选择开单人">
+                    <input type="hidden" id="applyUser" name="applyUser">
+                </div>
+
+                <div class="mui-input-row">
+                    <label>来源订单</label>
                     <input type="text" class="mui-input-clear" placeholder="请输入">
                 </div>
                 <div class="mui-input-row">
@@ -205,12 +211,12 @@
                 value: 'gezh',
                 text: '歌者'
             }]);
-            var selectChose = document.getElementById('selectChose');
-            var selectValue = document.getElementById('selectValue');
-            selectChose.addEventListener('tap', function(event) {
+            var selectApplyUser = document.getElementById('selectApplyUser');
+            var applyUser = document.getElementById('applyUser');
+            selectApplyUser.addEventListener('tap', function(event) {
                 userPicker.show(function(items) {
-                    selectValue.value = items[0].value;
-                    selectChose.value = items[0].text;
+                    selectApplyUser.value = items[0].value;
+                    applyUser.value = items[0].text;
                     //返回 false 可以阻止选择框的关闭
                     //return false;
                 });
