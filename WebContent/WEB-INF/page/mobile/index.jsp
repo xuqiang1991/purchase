@@ -11,7 +11,10 @@
     <link href="${ctx }/mui/css/iconfont.css" rel="stylesheet"/>
 </head>
 <body>
-
+<header class="mui-bar mui-bar-nav">
+    <a class="mui-icon mui-icon-bars mui-pull-left mui-plus-visible"></a>
+    <h1 class="mui-title">订单管理</h1>
+</header>
 <div class="mui-content">
     <ul class="mui-table-view mui-grid-view mui-grid-9">
         <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="${ctx }/mobile/purchase/list">

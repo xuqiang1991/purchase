@@ -27,6 +27,9 @@
             </foreach>
           </trim>
         </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(search.createUserName)" >
+          and c.fullname LIKE concat(concat('%',#{search.createUserName}),'%')
+        </if>
       </foreach>
     </where>
   </sql>
@@ -67,12 +70,8 @@
      LEFT JOIN tb_admin tCost ON (a.cost_depart_user = tCost.id)
      LEFT JOIN tb_admin tProject ON (a.project_depart_user = tProject.id)
      LEFT JOIN tb_admin tManager ON (a.manager_depart_user = tManager.id)
-    where 1 = 1
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause_Ext" />
-    </if>
-    <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(search.createUserName)" >
-      c.fullname LIKE concat(concat('%',#{search.createUserName}),'%')
     </if>
     <if test="example.orderByClause != null" >
       order by ${example.orderByClause}

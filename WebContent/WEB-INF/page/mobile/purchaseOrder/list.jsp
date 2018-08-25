@@ -18,23 +18,24 @@
 <div class="mui-content">
     <div class="mui-card" style="margin: 0px; margin-top: 5px; margin-bottom: 5px; padding-bottom: 5px; text-align: center;">
         <div class="mui-button-row">
-            <button type="button" class="mui-btn mui-btn-primary">新建采购订单</button>
+            <button type="button" id="add-btn" class="mui-btn mui-btn-primary">新建采购订单</button>
         </div>
     </div>
     <!-- 单号、订单类型、供应商、所属项目、合同号、开单人、开单日期、单据状态 -->
     <ul class="mui-table-view" style="z-index: 100">
-        <li class="mui-table-view-cell mui-collapse">
+        <li class="mui-table-view-cell mui-collapse" id="searchCollapse">
             <a class="mui-navigate-right" href="#">搜索</a>
             <div class="mui-collapse-content">
                 <div class="mui-collapse-content">
                     <form class="mui-input-group" id="searchForm">
                         <div class="mui-input-row">
                             <label>单号</label>
-                            <input type="text" placeholder="普通输入框" name="purchaseNo">
+                            <input type="text" placeholder="请输入单号" name="purchaseNo">
                         </div>
                         <div class="mui-input-row">
                             <label>订单类型</label>
-                            <select>
+                            <select name="type">
+                                <option value="">全部</option>
                                 <option value="0">绿化苗木</option>
                                 <option value="1">园建水电</option>
                                 <option value="2">机械租赁</option>
@@ -43,7 +44,7 @@
                         </div>
                         <div class="mui-button-row">
                             <button class="mui-btn mui-btn-primary" id="search-btn" type="button">确认</button>&nbsp;&nbsp;
-                            <button class="mui-btn mui-btn-danger" type="button" href="#sheet1">取消</button>
+                            <button class="mui-btn mui-btn-danger"  id="cancel-btn" type="button">取消</button>
                         </div>
                     </form>
                 </div>
@@ -51,11 +52,10 @@
         </li>
     </ul>
     <!--下拉刷新容器-->
-    <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 135px;">
+    <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 135px;width: 100%;">
         <div class="mui-scroll">
             <!--数据列表-->
             <ul class="mui-table-view mui-table-view-chevron">
-
             </ul>
         </div>
     </div>
@@ -87,8 +87,16 @@
     });
 
     mui(document.body).on('tap', '#search-btn', function(e) {
-        mui(this).button('查询中...');
-        mui('#refreshContainer').pullRefresh().refresh(true);
+        $('#searchCollapse').removeClass('mui-active')
+        billRefresh();
+    });
+
+    mui(document.body).on('tap', '#cancel-btn', function(e) {
+        $('#searchCollapse').removeClass('mui-active')
+    });
+
+    mui(document.body).on('tap', '#add-btn', function(e) {
+        document.location.href='${ctx }/mobile/purchase/toSave';
     });
 
     function billLoad() {
@@ -112,10 +120,12 @@
 
     function getBill() {
         var url = '${ctx}/mobile/purchase/getPurchaseList?' + 'limit=' + limit + '&page=' + page;
-        mui.ajax({
+        mui.toast("加载中...",1000);
+        $.ajax({
             url: url,
-            data: $('searchForm').serialize(),
+            data: $('#searchForm').serialize(),
             dataType: 'json',
+            contentType : "application/x-www-form-urlencoded",
             type: 'post',
             timeout: 10000,
             success: function(result) {

@@ -56,7 +56,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 				criteria.andPurchaseNoLike("%"+search.getPurchaseNo()+"%");
 			}
 			if(search.getType() != null){
-				criteria.andTypeEqualTo(search.getType());
+				criteria.andTypeEqualTo(String.valueOf(search.getType()));
 			}
 			if(search.getSupplierId() != null){
 				criteria.andSupplierIdEqualTo(search.getSupplierId());
