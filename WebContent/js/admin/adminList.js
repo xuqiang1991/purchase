@@ -17,18 +17,27 @@ layui.config({
                 {type:'radio', width: 70,templet:"#radioTpl"}
               ,{field:'id', title: 'ID', width: 50, sort: true}
               ,{field:'username', width: 120, title: '登陆名'}
-              ,{field:'fullname', width: 120, title: '全称'}
-              ,{field:'eMail', width: 150, title: '邮箱'}
+              ,{field:'fullname', width: 120, title: '用户名'}
               ,{field:'sex', title: '性别', width: 60,templet: '#sexTpl'}
-              ,{field:'birthday', width: 120, title: '出生日期',templet: '<div>{{ formatTime(d.birthday,"yyyy-MM-dd")}}</div>'}
+              ,{field:'userType', width: 100, title: '用户类型',templet: '#userTypeTpl'}
+              ,{field:'deptName', width: 100, title: '所属部门'}
+              ,{field:'phone', width: 120, title: '联系电话'}
+              ,{field:'eMail', width: 150, title: '电子邮箱'}
+              ,{field:'roleName', width: 120, title: '角色'}
+              ,{field:'supplierName', width: 120, title: '所属供应商'}
+              ,{field:'isOnJob', width: 120, title: '账号状态',templet: '#isOnJobTpl'}
+
+
+
+              /*,{field:'birthday', width: 120, title: '出生日期',templet: '<div>{{ formatTime(d.birthday,"yyyy-MM-dd")}}</div>'}
               ,{field:'phone', width: 120, title: '联系方式'}
 				,{field:'quarters', width: 100, title: '岗位'}
-				,{field:'deptId', width: 100, title: '部门'}
+
                 ,{field:'entryDate', width: 120, title: '入职日期',templet: '<div>{{ formatTime(d.birthday,"yyyy-MM-dd")}}</div>'}
                 ,{field:'roleName', width: 120, title: '角色'}
-                ,{field:'address', title: '地址'}
+                ,{field:'address', title: '地址'}*/
                // ,{field:'remark', title: '备注'}
-
+                /*登录名、用户名、所属部门、联系电话、电子邮箱、账号状态*/
               //,{title: '操作',toolbar: '#barEdit'}
 		    ]]
 				,page: true //开启分页

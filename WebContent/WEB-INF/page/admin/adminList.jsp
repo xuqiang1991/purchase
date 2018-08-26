@@ -49,10 +49,6 @@
 	<table id="adminList" lay-filter="test"></table>
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>
 	<script type="text/javascript" src="${ctx }/js/admin/adminList.js"></script>
-	<script type="text/html" id="barEdit">
-  		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-  		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-	</script>
 	<script type="text/html" id="sexTpl">
  		 {{#  if(d.sex === '0'){ }}
    		 <span style="color: #F581B1;">女</span>
@@ -62,6 +58,20 @@
    		 	保密
   		{{#  } }}
 	</script>
+    <script type="text/html" id="isOnJobTpl">
+        {{#  if(d.isOnJob == 1){ }}
+            <span style="color: #FFB800;">有效</span>
+        {{#  } else{ }}
+            <span style="color: #01AAED;">失效</span>
+        {{#  } }}
+    </script>
+    <script type="text/html" id="userTypeTpl">
+        {{#  if(d.userType == 1){ }}
+        外部用户
+        {{#  } else{ }}
+        内部用户
+        {{#  } }}
+    </script>
     <script type="text/html" id="radioTpl">
         <input type="radio" name="adminId" value="{{d.id}}" title=" " lay-filter="radiodemo">
     </script>

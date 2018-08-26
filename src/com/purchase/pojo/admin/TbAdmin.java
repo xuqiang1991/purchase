@@ -39,6 +39,14 @@ public class TbAdmin {
 
     private String wxNick;
 
+    private Long supplierId;
+
+    private String deptName;
+
+    private String supplierName;
+
+    private Integer userType;
+
     public Long getId() {
         return id;
     }
@@ -189,6 +197,38 @@ public class TbAdmin {
 
     public void setWxNick(String wxNick) {
         this.wxNick = wxNick;
+    }
+
+    public Long getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(Long supplierId) {
+        this.supplierId = supplierId;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
+
+    public Integer getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Integer userType) {
+        this.userType = userType;
     }
 
     @Override

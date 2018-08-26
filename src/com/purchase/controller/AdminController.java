@@ -4,6 +4,7 @@ import com.google.code.kaptcha.Producer;
 import com.purchase.annotation.SysLog;
 import com.purchase.pojo.admin.*;
 import com.purchase.service.AdminService;
+import com.purchase.service.SupplierService;
 import com.purchase.util.RRException;
 import com.purchase.util.ResultUtil;
 import com.purchase.util.ShiroUtils;
@@ -40,6 +41,9 @@ public class AdminController {
 	private AdminService adminServiceImpl;
 	@Autowired  
     private Producer captchaProducer = null;
+
+    @Autowired
+    private SupplierService supplierService;
 	
 	@RequestMapping("/main")
 	public String main() {
@@ -427,8 +431,10 @@ public class AdminController {
 	public String addAdmin(HttpServletRequest req){
 		List<TbRoles> roles = adminServiceImpl.selRoles();
 		List<TbDepartment> depts = adminServiceImpl.selDepartmentByParentId(null);
+        List<TbSupplier> suppliers = supplierService.selSuppliersAll();
 		req.setAttribute("roles", roles);
 		req.setAttribute("depts", depts);
+        req.setAttribute("suppliers", suppliers);
 		return "page/admin/addAdmin";
 	}
 	
@@ -488,6 +494,8 @@ public class AdminController {
 		TbAdmin ad = adminServiceImpl.selAdminById(id);
 		List<TbRoles> roles = adminServiceImpl.selRoles();
 		List<TbDepartment> depts = adminServiceImpl.selDepartmentByParentId(null);
+        List<TbSupplier> suppliers = supplierService.selSuppliersAll();
+        req.setAttribute("suppliers", suppliers);
 		req.setAttribute("ad",ad);
 		req.setAttribute("roles", roles);
 		req.setAttribute("depts", depts);

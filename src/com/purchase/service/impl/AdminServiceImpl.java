@@ -13,6 +13,7 @@ import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,9 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	private TbAreaMapper tbAreaMapper;
+
+	@Autowired
+    private TbSupplierMapper supplierMapper;
 
 	/**
 	 * 管理员登陆
@@ -81,14 +85,27 @@ public class AdminServiceImpl implements AdminService {
 		TbAdminExample example = new TbAdminExample();
 		List<TbAdmin> list = tbAdminMapper.selectByExample(example);
 		// 将roleName写进TbAdmin
+        List<TbRoles> roles = selRoles();
 		for (TbAdmin tbAdmin : list) {
-			// tbAdmin.setRoleName();
-			List<TbRoles> roles = selRoles();
 			for (TbRoles tbRole : roles) {
 				if (tbRole.getRoleId() == tbAdmin.getRoleId()) {
 					tbAdmin.setRoleName(tbRole.getRoleName());
 				}
 			}
+			//部门写入
+            if(!StringUtils.isEmpty(tbAdmin.getDeptId())){
+               TbDepartment dept = tbDepartmentMapper.selectByPrimaryKey(Long.parseLong(tbAdmin.getDeptId()));
+               if(dept != null){
+                   tbAdmin.setDeptName(dept.getName());
+               }
+            }
+            //供应商写入
+            if(!StringUtils.isEmpty(tbAdmin.getSupplierId())){
+                TbSupplier supplier = supplierMapper.selectByPrimaryKey(tbAdmin.getSupplierId());
+                if(supplier != null){
+                    tbAdmin.setSupplierName(supplier.getName());
+                }
+            }
 		}
 		PageInfo<TbAdmin> pageInfo = new PageInfo<TbAdmin>(list);
 		ResultUtil resultUtil = new ResultUtil();

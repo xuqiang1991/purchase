@@ -73,4 +73,9 @@ public class SupplierServiceImpl implements SupplierService {
     public void delSupplierById(Long id) {
         tbSupplierMapper.deleteByPrimaryKey(id);
     }
+
+    @Override
+    public List<TbSupplier> selSuppliersAll() {
+        return tbSupplierMapper.selectByExample(new TbSupplierExample());
+    }
 }

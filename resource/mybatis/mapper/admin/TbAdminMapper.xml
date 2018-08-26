@@ -21,6 +21,8 @@
       <result column="open_id" property="openId" jdbcType="VARCHAR" />
       <result column="wx_nick" property="wxNick" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+      <result column="supplier_id" property="supplierId" jdbcType="BIGINT" />
+      <result column="user_type" property="userType" jdbcType="INTEGER" />
 
 
   </resultMap>
@@ -83,7 +85,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, username, password, salt, fullname, e_mail, sex, birthday, address, phone, role_id,quarters,dept_id,entry_date,is_on_job,open_id,wx_nick,remark
+    id, username, password, salt, fullname, e_mail, sex, birthday, address, phone, role_id,quarters,dept_id,entry_date,is_on_job,open_id,wx_nick,remark,supplier_id,user_type
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.purchase.pojo.admin.TbAdminExample" >
     select
@@ -119,12 +121,13 @@
     insert into tb_admin (id, username, password, 
       salt, fullname, e_mail, 
       sex, birthday, address, 
-      phone, role_id, quarters,dept_id,entry_date,is_on_job,open_id,wx_nick,remark)
+      phone, role_id, quarters,dept_id,entry_date,is_on_job,open_id,wx_nick,remark,supplier_id,user_type)
     values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{salt,jdbcType=VARCHAR}, #{fullname,jdbcType=VARCHAR}, #{eMail,jdbcType=VARCHAR}, 
       #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{address,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{roleId,jdbcType=BIGINT}, #{quarters,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR},
-      #{entryDate,jdbcType=DATE}, #{isOnJob,jdbcType=INTEGER}, #{openId,jdbcType=VARCHAR}, #{wxNick,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+      #{entryDate,jdbcType=DATE}, #{isOnJob,jdbcType=INTEGER}, #{openId,jdbcType=VARCHAR}, #{wxNick,jdbcType=VARCHAR},
+      #{remark,jdbcType=VARCHAR},#{supplierId,jdbcType=BIGINT}, #{userType,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.purchase.pojo.admin.TbAdmin" >
     insert into tb_admin
@@ -183,6 +186,12 @@
       <if test="remark != null" >
         remark,
       </if>
+        <if test="supplierId != null" >
+            supplier_id,
+        </if>
+        <if test="userType != null" >
+            user_type,
+        </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -239,6 +248,12 @@
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
       </if>
+        <if test="supplierId != null" >
+            #{supplierId,jdbcType=VARCHAR},
+        </if>
+        <if test="userType != null" >
+            #{userType,jdbcType=INTEGER},
+        </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.purchase.pojo.admin.TbAdminExample" resultType="java.lang.Integer" >
@@ -304,6 +319,12 @@
       <if test="record.remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+        <if test="record.supplierId != null" >
+            supplier_id = #{supplierId,jdbcType=INTEGER},
+        </if>
+        <if test="record.userType != null" >
+            user_type = #{userType,jdbcType=INTEGER},
+        </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -328,7 +349,9 @@
       is_on_job = #{isOnJob,jdbcType=INTEGER},
       open_id = #{openId,jdbcType=VARCHAR},
       wx_nick = #{wxNick,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR},
+      supplier_id = #{supplierId,jdbcType=INTEGER},
+      user_type = #{userType,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -387,6 +410,12 @@
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+        <if test="supplierId != null" >
+            supplier_id = #{supplierId,jdbcType=INTEGER},
+        </if>
+        <if test="userType != null" >
+            user_type = #{userType,jdbcType=INTEGER},
+        </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -408,7 +437,9 @@
       is_on_job = #{isOnJob,jdbcType=INTEGER},
       open_id = #{openId,jdbcType=VARCHAR},
       wx_nick = #{wxNick,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR},
+      supplier_id = #{supplierId,jdbcType=INTEGER},
+      user_type = #{userType,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
