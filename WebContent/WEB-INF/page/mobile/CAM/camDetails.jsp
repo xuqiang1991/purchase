@@ -54,13 +54,15 @@
                 </div>
                 <div class="mui-input-row">
                     <label>请款人</label>
-                    <input type="text" id="selectApplyUser" class="mui-input-clear" placeholder="请选择开单人">
-                    <input type="hidden" id="applyUser" name="applyUser">
+                    <input type="text" id="selectApplyUser" class="mui-input-clear" placeholder="请选择开单人" value="${admin.fullname}">
+                    <input type="hidden" id="applyUser" name="applyUser" value="${admin.id}">
                 </div>
 
                 <div class="mui-input-row">
                     <label>来源订单</label>
-                    <input type="text" class="mui-input-clear" placeholder="请输入">
+                    <%--<input type="text" class="mui-input-clear" placeholder="请输入">--%>
+                    <input type="text" id="selectSourceOrderId" class="mui-input-clear" placeholder="请选择来源订单">
+                    <input type="hidden" id="applySourceOrder" name="applySourceOrder">
                 </div>
                 <div class="mui-input-row">
                     <label>数量</label>
@@ -179,51 +181,36 @@
         });
 
         $.ready(function() {
+            var jsonStr = '${admins}';
+            console.log(jsonStr);
             var userPicker = new $.PopPicker();
-            userPicker.setData([{
-                value: 'ywj',
-                text: '董事长 叶文洁'
-            }, {
-                value: 'aaa',
-                text: '总经理 艾AA'
-            }, {
-                value: 'lj',
-                text: '罗辑'
-            }, {
-                value: 'ymt',
-                text: '云天明'
-            }, {
-                value: 'shq',
-                text: '史强'
-            }, {
-                value: 'zhbh',
-                text: '章北海'
-            }, {
-                value: 'zhy',
-                text: '庄颜'
-            }, {
-                value: 'gyf',
-                text: '关一帆'
-            }, {
-                value: 'zhz',
-                text: '智子'
-            }, {
-                value: 'gezh',
-                text: '歌者'
-            }]);
+            userPicker.setData(JSON.parse(jsonStr));
             var selectApplyUser = document.getElementById('selectApplyUser');
             var applyUser = document.getElementById('applyUser');
             selectApplyUser.addEventListener('tap', function(event) {
                 userPicker.show(function(items) {
-                    selectApplyUser.value = items[0].value;
-                    applyUser.value = items[0].text;
+                    selectApplyUser.value = items[0].text;
+                    applyUser.value = items[0].value;
+                    //返回 false 可以阻止选择框的关闭
+                    //return false;
+                });
+            }, false);
+
+            var sourceOrder = new $.PopPicker();
+            sourceOrder.setData(JSON.parse(jsonStr));
+            var selectSourceOrderId = document.getElementById('selectSourceOrderId');
+            var applySourceOrder = document.getElementById('applySourceOrder');
+            selectSourceOrderId.addEventListener('tap', function(event) {
+                sourceOrder.show(function(items) {
+                    selectSourceOrderId.value = items[0].text;
+                    applySourceOrder.value = items[0].value;
                     //返回 false 可以阻止选择框的关闭
                     //return false;
                 });
             }, false);
         });
 
-        mui.toast('登陆成功',{ duration:'long', type:'div' })
+        //mui.toast('登陆成功',{ duration:'long', type:'div' })
 
 
     })(mui);
