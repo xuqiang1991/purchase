@@ -196,8 +196,10 @@
                 });
             }, false);
 
+            var poSelect = '${retMap.poSelect}';
+            console.log(poSelect);
             var sourceOrder = new $.PopPicker();
-            sourceOrder.setData(JSON.parse(jsonStr));
+            sourceOrder.setData(JSON.parse(poSelect));
             var selectSourceOrderId = document.getElementById('selectSourceOrderId');
             var applySourceOrder = document.getElementById('applySourceOrder');
             selectSourceOrderId.addEventListener('tap', function(event) {
