@@ -38,4 +38,5 @@ public interface TbAdminMapper {
 
     @Select("SELECT * FROM tb_admin a WHERE a.is_on_job = #{0}")
     List<TbAdmin> getAdmins(Integer isOnJob);
+
 }

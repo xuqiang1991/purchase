@@ -7,11 +7,13 @@ import com.purchase.pojo.admin.*;
 import com.purchase.pojo.admin.TbAdminExample.Criteria;
 import com.purchase.service.AdminService;
 import com.purchase.util.ResultUtil;
+import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.admin.Menu;
 import com.purchase.vo.admin.XtreeData;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 
@@ -425,6 +427,14 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public TbAdmin selAdminById(Long id) {
 		TbAdmin admin=tbAdminMapper.selectByPrimaryKey(id);
+		if(!StringUtils.isEmpty(admin.getDeptId())){
+		    TbDepartment dept = tbDepartmentMapper.selectByPrimaryKey(Long.parseLong(admin.getDeptId()));
+		    admin.setDeptName(dept.getName());
+        }
+        if(admin.getSupplierId() != null){
+           TbSupplier supplier = supplierMapper.selectByPrimaryKey(admin.getSupplierId());
+            admin.setDeptName(supplier.getName());
+        }
 		//为了安全，密码置空
 		admin.setPassword("");
 		return admin;
@@ -608,5 +618,17 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<TbAdmin> getAdmins(Integer isOnJob) {
         return tbAdminMapper.getAdmins(isOnJob);
+    }
+
+    @Override
+    public List<ChoseAdminVO> selectAdmin(){
+        List<TbAdmin> admis = tbAdminMapper.getAdmins(1);
+        List<ChoseAdminVO> item = new ArrayList();
+        if(!CollectionUtils.isEmpty(admis)){
+            for (TbAdmin a: admis) {
+                item.add(new ChoseAdminVO(a.getId().toString(),a.getFullname()));
+            }
+        }
+        return item;
     }
 }

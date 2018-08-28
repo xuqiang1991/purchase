@@ -17,7 +17,7 @@
 <div class="mui-content">
     <div class="mui-card" style="margin: 0px; margin-top: 5px; margin-bottom: 5px; padding-bottom: 5px; text-align: center;">
         <div class="mui-button-row">
-            <button type="button" class="mui-btn mui-btn-primary">新建合同内请款单</button>
+            <button type="button" id="add-btn" class="mui-btn mui-btn-primary">新建合同内请款单</button>
         </div>
     </div>
     <!-- 单号、订单类型、来源订单、供应商、所属项目、请款人、开单人、开单日期、单据状态 -->
@@ -88,9 +88,10 @@
         swipeBack: true //启用右滑关闭功能
     });
     var ctx = '${ctx }';
-    function details(){
-        location.href = ctx + '/mobile/CAM/camDetails';
-    }
+
+    mui(document.body).on('tap', '#add-btn', function(e) {
+        document.location.href = ctx + '/mobile/CAM/camDetails';
+    });
 </script>
 </body>
 </html>

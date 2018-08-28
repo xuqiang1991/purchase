@@ -1,11 +1,13 @@
 package com.purchase.controller.mobile;
 
+import com.alibaba.fastjson.JSON;
 import com.purchase.annotation.SysLog;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.order.BizContractApplyMoney;
 import com.purchase.service.AdminService;
 import com.purchase.service.CAMService;
 import com.purchase.util.ResultUtil;
+import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.order.CAMSearch;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -47,8 +49,11 @@ public class CAMController {
     @RequestMapping("camDetails")
     @RequiresPermissions("mobile:CAM:list")
     public String camDetails(HttpServletRequest req){
-        List<TbAdmin> admins = adminService.getAdmins(1);
-        req.setAttribute("admins",admins);
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        List<ChoseAdminVO> admins = adminService.selectAdmin();
+        logger.info("------:{}", JSON.toJSONString(admins));
+        req.setAttribute("admins", JSON.toJSONString(admins));
+        req.setAttribute("admin", admin);
         return "page/mobile/CAM/camDetails";
     }
 

@@ -9,6 +9,7 @@ import com.purchase.util.RRException;
 import com.purchase.util.ResultUtil;
 import com.purchase.util.ShiroUtils;
 import com.purchase.util.WebUtils;
+import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.admin.Menu;
 import com.purchase.vo.admin.XtreeData;
 import org.apache.commons.lang.StringUtils;
@@ -895,4 +896,19 @@ public class AdminController {
 	}
 
 	/** select 选项，不需要权限		**/
+
+    @RequestMapping("/getSelectAdmin")
+    @ResponseBody
+	public ResultUtil getSelectAdmin(){
+        List<ChoseAdminVO> list = adminServiceImpl.selectAdmin();
+        return ResultUtil.ok(list);
+    }
+
+    @RequestMapping("/getAdmin")
+    @ResponseBody
+    public ResultUtil getAdmin(HttpServletRequest request){
+        String id = request.getParameter("id");
+        TbAdmin ad = adminServiceImpl.selAdminById(Long.parseLong(id));
+        return ResultUtil.ok(ad);
+    }
 }
