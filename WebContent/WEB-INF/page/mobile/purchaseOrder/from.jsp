@@ -116,7 +116,7 @@
     //菜单容器
     var offCanvasSide = document.getElementById("offCanvasSide");
     //主界面‘显示侧滑菜单’按钮的点击事件
-    document.getElementById('supplier_id').addEventListener('tap', function() {
+    document.getElementById('supplier').addEventListener('tap', function() {
         offCanvasWrapper.offCanvas().show();
     });
     //主界面和侧滑菜单界面均支持区域滚动；
