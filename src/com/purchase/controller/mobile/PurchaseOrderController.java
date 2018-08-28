@@ -2,7 +2,6 @@ package com.purchase.controller.mobile;
 
 import com.purchase.annotation.SysLog;
 import com.purchase.pojo.admin.TbAdmin;
-import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.BizPurchaseOrder;
 import com.purchase.service.PurchaseOrderService;
 import com.purchase.util.ResultUtil;
@@ -14,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
