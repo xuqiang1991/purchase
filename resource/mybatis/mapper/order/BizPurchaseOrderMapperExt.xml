@@ -54,7 +54,7 @@
   </resultMap>
   <select id="selectByExampleExt" resultMap="BaseResultMapExt">
     select
-        a.id, a.purchase_no, a.type, a.create_user, a.create_time, a.supplier_id, a.project_id, a.contract_id,
+        a.id, a.purchase_no, a.type, a.create_user, a.create_time, a.supplier_id, a.project_id,
         a.contract_money, a.payment_ratio, a.request_amount, a.payment_amount, a.status, a.update_date,
         a.summary, a.cost_depart_approval, a.cost_depart_user, a.cost_depart_date, a.cost_depart_opinion,
         a.project_depart_approval, a.project_depart_user, a.project_depart_date, a.project_depart_opinion,

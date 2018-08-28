@@ -13,10 +13,10 @@
 <!-- 侧滑导航根容器 -->
 <div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable">
     <!-- 菜单容器 -->
-    <aside id="offCanvasSide" class="mui-off-canvas-right">
+    <aside id="offCanvasSide" class="mui-off-canvas-right"  style="background: #4ddaff">
         <div id="offCanvasSideScroll" class="mui-scroll-wrapper">
-            <div class="mui-scroll">
-                <ul class="mui-table-view" style="margin: 35px 15px 10px;">
+            <div class="mui-scroll"  style="height: 100%;">
+                <ul class="mui-table-view" style="margin: 5px 15px 10px;z-index: 100">
                     <li class="mui-table-view-cell mui-collapse" id="searchCollapse">
                         <a class="mui-navigate-right" href="#">搜索</a>
                         <div class="mui-collapse-content">
@@ -44,7 +44,7 @@
                     </li>
                 </ul>
                 <!--下拉刷新容器-->
-                <div id="supplierRefreshContainer" class="mui-content mui-scroll-wrapper" style="margin: 280px 15px 10px;">
+                <div id="supplierRefreshContainer" class="mui-content mui-scroll-wrapper" style="margin: 80px 15px 10px;">
                     <div class="mui-scroll">
                         <!--数据列表-->
                         <ul class="mui-table-view mui-table-view-chevron supplierRefreshContainerData">
@@ -82,7 +82,7 @@
                             </div>
                             <div class="mui-input-row">
                                 <label>供应商</label>
-                                <input type="text" id="supplier_id" name="supplier_id" class="mui-input-clear" placeholder="请选择供应商">
+                                <input type="text" id="supplier" name="supplier" class="mui-input-clear" placeholder="请选择供应商">
                             </div>
                             <div class="mui-input-row">
                                 <label>所属项目</label>
@@ -108,6 +108,7 @@
 </div>
 <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/handlebars.js/2.0.0-alpha.4/handlebars.js"></script>
 <script type="text/javascript" charset="utf-8">
     mui.init();
     //侧滑容器父节点
@@ -122,44 +123,56 @@
     mui('#offCanvasSideScroll').scroll();
     mui('#offCanvasContentScroll').scroll();
 
-
     mui(document.body).on('tap', '#search-btn', function(e) {
         $('#searchCollapse').removeClass('mui-active')
-        supplier.billRefresh();
+        $supplier.supplierList();
     });
 
     mui(document.body).on('tap', '#cancel-btn', function(e) {
         $('#searchCollapse').removeClass('mui-active')
     });
 
-    var supplier = {
-        supplierList:function () {
-            var page = 1; //当前页
-            var limit = 6; //每页显示条数
-            var enablePullUp = true; //是否加载
-            mui('#supplierRefreshContainer').pullRefresh({
-
+    //选择供应商
+    var $supplier = {
+         list : mui('#supplierRefreshContainer'),
+         page : 1, //当前页
+         limit :  6, //每页显示条数
+         enablePullUp : true, //是否加载
+         supplierList:function () {
+           this.list.pullRefresh({
+               down : {
+                   style:'circle',//必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+                   auto: true,//可选,默认false.首次加载自动上拉刷新一次
+                   callback :this.billRefresh
+               },
+               up: {
+                   auto:false,
+                   contentrefresh: '正在加载...',
+                   contentnomore:'',
+                   callback: this.billLoad
+               }
             })
         },
         billLoad : function() {
-            if (!enablePullUp) {
-                mui('#supplierRefreshContainer').pullRefresh().endPullupToRefresh(false);
+            if (!$supplier.enablePullUp) {
+                $supplier.list.pullRefresh().endPullupToRefresh(false);
                 mui.toast("没有更多数据了");
                 return;
             }
-            page++;
-            getBill();
-            mui('#supplierRefreshContainer').pullRefresh().endPullupToRefresh(false);
+            $supplier.page++;
+            $supplier.getBill();
+            $supplier.list.pullRefresh().endPullupToRefresh(false);
         },
         billRefresh : function() {
-            $('.mui-table-view-chevron').empty();
-            enablePullUp = true;
-            page = 1;
-            getBill();
-            mui('#supplierRefreshContainer').pullRefresh().endPulldownToRefresh();
+            $('#supplierRefreshContainerData').empty();
+            $supplier.enablePullUp = true;
+            $supplier.page = 1;
+            $supplier.getBill();
+
+            $supplier.list.pullRefresh().endPulldownToRefresh();
         },
         getBill: function () {
-            var url = '${ctx}/mobile/purchase/getPurchaseList?' + 'limit=' + limit + '&page=' + page;
+            var url = '${ctx}/supplier/findSupplierList?' + 'limit=' + $supplier.limit + '&page=' + $supplier.page;
             mui.toast("加载中...",1000);
             $.ajax({
                 url: url,
@@ -169,7 +182,6 @@
                 type: 'post',
                 timeout: 10000,
                 success: function(result) {
-                    var refreshContainer = mui('#supplierRefreshContainer');
                     if(result.data != null && result.data.length != 0){
                         var data = result.data;
                         // 请求成功
@@ -179,25 +191,20 @@
                         //预编译模板
                         var template = Handlebars.compile(tpl);
 
-                        //数据转换
-                        purchaseOrder.statusConversion(Handlebars)
-                        purchaseOrder.departUser(Handlebars)
-                        purchaseOrder.departDate(Handlebars)
-
                         //匹配json内容
                         var html = template({data});//data
                         //输入模板
                         listTargt.append(html);
 
-                        if (data.length < limit) {
-                            enablePullUp = false;
+                        if (data.length < this.limit) {
+                            $supplier.enablePullUp = false;
                         }
                     }
                 },
                 error: function () {
-                    mui('#supplierRefreshContainer').pullRefresh().endPullupToRefresh(false); //参数为true代表没有更多数据了。
-                    mui('#supplierRefreshContainer').pullRefresh().endPulldownToRefresh(); //refresh completed
-                    enablePullUp = false;
+                    $supplier.list.pullRefresh().endPullupToRefresh(false); //参数为true代表没有更多数据了。
+                    $supplier.list.pullRefresh().endPulldownToRefresh(); //refresh completed
+                    $supplier.enablePullUp = false;
                 }
               });
          }
@@ -207,34 +214,14 @@
     {{#each data}}
     <div class="mui-card">
         <div class="mui-card-header mui-card-media">
-            <img src="${ctx}/images/icon/purchase_order.png">
             <div class="mui-media-body">
-                <label>单号:{{purchaseNo}}</label>
-                <p>
-                    <label>开单人:{{admin.fullname}}</label>&nbsp;
-                    <label>开单日期：{{createTime}}</label>
-                </p>
+                <input name="supplier_id" type="radio" value="{{id}}">
+                <label>{{name}}</label>
             </div>
         </div>
         <div class="mui-card-content">
             <div class="mui-card-content-inner">
-                <p>
-                    <label>合同号：{{admin.fullname}}</label>
-                    <label>供应商：{{supplier.fullname}}</label>
-                </p>
-                <p>
-                    <label>所属项目：所属项目</label>
-                </p>
-            </div>
-        </div>
-        <div class="mui-card-footer">
-            <div class="mui-pull-left">
-                <label>测试</label>
-                <label>测试</label>
-            </div>
-            <div>
-                <button type="button" class="mui-btn mui-btn-primary">详情</button>
-                <button type="button" class="mui-btn mui-btn-primary">审核</button>
+                <label>简称：{{nick}}</label>
             </div>
         </div>
     </div>

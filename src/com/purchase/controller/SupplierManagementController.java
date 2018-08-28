@@ -120,5 +120,9 @@ public class SupplierManagementController {
     }
 
 
-
+    @RequestMapping("findSupplierList")
+    @ResponseBody
+    public ResultUtil findSupplierList(Integer page, Integer limit, SupplierSearch search){
+        return supplierService.selSuppliers(page,limit,search);
+    }
 }
