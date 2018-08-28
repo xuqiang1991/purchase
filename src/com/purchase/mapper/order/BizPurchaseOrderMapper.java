@@ -2,12 +2,12 @@ package com.purchase.mapper.order;
 
 import com.purchase.pojo.order.BizPurchaseOrder;
 import com.purchase.pojo.order.BizPurchaseOrderExample;
-import java.util.List;
-
 import com.purchase.vo.order.BizPurchaseOrderSearch;
 import com.purchase.vo.order.BizPurchaseOrderVo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 public interface BizPurchaseOrderMapper {
     int countByExample(BizPurchaseOrderExample example);
@@ -36,4 +36,7 @@ public interface BizPurchaseOrderMapper {
 
     @Select("select max(purchase_no) from biz_purchase_order where purchase_no like '#{0}%'")
     String selMaxPurchaseNo(String prefix);
+
+    @Select("select * from biz_purchase_order where status = '#{0}' and supplier_id = '#{1}'")
+    List<BizPurchaseOrder> selectPurchaseOrder(Integer status, Long supplier);
 }

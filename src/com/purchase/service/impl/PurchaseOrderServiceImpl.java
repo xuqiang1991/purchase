@@ -3,13 +3,10 @@ package com.purchase.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.purchase.mapper.admin.TbAdminMapper;
-import com.purchase.mapper.admin.TbRolesMapper;
 import com.purchase.mapper.admin.TbSupplierMapper;
 import com.purchase.mapper.order.BizPurchaseOrderDetailMapper;
 import com.purchase.mapper.order.BizPurchaseOrderMapper;
 import com.purchase.pojo.admin.TbAdmin;
-import com.purchase.pojo.admin.TbRoles;
-import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.BizPurchaseOrder;
 import com.purchase.pojo.order.BizPurchaseOrderExample;
 import com.purchase.service.PurchaseOrderService;
@@ -218,4 +215,16 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 		return null;
 	}
+
+    @Override
+    public List<BizPurchaseOrder> selectPurchaseOrder(Integer status, Long supplier) {
+        BizPurchaseOrderExample example=new BizPurchaseOrderExample();
+        //设置按创建时间降序排序
+        example.setOrderByClause("update_date DESC");
+        BizPurchaseOrderExample.Criteria criteria = example.createCriteria();
+        criteria.andStatusEqualTo(status);
+        criteria.andSupplierIdEqualTo(supplier);
+        List<BizPurchaseOrder> list = purchaseOrderMapper.selectByExample(example);
+        return list;
+    }
 }
