@@ -262,7 +262,7 @@
             });
         }, false);
 
-        var poItem = '${retMap.poItem}';
+        var poItem = '${poItem}';
         buiderSourceOrder(poItem);
 
     });

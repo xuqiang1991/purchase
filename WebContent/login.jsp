@@ -31,9 +31,10 @@
             <input class="layui-input" name="password" placeholder="密码" value=""  lay-verify="required" type="password" autocomplete="off">
         </div>
         <div class="layui-form-item form_code">
-            <input class="layui-input" style="width: 140px;" name="vcode" placeholder="验证码" lay-verify="required" type="text" autocomplete="off" maxlength="4">
+            <input class="layui-input" style="width: 140px;" name="vcode" placeholder="验证码" lay-verify="required" type="text" autocomplete="off" maxlength="4" value="1234">
             <div class="code"><img id="captcha" src="${ctx }/sys/vcode" width="100" height="36" onclick="refreshCode(this)"></div>
         </div>
+        <%--<input name="vcode" type="hidden" value="1234">--%>
         <button class="layui-btn login_btn" lay-submit="" lay-filter="login" id="btn">登录</button>
     </form>
 </div>

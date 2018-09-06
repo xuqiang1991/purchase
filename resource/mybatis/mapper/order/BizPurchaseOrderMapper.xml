@@ -9,7 +9,7 @@
     <result column="create_user" property="createUser" jdbcType="BIGINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="supplier_id" property="supplierId" jdbcType="BIGINT" />
-    <result column="project_id" property="projectId" jdbcType="BIGINT" />
+    <result column="project_id" property="projectId" jdbcType="VARCHAR" />
     <result column="contract_money" property="contractMoney" jdbcType="DECIMAL" />
     <result column="payment_ratio" property="paymentRatio" jdbcType="DOUBLE" />
     <result column="request_amount" property="requestAmount" jdbcType="DECIMAL" />
@@ -138,7 +138,7 @@
       manager_depart_opinion)
     values (#{id,jdbcType=VARCHAR}, #{purchaseNo,jdbcType=VARCHAR}, #{contractNo,jdbcType=VARCHAR}, 
       #{type,jdbcType=VARCHAR}, #{createUser,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{supplierId,jdbcType=BIGINT}, #{projectId,jdbcType=BIGINT}, #{contractMoney,jdbcType=DECIMAL}, 
+      #{supplierId,jdbcType=BIGINT}, #{projectId,jdbcType=VARCHAR}, #{contractMoney,jdbcType=DECIMAL},
       #{paymentRatio,jdbcType=DOUBLE}, #{requestAmount,jdbcType=DECIMAL}, #{paymentAmount,jdbcType=DECIMAL}, 
       #{status,jdbcType=INTEGER}, #{updateDate,jdbcType=TIMESTAMP}, #{summary,jdbcType=VARCHAR}, 
       #{costDepartApproval,jdbcType=BIT}, #{costDepartUser,jdbcType=BIGINT}, #{costDepartDate,jdbcType=TIMESTAMP}, 
@@ -255,7 +255,7 @@
         #{supplierId,jdbcType=BIGINT},
       </if>
       <if test="projectId != null" >
-        #{projectId,jdbcType=BIGINT},
+        #{projectId,jdbcType=VARCHAR},
       </if>
       <if test="contractMoney != null" >
         #{contractMoney,jdbcType=DECIMAL},
@@ -347,7 +347,7 @@
         supplier_id = #{record.supplierId,jdbcType=BIGINT},
       </if>
       <if test="record.projectId != null" >
-        project_id = #{record.projectId,jdbcType=BIGINT},
+        project_id = #{record.projectId,jdbcType=VARCHAR},
       </if>
       <if test="record.contractMoney != null" >
         contract_money = #{record.contractMoney,jdbcType=DECIMAL},
@@ -420,7 +420,7 @@
       create_user = #{record.createUser,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       supplier_id = #{record.supplierId,jdbcType=BIGINT},
-      project_id = #{record.projectId,jdbcType=BIGINT},
+      project_id = #{record.projectId,jdbcType=VARCHAR},
       contract_money = #{record.contractMoney,jdbcType=DECIMAL},
       payment_ratio = #{record.paymentRatio,jdbcType=DOUBLE},
       request_amount = #{record.requestAmount,jdbcType=DECIMAL},
@@ -466,7 +466,7 @@
         supplier_id = #{supplierId,jdbcType=BIGINT},
       </if>
       <if test="projectId != null" >
-        project_id = #{projectId,jdbcType=BIGINT},
+        project_id = #{projectId,jdbcType=VARCHAR},
       </if>
       <if test="contractMoney != null" >
         contract_money = #{contractMoney,jdbcType=DECIMAL},
@@ -536,7 +536,7 @@
       create_user = #{createUser,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       supplier_id = #{supplierId,jdbcType=BIGINT},
-      project_id = #{projectId,jdbcType=BIGINT},
+      project_id = #{projectId,jdbcType=VARCHAR},
       contract_money = #{contractMoney,jdbcType=DECIMAL},
       payment_ratio = #{paymentRatio,jdbcType=DOUBLE},
       request_amount = #{requestAmount,jdbcType=DECIMAL},

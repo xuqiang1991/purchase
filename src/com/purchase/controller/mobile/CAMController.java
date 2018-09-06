@@ -4,13 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.purchase.annotation.SysLog;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.order.BizContractApplyMoney;
-import com.purchase.pojo.order.BizPurchaseOrder;
 import com.purchase.service.AdminService;
 import com.purchase.service.CAMService;
 import com.purchase.service.PurchaseOrderService;
 import com.purchase.util.ResultUtil;
-import com.purchase.vo.SelectVO;
 import com.purchase.vo.admin.ChoseAdminVO;
+import com.purchase.vo.order.BizPurchaseOrderVo;
 import com.purchase.vo.order.CAMSearch;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -18,15 +17,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Auther: zhoujb
@@ -62,19 +57,10 @@ public class CAMController {
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         List<ChoseAdminVO> admins = adminService.selectAdmin();
         logger.info("------:{}", JSON.toJSONString(admins));
-        List<BizPurchaseOrder> purchaseOrderList = purchaseOrderService.selectPurchaseOrder(6,admin.getSupplierId());
-        Map<String,Object> purchaseMap = new HashMap<>();
-        if(!CollectionUtils.isEmpty(purchaseOrderList)){
-            List<SelectVO> poSelect = new ArrayList<>();
-            for (BizPurchaseOrder po: purchaseOrderList) {
-                poSelect.add(new SelectVO(po.getId(), po.getPurchaseNo().concat(po.getProjectId().toString())));
-            }
-            purchaseMap.put("poSelect", JSON.toJSONString(poSelect));
-            purchaseMap.put("poItem",JSON.toJSONString(purchaseOrderList));
-        }
+        List<BizPurchaseOrderVo> purchaseOrderList = purchaseOrderService.selectPurchaseOrderExample(6,admin.getSupplierId());
         req.setAttribute("admins", JSON.toJSONString(admins));
         req.setAttribute("admin", admin);
-        req.setAttribute("retMap",purchaseMap);
+        req.setAttribute("poItem",JSON.toJSONString(purchaseOrderList));
         return "page/mobile/CAM/camDetails";
     }
 

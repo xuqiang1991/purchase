@@ -227,4 +227,19 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         List<BizPurchaseOrder> list = purchaseOrderMapper.selectByExample(example);
         return list;
     }
+
+    @Override
+    public List<BizPurchaseOrderVo> selectPurchaseOrderExample(Integer status, Long supplier){
+        BizPurchaseOrderExample example=new BizPurchaseOrderExample();
+        //设置按创建时间降序排序
+        example.setOrderByClause("update_date DESC");
+        BizPurchaseOrderExample.Criteria criteria = example.createCriteria();
+        criteria.andStatusEqualTo(status);
+        criteria.andSupplierIdEqualTo(supplier);
+        BizPurchaseOrderSearch search = new BizPurchaseOrderSearch();
+        search.setStatus(status);
+        search.setSupplierId(supplier);
+        List<BizPurchaseOrderVo> povList = purchaseOrderMapper.selectByExampleExt(example,search);
+        return povList;
+    }
 }

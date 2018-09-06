@@ -4,6 +4,7 @@ import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.order.BizPurchaseOrder;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.order.BizPurchaseOrderSearch;
+import com.purchase.vo.order.BizPurchaseOrderVo;
 
 import java.util.List;
 
@@ -34,5 +35,7 @@ public interface PurchaseOrderService {
      * @return
      */
     List<BizPurchaseOrder> selectPurchaseOrder(Integer status, Long supplier);
+
+    List<BizPurchaseOrderVo> selectPurchaseOrderExample(Integer status, Long supplier);
 
 }
