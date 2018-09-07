@@ -57,7 +57,7 @@
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>
         </button>
-        <h1 class="mui-center mui-title">标题</h1>
+        <h1 class="mui-center mui-title">合同内请款单</h1>
     </div>
 
     <div class="mui-content-padded mui-card" style="margin: 5px;">
@@ -74,15 +74,96 @@
 
             <div class="mui-input-row">
                 <label>来源订单</label>
-                <%--<input type="text" class="mui-input-clear" placeholder="请输入">--%>
-               <%-- <input type="text" id="selectSourceOrderId" class="mui-input-clear" placeholder="请选择来源订单">
-                <input type="hidden" id="applySourceOrder" name="applySourceOrder">--%>
                 <a href="#selectSourceOrder">
                     <label id="selectSourceOrderText" style="width: 65%;padding-left: 0px;">请选择来源订单</label>
-                    <input type="hidden" id="selectSourceOrderHidden" value="">
+                    <input type="hidden" id="selectSourceOrderHidden" name="sourceOrderId" value="">
                 </a>
             </div>
             <div class="mui-input-row">
+                <label>所属项目</label>
+                <input type="text" id="projectName" readonly class="mui-input-clear" value="">
+                <input type="hidden" id="projectId" name="projectId" value="">
+            </div>
+            <div class="mui-input-row">
+                <label>供应商</label>
+                <input type="text" id="supplierName" readonly class="mui-input-clear" value="${admin.supplierName}">
+                <input type="hidden" id="supplierId" name="supplierId" value="${admin.supplierId}">
+            </div>
+            <div class="mui-input-row">
+                <label>单据类型</label>
+                <input type="text" id="orderTypeName" readonly class="mui-input-clear" value="111111111111111" >
+                <input type="hidden" id="orderTypeId" name="orderType" value="0" >
+            </div>
+            <div class="mui-input-row">
+                <label>单据状态</label>
+                <input type="text" id="statusName" readonly class="mui-input-clear" placeholder="请选择单据状态"  value="">
+                <input type="hidden" id="statusId" name="status" value="0">
+            </div>
+            <div class="mui-input-row">
+                <label>请款金额合计(元)</label>
+                <input type="number" class="mui-input-clear" style="color: red;" name="applyPrice" placeholder="请输入请款金额合计">
+            </div>
+            <div class="mui-control-content mui-active">
+                <h5 style="margin-left: 15px; padding-top: 5px;">自定义详情块</h5>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th width="16%">施工部位</th>
+                        <th width="16.6%">材料/项目内容</th>
+                        <th width="16.6%">规格型号</th>
+                        <th width="16.6%">单位</th>
+                        <th width="16.6%">单价</th>
+                        <th width="16.6%">
+                            <span class="mui-icon mui-icon-plusempty icon-color-F0AD4E"></span>
+                            <!--<button type="button" data-loading-icon="mui-spinner mui-icon-plusempt" class="mui-btn"></button> -->
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><input placeholder="内容" style="width: 100%;"/></td>
+                        <td><input placeholder="内容" style="width: 100%;"/></td>
+                        <td><input placeholder="内容" style="width: 100%;"/></td>
+                        <td><input placeholder="内容" style="width: 100%;"/></td>
+                        <td><span class="mui-icon mui-icon-closeempty icon-color-F0AD4E"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <%--<div class="mui-control-content mui-active">
+                <h5 style="margin-left: 15px; padding-top: 5px;">自定义详情块</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th width="16%">序号</th>
+                            <th width="16.6%">内容</th>
+                            <th width="16.6%">数量</th>
+                            <th width="16.6%">单价</th>
+                            <th width="16.6%">总价</th>
+                            <th width="16.6%">
+                                <span class="mui-icon mui-icon-plusempty icon-color-F0AD4E"></span>
+                                <!--<button type="button" data-loading-icon="mui-spinner mui-icon-plusempt" class="mui-btn"></button> -->
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><input placeholder="内容" style="width: 100%;"/></td>
+                        <td><input placeholder="内容" style="width: 100%;"/></td>
+                        <td><input placeholder="内容" style="width: 100%;"/></td>
+                        <td><input placeholder="内容" style="width: 100%;"/></td>
+                        <td><span class="mui-icon mui-icon-closeempty icon-color-F0AD4E"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>--%>
+            <div>
+                <textarea id="textarea" rows="5" class="mui-input-clear" placeholder="摘要"></textarea>
+            </div>
+
+            <%--<div class="mui-input-row">
                 <label>数量</label>
                 <input type="number" class="mui-input-clear" placeholder="请输入数字">
             </div>
@@ -128,39 +209,8 @@
                     <label id="accountText" style="width: 65%;">请选择</label>
                     <input type="hidden" id="accountHidden" value="">
                 </a>
-            </div>
-            <div class="mui-control-content mui-active">
-                <h5 style="margin-left: 15px; padding-top: 5px;">自定义详情块</h5>
+            </div>--%>
 
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th width="16%">序号</th>
-                        <th width="16.6%">内容</th>
-                        <th width="16.6%">数量</th>
-                        <th width="16.6%">单价</th>
-                        <th width="16.6%">总价</th>
-                        <th width="16.6%">
-                            <span class="mui-icon mui-icon-plusempty icon-color-F0AD4E"></span>
-                            <!--<button type="button" data-loading-icon="mui-spinner mui-icon-plusempt" class="mui-btn"></button> -->
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td><input placeholder="内容" style="width: 100%;"/></td>
-                        <td><input placeholder="内容" style="width: 100%;"/></td>
-                        <td><input placeholder="内容" style="width: 100%;"/></td>
-                        <td><input placeholder="内容" style="width: 100%;"/></td>
-                        <td><span class="mui-icon mui-icon-closeempty icon-color-F0AD4E"></span></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div>
-                <textarea id="textarea" rows="5" class="mui-input-clear" placeholder="备注意见"></textarea>
-            </div>
         </form>
         <div class="mui-button-row" style="padding-bottom: 20px;">
             <button type="button" class="mui-btn mui-btn-primary" onclick="return false;">同意</button>&nbsp;&nbsp;
@@ -261,6 +311,39 @@
                 //return false;
             });
         }, false);
+
+        var statusNamePicker = new mui.PopPicker();
+        statusNamePicker.setData( [{
+            value: '0',
+            text: '未提交'
+        }, {
+            value: '1',
+            text: '已提交'
+        }, {
+            value: '2',
+            text: '成本部已审核'
+        }, {
+            value: '3',
+            text: '工程部已审核'
+        },{
+            value: '4',
+            text: '总经理已审核'
+        }]);
+        var statusName = document.getElementById('statusName');
+        var statusId = document.getElementById('statusId');
+        statusName.addEventListener('tap', function(event) {
+            statusNamePicker.show(function(items) {
+                statusName.value = items[0].text;
+                statusId.value = items[0].value;
+                //返回 false 可以阻止选择框的关闭
+                //return false;
+            });
+        }, false);
+
+
+
+
+
 
         var poItem = '${poItem}';
         buiderSourceOrder(poItem);

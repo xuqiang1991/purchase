@@ -3,10 +3,12 @@ package com.purchase.controller.mobile;
 import com.alibaba.fastjson.JSON;
 import com.purchase.annotation.SysLog;
 import com.purchase.pojo.admin.TbAdmin;
+import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.BizContractApplyMoney;
 import com.purchase.service.AdminService;
 import com.purchase.service.CAMService;
 import com.purchase.service.PurchaseOrderService;
+import com.purchase.service.SupplierService;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.order.BizPurchaseOrderVo;
@@ -43,6 +45,9 @@ public class CAMController {
     @Autowired
     private PurchaseOrderService purchaseOrderService;
 
+    @Autowired
+    private SupplierService supplierService;
+
     @SysLog(value="进入合同内请款单")
     @RequestMapping("list")
     @RequiresPermissions("mobile:CAM:list")
@@ -55,6 +60,10 @@ public class CAMController {
     @RequiresPermissions("mobile:CAM:list")
     public String camDetails(HttpServletRequest req){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        if(admin.getSupplierId() != null){
+            TbSupplier supplier = supplierService.selSupplierById(admin.getSupplierId());
+            admin.setSupplierName(supplier.getName());
+        }
         List<ChoseAdminVO> admins = adminService.selectAdmin();
         logger.info("------:{}", JSON.toJSONString(admins));
         List<BizPurchaseOrderVo> purchaseOrderList = purchaseOrderService.selectPurchaseOrderExample(6,admin.getSupplierId());
