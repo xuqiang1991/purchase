@@ -11,40 +11,8 @@
     <link href="${ctx }/mui/css/mui.picker.min.css" rel="stylesheet" />
     <link href="${ctx }/mui/css/feedback-page.css" rel="stylesheet" />
     <link href="${ctx }/mui/css/mui-page.css" rel="stylesheet" />
-    <style>
-        /*.table {
-            border: 1px solid #cad9ea;
-            color: #666;
-            width: 96%;
-            margin-left: 15px;
-            margin-right: 1%;
-        }
-
-        .table th {
-            background-repeat: repeat-x;
-            height: 30px;
-        }
-
-        .table td,
-        .table th {
-            border: 1px solid #cad9ea;
-            padding: 0 1em 0;
-        }
-
-        .table tr.alter {
-            background-color: #f5fafe;
-        }
-        .table tbody {
-            text-align: center;
-        }*/
-    </style>
 </head>
 <body class="mui-fullscreen">
-
-<%--<header class="mui-bar mui-bar-nav">
-    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-    <h1 class="mui-title">合同内请款单</h1>
-</header>--%>
 <div id="app" class="mui-views">
     <div class="mui-view">
         <div class="mui-navbar"></div>
@@ -57,7 +25,7 @@
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>
         </button>
-        <h1 class="mui-center mui-title">合同内请款单</h1>
+        <h1 class="mui-center mui-title">合同外请款单</h1>
     </div>
 
     <div class="mui-content-padded mui-card" style="margin: 5px;">
@@ -71,36 +39,43 @@
                 <input type="text" id="selectApplyUser" class="mui-input-clear" placeholder="请选择开单人" value="${admin.fullname}">
                 <input type="hidden" id="applyUser" name="applyUser" value="${admin.id}">
             </div>
-
-            <div class="mui-input-row">
-                <label>来源订单</label>
-                <a href="#selectSourceOrder">
-                    <label id="selectSourceOrderText" style="width: 65%;padding-left: 0px;">请选择来源订单</label>
-                    <input type="hidden" id="selectSourceOrderHidden" name="sourceOrderId" value="">
-                </a>
-            </div>
-            <div class="mui-input-row">
-                <label>所属项目</label>
-                <input type="text" id="projectName" readonly class="mui-input-clear" value="">
-                <input type="hidden" id="projectId" name="projectId" value="">
-            </div>
             <div class="mui-input-row">
                 <label>供应商</label>
                 <input type="text" id="supplierName" readonly class="mui-input-clear" value="${admin.supplierName}">
                 <input type="hidden" id="supplierId" name="supplierId" value="${admin.supplierId}">
             </div>
             <div class="mui-input-row">
+                <label>所属项目</label>
+                <a href="#selectProjectManger">
+                    <label id="projectIdText" style="width: 65%;padding-left: 0px;">请选择所属项目</label>
+                    <input type="hidden" id="projectIdHidden" name="projectId" value="">
+                </a>
+            </div>
+
+            <div class="mui-input-row">
                 <label>单据类型</label>
-                <input type="text" id="orderTypeName" readonly class="mui-input-clear" value="111111111111111" >
+                <input type="text" id="orderTypeName" readonly class="mui-input-clear" placeholder="请选择单据类型" value="" >
                 <input type="hidden" id="orderTypeId" name="orderType" value="0" >
+            </div>
+
+            <div class="mui-input-row">
+                <label>指令单已到</label>
+                <input type="text" id="instructOrderFlagName" readonly class="mui-input-clear"  value="未到">
+                <input type="hidden" id="instructOrderFlag" name="instructOrderFlag" value="0">
+            </div>
+            <div class="mui-input-row">
+                <label>指令单号</label>
+                <input type="text" class="mui-input-clear" name="applyPrice" placeholder="请输入指令单号">
             </div>
             <div class="mui-input-row">
                 <label>单据状态</label>
                 <input type="text" id="statusName" readonly class="mui-input-clear" placeholder="请选择单据状态"  value="">
                 <input type="hidden" id="statusId" name="status" value="0">
             </div>
+
+
             <div class="mui-input-row">
-                <label>请款金额合计(元)</label>
+                <label>请款金额(元)</label>
                 <input type="number" class="mui-input-clear" style="color: red;" name="applyPrice" placeholder="请输入请款金额合计">
             </div>
             <div class="mui-control-content mui-active">
@@ -108,11 +83,14 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th width="16%">施工部位</th>
-                        <th width="16.6%">材料/项目内容</th>
-                        <th width="16.6%">规格型号</th>
+                        <th width="16%">材料/项目</th>
+                        <th width="16.6%">工程量</th>
+                        <th width="16.6%">申报完成率</th>
+                        <th width="16.6%">审核完成率</th>
                         <th width="16.6%">单位</th>
-                        <th width="16.6%">总价</th>
+                        <th width="16.6%">单价</th>
+                        <th width="16.6%">申报金额</th>
+                        <th width="16.6%">审批金额</th>
                         <th width="16.6%">
                             <span class="mui-icon mui-icon-plusempty icon-color-F0AD4E"></span>
                             <!--<button type="button" data-loading-icon="mui-spinner mui-icon-plusempt" class="mui-btn"></button> -->
@@ -222,12 +200,12 @@
 
 
 
-<div id="selectSourceOrder" class="mui-page">
+<div id="selectProjectManger" class="mui-page">
     <div class="mui-navbar-inner mui-bar mui-bar-nav">
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>返回
         </button>
-        <h1 class="mui-center mui-title">选择来源订单</h1>
+        <h1 class="mui-center mui-title">选择所属项目</h1>
     </div>
     <div class="mui-page-content">
         <div class="mui-scroll-wrapper">
@@ -235,7 +213,7 @@
                 <input type="search" class="mui-input-clear" placeholder="请输入搜索条件" style="width: 100%;">
             </div>
             <div class="mui-scroll">
-                <ul id="selectSourceOrderUl" class="mui-table-view mui-table-view-radio">
+                <ul id="selectProjectMangerUl" class="mui-table-view mui-table-view-radio">
                     <li class="mui-table-view-cell" data-id="1" data-text="Item 1">
                         <a class="mui-navigate-right">Item 1</a>
                     </li>
@@ -249,7 +227,7 @@
                 </ul>
                 <div class="mui-button-row" style="padding-bottom: 20px;">
                     <button type="button" class="mui-btn mui-btn-primary account-cancel" onclick="accountCancel();">取消</button>&nbsp;&nbsp;
-                    <button type="button" class="mui-btn mui-btn-danger account-ensure" onclick="accountEnsure('selectSourceOrder','selectSourceOrderText','selectSourceOrderHidden');">确定</button>
+                    <button type="button" class="mui-btn mui-btn-danger account-ensure" onclick="accountEnsure('selectProjectManger','projectIdText','projectIdHidden');">确定</button>
                 </div>
             </div>
         </div>
@@ -312,6 +290,32 @@
             });
         }, false);
 
+
+        var orderTypeNamePicker = new mui.PopPicker();
+        orderTypeNamePicker.setData( [{
+            value: '0',
+            text: '绿化苗木'
+        }, {
+            value: '1',
+            text: '园建水电'
+        }, {
+            value: '2',
+            text: '机械租赁'
+        }, {
+            value: '3',
+            text: '工程分包'
+        }]);
+        var orderTypeName = document.getElementById('orderTypeName');
+        var orderTypeId = document.getElementById('orderTypeId');
+        orderTypeName.addEventListener('tap', function(event) {
+            orderTypeNamePicker.show(function(items) {
+                orderTypeName.value = items[0].text;
+                orderTypeId.value = items[0].value;
+                //返回 false 可以阻止选择框的关闭
+                //return false;
+            });
+        }, false);
+
         var statusNamePicker = new mui.PopPicker();
         statusNamePicker.setData( [{
             value: '0',
@@ -340,13 +344,34 @@
             });
         }, false);
 
+        var instructOrderFlagPicker = new mui.PopPicker();
+        instructOrderFlagPicker.setData( [{
+            value: '0',
+            text: '未到'
+        }, {
+            value: '1',
+            text: '已到'
+        }]);
+        var instructOrderFlagName = document.getElementById('instructOrderFlagName');
+        var instructOrderFlag = document.getElementById('instructOrderFlag');
+        instructOrderFlagName.addEventListener('tap', function(event) {
+            instructOrderFlagPicker.show(function(items) {
+                instructOrderFlagName.value = items[0].text;
+                instructOrderFlag.value = items[0].value;
+                //返回 false 可以阻止选择框的关闭
+                //return false;
+            });
+        }, false);
 
 
 
 
 
-        var poItem = '${poItem}';
-        buiderSourceOrder(poItem);
+
+
+
+        var pmItem = '${pmItem}';
+        buiderProjectManger(pmItem);
 
     });
 
@@ -363,18 +388,18 @@
         console.log(e.detail.page.id + ' back');
     });
 
-    function buiderSourceOrder(obj){
-        var selectSourceOrderUl = $("#selectSourceOrderUl");
+    function buiderProjectManger(obj){
+        var selectProjectMangerUl = $("#selectProjectMangerUl");
         var items = JSON.parse(obj);
         if(items.length > 0){
             var html = "";
             for(var i = 0; i < items.length; i++){
                 console.log(items[i]);
                 var id = items[i].id;
-                var text = items[i].purchaseNo + "-" + items[i].supplierId;
+                var text = items[i].projectNo + "-" + items[i].name;
                 html += "<li class='mui-table-view-cell' data-id='" + id + "' data-text='" + text + "'><a class='mui-navigate-right'>" + text + "</a></li>";
             }
-            $(selectSourceOrderUl).html(html);
+            $(selectProjectMangerUl).html(html);
         }
     }
 

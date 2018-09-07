@@ -4,6 +4,8 @@ import com.purchase.pojo.admin.TbProjectManger;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.ProjectMangerSearch;
 
+import java.util.List;
+
 /**
  * @Auther: zhoujb
  * @Date: 2018/8/18 15:58
@@ -37,4 +39,10 @@ public interface ProjectMangerService {
      * @return
      */
     TbProjectManger findById(String id);
+
+    /**
+     * 查询所有可选项目
+     * @return
+     */
+    List<TbProjectManger> selectProjectMangerExample();
 }

@@ -125,4 +125,11 @@ public class ProjectMangerServiceImpl implements ProjectMangerService {
     public TbProjectManger findById(String id) {
         return projectMangerMapper.selectByPrimaryKey(id);
     }
+
+    @Override
+    public List<TbProjectManger> selectProjectMangerExample() {
+        TbProjectMangerExample example = new TbProjectMangerExample();
+        List<TbProjectManger> list = projectMangerMapper.selectByExample(example);
+        return list;
+    }
 }

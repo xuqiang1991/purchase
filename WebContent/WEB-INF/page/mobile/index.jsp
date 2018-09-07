@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-		 pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <%@ include file="/WEB-INF/page/include/taglib.jsp"%>
 <!DOCTYPE html>
 <html>
@@ -17,30 +17,42 @@
 </header>
 <div class="mui-content">
     <ul class="mui-table-view mui-grid-view mui-grid-9">
-        <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="${ctx }/mobile/purchase/list">
-            <span class="mui-icon iconfont icon-zhengchangcaigoudingdan icon-color-F0AD4E"></span>
-            <div class="mui-media-body">采购订单</div>
-        </a></li>
-        <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="${ctx }/mobile/CAM/list">
-            <span class="mui-icon iconfont icon-request-consult icon-color-F0AD4E"><span class="mui-badge">5</span></span>
-            <div class="mui-media-body">合同内请款</div>
-        </a></li>
-        <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="#">
-            <span class="mui-icon iconfont icon-kuanxiangguanli icon-color-F0AD4E"></span>
-            <div class="mui-media-body">合同外请款</div>
-        </a></li>
-        <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="#">
-            <span class="mui-icon iconfont icon-zuocedaohang_shoufukuanxiang icon-color-F0AD4E"></span>
-            <div class="mui-media-body">付款</div>
-        </a></li>
-        <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="#">
-            <span class="mui-icon iconfont icon-yanshou icon-color-F0AD4E"></span>
-            <div class="mui-media-body">工程验收</div>
-        </a></li>
-        <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="#">
-            <span class="mui-icon iconfont icon-toubiaoguanli1 icon-color-F0AD4E"></span>
-            <div class="mui-media-body">投标管理</div>
-        </a></li>
+        <shiro:hasPermission name="mobile:purchase:list">
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="${ctx }/mobile/purchase/list">
+                <span class="mui-icon iconfont icon-zhengchangcaigoudingdan icon-color-F0AD4E"></span>
+                <div class="mui-media-body">采购订单</div>
+            </a></li>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="mobile:CAM:list">
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="${ctx }/mobile/CAM/list">
+                <span class="mui-icon iconfont icon-request-consult icon-color-F0AD4E"><span class="mui-badge">5</span></span>
+                <div class="mui-media-body">合同内请款</div>
+            </a></li>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="mobile:UCAM:list">
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="${ctx }/mobile/UCAM/list">
+                <span class="mui-icon iconfont icon-kuanxiangguanli icon-color-F0AD4E"></span>
+                <div class="mui-media-body">合同外请款</div>
+            </a></li>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="mobile:paymentOrder:list">
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="#">
+                <span class="mui-icon iconfont icon-zuocedaohang_shoufukuanxiang icon-color-F0AD4E"></span>
+                <div class="mui-media-body">付款</div>
+            </a></li>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="mobile:programmeAcceptance:list">
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="#">
+                <span class="mui-icon iconfont icon-yanshou icon-color-F0AD4E"></span>
+                <div class="mui-media-body">工程验收</div>
+            </a></li>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="mobile:biddingManagement:list">
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="#">
+                <span class="mui-icon iconfont icon-toubiaoguanli1 icon-color-F0AD4E"></span>
+                <div class="mui-media-body">投标管理</div>
+            </a></li>
+        </shiro:hasPermission>
         <!--<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="#">
             <span class="mui-icon mui-icon-more"></span>
             <div class="mui-media-body">more</div>
