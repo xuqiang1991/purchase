@@ -6,17 +6,21 @@ import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.service.AdminService;
 import com.purchase.service.SupplierService;
 import com.purchase.util.ResultUtil;
+import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.admin.SupplierSearch;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 供应商管理
@@ -120,9 +124,17 @@ public class SupplierManagementController {
     }
 
 
-    @RequestMapping("findSupplierList")
+    @RequestMapping("findSuppliersAll")
     @ResponseBody
-    public ResultUtil findSupplierList(Integer page, Integer limit, SupplierSearch search){
-        return supplierService.selSuppliers(page,limit,search);
+    public  List<ChoseAdminVO> findSuppliersAll(){
+        List<TbSupplier> list = supplierService.selSuppliersAll();
+        List<ChoseAdminVO> suppliers = new ArrayList<>();
+        if(!CollectionUtils.isEmpty(list)){
+            for (TbSupplier supplier : list){
+                ChoseAdminVO vo = new ChoseAdminVO(String.valueOf(supplier.getId()),supplier.getName());
+                suppliers.add(vo);
+            }
+        }
+        return suppliers;
     }
 }

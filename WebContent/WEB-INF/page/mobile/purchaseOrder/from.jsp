@@ -38,16 +38,13 @@
             </div>
             <div class="mui-input-row">
                 <label>订单类型</label>
-                <select name="type">
-                    <option value="0">绿化苗木</option>
-                    <option value="1">园建水电</option>
-                    <option value="2">机械租赁</option>
-                    <option value="3">工程分包</option>
-                </select>
+                <input type="text" id="typeName" class="mui-input-clear" placeholder="请选择订单类型">
+                <input type="hidden" id="type" name="type">
             </div>
             <div class="mui-input-row">
                 <label>供应商</label>
-                <input type="text" id="supplier" name="supplier" class="mui-input-clear" placeholder="请选择供应商">
+                <input type="text" id="supplierName" class="mui-input-clear" placeholder="请选择开单人">
+                <input type="hidden" id="supplierId" name="supplierId">
             </div>
             <div class="mui-input-row">
                 <label>所属项目</label>
@@ -71,7 +68,6 @@
     </div>
 
 </div>
-
 
 
 <div id="selectProject" class="mui-page">
@@ -140,6 +136,57 @@
         defaultPage: '#setting'
     });
 
+    //初始化数据
+    mui.ready(function() {
+        //供应商
+        var url = '${ctx}/supplier/findSuppliersAll';
+        $.ajax({
+            url: url, dataType: 'json',   contentType : "application/x-www-form-urlencoded",  type: 'post', timeout: 10000,
+            success: function(result) {
+                if(result != null && result.length != 0){
+                    initSupplier(result);
+                }
+            }
+        });
+
+        //订单类型
+        initOrderType();
+    });
+
+    function initSupplier(json){
+        var userPicker = new mui.PopPicker();
+        userPicker.setData(json);
+        var supplierName = document.getElementById('supplierName');
+        var supplierId = document.getElementById('supplierId');
+        supplierName.addEventListener('tap', function(event) {
+            userPicker.show(function(items) {
+                supplierName.value = items[0].text;
+                supplierId.value = items[0].value;
+                //返回 false 可以阻止选择框的关闭
+                //return false;
+            });
+        }, false);
+    }
+
+    function initOrderType(){
+        var orderType = '[{"text":"绿化苗木","value":"0"},{"text":"园建水电","value":"1"},{"text":"机械租赁","value":"2"},{"text":"工程分包","value":"3"}]';
+        var json = JSON.parse(orderType);
+        var userPicker = new mui.PopPicker();
+        userPicker.setData(json);
+        var typeName = document.getElementById('typeName');
+        var type = document.getElementById('type');
+        typeName.addEventListener('tap', function(event) {
+            userPicker.show(function(items) {
+                typeName.value = items[0].text;
+                type.value = items[0].value;
+                //返回 false 可以阻止选择框的关闭
+                //return false;
+            });
+        }, false);
+    }
+
+
+    /** start 选择所属项目 **/
     mui(document.body).on('tap', '#search-btn', function(e) {
         $('#searchCollapse').removeClass('mui-active')
         $project.projectList();
