@@ -8,14 +8,82 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
     <title></title>
     <link href="${ctx }/mui/css/mui.min.css" rel="stylesheet"/>
+    <link href="${ctx }/mui/css/iconfont.css" rel="stylesheet"/>
+    <link href="${ctx }/mui/css/mui.picker.min.css" rel="stylesheet" />
+    <link href="${ctx }/mui/css/feedback-page.css" rel="stylesheet" />
+    <link href="${ctx }/mui/css/mui-page.css" rel="stylesheet" />
 </head>
-<body>
-<!-- 侧滑导航根容器 -->
-<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable">
-    <!-- 菜单容器 -->
-    <aside id="offCanvasSide" class="mui-off-canvas-right"  style="background: #4ddaff">
-        <div id="offCanvasSideScroll" class="mui-scroll-wrapper">
-            <div class="mui-scroll"  style="height: 100%;">
+<body class="mui-fullscreen">
+<div id="app" class="mui-views">
+    <div class="mui-view">
+        <div class="mui-navbar"></div>
+        <div class="mui-pages"></div>
+    </div>
+</div>
+
+<div id="setting" class="mui-content mui-page">
+    <div class="mui-navbar-inner mui-bar mui-bar-nav">
+        <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+            <span class="mui-icon mui-icon-left-nav"></span>
+        </button>
+        <h1 class="mui-center mui-title">新建采购订单</h1>
+    </div>
+
+    <!-- 主界面具体展示内容 -->
+    <div class="mui-content-padded mui-card" style="margin: 5px;">
+        <form class="mui-input-group">
+            <div class="mui-input-row">
+                <label>合同编号</label>
+                <input type="text" name="contract_no" class="mui-input-clear">
+            </div>
+            <div class="mui-input-row">
+                <label>订单类型</label>
+                <select name="type">
+                    <option value="0">绿化苗木</option>
+                    <option value="1">园建水电</option>
+                    <option value="2">机械租赁</option>
+                    <option value="3">工程分包</option>
+                </select>
+            </div>
+            <div class="mui-input-row">
+                <label>供应商</label>
+                <input type="text" id="supplier" name="supplier" class="mui-input-clear" placeholder="请选择供应商">
+            </div>
+            <div class="mui-input-row">
+                <label>所属项目</label>
+                <a href="#selectProject">
+                    <label id="selectProjectText" style="width: 65%;padding-left: 0px;">请选择所属项目</label>
+                    <input type="hidden" id="selectProjectHidden" name="project_id" value="">
+                </a>
+            </div>
+            <div class="mui-input-row">
+                <label>合同总金额</label>
+                <input type="text" name="contract_money" class="mui-input-clear" readonly="readonly" placeholder="合同总金额">
+            </div>
+            <div class="mui-input-row mui-input-range">
+                <label>付款比例(%)</label>
+                <input name="payment_ratio" type="range" min="0" max="100" value="100">
+            </div>
+            <div>
+                <textarea name="summary" id="summary" rows="5" class="mui-input-clear" placeholder="摘要"></textarea>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+
+<div id="selectProject" class="mui-page">
+    <div class="mui-navbar-inner mui-bar mui-bar-nav">
+        <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+            <span class="mui-icon mui-icon-left-nav"></span>返回
+        </button>
+        <h1 class="mui-center mui-title">选择所属项目</h1>
+    </div>
+    <div class="mui-page-content">
+        <div class="mui-scroll-wrapper">
+            <div class="mui-input-row mui-search">
                 <ul class="mui-table-view" style="margin: 5px 15px 10px;z-index: 100">
                     <li class="mui-table-view-cell mui-collapse" id="searchCollapse">
                         <a class="mui-navigate-right" href="#">搜索</a>
@@ -24,15 +92,11 @@
                                 <form class="mui-input-group" id="searchForm">
                                     <div class="mui-input-row">
                                         <label>名称</label>
-                                        <input type="text" placeholder="供应商名称" name="name">
+                                        <input type="text" placeholder="项目名称" name="name">
                                     </div>
                                     <div class="mui-input-row">
-                                        <label>类别</label>
-                                        <select name="type">
-                                            <option value="">全部</option>
-                                            <option value="0">材料供应商</option>
-                                            <option value="1">工程分包商</option>
-                                        </select>
+                                        <label>项目简称</label>
+                                        <input type="text" placeholder="项目简称" name="shortName">
                                     </div>
                                     <div class="mui-button-row">
                                         <button class="mui-btn mui-btn-primary" id="search-btn" type="button">确认</button>&nbsp;&nbsp;
@@ -43,102 +107,55 @@
                         </div>
                     </li>
                 </ul>
+            </div>
+            <div class="mui-scroll"  style="height: 100%;">
                 <!--下拉刷新容器-->
-                <div id="supplierRefreshContainer" class="mui-content mui-scroll-wrapper" style="margin: 80px 15px 10px;">
+                <div id="projectRefreshContainer" class="mui-content mui-scroll-wrapper">
                     <div class="mui-scroll">
                         <!--数据列表-->
-                        <ul class="mui-table-view mui-table-view-chevron supplierRefreshContainerData">
+                        <ul id="selectProjectUl" class="mui-table-view mui-table-view-radio projectRefreshContainerData">
+
                         </ul>
+                        <div class="mui-button-row" style="padding-bottom: 20px;">
+                            <button type="button" class="mui-btn mui-btn-primary account-cancel" onclick="cancel();">取消</button>&nbsp;&nbsp;
+                            <button type="button" class="mui-btn mui-btn-danger account-ensure" onclick="projectEnsure('selectProject','selectProjectText','selectProjectHidden');">确定</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </aside>
-    <div class="mui-inner-wrap">
-        <!-- 主页面标题 -->
-        <header class="mui-bar mui-bar-nav">
-            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-            <h1 class="mui-title">新建采购订单</h1>
-        </header>
-        <!-- 主页面内容容器 -->
-        <div class="mui-content mui-scroll-wrapper">
-            <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
-                <div class="mui-scroll">
-                    <!-- 主界面具体展示内容 -->
-                    <div class="mui-content-padded mui-card" style="margin: 5px;">
-                        <form class="mui-input-group">
-                            <div class="mui-input-row">
-                                <label>合同编号</label>
-                                <input type="text" name="contract_no" class="mui-input-clear">
-                            </div>
-                            <div class="mui-input-row">
-                                <label>订单类型</label>
-                                <select name="type">
-                                    <option value="0">绿化苗木</option>
-                                    <option value="1">园建水电</option>
-                                    <option value="2">机械租赁</option>
-                                    <option value="3">工程分包</option>
-                                </select>
-                            </div>
-                            <div class="mui-input-row">
-                                <label>供应商</label>
-                                <input type="text" id="supplier" name="supplier" class="mui-input-clear" placeholder="请选择供应商">
-                            </div>
-                            <div class="mui-input-row">
-                                <label>所属项目</label>
-                                <input type="text" name="project_id" class="mui-input-clear" placeholder="请选择所属项目">
-                            </div>
-                            <div class="mui-input-row">
-                                <label>合同总金额</label>
-                                <input type="text" name="contract_money" class="mui-input-clear" readonly="readonly" placeholder="合同总金额">
-                            </div>
-                            <div class="mui-input-row mui-input-range">
-                                <label>付款比例(%)</label>
-                                <input name="payment_ratio" type="range" min="0" max="100" value="100">
-                            </div>
-                            <div>
-                                <textarea name="summary" id="summary" rows="5" class="mui-input-clear" placeholder="摘要"></textarea>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
 </div>
+
 <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
+<script src="${ctx }/mui/js/mui.picker.min.js"></script>
+<script src="${ctx }/mui/js/mui.view.js"></script>
 <script type="text/javascript" src="http://apps.bdimg.com/libs/handlebars.js/2.0.0-alpha.4/handlebars.js"></script>
 <script type="text/javascript" charset="utf-8">
     mui.init();
-    //侧滑容器父节点
-    var offCanvasWrapper = mui('#offCanvasWrapper');
-    //菜单容器
-    var offCanvasSide = document.getElementById("offCanvasSide");
-    //主界面‘显示侧滑菜单’按钮的点击事件
-    document.getElementById('supplier').addEventListener('tap', function() {
-        offCanvasWrapper.offCanvas().show();
+    //初始化单页view
+    var viewApi = mui('#app').view({
+        defaultPage: '#setting'
     });
-    //主界面和侧滑菜单界面均支持区域滚动；
-    mui('#offCanvasSideScroll').scroll();
-    mui('#offCanvasContentScroll').scroll();
 
     mui(document.body).on('tap', '#search-btn', function(e) {
         $('#searchCollapse').removeClass('mui-active')
-        $supplier.supplierList();
+        $project.projectList();
     });
 
     mui(document.body).on('tap', '#cancel-btn', function(e) {
         $('#searchCollapse').removeClass('mui-active')
     });
 
-    //选择供应商
-    var $supplier = {
-         list : mui('#supplierRefreshContainer'),
+    //选择项目
+    var $project = {
+         list : mui('#projectRefreshContainer'),
          page : 1, //当前页
-         limit :  6, //每页显示条数
+         limit :  10, //每页显示条数
          enablePullUp : true, //是否加载
-         supplierList:function () {
+         projectList:function () {
            this.list.pullRefresh({
                down : {
                    style:'circle',//必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
@@ -154,25 +171,25 @@
             })
         },
         billLoad : function() {
-            if (!$supplier.enablePullUp) {
-                $supplier.list.pullRefresh().endPullupToRefresh(false);
+            if (!$project.enablePullUp) {
+                $project.list.pullRefresh().endPullupToRefresh(false);
                 mui.toast("没有更多数据了");
                 return;
             }
-            $supplier.page++;
-            $supplier.getBill();
-            $supplier.list.pullRefresh().endPullupToRefresh(false);
+            $project.page++;
+            $project.getBill();
+            $project.list.pullRefresh().endPullupToRefresh(false);
         },
         billRefresh : function() {
-            $('#supplierRefreshContainerData').empty();
-            $supplier.enablePullUp = true;
-            $supplier.page = 1;
-            $supplier.getBill();
+            $('#projectRefreshContainerData').empty();
+            $project.enablePullUp = true;
+            $project.page = 1;
+            $project.getBill();
 
-            $supplier.list.pullRefresh().endPulldownToRefresh();
+            $project.list.pullRefresh().endPulldownToRefresh();
         },
         getBill: function () {
-            var url = '${ctx}/supplier/findSupplierList?' + 'limit=' + $supplier.limit + '&page=' + $supplier.page;
+            var url = '${ctx}/projectManger/findProjectMangerList?' + 'limit=' + $project.limit + '&page=' + $project.page;
             mui.toast("加载中...",1000);
             $.ajax({
                 url: url,
@@ -185,7 +202,7 @@
                     if(result.data != null && result.data.length != 0){
                         var data = result.data;
                         // 请求成功
-                        var listTargt = $('.supplierRefreshContainerData')
+                        var listTargt = $('.projectRefreshContainerData')
 
                         var tpl = $("#listTpl").html();
                         //预编译模板
@@ -197,34 +214,47 @@
                         listTargt.append(html);
 
                         if (data.length < this.limit) {
-                            $supplier.enablePullUp = false;
+                            $project.enablePullUp = false;
                         }
                     }
                 },
                 error: function () {
-                    $supplier.list.pullRefresh().endPullupToRefresh(false); //参数为true代表没有更多数据了。
-                    $supplier.list.pullRefresh().endPulldownToRefresh(); //refresh completed
-                    $supplier.enablePullUp = false;
+                    $project.list.pullRefresh().endPullupToRefresh(false); //参数为true代表没有更多数据了。
+                    $project.list.pullRefresh().endPulldownToRefresh(); //refresh completed
+                    $project.enablePullUp = false;
                 }
               });
          }
     }
+
+    var oldBack = mui.back;
+    function cancel(){
+        if (viewApi.canBack()) { //如果view可以后退，则执行view的后退
+            viewApi.back();
+        } else { //执行webview后退
+            oldBack();
+        }
+    }
+    function projectEnsure(flag,callText,callValue){
+        var accountSelected = $("#" + flag).find("li").hasClass("mui-selected");
+        if(accountSelected){
+            var li = $("#" + flag).find("li.mui-selected");
+            var value = $(li).attr("data-id");
+            var text = $(li).attr("data-text");
+            console.log(value + "/n" +text);
+            $("#" + callText).text(text);
+            $("#" + callValue).val(value);
+            cancel();
+        }else{
+            mui.toast('您尚未选择，请选择后确定',{ duration:'long', type:'div' })
+        }
+    }
 </script>
 <script type="text/template" id="listTpl">
     {{#each data}}
-    <div class="mui-card">
-        <div class="mui-card-header mui-card-media">
-            <div class="mui-media-body">
-                <input name="supplier_id" type="radio" value="{{id}}">
-                <label>{{name}}</label>
-            </div>
-        </div>
-        <div class="mui-card-content">
-            <div class="mui-card-content-inner">
-                <label>简称：{{nick}}</label>
-            </div>
-        </div>
-    </div>
+    <li class="mui-table-view-cell" data-id="1" data-text="{{name}}">
+        <a class="mui-navigate-right">{{name}}</a>
+    </li>
     {{/each}}
 </script>
 </body>

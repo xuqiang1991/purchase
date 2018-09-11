@@ -102,4 +102,23 @@ public class ProjectMangerController {
         return ResultUtil.ok();
     }
 
+
+    /**
+     * 项目列表数据,不需要权限
+     * @return
+     */
+    @RequestMapping("/findProjectMangerList")
+    @ResponseBody
+    public ResultUtil findProjectMangerList(Integer page, Integer limit, ProjectMangerSearch search) {
+        logger.info("请求项目数据");
+        ResultUtil result = new ResultUtil();
+        try {
+            result = projectMangerService.selProjectManger(page,limit,search);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+
 }
