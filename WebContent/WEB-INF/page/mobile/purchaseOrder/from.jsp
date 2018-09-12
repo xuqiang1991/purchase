@@ -31,26 +31,26 @@
 
     <!-- 主界面具体展示内容 -->
     <div class="mui-content-padded mui-card" style="margin: 5px;">
-        <form class="mui-input-group">
+        <form class="mui-input-group" id="submitFrom">
             <div class="mui-input-row">
                 <label>合同编号</label>
-                <input type="text" name="contract_no" class="mui-input-clear">
+                <input type="text" name="contract_no" class="mui-input-clear" mui-verify="required">
             </div>
             <div class="mui-input-row">
                 <label>订单类型</label>
-                <input type="text" id="typeName" class="mui-input-clear" placeholder="请选择订单类型">
+                <input type="text" id="typeName" class="mui-input-clear" placeholder="请选择订单类型" mui-verify="required">
                 <input type="hidden" id="type" name="type">
             </div>
             <div class="mui-input-row">
                 <label>供应商</label>
-                <input type="text" id="supplierName" class="mui-input-clear" placeholder="请选择开单人">
+                <input type="text" id="supplierName" class="mui-input-clear" placeholder="请选择开单人" mui-verify="required">
                 <input type="hidden" id="supplierId" name="supplierId">
             </div>
             <div class="mui-input-row">
                 <label>所属项目</label>
                 <a href="#selectProject">
                     <label id="selectProjectText" style="width: 65%;padding-left: 0px;">请选择所属项目</label>
-                    <input type="hidden" id="selectProjectHidden" name="project_id" value="">
+                    <input type="hidden" id="selectProjectHidden" name="project_id" value="" mui-verify="required">
                 </a>
             </div>
             <div class="mui-input-row">
@@ -63,6 +63,9 @@
             </div>
             <div>
                 <textarea name="summary" id="summary" rows="5" class="mui-input-clear" placeholder="摘要"></textarea>
+            </div>
+            <div class="mui-button-row" style="padding-bottom: 20px;">
+                <button type="button" class="mui-btn mui-btn-primary" onclick="submitPurchaseOrder()">提交</button>
             </div>
         </form>
     </div>
@@ -294,6 +297,43 @@
             cancel();
         }else{
             mui.toast('您尚未选择，请选择后确定',{ duration:'long', type:'div' })
+        }
+    }
+
+
+    function submitPurchaseOrder(){
+        var check = true;
+        mui("input").each(function() {
+            //若当前input为空，则alert提醒
+            var verify = $(this).attr("mui-verify")
+            if(verify == 'required'){
+                if(!this.value || this.value.trim() == "") {
+                    var label = this.previousElementSibling;
+                    mui.alert(label.innerText + "不允许为空");
+                    check = false;
+                    return false;
+                }
+            }
+        });
+        //校验通过，继续执行业务逻辑
+        if(check){
+            var url = '${ctx}/mobile/purchase/addPurchaseOrder'
+            $.ajax({
+                url: url,
+                data: $('#submitFrom').serialize(),
+                dataType: 'json',
+                contentType : "application/x-www-form-urlencoded",
+                type: 'post',
+                timeout: 10000,
+                success: function(result) {
+                    if(result.code!=0){
+                        mui.alert(data.msg);
+                    }else {
+                        mui.alert("添加成功！");
+                        document.location.href='${ctx }/mobile/purchase/list';
+                    }
+                }
+            });
         }
     }
 </script>

@@ -34,9 +34,9 @@ public interface BizPurchaseOrderMapper {
 
     List<BizPurchaseOrderVo> selectByExampleExt( @Param("example") BizPurchaseOrderExample example, @Param("search") BizPurchaseOrderSearch search);
 
-    @Select("select max(purchase_no) from biz_purchase_order where purchase_no like '#{0}%'")
-    String selMaxPurchaseNo(String prefix);
+    @Select("select max(purchase_no) purchase_no from biz_purchase_order where purchase_no like '${prefix}%'")
+    String selMaxPurchaseNo(@Param("prefix") String prefix);
 
-    @Select("select * from biz_purchase_order where status = '#{0}' and supplier_id = '#{1}'")
+    @Select("select * from biz_purchase_order where status = #{0} and supplier_id = #{1}")
     List<BizPurchaseOrder> selectPurchaseOrder(Integer status, Long supplier);
 }
