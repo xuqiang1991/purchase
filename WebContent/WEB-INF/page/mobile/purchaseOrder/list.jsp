@@ -162,6 +162,10 @@
         });
     }
 
+
+    function toDetails(id) {
+        document.location.href='${ctx }/mobile/purchase/toDetails/' + id;
+    }
 </script>
 <!-- 采购订单 start -->
 <script type="text/template" id="listTpl">
@@ -195,7 +199,7 @@
                 <label>{{purchaseOrder_departDate}}</label>
             </div>
             <div>
-                <button type="button" class="mui-btn mui-btn-primary">详情</button>
+                <button type="button" class="mui-btn mui-btn-primary" onclick="toDetails('{{id}}')">详情</button>
                 <button type="button" class="mui-btn mui-btn-primary">审核</button>
             </div>
         </div>

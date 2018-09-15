@@ -8,12 +8,15 @@ import com.purchase.mapper.order.BizPurchaseOrderDetailMapper;
 import com.purchase.mapper.order.BizPurchaseOrderMapper;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.order.BizPurchaseOrder;
+import com.purchase.pojo.order.BizPurchaseOrderDetail;
+import com.purchase.pojo.order.BizPurchaseOrderDetailExample;
 import com.purchase.pojo.order.BizPurchaseOrderExample;
 import com.purchase.service.PurchaseOrderService;
 import com.purchase.util.DateUtil;
 import com.purchase.util.PurchaseUtil;
 import com.purchase.util.ResultUtil;
 import com.purchase.util.WebUtils;
+import com.purchase.vo.order.BizPurchaseOrderDetailsVo;
 import com.purchase.vo.order.BizPurchaseOrderSearch;
 import com.purchase.vo.order.BizPurchaseOrderVo;
 import org.apache.commons.lang.StringUtils;
@@ -115,6 +118,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	 */
 	@Override
 	public ResultUtil selPurchaseOrder(String id) {
+		BizPurchaseOrderDetailsVo detailsVo = new BizPurchaseOrderDetailsVo();
+
+		//获取采购单
 		BizPurchaseOrder order = purchaseOrderMapper.selectByPrimaryKey(id);
 		BizPurchaseOrderVo vo = new BizPurchaseOrderVo();
 		BeanUtils.copyProperties(order, vo);
@@ -141,9 +147,17 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			vo.setManagerAdmin(managerAdmin);
 		}
 
+		detailsVo.setPurchaseOrder(vo);
 
+		//获取采购单详情
+		String purchaseNo = vo.getPurchaseNo();
+		BizPurchaseOrderDetailExample example = new BizPurchaseOrderDetailExample();
+		BizPurchaseOrderDetailExample.Criteria criteria = example.createCriteria();
+		criteria.andPurchaseNoEqualTo(purchaseNo);
+		List<BizPurchaseOrderDetail> detailList = purchaseOrderDetailMapper.selectByExample(example);
+		detailsVo.setDetails(detailList);
 
-		return ResultUtil.ok(vo);
+		return ResultUtil.ok(detailsVo);
 	}
 
 

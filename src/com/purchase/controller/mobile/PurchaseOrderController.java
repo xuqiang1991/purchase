@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -43,11 +44,12 @@ public class PurchaseOrderController {
         return purchaseOrderService.getOrderList(page,limit,search);
     }
 
-    @RequestMapping("selPurchaseOrder")
-    @RequiresPermissions("mobile:purchase:sel")
-    @ResponseBody
-    public ResultUtil selPurchaseOrder(String purchaseNo){
-        return purchaseOrderService.selPurchaseOrder(purchaseNo);
+    @RequestMapping("/toDetails/{purchaseNo}")
+    @RequiresPermissions("mobile:purchase:details")
+    public String toDetails(@PathVariable("purchaseNo") String purchaseNo, Model model){
+        ResultUtil resultUtil = purchaseOrderService.selPurchaseOrder(purchaseNo);
+        model.addAttribute("resultUtil",resultUtil);
+        return "page/mobile/purchaseOrder/details";
     }
 
 
