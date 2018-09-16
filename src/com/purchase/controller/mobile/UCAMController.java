@@ -6,6 +6,7 @@ import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbProjectManger;
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.BizContractApplyMoney;
+import com.purchase.pojo.order.BizUncontractApplyMoney;
 import com.purchase.service.*;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.ChoseAdminVO;
@@ -97,7 +98,7 @@ public class UCAMController {
     @RequestMapping("addUCAMOrder")
     @RequiresPermissions("mobile:UCAM:add")
     @ResponseBody
-    public ResultUtil addUCAMOrder(BizContractApplyMoney order){
+    public ResultUtil addUCAMOrder(BizUncontractApplyMoney order){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         order.setCreateUser(admin.getId());
         return ucamService.addUCAMOrder(order);
@@ -107,7 +108,7 @@ public class UCAMController {
     @RequestMapping("editUCAMOrder")
     @RequiresPermissions("mobile:UCAM:edit")
     @ResponseBody
-    public ResultUtil editUCAMOrder(BizContractApplyMoney order){
+    public ResultUtil editUCAMOrder(BizUncontractApplyMoney order){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         order.setCreateUser(admin.getId());
         return ucamService.editUCAMOrder(order);

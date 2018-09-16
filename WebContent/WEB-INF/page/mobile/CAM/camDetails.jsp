@@ -213,9 +213,13 @@
 
         </form>
         <div class="mui-button-row" style="padding-bottom: 20px;">
+            <button type="button" class="mui-btn mui-btn-primary" onclick="camSave();">保存</button>&nbsp;&nbsp;
+            <button type="button" class="mui-btn mui-btn-danger" onclick="return false;">取消</button>
+        </div>
+        <%--<div class="mui-button-row" style="padding-bottom: 20px;">
             <button type="button" class="mui-btn mui-btn-primary" onclick="return false;">同意</button>&nbsp;&nbsp;
             <button type="button" class="mui-btn mui-btn-danger" onclick="return false;">驳回</button>
-        </div>
+        </div>--%>
     </div>
 
 </div>
@@ -399,6 +403,9 @@
         }else{
             mui.toast('您尚未选择，请选择后确定',{ duration:'long', type:'div' })
         }
+    }
+    function camSave(){
+
     }
 </script>
 </body>

@@ -29,7 +29,7 @@
     </div>
 
     <div class="mui-content-padded mui-card" style="margin: 5px;">
-        <form class="mui-input-group">
+        <form class="mui-input-group" id="ucamForm">
             <div class="mui-input-row">
                 <label>单号</label>
                 <input type="text" readonly="readonly" class="mui-input-clear" placeholder="PC20180817001">
@@ -191,7 +191,7 @@
 
         </form>
         <div class="mui-button-row" style="padding-bottom: 20px;">
-            <button type="button" class="mui-btn mui-btn-primary" onclick="return false;">同意</button>&nbsp;&nbsp;
+            <button type="button" class="mui-btn mui-btn-primary" onclick="ucamSave();">同意</button>&nbsp;&nbsp;
             <button type="button" class="mui-btn mui-btn-danger" onclick="return false;">驳回</button>
         </div>
     </div>
@@ -424,6 +424,10 @@
         }else{
             mui.toast('您尚未选择，请选择后确定',{ duration:'long', type:'div' })
         }
+    }
+
+    function ucamSave(){
+
     }
 </script>
 </body>

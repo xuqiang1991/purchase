@@ -5,13 +5,19 @@ import com.purchase.mapper.admin.TbSupplierMapper;
 import com.purchase.mapper.order.BizUncontractApplyMoneyMapper;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.order.BizContractApplyMoney;
+import com.purchase.pojo.order.BizUncontractApplyMoney;
 import com.purchase.service.UCAMService;
+import com.purchase.util.DateUtil;
+import com.purchase.util.PurchaseUtil;
 import com.purchase.util.ResultUtil;
+import com.purchase.util.WebUtils;
 import com.purchase.vo.order.UCAMSearch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 /**
  * @Auther: zhoujb
@@ -39,12 +45,27 @@ public class UCAMServiceImpl implements UCAMService {
     }
 
     @Override
-    public ResultUtil addUCAMOrder(BizContractApplyMoney order) {
-        return null;
+    public ResultUtil addUCAMOrder(BizUncontractApplyMoney order) {
+        Date date = new Date();
+
+        String id = WebUtils.generateUUID();
+        order.setId(id);
+
+        //生成采购单号
+        String yyddmm = DateUtil.formatDate(date,DateUtil.DateFormat3);
+        String prefix = PurchaseUtil.prefix + yyddmm;
+
+        //参数补充
+        order.setCostDepartDate(date);
+        order.setUpdateDate(date);
+
+        ucamMapper.insertSelective(order);
+
+        return ResultUtil.ok();
     }
 
     @Override
-    public ResultUtil editUCAMOrder(BizContractApplyMoney order) {
+    public ResultUtil editUCAMOrder(BizUncontractApplyMoney order) {
         return null;
     }
 

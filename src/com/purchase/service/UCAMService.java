@@ -2,6 +2,7 @@ package com.purchase.service;
 
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.order.BizContractApplyMoney;
+import com.purchase.pojo.order.BizUncontractApplyMoney;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.order.UCAMSearch;
 
@@ -14,9 +15,9 @@ public interface UCAMService {
 
     ResultUtil getUCAMOrderList(Integer page, Integer limit, UCAMSearch search);
 
-    ResultUtil addUCAMOrder(BizContractApplyMoney order);
+    ResultUtil addUCAMOrder(BizUncontractApplyMoney order);
 
-    ResultUtil editUCAMOrder(BizContractApplyMoney order);
+    ResultUtil editUCAMOrder(BizUncontractApplyMoney order);
 
     ResultUtil selUCAMOrder(String orderNo);
 
