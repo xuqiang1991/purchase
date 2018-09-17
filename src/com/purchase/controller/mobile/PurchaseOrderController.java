@@ -5,6 +5,7 @@ import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.order.BizPurchaseOrder;
 import com.purchase.service.PurchaseOrderService;
 import com.purchase.util.ResultUtil;
+import com.purchase.vo.order.BizPurchaseOrderDetailsVo;
 import com.purchase.vo.order.BizPurchaseOrderSearch;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -47,8 +48,8 @@ public class PurchaseOrderController {
     @RequestMapping("/toDetails/{purchaseNo}")
     @RequiresPermissions("mobile:purchase:details")
     public String toDetails(@PathVariable("purchaseNo") String purchaseNo, Model model){
-        ResultUtil resultUtil = purchaseOrderService.selPurchaseOrder(purchaseNo);
-        model.addAttribute("resultUtil",resultUtil);
+        BizPurchaseOrderDetailsVo detailsVo = purchaseOrderService.selPurchaseOrder(purchaseNo);
+        model.addAttribute("detailsVo",detailsVo);
         return "page/mobile/purchaseOrder/details";
     }
 

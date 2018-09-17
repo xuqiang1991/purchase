@@ -186,7 +186,7 @@
             <div class="mui-card-content-inner">
                 <p>
                     <label>合同号：{{admin.fullname}}</label>
-                    <label>供应商：{{supplier.fullname}}</label>
+                    <label>供应商：{{supplier.name}}</label>
                 </p>
                 <p>
                     <label>所属项目：所属项目</label>
