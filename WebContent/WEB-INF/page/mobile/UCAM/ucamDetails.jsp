@@ -191,8 +191,8 @@
 
         </form>
         <div class="mui-button-row" style="padding-bottom: 20px;">
-            <button type="button" class="mui-btn mui-btn-primary" onclick="ucamSave();">同意</button>&nbsp;&nbsp;
-            <button type="button" class="mui-btn mui-btn-danger" onclick="return false;">驳回</button>
+            <button type="button" class="mui-btn mui-btn-primary" onclick="ucamSave();">保存</button>&nbsp;&nbsp;
+            <button type="button" class="mui-btn mui-btn-danger" onclick="return false;">取消</button>
         </div>
     </div>
 
@@ -427,7 +427,24 @@
     }
 
     function ucamSave(){
-
+        //addUCAMOrder
+        var url = '${ctx}/mobile/UCAM/addUCAMOrder'
+        $.ajax({
+            url: url,
+            data: $('#ucamForm').serialize(),
+            dataType: 'json',
+            contentType : "application/x-www-form-urlencoded",
+            type: 'post',
+            timeout: 10000,
+            success: function(result) {
+                if(result.code!=0){
+                    mui.alert(data.msg);
+                }else {
+                    mui.alert("添加成功！");
+                    document.location.href='${ctx }/mobile/UCAM/list';
+                }
+            }
+        });
     }
 </script>
 </body>

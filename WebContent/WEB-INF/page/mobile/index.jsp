@@ -53,12 +53,13 @@
                 <div class="mui-media-body">投标管理</div>
             </a></li>
         </shiro:hasPermission>
-        <!--<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="#">
+        <%--<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="#">
             <span class="mui-icon mui-icon-more"></span>
             <div class="mui-media-body">more</div>
-        </a></li>-->
+        </a></li>--%>
     </ul>
 </div>
+<script src="${ctx }/js/jquery-1.11.1.js"></script>
 <script src="${ctx }/mui/js/mui.min.js"></script>
 <script type="text/javascript" charset="utf-8">
     mui.init({

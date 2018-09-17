@@ -4,11 +4,9 @@ import com.purchase.mapper.admin.TbAdminMapper;
 import com.purchase.mapper.admin.TbSupplierMapper;
 import com.purchase.mapper.order.BizUncontractApplyMoneyMapper;
 import com.purchase.pojo.admin.TbAdmin;
-import com.purchase.pojo.order.BizContractApplyMoney;
 import com.purchase.pojo.order.BizUncontractApplyMoney;
 import com.purchase.service.UCAMService;
 import com.purchase.util.DateUtil;
-import com.purchase.util.PurchaseUtil;
 import com.purchase.util.ResultUtil;
 import com.purchase.util.WebUtils;
 import com.purchase.vo.order.UCAMSearch;
@@ -16,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 
@@ -38,6 +37,11 @@ public class UCAMServiceImpl implements UCAMService {
     @Autowired
     private TbAdminMapper adminMapper;
 
+    /**
+     * 合同外请款单单号前缀
+     */
+    public static final String UCAM_PREFIX = "NC-";
+
 
     @Override
     public ResultUtil getUCAMOrderList(Integer page, Integer limit, UCAMSearch search) {
@@ -53,11 +57,20 @@ public class UCAMServiceImpl implements UCAMService {
 
         //生成采购单号
         String yyddmm = DateUtil.formatDate(date,DateUtil.DateFormat3);
-        String prefix = PurchaseUtil.prefix + yyddmm;
+        String maxNo = ucamMapper.selMaxNo(yyddmm);
+        if(StringUtils.isEmpty(maxNo)){
+            maxNo = "0";
+        }else{
+            maxNo = maxNo.substring(maxNo.length() - 3);
+        }
+        maxNo = String.format("%03d", Integer.parseInt(maxNo) + 1);
+        String ucamNo = UCAM_PREFIX + yyddmm + "-" + maxNo;
 
+        order.setOrderNo(ucamNo);
         //参数补充
         order.setCostDepartDate(date);
         order.setUpdateDate(date);
+        order.setCreateTime(date);
 
         ucamMapper.insertSelective(order);
 

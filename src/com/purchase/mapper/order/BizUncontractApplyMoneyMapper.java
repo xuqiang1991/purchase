@@ -2,8 +2,10 @@ package com.purchase.mapper.order;
 
 import com.purchase.pojo.order.BizUncontractApplyMoney;
 import com.purchase.pojo.order.BizUncontractApplyMoneyExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 public interface BizUncontractApplyMoneyMapper {
     int countByExample(BizUncontractApplyMoneyExample example);
@@ -27,4 +29,7 @@ public interface BizUncontractApplyMoneyMapper {
     int updateByPrimaryKeySelective(BizUncontractApplyMoney record);
 
     int updateByPrimaryKey(BizUncontractApplyMoney record);
+
+    @Select("select max(order_no) order_no from biz_uncontract_apply_money where order_no like '%${prefix}%'")
+    String selMaxNo(@Param("prefix") String prefix);
 }

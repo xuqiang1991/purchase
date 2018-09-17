@@ -5,7 +5,6 @@ import com.purchase.annotation.SysLog;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbProjectManger;
 import com.purchase.pojo.admin.TbSupplier;
-import com.purchase.pojo.order.BizContractApplyMoney;
 import com.purchase.pojo.order.BizUncontractApplyMoney;
 import com.purchase.service.*;
 import com.purchase.util.ResultUtil;
@@ -96,7 +95,7 @@ public class UCAMController {
 
     @SysLog(value="新增合同外请款单详情")
     @RequestMapping("addUCAMOrder")
-    @RequiresPermissions("mobile:UCAM:add")
+    @RequiresPermissions("mobile:UCAM:save")
     @ResponseBody
     public ResultUtil addUCAMOrder(BizUncontractApplyMoney order){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
@@ -125,7 +124,7 @@ public class UCAMController {
 
     @SysLog(value="提交合同外请款单详情")
     @RequestMapping("submitUCAMOrder")
-    @RequiresPermissions("mobile:UCAM:add")
+    @RequiresPermissions("mobile:UCAM:save")
     @ResponseBody
     public ResultUtil submitUCAMOrder(String id){
         return ucamService.submitUCAMOrder(id);
