@@ -7,6 +7,7 @@ import com.purchase.mapper.admin.TbSupplierMapper;
 import com.purchase.mapper.order.BizPurchaseOrderDetailMapper;
 import com.purchase.mapper.order.BizPurchaseOrderMapper;
 import com.purchase.pojo.admin.TbAdmin;
+import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.BizPurchaseOrder;
 import com.purchase.pojo.order.BizPurchaseOrderDetail;
 import com.purchase.pojo.order.BizPurchaseOrderDetailExample;
@@ -117,7 +118,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	 * @return
 	 */
 	@Override
-	public ResultUtil selPurchaseOrder(String id) {
+	public BizPurchaseOrderDetailsVo selPurchaseOrder(String id) {
 		BizPurchaseOrderDetailsVo detailsVo = new BizPurchaseOrderDetailsVo();
 
 		//获取采购单
@@ -147,6 +148,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			vo.setManagerAdmin(managerAdmin);
 		}
 
+		Long supplierId = order.getSupplierId();
+		if(supplierId != null){
+			TbSupplier supplier = supplierMapper.selectByPrimaryKey(supplierId);
+			vo.setSupplier(supplier);
+		}
+
+
 		detailsVo.setPurchaseOrder(vo);
 
 		//获取采购单详情
@@ -157,7 +165,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		List<BizPurchaseOrderDetail> detailList = purchaseOrderDetailMapper.selectByExample(example);
 		detailsVo.setDetails(detailList);
 
-		return ResultUtil.ok(detailsVo);
+		return detailsVo;
 	}
 
 

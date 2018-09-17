@@ -21,7 +21,7 @@ public interface PurchaseOrderService {
 
     ResultUtil editPurchaseOrder(BizPurchaseOrder order);
 
-    ResultUtil selPurchaseOrder(String purchaseNo);
+    BizPurchaseOrderDetailsVo selPurchaseOrder(String purchaseNo);
 
     ResultUtil delPurchaseOrder(String id);
 
