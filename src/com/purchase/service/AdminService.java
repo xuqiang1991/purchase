@@ -4,6 +4,7 @@ package com.purchase.service;
 import com.purchase.pojo.admin.*;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.ChoseAdminVO;
+import com.purchase.vo.admin.ChoseDeptVO;
 import com.purchase.vo.admin.Menu;
 import com.purchase.vo.admin.XtreeData;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
@@ -119,4 +120,10 @@ public interface AdminService {
      * @return
      */
     List<ChoseAdminVO> selectAdmin();
+
+	/**
+	 * 构建部门用户下拉框数据
+	 * @return
+	 */
+	List<ChoseDeptVO> selectDeptAdmin();
 }

@@ -8,6 +8,7 @@ import com.purchase.pojo.admin.TbAdminExample.Criteria;
 import com.purchase.service.AdminService;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.ChoseAdminVO;
+import com.purchase.vo.admin.ChoseDeptVO;
 import com.purchase.vo.admin.Menu;
 import com.purchase.vo.admin.XtreeData;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
@@ -18,7 +19,9 @@ import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -631,4 +634,45 @@ public class AdminServiceImpl implements AdminService {
         }
         return item;
     }
+
+	@Override
+	public List<ChoseDeptVO> selectDeptAdmin() {
+		List<ChoseDeptVO> item = new ArrayList<>();
+		TbDepartmentExample example=new TbDepartmentExample();
+		example.createCriteria().andParentIdIsNull();
+		//查询没有上级菜单的部门
+		List<TbDepartment> depts = tbDepartmentMapper.selectByExample(example);
+		/*TbAdminExample adminExample = new TbAdminExample();*/
+		/*List<TbAdmin> admis = tbAdminMapper.getAdmins(1);
+		Map<String,List<ChoseAdminVO>> adminMap = new HashMap<>();
+		if(!CollectionUtils.isEmpty(admis)){
+			for (TbAdmin a: admis) {
+				if(a.getDeptId() != null){
+					String key = a.getDeptId().toString();
+					List<ChoseAdminVO> as = new ArrayList<>();
+					if(adminMap.containsKey(key)){
+						as = adminMap.get(key);
+					}
+					as.add(new ChoseAdminVO(a.getId().toString(),a.getUsername()));
+					adminMap.put(key,as);
+				}
+			}
+		}*/
+		if(!CollectionUtils.isEmpty(depts)){
+			for (TbDepartment d: depts) {
+				ChoseDeptVO dept = new ChoseDeptVO(d.getId().toString(),d.getName());
+				List<TbAdmin> admins = tbAdminMapper.getAdminsByDeptId(d.getId().toString());
+				List<ChoseAdminVO> adminItem = new ArrayList();
+				if(!CollectionUtils.isEmpty(admins)){
+					for (TbAdmin a: admins) {
+						adminItem.add(new ChoseAdminVO(a.getId().toString(),a.getFullname()));
+					}
+					dept.setChildren(adminItem);
+				}
+				item.add(dept);
+				//item.add(new ChoseDeptVO(d.getId().toString(),d.getName(),adminMap.get(d.getId())));
+			}
+		}
+		return item;
+	}
 }

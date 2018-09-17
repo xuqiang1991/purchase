@@ -56,6 +56,8 @@ public class BizUncontractApplyMoney {
 
     private String managerDepartOpinion;
 
+    private String supplierIds;
+
     public String getId() {
         return id;
     }
@@ -262,5 +264,13 @@ public class BizUncontractApplyMoney {
 
     public void setManagerDepartOpinion(String managerDepartOpinion) {
         this.managerDepartOpinion = managerDepartOpinion == null ? null : managerDepartOpinion.trim();
+    }
+
+    public String getSupplierIds() {
+        return supplierIds;
+    }
+
+    public void setSupplierIds(String supplierIds) {
+        this.supplierIds = supplierIds;
     }
 }

@@ -2,6 +2,8 @@ package com.purchase.service;
 
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.util.ResultUtil;
+import com.purchase.vo.admin.ChoseAdminVO;
+import com.purchase.vo.admin.ChoseSupplierVO;
 import com.purchase.vo.admin.SupplierSearch;
 
 import java.util.List;
@@ -22,4 +24,11 @@ public interface SupplierService {
     void delSupplierById(Long id);
 
     List<TbSupplier> selSuppliersAll();
+
+
+    /**
+     * 构建供应商下拉框数据
+     * @return
+     */
+    List<ChoseSupplierVO> selectSupplier();
 }

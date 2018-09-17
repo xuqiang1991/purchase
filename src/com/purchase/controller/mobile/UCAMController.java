@@ -8,7 +8,7 @@ import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.BizUncontractApplyMoney;
 import com.purchase.service.*;
 import com.purchase.util.ResultUtil;
-import com.purchase.vo.admin.ChoseAdminVO;
+import com.purchase.vo.admin.*;
 import com.purchase.vo.order.BizPurchaseOrderVo;
 import com.purchase.vo.order.UCAMSearch;
 import org.apache.shiro.SecurityUtils;
@@ -52,9 +52,35 @@ public class UCAMController {
     @SysLog(value="进入合同外请款单")
     @RequestMapping("list")
     @RequiresPermissions("mobile:UCAM:list")
-    public String list(){
+    public String list(HttpServletRequest req){
+        List<ChoseAdminVO> admins = adminService.selectAdmin();
+        List<ChoseSupplierVO> suppliers = supplierService.selectSupplier();
+        List<ChoseDeptVO> depts = adminService.selectDeptAdmin();
+        logger.info("------:{}", JSON.toJSONString(depts));
+        req.setAttribute("admins", JSON.toJSONString(admins));
+        req.setAttribute("suppliers", JSON.toJSONString(suppliers));
+        req.setAttribute("depts", JSON.toJSONString(depts));
+
         return "page/mobile/UCAM/list";
     }
+
+    /**
+     * 合同外请款单列表
+     * @return
+     *//*
+    @RequestMapping("/getUCAMList")
+    @RequiresPermissions("sys:UCAM:list")
+    @ResponseBody
+    public ResultUtil getUCAMList(Integer page, Integer limit, UCAMSearch search) {
+        logger.info("请求合同外请款单列表");
+        ResultUtil result = new ResultUtil();
+        try {
+            result = ucamService.getUCAMOrderList(page, limit,search);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }*/
 
     @SysLog(value="进入合同外请款单详情")
     @RequestMapping("ucamDetails")

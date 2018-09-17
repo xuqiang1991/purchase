@@ -7,62 +7,383 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 	<title></title>
 	<link href="${ctx }/mui/css/mui.min.css" rel="stylesheet"/>
+    <link href="${ctx }/mui/css/mui.picker.min.css" rel="stylesheet" />
 </head>
 <body>
-<header class="mui-bar mui-bar-nav">
+<%--<header class="mui-bar mui-bar-nav">
     <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
     <h1 class="mui-title">合同外请款单</h1>
-</header>
+</header>--%>
 
 <div class="mui-content">
-    <div class="mui-card" style="margin: 0px; margin-top: 5px; margin-bottom: 5px; padding-bottom: 5px; text-align: center;">
-        <div class="mui-button-row">
+    <div class="mui-navbar-inner mui-bar mui-bar-nav">
+        <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+            <span class="mui-icon mui-icon-left-nav"></span>
+        </button>
+        <h1 class="mui-center mui-title">合同外请款单</h1>
+    </div>
+    <!--下拉刷新容器-->
+    <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="width: 100%;">
+        <%--<div class="mui-card" style="margin: 0px; margin-top: 5px; margin-bottom: 5px; padding-bottom: 5px; text-align: center;">
+            <div class="mui-button-row">
+                <button type="button" id="add-btn" class="mui-btn mui-btn-primary">新建合同外请款单</button>
+            </div>
+        </div>--%>
+        <div class="mui-button-row" style="margin-bottom: -30px; background-color: #fff;">
             <button type="button" id="add-btn" class="mui-btn mui-btn-primary">新建合同外请款单</button>
         </div>
-    </div>
-    <!-- 单号、订单类型、来源订单、供应商、所属项目、请款人、开单人、开单日期、单据状态 -->
-    <ul class="mui-table-view">
-        <li class="mui-table-view-cell mui-collapse">
-            <a class="mui-navigate-right" href="#">搜索</a>
-            <div class="mui-collapse-content">
+        <!-- 单号、订单类型、来源订单、供应商、所属项目、请款人、开单人、开单日期、单据状态 -->
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell mui-collapse" id="searchLi">
+                <a class="mui-navigate-right" href="#">搜索</a>
                 <div class="mui-collapse-content">
-                    <form class="mui-input-group">
+                    <form class="mui-input-group" id="searchForm">
                         <div class="mui-input-row">
                             <label>单号</label>
-                            <input type="text" placeholder="普通输入框">
+                            <input type="text" name="orderNo" placeholder="请输入单号">
                         </div>
                         <div class="mui-input-row">
-                            <label>订单类型</label>
-                            <input type="text" placeholder="普通输入框">
+                            <label>单据类型</label>
+                            <input type="text" id="orderTypeName" readonly class="mui-input-clear" placeholder="请选择单据类型" value="" >
+                            <input type="hidden" id="orderType" name="orderType" value="0" >
+                        </div>
+                        <div class="mui-input-row">
+                            <label>供应商</label>
+                            <input type="text" id="supplierIdName" readonly class="mui-input-clear"  value="请选择供应商">
+                            <input type="hidden" id="supplierId" name="supplierId">
+                        </div>
+                        <div class="mui-input-row">
+                            <label>所属项目</label>
+                            <input type="text" name="projectId" placeholder="普通输入框">
+                        </div>
+                        <div class="mui-input-row">
+                            <label>有无指令</label>
+                            <input type="text" id="instructOrderFlagName" readonly class="mui-input-clear"  value="未到">
+                            <input type="hidden" id="instructOrderFlag" name="instructOrderFlag" value="0">
+                        </div>
+                        <div class="mui-input-row">
+                            <label>指令单号</label>
+                            <input type="text" name="instructOrderNo" placeholder="普通输入框">
+                        </div>
+                        <div class="mui-input-row">
+                            <label>请款人</label>
+                            <input type="text" id="selectApplyUser" class="mui-input-clear" placeholder="请选择请款人" >
+                            <input type="hidden" id="applyUser" name="applyUser">
+                        </div>
+                        <div class="mui-input-row">
+                            <label>开单人</label>
+                            <input type="text" id="selectCreateUser" class="mui-input-clear" placeholder="请选择开单人" >
+                            <input type="hidden" id="createUser" name="createUser">
+                        </div>
+                        <div class="mui-input-row">
+                            <label>开单日期</label>
+                            <input id="createTime" name="createTime" type="text" data-options='{"type":"date","beginYear":2014,"endYear":2016}' placeholder="请选择日期">
+                        </div>
+                        <div class="mui-input-row">
+                            <label>单据状态</label>
+                            <input type="text" id="statusName" readonly class="mui-input-clear" placeholder="请选择单据状态"  value="">
+                            <input type="hidden" id="status" name="status" value="0">
                         </div>
                         <div class="mui-button-row">
-                            <button class="mui-btn mui-btn-primary" type="button" onclick="return false;">确认</button>&nbsp;&nbsp;
-                            <button class="mui-btn mui-btn-danger" type="button" onclick="return false;">取消</button>
+                            <button class="mui-btn mui-btn-primary" type="button" id="search-btn">确认</button>&nbsp;&nbsp;
+                            <button class="mui-btn mui-btn-danger" type="button" id="cancel-btn">取消</button>
                         </div>
                     </form>
                 </div>
-            </div>
-        </li>
-    </ul>
-    <!-- 合同内请款单 start -->
+            </li>
+        </ul>
+        <div class="mui-scroll">
+            <!--数据列表-->
+            <ul class="mui-table-view mui-table-view-chevron">
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="${ctx }/js/jquery-1.11.1.js"></script>
+<script src="${ctx}/mui/js/mui.min.js"></script>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/handlebars.js/2.0.0-alpha.4/handlebars.js"></script>
+<script type="text/javascript" src="${ctx}/js/handlebarsHelps.js"></script>
+<script src="${ctx }/mui/js/mui.picker.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+    var ctx = '${ctx }';
+    var page = 1; //当前页
+    var limit = 6; //每页显示条数
+    var enablePullUp = true; //是否加载
+    mui.init({
+        swipeBack: true, //启用右滑关闭功能
+        pullRefresh : {
+            container:"#refreshContainer",//下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+            down : {
+                style:'circle',//必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+                auto: true,//可选,默认false.首次加载自动上拉刷新一次
+                callback :billRefresh
+            },
+            up: {
+                auto:false,
+                contentrefresh: '正在加载...',
+                contentnomore:'',
+                callback: billLoad
+            }
+        }
+    });
+
+    mui(document.body).on('tap', '#search-btn', function(e) {
+        $('#searchCollapse').removeClass('mui-active')
+        billRefresh();
+    });
+
+    mui(document.body).on('tap', '#cancel-btn', function(e) {
+        $('#searchCollapse').removeClass('mui-active');
+        $('#searchLi').removeClass('mui-active');
+    });
+
+    mui(document.body).on('tap', '#add-btn', function(e) {
+        document.location.href = ctx + '/mobile/UCAM/ucamDetails';
+    });
+
+    /*mui(document.body).on('tap', '#search-btn', function(e) {
+        alert("1232");
+        getBill();
+    });*/
+
+    function billLoad() {
+        if (!enablePullUp) {
+            mui('#refreshContainer').pullRefresh().endPullupToRefresh(false);
+            mui.toast("没有更多数据了");
+            return;
+        }
+        page++;
+        getBill();
+        mui('#refreshContainer').pullRefresh().endPullupToRefresh(false);
+    }
+
+    function billRefresh() {
+        $('.mui-table-view-chevron').empty();
+        enablePullUp = true;
+        page = 1;
+        getBill();
+        mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+    }
+
+    function getBill() {
+        var url = '${ctx}/mobile/UCAM/getUCAMList?' + 'limit=' + limit + '&page=' + page;
+        mui.toast("加载中...",1000);
+        $.ajax({
+            url: url,
+            data: $('#searchForm').serialize(),
+            dataType: 'json',
+            contentType : "application/x-www-form-urlencoded",
+            type: 'post',
+            timeout: 10000,
+            success: function(result) {
+                var refreshContainer = mui('#refreshContainer');
+                if(result.data != null && result.data.length != 0){
+                    var data = result.data;
+                    // 请求成功
+                    var listTargt = $('.mui-table-view-chevron')
+
+                    var tpl = $("#listTpl").html();
+                    //预编译模板
+                    var template = Handlebars.compile(tpl);
+
+                    //数据转换
+                    purchaseOrder.statusConversion(Handlebars)
+                    purchaseOrder.departUser(Handlebars)
+                    purchaseOrder.departDate(Handlebars)
+
+                    //匹配json内容
+                    var html = template({data});//data
+                    //输入模板
+                    listTargt.append(html);
+
+                    if (data.length < limit) {
+                        enablePullUp = false;
+                    }
+                }
+            },
+            error: function () {
+                mui('#refreshContainer').pullRefresh().endPullupToRefresh(false); //参数为true代表没有更多数据了。
+                mui('#refreshContainer').pullRefresh().endPulldownToRefresh(); //refresh completed
+                enablePullUp = false;
+            }
+        });
+    }
+
+    var btns =  mui('#createTime');
+    btns.each(function(i, btn) {
+        btn.addEventListener('tap', function() {
+            var optionsJson = this.getAttribute('data-options') || '{}';
+            var options = JSON.parse(optionsJson);
+            var id = this.getAttribute('id');
+            var picker = new mui.DtPicker(options);
+            picker.show(function(rs) {
+                createTime.value = rs.text;
+                picker.dispose();
+            });
+        }, false);
+    });
+
+
+    mui.ready(function() {
+
+        var adminsJson = '${admins}';
+        var userPicker = new mui.PopPicker();
+        userPicker.setData(JSON.parse(adminsJson));
+        var selectApplyUser = document.getElementById('selectApplyUser');
+        var applyUser = document.getElementById('applyUser');
+        selectApplyUser.addEventListener('tap', function(event) {
+            userPicker.show(function(items) {
+                selectApplyUser.value = items[0].text;
+                applyUser.value = items[0].value;
+                //返回 false 可以阻止选择框的关闭
+                //return false;
+            });
+        }, false);
+
+
+        var selectCreateUser = document.getElementById('selectCreateUser');
+        var createUser = document.getElementById('createUser');
+        selectCreateUser.addEventListener('tap', function(event) {
+            userPicker.show(function(items) {
+                selectCreateUser.value = items[0].text;
+                createUser.value = items[0].value;
+                //返回 false 可以阻止选择框的关闭
+                //return false;
+            });
+        }, false);
+
+        var suppliersJson = '${suppliers}';
+        var suppliersPicker = new mui.PopPicker({
+            layer: 1
+        });
+        suppliersPicker.setData(JSON.parse(suppliersJson));
+        var supplierIdName = document.getElementById('supplierIdName');
+        var supplierId = document.getElementById('supplierId');
+        supplierIdName.addEventListener('tap', function(event) {
+            suppliersPicker.show(function(items) {
+                supplierIdName.value = items[0].text;
+                supplierId.value = items[0].value;
+                //返回 false 可以阻止选择框的关闭
+                //return false;
+            });
+        }, false);
+
+        //二级下拉
+        /*var suppliersJson = '';
+        var suppliersPicker = new mui.PopPicker({
+            layer: 2
+        });
+        suppliersPicker.setData(JSON.parse(suppliersJson));
+        var supplierIdName = document.getElementById('supplierIdName');
+        var supplierId = document.getElementById('supplierId');
+        supplierIdName.addEventListener('tap', function(event) {
+            suppliersPicker.show(function(items) {
+                supplierIdName.value = items[0].text;
+                supplierId.value = items[0].value;
+                //返回 false 可以阻止选择框的关闭
+                //return false;
+            });
+        }, false);*/
+
+
+        var orderTypeNamePicker = new mui.PopPicker();
+        orderTypeNamePicker.setData( [{
+            value: '0',
+            text: '绿化苗木'
+        }, {
+            value: '1',
+            text: '园建水电'
+        }, {
+            value: '2',
+            text: '机械租赁'
+        }, {
+            value: '3',
+            text: '工程分包'
+        }]);
+        var orderTypeName = document.getElementById('orderTypeName');
+        var orderType = document.getElementById('orderType');
+        orderTypeName.addEventListener('tap', function(event) {
+            orderTypeNamePicker.show(function(items) {
+                orderTypeName.value = items[0].text;
+                orderType.value = items[0].value;
+                //返回 false 可以阻止选择框的关闭
+                //return false;
+            });
+        }, false);
+
+        var statusNamePicker = new mui.PopPicker();
+        statusNamePicker.setData( [{
+            value: '0',
+            text: '未提交'
+        }, {
+            value: '1',
+            text: '已提交'
+        }, {
+            value: '2',
+            text: '成本部已审核'
+        }, {
+            value: '3',
+            text: '工程部已审核'
+        },{
+            value: '4',
+            text: '总经理已审核'
+        }]);
+        var statusName = document.getElementById('statusName');
+        var status = document.getElementById('status');
+        statusName.addEventListener('tap', function(event) {
+            statusNamePicker.show(function(items) {
+                statusName.value = items[0].text;
+                status.value = items[0].value;
+                //返回 false 可以阻止选择框的关闭
+                //return false;
+            });
+        }, false);
+
+        var instructOrderFlagPicker = new mui.PopPicker();
+        instructOrderFlagPicker.setData( [{
+            value: '0',
+            text: '未到'
+        }, {
+            value: '1',
+            text: '已到'
+        }]);
+        var instructOrderFlagName = document.getElementById('instructOrderFlagName');
+        var instructOrderFlag = document.getElementById('instructOrderFlag');
+        instructOrderFlagName.addEventListener('tap', function(event) {
+            instructOrderFlagPicker.show(function(items) {
+                instructOrderFlagName.value = items[0].text;
+                instructOrderFlag.value = items[0].value;
+                //返回 false 可以阻止选择框的关闭
+                //return false;
+            });
+        }, false);
+
+    });
+
+
+</script>
+
+<!-- 合同内请款单 start -->
+<script type="text/template" id="listTpl">
+    {{#each data}}
     <div class="mui-card" style="margin: 0px; margin-top: 5px;">
         <div class="mui-card-header mui-card-media">
             <!-- 订单类型 用图标展示 -->
-            <img src="${ctx }/images/icon/uncontract_apply_money.png">un
+            <img src="${ctx }/images/icon/uncontract_apply_money.png">
             <div class="mui-media-body">
-                <label>单号:1234567890019847</label>
+                <label>单号:{{orderNo}}</label>
                 <p>
-                    <label>开单人:张三</label>&nbsp;
-                    <label>开单日期：2018-08-21</label>
-                    <span class="mui-badge mui-badge-primary mui-pull-right">申请中</span>
+                    <label>开单人:{{admin.fullname}}</label>&nbsp;
+                    <label>开单日期：{{createTime}}</label>
+                    <span class="mui-badge mui-badge-primary mui-pull-right">{{purchaseOrder_statusConversion status}}</span>
                 </p>
             </div>
         </div>
         <div class="mui-card-content">
             <div class="mui-card-content-inner">
                 <p>
-                    <label>合同号：1234567890019847</label>
-                    <label>供应商：xxxxXXXXXX</label>
+                    <label>合同号：{{admin.fullname}}</label>
+                    <label>供应商：{{supplier.fullname}}</label>
                 </p>
                 <p>
                     <label>所属项目：所属项目</label>
@@ -80,18 +401,9 @@
             </div>
         </div>
     </div>
-    <!-- 合同内请款单 end -->
-</div>
-<script src="${ctx}/mui/js/mui.min.js"></script>
-<script type="text/javascript" charset="utf-8">
-    mui.init({
-        swipeBack: true //启用右滑关闭功能
-    });
-    var ctx = '${ctx }';
 
-    mui(document.body).on('tap', '#add-btn', function(e) {
-        document.location.href = ctx + '/mobile/UCAM/ucamDetails';
-    });
+    {{/each}}
 </script>
+<!-- 合同内请款单 end -->
 </body>
 </html>

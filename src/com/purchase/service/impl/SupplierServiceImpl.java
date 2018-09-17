@@ -3,16 +3,21 @@ package com.purchase.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.purchase.mapper.admin.TbSupplierMapper;
+import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.admin.TbSupplierExample;
 import com.purchase.service.SupplierService;
 import com.purchase.util.ResultUtil;
+import com.purchase.vo.admin.ChoseAdminVO;
+import com.purchase.vo.admin.ChoseSupplierVO;
 import com.purchase.vo.admin.SupplierSearch;
 import com.purchase.vo.admin.SupplierVo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -77,5 +82,17 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     public List<TbSupplier> selSuppliersAll() {
         return tbSupplierMapper.selectByExample(new TbSupplierExample());
+    }
+
+    @Override
+    public List<ChoseSupplierVO> selectSupplier() {
+        List<TbSupplier> supplier = tbSupplierMapper.selectByExample(new TbSupplierExample());
+        List<ChoseSupplierVO> item = new ArrayList();
+        if(!CollectionUtils.isEmpty(supplier)){
+            for (TbSupplier s: supplier) {
+                item.add(new ChoseSupplierVO(s.getId().toString(),s.getName()));
+            }
+        }
+        return item;
     }
 }

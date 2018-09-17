@@ -1,14 +1,19 @@
 package com.purchase.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.purchase.mapper.admin.TbAdminMapper;
 import com.purchase.mapper.admin.TbSupplierMapper;
 import com.purchase.mapper.order.BizUncontractApplyMoneyMapper;
 import com.purchase.pojo.admin.TbAdmin;
+import com.purchase.pojo.order.BizPurchaseOrderExample;
 import com.purchase.pojo.order.BizUncontractApplyMoney;
+import com.purchase.pojo.order.BizUncontractApplyMoneyExample;
 import com.purchase.service.UCAMService;
 import com.purchase.util.DateUtil;
 import com.purchase.util.ResultUtil;
 import com.purchase.util.WebUtils;
+import com.purchase.vo.order.BizPurchaseOrderVo;
 import com.purchase.vo.order.UCAMSearch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Auther: zhoujb
@@ -45,7 +53,60 @@ public class UCAMServiceImpl implements UCAMService {
 
     @Override
     public ResultUtil getUCAMOrderList(Integer page, Integer limit, UCAMSearch search) {
-        return null;
+        PageHelper.startPage(page, limit);
+
+        BizUncontractApplyMoneyExample example=new BizUncontractApplyMoneyExample();
+        //设置按创建时间降序排序
+        example.setOrderByClause("update_date DESC");
+        BizUncontractApplyMoneyExample.Criteria criteria = example.createCriteria();
+
+        if(!StringUtils.isEmpty(search.getOrderNo())){
+            //注意：模糊查询需要进行拼接”%“  如下，不进行拼接是不能完成查询的哦。
+            criteria.andOrderNoLike("%"+search.getOrderNo()+"%");
+        }
+
+        if(!StringUtils.isEmpty(search.getOrderType())){
+            criteria.andOrderTypeEqualTo(String.valueOf(search.getOrderType()));
+        }
+        if(search.getSupplierId() != null){
+            criteria.andSupplierIdsLike("%"+String.valueOf(search.getSupplierId())+"%");
+        }
+
+        if(search.getProjectId() != null){
+            criteria.andProjectIdEqualTo(search.getProjectId());
+        }
+        if(!StringUtils.isEmpty(search.getInstructOrderFlag())){
+            criteria.andInstructOrderFlagEqualTo(search.getInstructOrderFlag());
+        }
+
+        if(!StringUtils.isEmpty(search.getInstructOrderNo())){
+            criteria.andInstructOrderNoLike("%"+search.getInstructOrderNo()+"%");
+        }
+
+        if(search.getApplyUser() != null){
+            criteria.andApplyUserEqualTo(search.getApplyUser());
+        }
+
+        if(search.getCreateUser() != null){
+            criteria.andCreateUserEqualTo(search.getCreateUser());
+        }
+        if(!StringUtils.isEmpty(search.getCreateTime())){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                criteria.andCreateTimeEqualTo(sdf.parse(search.getCreateTime()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        List<BizUncontractApplyMoney> ucamList = ucamMapper.selectByExample(example);
+        PageInfo<BizUncontractApplyMoney> pageInfo = new PageInfo<>(ucamList);
+        ResultUtil resultUtil = new ResultUtil();
+        resultUtil.setCode(0);
+        resultUtil.setCount(pageInfo.getTotal());
+        resultUtil.setData(pageInfo.getList());
+        return resultUtil;
     }
 
     @Override
