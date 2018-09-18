@@ -79,7 +79,11 @@
             <div class="mui-scroll"  style="height: 100%;">
                 <form class="mui-input-group" id="addFromPurchaseOrderItem">
                     <div class="mui-input-row">
-                        <label>规格</label>
+                        <label>材料/项目内容</label>
+                        <input type="text" name="content" class="mui-input-clear" mui-verify="required">
+                    </div>
+                    <div class="mui-input-row">
+                        <label>规格型号</label>
                         <input type="text" name="model" class="mui-input-clear" mui-verify="required">
                     </div>
                     <div class="mui-input-row">
@@ -94,11 +98,19 @@
                         <label>数量</label>
                         <input type="text" name="amount" class="mui-input-clear" mui-verify="required">
                     </div>
+                    <div class="mui-input-row">
+                        <label>质保期（月）</label>
+                        <input type="text" name="warrantyDate" class="mui-input-clear" mui-verify="required">
+                    </div>
+                    <div class="mui-input-row">
+                        <label>日期</label>
+                        <input type="text" name="date" class="mui-input-clear" mui-verify="required">
+                    </div>
                     <div>
                         <textarea name="remark" id="remark" rows="5" class="mui-input-clear" placeholder="备注"></textarea>
                     </div>
                     <div class="mui-button-row" style="padding-bottom: 20px;">
-                        <button type="button" class="mui-btn mui-btn-primary" onclick="submitPurchaseOrder()">提交</button>
+                        <button type="button" class="mui-btn mui-btn-primary" onclick="addfromPurchaseOrderItem()">添加</button>
                     </div>
                 </form>
         </div>
