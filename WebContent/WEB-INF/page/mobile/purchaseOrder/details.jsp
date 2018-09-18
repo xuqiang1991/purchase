@@ -30,92 +30,89 @@
 
     <!-- 主界面具体展示内容 -->
     <div class="mui-content-padded mui-card" style="margin: 5px;">
-        <form class="mui-input-group" id="submitFrom">
-            <div class="mui-input-row">
-                <label>合同编号</label>
-                <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.purchaseNo}</label>
-            </div>
-            <div class="mui-input-row">
-                <label>订单类型</label>
-                <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.type}</label>
-            </div>
-            <div class="mui-input-row">
-                <label>供应商</label>
-                <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.supplier.name}</label>
-            </div>
-            <div class="mui-input-row">
-                <label>所属项目</label>
-                <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.projectId}</label>
-            </div>
-            <div class="mui-input-row">
-                <label>合同总金额</label>
-                <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.contractMoney}</label>
-            </div>
-            <div class="mui-input-row mui-input-range">
-                <label>付款比例(%)</label>
-                <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.paymentRatio}%</label>
-            </div>
-            <div>
-                <textarea name="summary" id="summary" rows="5" class="mui-input-clear" readonly="readonly">${detailsVo.purchaseOrder.summary}</textarea>
-            </div>
-            <div class="mui-button-row" style="padding-bottom: 20px;">
-                <button type="button" class="mui-btn mui-btn-primary" onclick="addPurchaseOrderItem()">增加采购单项</button>
-            </div>
-        </form>
+        <div class="mui-input-row">
+            <label>合同编号</label>
+            <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.purchaseNo}</label>
+        </div>
+        <div class="mui-input-row">
+            <label>订单类型</label>
+            <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.type}</label>
+        </div>
+        <div class="mui-input-row">
+            <label>供应商</label>
+            <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.supplier.name}</label>
+        </div>
+        <div class="mui-input-row">
+            <label>所属项目</label>
+            <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.projectId}</label>
+        </div>
+        <div class="mui-input-row">
+            <label>合同总金额</label>
+            <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.contractMoney}</label>
+        </div>
+        <div class="mui-input-row mui-input-range">
+            <label>付款比例(%)</label>
+            <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.paymentRatio}%</label>
+        </div>
+        <div>
+            <textarea name="summary" id="summary" rows="5" class="mui-input-clear" readonly="readonly">${detailsVo.purchaseOrder.summary}</textarea>
+        </div>
+        <div class="mui-button-row" style="padding-bottom: 20px;">
+            <a href="#fromPurchaseOrderItem">
+                <label id="selectProjectText" style="width: 65%;padding-left: 0px;">增加采购单项</label>
+            </a>
+        </div>
     </div>
 
 </div>
 
 
-<div id="selectProject" class="mui-page">
+<div id="fromPurchaseOrderItem" class="mui-page">
     <div class="mui-navbar-inner mui-bar mui-bar-nav">
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>返回
         </button>
-        <h1 class="mui-center mui-title">选择所属项目</h1>
+        <h1 class="mui-center mui-title">增加采购单项</h1>
     </div>
     <div class="mui-page-content">
         <div class="mui-scroll-wrapper">
-            <div class="mui-input-row mui-search">
-                <ul class="mui-table-view" style="margin: 5px 15px 10px;z-index: 100">
-                    <li class="mui-table-view-cell mui-collapse" id="searchCollapse">
-                        <a class="mui-navigate-right" href="#">搜索</a>
-                        <div class="mui-collapse-content">
-                            <div class="mui-collapse-content">
-                                <form class="mui-input-group" id="searchForm">
-                                    <div class="mui-input-row">
-                                        <label>名称</label>
-                                        <input type="text" placeholder="项目名称" name="name">
-                                    </div>
-                                    <div class="mui-input-row">
-                                        <label>项目简称</label>
-                                        <input type="text" placeholder="项目简称" name="shortName">
-                                    </div>
-                                    <div class="mui-button-row">
-                                        <button class="mui-btn mui-btn-primary" id="search-btn" type="button">确认</button>&nbsp;&nbsp;
-                                        <button class="mui-btn mui-btn-danger"  id="cancel-btn" type="button">取消</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
             <div class="mui-scroll"  style="height: 100%;">
-                <!--下拉刷新容器-->
-                <div id="projectRefreshContainer" class="mui-content mui-scroll-wrapper">
-                    <div class="mui-scroll">
-                        <!--数据列表-->
-                        <ul id="selectProjectUl" class="mui-table-view mui-table-view-radio projectRefreshContainerData">
-
-                        </ul>
-                        <div class="mui-button-row" style="padding-bottom: 20px;">
-                            <button type="button" class="mui-btn mui-btn-primary account-cancel" onclick="cancel();">取消</button>&nbsp;&nbsp;
-                            <button type="button" class="mui-btn mui-btn-danger account-ensure" onclick="projectEnsure('selectProject','selectProjectText','selectProjectHidden');">确定</button>
-                        </div>
+                <form class="mui-input-group" id="addFromPurchaseOrderItem">
+                    <div class="mui-input-row">
+                        <label>材料/项目内容</label>
+                        <input type="text" name="content" class="mui-input-clear" mui-verify="required">
                     </div>
-                </div>
-            </div>
+                    <div class="mui-input-row">
+                        <label>规格型号</label>
+                        <input type="text" name="model" class="mui-input-clear" mui-verify="required">
+                    </div>
+                    <div class="mui-input-row">
+                        <label>单位</label>
+                        <input type="text" name="unit" class="mui-input-clear" mui-verify="required">
+                    </div>
+                    <div class="mui-input-row">
+                        <label>单价</label>
+                        <input type="text" name="price" class="mui-input-clear" mui-verify="required">
+                    </div>
+                    <div class="mui-input-row">
+                        <label>数量</label>
+                        <input type="text" name="amount" class="mui-input-clear" mui-verify="required">
+                    </div>
+                    <div class="mui-input-row">
+                        <label>质保期（月）</label>
+                        <input type="text" name="warrantyDate" class="mui-input-clear" mui-verify="required">
+                    </div>
+                    <div class="mui-input-row">
+                        <label>日期</label>
+                        <input type="text" name="date" class="mui-input-clear" mui-verify="required">
+                    </div>
+                    <div>
+                        <textarea name="remark" id="remark" rows="5" class="mui-input-clear" placeholder="备注"></textarea>
+                    </div>
+                    <div class="mui-button-row" style="padding-bottom: 20px;">
+                        <button type="button" class="mui-btn mui-btn-primary" onclick="addfromPurchaseOrderItem()">添加</button>
+                    </div>
+                </form>
         </div>
 
     </div>
@@ -133,6 +130,21 @@
     var viewApi = mui('#app').view({
         defaultPage: '#setting'
     });
+
+    function addfromPurchaseOrderItem(flag,callText,callValue){
+        var accountSelected = $("#" + flag).find("li").hasClass("mui-selected");
+        if(accountSelected){
+            var li = $("#" + flag).find("li.mui-selected");
+            var value = $(li).attr("data-id");
+            var text = $(li).attr("data-text");
+            console.log(value + "/n" +text);
+            $("#" + callText).text(text);
+            $("#" + callValue).val(value);
+            cancel();
+        }else{
+            mui.toast('您尚未选择，请选择后确定',{ duration:'long', type:'div' })
+        }
+    }
 
 </script>
 </body>
