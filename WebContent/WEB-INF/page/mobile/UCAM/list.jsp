@@ -364,6 +364,7 @@
 </script>
 
 <!-- 合同内请款单 start -->
+<%--单号、单据类型、供应商、所属项目、有无指令、指令单号、请款人、开单人、开单日期、审核人、审核日期、单号状态--%>
 <script type="text/template" id="listTpl">
     {{#each data}}
     <div class="mui-card" style="margin: 0px; margin-top: 5px;">
@@ -382,11 +383,15 @@
         <div class="mui-card-content">
             <div class="mui-card-content-inner">
                 <p>
-                    <label>合同号：{{admin.fullname}}</label>
                     <label>供应商：{{supplier.fullname}}</label>
+                    <label>所属项目：{{tpm.name}}</label>
                 </p>
                 <p>
-                    <label>所属项目：所属项目</label>
+                    <label>有无指令：{{tpm.name}}</label>
+                    <label>有无指令：{{tpm.name}}</label>
+                </p>
+                <p>
+                    <label>请款人：{{applyUser}}</label>
                 </p>
             </div>
         </div>

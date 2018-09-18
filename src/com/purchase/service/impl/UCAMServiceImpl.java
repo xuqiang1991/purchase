@@ -15,6 +15,7 @@ import com.purchase.util.ResultUtil;
 import com.purchase.util.WebUtils;
 import com.purchase.vo.order.BizPurchaseOrderVo;
 import com.purchase.vo.order.UCAMSearch;
+import com.purchase.vo.order.UCAMVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,8 +101,8 @@ public class UCAMServiceImpl implements UCAMService {
 
         }
 
-        List<BizUncontractApplyMoney> ucamList = ucamMapper.selectByExample(example);
-        PageInfo<BizUncontractApplyMoney> pageInfo = new PageInfo<>(ucamList);
+        List<UCAMVo> ucamList = ucamMapper.selectByExampleExt(example,search);
+        PageInfo<UCAMVo> pageInfo = new PageInfo<>(ucamList);
         ResultUtil resultUtil = new ResultUtil();
         resultUtil.setCode(0);
         resultUtil.setCount(pageInfo.getTotal());

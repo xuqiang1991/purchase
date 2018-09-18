@@ -1,5 +1,7 @@
 package com.purchase.pojo.order;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -14,7 +16,7 @@ public class BizUncontractApplyMoney {
 
     private Long applyUser;
 
-    private Long projectId;
+    private String projectId;
 
     private String orderType;
 
@@ -82,6 +84,7 @@ public class BizUncontractApplyMoney {
         this.createUser = createUser;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getCreateTime() {
         return createTime;
     }
@@ -98,11 +101,11 @@ public class BizUncontractApplyMoney {
         this.applyUser = applyUser;
     }
 
-    public Long getProjectId() {
+    public String getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Long projectId) {
+    public void setProjectId(String projectId) {
         this.projectId = projectId;
     }
 
