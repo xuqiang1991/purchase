@@ -392,7 +392,7 @@
                 </p>
                 <p>
                     <label>请款人：{{applyUser}}</label>
-                </p>
+                 </p>
             </div>
         </div>
         <div class="mui-card-footer">
