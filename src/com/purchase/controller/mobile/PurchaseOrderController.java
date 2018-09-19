@@ -3,6 +3,7 @@ package com.purchase.controller.mobile;
 import com.purchase.annotation.SysLog;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.order.BizPurchaseOrder;
+import com.purchase.pojo.order.BizPurchaseOrderDetail;
 import com.purchase.service.PurchaseOrderService;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.order.BizPurchaseOrderDetailsVo;
@@ -17,6 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Date;
 
 /**
  * Created by xuqiang
@@ -127,6 +130,16 @@ public class PurchaseOrderController {
         return purchaseOrderService.reviewPurchaseOrder(admin, id);
     }
 
-
+    @SysLog(value="新增采购单项")
+    @RequestMapping("addPurchaseOrderItem/{purchaseNo}")
+    @RequiresPermissions("mobile:purchase:save")
+    @ResponseBody
+    public ResultUtil addPurchaseOrderItem(@PathVariable("purchaseNo") String purchaseNo, BizPurchaseOrderDetail order){
+        Date date = new Date();
+        order.setUpdateDate(date);
+        order.setCreateTime(date);
+        order.setPurchaseNo(purchaseNo);
+        return purchaseOrderService.addPurchaseOrderItem(order);
+    }
 
 }

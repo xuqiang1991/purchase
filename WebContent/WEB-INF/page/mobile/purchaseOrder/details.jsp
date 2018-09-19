@@ -30,6 +30,7 @@
 
     <!-- 主界面具体展示内容 -->
     <div class="mui-content-padded mui-card" style="margin: 5px;">
+        <input type="hidden" name="purchaseNo" id="purchaseNo" value="${detailsVo.purchaseOrder.purchaseNo}">
         <div class="mui-input-row">
             <label>合同编号</label>
             <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.purchaseNo}</label>
@@ -63,6 +64,52 @@
             </a>
         </div>
     </div>
+
+    <!-- 采购单项 start -->
+    <div id="refreshContainer" class="mui-content" style="margin-top: 20px;width: 100%;">
+        <div class="mui-scroll">
+            <c:forEach items="${detailsVo.details}" var="item">
+            <div class="mui-card">
+                <div class="mui-card-header mui-card-media">
+                    <!-- 订单类型 用图标展示 -->
+                    <img src="${ctx }/images/icon/contract_apply_money.png">
+                    <div class="mui-media-body">
+                        <label>材料/项目内容</label>
+                        <p>
+                                ${item.content}
+                        </p>
+                    </div>
+                </div>
+                <div class="mui-card-content">
+                    <div class="mui-card-content-inner">
+                        <p>
+                            <label>单价:${item.price}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label>规格：${item.model}</label>
+                        </p>
+                        <p>
+                            <label>单位：${item.unit}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label>数量：${item.amount}</label>
+                        </p>
+                        <p>
+                            <label>质保期（月）：${item.warrantyDate}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label>日期：<fmt:formatDate value="${item.date}" pattern="yyyy-MM-dd"/></label>
+                        </p>
+                    </div>
+                </div>
+                <div class="mui-card-footer">
+                    <div class="mui-pull-left">
+                        <label>总金额：${item.totalPrice}</label>&nbsp;&nbsp;
+                        <label>已結算数量：${item.settleAmout}</label>
+                    </div>
+                    <div>
+                        <button type="button" class="mui-btn mui-btn-primary" onclick="details()">刪除</button>
+                    </div>
+                </div>
+            </div>
+            </c:forEach>
+        </div>
+    </div>
+    <!-- 采购单项 end -->
 
 </div>
 
@@ -113,8 +160,8 @@
                         <button type="button" class="mui-btn mui-btn-primary" onclick="addfromPurchaseOrderItem()">添加</button>
                     </div>
                 </form>
+            </div>
         </div>
-
     </div>
 </div>
 
@@ -131,18 +178,43 @@
         defaultPage: '#setting'
     });
 
-    function addfromPurchaseOrderItem(flag,callText,callValue){
-        var accountSelected = $("#" + flag).find("li").hasClass("mui-selected");
-        if(accountSelected){
-            var li = $("#" + flag).find("li.mui-selected");
-            var value = $(li).attr("data-id");
-            var text = $(li).attr("data-text");
-            console.log(value + "/n" +text);
-            $("#" + callText).text(text);
-            $("#" + callValue).val(value);
-            cancel();
+    function addfromPurchaseOrderItem(){
+        var check = true;
+        mui("#addFromPurchaseOrderItem input").each(function() {
+            //若当前input为空，则alert提醒
+            var verify = $(this).attr("mui-verify")
+            if(verify == 'required'){
+                if(!this.value || this.value.trim() == "") {
+                    var label = this.previousElementSibling;
+                    mui.alert(label.innerText + "不允许为空");
+                    check = false;
+                    return false;
+                }
+            }
+        });
+
+        //校验通过，继续执行业务逻辑
+        if(check){
+            var purchaseNo = $('#purchaseNo').val();
+            var url = '${ctx}/mobile/purchase/addPurchaseOrderItem/'+ purchaseNo
+            $.ajax({
+                url: url,
+                data: $('#addFromPurchaseOrderItem').serialize(),
+                dataType: 'json',
+                contentType : "application/x-www-form-urlencoded",
+                type: 'post',
+                timeout: 10000,
+                success: function(result) {
+                    if(result.code!=0){
+                        mui.alert(data.msg);
+                    }else {
+                        mui.alert("添加成功！");
+                        document.location.href='${ctx }/mobile/purchase/toDetails/' + ${detailsVo.purchaseOrder.id};
+                    }
+                }
+            });
         }else{
-            mui.toast('您尚未选择，请选择后确定',{ duration:'long', type:'div' })
+            mui.toast('检验不通过，请重新填写！',{ duration:'long', type:'div' })
         }
     }
 

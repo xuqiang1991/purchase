@@ -13,10 +13,7 @@ import com.purchase.pojo.order.BizPurchaseOrderDetail;
 import com.purchase.pojo.order.BizPurchaseOrderDetailExample;
 import com.purchase.pojo.order.BizPurchaseOrderExample;
 import com.purchase.service.PurchaseOrderService;
-import com.purchase.util.DateUtil;
-import com.purchase.util.PurchaseUtil;
-import com.purchase.util.ResultUtil;
-import com.purchase.util.WebUtils;
+import com.purchase.util.*;
 import com.purchase.vo.order.BizPurchaseOrderDetailsVo;
 import com.purchase.vo.order.BizPurchaseOrderSearch;
 import com.purchase.vo.order.BizPurchaseOrderVo;
@@ -25,6 +22,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -264,4 +262,40 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         List<BizPurchaseOrderVo> povList = purchaseOrderMapper.selectByExampleExt(example,search);
         return povList;
     }
+
+	@Override
+	public ResultUtil addPurchaseOrderItem(BizPurchaseOrderDetail order) {
+
+		String id = MyUtil.getStrUUID();
+		order.setId(id);
+		purchaseOrderDetailMapper.insert(order);
+
+		BigDecimal price = order.getPrice();
+		Double amount = order.getAmount();
+		BigDecimal totalPrice = null;
+		if(price != null && amount != null){
+			BigDecimal amountBig = new BigDecimal(amount);
+			totalPrice = price.multiply(amountBig);
+		}
+
+		//如有金额更新采购单
+		if(totalPrice != null){
+			String purchaseNo = order.getPurchaseNo();
+			BizPurchaseOrder purchaseOrder = purchaseOrderMapper.selectByPurchaseNo(purchaseNo);
+			BigDecimal contractMoney = purchaseOrder.getContractMoney();
+			if(contractMoney == null){
+				contractMoney = totalPrice;
+			}else {
+				contractMoney.add(totalPrice);
+			}
+
+			BizPurchaseOrder tmp = new BizPurchaseOrder();
+			tmp.setId(purchaseOrder.getId());
+			tmp.setContractMoney(contractMoney);
+			tmp.setUpdateDate(order.getUpdateDate());
+			purchaseOrderMapper.updateByPrimaryKeySelective(tmp);
+		}
+
+		return ResultUtil.ok();
+	}
 }

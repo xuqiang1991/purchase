@@ -4,10 +4,13 @@
   <resultMap id="BaseResultMap" type="com.purchase.pojo.order.BizPurchaseOrderDetail">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="purchase_no" jdbcType="VARCHAR" property="purchaseNo" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="model" jdbcType="VARCHAR" property="model" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="amount" jdbcType="DOUBLE" property="amount" />
+    <result column="warranty_date" jdbcType="REAL" property="warrantyDate" />
+    <result column="date" jdbcType="DATE" property="date" />
     <result column="total_price" jdbcType="DECIMAL" property="totalPrice" />
     <result column="settle_amout" jdbcType="DOUBLE" property="settleAmout" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -73,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, purchase_no, model, unit, price, amount, total_price, settle_amout, remark, create_time, 
-    update_date
+    id, purchase_no, content, model, unit, price, amount, warranty_date, date, total_price, 
+    settle_amout, remark, create_time, update_date
   </sql>
   <select id="selectByExample" parameterType="com.purchase.pojo.order.BizPurchaseOrderDetailExample" resultMap="BaseResultMap">
     select
@@ -107,12 +110,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.purchase.pojo.order.BizPurchaseOrderDetail">
-    insert into biz_purchase_order_detail (id, purchase_no, model, 
-      unit, price, amount, 
+    insert into biz_purchase_order_detail (id, purchase_no, content, 
+      model, unit, price, 
+      amount, warranty_date, date, 
       total_price, settle_amout, remark, 
       create_time, update_date)
-    values (#{id,jdbcType=VARCHAR}, #{purchaseNo,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}, 
-      #{unit,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{amount,jdbcType=DOUBLE}, 
+    values (#{id,jdbcType=VARCHAR}, #{purchaseNo,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{model,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{amount,jdbcType=DOUBLE}, #{warrantyDate,jdbcType=REAL}, #{date,jdbcType=DATE}, 
       #{totalPrice,jdbcType=DECIMAL}, #{settleAmout,jdbcType=DOUBLE}, #{remark,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP})
   </insert>
@@ -125,6 +130,9 @@
       <if test="purchaseNo != null">
         purchase_no,
       </if>
+      <if test="content != null">
+        content,
+      </if>
       <if test="model != null">
         model,
       </if>
@@ -136,6 +144,12 @@
       </if>
       <if test="amount != null">
         amount,
+      </if>
+      <if test="warrantyDate != null">
+        warranty_date,
+      </if>
+      <if test="date != null">
+        date,
       </if>
       <if test="totalPrice != null">
         total_price,
@@ -160,6 +174,9 @@
       <if test="purchaseNo != null">
         #{purchaseNo,jdbcType=VARCHAR},
       </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
       <if test="model != null">
         #{model,jdbcType=VARCHAR},
       </if>
@@ -171,6 +188,12 @@
       </if>
       <if test="amount != null">
         #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="warrantyDate != null">
+        #{warrantyDate,jdbcType=REAL},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=DATE},
       </if>
       <if test="totalPrice != null">
         #{totalPrice,jdbcType=DECIMAL},
@@ -204,6 +227,9 @@
       <if test="record.purchaseNo != null">
         purchase_no = #{record.purchaseNo,jdbcType=VARCHAR},
       </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
       <if test="record.model != null">
         model = #{record.model,jdbcType=VARCHAR},
       </if>
@@ -215,6 +241,12 @@
       </if>
       <if test="record.amount != null">
         amount = #{record.amount,jdbcType=DOUBLE},
+      </if>
+      <if test="record.warrantyDate != null">
+        warranty_date = #{record.warrantyDate,jdbcType=REAL},
+      </if>
+      <if test="record.date != null">
+        date = #{record.date,jdbcType=DATE},
       </if>
       <if test="record.totalPrice != null">
         total_price = #{record.totalPrice,jdbcType=DECIMAL},
@@ -240,10 +272,13 @@
     update biz_purchase_order_detail
     set id = #{record.id,jdbcType=VARCHAR},
       purchase_no = #{record.purchaseNo,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
       model = #{record.model,jdbcType=VARCHAR},
       unit = #{record.unit,jdbcType=VARCHAR},
       price = #{record.price,jdbcType=DECIMAL},
       amount = #{record.amount,jdbcType=DOUBLE},
+      warranty_date = #{record.warrantyDate,jdbcType=REAL},
+      date = #{record.date,jdbcType=DATE},
       total_price = #{record.totalPrice,jdbcType=DECIMAL},
       settle_amout = #{record.settleAmout,jdbcType=DOUBLE},
       remark = #{record.remark,jdbcType=VARCHAR},
@@ -259,6 +294,9 @@
       <if test="purchaseNo != null">
         purchase_no = #{purchaseNo,jdbcType=VARCHAR},
       </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
       <if test="model != null">
         model = #{model,jdbcType=VARCHAR},
       </if>
@@ -270,6 +308,12 @@
       </if>
       <if test="amount != null">
         amount = #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="warrantyDate != null">
+        warranty_date = #{warrantyDate,jdbcType=REAL},
+      </if>
+      <if test="date != null">
+        date = #{date,jdbcType=DATE},
       </if>
       <if test="totalPrice != null">
         total_price = #{totalPrice,jdbcType=DECIMAL},
@@ -292,10 +336,13 @@
   <update id="updateByPrimaryKey" parameterType="com.purchase.pojo.order.BizPurchaseOrderDetail">
     update biz_purchase_order_detail
     set purchase_no = #{purchaseNo,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
       model = #{model,jdbcType=VARCHAR},
       unit = #{unit,jdbcType=VARCHAR},
       price = #{price,jdbcType=DECIMAL},
       amount = #{amount,jdbcType=DOUBLE},
+      warranty_date = #{warrantyDate,jdbcType=REAL},
+      date = #{date,jdbcType=DATE},
       total_price = #{totalPrice,jdbcType=DECIMAL},
       settle_amout = #{settleAmout,jdbcType=DOUBLE},
       remark = #{remark,jdbcType=VARCHAR},

@@ -1,5 +1,7 @@
 package com.purchase.pojo.order;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -8,6 +10,8 @@ public class BizPurchaseOrderDetail {
 
     private String purchaseNo;
 
+    private String content;
+
     private String model;
 
     private String unit;
@@ -15,6 +19,11 @@ public class BizPurchaseOrderDetail {
     private BigDecimal price;
 
     private Double amount;
+
+    private Float warrantyDate;
+
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date date;
 
     private BigDecimal totalPrice;
 
@@ -40,6 +49,14 @@ public class BizPurchaseOrderDetail {
 
     public void setPurchaseNo(String purchaseNo) {
         this.purchaseNo = purchaseNo == null ? null : purchaseNo.trim();
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
     }
 
     public String getModel() {
@@ -72,6 +89,22 @@ public class BizPurchaseOrderDetail {
 
     public void setAmount(Double amount) {
         this.amount = amount;
+    }
+
+    public Float getWarrantyDate() {
+        return warrantyDate;
+    }
+
+    public void setWarrantyDate(Float warrantyDate) {
+        this.warrantyDate = warrantyDate;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public BigDecimal getTotalPrice() {

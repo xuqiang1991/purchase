@@ -2,6 +2,7 @@ package com.purchase.service;
 
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.order.BizPurchaseOrder;
+import com.purchase.pojo.order.BizPurchaseOrderDetail;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.order.BizPurchaseOrderDetailsVo;
 import com.purchase.vo.order.BizPurchaseOrderSearch;
@@ -38,4 +39,6 @@ public interface PurchaseOrderService {
     List<BizPurchaseOrder> selectPurchaseOrder(Integer status, Long supplier);
 
     List<BizPurchaseOrderVo> selectPurchaseOrderExample(Integer status, Long supplier);
+
+    ResultUtil addPurchaseOrderItem(BizPurchaseOrderDetail order);
 }
