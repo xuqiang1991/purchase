@@ -3,10 +3,13 @@ package com.purchase.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.purchase.mapper.admin.TbAdminMapper;
+import com.purchase.mapper.admin.TbDepartmentMapper;
 import com.purchase.mapper.admin.TbSupplierMapper;
 import com.purchase.mapper.order.BizPurchaseOrderDetailMapper;
 import com.purchase.mapper.order.BizPurchaseOrderMapper;
 import com.purchase.pojo.admin.TbAdmin;
+import com.purchase.pojo.admin.TbDepartment;
+import com.purchase.pojo.admin.TbDepartmentExample;
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.BizPurchaseOrder;
 import com.purchase.pojo.order.BizPurchaseOrderDetail;
@@ -18,6 +21,7 @@ import com.purchase.vo.order.BizPurchaseOrderDetailsVo;
 import com.purchase.vo.order.BizPurchaseOrderSearch;
 import com.purchase.vo.order.BizPurchaseOrderVo;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +44,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 	@Autowired
 	private TbAdminMapper adminMapper;
+
+	@Autowired
+	private TbDepartmentMapper departmentMapper;
 
 	@Override
 	public ResultUtil getOrderList(Integer page, Integer limit, BizPurchaseOrderSearch search) {
@@ -162,6 +169,29 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		criteria.andPurchaseNoEqualTo(purchaseNo);
 		List<BizPurchaseOrderDetail> detailList = purchaseOrderDetailMapper.selectByExample(example);
 		detailsVo.setDetails(detailList);
+
+
+		//审核人
+		int status = vo.getStatus();
+		String depart = null;
+		Long reviewUserId = null;
+		if(status == 1){
+			depart = "成本部";
+			reviewUserId = vo.getCostDepartUser();
+		}else if(status == 2){
+			depart = "工程部";
+			reviewUserId = vo.getCostDepartUser();
+		}else if(status == 3){
+			depart = "总经理";
+			reviewUserId = vo.getCostDepartUser();
+		}
+		if(depart != null){
+			TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+
+			TbDepartmentExample departExample=new TbDepartmentExample();
+			departExample.createCriteria().andNameEqualTo(depart);
+			List<TbDepartment> data = departmentMapper.selectByExample(departExample);
+		}
 
 		return detailsVo;
 	}
@@ -296,6 +326,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			purchaseOrderMapper.updateByPrimaryKeySelective(tmp);
 		}
 
+		return ResultUtil.ok();
+	}
+
+	@Override
+	public ResultUtil deletePurchaseOrderItem(String itemId) {
+		purchaseOrderDetailMapper.deleteByPrimaryKey(itemId);
 		return ResultUtil.ok();
 	}
 }

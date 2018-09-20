@@ -41,4 +41,6 @@ public interface PurchaseOrderService {
     List<BizPurchaseOrderVo> selectPurchaseOrderExample(Integer status, Long supplier);
 
     ResultUtil addPurchaseOrderItem(BizPurchaseOrderDetail order);
+
+    ResultUtil deletePurchaseOrderItem(String itemId);
 }

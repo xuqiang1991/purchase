@@ -111,7 +111,7 @@ public class PurchaseOrderController {
         return purchaseOrderService.reviewPurchaseOrder(admin, id);
     }
 
-    @SysLog(value="工程部采购单")
+    @SysLog(value="工程部审核采购单")
     @RequestMapping("projectReviewPurchaseOrder")
     @RequiresPermissions("mobile:purchase:projectReview")
     @ResponseBody
@@ -140,6 +140,14 @@ public class PurchaseOrderController {
         order.setCreateTime(date);
         order.setPurchaseNo(purchaseNo);
         return purchaseOrderService.addPurchaseOrderItem(order);
+    }
+
+    @SysLog(value="删除采购单项")
+    @RequestMapping("deletePurchaseOrderItem/{itemId}")
+    @RequiresPermissions("mobile:purchase:save")
+    @ResponseBody
+    public ResultUtil deletePurchaseOrderItem(@PathVariable("itemId") String itemId){
+        return purchaseOrderService.deletePurchaseOrderItem(itemId);
     }
 
 }

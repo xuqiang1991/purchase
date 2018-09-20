@@ -101,15 +101,30 @@
                         <label>总金额：${item.totalPrice}</label>&nbsp;&nbsp;
                         <label>已結算数量：${item.settleAmout}</label>
                     </div>
-                    <div>
-                        <button type="button" class="mui-btn mui-btn-primary" onclick="details()">刪除</button>
-                    </div>
+                    <c:if test="${detailsVo.purchaseOrder.status == 0}">
+                        <div>
+                            <button type="button" class="mui-btn mui-btn-primary" id="deleteItem" value="${item.id}">刪除</button>
+                        </div>
+                    </c:if>
                 </div>
             </div>
             </c:forEach>
         </div>
     </div>
     <!-- 采购单项 end -->
+
+    <c:choose>
+        <div class="mui-content">
+            <div class="mui-content-padded">
+            <c:when test="${detailsVo.purchaseOrder.status == 0}">
+                <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="purchaseOrderDetails">提交</button>
+            </c:when>
+            <c:otherwise>
+                <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="purchaseOrderReview">提交审核</button>
+            </c:otherwise>
+            </div>
+        </div>
+    </c:choose>
 
 </div>
 
@@ -157,14 +172,13 @@
                         <textarea name="remark" id="remark" rows="5" class="mui-input-clear" placeholder="备注"></textarea>
                     </div>
                     <div class="mui-button-row" style="padding-bottom: 20px;">
-                        <button type="button" class="mui-btn mui-btn-primary" onclick="addfromPurchaseOrderItem()">添加</button>
+                        <button type="button" class="mui-btn mui-btn-primary" id="submitFromPurchaseOrderItem">添加</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 
 <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
@@ -178,7 +192,8 @@
         defaultPage: '#setting'
     });
 
-    function addfromPurchaseOrderItem(){
+    /** 提交项 **/
+    mui(document.body).on('tap', '#submitFromPurchaseOrderItem', function(e) {
         var check = true;
         mui("#addFromPurchaseOrderItem input").each(function() {
             //若当前input为空，则alert提醒
@@ -208,14 +223,108 @@
                     if(result.code!=0){
                         mui.alert(data.msg);
                     }else {
-                        mui.alert("添加成功！");
-                        document.location.href='${ctx }/mobile/purchase/toDetails/' + ${detailsVo.purchaseOrder.id};
+                        mui.alert('添加成功！', function() {
+                            document.location.href='${ctx }/mobile/purchase/toDetails/' + ${detailsVo.purchaseOrder.id};
+                        });
                     }
                 }
             });
         }else{
             mui.toast('检验不通过，请重新填写！',{ duration:'long', type:'div' })
         }
+    });
+
+
+    /** 删除项 **/
+    mui(document.body).on('tap', '#deleteItem', function(e) {
+        var itemId = e.val();
+        var btnArray = ['是', '否'];
+        mui.confirm('确认删除此项？', '删除项', btnArray, function(e) {
+            if (e.index == 0) {
+                var url = '${ctx}/mobile/purchase/deletePurchaseOrderItem/'+ itemId
+                $.ajax({
+                    url: url,
+                    dataType: 'json',
+                    contentType : "application/x-www-form-urlencoded",
+                    type: 'post',
+                    timeout: 10000,
+                    success: function(result) {
+                        if(result.code!=0){
+                            mui.alert(data.msg);
+                        }else {
+                            mui.alert('删除成功！', function() {
+                                document.location.href='${ctx }/mobile/purchase/toDetails/' + ${detailsVo.purchaseOrder.id};
+                            });
+                        }
+                    }
+                });
+            }
+        })
+    });
+
+    /** 提交审核 **/
+    mui(document.body).on('tap', '#purchaseOrderDetails', function(e) {
+        var btnArray = ['是', '否'];
+        mui.confirm('确认提交？', '提交采购单', btnArray, function(e) {
+            if (e.index == 0) {
+                var url = '${ctx}/mobile/purchase/submitPurchaseOrder?id=${detailsVo.purchaseOrder.id}';
+                $.ajax({
+                    url: url,
+                    dataType: 'json',
+                    contentType : "application/x-www-form-urlencoded",
+                    type: 'post',
+                    timeout: 10000,
+                    success: function(result) {
+                        if(result.code!=0){
+                            mui.alert(data.msg);
+                        }else {
+                            mui.alert('提交成功！', function() {
+                                document.location.href='${ctx }/mobile/purchase/toDetails/' + ${detailsVo.purchaseOrder.id};
+                            });
+                        }
+                    }
+                });
+            }
+        })
+    });
+
+    /** 选择审核人 **/
+    mui(document.body).on('tap', '#cancel-btn', function(e) {
+
+
+    });
+
+
+    //初始化数据
+    mui.ready(function() {
+        //供应商
+        var url = '${ctx}/supplier/findSuppliersAll';
+        $.ajax({
+            url: url, dataType: 'json',   contentType : "application/x-www-form-urlencoded",  type: 'post', timeout: 10000,
+            success: function(result) {
+                if(result != null && result.length != 0){
+                    initSupplier(result);
+                }
+            }
+        });
+
+        //订单类型
+        initOrderType();
+    });
+
+    function submitPurchaseOrderReview(json){
+        var userPicker = new mui.PopPicker();
+        userPicker.setData(json);
+        var supplierName = document.getElementById('supplierName');
+        var supplierId = document.getElementById('supplierId');
+        supplierName.addEventListener('tap', function(event) {
+            userPicker.show(function(items) {
+                supplierName.value = items[0].text;
+                supplierId.value = items[0].value;
+                //返回 false 可以阻止选择框的关闭
+                //return false;
+            });
+        }, false);
     }
 
 </script>
