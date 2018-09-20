@@ -2,6 +2,7 @@ package com.purchase.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.gson.*;
 import com.purchase.mapper.admin.TbAdminMapper;
 import com.purchase.mapper.admin.TbDepartmentMapper;
 import com.purchase.mapper.admin.TbSupplierMapper;
@@ -17,16 +18,21 @@ import com.purchase.pojo.order.BizPurchaseOrderDetailExample;
 import com.purchase.pojo.order.BizPurchaseOrderExample;
 import com.purchase.service.PurchaseOrderService;
 import com.purchase.util.*;
+import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.order.BizPurchaseOrderDetailsVo;
 import com.purchase.vo.order.BizPurchaseOrderSearch;
 import com.purchase.vo.order.BizPurchaseOrderVo;
+import me.chanjar.weixin.common.util.json.GsonHelper;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -44,9 +50,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 	@Autowired
 	private TbAdminMapper adminMapper;
-
-	@Autowired
-	private TbDepartmentMapper departmentMapper;
 
 	@Override
 	public ResultUtil getOrderList(Integer page, Integer limit, BizPurchaseOrderSearch search) {
@@ -175,22 +178,28 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		int status = vo.getStatus();
 		String depart = null;
 		Long reviewUserId = null;
-		if(status == 1){
+		if(PurchaseUtil.STATUS_1 == status){
 			depart = "成本部";
-			reviewUserId = vo.getCostDepartUser();
-		}else if(status == 2){
+		}else if(PurchaseUtil.STATUS_2 == status){
 			depart = "工程部";
-			reviewUserId = vo.getCostDepartUser();
-		}else if(status == 3){
+			reviewUserId = vo.getProjectDepartUser();
+		}else if(PurchaseUtil.STATUS_3 == status){
 			depart = "总经理";
-			reviewUserId = vo.getCostDepartUser();
+			reviewUserId = vo.getManagerDepartUser();
 		}
 		if(depart != null){
 			TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+			long loginId = admin.getId();
 
-			TbDepartmentExample departExample=new TbDepartmentExample();
-			departExample.createCriteria().andNameEqualTo(depart);
-			List<TbDepartment> data = departmentMapper.selectByExample(departExample);
+			List<ChoseAdminVO> data = adminMapper.selectByDeptName(depart);
+			if(!CollectionUtils.isEmpty(data)){
+				Gson gson = new Gson();
+				String json = gson.toJson(data);
+				detailsVo.setDeparts(json);
+			}
+			if(reviewUserId != null && reviewUserId == loginId){
+				detailsVo.setReviewUserId(userId);
+			}
 		}
 
 		return detailsVo;
@@ -222,8 +231,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		}
 
 		BizPurchaseOrder tmp = new BizPurchaseOrder();
-		order.setId(order.getId());
-		order.setStatus(PurchaseUtil.STATUS_1);
+		tmp.setId(order.getId());
+		tmp.setStatus(PurchaseUtil.STATUS_1);
 		purchaseOrderMapper.updateByPrimaryKeySelective(tmp);
 		return ResultUtil.ok();
 	}

@@ -14,6 +14,10 @@ public class BizPurchaseOrderDetailsVo {
 
     private List<BizPurchaseOrderDetail> details;
 
+    private Long reviewUserId;
+
+    private String departs;
+
     public BizPurchaseOrderVo getPurchaseOrder() {
         return purchaseOrder;
     }
@@ -28,5 +32,21 @@ public class BizPurchaseOrderDetailsVo {
 
     public void setDetails(List<BizPurchaseOrderDetail> details) {
         this.details = details;
+    }
+
+    public String getDeparts() {
+        return departs;
+    }
+
+    public void setDeparts(String departs) {
+        this.departs = departs;
+    }
+
+    public Long getReviewUserId() {
+        return reviewUserId;
+    }
+
+    public void setReviewUserId(Long reviewUserId) {
+        this.reviewUserId = reviewUserId;
     }
 }

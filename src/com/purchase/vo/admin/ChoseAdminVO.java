@@ -11,6 +11,9 @@ public class ChoseAdminVO implements Serializable {
     private String value;
     private String text;
 
+    public ChoseAdminVO() {
+    }
+
     public ChoseAdminVO(String value, String text) {
         this.value = value;
         this.text = text;

@@ -2,7 +2,10 @@ package com.purchase.mapper.admin;
 
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbAdminExample;
+import com.purchase.vo.admin.ChoseAdminVO;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -42,4 +45,10 @@ public interface TbAdminMapper {
     @Select("SELECT * FROM tb_admin a WHERE a.dept_id = #{0}")
     List<TbAdmin> getAdminsByDeptId(String deptId);
 
+    @Select("SELECT a.fullname, a.id FROM tb_admin a ,tb_department b WHERE a.dept_id = b.id and b.name = #{0}")
+    @Results({
+            @Result(property = "text", column = "fullname"),
+            @Result(property = "value", column = "id")
+    })
+    List<ChoseAdminVO> selectByDeptName(String depart);
 }

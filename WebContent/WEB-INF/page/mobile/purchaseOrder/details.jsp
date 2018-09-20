@@ -113,18 +113,20 @@
     </div>
     <!-- 采购单项 end -->
 
-    <c:choose>
-        <div class="mui-content">
+    <div class="mui-content" style="margin-top: 20px;width: 100%;">
+        <div class="mui-scroll">
             <div class="mui-content-padded">
-            <c:when test="${detailsVo.purchaseOrder.status == 0}">
-                <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="purchaseOrderDetails">提交</button>
-            </c:when>
-            <c:otherwise>
-                <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="purchaseOrderReview">提交审核</button>
-            </c:otherwise>
+            <c:choose>
+                    <c:when test="${detailsVo.purchaseOrder.status == 0}">
+                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="purchaseOrderDetails">提交</button>
+                    </c:when>
+                    <c:otherwise>
+                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="purchaseOrderReview">提交审核</button>
+                    </c:otherwise>
+            </c:choose>
             </div>
         </div>
-    </c:choose>
+    </div>
 
 </div>
 
@@ -192,6 +194,8 @@
         defaultPage: '#setting'
     });
 
+    mui('#setting').scroll();
+
     /** 提交项 **/
     mui(document.body).on('tap', '#submitFromPurchaseOrderItem', function(e) {
         var check = true;
@@ -224,7 +228,7 @@
                         mui.alert(data.msg);
                     }else {
                         mui.alert('添加成功！', function() {
-                            document.location.href='${ctx }/mobile/purchase/toDetails/' + ${detailsVo.purchaseOrder.id};
+                            document.location.href='${ctx }/mobile/purchase/toDetails/${detailsVo.purchaseOrder.id}';
                         });
                     }
                 }
@@ -253,7 +257,7 @@
                             mui.alert(data.msg);
                         }else {
                             mui.alert('删除成功！', function() {
-                                document.location.href='${ctx }/mobile/purchase/toDetails/' + ${detailsVo.purchaseOrder.id};
+                                document.location.href='${ctx }/mobile/purchase/toDetails/${detailsVo.purchaseOrder.id}';
                             });
                         }
                     }
@@ -279,7 +283,7 @@
                             mui.alert(data.msg);
                         }else {
                             mui.alert('提交成功！', function() {
-                                document.location.href='${ctx }/mobile/purchase/toDetails/' + ${detailsVo.purchaseOrder.id};
+                                document.location.href='${ctx }/mobile/purchase/toDetails/${detailsVo.purchaseOrder.id}';
                             });
                         }
                     }
@@ -289,9 +293,15 @@
     });
 
     /** 选择审核人 **/
-    mui(document.body).on('tap', '#cancel-btn', function(e) {
-
-
+    mui(document.body).on('tap', '#purchaseOrderReview', function(e) {
+        var adminsJson = '${detailsVo.departs}'
+        var json =JSON.parse(adminsJson)
+        var userPicker = new mui.PopPicker();
+        userPicker.setData(json);
+        userPicker.show(function (selectItems) {
+            console.log(selectItems[0].text);//智子
+            console.log(selectItems[0].value);//zz
+        });
     });
 
 
@@ -303,13 +313,10 @@
             url: url, dataType: 'json',   contentType : "application/x-www-form-urlencoded",  type: 'post', timeout: 10000,
             success: function(result) {
                 if(result != null && result.length != 0){
-                    initSupplier(result);
+
                 }
             }
         });
-
-        //订单类型
-        initOrderType();
     });
 
     function submitPurchaseOrderReview(json){

@@ -94,7 +94,7 @@ public class PurchaseOrderController {
 
     @SysLog(value="提交采购单")
     @RequestMapping("submitPurchaseOrder")
-    @RequiresPermissions("mobile:purchase:add")
+    @RequiresPermissions("mobile:purchase:save")
     @ResponseBody
     public ResultUtil submitPurchaseOrder(String id){
         return purchaseOrderService.submitPurchaseOrder(id);
