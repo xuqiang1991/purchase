@@ -101,34 +101,42 @@ public class PurchaseOrderController {
     }
 
 
-
-    @SysLog(value="成本部审核采购单")
-    @RequestMapping("costReviewPurchaseOrder")
-    @RequiresPermissions("mobile:purchase:costReview")
+    @SysLog(value="提交审核")
+    @RequestMapping("submitReviewPurchaseOrder")
+    @RequiresPermissions("mobile:purchase:save")
     @ResponseBody
-    public ResultUtil costReviewPurchaseOrder(String id){
+    public ResultUtil submitReviewPurchaseOrder(String id, Long userId){
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        return purchaseOrderService.submitReviewPurchaseOrder(admin, id, userId);
+    }
+
+    @SysLog(value="审核采购单")
+    @RequestMapping("reviewPurchaseOrder")
+    @RequiresPermissions("mobile:purchase:review")
+    @ResponseBody
+    public ResultUtil reviewPurchaseOrder(String id){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         return purchaseOrderService.reviewPurchaseOrder(admin, id);
     }
 
-    @SysLog(value="工程部审核采购单")
-    @RequestMapping("projectReviewPurchaseOrder")
-    @RequiresPermissions("mobile:purchase:projectReview")
-    @ResponseBody
-    public ResultUtil projectReviewPurchaseOrder(String id){
-        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        return purchaseOrderService.reviewPurchaseOrder(admin, id);
-    }
-
-
-    @SysLog(value="总经理审核采购单")
-    @RequestMapping("managerReviewPurchaseOrder")
-    @RequiresPermissions("mobile:purchase:managerReview")
-    @ResponseBody
-    public ResultUtil managerReviewPurchaseOrder(String id){
-        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        return purchaseOrderService.reviewPurchaseOrder(admin, id);
-    }
+//    @SysLog(value="工程部审核采购单")
+//    @RequestMapping("projectReviewPurchaseOrder")
+//    @RequiresPermissions("mobile:purchase:projectReview")
+//    @ResponseBody
+//    public ResultUtil projectReviewPurchaseOrder(String id){
+//        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+//        return purchaseOrderService.reviewPurchaseOrder(admin, id);
+//    }
+//
+//
+//    @SysLog(value="总经理审核采购单")
+//    @RequestMapping("managerReviewPurchaseOrder")
+//    @RequiresPermissions("mobile:purchase:managerReview")
+//    @ResponseBody
+//    public ResultUtil managerReviewPurchaseOrder(String id){
+//        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+//        return purchaseOrderService.reviewPurchaseOrder(admin, id);
+//    }
 
     @SysLog(value="新增采购单项")
     @RequestMapping("addPurchaseOrderItem/{purchaseNo}")

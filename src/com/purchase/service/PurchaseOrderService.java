@@ -43,4 +43,6 @@ public interface PurchaseOrderService {
     ResultUtil addPurchaseOrderItem(BizPurchaseOrderDetail order);
 
     ResultUtil deletePurchaseOrderItem(String itemId);
+
+    ResultUtil submitReviewPurchaseOrder(TbAdmin admin, String id, Long userId);
 }

@@ -2,15 +2,12 @@ package com.purchase.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.google.gson.*;
+import com.google.gson.Gson;
 import com.purchase.mapper.admin.TbAdminMapper;
-import com.purchase.mapper.admin.TbDepartmentMapper;
 import com.purchase.mapper.admin.TbSupplierMapper;
 import com.purchase.mapper.order.BizPurchaseOrderDetailMapper;
 import com.purchase.mapper.order.BizPurchaseOrderMapper;
 import com.purchase.pojo.admin.TbAdmin;
-import com.purchase.pojo.admin.TbDepartment;
-import com.purchase.pojo.admin.TbDepartmentExample;
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.BizPurchaseOrder;
 import com.purchase.pojo.order.BizPurchaseOrderDetail;
@@ -22,17 +19,14 @@ import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.order.BizPurchaseOrderDetailsVo;
 import com.purchase.vo.order.BizPurchaseOrderSearch;
 import com.purchase.vo.order.BizPurchaseOrderVo;
-import me.chanjar.weixin.common.util.json.GsonHelper;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -103,7 +97,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		order.setPurchaseNo(purchaseNo);
 
 		//参数补充
-		order.setCostDepartDate(date);
 		order.setUpdateDate(date);
 
         purchaseOrderMapper.insertSelective(order);
@@ -341,6 +334,25 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	@Override
 	public ResultUtil deletePurchaseOrderItem(String itemId) {
 		purchaseOrderDetailMapper.deleteByPrimaryKey(itemId);
+		return ResultUtil.ok();
+	}
+
+	@Override
+	public ResultUtil submitReviewPurchaseOrder(TbAdmin admin, String id, Long userId) {
+
+		BizPurchaseOrder order = purchaseOrderMapper.selectByPrimaryKey(id);
+
+		int status = order.getStatus();
+		if(PurchaseUtil.STATUS_1 != status){
+			return ResultUtil.error("非未提交状态的采购单不能选择成本部审核！");
+		}
+		Date date = new Date();
+		BizPurchaseOrder tmp = new BizPurchaseOrder();
+		tmp.setId(order.getId());
+		tmp.setCostDepartUser(userId);
+		tmp.setUpdateDate(date);
+
+		purchaseOrderMapper.updateByPrimaryKeySelective(tmp);
 		return ResultUtil.ok();
 	}
 }

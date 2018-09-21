@@ -120,8 +120,11 @@
                     <c:when test="${detailsVo.purchaseOrder.status == 0}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="purchaseOrderDetails">提交</button>
                     </c:when>
+                    <c:when test="${detailsVo.purchaseOrder.status == 1}">
+                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="submitReviewPurchaseOrder">选择审核人</button>
+                    </c:when>
                     <c:otherwise>
-                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="purchaseOrderReview">提交审核</button>
+                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">提交审核</button>
                     </c:otherwise>
             </c:choose>
             </div>
@@ -293,14 +296,35 @@
     });
 
     /** 选择审核人 **/
-    mui(document.body).on('tap', '#purchaseOrderReview', function(e) {
+    mui(document.body).on('tap', '#submitReviewPurchaseOrder', function(e) {
         var adminsJson = '${detailsVo.departs}'
         var json =JSON.parse(adminsJson)
         var userPicker = new mui.PopPicker();
         userPicker.setData(json);
         userPicker.show(function (selectItems) {
-            console.log(selectItems[0].text);//智子
-            console.log(selectItems[0].value);//zz
+            debugger
+            var text = selectItems[0].text;
+            mui.alert('确定提审核人为：' + text + "？" , function() {
+                var userId = selectItems[0].value;
+                var url = '${ctx}/mobile/purchase/submitReviewPurchaseOrder?id=${detailsVo.purchaseOrder.id}&userId=' + userId;
+                $.ajax({
+                    url: url,
+                    dataType: 'json',
+                    contentType : "application/x-www-form-urlencoded",
+                    type: 'post',
+                    timeout: 10000,
+                    success: function(result) {
+                        if(result.code!=0){
+                            mui.alert(result.msg);
+                        }else {
+                            mui.alert('提交审核成功！', function() {
+                                document.location.href='${ctx }/mobile/purchase/toDetails/${detailsVo.purchaseOrder.id}';
+                            });
+                        }
+                    }
+                });
+            });
+
         });
     });
 
