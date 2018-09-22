@@ -167,12 +167,18 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		detailsVo.setDetails(detailList);
 
 
-		//审核人
+		//选择审核人
 		int status = vo.getStatus();
 		String depart = null;
 		Long reviewUserId = null;
 		if(PurchaseUtil.STATUS_1 == status){
-			depart = "成本部";
+			Long cId = vo.getCostDepartUser();
+			if(cId != null){
+				reviewUserId = vo.getCostDepartUser();
+				depart = "工程部";
+			}else {
+				depart = "成本部";
+			}
 		}else if(PurchaseUtil.STATUS_2 == status){
 			depart = "工程部";
 			reviewUserId = vo.getProjectDepartUser();
@@ -183,15 +189,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		if(depart != null){
 			TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
 			long loginId = admin.getId();
-
-			List<ChoseAdminVO> data = adminMapper.selectByDeptName(depart);
-			if(!CollectionUtils.isEmpty(data)){
-				Gson gson = new Gson();
-				String json = gson.toJson(data);
-				detailsVo.setDeparts(json);
-			}
 			if(reviewUserId != null && reviewUserId == loginId){
 				detailsVo.setReviewUserId(userId);
+				List<ChoseAdminVO> data = adminMapper.selectByDeptName(depart);
+				if(!CollectionUtils.isEmpty(data)){
+					Gson gson = new Gson();
+					String json = gson.toJson(data);
+					detailsVo.setDeparts(json);
+				}
 			}
 		}
 
@@ -235,37 +240,67 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	 * 采购单审核
 	 * @param admin
 	 * @param id
+	 * @param auditResults
+	 * @param applyUser
+	 * @param auditOpinion
 	 * @return
 	 */
 	@Override
-	public ResultUtil reviewPurchaseOrder(TbAdmin admin, String id) {
+	public ResultUtil reviewPurchaseOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion) {
 		Date date = new Date();
 		BizPurchaseOrder order = purchaseOrderMapper.selectByPrimaryKey(id);
-
 		Long userId = admin.getId();
-
 		int status = order.getStatus();
 
-		//审核状态
+		//判断审核人
+		Long reviewer = null;
+		Boolean reviewerResults = null;
 		if(PurchaseUtil.STATUS_1 == status){
-			order.setStatus(PurchaseUtil.STATUS_2);
-			order.setCostDepartUser(userId);
-			order.setCostDepartDate(date);
+			reviewer = order.getCostDepartUser();
+			reviewerResults = order.getCostDepartApproval();
 		}else if (PurchaseUtil.STATUS_2 == status){
-			order.setStatus(PurchaseUtil.STATUS_3);
-			order.setProjectDepartUser(userId);
-			order.setProjectDepartDate(date);
+			reviewer = order.getProjectDepartUser();
+			reviewerResults = order.getProjectDepartApproval();
 		}else if (PurchaseUtil.STATUS_3 == status){
-			order.setStatus(PurchaseUtil.STATUS_4);
-			order.setManagerDepartUser(userId);
-			order.setManagerDepartDate(date);
-		}else if (PurchaseUtil.STATUS_4 == status){
-			order.setStatus(PurchaseUtil.STATUS_5);
+			reviewer = order.getManagerDepartUser();
+			reviewerResults = order.getManagerDepartApproval();
+		}
+		if(reviewer == null){
+			return ResultUtil.error("审核人不存在");
+		}
+		if(reviewer.compareTo(userId) != 0){
+			return ResultUtil.error("没有审核权限！");
+		}
+		if(reviewerResults != null && reviewerResults){
+			return ResultUtil.error("请不要重新审核！");
 		}
 
-		order.setUpdateDate(date);
+		//审核状态
+		BizPurchaseOrder tmp = new BizPurchaseOrder();
+		tmp.setId(id);
+		if(PurchaseUtil.STATUS_1 == status){
+			tmp.setStatus(PurchaseUtil.STATUS_2);
+			tmp.setCostDepartApproval(auditResults);
+			tmp.setCostDepartDate(date);
+			tmp.setCostDepartOpinion(auditOpinion);
+			tmp.setProjectDepartUser(applyUser);
+		}else if (PurchaseUtil.STATUS_2 == status){
+			tmp.setStatus(PurchaseUtil.STATUS_3);
+			tmp.setProjectDepartDate(date);
+			tmp.setProjectDepartOpinion(auditOpinion);
+			tmp.setManagerDepartUser(applyUser);
+		}else if (PurchaseUtil.STATUS_3 == status){
+			tmp.setStatus(PurchaseUtil.STATUS_4);
+			tmp.setManagerDepartDate(date);
+			tmp.setManagerDepartOpinion(auditOpinion);
+		}else if (PurchaseUtil.STATUS_4 == status){
+			tmp.setStatus(PurchaseUtil.STATUS_5);
+		}
+		tmp.setUpdateDate(date);
 
-		return null;
+		purchaseOrderMapper.updateByPrimaryKeySelective(tmp);
+
+		return ResultUtil.ok();
 	}
 
     @Override

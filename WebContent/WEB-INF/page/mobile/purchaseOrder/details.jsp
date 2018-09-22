@@ -11,6 +11,20 @@
     <link href="${ctx }/mui/css/mui.picker.min.css" rel="stylesheet" />
     <link href="${ctx }/mui/css/feedback-page.css" rel="stylesheet" />
     <link href="${ctx }/mui/css/mui-page.css" rel="stylesheet" />
+    <style type="text/css">
+        #div {
+            width: 0px;
+            height: 0px;
+            background: red;
+            position: fixed;
+            top: 70%;
+            left: 50%;
+        }
+        /*移除底部或顶部三角,需要在删除此代码*/
+        .mui-popover .mui-popover-arrow:after {
+            width: 0px;
+        }
+    </style>
 </head>
 <body class="mui-fullscreen">
 <div id="app" class="mui-views">
@@ -120,12 +134,12 @@
                     <c:when test="${detailsVo.purchaseOrder.status == 0}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="purchaseOrderDetails">提交</button>
                     </c:when>
-                    <c:when test="${detailsVo.purchaseOrder.status == 1}">
+                    <c:when test="${detailsVo.purchaseOrder.status == 1 && empty detailsVo.purchaseOrder.costDepartUser && empty detailsVo.reviewUserId}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="submitReviewPurchaseOrder">选择审核人</button>
                     </c:when>
-                    <c:otherwise>
-                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">提交审核</button>
-                    </c:otherwise>
+                    <c:when test="${!empty detailsVo.reviewUserId}">
+                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">审核</button>
+                    </c:when>
             </c:choose>
             </div>
         </div>
@@ -181,6 +195,33 @@
                     </div>
                 </form>
             </div>
+        </div>
+    </div>
+</div>
+
+<div id="div"></div>
+<div id="popover" class="mui-popover" style="height: 270px;">
+    <div class="mui-popover-arrow"></div>
+    <div class="mui-scroll-wrapper">
+        <div class="mui-scroll"  style="height: 100%;">
+            <form class="mui-input-group" id="reviewPurchaseOrderForm">
+                <div class="mui-input-row">
+                    <label style="width: 120px;">审核结果</label>
+                    <input type="text" id="selectAuditResults" placeholder="请选择审核结果" style="float: left;width: 150px;">
+                    <input type="hidden" id="auditResults" name="auditResults">
+                </div>
+                <div class="mui-input-row">
+                    <label style="width: 120px;">上级审核人</label>
+                    <input type="text" id="selectApplyUser" placeholder="请选择请款人" style="float: left;width: 150px;">
+                    <input type="hidden" id="applyUser" name="applyUser">
+                </div>
+                <div class="mui-input-row" style="height: auto">
+                    <textarea name="auditOpinion" id="auditOpinion" rows="5" class="mui-input-clear" placeholder="审核意见"></textarea>
+                </div>
+                <div class="mui-button-row" style="padding-bottom: 20px;">
+                    <button type="button" class="mui-btn mui-btn-primary" id="reviewPurchaseOrderButton">审核</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -302,7 +343,6 @@
         var userPicker = new mui.PopPicker();
         userPicker.setData(json);
         userPicker.show(function (selectItems) {
-            debugger
             var text = selectItems[0].text;
             mui.alert('确定提审核人为：' + text + "？" , function() {
                 var userId = selectItems[0].value;
@@ -327,6 +367,85 @@
 
         });
     });
+
+
+    /** 审核 **/
+    mui(document.body).on('tap', '#reviewPurchaseOrder', function(e) {
+        mui("#popover").popover('toggle', document.getElementById("div"));
+    });
+
+    mui(document.body).on('tap', '#selectApplyUser', function(e) {
+        var adminsJson = '${detailsVo.departs}'
+        var json =JSON.parse(adminsJson)
+        var userPicker = new mui.PopPicker();
+        userPicker.setData(json);
+        var selectApplyUser = document.getElementById('selectApplyUser');
+        var applyUser = document.getElementById('applyUser');
+        userPicker.show(function (items) {
+            selectApplyUser.value = items[0].text;
+            applyUser.value = items[0].value;
+        });
+    });
+    mui(document.body).on('tap', '#selectAuditResults', function(e) {
+        var adminsJson = '[{"text":"审核不通过","value":"0"},{"text":"审核通过","value":"1"}]';
+        var json =JSON.parse(adminsJson)
+        var userPicker = new mui.PopPicker();
+        userPicker.setData(json);
+        var selectAuditResults = document.getElementById('selectAuditResults');
+        var auditResults = document.getElementById('auditResults');
+        userPicker.show(function (items) {
+            selectAuditResults.value = items[0].text;
+            auditResults.value = items[0].value;
+        });
+    });
+
+    mui(document.body).on('tap', '#reviewPurchaseOrderButton', function(e) {
+
+        var auditResults =  mui("#auditResults");
+        if(!auditResults.value || auditResults.value.trim() == "") {
+            var label = auditResults.previousElementSibling;
+            mui.alert(label.innerText + "不允许为空");
+            return false;
+        }
+
+        var applyUser =  mui("#auditResults");
+        if(!applyUser.value || applyUser.value.trim() == "") {
+            var label = applyUser.previousElementSibling;
+            mui.alert(label.innerText + "不允许为空");
+            return false;
+        }
+
+        var auditOpinion =  mui("#auditOpinion");
+        if(!auditOpinion.value || auditOpinion.value.trim() == "") {
+            var label = auditOpinion.previousElementSibling;
+            mui.alert(label.innerText + "不允许为空");
+            return false;
+        }
+
+        mui.alert('确定提交审核？' , function() {
+            var url = '${ctx}/mobile/purchase/reviewPurchaseOrder/${detailsVo.purchaseOrder.id}';
+            $.ajax({
+                url: url,
+                data:{'auditResults':auditResults,'applyUser':applyUser,'auditOpinion': auditOpinion},
+                dataType: 'json',
+                contentType : "application/x-www-form-urlencoded",
+                type: 'post',
+                timeout: 10000,
+                success: function(result) {
+                    if(result.code!=0){
+                        mui.alert(result.msg);
+                    }else {
+                        mui.alert('审核成功！', function() {
+                            document.location.href='${ctx }/mobile/purchase/toDetails/${detailsVo.purchaseOrder.id}';
+                        });
+                    }
+                }
+            });
+        });
+    });
+
+
+
 
 
     //初始化数据

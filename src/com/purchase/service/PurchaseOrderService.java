@@ -28,7 +28,7 @@ public interface PurchaseOrderService {
 
     ResultUtil submitPurchaseOrder(String id);
 
-    ResultUtil reviewPurchaseOrder(TbAdmin admin, String id);
+    ResultUtil reviewPurchaseOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion);
 
     /**
      * 根据供应商和订单状态查询

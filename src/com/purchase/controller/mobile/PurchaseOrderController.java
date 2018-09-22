@@ -111,12 +111,12 @@ public class PurchaseOrderController {
     }
 
     @SysLog(value="审核采购单")
-    @RequestMapping("reviewPurchaseOrder")
+    @RequestMapping("reviewPurchaseOrder/{id}")
     @RequiresPermissions("mobile:purchase:review")
     @ResponseBody
-    public ResultUtil reviewPurchaseOrder(String id){
+    public ResultUtil reviewPurchaseOrder(@PathVariable("id") String id, Boolean auditResults, Long applyUser, String auditOpinion){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        return purchaseOrderService.reviewPurchaseOrder(admin, id);
+        return purchaseOrderService.reviewPurchaseOrder(admin, id, auditResults,applyUser,auditOpinion);
     }
 
 //    @SysLog(value="工程部审核采购单")
