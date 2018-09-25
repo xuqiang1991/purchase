@@ -24,6 +24,7 @@ import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
@@ -205,12 +206,17 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 
 	@Override
+	@Transactional
 	public ResultUtil delPurchaseOrder(String id) {
 		BizPurchaseOrder order = purchaseOrderMapper.selectByPrimaryKey(id);
 		if(!(PurchaseUtil.STATUS_0 == order.getStatus())){
 			return ResultUtil.error("非未提交状态的采购单不能删除！");
 		}
 		purchaseOrderMapper.deleteByPrimaryKey(id);
+
+		BizPurchaseOrderDetailExample example = new BizPurchaseOrderDetailExample();
+		example.createCriteria().andPurchaseNoEqualTo(id);
+		purchaseOrderDetailMapper.deleteByExample(example);
 		return ResultUtil.ok();
 	}
 
@@ -387,6 +393,16 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		tmp.setCostDepartUser(userId);
 		tmp.setUpdateDate(date);
 
+		purchaseOrderMapper.updateByPrimaryKeySelective(tmp);
+		return ResultUtil.ok();
+	}
+
+	@Override
+	public ResultUtil purchaseOrderContractNo(String id, String contractNo) {
+		BizPurchaseOrder tmp = new BizPurchaseOrder();
+		tmp.setId(id);
+		tmp.setContractNo(contractNo);
+		tmp.setUpdateDate(new Date());
 		purchaseOrderMapper.updateByPrimaryKeySelective(tmp);
 		return ResultUtil.ok();
 	}

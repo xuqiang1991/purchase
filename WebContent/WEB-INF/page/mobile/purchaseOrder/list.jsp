@@ -200,7 +200,7 @@
             </div>
             <div>
                 <button type="button" class="mui-btn mui-btn-primary" onclick="toDetails('{{id}}')">详情</button>
-                <button type="button" class="mui-btn mui-btn-primary">审核</button>
+<%--                <button type="button" class="mui-btn mui-btn-primary">审核</button>--%>
             </div>
         </div>
     </div>

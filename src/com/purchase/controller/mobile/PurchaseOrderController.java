@@ -100,6 +100,13 @@ public class PurchaseOrderController {
         return purchaseOrderService.submitPurchaseOrder(id);
     }
 
+    @SysLog(value="填写合同")
+    @RequestMapping("purchaseOrderContractNo/{id}")
+    @RequiresPermissions("mobile:purchase:save")
+    @ResponseBody
+    public ResultUtil purchaseOrderContractNo(@PathVariable("id") String id, String contractNo){
+        return purchaseOrderService.purchaseOrderContractNo(id,contractNo);
+    }
 
     @SysLog(value="提交审核")
     @RequestMapping("submitReviewPurchaseOrder")

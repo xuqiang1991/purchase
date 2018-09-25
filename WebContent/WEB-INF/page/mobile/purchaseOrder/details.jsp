@@ -72,11 +72,13 @@
         <div>
             <textarea name="summary" id="summary" rows="5" class="mui-input-clear" readonly="readonly">${detailsVo.purchaseOrder.summary}</textarea>
         </div>
-        <div class="mui-button-row" style="padding-bottom: 20px;">
-            <a href="#fromPurchaseOrderItem">
-                <label id="selectProjectText" style="width: 65%;padding-left: 0px;">增加采购单项</label>
-            </a>
-        </div>
+        <c:if test="${detailsVo.purchaseOrder.status == 0}">
+            <div class="mui-button-row" style="padding-bottom: 20px;">
+                <a href="#fromPurchaseOrderItem">
+                    <label id="selectProjectText" style="width: 65%;padding-left: 0px;">增加采购单项</label>
+                </a>
+            </div>
+        </c:if>
     </div>
 
     <!-- 采购单项 start -->
@@ -133,6 +135,7 @@
             <c:choose>
                     <c:when test="${detailsVo.purchaseOrder.status == 0}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="purchaseOrderDetails">提交</button>
+                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="deletePurchaseOrder" value="${detailsVo.purchaseOrder.id}">删除</button>
                     </c:when>
                     <c:when test="${detailsVo.purchaseOrder.status == 1 && empty detailsVo.purchaseOrder.costDepartUser && empty detailsVo.reviewUserId}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="submitReviewPurchaseOrder">选择审核人</button>
@@ -141,6 +144,7 @@
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">审核</button>
                     </c:when>
             </c:choose>
+                <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="purchaseOrderContractNo" value="${detailsVo.purchaseOrder.id}">填写合同号</button>
             </div>
         </div>
     </div>
@@ -269,7 +273,7 @@
                 timeout: 10000,
                 success: function(result) {
                     if(result.code!=0){
-                        mui.alert(data.msg);
+                        mui.alert(result.msg);
                     }else {
                         mui.alert('添加成功！', function() {
                             document.location.href='${ctx }/mobile/purchase/toDetails/${detailsVo.purchaseOrder.id}';
@@ -282,6 +286,65 @@
         }
     });
 
+    /** 删除采购单 **/
+    mui(document.body).on('tap', '#deletePurchaseOrder', function(e) {
+        var id = e.val();
+        var btnArray = ['是', '否'];
+        mui.confirm('确认删除此采购单？', '删除采购单', btnArray, function(e) {
+            if (e.index == 0) {
+                var url = '${ctx}/mobile/purchase/delPurchaseOrder?id='+ id
+                $.ajax({
+                    url: url,
+                    dataType: 'json',
+                    contentType : "application/x-www-form-urlencoded",
+                    type: 'post',
+                    timeout: 10000,
+                    success: function(result) {
+                        if(result.code!=0){
+                            mui.alert(result.msg);
+                        }else {
+                            mui.alert('删除成功！', function() {
+                                document.location.href='${ctx }/mobile/purchase/list';
+                            });
+                        }
+                    }
+                });
+            }
+        })
+    });
+
+    /** 填写合同号 **/
+    mui(document.body).on('tap', '#purchaseOrderContractNo', function(e) {
+        var btnArray = ['取消', '确定'];
+        var id = e.val();
+        mui.prompt('请输入采购单合同号', '请输入合同号', '采购单合同号', btnArray, function(e1) {
+            if (e1.index == 1) {
+                var contractNo = e1.value;
+                if(contractNo == '' || contractNo.trim() == ''){
+                    mui.alert('请填写合同号！');
+                    return false
+                }else {
+                    var url = '${ctx}/mobile/purchase/purchaseOrderContractNo/'+ id + '?contractNo=' + contractNo;
+                    $.ajax({
+                        url: url,
+                        dataType: 'json',
+                        contentType : "application/x-www-form-urlencoded",
+                        type: 'post',
+                        timeout: 10000,
+                        success: function(result) {
+                            if(result.code!=0){
+                                mui.alert(result.msg);
+                            }else {
+                                mui.alert('添加成功！', function() {
+                                    document.location.href='${ctx }/mobile/purchase/toDetails/${detailsVo.purchaseOrder.id}';
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+        })
+    });
 
     /** 删除项 **/
     mui(document.body).on('tap', '#deleteItem', function(e) {
@@ -298,7 +361,7 @@
                     timeout: 10000,
                     success: function(result) {
                         if(result.code!=0){
-                            mui.alert(data.msg);
+                            mui.alert(result.msg);
                         }else {
                             mui.alert('删除成功！', function() {
                                 document.location.href='${ctx }/mobile/purchase/toDetails/${detailsVo.purchaseOrder.id}';
@@ -324,7 +387,7 @@
                     timeout: 10000,
                     success: function(result) {
                         if(result.code!=0){
-                            mui.alert(data.msg);
+                            mui.alert(result.msg);
                         }else {
                             mui.alert('提交成功！', function() {
                                 document.location.href='${ctx }/mobile/purchase/toDetails/${detailsVo.purchaseOrder.id}';
