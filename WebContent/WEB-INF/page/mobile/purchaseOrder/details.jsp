@@ -62,6 +62,10 @@
             <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.projectId}</label>
         </div>
         <div class="mui-input-row">
+            <label>合同号</label>
+            <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.contractNo}</label>
+        </div>
+        <div class="mui-input-row">
             <label>合同总金额</label>
             <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.contractMoney}</label>
         </div>
@@ -82,57 +86,51 @@
     </div>
 
     <!-- 采购单项 start -->
-    <div id="refreshContainer" class="mui-content" style="margin-top: 20px;width: 100%;">
+    <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 380px;width: 100%;">
         <div class="mui-scroll">
             <c:forEach items="${detailsVo.details}" var="item">
-            <div class="mui-card">
-                <div class="mui-card-header mui-card-media">
-                    <!-- 订单类型 用图标展示 -->
-                    <img src="${ctx }/images/icon/contract_apply_money.png">
-                    <div class="mui-media-body">
-                        <label>材料/项目内容</label>
-                        <p>
-                                ${item.content}
-                        </p>
-                    </div>
-                </div>
-                <div class="mui-card-content">
-                    <div class="mui-card-content-inner">
-                        <p>
-                            <label>单价:${item.price}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <label>规格：${item.model}</label>
-                        </p>
-                        <p>
-                            <label>单位：${item.unit}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <label>数量：${item.amount}</label>
-                        </p>
-                        <p>
-                            <label>质保期（月）：${item.warrantyDate}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <label>日期：<fmt:formatDate value="${item.date}" pattern="yyyy-MM-dd"/></label>
-                        </p>
-                    </div>
-                </div>
-                <div class="mui-card-footer">
-                    <div class="mui-pull-left">
-                        <label>总金额：${item.totalPrice}</label>&nbsp;&nbsp;
-                        <label>已結算数量：${item.settleAmout}</label>
-                    </div>
-                    <c:if test="${detailsVo.purchaseOrder.status == 0}">
-                        <div>
-                            <button type="button" class="mui-btn mui-btn-primary" id="deleteItem" value="${item.id}">刪除</button>
+                <div class="mui-card">
+                    <div class="mui-card-header mui-card-media">
+                        <!-- 订单类型 用图标展示 -->
+                        <img src="${ctx }/images/icon/contract_apply_money.png">
+                        <div class="mui-media-body">
+                            <label>材料/项目内容</label>
+                            <p>
+                                    ${item.content}
+                            </p>
                         </div>
-                    </c:if>
+                    </div>
+                    <div class="mui-card-content">
+                        <div class="mui-card-content-inner">
+                            <p>
+                                <label>单价:${item.price}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label>规格：${item.model}</label>
+                            </p>
+                            <p>
+                                <label>单位：${item.unit}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label>数量：${item.amount}</label>
+                            </p>
+                            <p>
+                                <label>质保期（月）：${item.warrantyDate}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label>日期：<fmt:formatDate value="${item.date}" pattern="yyyy-MM-dd"/></label>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mui-card-footer">
+                        <div class="mui-pull-left">
+                            <label>总金额：${item.totalPrice}</label>&nbsp;&nbsp;
+                            <label>已結算数量：${item.settleAmout}</label>
+                        </div>
+                        <c:if test="${detailsVo.purchaseOrder.status == 0}">
+                            <div>
+                                <button type="button" class="mui-btn mui-btn-primary" id="deleteItem" value="${item.id}">刪除</button>
+                            </div>
+                        </c:if>
+                    </div>
                 </div>
-            </div>
             </c:forEach>
-        </div>
-    </div>
-    <!-- 采购单项 end -->
-
-    <div class="mui-content" style="margin-top: 20px;width: 100%;">
-        <div class="mui-scroll">
             <div class="mui-content-padded">
-            <c:choose>
+                <c:choose>
                     <c:when test="${detailsVo.purchaseOrder.status == 0}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="purchaseOrderDetails">提交</button>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="deletePurchaseOrder" value="${detailsVo.purchaseOrder.id}">删除</button>
@@ -143,12 +141,12 @@
                     <c:when test="${!empty detailsVo.reviewUserId}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">审核</button>
                     </c:when>
-            </c:choose>
+                </c:choose>
                 <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="purchaseOrderContractNo" value="${detailsVo.purchaseOrder.id}">填写合同号</button>
             </div>
         </div>
     </div>
-
+    <!-- 采购单项 end -->
 </div>
 
 
@@ -242,7 +240,7 @@
         defaultPage: '#setting'
     });
 
-    mui('#setting').scroll();
+    mui('.mui-scroll-wrapper').scroll();
 
     /** 提交项 **/
     mui(document.body).on('tap', '#submitFromPurchaseOrderItem', function(e) {

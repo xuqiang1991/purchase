@@ -50,7 +50,7 @@
                 <label>所属项目</label>
                 <a href="#selectProject">
                     <label id="selectProjectText" style="width: 65%;padding-left: 0px;">请选择所属项目</label>
-                    <input type="hidden" id="selectProjectHidden" name="project_id" value="" mui-verify="required">
+                    <input type="hidden" id="selectProjectHidden" name="projectId" value="" mui-verify="required">
                 </a>
             </div>
             <div class="mui-input-row">
@@ -339,7 +339,7 @@
 </script>
 <script type="text/template" id="listTpl">
     {{#each data}}
-    <li class="mui-table-view-cell" data-id="1" data-text="{{name}}">
+    <li class="mui-table-view-cell" data-id="{{id}}" data-text="{{name}}">
         <a class="mui-navigate-right">{{name}}</a>
     </li>
     {{/each}}

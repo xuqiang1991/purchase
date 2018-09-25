@@ -4,10 +4,12 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.purchase.mapper.admin.TbAdminMapper;
+import com.purchase.mapper.admin.TbProjectMangerMapper;
 import com.purchase.mapper.admin.TbSupplierMapper;
 import com.purchase.mapper.order.BizPurchaseOrderDetailMapper;
 import com.purchase.mapper.order.BizPurchaseOrderMapper;
 import com.purchase.pojo.admin.TbAdmin;
+import com.purchase.pojo.admin.TbProjectManger;
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.BizPurchaseOrder;
 import com.purchase.pojo.order.BizPurchaseOrderDetail;
@@ -42,6 +44,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 	@Autowired
 	private TbSupplierMapper supplierMapper;
+
+    @Autowired
+    private TbProjectMangerMapper projectMangerMapper;
 
 	@Autowired
 	private TbAdminMapper adminMapper;
@@ -126,6 +131,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		//获取采购单
 		BizPurchaseOrder order = purchaseOrderMapper.selectByPrimaryKey(id);
 		BizPurchaseOrderVo vo = new BizPurchaseOrderVo();
+
+		//所属项目
+        String projectId = order.getProjectId();
+        if(StringUtils.isNotBlank(projectId)){
+            TbProjectManger projectManger = projectMangerMapper.selectByPrimaryKey(projectId);
+            order.setProjectId(projectManger.getName());
+        }
+
+
 		BeanUtils.copyProperties(order, vo);
 
 		Long userId = order.getCreateUser();
@@ -155,6 +169,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			TbSupplier supplier = supplierMapper.selectByPrimaryKey(supplierId);
 			vo.setSupplier(supplier);
 		}
+
+
 
 
 		detailsVo.setPurchaseOrder(vo);
