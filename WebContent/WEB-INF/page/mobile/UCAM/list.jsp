@@ -103,6 +103,7 @@
 <script src="${ctx}/mui/js/mui.min.js"></script>
 <script type="text/javascript" src="http://apps.bdimg.com/libs/handlebars.js/2.0.0-alpha.4/handlebars.js"></script>
 <script type="text/javascript" src="${ctx}/js/handlebarsHelps.js"></script>
+<script type="text/javascript" src="${ctx}/js/mobile/ucam/ucamUtils.js"></script>
 <script src="${ctx }/mui/js/mui.picker.min.js"></script>
 <script type="text/javascript" charset="utf-8">
     var ctx = '${ctx }';
@@ -190,7 +191,7 @@
                     purchaseOrder.statusConversion(Handlebars)
                     purchaseOrder.departUser(Handlebars)
                     purchaseOrder.departDate(Handlebars)
-
+                    ucamOrder.instructOrder(Handlebars);
                     //匹配json内容
                     var html = template({data});//data
                     //输入模板
@@ -372,7 +373,13 @@
             <!-- 订单类型 用图标展示 -->
             <img src="${ctx }/images/icon/uncontract_apply_money.png">
             <div class="mui-media-body">
+                <%--{{if instructOrderFlag == null}}
+
+                {{else}}
+
+                {{/if}}--%>
                 <label>单号:{{orderNo}}</label>
+                {{ucamOrder_instructOrder instructOrderFlag}}
                 <p>
                     <label>开单人:{{admin.fullname}}</label>&nbsp;
                     <label>开单日期：{{createTime}}</label>
@@ -387,7 +394,7 @@
                     <label>所属项目：{{tpm.name}}</label>
                 </p>
                 <p>
-                    <label>有无指令：{{tpm.name}}</label>
+                    <label>有无指令：{{instructOrderFlag}}</label>
                     <label>有无指令：{{tpm.name}}</label>
                 </p>
                 <p>
