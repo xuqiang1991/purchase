@@ -288,7 +288,7 @@
 
     /** 删除采购单 **/
     mui(document.body).on('tap', '#deletePurchaseOrder', function(e) {
-        var id = e.val();
+        var id = this.value;
         var btnArray = ['是', '否'];
         mui.confirm('确认删除此采购单？', '删除采购单', btnArray, function(e) {
             if (e.index == 0) {
@@ -316,7 +316,7 @@
     /** 填写合同号 **/
     mui(document.body).on('tap', '#purchaseOrderContractNo', function(e) {
         var btnArray = ['取消', '确定'];
-        var id = e.val();
+        var id = this.value;
         mui.prompt('请输入采购单合同号', '请输入合同号', '采购单合同号', btnArray, function(e1) {
             if (e1.index == 1) {
                 var contractNo = e1.value;
@@ -348,7 +348,7 @@
 
     /** 删除项 **/
     mui(document.body).on('tap', '#deleteItem', function(e) {
-        var itemId = e.val();
+        var itemId = this.value;
         var btnArray = ['是', '否'];
         mui.confirm('确认删除此项？', '删除项', btnArray, function(e) {
             if (e.index == 0) {
