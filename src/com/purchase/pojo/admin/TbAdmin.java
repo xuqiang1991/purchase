@@ -1,6 +1,8 @@
 package com.purchase.pojo.admin;
 
-public class TbAdmin {
+import java.io.Serializable;
+
+public class TbAdmin implements Serializable {
     private Long id;
 
     private String username;
