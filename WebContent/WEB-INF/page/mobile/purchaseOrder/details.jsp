@@ -42,52 +42,51 @@
         <h1 class="mui-center mui-title">采购订单详情</h1>
     </div>
 
-    <!-- 主界面具体展示内容 -->
-    <div class="mui-content-padded mui-card" style="margin: 5px;">
-        <input type="hidden" name="purchaseNo" id="purchaseNo" value="${detailsVo.purchaseOrder.purchaseNo}">
-        <div class="mui-input-row">
-            <label>合同编号</label>
-            <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.purchaseNo}</label>
-        </div>
-        <div class="mui-input-row">
-            <label>订单类型</label>
-            <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.type}</label>
-        </div>
-        <div class="mui-input-row">
-            <label>供应商</label>
-            <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.supplier.name}</label>
-        </div>
-        <div class="mui-input-row">
-            <label>所属项目</label>
-            <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.projectId}</label>
-        </div>
-        <div class="mui-input-row">
-            <label>合同号</label>
-            <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.contractNo}</label>
-        </div>
-        <div class="mui-input-row">
-            <label>合同总金额</label>
-            <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.contractMoney}</label>
-        </div>
-        <div class="mui-input-row mui-input-range">
-            <label>付款比例(%)</label>
-            <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.paymentRatio}%</label>
-        </div>
-        <div>
-            <textarea name="summary" id="summary" rows="5" class="mui-input-clear" readonly="readonly">${detailsVo.purchaseOrder.summary}</textarea>
-        </div>
-        <c:if test="${detailsVo.purchaseOrder.status == 0}">
-            <div class="mui-button-row" style="padding-bottom: 20px;">
-                <a href="#fromPurchaseOrderItem">
-                    <label id="selectProjectText" style="width: 65%;padding-left: 0px;">增加采购单项</label>
-                </a>
-            </div>
-        </c:if>
-    </div>
-
     <!-- 采购单项 start -->
-    <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 380px;width: 100%;">
+    <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 0px;width: 100%;">
         <div class="mui-scroll">
+            <!-- 主界面具体展示内容 -->
+            <div class="mui-content-padded mui-card" style="margin: 5px;">
+                <input type="hidden" name="purchaseNo" id="purchaseNo" value="${detailsVo.purchaseOrder.purchaseNo}">
+                <div class="mui-input-row">
+                    <label>合同编号</label>
+                    <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.purchaseNo}</label>
+                </div>
+                <div class="mui-input-row">
+                    <label>订单类型</label>
+                    <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.type}</label>
+                </div>
+                <div class="mui-input-row">
+                    <label>供应商</label>
+                    <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.supplier.name}</label>
+                </div>
+                <div class="mui-input-row">
+                    <label>所属项目</label>
+                    <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.projectId}</label>
+                </div>
+                <div class="mui-input-row">
+                    <label>合同号</label>
+                    <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.contractNo}</label>
+                </div>
+                <div class="mui-input-row">
+                    <label>合同总金额</label>
+                    <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.contractMoney}</label>
+                </div>
+                <div class="mui-input-row mui-input-range">
+                    <label>付款比例(%)</label>
+                    <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.paymentRatio}%</label>
+                </div>
+                <div>
+                    <textarea name="summary" id="summary" rows="5" class="mui-input-clear" readonly="readonly">${detailsVo.purchaseOrder.summary}</textarea>
+                </div>
+                <c:if test="${detailsVo.purchaseOrder.status == 0}">
+                    <div class="mui-button-row" style="padding-bottom: 20px;">
+                        <a href="#fromPurchaseOrderItem">
+                            <label id="selectProjectText" style="width: 65%;padding-left: 0px;">增加采购单项</label>
+                        </a>
+                    </div>
+                </c:if>
+            </div>
             <c:forEach items="${detailsVo.details}" var="item">
                 <div class="mui-card">
                     <div class="mui-card-header mui-card-media">
