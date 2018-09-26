@@ -26,7 +26,7 @@
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>
         </button>
-        <h1 class="mui-center mui-title">新建合同内请款单</h1>
+        <h1 class="mui-center mui-title">新建采购订单</h1>
     </div>
 
     <!-- 主界面具体展示内容 -->
