@@ -11,6 +11,7 @@ import com.purchase.service.PurchaseOrderService;
 import com.purchase.service.SupplierService;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.ChoseAdminVO;
+import com.purchase.vo.order.BizPurchaseOrderSearch;
 import com.purchase.vo.order.BizPurchaseOrderVo;
 import com.purchase.vo.order.CAMSearch;
 import org.apache.shiro.SecurityUtils;
@@ -19,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -55,6 +57,21 @@ public class CAMController {
         return "page/mobile/CAM/list";
     }
 
+
+    @SysLog(value="获取合同内请款单数据")
+    @RequestMapping("getCAMList")
+    @RequiresPermissions("mobile:CAM:list")
+    @ResponseBody
+    public ResultUtil getCAMOrderList(Integer page, Integer limit, CAMSearch search){
+        return camService.getCAMOrderList(page,limit,search);
+    }
+
+    @RequestMapping("/toSave")
+    @RequiresPermissions("mobile:CAM:save")
+    public String toSave(Long id, Model model){
+        return "page/mobile/CAM/from";
+    }
+
     @SysLog(value="进入合同内请款单详情")
     @RequestMapping("camDetails")
     @RequiresPermissions("mobile:CAM:list")
@@ -73,13 +90,7 @@ public class CAMController {
         return "page/mobile/CAM/camDetails";
     }
 
-    @SysLog(value="获取合同内请款单数据")
-    @RequestMapping("getCAMList")
-    @RequiresPermissions("mobile:CAM:list")
-    @ResponseBody
-    public ResultUtil getCAMOrderList(Integer page, Integer limit, CAMSearch search){
-        return camService.getCAMOrderList(page,limit,search);
-    }
+
 
     @SysLog(value="查询合同内请款单详情")
     @RequestMapping("selCAMOrder")

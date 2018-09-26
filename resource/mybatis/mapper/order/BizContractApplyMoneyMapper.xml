@@ -9,7 +9,7 @@
     <result column="apply_user" property="applyUser" jdbcType="BIGINT" />
     <result column="source_order_id" property="sourceOrderId" jdbcType="VARCHAR" />
     <result column="supplier_id" property="supplierId" jdbcType="BIGINT" />
-    <result column="project_id" property="projectId" jdbcType="BIGINT" />
+    <result column="project_id" property="projectId" jdbcType="VARCHAR" />
     <result column="order_type" property="orderType" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="apply_price" property="applyPrice" jdbcType="DECIMAL" />
@@ -137,7 +137,7 @@
       manager_depart_opinion)
     values (#{id,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{createUser,jdbcType=BIGINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{applyUser,jdbcType=BIGINT}, #{sourceOrderId,jdbcType=VARCHAR}, 
-      #{supplierId,jdbcType=BIGINT}, #{projectId,jdbcType=BIGINT}, #{orderType,jdbcType=VARCHAR}, 
+      #{supplierId,jdbcType=BIGINT}, #{projectId,jdbcType=VARCHAR}, #{orderType,jdbcType=VARCHAR},
       #{status,jdbcType=INTEGER}, #{applyPrice,jdbcType=DECIMAL}, #{actualPrice,jdbcType=DECIMAL}, 
       #{updateDate,jdbcType=TIMESTAMP}, #{summary,jdbcType=VARCHAR}, #{costDepartApproval,jdbcType=BIT}, 
       #{costDepartUser,jdbcType=VARCHAR}, #{costDepartDate,jdbcType=TIMESTAMP}, #{costDepartOpinion,jdbcType=VARCHAR}, 
@@ -251,7 +251,7 @@
         #{supplierId,jdbcType=BIGINT},
       </if>
       <if test="projectId != null" >
-        #{projectId,jdbcType=BIGINT},
+        #{projectId,jdbcType=VARCHAR},
       </if>
       <if test="orderType != null" >
         #{orderType,jdbcType=VARCHAR},
@@ -340,7 +340,7 @@
         supplier_id = #{record.supplierId,jdbcType=BIGINT},
       </if>
       <if test="record.projectId != null" >
-        project_id = #{record.projectId,jdbcType=BIGINT},
+        project_id = #{record.projectId,jdbcType=VARCHAR},
       </if>
       <if test="record.orderType != null" >
         order_type = #{record.orderType,jdbcType=VARCHAR},
@@ -410,7 +410,7 @@
       apply_user = #{record.applyUser,jdbcType=BIGINT},
       source_order_id = #{record.sourceOrderId,jdbcType=VARCHAR},
       supplier_id = #{record.supplierId,jdbcType=BIGINT},
-      project_id = #{record.projectId,jdbcType=BIGINT},
+      project_id = #{record.projectId,jdbcType=VARCHAR},
       order_type = #{record.orderType,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=INTEGER},
       apply_price = #{record.applyPrice,jdbcType=DECIMAL},
@@ -455,7 +455,7 @@
         supplier_id = #{supplierId,jdbcType=BIGINT},
       </if>
       <if test="projectId != null" >
-        project_id = #{projectId,jdbcType=BIGINT},
+        project_id = #{projectId,jdbcType=VARCHAR},
       </if>
       <if test="orderType != null" >
         order_type = #{orderType,jdbcType=VARCHAR},
@@ -522,7 +522,7 @@
       apply_user = #{applyUser,jdbcType=BIGINT},
       source_order_id = #{sourceOrderId,jdbcType=VARCHAR},
       supplier_id = #{supplierId,jdbcType=BIGINT},
-      project_id = #{projectId,jdbcType=BIGINT},
+      project_id = #{projectId,jdbcType=VARCHAR},
       order_type = #{orderType,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       apply_price = #{applyPrice,jdbcType=DECIMAL},

@@ -96,7 +96,7 @@
     });
 
     mui(document.body).on('tap', '#add-btn', function(e) {
-        document.location.href='${ctx }/mobile/purchase/toSave';
+        document.location.href='${ctx }/mobile/CAM/toSave';
     });
 
     function billLoad() {
@@ -119,7 +119,7 @@
     }
 
     function getBill() {
-        var url = '${ctx}/mobile/purchase/getPurchaseList?' + 'limit=' + limit + '&page=' + page;
+        var url = '${ctx}/mobile/CAM/getCAMList?' + 'limit=' + limit + '&page=' + page;
         mui.toast("加载中...",1000);
         $.ajax({
             url: url,
@@ -202,8 +202,8 @@
         </div>
         <div class="mui-card-footer">
             <div class="mui-pull-left">
-                <label>审核人：张三</label>
-                <label>审核日期：2018-08-21</label>
+                <label>{{purchaseOrder_departUser}}</label>
+                <label>{{purchaseOrder_departDate}}</label>
             </div>
             <div>
                 <button type="button" class="mui-btn mui-btn-primary" onclick="details()">详情</button>
