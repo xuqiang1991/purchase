@@ -164,7 +164,7 @@
 
 
     function toDetails(id) {
-        document.location.href='${ctx }/mobile/CAM/camDetails/' + id;
+        document.location.href='${ctx }/mobile/CAM/toDetails/' + id;
     }
 </script>
 <!-- 采购订单 start -->
@@ -206,7 +206,7 @@
                 <label>{{purchaseOrder_departDate}}</label>
             </div>
             <div>
-                <button type="button" class="mui-btn mui-btn-primary" onclick="details()">详情</button>
+                <button type="button" class="mui-btn mui-btn-primary" onclick="toDetails('{{id}}')">详情</button>
             </div>
         </div>
     </div>

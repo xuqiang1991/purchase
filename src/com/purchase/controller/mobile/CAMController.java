@@ -1,6 +1,5 @@
 package com.purchase.controller.mobile;
 
-import com.alibaba.fastjson.JSON;
 import com.purchase.annotation.SysLog;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbSupplier;
@@ -10,10 +9,10 @@ import com.purchase.service.CAMService;
 import com.purchase.service.PurchaseOrderService;
 import com.purchase.service.SupplierService;
 import com.purchase.util.ResultUtil;
-import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.order.BizPurchaseOrderSearch;
-import com.purchase.vo.order.BizPurchaseOrderVo;
+import com.purchase.vo.order.CAMDetailsVo;
 import com.purchase.vo.order.CAMSearch;
+import com.purchase.vo.order.CAMVo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -21,11 +20,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * @Auther: zhoujb
@@ -69,47 +66,55 @@ public class CAMController {
     @RequestMapping("/toSave")
     @RequiresPermissions("mobile:CAM:save")
     public String toSave(Long id, Model model){
-        return "page/mobile/CAM/from";
-    }
-
-    @SysLog(value="进入合同内请款单详情")
-    @RequestMapping("camDetails")
-    @RequiresPermissions("mobile:CAM:list")
-    public String camDetails(HttpServletRequest req){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         if(admin.getSupplierId() != null){
             TbSupplier supplier = supplierService.selSupplierById(admin.getSupplierId());
             admin.setSupplierName(supplier.getName());
         }
-        List<ChoseAdminVO> admins = adminService.selectAdmin();
-        logger.info("------:{}", JSON.toJSONString(admins));
-        List<BizPurchaseOrderVo> purchaseOrderList = purchaseOrderService.selectPurchaseOrderExample(6,admin.getSupplierId());
-        req.setAttribute("admins", JSON.toJSONString(admins));
-        req.setAttribute("admin", admin);
-        req.setAttribute("poItem",JSON.toJSONString(purchaseOrderList));
-        return "page/mobile/CAM/camDetails";
+        model.addAttribute("admin", admin);
+        return "page/mobile/CAM/from";
     }
-
-
-
-    @SysLog(value="查询合同内请款单详情")
-    @RequestMapping("selCAMOrder")
-    @RequiresPermissions("mobile:CAM:sel")
-    @ResponseBody
-    public ResultUtil selCAMOrder(String orderNo){
-        return camService.selCAMOrder(orderNo);
-    }
-
 
     @SysLog(value="新增合同内请款单详情")
     @RequestMapping("addCAMOrder")
-    @RequiresPermissions("mobile:CAM:add")
+    @RequiresPermissions("mobile:CAM:save")
     @ResponseBody
     public ResultUtil addCAMOrder(BizContractApplyMoney order){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         order.setCreateUser(admin.getId());
         return camService.addCAMOrder(order);
     }
+
+
+    @SysLog(value="进入合同内请款单详情")
+    @RequestMapping("/toDetails/{id}")
+    @RequiresPermissions("mobile:CAM:list")
+    public String toDetails(@PathVariable("id") String id, Model model){
+        CAMDetailsVo detailsVo = camService.selCAMOrder(id);
+        model.addAttribute("detailsVo",detailsVo);
+        return "page/mobile/CAM/camDetails";
+    }
+
+
+    /**
+     * 采购单列表数据
+     * @return
+     */
+    @RequestMapping("/findPurchaseOrderList")
+    @RequiresPermissions("mobile:CAM:save")
+    @ResponseBody
+    public ResultUtil findPurchaseOrderList(Integer page, Integer limit, BizPurchaseOrderSearch search) {
+        logger.info("请求项目数据");
+        ResultUtil result = new ResultUtil();
+        try {
+            result = purchaseOrderService.getOrderList(page,limit,search);
+        }catch (Exception e){
+            logger.error("查询错误",e);
+        }
+        return result;
+    }
+
+
 
     @SysLog(value="编辑合同内请款单详情")
     @RequestMapping("editCAMOrder")
@@ -167,4 +172,6 @@ public class CAMController {
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         return camService.reviewCAMOrder(admin, id);
     }
+
+
 }

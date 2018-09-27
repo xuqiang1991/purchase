@@ -17,15 +17,15 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="summary" property="summary" jdbcType="VARCHAR" />
     <result column="cost_depart_approval" property="costDepartApproval" jdbcType="BIT" />
-    <result column="cost_depart_user" property="costDepartUser" jdbcType="VARCHAR" />
+    <result column="cost_depart_user" property="costDepartUser" jdbcType="BIGINT" />
     <result column="cost_depart_date" property="costDepartDate" jdbcType="TIMESTAMP" />
     <result column="cost_depart_opinion" property="costDepartOpinion" jdbcType="VARCHAR" />
     <result column="project_depart_approval" property="projectDepartApproval" jdbcType="BIT" />
-    <result column="project_depart_user" property="projectDepartUser" jdbcType="VARCHAR" />
+    <result column="project_depart_user" property="projectDepartUser" jdbcType="BIGINT" />
     <result column="project_depart_date" property="projectDepartDate" jdbcType="TIMESTAMP" />
     <result column="project_depart_opinion" property="projectDepartOpinion" jdbcType="VARCHAR" />
     <result column="manager_depart_approval" property="managerDepartApproval" jdbcType="BIT" />
-    <result column="manager_depart_user" property="managerDepartUser" jdbcType="VARCHAR" />
+    <result column="manager_depart_user" property="managerDepartUser" jdbcType="BIGINT" />
     <result column="manager_depart_date" property="managerDepartDate" jdbcType="TIMESTAMP" />
     <result column="manager_depart_opinion" property="managerDepartOpinion" jdbcType="VARCHAR" />
   </resultMap>
@@ -140,10 +140,10 @@
       #{supplierId,jdbcType=BIGINT}, #{projectId,jdbcType=VARCHAR}, #{orderType,jdbcType=VARCHAR},
       #{status,jdbcType=INTEGER}, #{applyPrice,jdbcType=DECIMAL}, #{actualPrice,jdbcType=DECIMAL}, 
       #{updateDate,jdbcType=TIMESTAMP}, #{summary,jdbcType=VARCHAR}, #{costDepartApproval,jdbcType=BIT}, 
-      #{costDepartUser,jdbcType=VARCHAR}, #{costDepartDate,jdbcType=TIMESTAMP}, #{costDepartOpinion,jdbcType=VARCHAR}, 
-      #{projectDepartApproval,jdbcType=BIT}, #{projectDepartUser,jdbcType=VARCHAR}, #{projectDepartDate,jdbcType=TIMESTAMP}, 
+      #{costDepartUser,jdbcType=BIGINT}, #{costDepartDate,jdbcType=TIMESTAMP}, #{costDepartOpinion,jdbcType=VARCHAR},
+      #{projectDepartApproval,jdbcType=BIT}, #{projectDepartUser,jdbcType=BIGINT}, #{projectDepartDate,jdbcType=TIMESTAMP},
       #{projectDepartOpinion,jdbcType=VARCHAR}, #{managerDepartApproval,jdbcType=BIT}, 
-      #{managerDepartUser,jdbcType=VARCHAR}, #{managerDepartDate,jdbcType=TIMESTAMP}, 
+      #{managerDepartUser,jdbcType=BIGINT}, #{managerDepartDate,jdbcType=TIMESTAMP},
       #{managerDepartOpinion,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.purchase.pojo.order.BizContractApplyMoney" >
@@ -275,7 +275,7 @@
         #{costDepartApproval,jdbcType=BIT},
       </if>
       <if test="costDepartUser != null" >
-        #{costDepartUser,jdbcType=VARCHAR},
+        #{costDepartUser,jdbcType=BIGINT},
       </if>
       <if test="costDepartDate != null" >
         #{costDepartDate,jdbcType=TIMESTAMP},
@@ -287,7 +287,7 @@
         #{projectDepartApproval,jdbcType=BIT},
       </if>
       <if test="projectDepartUser != null" >
-        #{projectDepartUser,jdbcType=VARCHAR},
+        #{projectDepartUser,jdbcType=BIGINT},
       </if>
       <if test="projectDepartDate != null" >
         #{projectDepartDate,jdbcType=TIMESTAMP},
@@ -299,7 +299,7 @@
         #{managerDepartApproval,jdbcType=BIT},
       </if>
       <if test="managerDepartUser != null" >
-        #{managerDepartUser,jdbcType=VARCHAR},
+        #{managerDepartUser,jdbcType=BIGINT},
       </if>
       <if test="managerDepartDate != null" >
         #{managerDepartDate,jdbcType=TIMESTAMP},
@@ -364,7 +364,7 @@
         cost_depart_approval = #{record.costDepartApproval,jdbcType=BIT},
       </if>
       <if test="record.costDepartUser != null" >
-        cost_depart_user = #{record.costDepartUser,jdbcType=VARCHAR},
+        cost_depart_user = #{record.costDepartUser,jdbcType=BIGINT},
       </if>
       <if test="record.costDepartDate != null" >
         cost_depart_date = #{record.costDepartDate,jdbcType=TIMESTAMP},
@@ -376,7 +376,7 @@
         project_depart_approval = #{record.projectDepartApproval,jdbcType=BIT},
       </if>
       <if test="record.projectDepartUser != null" >
-        project_depart_user = #{record.projectDepartUser,jdbcType=VARCHAR},
+        project_depart_user = #{record.projectDepartUser,jdbcType=BIGINT},
       </if>
       <if test="record.projectDepartDate != null" >
         project_depart_date = #{record.projectDepartDate,jdbcType=TIMESTAMP},
@@ -388,7 +388,7 @@
         manager_depart_approval = #{record.managerDepartApproval,jdbcType=BIT},
       </if>
       <if test="record.managerDepartUser != null" >
-        manager_depart_user = #{record.managerDepartUser,jdbcType=VARCHAR},
+        manager_depart_user = #{record.managerDepartUser,jdbcType=BIGINT},
       </if>
       <if test="record.managerDepartDate != null" >
         manager_depart_date = #{record.managerDepartDate,jdbcType=TIMESTAMP},
@@ -418,15 +418,15 @@
       update_date = #{record.updateDate,jdbcType=TIMESTAMP},
       summary = #{record.summary,jdbcType=VARCHAR},
       cost_depart_approval = #{record.costDepartApproval,jdbcType=BIT},
-      cost_depart_user = #{record.costDepartUser,jdbcType=VARCHAR},
+      cost_depart_user = #{record.costDepartUser,jdbcType=BIGINT},
       cost_depart_date = #{record.costDepartDate,jdbcType=TIMESTAMP},
       cost_depart_opinion = #{record.costDepartOpinion,jdbcType=VARCHAR},
       project_depart_approval = #{record.projectDepartApproval,jdbcType=BIT},
-      project_depart_user = #{record.projectDepartUser,jdbcType=VARCHAR},
+      project_depart_user = #{record.projectDepartUser,jdbcType=BIGINT},
       project_depart_date = #{record.projectDepartDate,jdbcType=TIMESTAMP},
       project_depart_opinion = #{record.projectDepartOpinion,jdbcType=VARCHAR},
       manager_depart_approval = #{record.managerDepartApproval,jdbcType=BIT},
-      manager_depart_user = #{record.managerDepartUser,jdbcType=VARCHAR},
+      manager_depart_user = #{record.managerDepartUser,jdbcType=BIGINT},
       manager_depart_date = #{record.managerDepartDate,jdbcType=TIMESTAMP},
       manager_depart_opinion = #{record.managerDepartOpinion,jdbcType=VARCHAR}
     <if test="_parameter != null" >
@@ -479,7 +479,7 @@
         cost_depart_approval = #{costDepartApproval,jdbcType=BIT},
       </if>
       <if test="costDepartUser != null" >
-        cost_depart_user = #{costDepartUser,jdbcType=VARCHAR},
+        cost_depart_user = #{costDepartUser,jdbcType=BIGINT},
       </if>
       <if test="costDepartDate != null" >
         cost_depart_date = #{costDepartDate,jdbcType=TIMESTAMP},
@@ -491,7 +491,7 @@
         project_depart_approval = #{projectDepartApproval,jdbcType=BIT},
       </if>
       <if test="projectDepartUser != null" >
-        project_depart_user = #{projectDepartUser,jdbcType=VARCHAR},
+        project_depart_user = #{projectDepartUser,jdbcType=BIGINT},
       </if>
       <if test="projectDepartDate != null" >
         project_depart_date = #{projectDepartDate,jdbcType=TIMESTAMP},
@@ -503,7 +503,7 @@
         manager_depart_approval = #{managerDepartApproval,jdbcType=BIT},
       </if>
       <if test="managerDepartUser != null" >
-        manager_depart_user = #{managerDepartUser,jdbcType=VARCHAR},
+        manager_depart_user = #{managerDepartUser,jdbcType=BIGINT},
       </if>
       <if test="managerDepartDate != null" >
         manager_depart_date = #{managerDepartDate,jdbcType=TIMESTAMP},
@@ -530,15 +530,15 @@
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       summary = #{summary,jdbcType=VARCHAR},
       cost_depart_approval = #{costDepartApproval,jdbcType=BIT},
-      cost_depart_user = #{costDepartUser,jdbcType=VARCHAR},
+      cost_depart_user = #{costDepartUser,jdbcType=BIGINT},
       cost_depart_date = #{costDepartDate,jdbcType=TIMESTAMP},
       cost_depart_opinion = #{costDepartOpinion,jdbcType=VARCHAR},
       project_depart_approval = #{projectDepartApproval,jdbcType=BIT},
-      project_depart_user = #{projectDepartUser,jdbcType=VARCHAR},
+      project_depart_user = #{projectDepartUser,jdbcType=BIGINT},
       project_depart_date = #{projectDepartDate,jdbcType=TIMESTAMP},
       project_depart_opinion = #{projectDepartOpinion,jdbcType=VARCHAR},
       manager_depart_approval = #{managerDepartApproval,jdbcType=BIT},
-      manager_depart_user = #{managerDepartUser,jdbcType=VARCHAR},
+      manager_depart_user = #{managerDepartUser,jdbcType=BIGINT},
       manager_depart_date = #{managerDepartDate,jdbcType=TIMESTAMP},
       manager_depart_opinion = #{managerDepartOpinion,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}

@@ -33,34 +33,34 @@
     <div class="mui-content-padded mui-card" style="margin: 5px;">
         <form class="mui-input-group" id="submitFrom">
             <div class="mui-input-row">
-                <label>合同编号</label>
-                <input type="text" name="contract_no" class="mui-input-clear" mui-verify="required">
+                <label>请款人</label>
+                <input type="text" id="applyUserName" class="mui-input-clear" value="${admin.fullname}" mui-verify="required">
+                <input type="hidden" id="applyUser" name="applyUser" value="${admin.id}">
             </div>
             <div class="mui-input-row">
-                <label>订单类型</label>
-                <input type="text" id="typeName" class="mui-input-clear" placeholder="请选择订单类型" mui-verify="required">
-                <input type="hidden" id="type" name="type">
-            </div>
-            <div class="mui-input-row">
-                <label>供应商</label>
-                <input type="text" id="supplierName" class="mui-input-clear" placeholder="请选择开单人" mui-verify="required">
-                <input type="hidden" id="supplierId" name="supplierId">
-            </div>
-            <div class="mui-input-row">
-                <label>所属项目</label>
+                <label>来源订单</label>
                 <a href="#selectProject">
-                    <label id="selectProjectText" style="width: 65%;padding-left: 0px;">请选择所属项目</label>
-                    <input type="hidden" id="selectProjectHidden" name="projectId" value="" mui-verify="required">
+                    <label id="selectProjectText" style="width: 65%;padding-left: 0px;">请选择来源订单</label>
+                    <input type="hidden" id="selectProjectHidden" name="sourceOrderId">
                 </a>
             </div>
             <div class="mui-input-row">
-                <label>合同总金额</label>
-                <input type="text" name="contract_money" class="mui-input-clear" readonly="readonly" placeholder="合同总金额">
+                <label>供应商</label>
+                <input type="text" id="supplierName" class="mui-input-clear" mui-verify="required" value="${admin.supplierName}">
+                <input type="hidden" id="supplierId" name="supplierId"  value="${admin.supplierId}">
             </div>
-            <div class="mui-input-row mui-input-range">
-                <label>付款比例(%)</label>
-                <input name="payment_ratio" type="range" min="0" max="100" value="100">
-            </div>
+            <%--<div class="mui-input-row">--%>
+                <%--<label>所属项目</label>--%>
+                <%--<a href="#selectProject">--%>
+                    <%--<label id="selectProjectText" style="width: 65%;padding-left: 0px;">请选择所属项目</label>--%>
+                    <%--<input type="hidden" id="selectProjectHidden" name="projectId" value="" mui-verify="required" readonly="readonly">--%>
+                <%--</a>--%>
+            <%--</div>--%>
+            <%--<div class="mui-input-row">--%>
+                <%--<label>订单类型</label>--%>
+                <%--<input type="text" id="orderTypeName" class="mui-input-clear" placeholder="请选择订单类型" mui-verify="required">--%>
+                <%--<input type="hidden" id="orderType" name="orderType">--%>
+            <%--</div>--%>
             <div>
                 <textarea name="summary" id="summary" rows="5" class="mui-input-clear" placeholder="摘要"></textarea>
             </div>
@@ -78,7 +78,7 @@
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>返回
         </button>
-        <h1 class="mui-center mui-title">选择所属项目</h1>
+        <h1 class="mui-center mui-title">选择来源订单</h1>
     </div>
     <div class="mui-page-content">
         <div class="mui-scroll-wrapper">
@@ -90,12 +90,18 @@
                             <div class="mui-collapse-content">
                                 <form class="mui-input-group" id="searchForm">
                                     <div class="mui-input-row">
-                                        <label>名称</label>
+                                        <label>订单号</label>
                                         <input type="text" placeholder="项目名称" name="name">
                                     </div>
                                     <div class="mui-input-row">
-                                        <label>项目简称</label>
-                                        <input type="text" placeholder="项目简称" name="shortName">
+                                        <label>订单类型</label>
+                                        <select name="type">
+                                            <option value="">全部</option>
+                                            <option value="0">绿化苗木</option>
+                                            <option value="1">园建水电</option>
+                                            <option value="2">机械租赁</option>
+                                            <option value="3">工程分包</option>
+                                        </select>
                                     </div>
                                     <div class="mui-button-row">
                                         <button class="mui-btn mui-btn-primary" id="search-btn" type="button">确认</button>&nbsp;&nbsp;
@@ -152,8 +158,16 @@
             }
         });
 
-        //订单类型
-        initOrderType();
+        //请款人
+        var url = '${ctx}/sys/getSelectAdmin';
+        $.ajax({
+            url: url, dataType: 'json',   contentType : "application/x-www-form-urlencoded",  type: 'post', timeout: 10000,
+            success: function(result) {
+                if(result != null && result.data != null && result.data.length != 0){
+                    initAdmin(result.data);
+                }
+            }
+        });
     });
 
     function initSupplier(json){
@@ -171,28 +185,26 @@
         }, false);
     }
 
-    function initOrderType(){
-        var orderType = '[{"text":"绿化苗木","value":"0"},{"text":"园建水电","value":"1"},{"text":"机械租赁","value":"2"},{"text":"工程分包","value":"3"}]';
-        var json = JSON.parse(orderType);
+    function initAdmin(json){
         var userPicker = new mui.PopPicker();
         userPicker.setData(json);
-        var typeName = document.getElementById('typeName');
-        var type = document.getElementById('type');
-        typeName.addEventListener('tap', function(event) {
+        debugger
+        var applyUserName = document.getElementById('applyUserName');
+        var applyUser = document.getElementById('applyUser');
+        applyUserName.addEventListener('tap', function(event) {
             userPicker.show(function(items) {
-                typeName.value = items[0].text;
-                type.value = items[0].value;
+                applyUserName.value = items[0].text;
+                applyUser.value = items[0].value;
                 //返回 false 可以阻止选择框的关闭
                 //return false;
             });
         }, false);
     }
 
-
-    /** start 选择所属项目 **/
+    /** start 选择来源订单 **/
     mui(document.body).on('tap', '#search-btn', function(e) {
         $('#searchCollapse').removeClass('mui-active')
-        $project.projectList();
+        $purchaseOrder.projectList();
     });
 
     mui(document.body).on('tap', '#cancel-btn', function(e) {
@@ -200,7 +212,7 @@
     });
 
     //选择项目
-    var $project = {
+    var $purchaseOrder = {
          list : mui('#projectRefreshContainer'),
          page : 1, //当前页
          limit :  10, //每页显示条数
@@ -221,25 +233,25 @@
             })
         },
         billLoad : function() {
-            if (!$project.enablePullUp) {
-                $project.list.pullRefresh().endPullupToRefresh(false);
+            if (!$purchaseOrder.enablePullUp) {
+                $purchaseOrder.list.pullRefresh().endPullupToRefresh(false);
                 mui.toast("没有更多数据了");
                 return;
             }
-            $project.page++;
-            $project.getBill();
-            $project.list.pullRefresh().endPullupToRefresh(false);
+            $purchaseOrder.page++;
+            $purchaseOrder.getBill();
+            $purchaseOrder.list.pullRefresh().endPullupToRefresh(false);
         },
         billRefresh : function() {
             $('#projectRefreshContainerData').empty();
-            $project.enablePullUp = true;
-            $project.page = 1;
-            $project.getBill();
+            $purchaseOrder.enablePullUp = true;
+            $purchaseOrder.page = 1;
+            $purchaseOrder.getBill();
 
-            $project.list.pullRefresh().endPulldownToRefresh();
+            $purchaseOrder.list.pullRefresh().endPulldownToRefresh();
         },
         getBill: function () {
-            var url = '${ctx}/projectManger/findProjectMangerList?' + 'limit=' + $project.limit + '&page=' + $project.page;
+            var url = '${ctx}/mobile/CAM/findPurchaseOrderList?' + 'limit=' + $purchaseOrder.limit + '&page=' + $purchaseOrder.page;
             mui.toast("加载中...",1000);
             $.ajax({
                 url: url,
@@ -264,14 +276,14 @@
                         listTargt.append(html);
 
                         if (data.length < this.limit) {
-                            $project.enablePullUp = false;
+                            $purchaseOrder.enablePullUp = false;
                         }
                     }
                 },
                 error: function () {
-                    $project.list.pullRefresh().endPullupToRefresh(false); //参数为true代表没有更多数据了。
-                    $project.list.pullRefresh().endPulldownToRefresh(); //refresh completed
-                    $project.enablePullUp = false;
+                    $purchaseOrder.list.pullRefresh().endPullupToRefresh(false); //参数为true代表没有更多数据了。
+                    $purchaseOrder.list.pullRefresh().endPulldownToRefresh(); //refresh completed
+                    $purchaseOrder.enablePullUp = false;
                 }
               });
          }
@@ -317,7 +329,7 @@
         });
         //校验通过，继续执行业务逻辑
         if(check){
-            var url = '${ctx}/mobile/purchase/addPurchaseOrder'
+            var url = '${ctx}/mobile/CAM/addCAMOrder'
             $.ajax({
                 url: url,
                 data: $('#submitFrom').serialize(),
@@ -330,7 +342,7 @@
                         mui.alert(data.msg);
                     }else {
                         mui.alert("添加成功！");
-                        document.location.href='${ctx }/mobile/purchase/list';
+                        document.location.href='${ctx }/mobile/CAM/list';
                     }
                 }
             });
@@ -339,8 +351,8 @@
 </script>
 <script type="text/template" id="listTpl">
     {{#each data}}
-    <li class="mui-table-view-cell" data-id="{{id}}" data-text="{{name}}">
-        <a class="mui-navigate-right">{{name}}</a>
+    <li class="mui-table-view-cell" data-id="{{id}}" data-text="{{purchaseNo}}">
+        <a class="mui-navigate-right">{{purchaseNo}}</a>
     </li>
     {{/each}}
 </script>

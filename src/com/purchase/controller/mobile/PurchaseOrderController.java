@@ -48,10 +48,10 @@ public class PurchaseOrderController {
         return purchaseOrderService.getOrderList(page,limit,search);
     }
 
-    @RequestMapping("/toDetails/{purchaseNo}")
+    @RequestMapping("/toDetails/{id}")
     @RequiresPermissions("mobile:purchase:details")
-    public String toDetails(@PathVariable("purchaseNo") String purchaseNo, Model model){
-        BizPurchaseOrderDetailsVo detailsVo = purchaseOrderService.selPurchaseOrder(purchaseNo);
+    public String toDetails(@PathVariable("id") String id, Model model){
+        BizPurchaseOrderDetailsVo detailsVo = purchaseOrderService.selPurchaseOrder(id);
         model.addAttribute("detailsVo",detailsVo);
         return "page/mobile/purchaseOrder/details";
     }

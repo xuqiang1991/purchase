@@ -2,24 +2,32 @@ package com.purchase.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.gson.Gson;
 import com.purchase.mapper.admin.TbAdminMapper;
 import com.purchase.mapper.admin.TbSupplierMapper;
+import com.purchase.mapper.order.BizContractApplyMoneyDetailMapper;
 import com.purchase.mapper.order.BizContractApplyMoneyMapper;
+import com.purchase.mapper.order.BizPurchaseOrderMapper;
 import com.purchase.pojo.admin.TbAdmin;
-import com.purchase.pojo.order.BizContractApplyMoney;
-import com.purchase.pojo.order.BizContractApplyMoneyExample;
-import com.purchase.pojo.order.BizPurchaseOrderExample;
+import com.purchase.pojo.admin.TbSupplier;
+import com.purchase.pojo.order.*;
 import com.purchase.service.CAMService;
-import com.purchase.util.ResultUtil;
+import com.purchase.util.*;
+import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.order.BizPurchaseOrderVo;
+import com.purchase.vo.order.CAMDetailsVo;
 import com.purchase.vo.order.CAMSearch;
 import com.purchase.vo.order.CAMVo;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,10 +44,16 @@ public class CAMServiceImpl implements CAMService {
     private BizContractApplyMoneyMapper camMapper;
 
     @Autowired
+    private BizContractApplyMoneyDetailMapper contractApplyMoneyDetailMapper;
+
+    @Autowired
     private TbSupplierMapper supplierMapper;
 
     @Autowired
     private TbAdminMapper adminMapper;
+
+    @Autowired
+    private BizPurchaseOrderMapper purchaseOrderMapper;
 
 
     @Override
@@ -80,7 +94,32 @@ public class CAMServiceImpl implements CAMService {
 
     @Override
     public ResultUtil addCAMOrder(BizContractApplyMoney order) {
-        return null;
+        Date date = new Date();
+        String id = WebUtils.generateUUID();
+        order.setId(id);
+        //生成订单号
+        String yyddmm = DateUtil.formatDate(date,DateUtil.DateFormat3);
+        String prefix = CAMUtil.prefix + yyddmm;
+        String pn = purchaseOrderMapper.selMaxPurchaseNo(prefix);
+        String purchaseNo = CAMUtil.generateOrderNo(pn);
+        order.setOrderNo(purchaseNo);
+
+        String sourceOrderId = order.getSourceOrderId();
+        BizPurchaseOrder purchaseOrder = purchaseOrderMapper.selectByPrimaryKey(sourceOrderId);
+
+        //所属项目
+        String projectId = purchaseOrder.getProjectId();
+        order.setProjectId(projectId);
+
+        //单据类型
+        String type = purchaseOrder.getType();
+        order.setOrderType(type);
+
+        //补充参数
+        order.setCreateTime(date);
+
+        camMapper.insertSelective(order);
+        return ResultUtil.ok();
     }
 
     @Override
@@ -89,8 +128,84 @@ public class CAMServiceImpl implements CAMService {
     }
 
     @Override
-    public ResultUtil selCAMOrder(String orderNo) {
-        return null;
+    public CAMDetailsVo selCAMOrder(String id) {
+        CAMDetailsVo detailsVo = new CAMDetailsVo();
+        //获取请款单
+        BizContractApplyMoney order = camMapper.selectByPrimaryKey(id);
+        CAMVo vo = new CAMVo();
+        BeanUtils.copyProperties(order, vo);
+
+        Long userId = order.getCreateUser();
+        TbAdmin tbAdmin = adminMapper.selectByPrimaryKey(userId);
+        vo.setAdmin(tbAdmin);
+
+        Long costUserId = order.getCostDepartUser();
+        if(costUserId != null){
+            TbAdmin costAdmin = adminMapper.selectByPrimaryKey(costUserId);
+            vo.setCostAdmin(costAdmin);
+        }
+
+        Long projectUserId = order.getProjectDepartUser();
+        if(projectUserId != null){
+            TbAdmin projectAdmin = adminMapper.selectByPrimaryKey(projectUserId);
+            vo.setCostAdmin(projectAdmin);
+        }
+
+        Long managerUserId = order.getManagerDepartUser();
+        if(managerUserId != null){
+            TbAdmin managerAdmin = adminMapper.selectByPrimaryKey(managerUserId);
+            vo.setManagerAdmin(managerAdmin);
+        }
+
+        Long supplierId = order.getSupplierId();
+        if(supplierId != null){
+            TbSupplier supplier = supplierMapper.selectByPrimaryKey(supplierId);
+            vo.setSupplier(supplier);
+        }
+        detailsVo.setOrder(vo);
+
+        //获取采购单详情
+        String orderNo = vo.getOrderNo();
+        BizContractApplyMoneyDetailExample example = new BizContractApplyMoneyDetailExample();
+        BizContractApplyMoneyDetailExample.Criteria criteria = example.createCriteria();
+        criteria.andOrderNoEqualTo(orderNo);
+        List<BizContractApplyMoneyDetail> detailList = contractApplyMoneyDetailMapper.selectByExample(example);
+        detailsVo.setDetails(detailList);
+
+        //选择审核人
+        int status = vo.getStatus();
+        String depart = null;
+        Long reviewUserId = null;
+        if(PurchaseUtil.STATUS_1 == status){
+            Long cId = vo.getCostDepartUser();
+            if(cId != null){
+                reviewUserId = vo.getCostDepartUser();
+                depart = "工程部";
+            }else {
+                depart = "成本部";
+            }
+        }else if(PurchaseUtil.STATUS_2 == status){
+            depart = "工程部";
+            reviewUserId = vo.getProjectDepartUser();
+        }else if(PurchaseUtil.STATUS_3 == status){
+            depart = "总经理";
+            reviewUserId = vo.getManagerDepartUser();
+        }
+        if(depart != null){
+            TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+            long loginId = admin.getId();
+            if(reviewUserId != null && reviewUserId == loginId){
+                detailsVo.setReviewUserId(userId);
+                List<ChoseAdminVO> data = adminMapper.selectByDeptName(depart);
+                if(!CollectionUtils.isEmpty(data)){
+                    Gson gson = new Gson();
+                    String json = gson.toJson(data);
+                    detailsVo.setDeparts(json);
+                }
+            }
+        }
+
+        return detailsVo;
     }
 
     @Override
