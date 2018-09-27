@@ -10,11 +10,21 @@ import com.purchase.pojo.order.BizUncontractApplyMoney;
  */
 public class UCAMVo extends BizUncontractApplyMoney {
 
+    private TbSupplier supplier;
     private TbAdmin admin;
     private TbAdmin costAdmin;
     private TbAdmin projectAdmin;
     private TbAdmin managerAdmin;
     private TbProjectManger tpm;
+    private TbAdmin auAdmin;
+
+    public TbSupplier getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(TbSupplier supplier) {
+        this.supplier = supplier;
+    }
 
     public TbAdmin getAdmin() {
         return admin;
@@ -54,5 +64,13 @@ public class UCAMVo extends BizUncontractApplyMoney {
 
     public void setTpm(TbProjectManger tpm) {
         this.tpm = tpm;
+    }
+
+    public TbAdmin getAuAdmin() {
+        return auAdmin;
+    }
+
+    public void setAuAdmin(TbAdmin auAdmin) {
+        this.auAdmin = auAdmin;
     }
 }

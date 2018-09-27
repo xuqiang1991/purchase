@@ -20,7 +20,7 @@ public class BizUncontractApplyMoney {
 
     private String orderType;
 
-    private String instructOrderFlag;
+    private Integer instructOrderFlag;
 
     private String instructOrderNo;
 
@@ -58,7 +58,7 @@ public class BizUncontractApplyMoney {
 
     private String managerDepartOpinion;
 
-    private String supplierIds;
+    private Long supplierId;
 
     public String getId() {
         return id;
@@ -84,7 +84,7 @@ public class BizUncontractApplyMoney {
         this.createUser = createUser;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCreateTime() {
         return createTime;
     }
@@ -106,7 +106,7 @@ public class BizUncontractApplyMoney {
     }
 
     public void setProjectId(String projectId) {
-        this.projectId = projectId;
+        this.projectId = projectId == null ? null : projectId.trim();
     }
 
     public String getOrderType() {
@@ -117,12 +117,12 @@ public class BizUncontractApplyMoney {
         this.orderType = orderType == null ? null : orderType.trim();
     }
 
-    public String getInstructOrderFlag() {
+    public Integer getInstructOrderFlag() {
         return instructOrderFlag;
     }
 
-    public void setInstructOrderFlag(String instructOrderFlag) {
-        this.instructOrderFlag = instructOrderFlag == null ? null : instructOrderFlag.trim();
+    public void setInstructOrderFlag(Integer instructOrderFlag) {
+        this.instructOrderFlag = instructOrderFlag;
     }
 
     public String getInstructOrderNo() {
@@ -189,6 +189,7 @@ public class BizUncontractApplyMoney {
         this.costDepartUser = costDepartUser == null ? null : costDepartUser.trim();
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCostDepartDate() {
         return costDepartDate;
     }
@@ -221,6 +222,7 @@ public class BizUncontractApplyMoney {
         this.projectDepartUser = projectDepartUser == null ? null : projectDepartUser.trim();
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getProjectDepartDate() {
         return projectDepartDate;
     }
@@ -253,6 +255,7 @@ public class BizUncontractApplyMoney {
         this.managerDepartUser = managerDepartUser == null ? null : managerDepartUser.trim();
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getManagerDepartDate() {
         return managerDepartDate;
     }
@@ -269,11 +272,11 @@ public class BizUncontractApplyMoney {
         this.managerDepartOpinion = managerDepartOpinion == null ? null : managerDepartOpinion.trim();
     }
 
-    public String getSupplierIds() {
-        return supplierIds;
+    public Long getSupplierId() {
+        return supplierId;
     }
 
-    public void setSupplierIds(String supplierIds) {
-        this.supplierIds = supplierIds;
+    public void setSupplierId(Long supplierId) {
+        this.supplierId = supplierId;
     }
 }
