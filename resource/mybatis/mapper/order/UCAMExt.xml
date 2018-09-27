@@ -35,6 +35,10 @@
   </sql>
 
   <resultMap id="BaseResultMapExt" type="com.purchase.vo.order.UCAMVo" extends="BaseResultMap">
+      <association property="supplier" javaType="com.purchase.pojo.admin.TbSupplier">
+          <result column="supplier_id" jdbcType="BIGINT" property="id"></result>
+          <result column="supplierName" jdbcType="VARCHAR" property="name"></result>
+      </association>
     <association property="admin" javaType="com.purchase.pojo.admin.TbAdmin">
       <result column="admin_id" jdbcType="BIGINT" property="id"></result>
       <result column="adminFullname" jdbcType="VARCHAR" property="fullname"></result>
@@ -55,21 +59,29 @@
       <result column="tpmId" jdbcType="BIGINT" property="id"></result>
       <result column="tpmName" jdbcType="VARCHAR" property="name"></result>
     </association>
+      <association property="auAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
+          <result column="auId" jdbcType="BIGINT" property="id"></result>
+          <result column="auName" jdbcType="VARCHAR" property="fullname"></result>
+      </association>
   </resultMap>
   <select id="selectByExampleExt" resultMap="BaseResultMapExt">
     select
         a.*,
+        b.id as supplier_id, b.name as supplierName,
         c.id as costId, c.fullname as adminFullname,
         tCost.id as costId, tCost.fullname as costFullname,
         tProject.id as projectId, tProject.fullname as projectFullname,
         tManager.id as managerId, tManager.fullname as managerFullname,
-        tpm.id as tpmId,tpm.name as tpmName
+        tpm.id as tpmId,tpm.name as tpmName,
+        auAdmin.id as auId,auAdmin.fullname as auName
     from biz_uncontract_apply_money a
-    INNER JOIN tb_admin c ON (a.create_user = c.id)
+      LEFT JOIN tb_supplier b ON (a.supplier_id = b.id)
+      LEFT JOIN tb_admin c ON (a.create_user = c.id)
      LEFT JOIN tb_admin tCost ON (a.cost_depart_user = tCost.id)
      LEFT JOIN tb_admin tProject ON (a.project_depart_user = tProject.id)
      LEFT JOIN tb_admin tManager ON (a.manager_depart_user = tManager.id)
      LEFT JOIN tb_project_manger tpm ON (a.project_id = tpm.id)
+      LEFT JOIN tb_admin auAdmin ON (a.apply_user = auAdmin.id)
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause_Ext" />
     </if>

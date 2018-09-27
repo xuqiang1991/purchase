@@ -45,7 +45,7 @@
                         <div class="mui-input-row">
                             <label>单据类型</label>
                             <input type="text" id="orderTypeName" readonly class="mui-input-clear" placeholder="请选择单据类型" value="" >
-                            <input type="hidden" id="orderType" name="orderType" value="0" >
+                            <input type="hidden" id="orderType" name="orderType" value="" >
                         </div>
                         <div class="mui-input-row">
                             <label>供应商</label>
@@ -59,7 +59,7 @@
                         <div class="mui-input-row">
                             <label>有无指令</label>
                             <input type="text" id="instructOrderFlagName" readonly class="mui-input-clear"  value="未到">
-                            <input type="hidden" id="instructOrderFlag" name="instructOrderFlag" value="0">
+                            <input type="hidden" id="instructOrderFlag" name="instructOrderFlag" value="">
                         </div>
                         <div class="mui-input-row">
                             <label>指令单号</label>
@@ -82,7 +82,7 @@
                         <div class="mui-input-row">
                             <label>单据状态</label>
                             <input type="text" id="statusName" readonly class="mui-input-clear" placeholder="请选择单据状态"  value="">
-                            <input type="hidden" id="status" name="status" value="0">
+                            <input type="hidden" id="status" name="status" value="">
                         </div>
                         <div class="mui-button-row">
                             <button class="mui-btn mui-btn-primary" type="button" id="search-btn">确认</button>&nbsp;&nbsp;
@@ -373,13 +373,11 @@
             <!-- 订单类型 用图标展示 -->
             <img src="${ctx }/images/icon/uncontract_apply_money.png">
             <div class="mui-media-body">
-                <%--{{if instructOrderFlag == null}}
-
+                {{#if instructOrderNo}}
+                    <label>单号:{{orderNo}}</label>
                 {{else}}
-
-                {{/if}}--%>
-                <label>单号:{{orderNo}}</label>
-                {{ucamOrder_instructOrder instructOrderFlag}}
+                    <label style="color: red;">单号:{{orderNo}}</label>
+                {{/if}}
                 <p>
                     <label>开单人:{{admin.fullname}}</label>&nbsp;
                     <label>开单日期：{{createTime}}</label>
@@ -390,15 +388,19 @@
         <div class="mui-card-content">
             <div class="mui-card-content-inner">
                 <p>
-                    <label>供应商：{{supplier.fullname}}</label>
+                    <label>供应商：{{supplier.name}}</label>
                     <label>所属项目：{{tpm.name}}</label>
                 </p>
                 <p>
-                    <label>有无指令：{{instructOrderFlag}}</label>
-                    <label>有无指令：{{tpm.name}}</label>
+                    {{#if instructOrderNo}}
+                    <label>指令单已到</label>
+                    <label>指令单号：{{instructOrderNo}}</label>
+                    {{else}}
+                    <label>指令单未到</label>
+                    {{/if}}
                 </p>
                 <p>
-                    <label>请款人：{{applyUser}}</label>
+                    <label>请款人：{{auAdmin.fullname}}</label>
                  </p>
             </div>
         </div>

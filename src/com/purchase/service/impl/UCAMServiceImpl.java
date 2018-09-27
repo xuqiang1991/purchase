@@ -6,14 +6,12 @@ import com.purchase.mapper.admin.TbAdminMapper;
 import com.purchase.mapper.admin.TbSupplierMapper;
 import com.purchase.mapper.order.BizUncontractApplyMoneyMapper;
 import com.purchase.pojo.admin.TbAdmin;
-import com.purchase.pojo.order.BizPurchaseOrderExample;
 import com.purchase.pojo.order.BizUncontractApplyMoney;
 import com.purchase.pojo.order.BizUncontractApplyMoneyExample;
 import com.purchase.service.UCAMService;
 import com.purchase.util.DateUtil;
 import com.purchase.util.ResultUtil;
 import com.purchase.util.WebUtils;
-import com.purchase.vo.order.BizPurchaseOrderVo;
 import com.purchase.vo.order.UCAMSearch;
 import com.purchase.vo.order.UCAMVo;
 import org.slf4j.Logger;
@@ -56,7 +54,7 @@ public class UCAMServiceImpl implements UCAMService {
     public ResultUtil getUCAMOrderList(Integer page, Integer limit, UCAMSearch search) {
         PageHelper.startPage(page, limit);
 
-        BizUncontractApplyMoneyExample example=new BizUncontractApplyMoneyExample();
+        BizUncontractApplyMoneyExample example = new BizUncontractApplyMoneyExample();
         //设置按创建时间降序排序
         example.setOrderByClause("update_date DESC");
         BizUncontractApplyMoneyExample.Criteria criteria = example.createCriteria();
@@ -70,13 +68,13 @@ public class UCAMServiceImpl implements UCAMService {
             criteria.andOrderTypeEqualTo(String.valueOf(search.getOrderType()));
         }
         if(search.getSupplierId() != null){
-            criteria.andSupplierIdsLike("%"+String.valueOf(search.getSupplierId())+"%");
+            criteria.andSupplierIdEqualTo(search.getSupplierId());
         }
 
-        if(search.getProjectId() != null){
+        if(!StringUtils.isEmpty(search.getProjectId())){
             criteria.andProjectIdEqualTo(search.getProjectId());
         }
-        if(!StringUtils.isEmpty(search.getInstructOrderFlag())){
+        if(search.getInstructOrderFlag() != null){
             criteria.andInstructOrderFlagEqualTo(search.getInstructOrderFlag());
         }
 

@@ -436,52 +436,62 @@ public class BizUncontractApplyMoneyExample {
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdEqualTo(Long value) {
+        public Criteria andProjectIdEqualTo(String value) {
             addCriterion("project_id =", value, "projectId");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdNotEqualTo(Long value) {
+        public Criteria andProjectIdNotEqualTo(String value) {
             addCriterion("project_id <>", value, "projectId");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdGreaterThan(Long value) {
+        public Criteria andProjectIdGreaterThan(String value) {
             addCriterion("project_id >", value, "projectId");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdGreaterThanOrEqualTo(Long value) {
+        public Criteria andProjectIdGreaterThanOrEqualTo(String value) {
             addCriterion("project_id >=", value, "projectId");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdLessThan(Long value) {
+        public Criteria andProjectIdLessThan(String value) {
             addCriterion("project_id <", value, "projectId");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdLessThanOrEqualTo(Long value) {
+        public Criteria andProjectIdLessThanOrEqualTo(String value) {
             addCriterion("project_id <=", value, "projectId");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdIn(List<Long> values) {
+        public Criteria andProjectIdLike(String value) {
+            addCriterion("project_id like", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdNotLike(String value) {
+            addCriterion("project_id not like", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdIn(List<String> values) {
             addCriterion("project_id in", values, "projectId");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdNotIn(List<Long> values) {
+        public Criteria andProjectIdNotIn(List<String> values) {
             addCriterion("project_id not in", values, "projectId");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdBetween(Long value1, Long value2) {
+        public Criteria andProjectIdBetween(String value1, String value2) {
             addCriterion("project_id between", value1, value2, "projectId");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdNotBetween(Long value1, Long value2) {
+        public Criteria andProjectIdNotBetween(String value1, String value2) {
             addCriterion("project_id not between", value1, value2, "projectId");
             return (Criteria) this;
         }
@@ -566,62 +576,52 @@ public class BizUncontractApplyMoneyExample {
             return (Criteria) this;
         }
 
-        public Criteria andInstructOrderFlagEqualTo(String value) {
+        public Criteria andInstructOrderFlagEqualTo(Integer value) {
             addCriterion("instruct_order_flag =", value, "instructOrderFlag");
             return (Criteria) this;
         }
 
-        public Criteria andInstructOrderFlagNotEqualTo(String value) {
+        public Criteria andInstructOrderFlagNotEqualTo(Integer value) {
             addCriterion("instruct_order_flag <>", value, "instructOrderFlag");
             return (Criteria) this;
         }
 
-        public Criteria andInstructOrderFlagGreaterThan(String value) {
+        public Criteria andInstructOrderFlagGreaterThan(Integer value) {
             addCriterion("instruct_order_flag >", value, "instructOrderFlag");
             return (Criteria) this;
         }
 
-        public Criteria andInstructOrderFlagGreaterThanOrEqualTo(String value) {
+        public Criteria andInstructOrderFlagGreaterThanOrEqualTo(Integer value) {
             addCriterion("instruct_order_flag >=", value, "instructOrderFlag");
             return (Criteria) this;
         }
 
-        public Criteria andInstructOrderFlagLessThan(String value) {
+        public Criteria andInstructOrderFlagLessThan(Integer value) {
             addCriterion("instruct_order_flag <", value, "instructOrderFlag");
             return (Criteria) this;
         }
 
-        public Criteria andInstructOrderFlagLessThanOrEqualTo(String value) {
+        public Criteria andInstructOrderFlagLessThanOrEqualTo(Integer value) {
             addCriterion("instruct_order_flag <=", value, "instructOrderFlag");
             return (Criteria) this;
         }
 
-        public Criteria andInstructOrderFlagLike(String value) {
-            addCriterion("instruct_order_flag like", value, "instructOrderFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andInstructOrderFlagNotLike(String value) {
-            addCriterion("instruct_order_flag not like", value, "instructOrderFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andInstructOrderFlagIn(List<String> values) {
+        public Criteria andInstructOrderFlagIn(List<Integer> values) {
             addCriterion("instruct_order_flag in", values, "instructOrderFlag");
             return (Criteria) this;
         }
 
-        public Criteria andInstructOrderFlagNotIn(List<String> values) {
+        public Criteria andInstructOrderFlagNotIn(List<Integer> values) {
             addCriterion("instruct_order_flag not in", values, "instructOrderFlag");
             return (Criteria) this;
         }
 
-        public Criteria andInstructOrderFlagBetween(String value1, String value2) {
+        public Criteria andInstructOrderFlagBetween(Integer value1, Integer value2) {
             addCriterion("instruct_order_flag between", value1, value2, "instructOrderFlag");
             return (Criteria) this;
         }
 
-        public Criteria andInstructOrderFlagNotBetween(String value1, String value2) {
+        public Criteria andInstructOrderFlagNotBetween(Integer value1, Integer value2) {
             addCriterion("instruct_order_flag not between", value1, value2, "instructOrderFlag");
             return (Criteria) this;
         }
@@ -1786,73 +1786,63 @@ public class BizUncontractApplyMoneyExample {
             return (Criteria) this;
         }
 
-        public Criteria andSupplierIdsIsNull() {
-            addCriterion("id is null");
+        public Criteria andSupplierIdIsNull() {
+            addCriterion("supplier_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andSupplierIdsIsNotNull() {
-            addCriterion("id is not null");
+        public Criteria andSupplierIdIsNotNull() {
+            addCriterion("supplier_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSupplierIdsEqualTo(String value) {
-            addCriterion("id =", value, "id");
+        public Criteria andSupplierIdEqualTo(Long value) {
+            addCriterion("supplier_id =", value, "supplierId");
             return (Criteria) this;
         }
 
-        public Criteria andSupplierIdsNotEqualTo(String value) {
-            addCriterion("id <>", value, "id");
+        public Criteria andSupplierIdNotEqualTo(Long value) {
+            addCriterion("supplier_id <>", value, "supplierId");
             return (Criteria) this;
         }
 
-        public Criteria andSupplierIdsGreaterThan(String value) {
-            addCriterion("id >", value, "id");
+        public Criteria andSupplierIdGreaterThan(Long value) {
+            addCriterion("supplier_id >", value, "supplierId");
             return (Criteria) this;
         }
 
-        public Criteria andSupplierIdsGreaterThanOrEqualTo(String value) {
-            addCriterion("id >=", value, "id");
+        public Criteria andSupplierIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("supplier_id >=", value, "supplierId");
             return (Criteria) this;
         }
 
-        public Criteria andSupplierIdsLessThan(String value) {
-            addCriterion("id <", value, "id");
+        public Criteria andSupplierIdLessThan(Long value) {
+            addCriterion("supplier_id <", value, "supplierId");
             return (Criteria) this;
         }
 
-        public Criteria andSupplierIdsLessThanOrEqualTo(String value) {
-            addCriterion("id <=", value, "id");
+        public Criteria andSupplierIdLessThanOrEqualTo(Long value) {
+            addCriterion("supplier_id <=", value, "supplierId");
             return (Criteria) this;
         }
 
-        public Criteria andSupplierIdsLike(String value) {
-            addCriterion("id like", value, "id");
+        public Criteria andSupplierIdIn(List<Long> values) {
+            addCriterion("supplier_id in", values, "supplierId");
             return (Criteria) this;
         }
 
-        public Criteria andSupplierIdsNotLike(String value) {
-            addCriterion("id not like", value, "id");
+        public Criteria andSupplierIdNotIn(List<Long> values) {
+            addCriterion("supplier_id not in", values, "supplierId");
             return (Criteria) this;
         }
 
-        public Criteria andSupplierIdsIn(List<String> values) {
-            addCriterion("id in", values, "id");
+        public Criteria andSupplierIdBetween(Long value1, Long value2) {
+            addCriterion("supplier_id between", value1, value2, "supplierId");
             return (Criteria) this;
         }
 
-        public Criteria andSupplierIdsNotIn(List<String> values) {
-            addCriterion("id not in", values, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierIdsBetween(String value1, String value2) {
-            addCriterion("id between", value1, value2, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierIdsNotBetween(String value1, String value2) {
-            addCriterion("id not between", value1, value2, "id");
+        public Criteria andSupplierIdNotBetween(Long value1, Long value2) {
+            addCriterion("supplier_id not between", value1, value2, "supplierId");
             return (Criteria) this;
         }
     }

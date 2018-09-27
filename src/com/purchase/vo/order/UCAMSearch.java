@@ -1,7 +1,5 @@
 package com.purchase.vo.order;
 
-import java.util.Date;
-
 /**
  * @Auther: zhoujb
  * @Date: 2018/8/24 21:01
@@ -13,8 +11,8 @@ public class UCAMSearch {
     private String orderNo;
     private String orderType;
     private Long supplierId;
-    private Long projectId;
-    private String instructOrderFlag;
+    private String projectId;
+    private Integer instructOrderFlag;
     private String instructOrderNo;
     private Long applyUser;
     private Long createUser;
@@ -48,19 +46,19 @@ public class UCAMSearch {
         this.supplierId = supplierId;
     }
 
-    public Long getProjectId() {
+    public String getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Long projectId) {
+    public void setProjectId(String projectId) {
         this.projectId = projectId;
     }
 
-    public String getInstructOrderFlag() {
+    public Integer getInstructOrderFlag() {
         return instructOrderFlag;
     }
 
-    public void setInstructOrderFlag(String instructOrderFlag) {
+    public void setInstructOrderFlag(Integer instructOrderFlag) {
         this.instructOrderFlag = instructOrderFlag;
     }
 
