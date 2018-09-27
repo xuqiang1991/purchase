@@ -40,7 +40,7 @@
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>
         </button>
-        <h1 class="mui-center mui-title">采购订单详情</h1>
+        <h1 class="mui-center mui-title">合同内请款单详情</h1>
     </div>
 
     <!-- 采购单项 start -->
@@ -48,14 +48,18 @@
         <div class="mui-scroll">
             <!-- 主界面具体展示内容 -->
             <div class="mui-content-padded mui-card" style="margin: 5px;">
-                <input type="hidden" name="purchaseNo" id="purchaseNo" value="${detailsVo.order.purchaseNo}">
+                <input type="hidden" name="orderNo" id="orderNo" value="${detailsVo.order.orderNo}">
                 <div class="mui-input-row">
-                    <label>合同编号</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.order.purchaseNo}</label>
+                    <label>订单号</label>
+                    <label style="width: 65%;padding-left: 0px;">${detailsVo.order.orderNo}</label>
                 </div>
                 <div class="mui-input-row">
                     <label>订单类型</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.order.type}</label>
+                    <label style="width: 65%;padding-left: 0px;">${detailsVo.order.orderType}</label>
+                </div>
+                <div class="mui-input-row">
+                    <label>来源订单</label>
+                    <label style="width: 65%;padding-left: 0px;">${detailsVo.order.orderType}</label>
                 </div>
                 <div class="mui-input-row">
                     <label>供应商</label>
@@ -70,11 +74,15 @@
                     <label style="width: 65%;padding-left: 0px;">${detailsVo.order.contractNo}</label>
                 </div>
                 <div class="mui-input-row">
-                    <label>合同总金额</label>
+                    <label>请款人</label>
                     <label style="width: 65%;padding-left: 0px;">${detailsVo.order.contractMoney}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
-                    <label>付款比例(%)</label>
+                    <label>开单人</label>
+                    <label style="width: 65%;padding-left: 0px;">${detailsVo.order.paymentRatio}%</label>
+                </div>
+                <div class="mui-input-row mui-input-range">
+                    <label>开单日期</label>
                     <label style="width: 65%;padding-left: 0px;">${detailsVo.order.paymentRatio}%</label>
                 </div>
                 <div>
