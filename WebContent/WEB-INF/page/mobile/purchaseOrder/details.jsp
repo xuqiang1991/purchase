@@ -54,7 +54,7 @@
                 </div>
                 <div class="mui-input-row">
                     <label>订单类型</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.type}</label>
+                    <label style="width: 65%;padding-left: 0px;">${detailsVo.type}</label>
                 </div>
                 <div class="mui-input-row">
                     <label>供应商</label>

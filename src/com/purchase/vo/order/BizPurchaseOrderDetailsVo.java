@@ -1,6 +1,7 @@
 package com.purchase.vo.order;
 
 import com.purchase.pojo.order.BizPurchaseOrderDetail;
+import com.purchase.util.OrderTypeEnum;
 
 import java.util.List;
 
@@ -49,4 +50,9 @@ public class BizPurchaseOrderDetailsVo {
     public void setReviewUserId(Long reviewUserId) {
         this.reviewUserId = reviewUserId;
     }
+
+    public String getType() {
+        return OrderTypeEnum.getVisitorByCode(purchaseOrder.getType()).getName();
+    }
+
 }
