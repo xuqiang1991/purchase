@@ -104,6 +104,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 		//参数补充
 		order.setUpdateDate(date);
+		order.setCreateTime(date);
 
         purchaseOrderMapper.insertSelective(order);
 

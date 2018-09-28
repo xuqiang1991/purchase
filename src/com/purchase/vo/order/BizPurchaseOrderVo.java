@@ -1,6 +1,7 @@
 package com.purchase.vo.order;
 
 import com.purchase.pojo.admin.TbAdmin;
+import com.purchase.pojo.admin.TbProjectManger;
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.BizPurchaseOrder;
 
@@ -15,6 +16,7 @@ public class BizPurchaseOrderVo extends BizPurchaseOrder {
     private TbAdmin costAdmin;
     private TbAdmin projectAdmin;
     private TbAdmin managerAdmin;
+    private TbProjectManger projectManger;
 
     public TbSupplier getSupplier() {
         return supplier;
@@ -54,5 +56,13 @@ public class BizPurchaseOrderVo extends BizPurchaseOrder {
 
     public void setManagerAdmin(TbAdmin managerAdmin) {
         this.managerAdmin = managerAdmin;
+    }
+
+    public TbProjectManger getProjectManger() {
+        return projectManger;
+    }
+
+    public void setProjectManger(TbProjectManger projectManger) {
+        this.projectManger = projectManger;
     }
 }

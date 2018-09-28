@@ -99,6 +99,11 @@
         document.location.href='${ctx }/mobile/purchase/toSave';
     });
 
+    mui(document.body).on('tap', '.toDetails', function(e) {
+        var id = $(this).attr('value');
+        toDetails(id)
+    });
+
     function billLoad() {
         if (!enablePullUp) {
             mui('#refreshContainer').pullRefresh().endPullupToRefresh(false);
@@ -170,37 +175,36 @@
 <!-- 采购订单 start -->
 <script type="text/template" id="listTpl">
     {{#each data}}
-    <div class="mui-card">
-        <div class="mui-card-header mui-card-media">
+    <div class="mui-card" style="margin: 0px; margin-top: 5px;">
+        <div class="mui-card-header mui-card-media toDetails" value="{{id}}">
             <img src="${ctx}/images/icon/purchase_order.png">
             <div class="mui-media-body">
                 <label>单号:{{purchaseNo}}</label>
                 <p>
-                    <label>开单人:{{admin.fullname}}</label>&nbsp;
+                    <label>开单人:{{admin.fullname}}</label>&nbsp;&nbsp;
                     <label>开单日期：{{createTime}}</label>
                     <span class="mui-badge mui-badge-primary mui-pull-right">{{purchaseOrder_statusConversion status}}</span>
                 </p>
             </div>
         </div>
-        <div class="mui-card-content">
+        <div class="mui-card-content toDetails" value="{{id}}">
             <div class="mui-card-content-inner">
                 <p>
                     <label>合同号：{{admin.fullname}}</label>
                     <label>供应商：{{supplier.name}}</label>
                 </p>
                 <p>
-                    <label>所属项目：所属项目</label>
+                    <label>所属项目：{{projectManger.name}}</label>
                 </p>
             </div>
         </div>
         <div class="mui-card-footer">
             <div class="mui-pull-left">
-                <label>{{purchaseOrder_departUser}}</label>
+                <label>{{purchaseOrder_departUser}}</label>&nbsp;&nbsp;
                 <label>{{purchaseOrder_departDate}}</label>
             </div>
             <div>
-                <button type="button" class="mui-btn mui-btn-primary" onclick="toDetails('{{id}}')">详情</button>
-<%--                <button type="button" class="mui-btn mui-btn-primary">审核</button>--%>
+                <button type="button" class="mui-btn mui-btn-primary toDetails"  value="{{id}}">详情</button>
             </div>
         </div>
     </div>
