@@ -43,7 +43,7 @@
         <h1 class="mui-center mui-title">合同内请款单详情</h1>
     </div>
 
-    <!-- 采购单项 start -->
+    <!-- 合同内请款单项 start -->
     <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 0px;width: 100%;">
         <div class="mui-scroll">
             <!-- 主界面具体展示内容 -->
@@ -91,7 +91,7 @@
                 <c:if test="${detailsVo.order.status == 0}">
                     <div class="mui-button-row" style="padding-bottom: 20px;">
                         <a href="#fromPurchaseOrderItem">
-                            <label id="selectProjectText" style="width: 65%;padding-left: 0px;">增加采购单项</label>
+                            <label id="selectProjectText" style="width: 65%;padding-left: 0px;">增加合同内请款单项</label>
                         </a>
                     </div>
                 </c:if>
@@ -154,7 +154,7 @@
             </div>
         </div>
     </div>
-    <!-- 采购单项 end -->
+    <!-- 合同内请款单项 end -->
 </div>
 
 
@@ -163,7 +163,7 @@
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>返回
         </button>
-        <h1 class="mui-center mui-title">增加采购单项</h1>
+        <h1 class="mui-center mui-title">增加合同内请款单项</h1>
     </div>
     <div class="mui-page-content">
         <div class="mui-scroll-wrapper">
@@ -268,8 +268,8 @@
 
         //校验通过，继续执行业务逻辑
         if(check){
-            var purchaseNo = $('#purchaseNo').val();
-            var url = '${ctx}/mobile/purchase/addPurchaseOrderItem/'+ purchaseNo
+            var orderNo = $('#orderNo').val();
+            var url = '${ctx}/mobile/CAM/addCAMItem/'+ orderNo
             $.ajax({
                 url: url,
                 data: $('#addFromPurchaseOrderItem').serialize(),
@@ -282,7 +282,7 @@
                         mui.alert(result.msg);
                     }else {
                         mui.alert('添加成功！', function() {
-                            document.location.href='${ctx }/mobile/purchase/toDetails/${detailsVo.order.id}';
+                            document.location.href='${ctx }/mobile/CAM/toDetails/${detailsVo.order.id}';
                         });
                     }
                 }
@@ -292,13 +292,13 @@
         }
     });
 
-    /** 删除采购单 **/
+    /** 删除合同内请款单 **/
     mui(document.body).on('tap', '#deletePurchaseOrder', function(e) {
         var id = this.value;
         var btnArray = ['是', '否'];
-        mui.confirm('确认删除此采购单？', '删除采购单', btnArray, function(e) {
+        mui.confirm('确认删除此合同内请款单？', '删除合同内请款单', btnArray, function(e) {
             if (e.index == 0) {
-                var url = '${ctx}/mobile/purchase/delPurchaseOrder?id='+ id
+                var url = '${ctx}/mobile/CAM/delCAM?id='+ id
                 $.ajax({
                     url: url,
                     dataType: 'json',
@@ -310,7 +310,7 @@
                             mui.alert(result.msg);
                         }else {
                             mui.alert('删除成功！', function() {
-                                document.location.href='${ctx }/mobile/purchase/list';
+                                document.location.href='${ctx }/mobile/CAM/list';
                             });
                         }
                     }
@@ -323,7 +323,7 @@
     mui(document.body).on('tap', '#purchaseOrderContractNo', function(e) {
         var btnArray = ['取消', '确定'];
         var id = this.value;
-        mui.prompt('请输入采购单合同号', '请输入合同号', '采购单合同号', btnArray, function(e1) {
+        mui.prompt('请输入合同内请款单合同号', '请输入合同号', '合同内请款单合同号', btnArray, function(e1) {
             if (e1.index == 1) {
                 var contractNo = e1.value;
                 if(contractNo == '' || contractNo.trim() == ''){
@@ -358,7 +358,7 @@
         var btnArray = ['是', '否'];
         mui.confirm('确认删除此项？', '删除项', btnArray, function(e) {
             if (e.index == 0) {
-                var url = '${ctx}/mobile/purchase/deletePurchaseOrderItem/'+ itemId
+                var url = '${ctx}/mobile/CAM/delCAMItem/'+ itemId
                 $.ajax({
                     url: url,
                     dataType: 'json',
@@ -370,7 +370,7 @@
                             mui.alert(result.msg);
                         }else {
                             mui.alert('删除成功！', function() {
-                                document.location.href='${ctx }/mobile/purchase/toDetails/${detailsVo.order.id}';
+                                document.location.href='${ctx }/mobile/CAM/toDetails/${detailsVo.order.id}';
                             });
                         }
                     }
@@ -382,9 +382,9 @@
     /** 提交审核 **/
     mui(document.body).on('tap', '#purchaseOrderDetails', function(e) {
         var btnArray = ['是', '否'];
-        mui.confirm('确认提交？', '提交采购单', btnArray, function(e) {
+        mui.confirm('确认提交？', '提交合同内请款单', btnArray, function(e) {
             if (e.index == 0) {
-                var url = '${ctx}/mobile/purchase/submitPurchaseOrder?id=${detailsVo.order.id}';
+                var url = '${ctx}/mobile/CAM/submitCAMOrder?id=${detailsVo.order.id}';
                 $.ajax({
                     url: url,
                     dataType: 'json',
@@ -396,7 +396,7 @@
                             mui.alert(result.msg);
                         }else {
                             mui.alert('提交成功！', function() {
-                                document.location.href='${ctx }/mobile/purchase/toDetails/${detailsVo.order.id}';
+                                document.location.href='${ctx }/mobile/CAM/toDetails/${detailsVo.order.id}';
                             });
                         }
                     }
@@ -415,7 +415,7 @@
             var text = selectItems[0].text;
             mui.alert('确定提审核人为：' + text + "？" , function() {
                 var userId = selectItems[0].value;
-                var url = '${ctx}/mobile/purchase/submitReviewPurchaseOrder?id=${detailsVo.order.id}&userId=' + userId;
+                var url = '${ctx}/mobile/CAM/submitReviewCAMOrder?id=${detailsVo.order.id}&userId=' + userId;
                 $.ajax({
                     url: url,
                     dataType: 'json',
@@ -427,7 +427,7 @@
                             mui.alert(result.msg);
                         }else {
                             mui.alert('提交审核成功！', function() {
-                                document.location.href='${ctx }/mobile/purchase/toDetails/${detailsVo.order.id}';
+                                document.location.href='${ctx }/mobile/CAM/toDetails/${detailsVo.order.id}';
                             });
                         }
                     }
@@ -492,7 +492,7 @@
         }
 
         mui.alert('确定提交审核？' , function() {
-            var url = '${ctx}/mobile/purchase/reviewPurchaseOrder/${detailsVo.order.id}';
+            var url = '${ctx}/mobile/CAM/reviewCAMOrder/${detailsVo.order.id}';
             $.ajax({
                 url: url,
                 data:{'auditResults':auditResults,'applyUser':applyUser,'auditOpinion': auditOpinion},
@@ -505,16 +505,13 @@
                         mui.alert(result.msg);
                     }else {
                         mui.alert('审核成功！', function() {
-                            document.location.href='${ctx }/mobile/purchase/toDetails/${detailsVo.order.id}';
+                            document.location.href='${ctx }/mobile/CAM/toDetails/${detailsVo.order.id}';
                         });
                     }
                 }
             });
         });
     });
-
-
-
 
 
     //初始化数据

@@ -4,15 +4,14 @@ import com.purchase.annotation.SysLog;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.BizContractApplyMoney;
+import com.purchase.pojo.order.BizContractApplyMoneyDetail;
 import com.purchase.service.AdminService;
 import com.purchase.service.CAMService;
 import com.purchase.service.PurchaseOrderService;
 import com.purchase.service.SupplierService;
 import com.purchase.util.ResultUtil;
-import com.purchase.vo.order.BizPurchaseOrderSearch;
 import com.purchase.vo.order.CAMDetailsVo;
 import com.purchase.vo.order.CAMSearch;
-import com.purchase.vo.order.CAMVo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -23,6 +22,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Date;
 
 /**
  * @Auther: zhoujb
@@ -95,25 +96,63 @@ public class CAMController {
         return "page/mobile/CAM/camDetails";
     }
 
-
-    /**
-     * 采购单列表数据
-     * @return
-     */
-    @RequestMapping("/findPurchaseOrderList")
-    @RequiresPermissions("mobile:CAM:save")
+    @SysLog(value="删除合同内请款单")
+    @RequestMapping("delCAM")
+    @RequiresPermissions("mobile:CAM:delete")
     @ResponseBody
-    public ResultUtil findPurchaseOrderList(Integer page, Integer limit, BizPurchaseOrderSearch search) {
-        logger.info("请求项目数据");
-        ResultUtil result = new ResultUtil();
-        try {
-            result = purchaseOrderService.getOrderList(page,limit,search);
-        }catch (Exception e){
-            logger.error("查询错误",e);
-        }
-        return result;
+    public ResultUtil delCAM(String id){
+        return camService.delCAM(id);
     }
 
+
+    @SysLog(value="删除合同内请款单项")
+    @RequestMapping("delCAMItem/{itemId}")
+    @RequiresPermissions("mobile:CAM:delete")
+    @ResponseBody
+    public ResultUtil delCAMItem(@PathVariable("itemId") String itemId){
+        return camService.delCAMItem(itemId);
+    }
+
+
+    @SysLog(value="新增合同内请款单项")
+    @RequestMapping("addCAMItem/{orderNo}")
+    @RequiresPermissions("mobile:CAM:save")
+    @ResponseBody
+    public ResultUtil addCAMItem(@PathVariable("orderNo") String orderNo, BizContractApplyMoneyDetail order){
+        Date date = new Date();
+        order.setUpdateDate(date);
+        order.setCreateTime(date);
+        order.setOrderNo(orderNo);
+        return camService.addCAMItem(order);
+    }
+
+
+    @SysLog(value="提交合同内请款单")
+    @RequestMapping("submitCAMOrder")
+    @RequiresPermissions("mobile:CAM:save")
+    @ResponseBody
+    public ResultUtil submitCAMOrder(String id){
+        return camService.submitCAMOrder(id);
+    }
+
+
+    @SysLog(value="提交审核")
+    @RequestMapping("submitReviewCAMOrder")
+    @RequiresPermissions("mobile:CAM:save")
+    @ResponseBody
+    public ResultUtil submitReviewCAMOrder(String id, Long userId){
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        return camService.submitReviewCAMOrder(admin, id, userId);
+    }
+
+    @SysLog(value="审核合同内请款单详情")
+    @RequestMapping("reviewCAMOrder/{id}")
+    @RequiresPermissions("mobile:CAM:review")
+    @ResponseBody
+    public ResultUtil reviewCAMOrder(@PathVariable("id") String id, Boolean auditResults, Long applyUser, String auditOpinion){
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        return camService.reviewCAMOrder(admin, id, auditResults,applyUser,auditOpinion);
+    }
 
 
     @SysLog(value="编辑合同内请款单详情")
@@ -124,53 +163,6 @@ public class CAMController {
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         order.setCreateUser(admin.getId());
         return camService.editCAMOrder(order);
-    }
-
-    @SysLog(value="删除合同内请款单详情")
-    @RequestMapping("delCAMOrder")
-    @RequiresPermissions("mobile:CAM:delete")
-    @ResponseBody
-    public ResultUtil delCAMOrder(String id){
-        return camService.delCAMOrder(id);
-    }
-
-
-    @SysLog(value="提交合同内请款单详情")
-    @RequestMapping("submitCAMOrder")
-    @RequiresPermissions("mobile:CAM:add")
-    @ResponseBody
-    public ResultUtil submitCAMOrder(String id){
-        return camService.submitCAMOrder(id);
-    }
-
-
-
-    @SysLog(value="成本部审核合同内请款单详情")
-    @RequestMapping("costReviewCAMOrder")
-    @RequiresPermissions("mobile:CAM:costReview")
-    @ResponseBody
-    public ResultUtil costReviewCAMOrder(String id){
-        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        return camService.reviewCAMOrder(admin, id);
-    }
-
-    @SysLog(value="工程部合同内请款单详情")
-    @RequestMapping("projectCAMOrder")
-    @RequiresPermissions("mobile:CAM:projectReview")
-    @ResponseBody
-    public ResultUtil projectReviewCAMOrder(String id){
-        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        return camService.reviewCAMOrder(admin, id);
-    }
-
-
-    @SysLog(value="总经理审核合同内请款单详情")
-    @RequestMapping("managerCAMOrder")
-    @RequiresPermissions("mobile:CAM:managerReview")
-    @ResponseBody
-    public ResultUtil managerReviewCAMOrder(String id){
-        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        return camService.reviewCAMOrder(admin, id);
     }
 
 

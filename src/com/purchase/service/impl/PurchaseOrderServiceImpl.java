@@ -391,6 +391,30 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 	@Override
 	public ResultUtil deletePurchaseOrderItem(String itemId) {
+		BizPurchaseOrderDetail order = purchaseOrderDetailMapper.selectByPrimaryKey(itemId);
+		BigDecimal price = order.getPrice();
+		Double amount = order.getAmount();
+		BigDecimal totalPrice = null;
+		if(price != null && amount != null){
+			BigDecimal amountBig = new BigDecimal(amount);
+			totalPrice = price.multiply(amountBig);
+		}
+
+		//如有金额更新采购单
+		if(totalPrice != null){
+			String purchaseNo = order.getPurchaseNo();
+			BizPurchaseOrder purchaseOrder = purchaseOrderMapper.selectByPurchaseNo(purchaseNo);
+			BigDecimal contractMoney = purchaseOrder.getContractMoney();
+			BigDecimal tmpMoney = contractMoney.subtract(totalPrice);
+
+			BizPurchaseOrder tmp = new BizPurchaseOrder();
+			tmp.setId(purchaseOrder.getId());
+			tmp.setContractMoney(tmpMoney);
+			tmp.setUpdateDate(order.getUpdateDate());
+			purchaseOrderMapper.updateByPrimaryKeySelective(tmp);
+		}
+
+
 		purchaseOrderDetailMapper.deleteByPrimaryKey(itemId);
 		return ResultUtil.ok();
 	}

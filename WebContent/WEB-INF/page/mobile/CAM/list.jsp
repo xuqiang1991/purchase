@@ -86,6 +86,11 @@
         }
     });
 
+    mui(document.body).on('tap', '.toDetails', function(e) {
+        var id = $(this).attr('value');
+        toDetails(id)
+    });
+
     mui(document.body).on('tap', '#search-btn', function(e) {
         $('#searchCollapse').removeClass('mui-active')
         billRefresh();
@@ -171,7 +176,7 @@
 <script type="text/template" id="listTpl">
     {{#each data}}
     <div class="mui-card" style="margin: 0px; margin-top: 5px;">
-        <div class="mui-card-header mui-card-media">
+        <div class="mui-card-header mui-card-media toDetails" value="{{id}}">
             <!-- 订单类型 用图标展示 -->
             <img src="${ctx }/images/icon/contract_apply_money.png">
             <div class="mui-media-body">
@@ -185,7 +190,7 @@
                 </p>
             </div>
         </div>
-        <div class="mui-card-content">
+        <div class="mui-card-content toDetails" value="{{id}}">
             <div class="mui-card-content-inner">
                 <p>
                     <label>来源订单：{{admin.fullname}}</label>
@@ -206,7 +211,7 @@
                 <label>{{purchaseOrder_departDate}}</label>
             </div>
             <div>
-                <button type="button" class="mui-btn mui-btn-primary" onclick="toDetails('{{id}}')">详情</button>
+                <button type="button" class="mui-btn mui-btn-primary toDetails" value="{{id}}">详情</button>
             </div>
         </div>
     </div>

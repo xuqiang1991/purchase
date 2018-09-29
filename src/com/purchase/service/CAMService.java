@@ -2,6 +2,7 @@ package com.purchase.service;
 
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.order.BizContractApplyMoney;
+import com.purchase.pojo.order.BizContractApplyMoneyDetail;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.order.CAMDetailsVo;
 import com.purchase.vo.order.CAMSearch;
@@ -22,9 +23,15 @@ public interface CAMService {
 
     CAMDetailsVo selCAMOrder(String id);
 
-    ResultUtil delCAMOrder(String id);
-
     ResultUtil submitCAMOrder(String id);
 
-    ResultUtil reviewCAMOrder(TbAdmin admin, String id);
+    ResultUtil addCAMItem(BizContractApplyMoneyDetail order);
+
+    ResultUtil delCAMItem(String itemId);
+
+    ResultUtil delCAM(String id);
+
+    ResultUtil submitReviewCAMOrder(TbAdmin admin, String id, Long userId);
+
+    ResultUtil reviewCAMOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion);
 }
