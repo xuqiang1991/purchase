@@ -53,10 +53,10 @@
                     <input type="hidden" id="selectProjectHidden" name="projectId" value="" mui-verify="required">
                 </a>
             </div>
-            <div class="mui-input-row">
-                <label>合同总金额</label>
-                <input type="text" name="contract_money" class="mui-input-clear" readonly="readonly" placeholder="合同总金额">
-            </div>
+            <%--<div class="mui-input-row">--%>
+                <%--<label>合同总金额</label>--%>
+                <%--<input type="text" name="contract_money" class="mui-input-clear" readonly="readonly" placeholder="合同总金额">--%>
+            <%--</div>--%>
             <div class="mui-input-row mui-input-range">
                 <label>付款比例(%)</label>
                 <input name="payment_ratio" type="range" min="0" max="100" value="100">
