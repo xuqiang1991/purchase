@@ -36,7 +36,7 @@ public class BizUncontractApplyMoney {
 
     private Boolean costDepartApproval;
 
-    private String costDepartUser;
+    private Long costDepartUser;
 
     private Date costDepartDate;
 
@@ -44,7 +44,7 @@ public class BizUncontractApplyMoney {
 
     private Boolean projectDepartApproval;
 
-    private String projectDepartUser;
+    private Long projectDepartUser;
 
     private Date projectDepartDate;
 
@@ -52,7 +52,7 @@ public class BizUncontractApplyMoney {
 
     private Boolean managerDepartApproval;
 
-    private String managerDepartUser;
+    private Long managerDepartUser;
 
     private Date managerDepartDate;
 
@@ -181,12 +181,12 @@ public class BizUncontractApplyMoney {
         this.costDepartApproval = costDepartApproval;
     }
 
-    public String getCostDepartUser() {
+    public Long getCostDepartUser() {
         return costDepartUser;
     }
 
-    public void setCostDepartUser(String costDepartUser) {
-        this.costDepartUser = costDepartUser == null ? null : costDepartUser.trim();
+    public void setCostDepartUser(Long costDepartUser) {
+        this.costDepartUser = costDepartUser;
     }
 
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
@@ -214,12 +214,12 @@ public class BizUncontractApplyMoney {
         this.projectDepartApproval = projectDepartApproval;
     }
 
-    public String getProjectDepartUser() {
+    public Long getProjectDepartUser() {
         return projectDepartUser;
     }
 
-    public void setProjectDepartUser(String projectDepartUser) {
-        this.projectDepartUser = projectDepartUser == null ? null : projectDepartUser.trim();
+    public void setProjectDepartUser(Long projectDepartUser) {
+        this.projectDepartUser = projectDepartUser;
     }
 
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
@@ -247,12 +247,12 @@ public class BizUncontractApplyMoney {
         this.managerDepartApproval = managerDepartApproval;
     }
 
-    public String getManagerDepartUser() {
+    public Long getManagerDepartUser() {
         return managerDepartUser;
     }
 
-    public void setManagerDepartUser(String managerDepartUser) {
-        this.managerDepartUser = managerDepartUser == null ? null : managerDepartUser.trim();
+    public void setManagerDepartUser(Long managerDepartUser) {
+        this.managerDepartUser = managerDepartUser;
     }
 
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")

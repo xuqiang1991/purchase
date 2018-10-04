@@ -6,21 +6,29 @@ import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbProjectManger;
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.BizUncontractApplyMoney;
+import com.purchase.pojo.order.BizUncontractApplyMoneyDetail;
 import com.purchase.service.*;
 import com.purchase.util.ResultUtil;
-import com.purchase.vo.admin.*;
-import com.purchase.vo.order.BizPurchaseOrderVo;
+import com.purchase.vo.admin.ChoseAdminVO;
+import com.purchase.vo.admin.ChoseDeptVO;
+import com.purchase.vo.admin.ChoseSupplierVO;
+import com.purchase.vo.order.UCAMOrderDetialVo;
 import com.purchase.vo.order.UCAMSearch;
+import com.purchase.vo.order.UCAMVo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -60,30 +68,13 @@ public class UCAMController {
         req.setAttribute("admins", JSON.toJSONString(admins));
         req.setAttribute("suppliers", JSON.toJSONString(suppliers));
         req.setAttribute("depts", JSON.toJSONString(depts));
-
         return "page/mobile/UCAM/list";
     }
 
-    /**
-     * 合同外请款单列表
-     * @return
-     *//*
-    @RequestMapping("/getUCAMList")
-    @RequiresPermissions("sys:UCAM:list")
-    @ResponseBody
-    public ResultUtil getUCAMList(Integer page, Integer limit, UCAMSearch search) {
-        logger.info("请求合同外请款单列表");
-        ResultUtil result = new ResultUtil();
-        try {
-            result = ucamService.getUCAMOrderList(page, limit,search);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return result;
-    }*/
+
 
     @SysLog(value="进入合同外请款单详情")
-    @RequestMapping("ucamDetails")
+    @RequestMapping("toEdit")
     @RequiresPermissions("mobile:UCAM:list")
     public String ucamDetails(HttpServletRequest req){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
@@ -94,12 +85,25 @@ public class UCAMController {
         List<ChoseAdminVO> admins = adminService.selectAdmin();
         logger.info("------:{}", JSON.toJSONString(admins));
         List<TbProjectManger> projectMangerList = projectMangerService.selectProjectMangerExample();
-
-        List<BizPurchaseOrderVo> purchaseOrderList = purchaseOrderService.selectPurchaseOrderExample(6,admin.getSupplierId());
         req.setAttribute("admins", JSON.toJSONString(admins));
         req.setAttribute("admin", admin);
         req.setAttribute("pmItem",JSON.toJSONString(projectMangerList));
-        return "page/mobile/UCAM/ucamDetails";
+        String id = req.getParameter("id");
+        /*
+        UCAMOrderDetialVo detialVo = new UCAMOrderDetialVo();
+        if(!StringUtils.isEmpty(id)){
+            detialVo = ucamService.selUCAMDetail(id);
+        }
+        req.setAttribute("detailVo",detialVo);
+        //return "page/mobile/UCAM/from";
+        return "page/mobile/UCAM/detial";*/
+        UCAMVo ucamVo = new UCAMVo();
+        if(!StringUtils.isEmpty(id)){
+            ucamVo = ucamService.selUCAMOrder(id);
+        }
+        req.setAttribute("ucamVo",ucamVo);
+        return "page/mobile/UCAM/from";
+
     }
 
     @SysLog(value="获取合同外请款单数据")
@@ -115,7 +119,7 @@ public class UCAMController {
     @RequiresPermissions("mobile:UCAM:sel")
     @ResponseBody
     public ResultUtil selUCAMOrder(String orderNo){
-        return ucamService.selUCAMOrder(orderNo);
+        return ucamService.selUCAMOrderByOrder(orderNo);
     }
 
 
@@ -128,6 +132,40 @@ public class UCAMController {
         order.setCreateUser(admin.getId());
         return ucamService.addUCAMOrder(order);
     }
+
+    /*@SysLog(value="查询合同外请款单详情")
+    @RequestMapping("getUCAMOrder")
+    @RequiresPermissions("mobile:UCAM:list")
+    @ResponseBody
+    public String getUCAMOrder(HttpServletRequest req){
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        if(admin.getSupplierId() != null){
+            TbSupplier supplier = supplierService.selSupplierById(admin.getSupplierId());
+            admin.setSupplierName(supplier.getName());
+        }
+        List<ChoseAdminVO> admins = adminService.selectAdmin();
+        logger.info("------:{}", JSON.toJSONString(admins));
+        List<TbProjectManger> projectMangerList = projectMangerService.selectProjectMangerExample();
+        req.setAttribute("admins", JSON.toJSONString(admins));
+        req.setAttribute("admin", admin);
+        req.setAttribute("pmItem",JSON.toJSONString(projectMangerList));
+        String id = req.getParameter("id");
+        BizUncontractApplyMoney ucam = new BizUncontractApplyMoney();
+        if(!StringUtils.isEmpty(id)){
+            ucam = ucamService.selUCAMOrder(id);
+        }
+        req.setAttribute("ucam",ucam);
+        return "page/mobile/UCAM/from";
+    }*/
+
+    @RequestMapping("/toDetails/{id}")
+    @RequiresPermissions("mobile:UCAM:details")
+    public String toDetails(@PathVariable("id") String id, Model model){
+        UCAMOrderDetialVo detailsVo = ucamService.selUCAMDetail(id);
+        model.addAttribute("detailsVo",detailsVo);
+        return "page/mobile/UCAM/details";
+    }
+
 
     @SysLog(value="编辑合同外请款单详情")
     @RequestMapping("editUCAMOrder")
@@ -156,7 +194,14 @@ public class UCAMController {
         return ucamService.submitUCAMOrder(id);
     }
 
-
+    @SysLog(value="提交审核")
+    @RequestMapping("submitReviewUCAMOrder")
+    @RequiresPermissions("mobile:UCAM:save")
+    @ResponseBody
+    public ResultUtil submitReviewUCAMOrder(String id, Long userId){
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        return purchaseOrderService.submitReviewPurchaseOrder(admin, id, userId);
+    }
 
     @SysLog(value="成本部审核合同外请款单详情")
     @RequestMapping("costReviewUCAMOrder")
@@ -185,4 +230,28 @@ public class UCAMController {
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         return ucamService.reviewUCAMOrder(admin, id);
     }
+
+
+    @SysLog(value="新增合同外请款单单项")
+    @RequestMapping("addUCAMItem/{orderNo}")
+    @RequiresPermissions("mobile:UCAM:save")
+    @ResponseBody
+    public ResultUtil addUCAMItem(@PathVariable("orderNo") String orderNo, BizUncontractApplyMoneyDetail order){
+        Date date = new Date();
+        order.setUpdateDate(date);
+        order.setCreateTime(date);
+        order.setOrderNo(orderNo);
+        return ucamService.addUCAMOrderDetail(order);
+    }
+
+    @SysLog(value="删除合同外请款单单项")
+    @RequestMapping("deleteUCAMItem/{id}")
+    @RequiresPermissions("mobile:UCAM:save")
+    @ResponseBody
+    public ResultUtil deleteUCAMItem(@PathVariable("id") String id){
+        return ucamService.deleteUCAMItem(id);
+    }
+
+
+
 }

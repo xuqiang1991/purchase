@@ -7,6 +7,7 @@ package com.purchase.vo.order;
  */
 public class UCAMSearch {
 
+    private String id;
     /*单号、单据类型、供应商、所属项目、有无指令、指令单号、请款人、开单人、开单日期、单据状态*/
     private String orderNo;
     private String orderType;
@@ -20,6 +21,14 @@ public class UCAMSearch {
     private Integer status;
 
     public UCAMSearch() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getOrderNo() {

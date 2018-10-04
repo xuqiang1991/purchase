@@ -1,10 +1,12 @@
 package com.purchase.service;
 
 import com.purchase.pojo.admin.TbAdmin;
-import com.purchase.pojo.order.BizContractApplyMoney;
 import com.purchase.pojo.order.BizUncontractApplyMoney;
+import com.purchase.pojo.order.BizUncontractApplyMoneyDetail;
 import com.purchase.util.ResultUtil;
+import com.purchase.vo.order.UCAMOrderDetialVo;
 import com.purchase.vo.order.UCAMSearch;
+import com.purchase.vo.order.UCAMVo;
 
 /**
  * @Auther: zhoujb
@@ -19,11 +21,21 @@ public interface UCAMService {
 
     ResultUtil editUCAMOrder(BizUncontractApplyMoney order);
 
-    ResultUtil selUCAMOrder(String orderNo);
+    UCAMVo selUCAMOrder(String id);
+
+    ResultUtil selUCAMOrderByOrder(String orderNo);
 
     ResultUtil delUCAMOrder(String id);
 
     ResultUtil submitUCAMOrder(String id);
 
     ResultUtil reviewUCAMOrder(TbAdmin admin, String id);
+
+    UCAMOrderDetialVo selUCAMDetail(String id);
+
+    ResultUtil addUCAMOrderDetail(BizUncontractApplyMoneyDetail ucamDetail);
+
+    ResultUtil deleteUCAMItem(String id);
+
+    ResultUtil submitReviewUCAMOrder(TbAdmin admin, String id, Long userId);
 }

@@ -10,88 +10,80 @@
     <link href="${ctx }/mui/css/mui.picker.min.css" rel="stylesheet" />
 </head>
 <body>
-<%--<header class="mui-bar mui-bar-nav">
+<header class="mui-bar mui-bar-nav">
     <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
     <h1 class="mui-title">合同外请款单</h1>
-</header>--%>
+</header>
 
 <div class="mui-content">
-    <div class="mui-navbar-inner mui-bar mui-bar-nav">
-        <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
-            <span class="mui-icon mui-icon-left-nav"></span>
-        </button>
-        <h1 class="mui-center mui-title">合同外请款单</h1>
-    </div>
-    <!--下拉刷新容器-->
-    <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="width: 100%;">
-        <%--<div class="mui-card" style="margin: 0px; margin-top: 5px; margin-bottom: 5px; padding-bottom: 5px; text-align: center;">
-            <div class="mui-button-row">
-                <button type="button" id="add-btn" class="mui-btn mui-btn-primary">新建合同外请款单</button>
-            </div>
-        </div>--%>
-        <div class="mui-button-row" style="margin-bottom: -30px; background-color: #fff;">
+    <div class="mui-card" style="margin: 0px; margin-top: 5px; margin-bottom: 5px; padding-bottom: 5px; text-align: center;">
+        <div class="mui-button-row">
             <button type="button" id="add-btn" class="mui-btn mui-btn-primary">新建合同外请款单</button>
         </div>
-        <!-- 单号、订单类型、来源订单、供应商、所属项目、请款人、开单人、开单日期、单据状态 -->
-        <ul class="mui-table-view">
-            <li class="mui-table-view-cell mui-collapse" id="searchLi">
-                <a class="mui-navigate-right" href="#">搜索</a>
-                <div class="mui-collapse-content">
-                    <form class="mui-input-group" id="searchForm">
-                        <div class="mui-input-row">
-                            <label>单号</label>
-                            <input type="text" name="orderNo" placeholder="请输入单号">
-                        </div>
-                        <div class="mui-input-row">
-                            <label>单据类型</label>
-                            <input type="text" id="orderTypeName" readonly class="mui-input-clear" placeholder="请选择单据类型" value="" >
-                            <input type="hidden" id="orderType" name="orderType" value="" >
-                        </div>
-                        <div class="mui-input-row">
-                            <label>供应商</label>
-                            <input type="text" id="supplierIdName" readonly class="mui-input-clear"  value="请选择供应商">
-                            <input type="hidden" id="supplierId" name="supplierId">
-                        </div>
-                        <div class="mui-input-row">
-                            <label>所属项目</label>
-                            <input type="text" name="projectId" placeholder="普通输入框">
-                        </div>
-                        <div class="mui-input-row">
-                            <label>有无指令</label>
-                            <input type="text" id="instructOrderFlagName" readonly class="mui-input-clear"  value="未到">
-                            <input type="hidden" id="instructOrderFlag" name="instructOrderFlag" value="">
-                        </div>
-                        <div class="mui-input-row">
-                            <label>指令单号</label>
-                            <input type="text" name="instructOrderNo" placeholder="普通输入框">
-                        </div>
-                        <div class="mui-input-row">
-                            <label>请款人</label>
-                            <input type="text" id="selectApplyUser" class="mui-input-clear" placeholder="请选择请款人" >
-                            <input type="hidden" id="applyUser" name="applyUser">
-                        </div>
-                        <div class="mui-input-row">
-                            <label>开单人</label>
-                            <input type="text" id="selectCreateUser" class="mui-input-clear" placeholder="请选择开单人" >
-                            <input type="hidden" id="createUser" name="createUser">
-                        </div>
-                        <div class="mui-input-row">
-                            <label>开单日期</label>
-                            <input id="createTime" name="createTime" type="text" data-options='{"type":"date","beginYear":2014,"endYear":2016}' placeholder="请选择日期">
-                        </div>
-                        <div class="mui-input-row">
-                            <label>单据状态</label>
-                            <input type="text" id="statusName" readonly class="mui-input-clear" placeholder="请选择单据状态"  value="">
-                            <input type="hidden" id="status" name="status" value="">
-                        </div>
-                        <div class="mui-button-row">
-                            <button class="mui-btn mui-btn-primary" type="button" id="search-btn">确认</button>&nbsp;&nbsp;
-                            <button class="mui-btn mui-btn-danger" type="button" id="cancel-btn">取消</button>
-                        </div>
-                    </form>
-                </div>
-            </li>
-        </ul>
+    </div>
+
+    <ul class="mui-table-view" style="z-index: 100">
+        <li class="mui-table-view-cell mui-collapse" id="searchLi">
+            <a class="mui-navigate-right" href="#">搜索</a>
+            <div class="mui-collapse-content">
+                <form class="mui-input-group" id="searchForm">
+                    <div class="mui-input-row">
+                        <label>单号</label>
+                        <input type="text" name="orderNo" placeholder="请输入单号">
+                    </div>
+                    <div class="mui-input-row">
+                        <label>单据类型</label>
+                        <input type="text" id="orderTypeName" readonly class="mui-input-clear" placeholder="请选择单据类型" value="" >
+                        <input type="hidden" id="orderType" name="orderType" value="" >
+                    </div>
+                    <div class="mui-input-row">
+                        <label>供应商</label>
+                        <input type="text" id="supplierIdName" readonly class="mui-input-clear"  value="请选择供应商">
+                        <input type="hidden" id="supplierId" name="supplierId">
+                    </div>
+                    <div class="mui-input-row">
+                        <label>所属项目</label>
+                        <input type="text" name="projectId" placeholder="普通输入框">
+                    </div>
+                    <div class="mui-input-row">
+                        <label>有无指令</label>
+                        <input type="text" id="instructOrderFlagName" readonly class="mui-input-clear"  value="未到">
+                        <input type="hidden" id="instructOrderFlag" name="instructOrderFlag" value="">
+                    </div>
+                    <div class="mui-input-row">
+                        <label>指令单号</label>
+                        <input type="text" name="instructOrderNo" placeholder="普通输入框">
+                    </div>
+                    <div class="mui-input-row">
+                        <label>请款人</label>
+                        <input type="text" id="selectApplyUser" class="mui-input-clear" placeholder="请选择请款人" >
+                        <input type="hidden" id="applyUser" name="applyUser">
+                    </div>
+                    <div class="mui-input-row">
+                        <label>开单人</label>
+                        <input type="text" id="selectCreateUser" class="mui-input-clear" placeholder="请选择开单人" >
+                        <input type="hidden" id="createUser" name="createUser">
+                    </div>
+                    <div class="mui-input-row">
+                        <label>开单日期</label>
+                        <input id="createTime" name="createTime" type="text" data-options='{"type":"date","beginYear":2014,"endYear":2016}' placeholder="请选择日期">
+                    </div>
+                    <div class="mui-input-row">
+                        <label>单据状态</label>
+                        <input type="text" id="statusName" readonly class="mui-input-clear" placeholder="请选择单据状态"  value="">
+                        <input type="hidden" id="status" name="status" value="">
+                    </div>
+                    <div class="mui-button-row">
+                        <button class="mui-btn mui-btn-primary" type="button" id="search-btn">确认</button>&nbsp;&nbsp;
+                        <button class="mui-btn mui-btn-danger" type="button" id="cancel-btn">取消</button>
+                    </div>
+                </form>
+            </div>
+        </li>
+    </ul>
+
+    <!--下拉刷新容器-->
+    <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 135px;width: 100%;">
         <div class="mui-scroll">
             <!--数据列表-->
             <ul class="mui-table-view mui-table-view-chevron">
@@ -139,8 +131,19 @@
     });
 
     mui(document.body).on('tap', '#add-btn', function(e) {
-        document.location.href = ctx + '/mobile/UCAM/ucamDetails';
+        document.location.href = ctx + '/mobile/UCAM/toEdit';
     });
+
+    mui(document.body).on('tap', '.detail-card', function(e) {
+        var id = $(this).attr("data-id");
+       document.location.href = ctx + '/mobile/UCAM/toEdit?id=' + id;
+    });
+    mui(document.body).on('tap', '.details-edit', function(e) {
+        var id = $(this).attr("data-id");
+        document.location.href = ctx + '/mobile/UCAM/toDetails/' + id;
+    });
+
+
 
     /*mui(document.body).on('tap', '#search-btn', function(e) {
         alert("1232");
@@ -369,7 +372,7 @@
 <script type="text/template" id="listTpl">
     {{#each data}}
     <div class="mui-card" style="margin: 0px; margin-top: 5px;">
-        <div class="mui-card-header mui-card-media">
+        <div class="mui-card-header mui-card-media detail-card" data-id="{{id}}">
             <!-- 订单类型 用图标展示 -->
             <img src="${ctx }/images/icon/uncontract_apply_money.png">
             <div class="mui-media-body">
@@ -385,7 +388,7 @@
                 </p>
             </div>
         </div>
-        <div class="mui-card-content">
+        <div class="mui-card-content detail-card" data-id="{{id}}">
             <div class="mui-card-content-inner">
                 <p>
                     <label>供应商：{{supplier.name}}</label>
@@ -410,7 +413,7 @@
                 <label>审核日期：2018-08-21</label>
             </div>
             <div>
-                <button type="button" class="mui-btn mui-btn-primary" onclick="details()">详情</button>
+                <button type="button" class="mui-btn mui-btn-primary details-edit"  data-id="{{id}}" >明细</button>
                 <button type="button" class="mui-btn mui-btn-primary">审核</button>
             </div>
         </div>

@@ -30,55 +30,99 @@
 
     <div class="mui-content-padded mui-card" style="margin: 5px;">
         <form class="mui-input-group" id="ucamForm">
-            <div class="mui-input-row">
+            <%--<div class="mui-input-row">
                 <label>单号</label>
                 <input type="text" readonly="readonly" class="mui-input-clear" placeholder="PC20180817001">
-            </div>
+            </div>--%>
+            <input type="hidden" name="id" value="${ucamVo.id}" />
+
             <div class="mui-input-row">
                 <label>请款人</label>
-                <input type="text" id="selectApplyUser" class="mui-input-clear" placeholder="请选择开单人" value="${admin.fullname}">
-                <input type="hidden" id="applyUser" name="applyUser" value="${admin.id}">
+                <c:choose>
+                    <c:when test="${ucamVo.id == null}">
+                        <input type="text" id="selectApplyUser" placeholder="请选择开单人" value="${admin.fullname}">
+                        <input type="hidden" id="applyUser" name="applyUser" value="${admin.id}" mui-verify="required">
+                    </c:when>
+                    <c:otherwise>
+                        <input type="text" id="selectApplyUser" placeholder="请选择开单人" value="${ucamVo.admin.fullname}">
+                        <input type="hidden" id="applyUser" name="applyUser" value="${ucamVo.admin.id}" mui-verify="required">
+                    </c:otherwise>
+                </c:choose>
             </div>
             <div class="mui-input-row">
                 <label>供应商</label>
-                <input type="text" id="supplierName" readonly class="mui-input-clear" value="${admin.supplierName}">
-                <input type="hidden" id="supplierId" name="supplierId" value="${admin.supplierId}">
+                <c:choose>
+                    <c:when test="${ucamVo.id == null}">
+                        <input type="text" id="supplierName" readonly value="${admin.supplierName}">
+                        <input type="hidden" id="supplierId" name="supplierId" value="${admin.supplierId}" mui-verify="required">
+                    </c:when>
+                    <c:otherwise>
+                        <input type="text" id="supplierName" readonly value="${ucamVo.supplier.name}">
+                        <input type="hidden" id="supplierId" name="supplierId" value="${ucamVo.supplier.id}" mui-verify="required">
+                    </c:otherwise>
+                </c:choose>
             </div>
             <div class="mui-input-row">
                 <label>所属项目</label>
                 <a href="#selectProjectManger">
-                    <label id="projectIdText" style="width: 65%;padding-left: 0px;">请选择所属项目</label>
-                    <input type="hidden" id="projectIdHidden" name="projectId" value="">
+                    <label id="projectIdText" style="width: 65%;padding-left: 0px;">
+                        <c:choose>
+                            <c:when test="${ucamVo.id == null}">
+                                请选择所属项目
+                            </c:when>
+                            <c:otherwise>
+                                ${ucamVo.tpm.name}
+                            </c:otherwise>
+                        </c:choose>
+                    </label>
+                    <input type="hidden" id="projectIdHidden" name="projectId" value="${ucamVo.tpm.id}" mui-verify="required">
                 </a>
             </div>
 
             <div class="mui-input-row">
                 <label>单据类型</label>
                 <input type="text" id="orderTypeName" readonly class="mui-input-clear" placeholder="请选择单据类型" value="" >
-                <input type="hidden" id="orderTypeId" name="orderType" value="0" >
+                <input type="hidden" id="orderTypeId" name="orderType" value="${ucamVo.orderType}"  mui-verify="required">
             </div>
 
             <div class="mui-input-row">
                 <label>指令单已到</label>
-                <input type="text" id="instructOrderFlagName" readonly class="mui-input-clear"  value="未到">
-                <input type="hidden" id="instructOrderFlag" name="instructOrderFlag" value="0">
+                <c:choose>
+                    <c:when test="${ucamVo.instructOrderFlag == 1}">
+                        <input type="text" id="instructOrderFlagName" readonly class="mui-input-clear"  value="已到">
+                        <input type="hidden" id="instructOrderFlag" name="instructOrderFlag" value="1">
+                    </c:when>
+                    <c:otherwise>
+                        <input type="text" id="instructOrderFlagName" readonly class="mui-input-clear"  value="未到">
+                        <input type="hidden" id="instructOrderFlag" name="instructOrderFlag" value="0">
+                    </c:otherwise>
+                </c:choose>
             </div>
-            <div class="mui-input-row">
-                <label>指令单号</label>
-                <input type="text" class="mui-input-clear" name="applyPrice" placeholder="请输入指令单号">
-            </div>
-            <div class="mui-input-row">
+            <c:choose>
+                <c:when test="${ucamVo.instructOrderFlag == 1}">
+                    <div class="mui-input-row" id="instrucoOrderNoDiv" style="display: block">
+                </c:when>
+                <c:otherwise>
+                    <div class="mui-input-row" id="instrucoOrderNoDiv" style="display: none;" >
+                </c:otherwise>
+            </c:choose>
+                    <label>指令单号</label>
+                    <input type="text" class="mui-input-clear" name="instructOrderNo" placeholder="${ucamVo.instructOrderNo}">
+                    </div>
+
+
+            <%--<div class="mui-input-row">
                 <label>单据状态</label>
                 <input type="text" id="statusName" readonly class="mui-input-clear" placeholder="请选择单据状态"  value="">
                 <input type="hidden" id="statusId" name="status" value="0">
             </div>
+--%>
 
-
-            <div class="mui-input-row">
+            <%--<div class="mui-input-row">
                 <label>请款金额(元)</label>
                 <input type="number" class="mui-input-clear" style="color: red;" name="applyPrice" placeholder="请输入请款金额合计">
-            </div>
-            <div class="mui-control-content mui-active">
+            </div>--%>
+            <%--<div class="mui-control-content mui-active">
                 <h5 style="margin-left: 15px; padding-top: 5px;">自定义详情块</h5>
                 <table class="table">
                     <thead>
@@ -108,37 +152,10 @@
                     </tr>
                     </tbody>
                 </table>
-            </div>
-            <%--<div class="mui-control-content mui-active">
-                <h5 style="margin-left: 15px; padding-top: 5px;">自定义详情块</h5>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th width="16%">序号</th>
-                            <th width="16.6%">内容</th>
-                            <th width="16.6%">数量</th>
-                            <th width="16.6%">单价</th>
-                            <th width="16.6%">总价</th>
-                            <th width="16.6%">
-                                <span class="mui-icon mui-icon-plusempty icon-color-F0AD4E"></span>
-                                <!--<button type="button" data-loading-icon="mui-spinner mui-icon-plusempt" class="mui-btn"></button> -->
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td><input placeholder="内容" style="width: 100%;"/></td>
-                        <td><input placeholder="内容" style="width: 100%;"/></td>
-                        <td><input placeholder="内容" style="width: 100%;"/></td>
-                        <td><input placeholder="内容" style="width: 100%;"/></td>
-                        <td><span class="mui-icon mui-icon-closeempty icon-color-F0AD4E"></span></td>
-                    </tr>
-                    </tbody>
-                </table>
             </div>--%>
+
             <div>
-                <textarea id="textarea" rows="5" class="mui-input-clear" placeholder="摘要"></textarea>
+                <textarea id="textarea" name="summary" rows="5" class="mui-input-clear" placeholder="摘要">${ucamVo.summary}</textarea>
             </div>
 
             <%--<div class="mui-input-row">
@@ -226,8 +243,8 @@
 
                 </ul>
                 <div class="mui-button-row" style="padding-bottom: 20px;">
-                    <button type="button" class="mui-btn mui-btn-primary account-cancel" onclick="accountCancel();">取消</button>&nbsp;&nbsp;
-                    <button type="button" class="mui-btn mui-btn-danger account-ensure" onclick="accountEnsure('selectProjectManger','projectIdText','projectIdHidden');">确定</button>
+                    <button type="button" class="mui-btn mui-btn-primary account-cancel" onclick="cancel();">取消</button>&nbsp;&nbsp;
+                    <button type="button" class="mui-btn mui-btn-danger account-ensure" onclick="projectMangerEnsure('selectProjectManger','projectIdText','projectIdHidden');">确定</button>
                 </div>
             </div>
         </div>
@@ -246,7 +263,7 @@
         defaultPage: '#setting'
     });
     var view = viewApi.view;
-    var btns =  mui('#dateText');
+    /*var btns =  mui('#dateText');
     btns.each(function(i, btn) {
         btn.addEventListener('tap', function() {
             var optionsJson = this.getAttribute('data-options') || '{}';
@@ -272,7 +289,10 @@
                 picker.dispose();
             });
         }, false);
-    });
+    });*/
+    var orderTypeJosn = '[{"text":"绿化苗木","value":"0"},{"text":"园建水电","value":"1"},{"text":"机械租赁","value":"2"},{"text":"工程分包","value":"3"}]';
+    var statusJson = '[{"value": "0", "text": "未提交"}, {"value": "1", "text": "已提交"}, {"value": "2", "text": "成本部已审核"}, {"value": "3", "text": "工程部已审核"},{"value": "4", "text": "总经理已审核"}]';
+    var instrutOrderJson = '[{"value":0,"text":"未到"},{"value":1,"text":"已到"}]';
 
     mui.ready(function() {
         var adminsJson = '${admins}';
@@ -287,24 +307,25 @@
                 applyUser.value = items[0].value;
                 //返回 false 可以阻止选择框的关闭
                 //return false;
+                var url = '${ctx}/sys/getAdmin?id=' + items[0].value;
+                $.ajax({
+                    url: url,
+                    type: 'get',
+                    timeout: 10000,
+                    success: function(result) {
+                        if(result.code == 0){
+                            $("#supplierId").val(result.data.supplierId);
+                            $("#supplierName").val(result.data.supplierName);
+                        }
+                    }
+                });
             });
         }, false);
 
 
+
         var orderTypeNamePicker = new mui.PopPicker();
-        orderTypeNamePicker.setData( [{
-            value: '0',
-            text: '绿化苗木'
-        }, {
-            value: '1',
-            text: '园建水电'
-        }, {
-            value: '2',
-            text: '机械租赁'
-        }, {
-            value: '3',
-            text: '工程分包'
-        }]);
+        orderTypeNamePicker.setData(JSON.parse(orderTypeJosn));
         var orderTypeName = document.getElementById('orderTypeName');
         var orderTypeId = document.getElementById('orderTypeId');
         orderTypeName.addEventListener('tap', function(event) {
@@ -316,23 +337,9 @@
             });
         }, false);
 
-        var statusNamePicker = new mui.PopPicker();
-        statusNamePicker.setData( [{
-            value: '0',
-            text: '未提交'
-        }, {
-            value: '1',
-            text: '已提交'
-        }, {
-            value: '2',
-            text: '成本部已审核'
-        }, {
-            value: '3',
-            text: '工程部已审核'
-        },{
-            value: '4',
-            text: '总经理已审核'
-        }]);
+
+        /*var statusNamePicker = new mui.PopPicker();
+        statusNamePicker.setData(JSON.parse(statusJson));
         var statusName = document.getElementById('statusName');
         var statusId = document.getElementById('statusId');
         statusName.addEventListener('tap', function(event) {
@@ -342,36 +349,40 @@
                 //返回 false 可以阻止选择框的关闭
                 //return false;
             });
-        }, false);
+        }, false);*/
+
 
         var instructOrderFlagPicker = new mui.PopPicker();
-        instructOrderFlagPicker.setData( [{
-            value: '0',
-            text: '未到'
-        }, {
-            value: '1',
-            text: '已到'
-        }]);
+        instructOrderFlagPicker.setData(JSON.parse(instrutOrderJson));
         var instructOrderFlagName = document.getElementById('instructOrderFlagName');
         var instructOrderFlag = document.getElementById('instructOrderFlag');
         instructOrderFlagName.addEventListener('tap', function(event) {
             instructOrderFlagPicker.show(function(items) {
                 instructOrderFlagName.value = items[0].text;
                 instructOrderFlag.value = items[0].value;
+                console.log(items[0].value);
+                if(items[0].value == 1){
+                    $("#instrucoOrderNoDiv").show();
+                }else{
+                    $("#instrucoOrderNoDiv").hide();
+                }
                 //返回 false 可以阻止选择框的关闭
                 //return false;
             });
         }, false);
-
-
-
-
-
-
-
-
         var pmItem = '${pmItem}';
         buiderProjectManger(pmItem);
+
+        var orderType = '${ucamVo.orderType}';
+        if(orderType != null){
+            var ot = JSON.parse(orderTypeJosn);
+            console.log(orderType);
+            for(var i = 0; i < ot.length; i++){
+                if(ot[i].value == orderType){
+                    $("#orderTypeName").val(ot[i].text);
+                }
+            }
+        }
 
     });
 
@@ -404,14 +415,14 @@
     }
 
 
-    function accountCancel(){
+    function cancel(){
         if (viewApi.canBack()) { //如果view可以后退，则执行view的后退
             viewApi.back();
         } else { //执行webview后退
             oldBack();
         }
     }
-    function accountEnsure(flag,callText,callValue){
+    function projectMangerEnsure(flag,callText,callValue){
         var accountSelected = $("#" + flag).find("li").hasClass("mui-selected");
         if(accountSelected){
             var li = $("#" + flag).find("li.mui-selected");
@@ -420,31 +431,46 @@
             console.log(value + "/n" +text);
             $("#" + callText).text(text);
             $("#" + callValue).val(value);
-            accountCancel();
+            cancel();
         }else{
             mui.toast('您尚未选择，请选择后确定',{ duration:'long', type:'div' })
         }
     }
 
     function ucamSave(){
-        //addUCAMOrder
-        var url = '${ctx}/mobile/UCAM/addUCAMOrder'
-        $.ajax({
-            url: url,
-            data: $('#ucamForm').serialize(),
-            dataType: 'json',
-            contentType : "application/x-www-form-urlencoded",
-            type: 'post',
-            timeout: 10000,
-            success: function(result) {
-                if(result.code!=0){
-                    mui.alert(data.msg);
-                }else {
-                    mui.alert("添加成功！");
-                    document.location.href='${ctx }/mobile/UCAM/list';
+        var check = true;
+        mui("input").each(function() {
+            //若当前input为空，则alert提醒
+            var verify = $(this).attr("mui-verify")
+            if(verify == 'required'){
+                if(!this.value || this.value.trim() == "") {
+                    var label = this.previousElementSibling;
+                    mui.alert(label.innerText + "不允许为空");
+                    check = false;
+                    return false;
                 }
             }
         });
+        if(check){
+            var url = '${ctx}/mobile/UCAM/addUCAMOrder'
+            $.ajax({
+                url: url,
+                data: $('#ucamForm').serialize(),
+                dataType: 'json',
+                contentType : "application/x-www-form-urlencoded",
+                type: 'post',
+                timeout: 10000,
+                success: function(result) {
+                    if(result.code!=0){
+                        mui.alert(data.msg);
+                    }else {
+                        mui.alert("添加成功！");
+                        document.location.href='${ctx }/mobile/UCAM/list';
+                    }
+                }
+            });
+        }
+
     }
 </script>
 </body>
