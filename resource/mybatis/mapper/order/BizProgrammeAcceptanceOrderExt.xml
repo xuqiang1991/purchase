@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.purchase.mapper.order.BizProgrammeAcceptanceOrderMapper">
+  <sql id="Example_Where_Clause_Ext">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and a.${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and a.${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and a.${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and a.${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(search.createUserName)" >
+          and c.fullname LIKE concat(concat('%',#{search.createUserName}),'%')
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+  <resultMap id="BaseResultMapExt" type="com.purchase.vo.order.PaoVo" extends="BaseResultMap">
+    <association property="supplier" javaType="com.purchase.pojo.admin.TbSupplier">
+      <result column="supplier_id" jdbcType="BIGINT" property="id"></result>
+      <result column="supplierName" jdbcType="VARCHAR" property="name"></result>
+    </association>
+    <association property="admin" javaType="com.purchase.pojo.admin.TbAdmin">
+      <result column="admin_id" jdbcType="BIGINT" property="id"></result>
+      <result column="adminFullname" jdbcType="VARCHAR" property="fullname"></result>
+    </association>
+    <association property="costAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
+      <result column="costId" jdbcType="BIGINT" property="id"></result>
+      <result column="costFullname" jdbcType="VARCHAR" property="fullname"></result>
+    </association>
+    <association property="projectAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
+      <result column="projectId" jdbcType="BIGINT" property="id"></result>
+      <result column="projectFullname" jdbcType="VARCHAR" property="fullname"></result>
+    </association>
+    <association property="managerAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
+      <result column="managerId" jdbcType="BIGINT" property="id"></result>
+      <result column="managerFullname" jdbcType="VARCHAR" property="fullname"></result>
+    </association>
+    <association property="projectManger" javaType="com.purchase.pojo.admin.TbProjectManger">
+      <result column="projectMangerId" jdbcType="VARCHAR" property="id"></result>
+      <result column="projectMangerName" jdbcType="VARCHAR" property="name"></result>
+    </association>
+  </resultMap>
+  <select id="selectByExampleExt" resultMap="BaseResultMapExt">
+    select
+        a.*,
+        b.id as supplier_id, b.name as supplierName,
+        c.id as costId, c.fullname as adminFullname,
+        tCost.id as costId, tCost.fullname as costFullname,
+        tProject.id as projectId, tProject.fullname as projectFullname,
+        tManager.id as managerId, tManager.fullname as managerFullname,
+        tbProjectManger.id as projectMangerId, tbProjectManger.name as projectMangerName
+    from biz_programme_acceptance_order a
+    INNER JOIN tb_supplier b ON (a.supplier_id = b.id)
+    INNER JOIN tb_admin c ON (a.create_user = c.id)
+     LEFT JOIN tb_admin tCost ON (a.cost_depart_user = tCost.id)
+     LEFT JOIN tb_admin tProject ON (a.project_depart_user = tProject.id)
+     LEFT JOIN tb_admin tManager ON (a.manager_depart_user = tManager.id)
+    LEFT JOIN tb_project_manger tbProjectManger ON (tbProjectManger.id = a.project_id)
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause_Ext" />
+    </if>
+    <if test="example.orderByClause != null" >
+      order by ${example.orderByClause}
+    </if>
+  </select>
+</mapper>
