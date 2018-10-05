@@ -4,6 +4,9 @@ import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbProjectManger;
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.BizUncontractApplyMoney;
+import com.purchase.vo.OrderHistory;
+
+import java.util.List;
 
 /**
  *
@@ -17,6 +20,7 @@ public class UCAMVo extends BizUncontractApplyMoney {
     private TbAdmin managerAdmin;
     private TbProjectManger tpm;
     private TbAdmin auAdmin;
+    private List<OrderHistory> historyList;
 
     public TbSupplier getSupplier() {
         return supplier;
@@ -72,5 +76,13 @@ public class UCAMVo extends BizUncontractApplyMoney {
 
     public void setAuAdmin(TbAdmin auAdmin) {
         this.auAdmin = auAdmin;
+    }
+
+    public List<OrderHistory> getHistoryList() {
+        return historyList;
+    }
+
+    public void setHistoryList(List<OrderHistory> historyList) {
+        this.historyList = historyList;
     }
 }

@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <title></title>
+    <title>合同外请款单</title>
     <link href="${ctx }/mui/css/mui.min.css" rel="stylesheet"/>
     <link href="${ctx }/mui/css/iconfont.css" rel="stylesheet"/>
     <link href="${ctx }/mui/css/mui.picker.min.css" rel="stylesheet" />
@@ -111,6 +111,128 @@
                     </div>
                 </c:if>
             </div>
+
+            <div class="mui-content" style="margin-left: 5px; margin-right: 5px; font-size: 14px;">
+                <%--<ul class="mui-table-view">
+                    <li class="mui-table-view-cell">历史状态</li>
+                    <c:choose>
+                        <c:when test="${detailsVo.ucamVo.status == 4}">
+                            <li class="mui-table-view-cell ">
+                                <label>${detailsVo.ucamVo.managerDepartDate}</label>
+                            </li>
+                        </c:when>
+                        <c:when test="${detailsVo.ucamVo.status == 3}">
+                            <li class="mui-table-view-cell">
+                                <label>${detailsVo.ucamVo.managerDepartDate}</label>
+                            </li>
+                        </c:when>
+                        <c:when test="${detailsVo.ucamVo.status == 2}">
+                            2：成本部已审核
+                            3：工程部已审核
+                            4：总经理已审核
+                            <li class="mui-table-view-cell">
+                                <label>
+                                    状态:<c:choose>
+                                            <c:when test="${detailsVo.ucamVo.costDepartApproval == true}">
+                                                成本部审核通过
+                                            </c:when>
+                                            <c:otherwise>
+                                                成本部审核未通过
+                                            </c:otherwise>
+                                        </c:choose>
+                                </label>
+                                <label>审核人:${detailsVo.ucamVo.costAdmin.fullname}</label>
+                                <label>审核时间:<fmt:formatDate value="${detailsVo.ucamVo.costDepartDate}" pattern="yyyy-MM-dd"/></label>
+                                <label>审核人:${detailsVo.ucamVo.costAdmin}</label>
+                            </li>
+                            <li class="mui-table-view-cell"><label>状态:已提交</label></li>
+                        </c:when>
+                        <c:when test="${detailsVo.ucamVo.status == 1}">
+                            <li class="mui-table-view-cell"><label>已提交</label></li>
+                        </c:when>
+                    </c:choose>
+                    <li class="mui-table-view-cell mui-collapse">
+                        <strong>未提交</strong>
+                        <label>创建人:${detailsVo.ucamVo.admin.fullname}</label>
+                        <label>创建时间:<fmt:formatDate value="${detailsVo.ucamVo.createTime}" pattern="yyyy-MM-dd"/></label>
+                    </li>
+                </ul>--%>
+                    <ul class="mui-table-view">
+                        <li class="mui-table-view-cell mui-collapse">
+                            <a class="mui-navigate-right" href="#">历史状态</a>
+                            <c:choose>
+                                <c:when test="${detailsVo.ucamVo.status == 4}">
+                                    <li class="mui-table-view-cell ">
+                                        <label>${detailsVo.ucamVo.managerDepartDate}</label>
+                                    </li>
+                                    </c:when>
+                                    <c:when test="${detailsVo.ucamVo.status == 3}">
+                                        <div class="mui-collapse-content">
+                                            <p>
+                                                <strong>
+                                                    <c:choose>
+                                                        <c:when test="${detailsVo.ucamVo.costDepartApproval == true}">
+                                                            成本部审核通过
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            成本部审核未通过
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </strong>
+                                                <label>审核人:${detailsVo.ucamVo.costAdmin.fullname}</label>
+                                                <label>审核时间:<fmt:formatDate value="${detailsVo.ucamVo.costDepartDate}" pattern="yyyy-MM-dd"/></label>
+                                                <label>审批意见:${detailsVo.ucamVo.costDepartOpinion}</label>
+                                            </p>
+                                        </div>
+                                        <div class="mui-collapse-content">
+                                            <p>
+                                                <strong>未提交</strong>
+                                                <label>创建人:${detailsVo.ucamVo.admin.fullname}</label>
+                                                <label>创建时间:<fmt:formatDate value="${detailsVo.ucamVo.createTime}" pattern="yyyy-MM-dd"/></label>
+                                            </p>
+                                        </div>
+                                    </c:when>
+                                    <c:when test="${detailsVo.ucamVo.status == 2}">
+                                        <div class="mui-collapse-content">
+                                            <p>
+                                                <strong>
+                                                    <c:choose>
+                                                        <c:when test="${detailsVo.ucamVo.costDepartApproval == true}">
+                                                            成本部审核通过
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            成本部审核未通过
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </strong>
+                                                <label>审核人:${detailsVo.ucamVo.costAdmin.fullname}</label>
+                                                <label>审核时间:<fmt:formatDate value="${detailsVo.ucamVo.costDepartDate}" pattern="yyyy-MM-dd"/></label>
+                                                <label>审批意见:${detailsVo.ucamVo.costDepartOpinion}</label>
+                                            </p>
+                                        </div>
+                                        <div class="mui-collapse-content">
+                                            <p>
+                                                <strong>未提交</strong>
+                                                <label>创建人:${detailsVo.ucamVo.admin.fullname}</label>
+                                                <label>创建时间:<fmt:formatDate value="${detailsVo.ucamVo.createTime}" pattern="yyyy-MM-dd"/></label>
+                                            </p>
+                                        </div>
+                                    </c:when>
+                                    <c:when test="${detailsVo.ucamVo.status == 1 || detailsVo.ucamVo.status == 0}">
+                                        <div class="mui-collapse-content">
+                                            <p>
+                                                <strong>未提交</strong>
+                                                <label>创建人:${detailsVo.ucamVo.admin.fullname}</label>
+                                                <label>创建时间:<fmt:formatDate value="${detailsVo.ucamVo.createTime}" pattern="yyyy-MM-dd"/></label>
+                                            </p>
+                                        </div>
+                                    </c:when>
+                            </c:choose>
+                        </li>
+                    </ul>
+            </div>
+
+
             <c:forEach items="${detailsVo.ucamDetail}" var="item">
                 <div class="mui-card">
                     <div class="mui-card-header mui-card-media">

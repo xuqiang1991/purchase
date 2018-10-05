@@ -60,6 +60,8 @@ public class BizUncontractApplyMoney {
 
     private Long supplierId;
 
+    private Date applyDate;
+
     public String getId() {
         return id;
     }
@@ -278,5 +280,13 @@ public class BizUncontractApplyMoney {
 
     public void setSupplierId(Long supplierId) {
         this.supplierId = supplierId;
+    }
+
+    public Date getApplyDate() {
+        return applyDate;
+    }
+
+    public void setApplyDate(Date applyDate) {
+        this.applyDate = applyDate;
     }
 }

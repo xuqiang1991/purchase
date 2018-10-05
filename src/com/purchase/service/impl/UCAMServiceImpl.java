@@ -8,9 +8,13 @@ import com.purchase.mapper.admin.TbSupplierMapper;
 import com.purchase.mapper.order.BizUncontractApplyMoneyDetailMapper;
 import com.purchase.mapper.order.BizUncontractApplyMoneyMapper;
 import com.purchase.pojo.admin.TbAdmin;
-import com.purchase.pojo.order.*;
+import com.purchase.pojo.order.BizUncontractApplyMoney;
+import com.purchase.pojo.order.BizUncontractApplyMoneyDetail;
+import com.purchase.pojo.order.BizUncontractApplyMoneyDetailExample;
+import com.purchase.pojo.order.BizUncontractApplyMoneyExample;
 import com.purchase.service.UCAMService;
 import com.purchase.util.*;
+import com.purchase.vo.OrderHistory;
 import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.order.UCAMOrderDetialVo;
 import com.purchase.vo.order.UCAMSearch;
@@ -26,6 +30,7 @@ import org.springframework.util.StringUtils;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -104,6 +109,9 @@ public class UCAMServiceImpl implements UCAMService {
                 e.printStackTrace();
             }
 
+        }
+        if(search.getStatus() != null){
+            criteria.andStatusEqualTo(search.getStatus());
         }
 
         List<UCAMVo> ucamList = ucamMapper.selectByExampleExt(example,search);
@@ -223,58 +231,85 @@ public class UCAMServiceImpl implements UCAMService {
     @Override
     public UCAMOrderDetialVo selUCAMDetail(String id) {
         UCAMOrderDetialVo ucamOrderDetialVo = new UCAMOrderDetialVo();
+        try {
+            BizUncontractApplyMoneyExample example = new BizUncontractApplyMoneyExample();
+            BizUncontractApplyMoneyExample.Criteria criteria = example.createCriteria();
+            criteria.andIdEqualTo(id);
+            UCAMSearch search = new UCAMSearch();
+            search.setId(id);
+            List<UCAMVo> ucamList = ucamMapper.selectByExampleExt(example,search);
+            UCAMVo vo = new UCAMVo();
+            if(!CollectionUtils.isEmpty(ucamList)){
+                vo = ucamList.get(0);
+            }
+            List<OrderHistory> historyList = new ArrayList<OrderHistory>();
+            int status = vo.getStatus();
+            if(PurchaseUtil.STATUS_0 == status){
+                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,0));
+            }else if(PurchaseUtil.STATUS_1 == status){
+                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,0));
+                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,1));
+            }else if(PurchaseUtil.STATUS_2 == status){
+                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,0));
+                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,1));
+                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),"",vo.getCostDepartApproval(),2));
+            }else if(PurchaseUtil.STATUS_3 == status){
+                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,0));
+                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,1));
+                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),"",vo.getCostDepartApproval(),2));
+                historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),"",vo.getProjectDepartApproval(),3));
+            }else if(PurchaseUtil.STATUS_4 == status){
+                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,0));
+                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,1));
+                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),"",vo.getCostDepartApproval(),2));
+                historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),"",vo.getProjectDepartApproval(),3));
+                historyList.add(new OrderHistory(vo.getManagerAdmin().getFullname(),vo.getManagerDepartDate(),"",vo.getManagerDepartApproval(),4));
+            }
+            vo.setHistoryList(historyList);
+            ucamOrderDetialVo.setUcamVo(vo);
 
-        BizUncontractApplyMoneyExample example = new BizUncontractApplyMoneyExample();
-        BizUncontractApplyMoneyExample.Criteria criteria = example.createCriteria();
-        criteria.andIdEqualTo(id);
-        UCAMSearch search = new UCAMSearch();
-        search.setId(id);
-        List<UCAMVo> ucamList = ucamMapper.selectByExampleExt(example,search);
-        UCAMVo vo = new UCAMVo();
-        if(!CollectionUtils.isEmpty(ucamList)){
-            vo = ucamList.get(0);
-        }
+            //获取合同外请款单详情
+            BizUncontractApplyMoneyDetailExample detailExample = new BizUncontractApplyMoneyDetailExample();
+            BizUncontractApplyMoneyDetailExample.Criteria detailCriteria = detailExample.createCriteria();
+            detailCriteria.andOrderNoEqualTo(vo.getOrderNo());
+            List<BizUncontractApplyMoneyDetail> detailList = ucamDetailMapper.selectByExample(detailExample);
+            ucamOrderDetialVo.setUcamDetail(detailList);
 
-        ucamOrderDetialVo.setUcamVo(vo);
-
-        //获取合同外请款单详情
-        BizUncontractApplyMoneyDetailExample detailExample = new BizUncontractApplyMoneyDetailExample();
-        BizUncontractApplyMoneyDetailExample.Criteria detailCriteria = detailExample.createCriteria();
-        detailCriteria.andOrderNoEqualTo(vo.getOrderNo());
-        List<BizUncontractApplyMoneyDetail> detailList = ucamDetailMapper.selectByExample(detailExample);
-        ucamOrderDetialVo.setUcamDetail(detailList);
-
-        //选择审核人
-        String depart = null;
-        Long reviewUserId = null;
-        if(PurchaseUtil.STATUS_1 == vo.getStatus()){
-            if(vo.getCostDepartUser() != null){
-                reviewUserId = vo.getCostDepartUser();
+            //选择审核人
+            String depart = null;
+            Long reviewUserId = null;
+            if(PurchaseUtil.STATUS_1 == vo.getStatus()){
+                if(vo.getCostDepartUser() != null){
+                    reviewUserId = vo.getCostDepartUser();
+                    depart = "工程部";
+                }else {
+                    depart = "成本部";
+                }
+            }else if(PurchaseUtil.STATUS_2 == vo.getStatus()){
                 depart = "工程部";
-            }else {
-                depart = "成本部";
+                reviewUserId = vo.getProjectDepartUser();
+            }else if(PurchaseUtil.STATUS_3 == vo.getStatus()){
+                depart = "总经理";
+                reviewUserId = vo.getManagerDepartUser();
             }
-        }else if(PurchaseUtil.STATUS_2 == vo.getStatus()){
-            depart = "工程部";
-            reviewUserId = vo.getProjectDepartUser();
-        }else if(PurchaseUtil.STATUS_3 == vo.getStatus()){
-            depart = "总经理";
-            reviewUserId = vo.getManagerDepartUser();
-        }
-        if(depart != null){
-            List<ChoseAdminVO> data = adminMapper.selectByDeptName(depart);
-            if(!CollectionUtils.isEmpty(data)){
-                Gson gson = new Gson();
-                String json = gson.toJson(data);
-                ucamOrderDetialVo.setDeparts(json);
-            }
-            TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-            long loginId = admin.getId();
-            if(reviewUserId != null && reviewUserId == loginId){
-                ucamOrderDetialVo.setReviewUserId(vo.getCreateUser());
+            if(depart != null){
+                List<ChoseAdminVO> data = adminMapper.selectByDeptName(depart);
+                if(!CollectionUtils.isEmpty(data)){
+                    Gson gson = new Gson();
+                    String json = gson.toJson(data);
+                    ucamOrderDetialVo.setDeparts(json);
+                }
+                TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+                long loginId = admin.getId();
+                if(reviewUserId != null && reviewUserId == loginId){
+                    ucamOrderDetialVo.setReviewUserId(vo.getCreateUser());
 
+                }
             }
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
         return ucamOrderDetialVo;
     }
 

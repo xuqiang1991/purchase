@@ -38,7 +38,7 @@
                     </div>
                     <div class="mui-input-row">
                         <label>供应商</label>
-                        <input type="text" id="supplierIdName" readonly class="mui-input-clear"  value="请选择供应商">
+                        <input type="text" id="supplierIdName" readonly class="mui-input-clear" placeholder="请选择供应商"  value="">
                         <input type="hidden" id="supplierId" name="supplierId">
                     </div>
                     <div class="mui-input-row">
@@ -47,7 +47,7 @@
                     </div>
                     <div class="mui-input-row">
                         <label>有无指令</label>
-                        <input type="text" id="instructOrderFlagName" readonly class="mui-input-clear"  value="未到">
+                        <input type="text" id="instructOrderFlagName" readonly class="mui-input-clear" placeholder="全部" value="">
                         <input type="hidden" id="instructOrderFlag" name="instructOrderFlag" value="">
                     </div>
                     <div class="mui-input-row">
@@ -75,7 +75,7 @@
                     </div>
                     <div class="mui-button-row">
                         <button class="mui-btn mui-btn-primary" type="button" id="search-btn">确认</button>&nbsp;&nbsp;
-                        <button class="mui-btn mui-btn-danger" type="button" id="cancel-btn">取消</button>
+                        <button class="mui-btn mui-btn-danger" type="button" id="reset-btn">重置</button>
                     </div>
                 </form>
             </div>
@@ -95,7 +95,7 @@
 <script src="${ctx}/mui/js/mui.min.js"></script>
 <script type="text/javascript" src="http://apps.bdimg.com/libs/handlebars.js/2.0.0-alpha.4/handlebars.js"></script>
 <script type="text/javascript" src="${ctx}/js/handlebarsHelps.js"></script>
-<script type="text/javascript" src="${ctx}/js/mobile/ucam/ucamUtils.js"></script>
+<%--<script type="text/javascript" src="${ctx}/js/mobile/ucam/ucamUtils.js"></script>--%>
 <script src="${ctx }/mui/js/mui.picker.min.js"></script>
 <script type="text/javascript" charset="utf-8">
     var ctx = '${ctx }';
@@ -143,6 +143,9 @@
         document.location.href = ctx + '/mobile/UCAM/toDetails/' + id;
     });
 
+    mui(document.body).on('tap','#reset-btn',function(e){
+        $('#searchForm').find('input').val('');
+    })
 
 
     /*mui(document.body).on('tap', '#search-btn', function(e) {
@@ -170,11 +173,13 @@
     }
 
     function getBill() {
+        var params = $('#searchForm').serialize();
+        console.log(JSON.stringify(params));
         var url = '${ctx}/mobile/UCAM/getUCAMList?' + 'limit=' + limit + '&page=' + page;
         mui.toast("加载中...",1000);
         $.ajax({
             url: url,
-            data: $('#searchForm').serialize(),
+            data: params,
             dataType: 'json',
             contentType : "application/x-www-form-urlencoded",
             type: 'post',
@@ -194,7 +199,7 @@
                     purchaseOrder.statusConversion(Handlebars)
                     purchaseOrder.departUser(Handlebars)
                     purchaseOrder.departDate(Handlebars)
-                    ucamOrder.instructOrder(Handlebars);
+                    /*ucamOrder.instructOrder(Handlebars);*/
                     //匹配json内容
                     var html = template({data});//data
                     //输入模板
@@ -289,21 +294,9 @@
             });
         }, false);*/
 
-
+        var orderTypeJosn = '[{"text":"全部","value":""},{"text":"绿化苗木","value":"0"},{"text":"园建水电","value":"1"},{"text":"机械租赁","value":"2"},{"text":"工程分包","value":"3"}]';
         var orderTypeNamePicker = new mui.PopPicker();
-        orderTypeNamePicker.setData( [{
-            value: '0',
-            text: '绿化苗木'
-        }, {
-            value: '1',
-            text: '园建水电'
-        }, {
-            value: '2',
-            text: '机械租赁'
-        }, {
-            value: '3',
-            text: '工程分包'
-        }]);
+        orderTypeNamePicker.setData(JSON.parse(orderTypeJosn));
         var orderTypeName = document.getElementById('orderTypeName');
         var orderType = document.getElementById('orderType');
         orderTypeName.addEventListener('tap', function(event) {
@@ -315,23 +308,9 @@
             });
         }, false);
 
+        var statusJson = '[{"value": "", "text": "全部"},{"value": "0", "text": "未提交"}, {"value": "1", "text": "已提交"}, {"value": "2", "text": "成本部已审核"}, {"value": "3", "text": "工程部已审核"},{"value": "4", "text": "总经理已审核"}]';
         var statusNamePicker = new mui.PopPicker();
-        statusNamePicker.setData( [{
-            value: '0',
-            text: '未提交'
-        }, {
-            value: '1',
-            text: '已提交'
-        }, {
-            value: '2',
-            text: '成本部已审核'
-        }, {
-            value: '3',
-            text: '工程部已审核'
-        },{
-            value: '4',
-            text: '总经理已审核'
-        }]);
+        statusNamePicker.setData(JSON.parse(statusJson));
         var statusName = document.getElementById('statusName');
         var status = document.getElementById('status');
         statusName.addEventListener('tap', function(event) {
@@ -343,14 +322,9 @@
             });
         }, false);
 
+        var instrutOrderJson = '[{"value": "", "text": "全部"},{"value":0,"text":"未到"},{"value":1,"text":"已到"}]';
         var instructOrderFlagPicker = new mui.PopPicker();
-        instructOrderFlagPicker.setData( [{
-            value: '0',
-            text: '未到'
-        }, {
-            value: '1',
-            text: '已到'
-        }]);
+        instructOrderFlagPicker.setData(JSON.parse(instrutOrderJson));
         var instructOrderFlagName = document.getElementById('instructOrderFlagName');
         var instructOrderFlag = document.getElementById('instructOrderFlag');
         instructOrderFlagName.addEventListener('tap', function(event) {
@@ -409,12 +383,15 @@
         </div>
         <div class="mui-card-footer">
             <div class="mui-pull-left">
-                <label>审核人：张三</label>
-                <label>审核日期：2018-08-21</label>
+                <label>{{purchaseOrder_departUser status}}</label>
+                <label>{{purchaseOrder_departDate status}}</label>
             </div>
             <div>
-                <button type="button" class="mui-btn mui-btn-primary details-edit"  data-id="{{id}}" >明细</button>
-                <button type="button" class="mui-btn mui-btn-primary">审核</button>
+                <shiro:hasPermission name="mobile:CAM:update">
+                    <button type="button" class="mui-btn mui-btn-primary details-edit"  data-id="{{id}}" >明细</button>
+                </shiro:hasPermission>
+
+                <%--<button type="button" class="mui-btn mui-btn-primary">审核</button>--%>
             </div>
         </div>
     </div>
