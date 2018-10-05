@@ -130,50 +130,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		BizPurchaseOrderDetailsVo detailsVo = new BizPurchaseOrderDetailsVo();
 
 		//获取采购单
-		BizPurchaseOrder order = purchaseOrderMapper.selectByPrimaryKey(id);
-		BizPurchaseOrderVo vo = new BizPurchaseOrderVo();
-
-		//所属项目
-        String projectId = order.getProjectId();
-        if(StringUtils.isNotBlank(projectId)){
-            TbProjectManger projectManger = projectMangerMapper.selectByPrimaryKey(projectId);
-            order.setProjectId(projectManger.getName());
-        }
-
-
-		BeanUtils.copyProperties(order, vo);
-
-		Long userId = order.getCreateUser();
-		TbAdmin tbAdmin = adminMapper.selectByPrimaryKey(userId);
-		vo.setAdmin(tbAdmin);
-
-		Long costUserId = order.getCostDepartUser();
-		if(costUserId != null){
-			TbAdmin costAdmin = adminMapper.selectByPrimaryKey(costUserId);
-			vo.setCostAdmin(costAdmin);
-		}
-
-		Long projectUserId = order.getProjectDepartUser();
-		if(projectUserId != null){
-			TbAdmin projectAdmin = adminMapper.selectByPrimaryKey(projectUserId);
-			vo.setCostAdmin(projectAdmin);
-		}
-
-		Long managerUserId = order.getManagerDepartUser();
-		if(managerUserId != null){
-			TbAdmin managerAdmin = adminMapper.selectByPrimaryKey(managerUserId);
-			vo.setManagerAdmin(managerAdmin);
-		}
-
-		Long supplierId = order.getSupplierId();
-		if(supplierId != null){
-			TbSupplier supplier = supplierMapper.selectByPrimaryKey(supplierId);
-			vo.setSupplier(supplier);
-		}
-
-
-
-
+        BizPurchaseOrderVo vo =  getBizPurchaseOrderVo(id);
+        Long userId = vo.getCreateUser();
 		detailsVo.setPurchaseOrder(vo);
 
 		//获取采购单详情
@@ -209,12 +167,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			long loginId = admin.getId();
 			if(reviewUserId != null && reviewUserId == loginId){
 				detailsVo.setReviewUserId(userId);
-				List<ChoseAdminVO> data = adminMapper.selectByDeptName(depart);
-				if(!CollectionUtils.isEmpty(data)){
-					Gson gson = new Gson();
-					String json = gson.toJson(data);
-					detailsVo.setDeparts(json);
-				}
+			}
+			List<ChoseAdminVO> data = adminMapper.selectByDeptName(depart);
+			if(!CollectionUtils.isEmpty(data)){
+				Gson gson = new Gson();
+				String json = gson.toJson(data);
+				detailsVo.setDeparts(json);
 			}
 		}
 
@@ -447,4 +405,55 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		purchaseOrderMapper.updateByPrimaryKeySelective(tmp);
 		return ResultUtil.ok();
 	}
+
+	private BizPurchaseOrderVo getBizPurchaseOrderVo(String id){
+        //获取采购单
+        BizPurchaseOrder order = purchaseOrderMapper.selectByPrimaryKey(id);
+        BizPurchaseOrderVo vo = new BizPurchaseOrderVo();
+
+        //所属项目
+        String projectId = order.getProjectId();
+        if(StringUtils.isNotBlank(projectId)){
+            TbProjectManger projectManger = projectMangerMapper.selectByPrimaryKey(projectId);
+			vo.setProjectManger(projectManger);
+        }
+
+
+        BeanUtils.copyProperties(order, vo);
+
+        Long userId = order.getCreateUser();
+        TbAdmin tbAdmin = adminMapper.selectByPrimaryKey(userId);
+        vo.setAdmin(tbAdmin);
+
+        Long costUserId = order.getCostDepartUser();
+        if(costUserId != null){
+            TbAdmin costAdmin = adminMapper.selectByPrimaryKey(costUserId);
+            vo.setCostAdmin(costAdmin);
+        }
+
+        Long projectUserId = order.getProjectDepartUser();
+        if(projectUserId != null){
+            TbAdmin projectAdmin = adminMapper.selectByPrimaryKey(projectUserId);
+            vo.setCostAdmin(projectAdmin);
+        }
+
+        Long managerUserId = order.getManagerDepartUser();
+        if(managerUserId != null){
+            TbAdmin managerAdmin = adminMapper.selectByPrimaryKey(managerUserId);
+            vo.setManagerAdmin(managerAdmin);
+        }
+
+        Long supplierId = order.getSupplierId();
+        if(supplierId != null){
+            TbSupplier supplier = supplierMapper.selectByPrimaryKey(supplierId);
+            vo.setSupplier(supplier);
+        }
+
+        return vo;
+    }
+
+    @Override
+    public BizPurchaseOrderVo selPurchaseOrderById(String id) {
+        return getBizPurchaseOrderVo(id);
+    }
 }

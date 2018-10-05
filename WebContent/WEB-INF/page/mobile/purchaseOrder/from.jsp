@@ -26,31 +26,36 @@
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>
         </button>
-        <h1 class="mui-center mui-title">新建采购订单</h1>
+        <h1 class="mui-center mui-title">
+            <c:choose>
+                <c:when test="${empty order}">新建采购订单</c:when>
+                <c:otherwise>修改采购订单</c:otherwise>
+            </c:choose>
+        </h1>
     </div>
 
     <!-- 主界面具体展示内容 -->
     <div class="mui-content-padded mui-card" style="margin: 5px;">
         <form class="mui-input-group" id="submitFrom">
-            <div class="mui-input-row">
-                <label>合同编号</label>
-                <input type="text" name="contract_no" class="mui-input-clear" mui-verify="required">
-            </div>
+            <%--<div class="mui-input-row">--%>
+                <%--<label>合同编号</label>--%>
+                <%--<input type="text" name="contractNo" class="mui-input-clear" mui-verify="required" value="${order.contractNo}">--%>
+            <%--</div>--%>
             <div class="mui-input-row">
                 <label>订单类型</label>
                 <input type="text" id="typeName" class="mui-input-clear" placeholder="请选择订单类型" mui-verify="required">
-                <input type="hidden" id="type" name="type">
+                <input type="hidden" id="type" name="type" value="${order.type}">
             </div>
             <div class="mui-input-row">
                 <label>供应商</label>
-                <input type="text" id="supplierName" class="mui-input-clear" placeholder="请选择开单人" mui-verify="required">
-                <input type="hidden" id="supplierId" name="supplierId">
+                <input type="text" id="supplierName" class="mui-input-clear" placeholder="请选择开单人" mui-verify="required" <c:if test="${!empty order}">value="${order.supplier.name}"</c:if>>
+                <input type="hidden" id="supplierId" name="supplierId" value="${order.supplierId}">
             </div>
             <div class="mui-input-row">
                 <label>所属项目</label>
                 <a href="#selectProject">
-                    <label id="selectProjectText" style="width: 65%;padding-left: 0px;">请选择所属项目</label>
-                    <input type="hidden" id="selectProjectHidden" name="projectId" value="" mui-verify="required">
+                    <label id="selectProjectText" style="width: 65%;padding-left: 0px;"><c:choose><c:when test="${empty order}">请选择所属项目</c:when><c:otherwise>${order.projectManger.name}</c:otherwise></c:choose></label>
+                    <input type="hidden" id="selectProjectHidden" name="projectId" mui-verify="required" value="${order.projectId}">
                 </a>
             </div>
             <%--<div class="mui-input-row">--%>
@@ -59,10 +64,10 @@
             <%--</div>--%>
             <div class="mui-input-row mui-input-range">
                 <label>付款比例(%)</label>
-                <input name="payment_ratio" type="range" min="0" max="100" value="100">
+                <input name="paymentRatio" type="range" min="0" max="100"   <c:choose><c:when test="${empty order}">value="100"</c:when><c:otherwise>value="${order.paymentRatio}"</c:otherwise></c:choose> />
             </div>
             <div>
-                <textarea name="summary" id="summary" rows="5" class="mui-input-clear" placeholder="摘要"></textarea>
+                <textarea name="summary" id="summary" rows="5" class="mui-input-clear" placeholder="摘要">${order.summary}</textarea>
             </div>
             <div class="mui-button-row" style="padding-bottom: 20px;">
                 <button type="button" class="mui-btn mui-btn-primary" onclick="submitPurchaseOrder()">提交</button>
@@ -178,6 +183,14 @@
         userPicker.setData(json);
         var typeName = document.getElementById('typeName');
         var type = document.getElementById('type');
+        var typeValue = type.value;
+        if(typeValue){
+            $.each(json,function (idx,obj) {
+               if(obj.value == typeValue){
+                   typeName.value = obj.text;
+               }
+            })
+        }
         typeName.addEventListener('tap', function(event) {
             userPicker.show(function(items) {
                 typeName.value = items[0].text;

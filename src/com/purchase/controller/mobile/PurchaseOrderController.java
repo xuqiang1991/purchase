@@ -8,6 +8,7 @@ import com.purchase.service.PurchaseOrderService;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.order.BizPurchaseOrderDetailsVo;
 import com.purchase.vo.order.BizPurchaseOrderSearch;
+import com.purchase.vo.order.BizPurchaseOrderVo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -59,7 +60,7 @@ public class PurchaseOrderController {
 
     @RequestMapping("/toSave")
     @RequiresPermissions("mobile:purchase:save")
-    public String toSave(Long id, Model model){
+    public String toSave(){
         return "page/mobile/purchaseOrder/from";
     }
 
@@ -71,6 +72,16 @@ public class PurchaseOrderController {
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         order.setCreateUser(admin.getId());
         return purchaseOrderService.addPurchaseOrder(order);
+    }
+
+
+    @RequestMapping("/toEdit")
+    @RequiresPermissions("mobile:purchase:save")
+    public String toUpdate(String id, Model model){
+        BizPurchaseOrderVo order = purchaseOrderService.selPurchaseOrderById(id);
+        model.addAttribute("order",order);
+
+        return "page/mobile/purchaseOrder/from";
     }
 
     @SysLog(value="编辑采购单")

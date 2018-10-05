@@ -174,19 +174,19 @@
                     </div>
                     <div class="mui-input-row">
                         <label>单价</label>
-                        <input type="text" name="price" class="mui-input-clear" mui-verify="required">
+                        <input type="number" name="price" class="mui-input-clear" mui-verify="required">
                     </div>
                     <div class="mui-input-row">
                         <label>数量</label>
-                        <input type="text" name="amount" class="mui-input-clear" mui-verify="required">
+                        <input type="number" name="amount" class="mui-input-clear" mui-verify="required">
                     </div>
                     <div class="mui-input-row">
                         <label>质保期（月）</label>
-                        <input type="text" name="warrantyDate" class="mui-input-clear" mui-verify="required">
+                        <input type="number" name="warrantyDate" class="mui-input-clear" mui-verify="required">
                     </div>
                     <div class="mui-input-row">
                         <label>日期</label>
-                        <input type="text" name="date" class="mui-input-clear" mui-verify="required">
+                        <input id="dateText" type="text" name="date" class="mui-input-clear" mui-verify="required" data-options='{"type":"date","beginYear":2014}' placeholder="请选择日期">
                     </div>
                     <div>
                         <textarea name="remark" id="remark" rows="5" class="mui-input-clear" placeholder="备注"></textarea>
@@ -522,20 +522,24 @@
         });
     });
 
-    function submitPurchaseOrderReview(json){
-        var userPicker = new mui.PopPicker();
-        userPicker.setData(json);
-        var supplierName = document.getElementById('supplierName');
-        var supplierId = document.getElementById('supplierId');
-        supplierName.addEventListener('tap', function(event) {
-            userPicker.show(function(items) {
-                supplierName.value = items[0].text;
-                supplierId.value = items[0].value;
-                //返回 false 可以阻止选择框的关闭
-                //return false;
-            });
-        }, false);
-    }
+    (function($) {
+        $.init();
+        //var result = $('#dateText');
+        var btns =  $('#dateText');
+        btns.each(function(i, btn) {
+            btn.addEventListener('tap', function() {
+                var optionsJson = this.getAttribute('data-options') || '{}';
+                var options = JSON.parse(optionsJson);
+                var id = this.getAttribute('id');
+                var picker = new $.DtPicker(options);
+                picker.show(function(rs) {
+                    dateText.value = rs.text;
+                    picker.dispose();
+                });
+            }, false);
+        });
+
+    })(mui);
 
 </script>
 </body>

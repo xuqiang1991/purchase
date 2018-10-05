@@ -47,4 +47,6 @@ public interface PurchaseOrderService {
     ResultUtil submitReviewPurchaseOrder(TbAdmin admin, String id, Long userId);
 
     ResultUtil purchaseOrderContractNo(String id, String contractNo);
+
+    BizPurchaseOrderVo selPurchaseOrderById(String id);
 }
