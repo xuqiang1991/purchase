@@ -38,4 +38,6 @@ public interface UCAMService {
     ResultUtil deleteUCAMItem(String id);
 
     ResultUtil submitReviewUCAMOrder(TbAdmin admin, String id, Long userId);
+
+    ResultUtil reviewUCAMOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion);
 }

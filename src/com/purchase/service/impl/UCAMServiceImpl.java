@@ -8,11 +8,7 @@ import com.purchase.mapper.admin.TbSupplierMapper;
 import com.purchase.mapper.order.BizUncontractApplyMoneyDetailMapper;
 import com.purchase.mapper.order.BizUncontractApplyMoneyMapper;
 import com.purchase.pojo.admin.TbAdmin;
-import com.purchase.pojo.admin.TbSupplier;
-import com.purchase.pojo.order.BizUncontractApplyMoney;
-import com.purchase.pojo.order.BizUncontractApplyMoneyDetail;
-import com.purchase.pojo.order.BizUncontractApplyMoneyDetailExample;
-import com.purchase.pojo.order.BizUncontractApplyMoneyExample;
+import com.purchase.pojo.order.*;
 import com.purchase.service.UCAMService;
 import com.purchase.util.*;
 import com.purchase.vo.admin.ChoseAdminVO;
@@ -22,7 +18,6 @@ import com.purchase.vo.order.UCAMVo;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -228,79 +223,56 @@ public class UCAMServiceImpl implements UCAMService {
     @Override
     public UCAMOrderDetialVo selUCAMDetail(String id) {
         UCAMOrderDetialVo ucamOrderDetialVo = new UCAMOrderDetialVo();
-        BizUncontractApplyMoney order = ucamMapper.selectByPrimaryKey(id);
+
+        BizUncontractApplyMoneyExample example = new BizUncontractApplyMoneyExample();
+        BizUncontractApplyMoneyExample.Criteria criteria = example.createCriteria();
+        criteria.andIdEqualTo(id);
+        UCAMSearch search = new UCAMSearch();
+        search.setId(id);
+        List<UCAMVo> ucamList = ucamMapper.selectByExampleExt(example,search);
         UCAMVo vo = new UCAMVo();
-        BeanUtils.copyProperties(order,vo);
-
-
-        Long userId = order.getCreateUser();
-        TbAdmin tbAdmin = adminMapper.selectByPrimaryKey(userId);
-        vo.setAdmin(tbAdmin);
-
-        Long costUserId = order.getCostDepartUser();
-        if(costUserId != null){
-            TbAdmin costAdmin = adminMapper.selectByPrimaryKey(costUserId);
-            vo.setCostAdmin(costAdmin);
+        if(!CollectionUtils.isEmpty(ucamList)){
+            vo = ucamList.get(0);
         }
 
-        Long projectUserId = order.getProjectDepartUser();
-        if(projectUserId != null){
-            TbAdmin projectAdmin = adminMapper.selectByPrimaryKey(projectUserId);
-            vo.setCostAdmin(projectAdmin);
-        }
-
-        Long managerUserId = order.getManagerDepartUser();
-        if(managerUserId != null){
-            TbAdmin managerAdmin = adminMapper.selectByPrimaryKey(managerUserId);
-            vo.setManagerAdmin(managerAdmin);
-        }
-
-        Long supplierId = order.getSupplierId();
-        if(supplierId != null){
-            TbSupplier supplier = supplierMapper.selectByPrimaryKey(supplierId);
-            vo.setSupplier(supplier);
-        }
         ucamOrderDetialVo.setUcamVo(vo);
 
-        //获取采购单详情
-        String orderNo = vo.getOrderNo();
-
-        BizUncontractApplyMoneyDetailExample example = new BizUncontractApplyMoneyDetailExample();
-        BizUncontractApplyMoneyDetailExample.Criteria criteria = example.createCriteria();
-        criteria.andOrderNoEqualTo(orderNo);
-        List<BizUncontractApplyMoneyDetail> detailList = ucamDetailMapper.selectByExample(example);
+        //获取合同外请款单详情
+        BizUncontractApplyMoneyDetailExample detailExample = new BizUncontractApplyMoneyDetailExample();
+        BizUncontractApplyMoneyDetailExample.Criteria detailCriteria = detailExample.createCriteria();
+        detailCriteria.andOrderNoEqualTo(vo.getOrderNo());
+        List<BizUncontractApplyMoneyDetail> detailList = ucamDetailMapper.selectByExample(detailExample);
         ucamOrderDetialVo.setUcamDetail(detailList);
 
         //选择审核人
-        int status = vo.getStatus();
         String depart = null;
         Long reviewUserId = null;
-        if(PurchaseUtil.STATUS_1 == status){
-            Long cId = vo.getCostDepartUser();
-            if(cId != null){
+        if(PurchaseUtil.STATUS_1 == vo.getStatus()){
+            if(vo.getCostDepartUser() != null){
                 reviewUserId = vo.getCostDepartUser();
                 depart = "工程部";
             }else {
                 depart = "成本部";
             }
-        }else if(PurchaseUtil.STATUS_2 == status){
+        }else if(PurchaseUtil.STATUS_2 == vo.getStatus()){
             depart = "工程部";
             reviewUserId = vo.getProjectDepartUser();
-        }else if(PurchaseUtil.STATUS_3 == status){
+        }else if(PurchaseUtil.STATUS_3 == vo.getStatus()){
             depart = "总经理";
             reviewUserId = vo.getManagerDepartUser();
         }
         if(depart != null){
+            List<ChoseAdminVO> data = adminMapper.selectByDeptName(depart);
+            if(!CollectionUtils.isEmpty(data)){
+                Gson gson = new Gson();
+                String json = gson.toJson(data);
+                ucamOrderDetialVo.setDeparts(json);
+            }
             TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
             long loginId = admin.getId();
             if(reviewUserId != null && reviewUserId == loginId){
-                ucamOrderDetialVo.setReviewUserId(userId);
-                List<ChoseAdminVO> data = adminMapper.selectByDeptName(depart);
-                if(!CollectionUtils.isEmpty(data)){
-                    Gson gson = new Gson();
-                    String json = gson.toJson(data);
-                    ucamOrderDetialVo.setDeparts(json);
-                }
+                ucamOrderDetialVo.setReviewUserId(vo.getCreateUser());
+
             }
         }
         return ucamOrderDetialVo;
@@ -386,6 +358,61 @@ public class UCAMServiceImpl implements UCAMService {
         tmp.setUpdateDate(date);
 
         ucamMapper.updateByPrimaryKeySelective(tmp);
+        return ResultUtil.ok();
+    }
+
+    @Override
+    public ResultUtil reviewUCAMOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion) {
+        Date date = new Date();
+        BizUncontractApplyMoney order = ucamMapper.selectByPrimaryKey(id);
+        Long userId = admin.getId();
+
+        //判断审核人
+        Long reviewer = null;
+        Boolean reviewerResults = null;
+        if(PurchaseUtil.STATUS_1 ==  order.getStatus()){
+            reviewer = order.getCostDepartUser();
+            reviewerResults = order.getCostDepartApproval();
+        }else if (PurchaseUtil.STATUS_2 ==  order.getStatus()){
+            reviewer = order.getProjectDepartUser();
+            reviewerResults = order.getProjectDepartApproval();
+        }else if (PurchaseUtil.STATUS_3 ==  order.getStatus()){
+            reviewer = order.getManagerDepartUser();
+            reviewerResults = order.getManagerDepartApproval();
+        }
+        if(reviewer == null){
+            return ResultUtil.error("审核人不存在");
+        }
+        if(reviewer.compareTo(userId) != 0){
+            return ResultUtil.error("没有审核权限！");
+        }
+        if(reviewerResults != null && reviewerResults){
+            return ResultUtil.error("请不要重新审核！");
+        }
+
+        //审核状态
+        if(PurchaseUtil.STATUS_1 ==  order.getStatus()){
+            order.setStatus(PurchaseUtil.STATUS_2);
+            order.setCostDepartApproval(auditResults);
+            order.setCostDepartDate(date);
+            order.setCostDepartOpinion(auditOpinion);
+            order.setProjectDepartUser(applyUser);
+        }else if (PurchaseUtil.STATUS_2 ==  order.getStatus()){
+            order.setStatus(PurchaseUtil.STATUS_3);
+            order.setProjectDepartDate(date);
+            order.setProjectDepartOpinion(auditOpinion);
+            order.setManagerDepartUser(applyUser);
+        }else if (PurchaseUtil.STATUS_3 ==  order.getStatus()){
+            order.setStatus(PurchaseUtil.STATUS_4);
+            order.setManagerDepartDate(date);
+            order.setManagerDepartOpinion(auditOpinion);
+        }else if (PurchaseUtil.STATUS_4 ==  order.getStatus()){
+            order.setStatus(PurchaseUtil.STATUS_5);
+        }
+        order.setUpdateDate(date);
+
+        ucamMapper.updateByPrimaryKeySelective(order);
+
         return ResultUtil.ok();
     }
 }

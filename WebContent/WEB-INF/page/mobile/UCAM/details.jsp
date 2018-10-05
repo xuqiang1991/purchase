@@ -258,22 +258,22 @@
     <div class="mui-popover-arrow"></div>
     <div class="mui-scroll-wrapper">
         <div class="mui-scroll"  style="height: 100%;">
-            <form class="mui-input-group" id="reviewPurchaseOrderForm">
+            <form class="mui-input-group" id="reviewUCAMForm">
                 <div class="mui-input-row">
                     <label style="width: 120px;">审核结果</label>
-                    <input type="text" id="selectAuditResults" placeholder="请选择审核结果" style="float: left;width: 150px;">
-                    <input type="hidden" id="auditResults" name="auditResults">
+                    <input type="text" id="selectAuditResults" placeholder="请选择审核结果" readonly style="float: left;width: 150px;" value="审核通过">
+                    <input type="hidden" id="auditResults" name="auditResults" value="1">
                 </div>
                 <div class="mui-input-row">
                     <label style="width: 120px;">上级审核人</label>
-                    <input type="text" id="selectApplyUser" placeholder="请选择请款人" style="float: left;width: 150px;">
+                    <input type="text" id="selectApplyUser" placeholder="上级审核人" readonly style="float: left;width: 150px;">
                     <input type="hidden" id="applyUser" name="applyUser">
                 </div>
                 <div class="mui-input-row" style="height: auto">
                     <textarea name="auditOpinion" id="auditOpinion" rows="5" class="mui-input-clear" placeholder="审核意见"></textarea>
                 </div>
                 <div class="mui-button-row" style="padding-bottom: 20px;">
-                    <button type="button" class="mui-btn mui-btn-primary" id="reviewPurchaseOrderButton">审核</button>
+                    <button type="button" class="mui-btn mui-btn-primary" id="reviewUCAMButton">审核</button>
                 </div>
             </form>
         </div>
@@ -426,7 +426,7 @@
             var text = selectItems[0].text;
             mui.alert('确定提审核人为：' + text + "？" , function() {
                 var userId = selectItems[0].value;
-                var url = '${ctx}/mobile/UCAM/submitReviewPurchaseOrder?id=${detailsVo.ucamVo.id}&userId=' + userId;
+                var url = '${ctx}/mobile/UCAM/submitReviewUCAMOrder?id=${detailsVo.ucamVo.id}&userId=' + userId;
                 $.ajax({
                     url: url,
                     dataType: 'json',
@@ -448,7 +448,73 @@
         });
     });
 
+    /** 审核 **/
+    mui(document.body).on('tap', '#reviewUCAM', function(e) {
+        mui("#popover").popover('toggle', document.getElementById("div"));
+    });
 
+    mui(document.body).on('tap', '#selectApplyUser', function(e) {
+        var adminsJson = '${detailsVo.departs}'
+        var json =JSON.parse(adminsJson)
+        var userPicker = new mui.PopPicker();
+        userPicker.setData(json);
+        var selectApplyUser = document.getElementById('selectApplyUser');
+        var applyUser = document.getElementById('applyUser');
+        userPicker.show(function (items) {
+            selectApplyUser.value = items[0].text;
+            applyUser.value = items[0].value;
+        });
+    });
+    mui(document.body).on('tap', '#selectAuditResults', function(e) {
+        var adminsJson = '[{"text":"审核通过","value":"1"},{"text":"审核不通过","value":"0"}]';
+        var json =JSON.parse(adminsJson)
+        var userPicker = new mui.PopPicker();
+        userPicker.setData(json);
+        var selectAuditResults = document.getElementById('selectAuditResults');
+        var auditResults = document.getElementById('auditResults');
+        userPicker.show(function (items) {
+            selectAuditResults.value = items[0].text;
+            auditResults.value = items[0].value;
+        });
+    });
+
+    mui(document.body).on('tap', '#reviewUCAMButton', function(e) {
+
+        var auditResults = document.getElementById("auditResults");
+        var applyUser = document.getElementById("applyUser");
+        console.log(applyUser.value);
+        if(!applyUser.value || applyUser.value.trim() == "") {
+            mui.alert("请选择上级审核人");
+            return false;
+        }
+
+        var auditOpinion = document.getElementById("auditOpinion");
+        if(!auditOpinion.value || auditOpinion.value.trim() == "") {
+            mui.alert("审核意见不允许为空");
+            return false;
+        }
+
+        mui.alert('确定提交审核？' , function() {
+            var url = '${ctx}/mobile/UCAM/reviewUCAMOrder/${detailsVo.ucamVo.id}';
+            $.ajax({
+                url: url,
+                data:{'auditResults':auditResults.value,'applyUser':applyUser.value,'auditOpinion': auditOpinion.value},
+                dataType: 'json',
+                contentType : "application/x-www-form-urlencoded",
+                type: 'post',
+                timeout: 10000,
+                success: function(result) {
+                    if(result.code!=0){
+                        mui.alert(result.msg);
+                    }else {
+                        mui.alert('审核成功！', function() {
+                            document.location.href='${ctx }/mobile/UCAM/toDetails/${detailsVo.ucamVo.id}';
+                        });
+                    }
+                }
+            });
+        });
+    });
 
 </script>
 </body>
