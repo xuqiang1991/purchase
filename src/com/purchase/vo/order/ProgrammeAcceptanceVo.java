@@ -11,7 +11,7 @@ import java.util.List;
 /**
  *
  */
-public class PaoVo extends BizProgrammeAcceptanceOrder {
+public class ProgrammeAcceptanceVo extends BizProgrammeAcceptanceOrder {
 
     private TbSupplier supplier;
     private TbAdmin admin;

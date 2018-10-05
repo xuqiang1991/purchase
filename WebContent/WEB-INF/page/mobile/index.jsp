@@ -42,7 +42,7 @@
             </a></li>
         </shiro:hasPermission>
         <shiro:hasPermission name="mobile:programmeAcceptance:list">
-            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="#">
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="${ctx }/mobile/programmeAcceptance/list">
                 <span class="mui-icon iconfont icon-yanshou icon-color-F0AD4E"></span>
                 <div class="mui-media-body">工程验收</div>
             </a></li>

@@ -1,5 +1,7 @@
 package com.purchase.pojo.order;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -84,6 +86,7 @@ public class BizUncontractApplyMoney {
         this.createUser = createUser;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCreateTime() {
         return createTime;
     }
@@ -100,6 +103,7 @@ public class BizUncontractApplyMoney {
         this.applyUser = applyUser;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getApplyDate() {
         return applyDate;
     }
@@ -164,6 +168,7 @@ public class BizUncontractApplyMoney {
         this.actualPrice = actualPrice;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getUpdateDate() {
         return updateDate;
     }
@@ -196,6 +201,7 @@ public class BizUncontractApplyMoney {
         this.costDepartUser = costDepartUser;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCostDepartDate() {
         return costDepartDate;
     }
@@ -228,6 +234,7 @@ public class BizUncontractApplyMoney {
         this.projectDepartUser = projectDepartUser;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getProjectDepartDate() {
         return projectDepartDate;
     }
@@ -260,6 +267,7 @@ public class BizUncontractApplyMoney {
         this.managerDepartUser = managerDepartUser;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getManagerDepartDate() {
         return managerDepartDate;
     }

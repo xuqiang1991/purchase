@@ -5,7 +5,7 @@ package com.purchase.vo.order;
  * @Date: 2018/8/24 21:01
  * @Description:工程验收查询条件字段
  */
-public class PaoSearch {
+public class ProgrammeAcceptanceSearch {
 
     private String id;
     /*单号、供应商、所属项目、合同号、开单人、开单日期、单据状态*/
@@ -16,7 +16,7 @@ public class PaoSearch {
     private String createTime;
     private Integer status;
 
-    public PaoSearch() {
+    public ProgrammeAcceptanceSearch() {
     }
 
     public String getId() {

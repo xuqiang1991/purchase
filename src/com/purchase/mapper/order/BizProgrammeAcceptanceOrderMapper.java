@@ -2,8 +2,8 @@ package com.purchase.mapper.order;
 
 import com.purchase.pojo.order.BizProgrammeAcceptanceOrder;
 import com.purchase.pojo.order.BizProgrammeAcceptanceOrderExample;
-import com.purchase.vo.order.PaoSearch;
-import com.purchase.vo.order.UCAMVo;
+import com.purchase.vo.order.ProgrammeAcceptanceSearch;
+import com.purchase.vo.order.ProgrammeAcceptanceVo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -38,5 +38,5 @@ public interface BizProgrammeAcceptanceOrderMapper {
     @Select("select * from biz_programme_acceptance_order where order_no = #{orderNo}")
     BizProgrammeAcceptanceOrder selectByOrderNo(@Param("orderNo") String orderNo);
 
-    List<UCAMVo> selectByExampleExt(@Param("example") BizProgrammeAcceptanceOrderExample example, @Param("search") PaoSearch search);
+    List<ProgrammeAcceptanceVo> selectByExampleExt(@Param("example") BizProgrammeAcceptanceOrderExample example, @Param("search") ProgrammeAcceptanceSearch search);
 }

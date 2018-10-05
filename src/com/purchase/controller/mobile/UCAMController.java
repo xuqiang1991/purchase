@@ -49,9 +49,6 @@ public class UCAMController {
     private AdminService adminService;
 
     @Autowired
-    private PurchaseOrderService purchaseOrderService;
-
-    @Autowired
     private SupplierService supplierService;
 
     @Autowired

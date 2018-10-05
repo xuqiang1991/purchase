@@ -9,9 +9,9 @@ import java.util.List;
  * @Date: 2018/9/29 11:21
  * @Description:
  */
-public class PaoOrderDetialVo {
+public class ProgrammeAcceptanceDetialVo {
 
-    private PaoVo paoVo;
+    private ProgrammeAcceptanceVo paoVo;
 
     private List<BizProgrammeAcceptanceOrderDetail> paoDetail;
 
@@ -19,11 +19,11 @@ public class PaoOrderDetialVo {
 
     private String departs;
 
-    public PaoVo getPaoVo() {
+    public ProgrammeAcceptanceVo getPaoVo() {
         return paoVo;
     }
 
-    public void setPaoVo(PaoVo paoVo) {
+    public void setPaoVo(ProgrammeAcceptanceVo paoVo) {
         this.paoVo = paoVo;
     }
 

@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>合同外请款单</title>
+    <title>工程验收单</title>
     <link href="${ctx }/mui/css/mui.min.css" rel="stylesheet"/>
     <link href="${ctx }/mui/css/iconfont.css" rel="stylesheet"/>
     <link href="${ctx }/mui/css/mui.picker.min.css" rel="stylesheet" />
@@ -25,7 +25,7 @@
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>
         </button>
-        <h1 class="mui-center mui-title">合同外请款单</h1>
+        <h1 class="mui-center mui-title">工程验收单</h1>
     </div>
 
     <div class="mui-content-padded mui-card" style="margin: 5px;">

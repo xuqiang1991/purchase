@@ -30,6 +30,8 @@ public class BizProgrammeAcceptanceOrder {
 
     private Integer status;
 
+    private Date updateDate;
+
     private String summary;
 
     private Boolean costDepartApproval;
@@ -158,6 +160,14 @@ public class BizProgrammeAcceptanceOrder {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 
     public String getSummary() {

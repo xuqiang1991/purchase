@@ -34,7 +34,7 @@
     </where>
   </sql>
 
-  <resultMap id="BaseResultMapExt" type="com.purchase.vo.order.PaoVo" extends="BaseResultMap">
+  <resultMap id="BaseResultMapExt" type="com.purchase.vo.order.ProgrammeAcceptanceVo" extends="BaseResultMap">
     <association property="supplier" javaType="com.purchase.pojo.admin.TbSupplier">
       <result column="supplier_id" jdbcType="BIGINT" property="id"></result>
       <result column="supplierName" jdbcType="VARCHAR" property="name"></result>
