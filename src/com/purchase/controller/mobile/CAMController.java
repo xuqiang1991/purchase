@@ -10,8 +10,10 @@ import com.purchase.service.CAMService;
 import com.purchase.service.PurchaseOrderService;
 import com.purchase.service.SupplierService;
 import com.purchase.util.ResultUtil;
+import com.purchase.vo.order.BizPurchaseOrderVo;
 import com.purchase.vo.order.CAMDetailsVo;
 import com.purchase.vo.order.CAMSearch;
+import com.purchase.vo.order.CAMVo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -84,6 +86,15 @@ public class CAMController {
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         order.setCreateUser(admin.getId());
         return camService.addCAMOrder(order);
+    }
+
+
+    @RequestMapping("/toEdit")
+    @RequiresPermissions("mobile:CAM:save")
+    public String toUpdate(String id, Model model){
+        CAMVo order = camService.getCAMOrder(id);
+        model.addAttribute("order",order);
+        return "page/mobile/CAM/from";
     }
 
 
@@ -164,6 +175,4 @@ public class CAMController {
         order.setCreateUser(admin.getId());
         return camService.editCAMOrder(order);
     }
-
-
 }

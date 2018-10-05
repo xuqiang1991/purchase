@@ -92,22 +92,26 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 		Date date = new Date();
 
-		String id = WebUtils.generateUUID();
-		order.setId(id);
+		if(StringUtils.isBlank(order.getId())){
+			String id = WebUtils.generateUUID();
+			order.setId(id);
 
-		//生成采购单号
-		String yyddmm = DateUtil.formatDate(date,DateUtil.DateFormat3);
-		String prefix = PurchaseUtil.prefix + yyddmm;
-		String pn = purchaseOrderMapper.selMaxPurchaseNo(prefix);
-		String purchaseNo = PurchaseUtil.generatePurchaseNo(pn);
-		order.setPurchaseNo(purchaseNo);
+			//生成采购单号
+			String yyddmm = DateUtil.formatDate(date,DateUtil.DateFormat3);
+			String prefix = PurchaseUtil.prefix + yyddmm;
+			String pn = purchaseOrderMapper.selMaxPurchaseNo(prefix);
+			String purchaseNo = PurchaseUtil.generatePurchaseNo(pn);
+			order.setPurchaseNo(purchaseNo);
 
-		//参数补充
-		order.setUpdateDate(date);
-		order.setCreateTime(date);
+			//参数补充
+			order.setCreateTime(date);
+			order.setUpdateDate(date);
 
-        purchaseOrderMapper.insertSelective(order);
-
+			purchaseOrderMapper.insertSelective(order);
+		}else {
+			order.setUpdateDate(date);
+			purchaseOrderMapper.updateByPrimaryKeySelective(order);
+		}
 		return ResultUtil.ok();
 	}
 

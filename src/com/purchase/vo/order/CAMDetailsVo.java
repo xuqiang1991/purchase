@@ -1,6 +1,7 @@
 package com.purchase.vo.order;
 
 import com.purchase.pojo.order.BizContractApplyMoneyDetail;
+import com.purchase.util.OrderTypeEnum;
 
 import java.util.List;
 
@@ -48,5 +49,9 @@ public class CAMDetailsVo {
 
     public void setDeparts(String departs) {
         this.departs = departs;
+    }
+
+    public String getOrderType() {
+        return OrderTypeEnum.getVisitorByCode(order.getOrderType()).getName();
     }
 }

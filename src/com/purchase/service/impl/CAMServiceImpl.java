@@ -4,16 +4,20 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.purchase.mapper.admin.TbAdminMapper;
+import com.purchase.mapper.admin.TbProjectMangerMapper;
 import com.purchase.mapper.admin.TbSupplierMapper;
 import com.purchase.mapper.order.BizContractApplyMoneyDetailMapper;
 import com.purchase.mapper.order.BizContractApplyMoneyMapper;
 import com.purchase.mapper.order.BizPurchaseOrderMapper;
 import com.purchase.pojo.admin.TbAdmin;
+import com.purchase.pojo.admin.TbProjectManger;
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.*;
 import com.purchase.service.CAMService;
+import com.purchase.service.PurchaseOrderService;
 import com.purchase.util.*;
 import com.purchase.vo.admin.ChoseAdminVO;
+import com.purchase.vo.order.BizPurchaseOrderVo;
 import com.purchase.vo.order.CAMDetailsVo;
 import com.purchase.vo.order.CAMSearch;
 import com.purchase.vo.order.CAMVo;
@@ -55,6 +59,12 @@ public class CAMServiceImpl implements CAMService {
     @Autowired
     private BizPurchaseOrderMapper purchaseOrderMapper;
 
+    @Autowired
+    private PurchaseOrderService purchaseOrderService;
+
+    @Autowired
+    private TbProjectMangerMapper projectMangerMapper;
+
 
     @Override
     public ResultUtil getCAMOrderList(Integer page, Integer limit, CAMSearch search) {
@@ -95,30 +105,50 @@ public class CAMServiceImpl implements CAMService {
     @Override
     public ResultUtil addCAMOrder(BizContractApplyMoney order) {
         Date date = new Date();
-        String id = WebUtils.generateUUID();
-        order.setId(id);
-        //生成订单号
-        String yyddmm = DateUtil.formatDate(date, DateUtil.DateFormat3);
-        String prefix = CAMUtil.prefix + yyddmm;
-        String pn = camMapper.selMaxOrderNo(prefix);
-        String purchaseNo = CAMUtil.generateOrderNo(pn);
-        order.setOrderNo(purchaseNo);
 
-        String sourceOrderId = order.getSourceOrderId();
-        BizPurchaseOrder purchaseOrder = purchaseOrderMapper.selectByPrimaryKey(sourceOrderId);
+        if(StringUtils.isBlank(order.getId())){
+            String id = WebUtils.generateUUID();
+            order.setId(id);
+            //生成订单号
+            String yyddmm = DateUtil.formatDate(date, DateUtil.DateFormat3);
+            String prefix = CAMUtil.prefix + yyddmm;
+            String pn = camMapper.selMaxOrderNo(prefix);
+            String purchaseNo = CAMUtil.generateOrderNo(pn);
+            order.setOrderNo(purchaseNo);
 
-        //所属项目
-        String projectId = purchaseOrder.getProjectId();
-        order.setProjectId(projectId);
+            String sourceOrderId = order.getSourceOrderId();
+            BizPurchaseOrder purchaseOrder = purchaseOrderMapper.selectByPrimaryKey(sourceOrderId);
 
-        //单据类型
-        String type = purchaseOrder.getType();
-        order.setOrderType(type);
+            //所属项目
+            String projectId = purchaseOrder.getProjectId();
+            order.setProjectId(projectId);
 
-        //补充参数
-        order.setCreateTime(date);
+            //单据类型
+            String type = purchaseOrder.getType();
+            order.setOrderType(type);
 
-        camMapper.insertSelective(order);
+            //补充参数
+            order.setCreateTime(date);
+            order.setUpdateDate(date);
+
+            camMapper.insertSelective(order);
+        }else {
+
+            String sourceOrderId = order.getSourceOrderId();
+            BizPurchaseOrder purchaseOrder = purchaseOrderMapper.selectByPrimaryKey(sourceOrderId);
+
+            //所属项目
+            String projectId = purchaseOrder.getProjectId();
+            order.setProjectId(projectId);
+
+            //单据类型
+            String type = purchaseOrder.getType();
+            order.setOrderType(type);
+
+            order.setUpdateDate(date);
+            camMapper.updateByPrimaryKeySelective(order);
+        }
+
         return ResultUtil.ok();
     }
 
@@ -130,38 +160,9 @@ public class CAMServiceImpl implements CAMService {
     @Override
     public CAMDetailsVo selCAMOrder(String id) {
         CAMDetailsVo detailsVo = new CAMDetailsVo();
-        //获取请款单
-        BizContractApplyMoney order = camMapper.selectByPrimaryKey(id);
-        CAMVo vo = new CAMVo();
-        BeanUtils.copyProperties(order, vo);
 
-        Long userId = order.getCreateUser();
-        TbAdmin tbAdmin = adminMapper.selectByPrimaryKey(userId);
-        vo.setAdmin(tbAdmin);
-
-        Long costUserId = order.getCostDepartUser();
-        if (costUserId != null) {
-            TbAdmin costAdmin = adminMapper.selectByPrimaryKey(costUserId);
-            vo.setCostAdmin(costAdmin);
-        }
-
-        Long projectUserId = order.getProjectDepartUser();
-        if (projectUserId != null) {
-            TbAdmin projectAdmin = adminMapper.selectByPrimaryKey(projectUserId);
-            vo.setCostAdmin(projectAdmin);
-        }
-
-        Long managerUserId = order.getManagerDepartUser();
-        if (managerUserId != null) {
-            TbAdmin managerAdmin = adminMapper.selectByPrimaryKey(managerUserId);
-            vo.setManagerAdmin(managerAdmin);
-        }
-
-        Long supplierId = order.getSupplierId();
-        if (supplierId != null) {
-            TbSupplier supplier = supplierMapper.selectByPrimaryKey(supplierId);
-            vo.setSupplier(supplier);
-        }
+        CAMVo vo = getCAMOrder(id);
+        Long userId = vo.getCreateUser();
         detailsVo.setOrder(vo);
 
         //获取采购单详情
@@ -196,16 +197,67 @@ public class CAMServiceImpl implements CAMService {
             long loginId = admin.getId();
             if (reviewUserId != null && reviewUserId == loginId) {
                 detailsVo.setReviewUserId(userId);
-                List<ChoseAdminVO> data = adminMapper.selectByDeptName(depart);
-                if (!CollectionUtils.isEmpty(data)) {
-                    Gson gson = new Gson();
-                    String json = gson.toJson(data);
-                    detailsVo.setDeparts(json);
-                }
+            }
+            List<ChoseAdminVO> data = adminMapper.selectByDeptName(depart);
+            if (!CollectionUtils.isEmpty(data)) {
+                Gson gson = new Gson();
+                String json = gson.toJson(data);
+                detailsVo.setDeparts(json);
             }
         }
 
         return detailsVo;
+    }
+
+    public CAMVo getCAMOrder(String id){
+        //获取请款单
+        BizContractApplyMoney order = camMapper.selectByPrimaryKey(id);
+        CAMVo vo = new CAMVo();
+        BeanUtils.copyProperties(order, vo);
+
+        Long userId = order.getCreateUser();
+        TbAdmin tbAdmin = adminMapper.selectByPrimaryKey(userId);
+        vo.setAdmin(tbAdmin);
+
+
+        Long applyuserId = order.getApplyUser();
+        if (applyuserId != null) {
+            TbAdmin applyAdmin = adminMapper.selectByPrimaryKey(applyuserId);
+            vo.setApplyAdmin(applyAdmin);
+        }
+
+        Long costUserId = order.getCostDepartUser();
+        if (costUserId != null) {
+            TbAdmin costAdmin = adminMapper.selectByPrimaryKey(costUserId);
+            vo.setCostAdmin(costAdmin);
+        }
+
+        Long projectUserId = order.getProjectDepartUser();
+        if (projectUserId != null) {
+            TbAdmin projectAdmin = adminMapper.selectByPrimaryKey(projectUserId);
+            vo.setCostAdmin(projectAdmin);
+        }
+
+        Long managerUserId = order.getManagerDepartUser();
+        if (managerUserId != null) {
+            TbAdmin managerAdmin = adminMapper.selectByPrimaryKey(managerUserId);
+            vo.setManagerAdmin(managerAdmin);
+        }
+
+        Long supplierId = order.getSupplierId();
+        if (supplierId != null) {
+            TbSupplier supplier = supplierMapper.selectByPrimaryKey(supplierId);
+            vo.setSupplier(supplier);
+        }
+
+        //来源订单
+        String sourceOrderId = order.getSourceOrderId();
+        if(sourceOrderId != null){
+            BizPurchaseOrderVo purchaseOrderVo = purchaseOrderService.selPurchaseOrderById(sourceOrderId);
+            vo.setPurchaseOrderVo(purchaseOrderVo);
+        }
+
+        return vo;
     }
 
     @Override
