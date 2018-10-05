@@ -167,12 +167,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			long loginId = admin.getId();
 			if(reviewUserId != null && reviewUserId == loginId){
 				detailsVo.setReviewUserId(userId);
-				List<ChoseAdminVO> data = adminMapper.selectByDeptName(depart);
-				if(!CollectionUtils.isEmpty(data)){
-					Gson gson = new Gson();
-					String json = gson.toJson(data);
-					detailsVo.setDeparts(json);
-				}
+			}
+			List<ChoseAdminVO> data = adminMapper.selectByDeptName(depart);
+			if(!CollectionUtils.isEmpty(data)){
+				Gson gson = new Gson();
+				String json = gson.toJson(data);
+				detailsVo.setDeparts(json);
 			}
 		}
 
