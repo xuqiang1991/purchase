@@ -26,43 +26,37 @@
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>
         </button>
-        <h1 class="mui-center mui-title">新建合同内请款单</h1>
+        <h1 class="mui-center mui-title">
+            <c:choose>
+                <c:when test="${empty order}">新建合同内请款单</c:when>
+                <c:otherwise>修改合同内请款单</c:otherwise>
+            </c:choose>
+            </h1>
     </div>
 
     <!-- 主界面具体展示内容 -->
     <div class="mui-content-padded mui-card" style="margin: 5px;">
         <form class="mui-input-group" id="submitFrom">
+            <input type="hidden" id="id" name="id" value="${order.id}">
             <div class="mui-input-row">
                 <label>请款人</label>
-                <input type="text" id="applyUserName" class="mui-input-clear" value="${admin.fullname}" mui-verify="required">
-                <input type="hidden" id="applyUser" name="applyUser" value="${admin.id}">
+                <input type="text" id="applyUserName" class="mui-input-clear" value="${order.admin.fullname}" mui-verify="required">
+                <input type="hidden" id="applyUser" name="applyUser" value="${order.admin.id}">
             </div>
             <div class="mui-input-row">
                 <label>来源订单</label>
                 <a href="#selectProject">
-                    <label id="selectProjectText" style="width: 65%;padding-left: 0px;">请选择来源订单</label>
-                    <input type="hidden" id="selectProjectHidden" name="sourceOrderId">
+                    <label id="selectProjectText" style="width: 65%;padding-left: 0px;"><c:choose><c:when test="${empty order}">请选择来源订单</c:when><c:otherwise>${order.purchaseOrderVo.purchaseNo}</c:otherwise></c:choose></label>
+                    <input type="hidden" id="selectProjectHidden" name="sourceOrderId" value="${order.sourceOrderId}">
                 </a>
             </div>
             <div class="mui-input-row">
                 <label>供应商</label>
-                <input type="text" id="supplierName" class="mui-input-clear" mui-verify="required" value="${admin.supplierName}">
-                <input type="hidden" id="supplierId" name="supplierId"  value="${admin.supplierId}">
+                <input type="text" id="supplierName" class="mui-input-clear" mui-verify="required" value="${order.supplier.name}">
+                <input type="hidden" id="supplierId" name="supplierId"  value="${order.supplierId}">
             </div>
-            <%--<div class="mui-input-row">--%>
-                <%--<label>所属项目</label>--%>
-                <%--<a href="#selectProject">--%>
-                    <%--<label id="selectProjectText" style="width: 65%;padding-left: 0px;">请选择所属项目</label>--%>
-                    <%--<input type="hidden" id="selectProjectHidden" name="projectId" value="" mui-verify="required" readonly="readonly">--%>
-                <%--</a>--%>
-            <%--</div>--%>
-            <%--<div class="mui-input-row">--%>
-                <%--<label>订单类型</label>--%>
-                <%--<input type="text" id="orderTypeName" class="mui-input-clear" placeholder="请选择订单类型" mui-verify="required">--%>
-                <%--<input type="hidden" id="orderType" name="orderType">--%>
-            <%--</div>--%>
             <div>
-                <textarea name="summary" id="summary" rows="5" class="mui-input-clear" placeholder="摘要"></textarea>
+                <textarea name="summary" id="summary" rows="5" class="mui-input-clear" placeholder="摘要">${order.summary}</textarea>
             </div>
             <div class="mui-button-row" style="padding-bottom: 20px;">
                 <button type="button" class="mui-btn mui-btn-primary" onclick="submitPurchaseOrder()">提交</button>
@@ -188,7 +182,6 @@
     function initAdmin(json){
         var userPicker = new mui.PopPicker();
         userPicker.setData(json);
-        debugger
         var applyUserName = document.getElementById('applyUserName');
         var applyUser = document.getElementById('applyUser');
         applyUserName.addEventListener('tap', function(event) {
@@ -251,7 +244,7 @@
             $purchaseOrder.list.pullRefresh().endPulldownToRefresh();
         },
         getBill: function () {
-            var url = '${ctx}/mobile/CAM/findPurchaseOrderList?' + 'limit=' + $purchaseOrder.limit + '&page=' + $purchaseOrder.page;
+            var url = '${ctx}/mobile/purchase/findPurchaseOrderList?' + 'limit=' + $purchaseOrder.limit + '&page=' + $purchaseOrder.page;
             mui.toast("加载中...",1000);
             $.ajax({
                 url: url,
@@ -341,7 +334,7 @@
                     if(result.code!=0){
                         mui.alert(data.msg);
                     }else {
-                        mui.alert("添加成功！");
+                        mui.alert("提交成功！");
                         document.location.href='${ctx }/mobile/CAM/list';
                     }
                 }

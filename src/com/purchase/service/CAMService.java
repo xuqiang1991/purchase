@@ -4,6 +4,7 @@ import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.order.BizContractApplyMoney;
 import com.purchase.pojo.order.BizContractApplyMoneyDetail;
 import com.purchase.util.ResultUtil;
+import com.purchase.vo.order.BizPurchaseOrderVo;
 import com.purchase.vo.order.CAMDetailsVo;
 import com.purchase.vo.order.CAMSearch;
 import com.purchase.vo.order.CAMVo;
@@ -34,4 +35,6 @@ public interface CAMService {
     ResultUtil submitReviewCAMOrder(TbAdmin admin, String id, Long userId);
 
     ResultUtil reviewCAMOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion);
+
+    CAMVo getCAMOrder(String id);
 }

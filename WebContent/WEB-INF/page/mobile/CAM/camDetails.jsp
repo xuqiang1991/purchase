@@ -55,11 +55,11 @@
                 </div>
                 <div class="mui-input-row">
                     <label>订单类型</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.order.orderType}</label>
+                    <label style="width: 65%;padding-left: 0px;">${detailsVo.orderType}</label>
                 </div>
                 <div class="mui-input-row">
                     <label>来源订单</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.order.orderType}</label>
+                    <label style="width: 65%;padding-left: 0px;">${detailsVo.order.purchaseOrderVo.purchaseNo}</label>
                 </div>
                 <div class="mui-input-row">
                     <label>供应商</label>
@@ -67,23 +67,19 @@
                 </div>
                 <div class="mui-input-row">
                     <label>所属项目</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.order.projectId}</label>
-                </div>
-                <div class="mui-input-row">
-                    <label>合同号</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.order.contractNo}</label>
+                    <label style="width: 65%;padding-left: 0px;">${detailsVo.order.purchaseOrderVo.projectManger.name}</label>
                 </div>
                 <div class="mui-input-row">
                     <label>请款人</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.order.contractMoney}</label>
+                    <label style="width: 65%;padding-left: 0px;">${detailsVo.order.applyAdmin.fullname}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>开单人</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.order.paymentRatio}%</label>
+                    <label style="width: 65%;padding-left: 0px;">${detailsVo.order.admin.fullname}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>开单日期</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.order.paymentRatio}%</label>
+                    <label style="width: 65%;padding-left: 0px;"><fmt:formatDate value="${detailsVo.order.createTime}" pattern="yyyy-MM-dd"/></label>
                 </div>
                 <div>
                     <textarea name="summary" id="summary" rows="5" class="mui-input-clear" readonly="readonly">${detailsVo.order.summary}</textarea>
@@ -150,7 +146,6 @@
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">审核</button>
                     </c:when>
                 </c:choose>
-                <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="orderContractNo" value="${detailsVo.order.id}">填写合同号</button>
             </div>
         </div>
     </div>
@@ -170,8 +165,12 @@
             <div class="mui-scroll"  style="height: 100%;">
                 <form class="mui-input-group" id="addFromPurchaseOrderItem">
                     <div class="mui-input-row">
-                        <label>材料/项目内容</label>
-                        <input type="text" name="content" class="mui-input-clear" mui-verify="required">
+                        <label>施工部位</label>
+                        <input type="text" name="constructionSite" class="mui-input-clear" mui-verify="required">
+                    </div>
+                    <div class="mui-input-row">
+                        <label>项目内容</label>
+                        <input type="text" name="projectContent" class="mui-input-clear" mui-verify="required">
                     </div>
                     <div class="mui-input-row">
                         <label>规格型号</label>
@@ -182,20 +181,12 @@
                         <input type="text" name="unit" class="mui-input-clear" mui-verify="required">
                     </div>
                     <div class="mui-input-row">
-                        <label>单价</label>
-                        <input type="text" name="price" class="mui-input-clear" mui-verify="required">
+                        <label>结算数量</label>
+                        <input type="number" name="settleAmout" class="mui-input-clear" mui-verify="required">
                     </div>
                     <div class="mui-input-row">
-                        <label>数量</label>
-                        <input type="text" name="amount" class="mui-input-clear" mui-verify="required">
-                    </div>
-                    <div class="mui-input-row">
-                        <label>质保期（月）</label>
-                        <input type="text" name="warrantyDate" class="mui-input-clear" mui-verify="required">
-                    </div>
-                    <div class="mui-input-row">
-                        <label>日期</label>
-                        <input type="text" name="date" class="mui-input-clear" mui-verify="required">
+                        <label>结算金额</label>
+                        <input type="number" name="settlePrice" class="mui-input-clear" mui-verify="required">
                     </div>
                     <div>
                         <textarea name="remark" id="remark" rows="5" class="mui-input-clear" placeholder="备注"></textarea>

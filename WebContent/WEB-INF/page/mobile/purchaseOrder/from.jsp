@@ -37,10 +37,7 @@
     <!-- 主界面具体展示内容 -->
     <div class="mui-content-padded mui-card" style="margin: 5px;">
         <form class="mui-input-group" id="submitFrom">
-            <%--<div class="mui-input-row">--%>
-                <%--<label>合同编号</label>--%>
-                <%--<input type="text" name="contractNo" class="mui-input-clear" mui-verify="required" value="${order.contractNo}">--%>
-            <%--</div>--%>
+            <input type="hidden" id="id" name="id" value="${order.id}">
             <div class="mui-input-row">
                 <label>订单类型</label>
                 <input type="text" id="typeName" class="mui-input-clear" placeholder="请选择订单类型" mui-verify="required">
@@ -342,7 +339,7 @@
                     if(result.code!=0){
                         mui.alert(data.msg);
                     }else {
-                        mui.alert("添加成功！");
+                        mui.alert("提交成功！");
                         document.location.href='${ctx }/mobile/purchase/list';
                     }
                 }

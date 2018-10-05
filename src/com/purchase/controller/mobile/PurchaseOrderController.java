@@ -176,4 +176,18 @@ public class PurchaseOrderController {
         return purchaseOrderService.deletePurchaseOrderItem(itemId);
     }
 
+
+    /**
+     * 不需要权限，查询采购单列表（合同内订单来源）
+     * @param page
+     * @param limit
+     * @param search
+     * @return
+     */
+    @RequestMapping("findPurchaseOrderList")
+    @ResponseBody
+    public ResultUtil findPurchaseOrderList(Integer page, Integer limit, BizPurchaseOrderSearch search){
+        return purchaseOrderService.getOrderList(page,limit,search);
+    }
+
 }
