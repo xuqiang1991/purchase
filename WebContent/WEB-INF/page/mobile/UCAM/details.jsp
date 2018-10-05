@@ -311,7 +311,7 @@
     </div>
 </div>
 
-<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="${ctx }/js/jquery-1.11.1.js"></script>
 <script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
 <script src="${ctx }/mui/js/mui.picker.min.js"></script>
 <script src="${ctx }/mui/js/mui.view.js"></script>

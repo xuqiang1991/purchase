@@ -19,9 +19,7 @@ import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -436,7 +434,7 @@ public class AdminServiceImpl implements AdminService {
         }
         if(admin.getSupplierId() != null){
            TbSupplier supplier = supplierMapper.selectByPrimaryKey(admin.getSupplierId());
-            admin.setDeptName(supplier.getName());
+            admin.setSupplierName(supplier.getName());
         }
 		//为了安全，密码置空
 		admin.setPassword("");
