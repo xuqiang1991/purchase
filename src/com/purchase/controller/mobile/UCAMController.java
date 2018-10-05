@@ -133,31 +133,6 @@ public class UCAMController {
         return ucamService.addUCAMOrder(order);
     }
 
-    /*@SysLog(value="查询合同外请款单详情")
-    @RequestMapping("getUCAMOrder")
-    @RequiresPermissions("mobile:UCAM:list")
-    @ResponseBody
-    public String getUCAMOrder(HttpServletRequest req){
-        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        if(admin.getSupplierId() != null){
-            TbSupplier supplier = supplierService.selSupplierById(admin.getSupplierId());
-            admin.setSupplierName(supplier.getName());
-        }
-        List<ChoseAdminVO> admins = adminService.selectAdmin();
-        logger.info("------:{}", JSON.toJSONString(admins));
-        List<TbProjectManger> projectMangerList = projectMangerService.selectProjectMangerExample();
-        req.setAttribute("admins", JSON.toJSONString(admins));
-        req.setAttribute("admin", admin);
-        req.setAttribute("pmItem",JSON.toJSONString(projectMangerList));
-        String id = req.getParameter("id");
-        BizUncontractApplyMoney ucam = new BizUncontractApplyMoney();
-        if(!StringUtils.isEmpty(id)){
-            ucam = ucamService.selUCAMOrder(id);
-        }
-        req.setAttribute("ucam",ucam);
-        return "page/mobile/UCAM/from";
-    }*/
-
     @RequestMapping("/toDetails/{id}")
     @RequiresPermissions("mobile:UCAM:details")
     public String toDetails(@PathVariable("id") String id, Model model){
@@ -200,10 +175,20 @@ public class UCAMController {
     @ResponseBody
     public ResultUtil submitReviewUCAMOrder(String id, Long userId){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        return purchaseOrderService.submitReviewPurchaseOrder(admin, id, userId);
+        return ucamService.submitReviewUCAMOrder(admin, id, userId);
     }
 
-    @SysLog(value="成本部审核合同外请款单详情")
+    @SysLog(value="审核合同外请款单")
+    @RequestMapping("reviewUCAMOrder/{id}")
+    //@RequiresPermissions("mobile:UCAM:review")
+    @ResponseBody
+    public ResultUtil reviewUCAMOrder(@PathVariable("id") String id, Boolean auditResults, Long applyUser, String auditOpinion){
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        return ucamService.reviewUCAMOrder(admin, id, auditResults,applyUser,auditOpinion);
+    }
+
+
+   /* @SysLog(value="成本部审核合同外请款单详情")
     @RequestMapping("costReviewUCAMOrder")
     @RequiresPermissions("mobile:UCAM:costReview")
     @ResponseBody
@@ -220,7 +205,7 @@ public class UCAMController {
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         return ucamService.reviewUCAMOrder(admin, id);
     }
-
+*/
 
     @SysLog(value="总经理审核合同外请款单详情")
     @RequestMapping("managerUCAMOrder")
