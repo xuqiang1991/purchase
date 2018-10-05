@@ -1,7 +1,5 @@
 package com.purchase.pojo.order;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -15,6 +13,8 @@ public class BizUncontractApplyMoney {
     private Date createTime;
 
     private Long applyUser;
+
+    private Date applyDate;
 
     private String projectId;
 
@@ -60,8 +60,6 @@ public class BizUncontractApplyMoney {
 
     private Long supplierId;
 
-    private Date applyDate;
-
     public String getId() {
         return id;
     }
@@ -86,7 +84,6 @@ public class BizUncontractApplyMoney {
         this.createUser = createUser;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCreateTime() {
         return createTime;
     }
@@ -101,6 +98,14 @@ public class BizUncontractApplyMoney {
 
     public void setApplyUser(Long applyUser) {
         this.applyUser = applyUser;
+    }
+
+    public Date getApplyDate() {
+        return applyDate;
+    }
+
+    public void setApplyDate(Date applyDate) {
+        this.applyDate = applyDate;
     }
 
     public String getProjectId() {
@@ -191,7 +196,6 @@ public class BizUncontractApplyMoney {
         this.costDepartUser = costDepartUser;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCostDepartDate() {
         return costDepartDate;
     }
@@ -224,7 +228,6 @@ public class BizUncontractApplyMoney {
         this.projectDepartUser = projectDepartUser;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getProjectDepartDate() {
         return projectDepartDate;
     }
@@ -257,7 +260,6 @@ public class BizUncontractApplyMoney {
         this.managerDepartUser = managerDepartUser;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getManagerDepartDate() {
         return managerDepartDate;
     }
@@ -280,13 +282,5 @@ public class BizUncontractApplyMoney {
 
     public void setSupplierId(Long supplierId) {
         this.supplierId = supplierId;
-    }
-
-    public Date getApplyDate() {
-        return applyDate;
-    }
-
-    public void setApplyDate(Date applyDate) {
-        this.applyDate = applyDate;
     }
 }

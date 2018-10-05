@@ -30,9 +30,7 @@ import org.springframework.util.StringUtils;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Auther: zhoujb
@@ -219,14 +217,15 @@ public class UCAMServiceImpl implements UCAMService {
         BizUncontractApplyMoney tmp = new BizUncontractApplyMoney();
         tmp.setId(order.getId());
         tmp.setStatus(PurchaseUtil.STATUS_1);
+        tmp.setApplyDate(new Date());
         ucamMapper.updateByPrimaryKeySelective(tmp);
         return ResultUtil.ok();
     }
 
-    @Override
+   /* @Override
     public ResultUtil reviewUCAMOrder(TbAdmin admin, String id) {
         return null;
-    }
+    }*/
 
     @Override
     public UCAMOrderDetialVo selUCAMDetail(String id) {
@@ -245,26 +244,27 @@ public class UCAMServiceImpl implements UCAMService {
             List<OrderHistory> historyList = new ArrayList<OrderHistory>();
             int status = vo.getStatus();
             if(PurchaseUtil.STATUS_0 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,0));
+                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
             }else if(PurchaseUtil.STATUS_1 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,0));
-                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,1));
+                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
+                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
             }else if(PurchaseUtil.STATUS_2 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,0));
-                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,1));
-                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),"",vo.getCostDepartApproval(),2));
+                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
+                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
+                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),PurchaseUtil.STATUS_2));
             }else if(PurchaseUtil.STATUS_3 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,0));
-                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,1));
-                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),"",vo.getCostDepartApproval(),2));
-                historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),"",vo.getProjectDepartApproval(),3));
+                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
+                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
+                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),PurchaseUtil.STATUS_2));
+                historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),PurchaseUtil.STATUS_3));
             }else if(PurchaseUtil.STATUS_4 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,0));
-                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,1));
-                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),"",vo.getCostDepartApproval(),2));
-                historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),"",vo.getProjectDepartApproval(),3));
-                historyList.add(new OrderHistory(vo.getManagerAdmin().getFullname(),vo.getManagerDepartDate(),"",vo.getManagerDepartApproval(),4));
+                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
+                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
+                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),PurchaseUtil.STATUS_2));
+                historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),PurchaseUtil.STATUS_3));
+                historyList.add(new OrderHistory(vo.getManagerAdmin().getFullname(),vo.getManagerDepartDate(),vo.getManagerDepartOpinion(),vo.getManagerDepartApproval(),PurchaseUtil.STATUS_4));
             }
+            Collections.reverse(historyList);
             vo.setHistoryList(historyList);
             ucamOrderDetialVo.setUcamVo(vo);
 

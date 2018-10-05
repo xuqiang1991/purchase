@@ -29,7 +29,7 @@ public interface UCAMService {
 
     ResultUtil submitUCAMOrder(String id);
 
-    ResultUtil reviewUCAMOrder(TbAdmin admin, String id);
+    /*ResultUtil reviewUCAMOrder(TbAdmin admin, String id);*/
 
     UCAMOrderDetialVo selUCAMDetail(String id);
 

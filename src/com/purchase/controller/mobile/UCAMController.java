@@ -207,14 +207,14 @@ public class UCAMController {
     }
 */
 
-    @SysLog(value="总经理审核合同外请款单详情")
+    /*@SysLog(value="总经理审核合同外请款单详情")
     @RequestMapping("managerUCAMOrder")
     @RequiresPermissions("mobile:UCAM:managerReview")
     @ResponseBody
     public ResultUtil managerReviewUCAMOrder(String id){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         return ucamService.reviewUCAMOrder(admin, id);
-    }
+    }*/
 
 
     @SysLog(value="新增合同外请款单单项")
