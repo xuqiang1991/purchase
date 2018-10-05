@@ -104,6 +104,11 @@
         toDetails(id)
     });
 
+    mui(document.body).on('tap', '.toUpdate', function(e) {
+        var id = $(this).attr('value');
+        document.location.href='${ctx }/mobile/purchase/toEdit?id=' + id;
+    });
+
     function billLoad() {
         if (!enablePullUp) {
             mui('#refreshContainer').pullRefresh().endPullupToRefresh(false);
@@ -204,6 +209,9 @@
                 <label>{{purchaseOrder_departDate}}</label>
             </div>
             <div>
+                {{#unless status}}
+                 <button type="button" class="mui-btn mui-btn-primary toUpdate" value="{{id}}">修改</button>
+                {{/unless}}
                 <button type="button" class="mui-btn mui-btn-primary toDetails"  value="{{id}}">详情</button>
             </div>
         </div>
