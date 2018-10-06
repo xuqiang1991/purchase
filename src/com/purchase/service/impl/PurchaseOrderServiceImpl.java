@@ -10,6 +10,7 @@ import com.purchase.mapper.order.BizPurchaseOrderDetailMapper;
 import com.purchase.mapper.order.BizPurchaseOrderMapper;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbProjectManger;
+import com.purchase.pojo.admin.TbProjectMangerExample;
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.BizPurchaseOrder;
 import com.purchase.pojo.order.BizPurchaseOrderDetail;
@@ -18,6 +19,8 @@ import com.purchase.pojo.order.BizPurchaseOrderExample;
 import com.purchase.service.PurchaseOrderService;
 import com.purchase.util.*;
 import com.purchase.vo.admin.ChoseAdminVO;
+import com.purchase.vo.admin.ChoseProjectVO;
+import com.purchase.vo.admin.ChosePurchaseOrderVO;
 import com.purchase.vo.order.BizPurchaseOrderDetailsVo;
 import com.purchase.vo.order.BizPurchaseOrderSearch;
 import com.purchase.vo.order.BizPurchaseOrderVo;
@@ -32,6 +35,7 @@ import org.springframework.util.CollectionUtils;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -485,4 +489,18 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public BizPurchaseOrderVo selPurchaseOrderById(String id) {
         return getBizPurchaseOrderVo(id);
     }
+
+	@Override
+	public List<ChosePurchaseOrderVO> selectChosePurchaseOrder() {
+		List<ChosePurchaseOrderVO> item = new ArrayList<>();
+		BizPurchaseOrderExample example=new BizPurchaseOrderExample();
+		List<BizPurchaseOrder> depts = purchaseOrderMapper.selectByExample(example);
+		if(!CollectionUtils.isEmpty(depts)){
+			for (BizPurchaseOrder d: depts) {
+				ChosePurchaseOrderVO dept = new ChosePurchaseOrderVO(d.getId(),d.getPurchaseNo());
+				item.add(dept);
+			}
+		}
+		return item;
+	}
 }
