@@ -9,11 +9,16 @@ import com.purchase.pojo.admin.*;
 import com.purchase.service.ProjectMangerService;
 import com.purchase.util.MyUtil;
 import com.purchase.util.ResultUtil;
+import com.purchase.vo.admin.ChoseAdminVO;
+import com.purchase.vo.admin.ChoseDeptVO;
+import com.purchase.vo.admin.ChoseProjectVO;
 import com.purchase.vo.admin.ProjectMangerSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -131,5 +136,20 @@ public class ProjectMangerServiceImpl implements ProjectMangerService {
         TbProjectMangerExample example = new TbProjectMangerExample();
         List<TbProjectManger> list = projectMangerMapper.selectByExample(example);
         return list;
+    }
+
+    @Override
+    public List<ChoseProjectVO> selectProjectManger() {
+        List<ChoseProjectVO> item = new ArrayList<>();
+        TbProjectMangerExample example=new TbProjectMangerExample();
+        List<TbProjectManger> depts = projectMangerMapper.selectByExample(example);
+        if(!CollectionUtils.isEmpty(depts)){
+            for (TbProjectManger d: depts) {
+                ChoseProjectVO dept = new ChoseProjectVO(d.getId().toString(),d.getName());
+                item.add(dept);
+            }
+        }
+
+        return item;
     }
 }

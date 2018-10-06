@@ -1,5 +1,7 @@
 package com.purchase.vo.order;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 /**
@@ -11,12 +13,44 @@ public class BizPurchaseOrderSearch{
     private String purchaseNo;
     private Integer type;
     private Long supplierId;
-    private String projectName;
-    private String contractNo;
-    private String createUserName;
-    private Date startCreateTime;
-    private Date endCreateTime;
+    private Long projectId;
+    private Long createUser;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date createTime;
     private Integer status;
+    private String createUserName;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date startCreateTime;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date endCreateTime;
+    private Long departUser;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date departDate;
+    private String contractNo;
+
+    public String getContractNo() {
+        return contractNo;
+    }
+
+    public void setContractNo(String contractNo) {
+        this.contractNo = contractNo;
+    }
+
+    public Long getDepartUser() {
+        return departUser;
+    }
+
+    public void setDepartUser(Long departUser) {
+        this.departUser = departUser;
+    }
+
+    public Date getDepartDate() {
+        return departDate;
+    }
+
+    public void setDepartDate(Date departDate) {
+        this.departDate = departDate;
+    }
 
     public String getPurchaseNo() {
         return purchaseNo;
@@ -42,20 +76,36 @@ public class BizPurchaseOrderSearch{
         this.supplierId = supplierId;
     }
 
-    public String getProjectName() {
-        return projectName;
+    public Long getProjectId() {
+        return projectId;
     }
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
     }
 
-    public String getContractNo() {
-        return contractNo;
+    public Long getCreateUser() {
+        return createUser;
     }
 
-    public void setContractNo(String contractNo) {
-        this.contractNo = contractNo;
+    public void setCreateUser(Long createUser) {
+        this.createUser = createUser;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getCreateUserName() {
@@ -80,13 +130,5 @@ public class BizPurchaseOrderSearch{
 
     public void setEndCreateTime(Date endCreateTime) {
         this.endCreateTime = endCreateTime;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
     }
 }

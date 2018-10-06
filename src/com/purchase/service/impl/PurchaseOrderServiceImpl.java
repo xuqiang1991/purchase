@@ -30,6 +30,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -70,12 +72,35 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			if(search.getSupplierId() != null){
 				criteria.andSupplierIdEqualTo(search.getSupplierId());
 			}
-
-			if(search.getStartCreateTime() != null){
-				criteria.andCreateTimeGreaterThanOrEqualTo(search.getStartCreateTime());
+			if(search.getProjectId() != null){
+				criteria.andProjectIdEqualTo(search.getProjectId());
 			}
-			if(search.getEndCreateTime() != null){
-				criteria.andCreateTimeLessThanOrEqualTo(search.getEndCreateTime());
+			if(StringUtils.isNotBlank(search.getContractNo())){
+				criteria.andContractNoLike("%"+search.getContractNo()+"%");
+			}
+			if(search.getCreateUser() != null){
+				criteria.andCreateUserEqualTo(search.getCreateUser());
+			}
+			if(search.getCreateTime() != null){
+				criteria.andCreateTimeEqualTo(search.getCreateTime());
+			}
+			if(search.getDepartUser() != null){
+				BizPurchaseOrderExample.Criteria criteria1 = example.createCriteria();
+				criteria1.andCostDepartUserEqualTo(search.getDepartUser());
+				BizPurchaseOrderExample.Criteria criteria2 = example.createCriteria();
+				criteria2.andProjectDepartUserEqualTo(search.getDepartUser());
+				BizPurchaseOrderExample.Criteria criteria3 = example.createCriteria();
+				criteria3.andManagerDepartUserEqualTo(search.getDepartUser());
+				example.or(criteria3);
+			}
+			if(search.getDepartDate() != null){
+				BizPurchaseOrderExample.Criteria criteria1 = example.createCriteria();
+				criteria1.andCostDepartDateEqualTo(search.getDepartDate());
+				BizPurchaseOrderExample.Criteria criteria2 = example.createCriteria();
+				criteria2.andProjectDepartDateEqualTo(search.getDepartDate());
+				BizPurchaseOrderExample.Criteria criteria3 = example.createCriteria();
+				criteria3.andManagerDepartDateEqualTo(search.getDepartDate());
+				example.or(criteria3);
 			}
 
 			List<BizPurchaseOrderVo> users = purchaseOrderMapper.selectByExampleExt(example, search);

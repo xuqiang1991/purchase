@@ -25,7 +25,7 @@
         </shiro:hasPermission>
         <shiro:hasPermission name="mobile:CAM:list">
             <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="${ctx }/mobile/CAM/list">
-                <span class="mui-icon iconfont icon-request-consult icon-color-F0AD4E"><span class="mui-badge">5</span></span>
+                <span class="mui-icon iconfont icon-request-consult icon-color-F0AD4E"></span>
                 <div class="mui-media-body">合同内请款</div>
             </a></li>
         </shiro:hasPermission>

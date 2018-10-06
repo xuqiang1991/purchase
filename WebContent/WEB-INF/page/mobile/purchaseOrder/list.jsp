@@ -8,6 +8,7 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 	<title></title>
 	<link href="${ctx }/mui/css/mui.min.css" rel="stylesheet"/>
+    <link href="${ctx }/mui/css/mui.picker.min.css" rel="stylesheet" />
 </head>
 <body>
 <header class="mui-bar mui-bar-nav">
@@ -30,21 +31,53 @@
                     <form class="mui-input-group" id="searchForm">
                         <div class="mui-input-row">
                             <label>单号</label>
-                            <input type="text" placeholder="请输入单号" name="purchaseNo">
+                            <input type="text" name="purchaseNo" placeholder="请输入单号">
                         </div>
                         <div class="mui-input-row">
                             <label>订单类型</label>
-                            <select name="type">
-                                <option value="">全部</option>
-                                <option value="0">绿化苗木</option>
-                                <option value="1">园建水电</option>
-                                <option value="2">机械租赁</option>
-                                <option value="3">工程分包</option>
-                            </select>
+                            <input type="text" id="typeName" readonly class="mui-input-clear" placeholder="请选择单据类型" value="" >
+                            <input type="hidden" id="type" name="type" value="" >
+                        </div>
+                        <div class="mui-input-row">
+                            <label>供应商</label>
+                            <input type="text" id="supplierIdName" readonly class="mui-input-clear"  value="请选择供应商">
+                            <input type="hidden" id="supplierId" name="supplierId">
+                        </div>
+                        <div class="mui-input-row">
+                            <label>所属项目</label>
+                            <input type="text" id="selectProjectId" class="mui-input-clear" placeholder="请选择所属项目" >
+                            <input type="hidden" id="projectId" name="projectId">
+                        </div>
+                        <div class="mui-input-row">
+                            <label>合同号</label>
+                            <input type="text" name="contractNo" placeholder="普通输入框">
+                        </div>
+                        <div class="mui-input-row">
+                            <label>开单人</label>
+                            <input type="text" id="selectCreateUser" class="mui-input-clear" placeholder="请选择开单人" >
+                            <input type="hidden" id="createUser" name="createUser">
+                        </div>
+                        <div class="mui-input-row">
+                            <label>开单日期</label>
+                            <input id="createTime" name="createTime" type="text" data-options='{"type":"date","beginYear":2014,"endYear":2016}' placeholder="请选择日期">
+                        </div>
+                        <div class="mui-input-row">
+                            <label>审核人</label>
+                            <input type="text" id="selectDepartUser" class="mui-input-clear" placeholder="请选择审核人" >
+                            <input type="hidden" id="departUser" name="departUser">
+                        </div>
+                        <div class="mui-input-row">
+                            <label>审核日期</label>
+                            <input id="departDate" name="departDate" type="text" data-options='{"type":"date","beginYear":2014,"endYear":2016}' placeholder="请选择日期">
+                        </div>
+                        <div class="mui-input-row">
+                            <label>单号状态</label>
+                            <input type="text" id="statusName" readonly class="mui-input-clear" placeholder="请选择单据状态"  value="">
+                            <input type="hidden" id="status" name="status" value="">
                         </div>
                         <div class="mui-button-row">
-                            <button class="mui-btn mui-btn-primary" id="search-btn" type="button">确认</button>&nbsp;&nbsp;
-                            <button class="mui-btn mui-btn-danger"  id="cancel-btn" type="button">取消</button>
+                            <button class="mui-btn mui-btn-primary" type="button" id="search-btn">确认</button>&nbsp;&nbsp;
+                            <button class="mui-btn mui-btn-danger" type="button" id="cancel-btn">取消</button>
                         </div>
                     </form>
                 </div>
@@ -60,10 +93,11 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript" src="${ctx}/js/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
-<script type="text/javascript" src="http://apps.bdimg.com/libs/handlebars.js/2.0.0-alpha.4/handlebars.js"></script>
+<script type="text/javascript" src="${ctx}/js/handlebars.min.js"></script>
 <script type="text/javascript" src="${ctx}/js/handlebarsHelps.js"></script>
+<script src="${ctx }/mui/js/mui.picker.min.js"></script>
 <script type="text/javascript" charset="utf-8">
     var page = 1; //当前页
     var limit = 6; //每页显示条数
@@ -176,6 +210,133 @@
     function toDetails(id) {
         document.location.href='${ctx }/mobile/purchase/toDetails/' + id;
     }
+
+    var btns =  mui('#createTime');
+    btns.each(function(i, btn) {
+        btn.addEventListener('tap', function() {
+            var optionsJson = this.getAttribute('data-options') || '{}';
+            var options = JSON.parse(optionsJson);
+            var id = this.getAttribute('id');
+            var picker = new mui.DtPicker(options);
+            picker.show(function(rs) {
+                createTime.value = rs.text;
+                picker.dispose();
+            });
+        }, false);
+    });
+
+    var btnsDepart =  mui('#departDate');
+    btnsDepart.each(function(i, btn) {
+        btn.addEventListener('tap', function() {
+            var optionsJson = this.getAttribute('data-options') || '{}';
+            var options = JSON.parse(optionsJson);
+            var id = this.getAttribute('id');
+            var picker = new mui.DtPicker(options);
+            picker.show(function(rs) {
+                departDate.value = rs.text;
+                picker.dispose();
+            });
+        }, false);
+    });
+
+    mui.ready(function() {
+        var orderTypeNamePicker = new mui.PopPicker();
+        orderTypeNamePicker.setData( [{
+            value: '0',
+            text: '绿化苗木'
+        }, {
+            value: '1',
+            text: '园建水电'
+        }, {
+            value: '2',
+            text: '机械租赁'
+        }, {
+            value: '3',
+            text: '工程分包'
+        }]);
+        var orderTypeName = document.getElementById('typeName');
+        var orderType = document.getElementById('type');
+        orderTypeName.addEventListener('tap', function(event) {
+            orderTypeNamePicker.show(function(items) {
+                orderTypeName.value = items[0].text;
+                orderType.value = items[0].value;
+                //返回 false 可以阻止选择框的关闭
+                //return false;
+            });
+        }, false);
+
+        var suppliersJson = '${suppliers}';
+        var suppliersPicker = new mui.PopPicker({
+            layer: 1
+        });
+        suppliersPicker.setData(JSON.parse(suppliersJson));
+        var supplierIdName = document.getElementById('supplierIdName');
+        var supplierId = document.getElementById('supplierId');
+        supplierIdName.addEventListener('tap', function(event) {
+            suppliersPicker.show(function(items) {
+                supplierIdName.value = items[0].text;
+                supplierId.value = items[0].value;
+                //返回 false 可以阻止选择框的关闭
+                //return false;
+            });
+        }, false);
+
+        var adminsJson = '${admins}';
+        var userPicker = new mui.PopPicker();
+        userPicker.setData(JSON.parse(adminsJson));
+
+        var selectDepartUser = document.getElementById('selectDepartUser');
+        var departUser = document.getElementById('departUser');
+        selectDepartUser.addEventListener('tap', function(event) {
+            userPicker.show(function(items) {
+                selectDepartUser.value = items[0].text;
+                departUser.value = items[0].value;
+                //返回 false 可以阻止选择框的关闭
+                //return false;
+            });
+        }, false);
+
+        var selectCreateUser = document.getElementById('selectCreateUser');
+        var createUser = document.getElementById('createUser');
+        selectCreateUser.addEventListener('tap', function(event) {
+            userPicker.show(function(items) {
+                selectCreateUser.value = items[0].text;
+                createUser.value = items[0].value;
+                //返回 false 可以阻止选择框的关闭
+                //return false;
+            });
+        }, false);
+
+        selectProjectId
+
+        var statusNamePicker = new mui.PopPicker();
+        statusNamePicker.setData( [{
+            value: '0',
+            text: '未提交'
+        }, {
+            value: '1',
+            text: '已提交'
+        }, {
+            value: '2',
+            text: '成本部已审核'
+        }, {
+            value: '3',
+            text: '工程部已审核'
+        },{
+            value: '4',
+            text: '总经理已审核'
+        }]);
+        var statusName = document.getElementById('statusName');
+        var status = document.getElementById('status');
+        statusName.addEventListener('tap', function(event) {
+            statusNamePicker.show(function(items) {
+                statusName.value = items[0].text;
+                status.value = items[0].value;
+                //返回 false 可以阻止选择框的关闭
+                //return false;
+            });
+        }, false);
+    })
 </script>
 <!-- 采购订单 start -->
 <script type="text/template" id="listTpl">

@@ -2,6 +2,7 @@ package com.purchase.service;
 
 import com.purchase.pojo.admin.TbProjectManger;
 import com.purchase.util.ResultUtil;
+import com.purchase.vo.admin.ChoseProjectVO;
 import com.purchase.vo.admin.ProjectMangerSearch;
 
 import java.util.List;
@@ -45,4 +46,6 @@ public interface ProjectMangerService {
      * @return
      */
     List<TbProjectManger> selectProjectMangerExample();
+
+    List<ChoseProjectVO> selectProjectManger();
 }
