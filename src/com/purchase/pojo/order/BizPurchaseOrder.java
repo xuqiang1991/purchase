@@ -18,6 +18,8 @@ public class BizPurchaseOrder {
 
     private Date createTime;
 
+    private Long applyUser;
+
     private Long supplierId;
 
     private String projectId;
@@ -109,6 +111,14 @@ public class BizPurchaseOrder {
         this.createTime = createTime;
     }
 
+    public Long getApplyUser() {
+        return applyUser;
+    }
+
+    public void setApplyUser(Long applyUser) {
+        this.applyUser = applyUser;
+    }
+
     public Long getSupplierId() {
         return supplierId;
     }
@@ -122,7 +132,7 @@ public class BizPurchaseOrder {
     }
 
     public void setProjectId(String projectId) {
-        this.projectId = projectId;
+        this.projectId = projectId == null ? null : projectId.trim();
     }
 
     public BigDecimal getContractMoney() {

@@ -45,7 +45,7 @@
                         </div>
                         <div class="mui-input-row">
                             <label>所属项目</label>
-                            <input type="text" id="selectProjectId" class="mui-input-clear" placeholder="请选择所属项目" >
+                            <input type="text" id="selectProjectName" class="mui-input-clear" placeholder="请选择所属项目" >
                             <input type="hidden" id="projectId" name="projectId">
                         </div>
                         <div class="mui-input-row">
@@ -307,7 +307,24 @@
             });
         }, false);
 
-        selectProjectId
+
+
+        var projectsJson = '${projects}';
+        var projectsPicker = new mui.PopPicker({
+            layer: 1
+        });
+        projectsPicker.setData(JSON.parse(projectsJson));
+        var selectProjectName = document.getElementById('selectProjectName');
+        var projectId = document.getElementById('projectId');
+        selectProjectName.addEventListener('tap', function(event) {
+            projectsPicker.show(function(items) {
+                selectProjectName.value = items[0].text;
+                projectId.value = items[0].value;
+                //返回 false 可以阻止选择框的关闭
+                //return false;
+            });
+        }, false);
+
 
         var statusNamePicker = new mui.PopPicker();
         statusNamePicker.setData( [{

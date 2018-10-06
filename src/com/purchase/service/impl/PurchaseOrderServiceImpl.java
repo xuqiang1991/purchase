@@ -72,7 +72,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			if(search.getSupplierId() != null){
 				criteria.andSupplierIdEqualTo(search.getSupplierId());
 			}
-			if(search.getProjectId() != null){
+			if(StringUtils.isNotBlank(search.getProjectId())){
 				criteria.andProjectIdEqualTo(search.getProjectId());
 			}
 			if(StringUtils.isNotBlank(search.getContractNo())){

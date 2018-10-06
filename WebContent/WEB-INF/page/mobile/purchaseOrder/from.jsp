@@ -241,7 +241,7 @@
             $project.list.pullRefresh().endPullupToRefresh(false);
         },
         billRefresh : function() {
-            $('#projectRefreshContainerData').empty();
+            $('.projectRefreshContainerData').empty();
             $project.enablePullUp = true;
             $project.page = 1;
             $project.getBill();

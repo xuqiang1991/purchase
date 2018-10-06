@@ -127,11 +127,12 @@
     </div>
 </div>
 
-<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript" src="${ctx}/js/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
 <script src="${ctx }/mui/js/mui.picker.min.js"></script>
 <script src="${ctx }/mui/js/mui.view.js"></script>
-<script type="text/javascript" src="http://apps.bdimg.com/libs/handlebars.js/2.0.0-alpha.4/handlebars.js"></script>
+<script type="text/javascript" src="${ctx}/js/handlebars.min.js"></script>
+<script type="text/javascript" src="${ctx}/js/handlebarsHelps.js"></script>
 <script type="text/javascript" charset="utf-8">
     mui.init();
     //初始化单页view
@@ -236,7 +237,7 @@
             $purchaseOrder.list.pullRefresh().endPullupToRefresh(false);
         },
         billRefresh : function() {
-            $('#projectRefreshContainerData').empty();
+            $('.projectRefreshContainerData').empty();
             $purchaseOrder.enablePullUp = true;
             $purchaseOrder.page = 1;
             $purchaseOrder.getBill();

@@ -13,7 +13,7 @@ public class BizPurchaseOrderSearch{
     private String purchaseNo;
     private Integer type;
     private Long supplierId;
-    private Long projectId;
+    private String projectId;
     private Long createUser;
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date createTime;
@@ -76,11 +76,11 @@ public class BizPurchaseOrderSearch{
         this.supplierId = supplierId;
     }
 
-    public Long getProjectId() {
+    public String getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Long projectId) {
+    public void setProjectId(String projectId) {
         this.projectId = projectId;
     }
 
