@@ -3,7 +3,7 @@ package com.purchase.vo.order;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbProjectManger;
 import com.purchase.pojo.admin.TbSupplier;
-import com.purchase.pojo.order.BizUncontractApplyMoney;
+import com.purchase.pojo.order.BizProgrammeAcceptanceOrder;
 import com.purchase.vo.OrderHistory;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  *
  */
-public class UCAMVo extends BizUncontractApplyMoney {
+public class ProgrammeAcceptanceVo extends BizProgrammeAcceptanceOrder {
 
     private TbSupplier supplier;
     private TbAdmin admin;

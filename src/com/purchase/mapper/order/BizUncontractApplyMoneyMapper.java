@@ -1,11 +1,8 @@
 package com.purchase.mapper.order;
 
 import com.purchase.pojo.order.BizContractApplyMoney;
-import com.purchase.pojo.order.BizContractApplyMoneyExample;
 import com.purchase.pojo.order.BizUncontractApplyMoney;
 import com.purchase.pojo.order.BizUncontractApplyMoneyExample;
-import com.purchase.vo.order.CAMSearch;
-import com.purchase.vo.order.CAMVo;
 import com.purchase.vo.order.UCAMSearch;
 import com.purchase.vo.order.UCAMVo;
 import org.apache.ibatis.annotations.Param;
@@ -26,8 +23,6 @@ public interface BizUncontractApplyMoneyMapper {
 
     List<BizUncontractApplyMoney> selectByExample(BizUncontractApplyMoneyExample example);
 
-    List<UCAMVo> selectByExampleExt(@Param("example") BizUncontractApplyMoneyExample example, @Param("search") UCAMSearch search);
-
     BizUncontractApplyMoney selectByPrimaryKey(String id);
 
     int updateByExampleSelective(@Param("record") BizUncontractApplyMoney record, @Param("example") BizUncontractApplyMoneyExample example);
@@ -44,5 +39,5 @@ public interface BizUncontractApplyMoneyMapper {
     @Select("select * from biz_contract_apply_money where order_no = #{orderNo}")
     BizContractApplyMoney selectByOrderNo(@Param("orderNo") String orderNo);
 
-    List<CAMVo> selectByExampleExt(@Param("example") BizContractApplyMoneyExample example, @Param("search") CAMSearch search);
+    List<UCAMVo> selectByExampleExt(@Param("example") BizUncontractApplyMoneyExample example, @Param("search") UCAMSearch search);
 }

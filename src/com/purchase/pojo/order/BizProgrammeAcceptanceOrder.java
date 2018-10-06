@@ -1,11 +1,9 @@
 package com.purchase.pojo.order;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class BizUncontractApplyMoney {
+public class BizProgrammeAcceptanceOrder {
     private String id;
 
     private String orderNo;
@@ -18,19 +16,19 @@ public class BizUncontractApplyMoney {
 
     private Date applyDate;
 
+    private Long supplierId;
+
     private String projectId;
 
-    private String orderType;
+    private Long contractId;
 
-    private Integer instructOrderFlag;
+    private BigDecimal contractMoney;
 
-    private String instructOrderNo;
+    private BigDecimal applyTotalPrice;
+
+    private BigDecimal paymentTotalPrice;
 
     private Integer status;
-
-    private BigDecimal applyPrice;
-
-    private BigDecimal actualPrice;
 
     private Date updateDate;
 
@@ -60,8 +58,6 @@ public class BizUncontractApplyMoney {
 
     private String managerDepartOpinion;
 
-    private Long supplierId;
-
     public String getId() {
         return id;
     }
@@ -86,7 +82,6 @@ public class BizUncontractApplyMoney {
         this.createUser = createUser;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCreateTime() {
         return createTime;
     }
@@ -103,13 +98,20 @@ public class BizUncontractApplyMoney {
         this.applyUser = applyUser;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getApplyDate() {
         return applyDate;
     }
 
     public void setApplyDate(Date applyDate) {
         this.applyDate = applyDate;
+    }
+
+    public Long getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(Long supplierId) {
+        this.supplierId = supplierId;
     }
 
     public String getProjectId() {
@@ -120,28 +122,36 @@ public class BizUncontractApplyMoney {
         this.projectId = projectId == null ? null : projectId.trim();
     }
 
-    public String getOrderType() {
-        return orderType;
+    public Long getContractId() {
+        return contractId;
     }
 
-    public void setOrderType(String orderType) {
-        this.orderType = orderType == null ? null : orderType.trim();
+    public void setContractId(Long contractId) {
+        this.contractId = contractId;
     }
 
-    public Integer getInstructOrderFlag() {
-        return instructOrderFlag;
+    public BigDecimal getContractMoney() {
+        return contractMoney;
     }
 
-    public void setInstructOrderFlag(Integer instructOrderFlag) {
-        this.instructOrderFlag = instructOrderFlag;
+    public void setContractMoney(BigDecimal contractMoney) {
+        this.contractMoney = contractMoney;
     }
 
-    public String getInstructOrderNo() {
-        return instructOrderNo;
+    public BigDecimal getApplyTotalPrice() {
+        return applyTotalPrice;
     }
 
-    public void setInstructOrderNo(String instructOrderNo) {
-        this.instructOrderNo = instructOrderNo == null ? null : instructOrderNo.trim();
+    public void setApplyTotalPrice(BigDecimal applyTotalPrice) {
+        this.applyTotalPrice = applyTotalPrice;
+    }
+
+    public BigDecimal getPaymentTotalPrice() {
+        return paymentTotalPrice;
+    }
+
+    public void setPaymentTotalPrice(BigDecimal paymentTotalPrice) {
+        this.paymentTotalPrice = paymentTotalPrice;
     }
 
     public Integer getStatus() {
@@ -152,23 +162,6 @@ public class BizUncontractApplyMoney {
         this.status = status;
     }
 
-    public BigDecimal getApplyPrice() {
-        return applyPrice;
-    }
-
-    public void setApplyPrice(BigDecimal applyPrice) {
-        this.applyPrice = applyPrice;
-    }
-
-    public BigDecimal getActualPrice() {
-        return actualPrice;
-    }
-
-    public void setActualPrice(BigDecimal actualPrice) {
-        this.actualPrice = actualPrice;
-    }
-
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getUpdateDate() {
         return updateDate;
     }
@@ -201,7 +194,6 @@ public class BizUncontractApplyMoney {
         this.costDepartUser = costDepartUser;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCostDepartDate() {
         return costDepartDate;
     }
@@ -234,7 +226,6 @@ public class BizUncontractApplyMoney {
         this.projectDepartUser = projectDepartUser;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getProjectDepartDate() {
         return projectDepartDate;
     }
@@ -267,7 +258,6 @@ public class BizUncontractApplyMoney {
         this.managerDepartUser = managerDepartUser;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getManagerDepartDate() {
         return managerDepartDate;
     }
@@ -282,13 +272,5 @@ public class BizUncontractApplyMoney {
 
     public void setManagerDepartOpinion(String managerDepartOpinion) {
         this.managerDepartOpinion = managerDepartOpinion == null ? null : managerDepartOpinion.trim();
-    }
-
-    public Long getSupplierId() {
-        return supplierId;
-    }
-
-    public void setSupplierId(Long supplierId) {
-        this.supplierId = supplierId;
     }
 }

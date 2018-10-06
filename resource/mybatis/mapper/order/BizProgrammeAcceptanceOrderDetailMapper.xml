@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.purchase.mapper.order.BizProgrammeAcceptanceOrderDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.purchase.pojo.order.BizProgrammeAcceptanceOrderDetail" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="rectify_content" property="rectifyContent" jdbcType="VARCHAR" />
+    <result column="rectify_measure" property="rectifyMeasure" jdbcType="VARCHAR" />
+    <result column="play_over_date" property="playOverDate" jdbcType="TIMESTAMP" />
+    <result column="rectify_flag" property="rectifyFlag" jdbcType="INTEGER" />
+    <result column="actual_over_date" property="actualOverDate" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, order_no, rectify_content, rectify_measure, play_over_date, rectify_flag, actual_over_date, 
+    remark
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.purchase.pojo.order.BizProgrammeAcceptanceOrderDetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_programme_acceptance_order_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from biz_programme_acceptance_order_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from biz_programme_acceptance_order_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.purchase.pojo.order.BizProgrammeAcceptanceOrderDetailExample" >
+    delete from biz_programme_acceptance_order_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.purchase.pojo.order.BizProgrammeAcceptanceOrderDetail" >
+    insert into biz_programme_acceptance_order_detail (id, order_no, rectify_content, 
+      rectify_measure, play_over_date, rectify_flag, 
+      actual_over_date, remark)
+    values (#{id,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{rectifyContent,jdbcType=VARCHAR}, 
+      #{rectifyMeasure,jdbcType=VARCHAR}, #{playOverDate,jdbcType=TIMESTAMP}, #{rectifyFlag,jdbcType=INTEGER}, 
+      #{actualOverDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.purchase.pojo.order.BizProgrammeAcceptanceOrderDetail" >
+    insert into biz_programme_acceptance_order_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="rectifyContent != null" >
+        rectify_content,
+      </if>
+      <if test="rectifyMeasure != null" >
+        rectify_measure,
+      </if>
+      <if test="playOverDate != null" >
+        play_over_date,
+      </if>
+      <if test="rectifyFlag != null" >
+        rectify_flag,
+      </if>
+      <if test="actualOverDate != null" >
+        actual_over_date,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="rectifyContent != null" >
+        #{rectifyContent,jdbcType=VARCHAR},
+      </if>
+      <if test="rectifyMeasure != null" >
+        #{rectifyMeasure,jdbcType=VARCHAR},
+      </if>
+      <if test="playOverDate != null" >
+        #{playOverDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rectifyFlag != null" >
+        #{rectifyFlag,jdbcType=INTEGER},
+      </if>
+      <if test="actualOverDate != null" >
+        #{actualOverDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.purchase.pojo.order.BizProgrammeAcceptanceOrderDetailExample" resultType="java.lang.Integer" >
+    select count(*) from biz_programme_acceptance_order_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update biz_programme_acceptance_order_detail
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderNo != null" >
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rectifyContent != null" >
+        rectify_content = #{record.rectifyContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rectifyMeasure != null" >
+        rectify_measure = #{record.rectifyMeasure,jdbcType=VARCHAR},
+      </if>
+      <if test="record.playOverDate != null" >
+        play_over_date = #{record.playOverDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.rectifyFlag != null" >
+        rectify_flag = #{record.rectifyFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.actualOverDate != null" >
+        actual_over_date = #{record.actualOverDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update biz_programme_acceptance_order_detail
+    set id = #{record.id,jdbcType=VARCHAR},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      rectify_content = #{record.rectifyContent,jdbcType=VARCHAR},
+      rectify_measure = #{record.rectifyMeasure,jdbcType=VARCHAR},
+      play_over_date = #{record.playOverDate,jdbcType=TIMESTAMP},
+      rectify_flag = #{record.rectifyFlag,jdbcType=INTEGER},
+      actual_over_date = #{record.actualOverDate,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.purchase.pojo.order.BizProgrammeAcceptanceOrderDetail" >
+    update biz_programme_acceptance_order_detail
+    <set >
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="rectifyContent != null" >
+        rectify_content = #{rectifyContent,jdbcType=VARCHAR},
+      </if>
+      <if test="rectifyMeasure != null" >
+        rectify_measure = #{rectifyMeasure,jdbcType=VARCHAR},
+      </if>
+      <if test="playOverDate != null" >
+        play_over_date = #{playOverDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rectifyFlag != null" >
+        rectify_flag = #{rectifyFlag,jdbcType=INTEGER},
+      </if>
+      <if test="actualOverDate != null" >
+        actual_over_date = #{actualOverDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.purchase.pojo.order.BizProgrammeAcceptanceOrderDetail" >
+    update biz_programme_acceptance_order_detail
+    set order_no = #{orderNo,jdbcType=VARCHAR},
+      rectify_content = #{rectifyContent,jdbcType=VARCHAR},
+      rectify_measure = #{rectifyMeasure,jdbcType=VARCHAR},
+      play_over_date = #{playOverDate,jdbcType=TIMESTAMP},
+      rectify_flag = #{rectifyFlag,jdbcType=INTEGER},
+      actual_over_date = #{actualOverDate,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

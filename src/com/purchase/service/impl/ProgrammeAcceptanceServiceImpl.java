@@ -4,20 +4,17 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.purchase.mapper.admin.TbAdminMapper;
-import com.purchase.mapper.order.BizUncontractApplyMoneyDetailMapper;
-import com.purchase.mapper.order.BizUncontractApplyMoneyMapper;
+import com.purchase.mapper.order.BizProgrammeAcceptanceOrderDetailMapper;
+import com.purchase.mapper.order.BizProgrammeAcceptanceOrderMapper;
 import com.purchase.pojo.admin.TbAdmin;
-import com.purchase.pojo.order.BizUncontractApplyMoney;
-import com.purchase.pojo.order.BizUncontractApplyMoneyDetail;
-import com.purchase.pojo.order.BizUncontractApplyMoneyDetailExample;
-import com.purchase.pojo.order.BizUncontractApplyMoneyExample;
-import com.purchase.service.UCAMService;
+import com.purchase.pojo.order.*;
+import com.purchase.service.ProgrammeAcceptanceService;
 import com.purchase.util.*;
 import com.purchase.vo.OrderHistory;
 import com.purchase.vo.admin.ChoseAdminVO;
-import com.purchase.vo.order.UCAMOrderDetialVo;
-import com.purchase.vo.order.UCAMSearch;
-import com.purchase.vo.order.UCAMVo;
+import com.purchase.vo.order.ProgrammeAcceptanceDetialVo;
+import com.purchase.vo.order.ProgrammeAcceptanceSearch;
+import com.purchase.vo.order.ProgrammeAcceptanceVo;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,63 +32,47 @@ import java.util.List;
 
 /**
  * @Auther: zhoujb
- * @Date: 2018/8/24 21:20
- * @Description:合同外请款单service层
+ * @Date: 2018/10/5 17:27
+ * @Description:工程验收service层
  */
 @Service
-public class UCAMServiceImpl implements UCAMService {
-
-    private static Logger logger = LoggerFactory.getLogger(UCAMServiceImpl.class);
-
-    @Autowired
-    private BizUncontractApplyMoneyMapper ucamMapper;
+public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceService {
+    private static Logger logger = LoggerFactory.getLogger(ProgrammeAcceptanceServiceImpl.class);
 
     @Autowired
-    private BizUncontractApplyMoneyDetailMapper ucamDetailMapper;
+    private BizProgrammeAcceptanceOrderMapper paoMapper;
+
+    @Autowired
+    private BizProgrammeAcceptanceOrderDetailMapper paoDetailMapper;
 
     @Autowired
     private TbAdminMapper adminMapper;
 
     /**
-     * 合同外请款单单号前缀
+     * 工程验收单号前缀
      */
-    public static final String UCAM_PREFIX = "NC-";
-
+    public static final String PAO_PREFIX = "PC-";
 
     @Override
-    public ResultUtil getUCAMOrderList(Integer page, Integer limit, UCAMSearch search) {
+    public ResultUtil getPAOOrderList(Integer page, Integer limit, ProgrammeAcceptanceSearch search) {
         PageHelper.startPage(page, limit);
 
-        BizUncontractApplyMoneyExample example = new BizUncontractApplyMoneyExample();
+        BizProgrammeAcceptanceOrderExample example = new BizProgrammeAcceptanceOrderExample();
         //设置按创建时间降序排序
         example.setOrderByClause("update_date DESC");
-        BizUncontractApplyMoneyExample.Criteria criteria = example.createCriteria();
+        BizProgrammeAcceptanceOrderExample.Criteria criteria = example.createCriteria();
 
         if(!StringUtils.isEmpty(search.getOrderNo())){
             //注意：模糊查询需要进行拼接”%“  如下，不进行拼接是不能完成查询的哦。
             criteria.andOrderNoLike("%"+search.getOrderNo()+"%");
         }
 
-        if(!StringUtils.isEmpty(search.getOrderType())){
-            criteria.andOrderTypeEqualTo(String.valueOf(search.getOrderType()));
-        }
         if(search.getSupplierId() != null){
             criteria.andSupplierIdEqualTo(search.getSupplierId());
         }
 
         if(!StringUtils.isEmpty(search.getProjectId())){
             criteria.andProjectIdEqualTo(search.getProjectId());
-        }
-        if(search.getInstructOrderFlag() != null){
-            criteria.andInstructOrderFlagEqualTo(search.getInstructOrderFlag());
-        }
-
-        if(!StringUtils.isEmpty(search.getInstructOrderNo())){
-            criteria.andInstructOrderNoLike("%"+search.getInstructOrderNo()+"%");
-        }
-
-        if(search.getApplyUser() != null){
-            criteria.andApplyUserEqualTo(search.getApplyUser());
         }
 
         if(search.getCreateUser() != null){
@@ -111,8 +91,8 @@ public class UCAMServiceImpl implements UCAMService {
             criteria.andStatusEqualTo(search.getStatus());
         }
 
-        List<UCAMVo> ucamList = ucamMapper.selectByExampleExt(example,search);
-        PageInfo<UCAMVo> pageInfo = new PageInfo<>(ucamList);
+        List<ProgrammeAcceptanceVo> paList = paoMapper.selectByExampleExt(example,search);// ucamMapper.selectByExampleExt(example,search);
+        PageInfo<ProgrammeAcceptanceVo> pageInfo = new PageInfo<>(paList);
         ResultUtil resultUtil = new ResultUtil();
         resultUtil.setCode(0);
         resultUtil.setCount(pageInfo.getTotal());
@@ -121,22 +101,22 @@ public class UCAMServiceImpl implements UCAMService {
     }
 
     @Override
-    public ResultUtil addUCAMOrder(BizUncontractApplyMoney order) {
+    public ResultUtil addPAOOrder(BizProgrammeAcceptanceOrder order) {
         Date date = new Date();
 
         String id = WebUtils.generateUUID();
         order.setId(id);
 
-        //生成采购单号
+        //生成工程验收单号
         String yyddmm = DateUtil.formatDate(date,DateUtil.DateFormat3);
-        String maxNo = ucamMapper.selMaxNo(yyddmm);
+        String maxNo = paoMapper.selMaxNo(yyddmm);
         if(StringUtils.isEmpty(maxNo)){
             maxNo = "0";
         }else{
             maxNo = maxNo.substring(maxNo.length() - 3);
         }
         maxNo = String.format("%03d", Integer.parseInt(maxNo) + 1);
-        String ucamNo = UCAM_PREFIX + yyddmm + "-" + maxNo;
+        String ucamNo = PAO_PREFIX + yyddmm + "-" + maxNo;
 
         order.setOrderNo(ucamNo);
         //参数补充
@@ -144,44 +124,39 @@ public class UCAMServiceImpl implements UCAMService {
         order.setUpdateDate(date);
         order.setCreateTime(date);
 
-        ucamMapper.insertSelective(order);
+        paoMapper.insertSelective(order);
 
         return ResultUtil.ok();
     }
 
     @Override
-    public ResultUtil editUCAMOrder(BizUncontractApplyMoney order) {
-        /*UCAMVo ucamVo = new UCAMVo();
-        if(!StringUtils.isEmpty(order.getId())){
-            ucamVo = ucamService.selUCAMOrder(id);
-        }*/
-
+    public ResultUtil editPAOOrder(BizProgrammeAcceptanceOrder order) {
         return null;
     }
 
     @Override
-    public UCAMVo selUCAMOrder(String id) {
-        BizUncontractApplyMoneyExample example = new BizUncontractApplyMoneyExample();
+    public ProgrammeAcceptanceVo selPAOOrder(String id) {
+        BizProgrammeAcceptanceOrderExample example = new BizProgrammeAcceptanceOrderExample();
         //设置按创建时间降序排序
         example.setOrderByClause("update_date DESC");
-        BizUncontractApplyMoneyExample.Criteria criteria = example.createCriteria();
+        BizProgrammeAcceptanceOrderExample.Criteria criteria = example.createCriteria();
         criteria.andIdEqualTo(id);
-        UCAMSearch search = new UCAMSearch();
+        ProgrammeAcceptanceSearch search = new ProgrammeAcceptanceSearch();
         search.setId(id);
-        List<UCAMVo> ucamList = ucamMapper.selectByExampleExt(example,search);
-        if(!CollectionUtils.isEmpty(ucamList)){
-            return ucamList.get(0);
+        List<ProgrammeAcceptanceVo> paList = paoMapper.selectByExampleExt(example,search);
+        if(!CollectionUtils.isEmpty(paList)){
+            return paList.get(0);
         }else{
             return null;
         }
     }
 
     @Override
-    public ResultUtil selUCAMOrderByOrder(String orderNo) {
-        BizUncontractApplyMoneyExample example = new BizUncontractApplyMoneyExample();
-        BizUncontractApplyMoneyExample.Criteria criteria = example.createCriteria();
+    public ResultUtil selPAOOrderByOrder(String orderNo) {
+        BizProgrammeAcceptanceOrderExample example = new BizProgrammeAcceptanceOrderExample();
+        BizProgrammeAcceptanceOrderExample.Criteria criteria = example.createCriteria();
         criteria.andOrderNoEqualTo(orderNo);
-        List<BizUncontractApplyMoney> list = ucamMapper.selectByExample(example);
+        List<BizProgrammeAcceptanceOrder> list = paoMapper.selectByExample(example);
         ResultUtil resultUtil = new ResultUtil();
         resultUtil.setCode(0);
         if(!CollectionUtils.isEmpty(list)){
@@ -191,54 +166,49 @@ public class UCAMServiceImpl implements UCAMService {
     }
 
     @Override
-    public ResultUtil delUCAMOrder(String id) {
-        BizUncontractApplyMoney order = ucamMapper.selectByPrimaryKey(id);
+    public ResultUtil delPAOOrder(String id) {
+        BizProgrammeAcceptanceOrder order = paoMapper.selectByPrimaryKey(id);
         if(!(PurchaseUtil.STATUS_0 == order.getStatus())){
-            return ResultUtil.error("非未提交状态的合同外请款单不能删除！");
+            return ResultUtil.error("非未提交状态的工程验收单不能删除！");
         }
-        ucamMapper.deleteByPrimaryKey(id);
+        paoMapper.deleteByPrimaryKey(id);
 
-        BizUncontractApplyMoneyDetailExample example = new BizUncontractApplyMoneyDetailExample();
+        BizProgrammeAcceptanceOrderExample example = new BizProgrammeAcceptanceOrderExample();
         example.createCriteria().andOrderNoEqualTo(order.getOrderNo());
-        ucamDetailMapper.deleteByExample(example);
+        paoMapper.deleteByExample(example);
         return ResultUtil.ok();
     }
 
     @Override
-    public ResultUtil submitUCAMOrder(String id) {
-        BizUncontractApplyMoney order = ucamMapper.selectByPrimaryKey(id);
+    public ResultUtil submitPAOOrder(String id) {
+        BizProgrammeAcceptanceOrder order = paoMapper.selectByPrimaryKey(id);
 
         int status = order.getStatus();
         if(!(PurchaseUtil.STATUS_0 == status)){
-            return ResultUtil.error("非未提交状态的合同外请款单不能提交！");
+            return ResultUtil.error("非未提交状态的工程验收单不能提交！");
         }
 
-        BizUncontractApplyMoney tmp = new BizUncontractApplyMoney();
+        BizProgrammeAcceptanceOrder tmp = new BizProgrammeAcceptanceOrder();
         tmp.setId(order.getId());
         tmp.setStatus(PurchaseUtil.STATUS_1);
         tmp.setApplyDate(new Date());
-        ucamMapper.updateByPrimaryKeySelective(tmp);
+        paoMapper.updateByPrimaryKeySelective(tmp);
         return ResultUtil.ok();
     }
 
-   /* @Override
-    public ResultUtil reviewUCAMOrder(TbAdmin admin, String id) {
-        return null;
-    }*/
-
     @Override
-    public UCAMOrderDetialVo selUCAMDetail(String id) {
-        UCAMOrderDetialVo ucamOrderDetialVo = new UCAMOrderDetialVo();
+    public ProgrammeAcceptanceDetialVo selPAODetail(String id) {
+        ProgrammeAcceptanceDetialVo paOrderDetialVo = new ProgrammeAcceptanceDetialVo();
         try {
-            BizUncontractApplyMoneyExample example = new BizUncontractApplyMoneyExample();
-            BizUncontractApplyMoneyExample.Criteria criteria = example.createCriteria();
+            BizProgrammeAcceptanceOrderExample example = new BizProgrammeAcceptanceOrderExample();
+            BizProgrammeAcceptanceOrderExample.Criteria criteria = example.createCriteria();
             criteria.andIdEqualTo(id);
-            UCAMSearch search = new UCAMSearch();
+            ProgrammeAcceptanceSearch search = new ProgrammeAcceptanceSearch();
             search.setId(id);
-            List<UCAMVo> ucamList = ucamMapper.selectByExampleExt(example,search);
-            UCAMVo vo = new UCAMVo();
-            if(!CollectionUtils.isEmpty(ucamList)){
-                vo = ucamList.get(0);
+            List<ProgrammeAcceptanceVo> pavList = paoMapper.selectByExampleExt(example,search);
+            ProgrammeAcceptanceVo vo = new ProgrammeAcceptanceVo();
+            if(!CollectionUtils.isEmpty(pavList)){
+                vo = pavList.get(0);
             }
             List<OrderHistory> historyList = new ArrayList<OrderHistory>();
             int status = vo.getStatus();
@@ -265,14 +235,14 @@ public class UCAMServiceImpl implements UCAMService {
             }
             Collections.reverse(historyList);
             vo.setHistoryList(historyList);
-            ucamOrderDetialVo.setUcamVo(vo);
+            paOrderDetialVo.setPaoVo(vo);
 
-            //获取合同外请款单详情
-            BizUncontractApplyMoneyDetailExample detailExample = new BizUncontractApplyMoneyDetailExample();
-            BizUncontractApplyMoneyDetailExample.Criteria detailCriteria = detailExample.createCriteria();
+            //获取工程验收单详情
+            BizProgrammeAcceptanceOrderDetailExample detailExample = new BizProgrammeAcceptanceOrderDetailExample();
+            BizProgrammeAcceptanceOrderDetailExample.Criteria detailCriteria = detailExample.createCriteria();
             detailCriteria.andOrderNoEqualTo(vo.getOrderNo());
-            List<BizUncontractApplyMoneyDetail> detailList = ucamDetailMapper.selectByExample(detailExample);
-            ucamOrderDetialVo.setUcamDetail(detailList);
+            List<BizProgrammeAcceptanceOrderDetail> detailList = paoDetailMapper.selectByExample(detailExample);
+            paOrderDetialVo.setPaoDetail(detailList);
 
             //选择审核人
             String depart = null;
@@ -296,12 +266,12 @@ public class UCAMServiceImpl implements UCAMService {
                 if(!CollectionUtils.isEmpty(data)){
                     Gson gson = new Gson();
                     String json = gson.toJson(data);
-                    ucamOrderDetialVo.setDeparts(json);
+                    paOrderDetialVo.setDeparts(json);
                 }
                 TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
                 long loginId = admin.getId();
                 if(reviewUserId != null && reviewUserId == loginId){
-                    ucamOrderDetialVo.setReviewUserId(vo.getCreateUser());
+                    paOrderDetialVo.setReviewUserId(vo.getCreateUser());
 
                 }
             }
@@ -309,96 +279,49 @@ public class UCAMServiceImpl implements UCAMService {
             e.printStackTrace();
         }
 
-        return ucamOrderDetialVo;
+        return paOrderDetialVo;
     }
 
     @Override
-    public ResultUtil addUCAMOrderDetail(BizUncontractApplyMoneyDetail order) {
+    public ResultUtil addPAOOrderDetail(BizProgrammeAcceptanceOrderDetail order) {
         if(StringUtils.isEmpty(order.getId())){
             String id = MyUtil.getStrUUID();
             order.setId(id);
         }else{
 
         }
-        ucamDetailMapper.insert(order);
-
-        //如有金额更新采购单
-        if(order.getApplyPrice() != null){
-            String orderNo = order.getOrderNo();
-            BizUncontractApplyMoneyExample example = new BizUncontractApplyMoneyExample();
-
-            BizUncontractApplyMoneyExample.Criteria criteria = example.createCriteria();
-            criteria.andOrderNoEqualTo(orderNo);
-            List<BizUncontractApplyMoney> ucamList = ucamMapper.selectByExample(example);
-            if(!CollectionUtils.isEmpty(ucamList)){
-                BizUncontractApplyMoney ucamOrder = ucamList.get(0);
-                BigDecimal applyPrice = ucamOrder.getApplyPrice();
-                if(applyPrice == null){
-                    applyPrice = order.getApplyPrice();
-                }else {
-                    applyPrice.add(order.getApplyPrice());
-                }
-                BizUncontractApplyMoney tmp = new BizUncontractApplyMoney();
-                tmp.setId(ucamOrder.getId());
-                tmp.setApplyPrice(applyPrice);
-                tmp.setUpdateDate(order.getUpdateDate());
-                ucamMapper.updateByPrimaryKeySelective(tmp);
-            }
-        }
-
+        paoDetailMapper.insert(order);
         return ResultUtil.ok();
     }
 
     @Override
-    public ResultUtil deleteUCAMItem(String id) {
-        BizUncontractApplyMoneyDetail ucamDetail = ucamDetailMapper.selectByPrimaryKey(id);
-        if(ucamDetail.getApplyPrice() != null){
-            String orderNo = ucamDetail.getOrderNo();
-            BizUncontractApplyMoneyExample example = new BizUncontractApplyMoneyExample();
-            BizUncontractApplyMoneyExample.Criteria criteria = example.createCriteria();
-            criteria.andOrderNoEqualTo(orderNo);
-            List<BizUncontractApplyMoney> ucamList = ucamMapper.selectByExample(example);
-            if(!CollectionUtils.isEmpty(ucamList)) {
-                BizUncontractApplyMoney ucamOrder = ucamList.get(0);
-                BigDecimal applyPrice = ucamDetail.getApplyPrice();
-                if(applyPrice == null){
-                    applyPrice = BigDecimal.valueOf(0);
-                }else {
-                    applyPrice = applyPrice.subtract(ucamDetail.getApplyPrice());
-                }
-                BizUncontractApplyMoney tmp = new BizUncontractApplyMoney();
-                tmp.setId(ucamOrder.getId());
-                tmp.setApplyPrice(applyPrice);
-                tmp.setUpdateDate(new Date());
-                ucamMapper.updateByPrimaryKeySelective(tmp);
-            }
-        }
-        ucamDetailMapper.deleteByPrimaryKey(id);
+    public ResultUtil deletePAOItem(String id) {
+        paoDetailMapper.deleteByPrimaryKey(id);
         return ResultUtil.ok();
     }
 
     @Override
-    public ResultUtil submitReviewUCAMOrder(TbAdmin admin, String id, Long userId) {
-        BizUncontractApplyMoney order = ucamMapper.selectByPrimaryKey(id);
+    public ResultUtil submitReviewPAOOrder(TbAdmin admin, String id, Long userId) {
+        BizProgrammeAcceptanceOrder order = paoMapper.selectByPrimaryKey(id);
 
         int status = order.getStatus();
         if(PurchaseUtil.STATUS_1 != status){
-            return ResultUtil.error("非未提交状态的合同外请款单不能选择成本部审核！");
+            return ResultUtil.error("非未提交状态的工程验收单不能选择成本部审核！");
         }
         Date date = new Date();
-        BizUncontractApplyMoney tmp = new BizUncontractApplyMoney();
+        BizProgrammeAcceptanceOrder tmp = new BizProgrammeAcceptanceOrder();
         tmp.setId(order.getId());
         tmp.setCostDepartUser(userId);
         tmp.setUpdateDate(date);
 
-        ucamMapper.updateByPrimaryKeySelective(tmp);
+        paoMapper.updateByPrimaryKeySelective(tmp);
         return ResultUtil.ok();
     }
 
     @Override
-    public ResultUtil reviewUCAMOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion) {
+    public ResultUtil reviewPAOOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion) {
         Date date = new Date();
-        BizUncontractApplyMoney order = ucamMapper.selectByPrimaryKey(id);
+        BizProgrammeAcceptanceOrder order = paoMapper.selectByPrimaryKey(id);
         Long userId = admin.getId();
 
         //判断审核人
@@ -445,7 +368,7 @@ public class UCAMServiceImpl implements UCAMService {
         }
         order.setUpdateDate(date);
 
-        ucamMapper.updateByPrimaryKeySelective(order);
+        paoMapper.updateByPrimaryKeySelective(order);
 
         return ResultUtil.ok();
     }

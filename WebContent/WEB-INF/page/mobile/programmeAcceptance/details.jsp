@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>合同外请款单</title>
+    <title>工程验收单</title>
     <link href="${ctx }/mui/css/mui.min.css" rel="stylesheet"/>
     <link href="${ctx }/mui/css/iconfont.css" rel="stylesheet"/>
     <link href="${ctx }/mui/css/mui.picker.min.css" rel="stylesheet" />
@@ -39,7 +39,7 @@
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>
         </button>
-        <h1 class="mui-center mui-title">合同外请款单详情</h1>
+        <h1 class="mui-center mui-title">工程验收单详情</h1>
     </div>
 
     <!-- 采购单项 start -->
@@ -394,11 +394,11 @@
         })
     });
 
-    /** 删除合同外请款单 **/
+    /** 删除工程验收单 **/
     mui(document.body).on('tap', '#deleteUCAMOrder', function(e) {
         var id = this.value;
         var btnArray = ['是', '否'];
-        mui.confirm('确认删除此合同外请款单？', '删除合同外请款单', btnArray, function(e) {
+        mui.confirm('确认删除此工程验收单？', '删除工程验收单', btnArray, function(e) {
             if (e.index == 0) {
                 var url = '${ctx}/mobile/UCAM/delUCAMOrder?id='+ id
                 $.ajax({
@@ -424,7 +424,7 @@
     /** 提交审核 **/
     mui(document.body).on('tap', '#UCAMDetails', function(e) {
         var btnArray = ['是', '否'];
-        mui.confirm('确认提交？', '提交合同外请款单', btnArray, function(e) {
+        mui.confirm('确认提交？', '提交工程验收单', btnArray, function(e) {
             if (e.index == 0) {
                 var url = '${ctx}/mobile/UCAM/submitUCAMOrder?id=${detailsVo.ucamVo.id}';
                 $.ajax({
