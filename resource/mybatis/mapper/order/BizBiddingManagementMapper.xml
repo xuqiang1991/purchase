@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.purchase.mapper.order.BizBiddingManagementMapper">
+  <resultMap id="BaseResultMap" type="com.purchase.pojo.order.BizBiddingManagement">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="create_user" jdbcType="BIGINT" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="bid_user" jdbcType="BIGINT" property="bidUser" />
+    <result column="area_id" jdbcType="BIGINT" property="areaId" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="customers_id" jdbcType="BIGINT" property="customersId" />
+    <result column="project_acreage" jdbcType="DOUBLE" property="projectAcreage" />
+    <result column="project_price_budge" jdbcType="DECIMAL" property="projectPriceBudge" />
+    <result column="final_bid" jdbcType="DECIMAL" property="finalBid" />
+    <result column="estimate_start_time" jdbcType="TIMESTAMP" property="estimateStartTime" />
+    <result column="bid_mark_time" jdbcType="TIMESTAMP" property="bidMarkTime" />
+    <result column="open_bid_info" jdbcType="INTEGER" property="openBidInfo" />
+    <result column="bid_cause" jdbcType="INTEGER" property="bidCause" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_no, create_user, create_time, bid_user, area_id, project_name, customers_id, 
+    project_acreage, project_price_budge, final_bid, estimate_start_time, bid_mark_time, 
+    open_bid_info, bid_cause, remark
+  </sql>
+  <select id="selectByExample" parameterType="com.purchase.pojo.order.BizBiddingManagementExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_bidding_management
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from biz_bidding_management
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from biz_bidding_management
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.purchase.pojo.order.BizBiddingManagementExample">
+    delete from biz_bidding_management
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.purchase.pojo.order.BizBiddingManagement">
+    insert into biz_bidding_management (id, order_no, create_user, 
+      create_time, bid_user, area_id, 
+      project_name, customers_id, project_acreage, 
+      project_price_budge, final_bid, estimate_start_time, 
+      bid_mark_time, open_bid_info, bid_cause, 
+      remark)
+    values (#{id,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{createUser,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{bidUser,jdbcType=BIGINT}, #{areaId,jdbcType=BIGINT}, 
+      #{projectName,jdbcType=VARCHAR}, #{customersId,jdbcType=BIGINT}, #{projectAcreage,jdbcType=DOUBLE}, 
+      #{projectPriceBudge,jdbcType=DECIMAL}, #{finalBid,jdbcType=DECIMAL}, #{estimateStartTime,jdbcType=TIMESTAMP}, 
+      #{bidMarkTime,jdbcType=TIMESTAMP}, #{openBidInfo,jdbcType=INTEGER}, #{bidCause,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.purchase.pojo.order.BizBiddingManagement">
+    insert into biz_bidding_management
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="bidUser != null">
+        bid_user,
+      </if>
+      <if test="areaId != null">
+        area_id,
+      </if>
+      <if test="projectName != null">
+        project_name,
+      </if>
+      <if test="customersId != null">
+        customers_id,
+      </if>
+      <if test="projectAcreage != null">
+        project_acreage,
+      </if>
+      <if test="projectPriceBudge != null">
+        project_price_budge,
+      </if>
+      <if test="finalBid != null">
+        final_bid,
+      </if>
+      <if test="estimateStartTime != null">
+        estimate_start_time,
+      </if>
+      <if test="bidMarkTime != null">
+        bid_mark_time,
+      </if>
+      <if test="openBidInfo != null">
+        open_bid_info,
+      </if>
+      <if test="bidCause != null">
+        bid_cause,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bidUser != null">
+        #{bidUser,jdbcType=BIGINT},
+      </if>
+      <if test="areaId != null">
+        #{areaId,jdbcType=BIGINT},
+      </if>
+      <if test="projectName != null">
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="customersId != null">
+        #{customersId,jdbcType=BIGINT},
+      </if>
+      <if test="projectAcreage != null">
+        #{projectAcreage,jdbcType=DOUBLE},
+      </if>
+      <if test="projectPriceBudge != null">
+        #{projectPriceBudge,jdbcType=DECIMAL},
+      </if>
+      <if test="finalBid != null">
+        #{finalBid,jdbcType=DECIMAL},
+      </if>
+      <if test="estimateStartTime != null">
+        #{estimateStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bidMarkTime != null">
+        #{bidMarkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="openBidInfo != null">
+        #{openBidInfo,jdbcType=INTEGER},
+      </if>
+      <if test="bidCause != null">
+        #{bidCause,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.purchase.pojo.order.BizBiddingManagementExample" resultType="java.lang.Integer">
+    select count(*) from biz_bidding_management
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update biz_bidding_management
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.bidUser != null">
+        bid_user = #{record.bidUser,jdbcType=BIGINT},
+      </if>
+      <if test="record.areaId != null">
+        area_id = #{record.areaId,jdbcType=BIGINT},
+      </if>
+      <if test="record.projectName != null">
+        project_name = #{record.projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customersId != null">
+        customers_id = #{record.customersId,jdbcType=BIGINT},
+      </if>
+      <if test="record.projectAcreage != null">
+        project_acreage = #{record.projectAcreage,jdbcType=DOUBLE},
+      </if>
+      <if test="record.projectPriceBudge != null">
+        project_price_budge = #{record.projectPriceBudge,jdbcType=DECIMAL},
+      </if>
+      <if test="record.finalBid != null">
+        final_bid = #{record.finalBid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.estimateStartTime != null">
+        estimate_start_time = #{record.estimateStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.bidMarkTime != null">
+        bid_mark_time = #{record.bidMarkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.openBidInfo != null">
+        open_bid_info = #{record.openBidInfo,jdbcType=INTEGER},
+      </if>
+      <if test="record.bidCause != null">
+        bid_cause = #{record.bidCause,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update biz_bidding_management
+    set id = #{record.id,jdbcType=VARCHAR},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      bid_user = #{record.bidUser,jdbcType=BIGINT},
+      area_id = #{record.areaId,jdbcType=BIGINT},
+      project_name = #{record.projectName,jdbcType=VARCHAR},
+      customers_id = #{record.customersId,jdbcType=BIGINT},
+      project_acreage = #{record.projectAcreage,jdbcType=DOUBLE},
+      project_price_budge = #{record.projectPriceBudge,jdbcType=DECIMAL},
+      final_bid = #{record.finalBid,jdbcType=DECIMAL},
+      estimate_start_time = #{record.estimateStartTime,jdbcType=TIMESTAMP},
+      bid_mark_time = #{record.bidMarkTime,jdbcType=TIMESTAMP},
+      open_bid_info = #{record.openBidInfo,jdbcType=INTEGER},
+      bid_cause = #{record.bidCause,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.purchase.pojo.order.BizBiddingManagement">
+    update biz_bidding_management
+    <set>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bidUser != null">
+        bid_user = #{bidUser,jdbcType=BIGINT},
+      </if>
+      <if test="areaId != null">
+        area_id = #{areaId,jdbcType=BIGINT},
+      </if>
+      <if test="projectName != null">
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="customersId != null">
+        customers_id = #{customersId,jdbcType=BIGINT},
+      </if>
+      <if test="projectAcreage != null">
+        project_acreage = #{projectAcreage,jdbcType=DOUBLE},
+      </if>
+      <if test="projectPriceBudge != null">
+        project_price_budge = #{projectPriceBudge,jdbcType=DECIMAL},
+      </if>
+      <if test="finalBid != null">
+        final_bid = #{finalBid,jdbcType=DECIMAL},
+      </if>
+      <if test="estimateStartTime != null">
+        estimate_start_time = #{estimateStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bidMarkTime != null">
+        bid_mark_time = #{bidMarkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="openBidInfo != null">
+        open_bid_info = #{openBidInfo,jdbcType=INTEGER},
+      </if>
+      <if test="bidCause != null">
+        bid_cause = #{bidCause,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.purchase.pojo.order.BizBiddingManagement">
+    update biz_bidding_management
+    set order_no = #{orderNo,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      bid_user = #{bidUser,jdbcType=BIGINT},
+      area_id = #{areaId,jdbcType=BIGINT},
+      project_name = #{projectName,jdbcType=VARCHAR},
+      customers_id = #{customersId,jdbcType=BIGINT},
+      project_acreage = #{projectAcreage,jdbcType=DOUBLE},
+      project_price_budge = #{projectPriceBudge,jdbcType=DECIMAL},
+      final_bid = #{finalBid,jdbcType=DECIMAL},
+      estimate_start_time = #{estimateStartTime,jdbcType=TIMESTAMP},
+      bid_mark_time = #{bidMarkTime,jdbcType=TIMESTAMP},
+      open_bid_info = #{openBidInfo,jdbcType=INTEGER},
+      bid_cause = #{bidCause,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

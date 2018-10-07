@@ -171,7 +171,9 @@ public class UCAMServiceImpl implements UCAMService {
         BizUncontractApplyMoneyExample example = new BizUncontractApplyMoneyExample();
         BizUncontractApplyMoneyExample.Criteria criteria = example.createCriteria();
         criteria.andOrderNoEqualTo(orderNo);
-        List<BizUncontractApplyMoney> list = ucamMapper.selectByExample(example);
+        UCAMSearch search = new UCAMSearch();
+        search.setOrderNo(orderNo);
+        List<UCAMVo> list = ucamMapper.selectByExampleExt(example,search);
         ResultUtil resultUtil = new ResultUtil();
         resultUtil.setCode(0);
         if(!CollectionUtils.isEmpty(list)){
