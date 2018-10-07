@@ -66,7 +66,7 @@
                                 </div>
                                 <div class="mui-input-row">
                                     <label>所属项目</label>
-                                    <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.projectId}</label>
+                                    <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.projectManger.name}</label>
                                 </div>
                                 <div class="mui-input-row">
                                     <label>合同号</label>
@@ -141,9 +141,9 @@
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="purchaseOrderDetails">提交</button>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="deletePurchaseOrder" value="${detailsVo.purchaseOrder.id}">删除</button>
                     </c:when>
-                    <c:when test="${detailsVo.purchaseOrder.status == 1 && empty detailsVo.purchaseOrder.costDepartUser && empty detailsVo.reviewUserId}">
-                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="submitReviewPurchaseOrder">选择审核人</button>
-                    </c:when>
+                    <%--<c:when test="${detailsVo.purchaseOrder.status == 1 && empty detailsVo.purchaseOrder.costDepartUser && empty detailsVo.reviewUserId}">--%>
+                        <%--<button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="submitReviewPurchaseOrder">选择审核人</button>--%>
+                    <%--</c:when>--%>
                     <c:when test="${!empty detailsVo.reviewUserId}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">审核</button>
                     </c:when>
@@ -378,33 +378,33 @@
     });
 
     /** 提交审核 **/
-    mui(document.body).on('tap', '#purchaseOrderDetails', function(e) {
-        var btnArray = ['是', '否'];
-        mui.confirm('确认提交？', '提交采购单', btnArray, function(e) {
-            if (e.index == 0) {
-                var url = '${ctx}/mobile/purchase/submitPurchaseOrder?id=${detailsVo.purchaseOrder.id}';
-                $.ajax({
-                    url: url,
-                    dataType: 'json',
-                    contentType : "application/x-www-form-urlencoded",
-                    type: 'post',
-                    timeout: 10000,
-                    success: function(result) {
-                        if(result.code!=0){
-                            mui.alert(result.msg);
-                        }else {
-                            mui.alert('提交成功！', function() {
-                                document.location.href='${ctx }/mobile/purchase/toDetails/${detailsVo.purchaseOrder.id}';
-                            });
-                        }
-                    }
-                });
-            }
-        })
-    });
+    <%--mui(document.body).on('tap', '#purchaseOrderDetails', function(e) {--%>
+        <%--var btnArray = ['是', '否'];--%>
+        <%--mui.confirm('确认提交？', '提交采购单', btnArray, function(e) {--%>
+            <%--if (e.index == 0) {--%>
+                <%--var url = '${ctx}/mobile/purchase/submitPurchaseOrder?id=${detailsVo.purchaseOrder.id}';--%>
+                <%--$.ajax({--%>
+                    <%--url: url,--%>
+                    <%--dataType: 'json',--%>
+                    <%--contentType : "application/x-www-form-urlencoded",--%>
+                    <%--type: 'post',--%>
+                    <%--timeout: 10000,--%>
+                    <%--success: function(result) {--%>
+                        <%--if(result.code!=0){--%>
+                            <%--mui.alert(result.msg);--%>
+                        <%--}else {--%>
+                            <%--mui.alert('提交成功！', function() {--%>
+                                <%--document.location.href='${ctx }/mobile/purchase/toDetails/${detailsVo.purchaseOrder.id}';--%>
+                            <%--});--%>
+                        <%--}--%>
+                    <%--}--%>
+                <%--});--%>
+            <%--}--%>
+        <%--})--%>
+    <%--});--%>
 
     /** 选择审核人 **/
-    mui(document.body).on('tap', '#submitReviewPurchaseOrder', function(e) {
+    mui(document.body).on('tap', '#purchaseOrderDetails', function(e) {
         var adminsJson = '${detailsVo.departs}'
         var json =JSON.parse(adminsJson)
         var userPicker = new mui.PopPicker();

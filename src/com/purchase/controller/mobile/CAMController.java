@@ -168,7 +168,12 @@ public class CAMController {
     @ResponseBody
     public ResultUtil submitReviewCAMOrder(String id, Long userId){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        return camService.submitReviewCAMOrder(admin, id, userId);
+        ResultUtil resultUtil = camService.submitCAMOrder(id);
+        if(resultUtil.getCode() == 0){
+            return camService.submitReviewCAMOrder(admin, id, userId);
+        }else {
+            return resultUtil;
+        }
     }
 
     @SysLog(value="审核合同内请款单详情")

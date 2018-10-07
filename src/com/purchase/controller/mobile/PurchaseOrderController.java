@@ -152,7 +152,13 @@ public class PurchaseOrderController {
     @ResponseBody
     public ResultUtil submitReviewPurchaseOrder(String id, Long userId){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        return purchaseOrderService.submitReviewPurchaseOrder(admin, id, userId);
+        ResultUtil resultUtil = purchaseOrderService.submitPurchaseOrder(id);
+
+        if(resultUtil.getCode() == 0){
+            return purchaseOrderService.submitReviewPurchaseOrder(admin, id, userId);
+        }else {
+            return resultUtil;
+        }
     }
 
     @SysLog(value="审核采购单")
