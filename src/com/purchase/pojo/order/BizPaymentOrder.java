@@ -1,5 +1,7 @@
 package com.purchase.pojo.order;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -22,9 +24,9 @@ public class BizPaymentOrder {
 
     private String applyUserPhone;
 
-    private Long projectId;
+    private String projectId;
 
-    private Long contractId;
+    private String contractId;
 
     private BigDecimal applyPrice;
 
@@ -78,7 +80,7 @@ public class BizPaymentOrder {
 
     private Boolean managerDepartApproval;
 
-    private String managerDepartUser;
+    private Long managerDepartUser;
 
     private Date managerDepartDate;
 
@@ -126,6 +128,7 @@ public class BizPaymentOrder {
         this.createUser = createUser;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCreateTime() {
         return createTime;
     }
@@ -158,20 +161,20 @@ public class BizPaymentOrder {
         this.applyUserPhone = applyUserPhone == null ? null : applyUserPhone.trim();
     }
 
-    public Long getProjectId() {
+    public String getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
+    public void setProjectId(String projectId) {
+        this.projectId = projectId == null ? null : projectId.trim();
     }
 
-    public Long getContractId() {
+    public String getContractId() {
         return contractId;
     }
 
-    public void setContractId(Long contractId) {
-        this.contractId = contractId;
+    public void setContractId(String contractId) {
+        this.contractId = contractId == null ? null : contractId.trim();
     }
 
     public BigDecimal getApplyPrice() {
@@ -382,14 +385,15 @@ public class BizPaymentOrder {
         this.managerDepartApproval = managerDepartApproval;
     }
 
-    public String getManagerDepartUser() {
+    public Long getManagerDepartUser() {
         return managerDepartUser;
     }
 
-    public void setManagerDepartUser(String managerDepartUser) {
-        this.managerDepartUser = managerDepartUser == null ? null : managerDepartUser.trim();
+    public void setManagerDepartUser(Long managerDepartUser) {
+        this.managerDepartUser = managerDepartUser;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getManagerDepartDate() {
         return managerDepartDate;
     }

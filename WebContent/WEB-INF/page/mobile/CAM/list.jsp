@@ -77,8 +77,7 @@
                         </div>
                         <div class="mui-button-row">
                             <button class="mui-btn mui-btn-primary" type="button" id="search-btn">确认</button>&nbsp;&nbsp;
-                            <button class="mui-btn mui-btn-danger" type="button" id="cancel-btn">取消</button>
-                        </div>
+                            <button class="mui-btn mui-btn-danger" type="button" id="reset-btn">重置</button>
                     </form>
                 </div>
             </div>

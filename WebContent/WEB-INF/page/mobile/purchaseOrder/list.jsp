@@ -77,7 +77,7 @@
                         </div>
                         <div class="mui-button-row">
                             <button class="mui-btn mui-btn-primary" type="button" id="search-btn">确认</button>&nbsp;&nbsp;
-                            <button class="mui-btn mui-btn-danger" type="button" id="cancel-btn">取消</button>
+                            <button class="mui-btn mui-btn-danger" type="button" id="reset-btn">重置</button>
                         </div>
                     </form>
                 </div>
@@ -142,6 +142,10 @@
         var id = $(this).attr('value');
         document.location.href='${ctx }/mobile/purchase/toEdit?id=' + id;
     });
+
+    mui(document.body).on('tap','#reset-btn',function(e){
+        $('#searchForm').find('input').val('');
+    })
 
     function billLoad() {
         if (!enablePullUp) {

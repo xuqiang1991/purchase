@@ -36,7 +36,7 @@
             </a></li>
         </shiro:hasPermission>
         <shiro:hasPermission name="mobile:paymentOrder:list">
-            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="#">
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="${ctx }/mobile/paymentOrder/list">
                 <span class="mui-icon iconfont icon-zuocedaohang_shoufukuanxiang icon-color-F0AD4E"></span>
                 <div class="mui-media-body">付款</div>
             </a></li>

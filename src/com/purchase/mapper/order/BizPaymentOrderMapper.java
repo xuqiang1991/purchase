@@ -3,6 +3,9 @@ package com.purchase.mapper.order;
 import com.purchase.pojo.order.BizPaymentOrder;
 import com.purchase.pojo.order.BizPaymentOrderExample;
 import java.util.List;
+
+import com.purchase.vo.order.BizPaymentOrderSearch;
+import com.purchase.vo.order.BizPaymentOrderVo;
 import org.apache.ibatis.annotations.Param;
 
 public interface BizPaymentOrderMapper {
@@ -27,4 +30,7 @@ public interface BizPaymentOrderMapper {
     int updateByPrimaryKeySelective(BizPaymentOrder record);
 
     int updateByPrimaryKey(BizPaymentOrder record);
+
+    List<BizPaymentOrderVo> selectByExampleExt(@Param("example") BizPaymentOrderExample example, @Param("search") BizPaymentOrderSearch search);
+
 }

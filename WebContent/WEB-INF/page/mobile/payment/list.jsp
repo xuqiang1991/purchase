@@ -102,16 +102,16 @@
         swipeBack: true, //启用右滑关闭功能
         pullRefresh : {
             container:"#refreshContainer",//下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
-            down : {
-                style:'circle',//必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
-                auto: true,//可选,默认false.首次加载自动上拉刷新一次
-                callback :billRefresh
-            },
-            up: {
-                auto:false,
-                contentrefresh: '正在加载...',
-                contentnomore:'',
-                callback: billLoad
+                down : {
+                    style:'circle',//必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+                    auto: true,//可选,默认false.首次加载自动上拉刷新一次
+                    callback :billRefresh
+                },
+                up: {
+                    auto:false,
+                    contentrefresh: '正在加载...',
+                    contentnomore:'',
+                    callback: billLoad
             }
         }
     });
@@ -134,9 +134,13 @@
         toDetails(id)
     });
 
+    mui(document.body).on('tap','#reset-btn',function(e){
+        $('#searchForm').find('input').val('');
+    })
+
     mui(document.body).on('tap', '.toUpdate', function(e) {
         var id = $(this).attr('value');
-        document.location.href='${ctx }/mobile/purchase/toEdit?id=' + id;
+        document.location.href='${ctx }/mobile/paymentOrder/toEdit?id=' + id;
     });
 
     function billLoad() {
@@ -159,7 +163,7 @@
     }
 
     function getBill() {
-        var url = '${ctx}/mobile/purchase/getPurchaseList?' + 'limit=' + limit + '&page=' + page;
+        var url = '${ctx}/mobile/paymentOrder/getPurchaseList?' + 'limit=' + limit + '&page=' + page;
         mui.toast("加载中...",1000);
         $.ajax({
             url: url,
@@ -204,7 +208,7 @@
 
 
     function toDetails(id) {
-        document.location.href='${ctx }/mobile/purchase/toDetails/' + id;
+        document.location.href='${ctx }/mobile/paymentOrder/toDetails/' + id;
     }
 
     var btns =  mui('#createTime');
@@ -236,30 +240,6 @@
     });
 
     mui.ready(function() {
-        var orderTypeNamePicker = new mui.PopPicker();
-        orderTypeNamePicker.setData( [{
-            value: '0',
-            text: '绿化苗木'
-        }, {
-            value: '1',
-            text: '园建水电'
-        }, {
-            value: '2',
-            text: '机械租赁'
-        }, {
-            value: '3',
-            text: '工程分包'
-        }]);
-        var orderTypeName = document.getElementById('typeName');
-        var orderType = document.getElementById('type');
-        orderTypeName.addEventListener('tap', function(event) {
-            orderTypeNamePicker.show(function(items) {
-                orderTypeName.value = items[0].text;
-                orderType.value = items[0].value;
-                //返回 false 可以阻止选择框的关闭
-                //return false;
-            });
-        }, false);
 
         var suppliersJson = '${suppliers}';
         var suppliersPicker = new mui.PopPicker({
@@ -280,17 +260,6 @@
         var adminsJson = '${admins}';
         var userPicker = new mui.PopPicker();
         userPicker.setData(JSON.parse(adminsJson));
-
-        var selectDepartUser = document.getElementById('selectDepartUser');
-        var departUser = document.getElementById('departUser');
-        selectDepartUser.addEventListener('tap', function(event) {
-            userPicker.show(function(items) {
-                selectDepartUser.value = items[0].text;
-                departUser.value = items[0].value;
-                //返回 false 可以阻止选择框的关闭
-                //return false;
-            });
-        }, false);
 
         var selectCreateUser = document.getElementById('selectCreateUser');
         var createUser = document.getElementById('createUser');
@@ -369,22 +338,27 @@
         <div class="mui-card-content toDetails" value="{{id}}">
             <div class="mui-card-content-inner">
                 <p>
-                    <label>合同号：{{admin.fullname}}</label>
+                    <label>合同号：{{contractId}}</label>&nbsp;&nbsp;
                     <label>供应商：{{supplier.name}}</label>
                 </p>
                 <p>
-                    <label>请款类型：{{projectManger.name}}</label>
-                    <label>请款性质：{{projectManger.name}}</label>
+                    <label>请款类型：{{applyType}}</label>&nbsp;&nbsp;
+                    <label>请款性质：{{applyNature}}</label>
                 </p>
                 <p>
+                    <label>请款人：{{applyAdmin.fullname}}</label>&nbsp;&nbsp;
+                    <label>请款金额：{{applyPrice}}</label>
+                </p>
+                <p>
+                    <label>审定金额：{{approvalPrice}}</label>&nbsp;&nbsp;
                     <label>项目：{{projectManger.name}}</label>
                 </p>
             </div>
         </div>
         <div class="mui-card-footer">
             <div class="mui-pull-left">
-                <label>{{purchaseOrder_departUser}}</label>&nbsp;&nbsp;
-                <label>{{purchaseOrder_departDate}}</label>
+                <label>实付金额：{{actualPrice}}</label>&nbsp;&nbsp;
+                <label>单据状态：{{status}}</label>
             </div>
             <div>
                 {{#unless status}}
