@@ -4,6 +4,9 @@ import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbProjectManger;
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.BizPurchaseOrder;
+import com.purchase.vo.OrderHistory;
+
+import java.util.List;
 
 /**
  * Created by xuqiang
@@ -17,6 +20,8 @@ public class BizPurchaseOrderVo extends BizPurchaseOrder {
     private TbAdmin projectAdmin;
     private TbAdmin managerAdmin;
     private TbProjectManger projectManger;
+    private TbAdmin auAdmin;
+    private List<OrderHistory> historyList;
 
     public TbSupplier getSupplier() {
         return supplier;
@@ -64,5 +69,21 @@ public class BizPurchaseOrderVo extends BizPurchaseOrder {
 
     public void setProjectManger(TbProjectManger projectManger) {
         this.projectManger = projectManger;
+    }
+
+    public List<OrderHistory> getHistoryList() {
+        return historyList;
+    }
+
+    public void setHistoryList(List<OrderHistory> historyList) {
+        this.historyList = historyList;
+    }
+
+    public TbAdmin getAuAdmin() {
+        return auAdmin;
+    }
+
+    public void setAuAdmin(TbAdmin auAdmin) {
+        this.auAdmin = auAdmin;
     }
 }

@@ -348,6 +348,7 @@ public class CAMServiceImpl implements CAMService {
         BizContractApplyMoney tmp = new BizContractApplyMoney();
         tmp.setId(order.getId());
         tmp.setStatus(CAMUtil.STATUS_1);
+        tmp.setApplyDate(new Date());
         camMapper.updateByPrimaryKeySelective(tmp);
         return ResultUtil.ok();
     }

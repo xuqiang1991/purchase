@@ -100,6 +100,36 @@
                     </li>
                 </ul>
             </div>
+
+            <div class="mui-content" style="margin-left: 5px; margin-right: 5px; font-size: 14px;">
+                <ul class="mui-table-view">
+                    <li class="mui-table-view-cell mui-collapse">
+                        <a class="mui-navigate-right" href="#">订单历史</a>
+                        <c:forEach items="${detailsVo.ucamVo.historyList}" var="history">
+                            <div class="mui-collapse-content">
+                                <p>
+                                    <strong>
+                                        <c:choose>
+                                            <c:when test="${history.sort == 0}">创建</c:when>
+                                            <c:when test="${history.sort == 1}">提交</c:when>
+                                            <c:otherwise>
+                                                <c:choose>
+                                                    <c:when test="${history.approval == true}">审核通过</c:when>
+                                                    <c:otherwise>审核未通过</c:otherwise>
+                                                </c:choose>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </strong>
+                                    <label>操作人:${history.name}</label>
+                                    <label>操作时间:<fmt:formatDate value="${history.date}" pattern="yyyy-MM-dd"/></label>
+                                    <label>意见:${history.opinion}</label>
+                                </p>
+                            </div>
+                        </c:forEach>
+                    </li>
+                </ul>
+            </div>
+
             <c:forEach items="${detailsVo.details}" var="item">
                 <div class="mui-card">
                     <div class="mui-card-header mui-card-media">
