@@ -1,5 +1,6 @@
 package com.purchase.service;
 
+import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.order.BizPaymentOrder;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.order.BizPaymentOrderSearch;
@@ -14,8 +15,10 @@ public interface PaymentOrderService {
 
     ResultUtil getOrderList(Integer page, Integer limit, BizPaymentOrderSearch search);
 
-    BizPaymentOrderVo getPaymentOrderDetails(String id);
+    BizPaymentOrderVo getPaymentOrderDetails(String id, TbAdmin admin);
 
 
     ResultUtil editPaymentOrder(BizPaymentOrder order);
+
+    ResultUtil reviewOrder(TbAdmin admin, String id, Boolean auditResults, String auditOpinion);
 }

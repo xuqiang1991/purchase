@@ -10,7 +10,6 @@ import com.purchase.mapper.order.BizPurchaseOrderDetailMapper;
 import com.purchase.mapper.order.BizPurchaseOrderMapper;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbProjectManger;
-import com.purchase.pojo.admin.TbProjectMangerExample;
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.BizPurchaseOrder;
 import com.purchase.pojo.order.BizPurchaseOrderDetail;
@@ -18,8 +17,8 @@ import com.purchase.pojo.order.BizPurchaseOrderDetailExample;
 import com.purchase.pojo.order.BizPurchaseOrderExample;
 import com.purchase.service.PurchaseOrderService;
 import com.purchase.util.*;
+import com.purchase.vo.OrderHistory;
 import com.purchase.vo.admin.ChoseAdminVO;
-import com.purchase.vo.admin.ChoseProjectVO;
 import com.purchase.vo.admin.ChosePurchaseOrderVO;
 import com.purchase.vo.order.BizPurchaseOrderDetailsVo;
 import com.purchase.vo.order.BizPurchaseOrderSearch;
@@ -33,9 +32,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -175,9 +173,34 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		List<BizPurchaseOrderDetail> detailList = purchaseOrderDetailMapper.selectByExample(example);
 		detailsVo.setDetails(detailList);
 
+		//审核历史
+		List<OrderHistory> historyList = new ArrayList<OrderHistory>();
+		int status = vo.getStatus();
+		if(PurchaseUtil.STATUS_0 == status){
+			historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
+		}else if(PurchaseUtil.STATUS_1 == status){
+			historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
+			historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
+		}else if(PurchaseUtil.STATUS_2 == status){
+			historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
+			historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
+			historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),PurchaseUtil.STATUS_2));
+		}else if(PurchaseUtil.STATUS_3 == status){
+			historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
+			historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
+			historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),PurchaseUtil.STATUS_2));
+			historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),PurchaseUtil.STATUS_3));
+		}else if(PurchaseUtil.STATUS_4 == status){
+			historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
+			historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
+			historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),PurchaseUtil.STATUS_2));
+			historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),PurchaseUtil.STATUS_3));
+			historyList.add(new OrderHistory(vo.getManagerAdmin().getFullname(),vo.getManagerDepartDate(),vo.getManagerDepartOpinion(),vo.getManagerDepartApproval(),PurchaseUtil.STATUS_4));
+		}
+		Collections.reverse(historyList);
+		vo.setHistoryList(historyList);
 
 		//选择审核人
-		int status = vo.getStatus();
 		String depart = "成本部";
 		Long reviewUserId = null;
 		if(PurchaseUtil.STATUS_1 == status){
@@ -243,6 +266,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		BizPurchaseOrder tmp = new BizPurchaseOrder();
 		tmp.setId(order.getId());
 		tmp.setStatus(PurchaseUtil.STATUS_1);
+		tmp.setApplyDate(new Date());
 		purchaseOrderMapper.updateByPrimaryKeySelective(tmp);
 		return ResultUtil.ok();
 	}
@@ -307,6 +331,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			tmp.setManagerDepartOpinion(auditOpinion);
 		}else if (PurchaseUtil.STATUS_4 == status){
 			tmp.setStatus(PurchaseUtil.STATUS_5);
+		}
+		//审核不通过
+		if(!auditResults){
+			tmp.setStatus(0);
 		}
 		tmp.setUpdateDate(date);
 
@@ -480,7 +508,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             vo.setSupplier(supplier);
         }
 
-        return vo;
+		Long applyUserId = order.getApplyUser();
+		if(applyUserId != null){
+			TbAdmin auAdmin = adminMapper.selectByPrimaryKey(applyUserId);
+			vo.setAuAdmin(auAdmin);
+		}
+
+
+		return vo;
     }
 
     @Override

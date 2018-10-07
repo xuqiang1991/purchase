@@ -4,18 +4,18 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.purchase.mapper.admin.TbAdminMapper;
-import com.purchase.mapper.admin.TbProjectMangerMapper;
 import com.purchase.mapper.admin.TbSupplierMapper;
 import com.purchase.mapper.order.BizContractApplyMoneyDetailMapper;
 import com.purchase.mapper.order.BizContractApplyMoneyMapper;
+import com.purchase.mapper.order.BizPaymentOrderMapper;
 import com.purchase.mapper.order.BizPurchaseOrderMapper;
 import com.purchase.pojo.admin.TbAdmin;
-import com.purchase.pojo.admin.TbProjectManger;
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.*;
 import com.purchase.service.CAMService;
 import com.purchase.service.PurchaseOrderService;
 import com.purchase.util.*;
+import com.purchase.vo.OrderHistory;
 import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.order.BizPurchaseOrderVo;
 import com.purchase.vo.order.CAMDetailsVo;
@@ -31,6 +31,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -63,7 +65,7 @@ public class CAMServiceImpl implements CAMService {
     private PurchaseOrderService purchaseOrderService;
 
     @Autowired
-    private TbProjectMangerMapper projectMangerMapper;
+    private BizPaymentOrderMapper paymentOrderMapper;
 
 
     @Override
@@ -173,8 +175,35 @@ public class CAMServiceImpl implements CAMService {
         List<BizContractApplyMoneyDetail> detailList = contractApplyMoneyDetailMapper.selectByExample(example);
         detailsVo.setDetails(detailList);
 
-        //选择审核人
+
+        //审核历史
+        List<OrderHistory> historyList = new ArrayList<OrderHistory>();
         int status = vo.getStatus();
+        if(PurchaseUtil.STATUS_0 == status){
+            historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
+        }else if(PurchaseUtil.STATUS_1 == status){
+            historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
+            historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
+        }else if(PurchaseUtil.STATUS_2 == status){
+            historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
+            historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
+            historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),PurchaseUtil.STATUS_2));
+        }else if(PurchaseUtil.STATUS_3 == status){
+            historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
+            historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
+            historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),PurchaseUtil.STATUS_2));
+            historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),PurchaseUtil.STATUS_3));
+        }else if(PurchaseUtil.STATUS_4 == status){
+            historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
+            historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
+            historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),PurchaseUtil.STATUS_2));
+            historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),PurchaseUtil.STATUS_3));
+            historyList.add(new OrderHistory(vo.getManagerAdmin().getFullname(),vo.getManagerDepartDate(),vo.getManagerDepartOpinion(),vo.getManagerDepartApproval(),PurchaseUtil.STATUS_4));
+        }
+        Collections.reverse(historyList);
+        vo.setHistoryList(historyList);
+
+        //选择审核人
         String depart = "成本部";
         Long reviewUserId = null;
         if (CAMUtil.STATUS_1 == status) {
@@ -253,6 +282,12 @@ public class CAMServiceImpl implements CAMService {
         if(sourceOrderId != null){
             BizPurchaseOrderVo purchaseOrderVo = purchaseOrderService.selPurchaseOrderById(sourceOrderId);
             vo.setPurchaseOrderVo(purchaseOrderVo);
+        }
+
+        Long applyUserId = order.getApplyUser();
+        if(applyUserId != null){
+            TbAdmin auAdmin = adminMapper.selectByPrimaryKey(applyUserId);
+            vo.setAuAdmin(auAdmin);
         }
 
         return vo;
@@ -349,6 +384,7 @@ public class CAMServiceImpl implements CAMService {
         BizContractApplyMoney tmp = new BizContractApplyMoney();
         tmp.setId(order.getId());
         tmp.setStatus(CAMUtil.STATUS_1);
+        tmp.setApplyDate(new Date());
         camMapper.updateByPrimaryKeySelective(tmp);
         return ResultUtil.ok();
     }
@@ -423,11 +459,59 @@ public class CAMServiceImpl implements CAMService {
         } else if (CAMUtil.STATUS_4 == status) {
             tmp.setStatus(CAMUtil.STATUS_5);
         }
+        //审核不通过
+        if(!auditResults){
+            tmp.setStatus(0);
+        }
         tmp.setUpdateDate(date);
 
         camMapper.updateByPrimaryKeySelective(tmp);
 
+        //总经理审核写入付款单
+        if(PurchaseUtil.STATUS_3 == status){
+            generatePaymenyOrder(order);
+        }
+
+
         return ResultUtil.ok();
+    }
+
+    /**
+     * 生产付款单
+     */
+    private void generatePaymenyOrder(BizContractApplyMoney order){
+        Date date = new Date();
+        BizPaymentOrder paymentOrder = new BizPaymentOrder();
+
+        String id = WebUtils.generateUUID();
+        paymentOrder.setId(id);
+        //生成订单号
+        String yyddmm = DateUtil.formatDate(date, DateUtil.DateFormat3);
+        String prefix = PaymentOrderUtil.prefix + yyddmm;
+        String pn = paymentOrderMapper.selMaxOrderNo(prefix);
+        String purchaseNo = CAMUtil.generateOrderNo(pn);
+        paymentOrder.setOrderNo(purchaseNo);
+
+
+        paymentOrder.setCreateUser(order.getApplyUser());
+        paymentOrder.setCreateTime(order.getCreateTime());
+        paymentOrder.setSupplierId(order.getSupplierId());
+        paymentOrder.setApplyType(0);
+        paymentOrder.setApplyUser(order.getApplyUser());
+
+        TbAdmin applyAdmin = adminMapper.selectByPrimaryKey(order.getApplyUser());
+        paymentOrder.setApplyUserPhone(applyAdmin.getPhone());
+
+        paymentOrder.setProjectId(order.getProjectId());
+
+        String sourceOrderId = order.getSourceOrderId();
+        BizPurchaseOrder purchaseOrder = purchaseOrderMapper.selectByPrimaryKey(sourceOrderId);
+        paymentOrder.setContractId(purchaseOrder.getContractNo());
+
+        paymentOrder.setApplyPrice(order.getApplyPrice());
+        paymentOrder.setApprovalPrice(order.getActualPrice());
+
+        paymentOrderMapper.insertSelective(paymentOrder);
     }
 }
 

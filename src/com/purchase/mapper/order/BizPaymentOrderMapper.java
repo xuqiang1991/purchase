@@ -7,6 +7,7 @@ import java.util.List;
 import com.purchase.vo.order.BizPaymentOrderSearch;
 import com.purchase.vo.order.BizPaymentOrderVo;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 public interface BizPaymentOrderMapper {
     int countByExample(BizPaymentOrderExample example);
@@ -33,4 +34,6 @@ public interface BizPaymentOrderMapper {
 
     List<BizPaymentOrderVo> selectByExampleExt(@Param("example") BizPaymentOrderExample example, @Param("search") BizPaymentOrderSearch search);
 
+    @Select("select max(order_no) order_no from biz_purchase_order where order_no like '${prefix}%'")
+    String selMaxOrderNo(@Param("prefix") String prefix);
 }

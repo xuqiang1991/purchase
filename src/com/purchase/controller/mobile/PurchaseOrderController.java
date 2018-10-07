@@ -3,6 +3,7 @@ package com.purchase.controller.mobile;
 import com.alibaba.fastjson.JSON;
 import com.purchase.annotation.SysLog;
 import com.purchase.pojo.admin.TbAdmin;
+import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.BizPurchaseOrder;
 import com.purchase.pojo.order.BizPurchaseOrderDetail;
 import com.purchase.service.AdminService;
@@ -87,7 +88,16 @@ public class PurchaseOrderController {
 
     @RequestMapping("/toSave")
     @RequiresPermissions("mobile:purchase:save")
-    public String toSave(){
+    public String toSave(Model model){
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        if(admin.getSupplierId() != null){
+            TbSupplier supplier = supplierService.selSupplierById(admin.getSupplierId());
+            admin.setSupplierName(supplier.getName());
+        }
+        List<ChoseAdminVO> admins = adminService.selectAdmin();
+        logger.info("------:{}", JSON.toJSONString(admins));
+        model.addAttribute("admins", JSON.toJSONString(admins));
+        model.addAttribute("admin", admin);
         return "page/mobile/purchaseOrder/from";
     }
 
@@ -105,6 +115,16 @@ public class PurchaseOrderController {
     @RequestMapping("/toEdit")
     @RequiresPermissions("mobile:purchase:save")
     public String toUpdate(String id, Model model){
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        if(admin.getSupplierId() != null){
+            TbSupplier supplier = supplierService.selSupplierById(admin.getSupplierId());
+            admin.setSupplierName(supplier.getName());
+        }
+        List<ChoseAdminVO> admins = adminService.selectAdmin();
+        logger.info("------:{}", JSON.toJSONString(admins));
+        model.addAttribute("admins", JSON.toJSONString(admins));
+        model.addAttribute("admin", admin);
+
         BizPurchaseOrderVo order = purchaseOrderService.selPurchaseOrderById(id);
         model.addAttribute("order",order);
 

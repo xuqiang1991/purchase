@@ -20,6 +20,8 @@ public class BizPurchaseOrder {
 
     private Long applyUser;
 
+    private Date applyDate;
+
     private Long supplierId;
 
     private String projectId;
@@ -289,5 +291,14 @@ public class BizPurchaseOrder {
 
     public void setManagerDepartOpinion(String managerDepartOpinion) {
         this.managerDepartOpinion = managerDepartOpinion == null ? null : managerDepartOpinion.trim();
+    }
+
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    public Date getApplyDate() {
+        return applyDate;
+    }
+
+    public void setApplyDate(Date applyDate) {
+        this.applyDate = applyDate;
     }
 }
