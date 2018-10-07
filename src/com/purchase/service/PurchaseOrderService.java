@@ -4,6 +4,7 @@ import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.order.BizPurchaseOrder;
 import com.purchase.pojo.order.BizPurchaseOrderDetail;
 import com.purchase.util.ResultUtil;
+import com.purchase.vo.admin.ChosePurchaseOrderVO;
 import com.purchase.vo.order.BizPurchaseOrderDetailsVo;
 import com.purchase.vo.order.BizPurchaseOrderSearch;
 import com.purchase.vo.order.BizPurchaseOrderVo;
@@ -49,4 +50,6 @@ public interface PurchaseOrderService {
     ResultUtil purchaseOrderContractNo(String id, String contractNo);
 
     BizPurchaseOrderVo selPurchaseOrderById(String id);
+
+    List<ChosePurchaseOrderVO> selectChosePurchaseOrder();
 }

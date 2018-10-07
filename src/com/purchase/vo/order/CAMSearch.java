@@ -1,5 +1,7 @@
 package com.purchase.vo.order;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 /**
@@ -14,14 +16,18 @@ public class CAMSearch {
     private String orderType;
     private String sourceOrderId;
     private Long supplierId;
-    private Long projectId;
-    private Long applyUser;
+    private String projectId;
     private Long createUser;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date createTime;
     private Integer status;
     private String createUserName;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date startCreateTime;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date endCreateTime;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private String contractNo;
 
     public String getOrderNo() {
         return orderNo;
@@ -55,20 +61,20 @@ public class CAMSearch {
         this.supplierId = supplierId;
     }
 
-    public Long getProjectId() {
+    public String getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Long projectId) {
+    public void setProjectId(String projectId) {
         this.projectId = projectId;
     }
 
-    public Long getApplyUser() {
-        return applyUser;
+    public String getContractNo() {
+        return contractNo;
     }
 
-    public void setApplyUser(Long applyUser) {
-        this.applyUser = applyUser;
+    public void setContractNo(String contractNo) {
+        this.contractNo = contractNo;
     }
 
     public Long getCreateUser() {

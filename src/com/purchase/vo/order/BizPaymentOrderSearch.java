@@ -6,12 +6,13 @@ import java.util.Date;
 
 /**
  * Created by xuqiang
- * 2018/8/16.
+ * 2018/9/07.
  */
-public class BizPurchaseOrderSearch{
+public class BizPaymentOrderSearch {
 
-    private String purchaseNo;
-    private Integer type;
+    private String id;
+    private String orderNo;
+    private Integer orderType;
     private Long supplierId;
     private String projectId;
     private Long createUser;
@@ -27,6 +28,14 @@ public class BizPurchaseOrderSearch{
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date departDate;
     private String contractNo;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getContractNo() {
         return contractNo;
@@ -52,20 +61,20 @@ public class BizPurchaseOrderSearch{
         this.departDate = departDate;
     }
 
-    public String getPurchaseNo() {
-        return purchaseNo;
+    public String getOrderNo() {
+        return orderNo;
     }
 
-    public void setPurchaseNo(String purchaseNo) {
-        this.purchaseNo = purchaseNo;
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
     }
 
-    public Integer getType() {
-        return type;
+    public Integer getOrderType() {
+        return orderType;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setOrderType(Integer orderType) {
+        this.orderType = orderType;
     }
 
     public Long getSupplierId() {

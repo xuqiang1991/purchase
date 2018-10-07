@@ -47,50 +47,58 @@
     <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 0px;width: 100%;">
         <div class="mui-scroll">
             <!-- 主界面具体展示内容 -->
-            <div class="mui-content-padded mui-card" style="margin: 5px;">
-                <input type="hidden" name="orderNo" id="orderNo" value="${detailsVo.order.orderNo}">
-                <div class="mui-input-row">
-                    <label>订单号</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.order.orderNo}</label>
-                </div>
-                <div class="mui-input-row">
-                    <label>订单类型</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.orderType}</label>
-                </div>
-                <div class="mui-input-row">
-                    <label>来源订单</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.order.purchaseOrderVo.purchaseNo}</label>
-                </div>
-                <div class="mui-input-row">
-                    <label>供应商</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.order.supplier.name}</label>
-                </div>
-                <div class="mui-input-row">
-                    <label>所属项目</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.order.purchaseOrderVo.projectManger.name}</label>
-                </div>
-                <div class="mui-input-row">
-                    <label>请款人</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.order.applyAdmin.fullname}</label>
-                </div>
-                <div class="mui-input-row mui-input-range">
-                    <label>开单人</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.order.admin.fullname}</label>
-                </div>
-                <div class="mui-input-row mui-input-range">
-                    <label>开单日期</label>
-                    <label style="width: 65%;padding-left: 0px;"><fmt:formatDate value="${detailsVo.order.createTime}" pattern="yyyy-MM-dd"/></label>
-                </div>
-                <div>
-                    <textarea name="summary" id="summary" rows="5" class="mui-input-clear" readonly="readonly">${detailsVo.order.summary}</textarea>
-                </div>
-                <c:if test="${detailsVo.order.status == 0}">
-                    <div class="mui-button-row" style="padding-bottom: 20px;">
-                        <a href="#fromPurchaseOrderItem">
-                            <label id="selectProjectText" style="width: 65%;padding-left: 0px;">增加合同内请款单项</label>
-                        </a>
-                    </div>
-                </c:if>
+            <div class="mui-card">
+                <ul class="mui-table-view">
+                    <li class="mui-table-view-cell mui-collapse">
+                        <a class="mui-navigate-right" href="#">合同内请款单详情</a>
+                        <div class="mui-collapse-content">
+                            <!-- 主界面具体展示内容 -->
+                            <input type="hidden" name="orderNo" id="orderNo" value="${detailsVo.order.orderNo}">
+                            <div class="mui-input-row">
+                                <label>订单号</label>
+                                <label style="width: 65%;padding-left: 0px;">${detailsVo.order.orderNo}</label>
+                            </div>
+                            <div class="mui-input-row">
+                                <label>订单类型</label>
+                                <label style="width: 65%;padding-left: 0px;">${detailsVo.orderType}</label>
+                            </div>
+                            <div class="mui-input-row">
+                                <label>来源订单</label>
+                                <label style="width: 65%;padding-left: 0px;">${detailsVo.order.purchaseOrderVo.purchaseNo}</label>
+                            </div>
+                            <div class="mui-input-row">
+                                <label>供应商</label>
+                                <label style="width: 65%;padding-left: 0px;">${detailsVo.order.supplier.name}</label>
+                            </div>
+                            <div class="mui-input-row">
+                                <label>所属项目</label>
+                                <label style="width: 65%;padding-left: 0px;">${detailsVo.order.purchaseOrderVo.projectManger.name}</label>
+                            </div>
+                            <div class="mui-input-row">
+                                <label>请款人</label>
+                                <label style="width: 65%;padding-left: 0px;">${detailsVo.order.applyAdmin.fullname}</label>
+                            </div>
+                            <div class="mui-input-row mui-input-range">
+                                <label>开单人</label>
+                                <label style="width: 65%;padding-left: 0px;">${detailsVo.order.admin.fullname}</label>
+                            </div>
+                            <div class="mui-input-row mui-input-range">
+                                <label>开单日期</label>
+                                <label style="width: 65%;padding-left: 0px;"><fmt:formatDate value="${detailsVo.order.createTime}" pattern="yyyy-MM-dd"/></label>
+                            </div>
+                            <div>
+                                <textarea name="summary" id="summary" rows="5" class="mui-input-clear" readonly="readonly">${detailsVo.order.summary}</textarea>
+                            </div>
+                            <c:if test="${detailsVo.order.status == 0}">
+                                <div class="mui-button-row" style="padding-bottom: 20px;">
+                                    <a href="#fromPurchaseOrderItem">
+                                        <label id="selectProjectText" style="width: 65%;padding-left: 0px;">增加合同内请款单项</label>
+                                    </a>
+                                </div>
+                            </c:if>
+                        </div>
+                    </li>
+                </ul>
             </div>
             <c:forEach items="${detailsVo.details}" var="item">
                 <div class="mui-card">
@@ -100,7 +108,7 @@
                         <div class="mui-media-body">
                             <label>材料/项目内容</label>
                             <p>
-                                    ${item.content}
+                                    ${item.projectContent}
                             </p>
                         </div>
                     </div>
@@ -112,17 +120,17 @@
                             </p>
                             <p>
                                 <label>单位：${item.unit}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label>数量：${item.amount}</label>
+                                <label>数量：${item.contractCount}</label>
                             </p>
-                            <p>
-                                <label>质保期（月）：${item.warrantyDate}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label>日期：<fmt:formatDate value="${item.date}" pattern="yyyy-MM-dd"/></label>
-                            </p>
+                            <%--<p>--%>
+                                <%--<label>质保期（月）：${item.warrantyDate}</label>&nbsp;&nbsp;&nbsp;&nbsp;--%>
+                                <%--<label>日期：<fmt:formatDate value="${item.date}" pattern="yyyy-MM-dd"/></label>--%>
+                            <%--</p>--%>
                         </div>
                     </div>
                     <div class="mui-card-footer">
                         <div class="mui-pull-left">
-                            <label>总金额：${item.totalPrice}</label>&nbsp;&nbsp;
+                            <label>已結算金额：${item.settlePrice}</label>&nbsp;&nbsp;
                             <label>已結算数量：${item.settleAmout}</label>
                         </div>
                         <c:if test="${detailsVo.order.status == 0}">
@@ -139,9 +147,9 @@
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="orderDetails">提交</button>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="deletePurchaseOrder" value="${detailsVo.order.id}">删除</button>
                     </c:when>
-                    <c:when test="${detailsVo.order.status == 1 && empty detailsVo.order.costDepartUser && empty detailsVo.reviewUserId}">
-                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="submitReviewPurchaseOrder">选择审核人</button>
-                    </c:when>
+                    <%--<c:when test="${detailsVo.order.status == 1 && empty detailsVo.order.costDepartUser && empty detailsVo.reviewUserId}">--%>
+                        <%--<button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="submitReviewPurchaseOrder">选择审核人</button>--%>
+                    <%--</c:when>--%>
                     <c:when test="${!empty detailsVo.reviewUserId}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">审核</button>
                     </c:when>
@@ -371,33 +379,33 @@
     });
 
     /** 提交审核 **/
-    mui(document.body).on('tap', '#purchaseOrderDetails', function(e) {
-        var btnArray = ['是', '否'];
-        mui.confirm('确认提交？', '提交合同内请款单', btnArray, function(e) {
-            if (e.index == 0) {
-                var url = '${ctx}/mobile/CAM/submitCAMOrder?id=${detailsVo.order.id}';
-                $.ajax({
-                    url: url,
-                    dataType: 'json',
-                    contentType : "application/x-www-form-urlencoded",
-                    type: 'post',
-                    timeout: 10000,
-                    success: function(result) {
-                        if(result.code!=0){
-                            mui.alert(result.msg);
-                        }else {
-                            mui.alert('提交成功！', function() {
-                                document.location.href='${ctx }/mobile/CAM/toDetails/${detailsVo.order.id}';
-                            });
-                        }
-                    }
-                });
-            }
-        })
-    });
+    <%--mui(document.body).on('tap', '#purchaseOrderDetails', function(e) {--%>
+        <%--var btnArray = ['是', '否'];--%>
+        <%--mui.confirm('确认提交？', '提交合同内请款单', btnArray, function(e) {--%>
+            <%--if (e.index == 0) {--%>
+                <%--var url = '${ctx}/mobile/CAM/submitCAMOrder?id=${detailsVo.order.id}';--%>
+                <%--$.ajax({--%>
+                    <%--url: url,--%>
+                    <%--dataType: 'json',--%>
+                    <%--contentType : "application/x-www-form-urlencoded",--%>
+                    <%--type: 'post',--%>
+                    <%--timeout: 10000,--%>
+                    <%--success: function(result) {--%>
+                        <%--if(result.code!=0){--%>
+                            <%--mui.alert(result.msg);--%>
+                        <%--}else {--%>
+                            <%--mui.alert('提交成功！', function() {--%>
+                                <%--document.location.href='${ctx }/mobile/CAM/toDetails/${detailsVo.order.id}';--%>
+                            <%--});--%>
+                        <%--}--%>
+                    <%--}--%>
+                <%--});--%>
+            <%--}--%>
+        <%--})--%>
+    <%--});--%>
 
     /** 选择审核人 **/
-    mui(document.body).on('tap', '#submitReviewPurchaseOrder', function(e) {
+    mui(document.body).on('tap', '#purchaseOrderDetails', function(e) {
         var adminsJson = '${detailsVo.departs}'
         var json =JSON.parse(adminsJson)
         var userPicker = new mui.PopPicker();

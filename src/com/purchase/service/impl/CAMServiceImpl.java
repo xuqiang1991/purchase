@@ -175,15 +175,13 @@ public class CAMServiceImpl implements CAMService {
 
         //选择审核人
         int status = vo.getStatus();
-        String depart = null;
+        String depart = "成本部";
         Long reviewUserId = null;
         if (CAMUtil.STATUS_1 == status) {
             Long cId = vo.getCostDepartUser();
             if (cId != null) {
                 reviewUserId = vo.getCostDepartUser();
                 depart = "工程部";
-            } else {
-                depart = "成本部";
             }
         } else if (CAMUtil.STATUS_2 == status) {
             depart = "工程部";

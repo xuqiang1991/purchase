@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+		 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/page/include/taglib.jsp"%>
 <!DOCTYPE html>
 <html>
@@ -12,35 +13,25 @@
 <body>
 <header class="mui-bar mui-bar-nav">
     <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-    <h1 class="mui-title">合同内请款单</h1>
+    <h1 class="mui-title">付款订单列表</h1>
 </header>
 
 <div class="mui-content">
-    <div class="mui-card" style="margin: 0px; margin-top: 5px; margin-bottom: 5px; padding-bottom: 5px; text-align: center;">
-        <div class="mui-button-row">
-            <button type="button" id="add-btn" class="mui-btn mui-btn-primary">新建合同内请款单</button>
-        </div>
-    </div>
-    <!-- 单号、订单类型、来源订单、供应商、所属项目、请款人、开单人、开单日期、单据状态 -->
+    <!-- 单号、订单类型、供应商、所属项目、合同号、开单人、开单日期、单据状态 -->
     <ul class="mui-table-view" style="z-index: 100">
-        <li class="mui-table-view-cell mui-collapse">
+        <li class="mui-table-view-cell mui-collapse" id="searchCollapse">
             <a class="mui-navigate-right" href="#">搜索</a>
             <div class="mui-collapse-content">
                 <div class="mui-collapse-content">
                     <form class="mui-input-group" id="searchForm">
                         <div class="mui-input-row">
                             <label>单号</label>
-                            <input type="text" name="orderNo" placeholder="请输入单号">
+                            <input type="text" name="purchaseNo" placeholder="请输入单号">
                         </div>
                         <div class="mui-input-row">
-                            <label>订单类型</label>
-                            <input type="text" id="orderTypeName" readonly class="mui-input-clear" placeholder="请选择单据类型" value="" >
-                            <input type="hidden" id="orderType" name="orderType" value="" >
-                        </div>
-                        <div class="mui-input-row">
-                            <label>来源订单</label>
-                            <input type="text" id="sourceOrderIdName" readonly class="mui-input-clear" placeholder="请选择来源订单" value="" >
-                            <input type="hidden" id="sourceOrderId" name="sourceOrderId" value="" >
+                            <label>项目</label>
+                            <input type="text" id="selectProjectName" class="mui-input-clear" placeholder="请选择项目" >
+                            <input type="hidden" id="projectId" name="projectId">
                         </div>
                         <div class="mui-input-row">
                             <label>供应商</label>
@@ -48,18 +39,23 @@
                             <input type="hidden" id="supplierId" name="supplierId">
                         </div>
                         <div class="mui-input-row">
-                            <label>所属项目</label>
-                            <input type="text" id="selectProjectName" class="mui-input-clear" placeholder="请选择所属项目" >
-                            <input type="hidden" id="projectId" name="projectId">
-                        </div>
-                        <div class="mui-input-row">
                             <label>合同号</label>
-                            <input type="text" name="contractNo" placeholder="合同号">
+                            <input type="text" name="contractNo" placeholder="普通输入框">
                         </div>
                         <div class="mui-input-row">
                             <label>请款人</label>
                             <input type="text" id="selectApplyUser" class="mui-input-clear" placeholder="请选择请款人" >
                             <input type="hidden" id="applyUser" name="applyUser">
+                        </div>
+                        <div class="mui-input-row">
+                            <label>请款类型</label>
+                            <input type="text" id="applyTypeName" readonly class="mui-input-clear" placeholder="请选择请款类型" value="" >
+                            <input type="hidden" id="applyType" name="applyType" value="" >
+                        </div>
+                        <div class="mui-input-row">
+                            <label>请款性质</label>
+                            <input type="text" id="applyNatureName" readonly class="mui-input-clear" placeholder="请选择请款类型" value="" >
+                            <input type="hidden" id="applyNature" name="applyNature" value="" >
                         </div>
                         <div class="mui-input-row">
                             <label>开单人</label>
@@ -71,19 +67,20 @@
                             <input id="createTime" name="createTime" type="text" data-options='{"type":"date","beginYear":2014,"endYear":2016}' placeholder="请选择日期">
                         </div>
                         <div class="mui-input-row">
-                            <label>单号状态</label>
+                            <label>单据状态</label>
                             <input type="text" id="statusName" readonly class="mui-input-clear" placeholder="请选择单据状态"  value="">
                             <input type="hidden" id="status" name="status" value="">
                         </div>
                         <div class="mui-button-row">
                             <button class="mui-btn mui-btn-primary" type="button" id="search-btn">确认</button>&nbsp;&nbsp;
-                            <button class="mui-btn mui-btn-danger" type="button" id="reset-btn">重置</button>
+                            <button class="mui-btn mui-btn-danger" type="button" id="cancel-btn">取消</button>
+                        </div>
                     </form>
                 </div>
             </div>
         </li>
     </ul>
-    <!-- 合同内请款单 start -->
+    <!--下拉刷新容器-->
     <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 135px;width: 100%;">
         <div class="mui-scroll">
             <!--数据列表-->
@@ -91,7 +88,6 @@
             </ul>
         </div>
     </div>
-    <!-- 合同内请款单 end -->
 </div>
 <script type="text/javascript" src="${ctx}/js/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
@@ -106,23 +102,18 @@
         swipeBack: true, //启用右滑关闭功能
         pullRefresh : {
             container:"#refreshContainer",//下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
-            down : {
-                style:'circle',//必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
-                auto: true,//可选,默认false.首次加载自动上拉刷新一次
-                callback :billRefresh
-            },
-            up: {
-                auto:false,
-                contentrefresh: '正在加载...',
-                contentnomore:'',
-                callback: billLoad
+                down : {
+                    style:'circle',//必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+                    auto: true,//可选,默认false.首次加载自动上拉刷新一次
+                    callback :billRefresh
+                },
+                up: {
+                    auto:false,
+                    contentrefresh: '正在加载...',
+                    contentnomore:'',
+                    callback: billLoad
             }
         }
-    });
-
-    mui(document.body).on('tap', '.toDetails', function(e) {
-        var id = $(this).attr('value');
-        toDetails(id)
     });
 
     mui(document.body).on('tap', '#search-btn', function(e) {
@@ -135,12 +126,21 @@
     });
 
     mui(document.body).on('tap', '#add-btn', function(e) {
-        document.location.href='${ctx }/mobile/CAM/toSave';
+        document.location.href='${ctx }/mobile/purchase/toSave';
     });
+
+    mui(document.body).on('tap', '.toDetails', function(e) {
+        var id = $(this).attr('value');
+        toDetails(id)
+    });
+
+    mui(document.body).on('tap','#reset-btn',function(e){
+        $('#searchForm').find('input').val('');
+    })
 
     mui(document.body).on('tap', '.toUpdate', function(e) {
         var id = $(this).attr('value');
-        document.location.href='${ctx }/mobile/CAM/toEdit?id=' + id;
+        document.location.href='${ctx }/mobile/paymentOrder/toEdit?id=' + id;
     });
 
     function billLoad() {
@@ -163,7 +163,7 @@
     }
 
     function getBill() {
-        var url = '${ctx}/mobile/CAM/getCAMList?' + 'limit=' + limit + '&page=' + page;
+        var url = '${ctx}/mobile/paymentOrder/getPurchaseList?' + 'limit=' + limit + '&page=' + page;
         mui.toast("加载中...",1000);
         $.ajax({
             url: url,
@@ -208,7 +208,7 @@
 
 
     function toDetails(id) {
-        document.location.href='${ctx }/mobile/CAM/toDetails/' + id;
+        document.location.href='${ctx }/mobile/paymentOrder/toDetails/' + id;
     }
 
     var btns =  mui('#createTime');
@@ -225,31 +225,21 @@
         }, false);
     });
 
-    mui.ready(function() {
-        var orderTypeNamePicker = new mui.PopPicker();
-        orderTypeNamePicker.setData( [{
-            value: '0',
-            text: '绿化苗木'
-        }, {
-            value: '1',
-            text: '园建水电'
-        }, {
-            value: '2',
-            text: '机械租赁'
-        }, {
-            value: '3',
-            text: '工程分包'
-        }]);
-        var orderTypeName = document.getElementById('orderTypeName');
-        var orderType = document.getElementById('orderType');
-        orderTypeName.addEventListener('tap', function(event) {
-            orderTypeNamePicker.show(function(items) {
-                orderTypeName.value = items[0].text;
-                orderType.value = items[0].value;
-                //返回 false 可以阻止选择框的关闭
-                //return false;
+    var btnsDepart =  mui('#departDate');
+    btnsDepart.each(function(i, btn) {
+        btn.addEventListener('tap', function() {
+            var optionsJson = this.getAttribute('data-options') || '{}';
+            var options = JSON.parse(optionsJson);
+            var id = this.getAttribute('id');
+            var picker = new mui.DtPicker(options);
+            picker.show(function(rs) {
+                departDate.value = rs.text;
+                picker.dispose();
             });
         }, false);
+    });
+
+    mui.ready(function() {
 
         var suppliersJson = '${suppliers}';
         var suppliersPicker = new mui.PopPicker({
@@ -270,18 +260,6 @@
         var adminsJson = '${admins}';
         var userPicker = new mui.PopPicker();
         userPicker.setData(JSON.parse(adminsJson));
-
-        var selectApplyUser = document.getElementById('selectApplyUser');
-        var applyUser = document.getElementById('applyUser');
-        selectApplyUser.addEventListener('tap', function(event) {
-            userPicker.show(function(items) {
-                selectApplyUser.value = items[0].text;
-                applyUser.value = items[0].value;
-                //返回 false 可以阻止选择框的关闭
-                //return false;
-            });
-        }, false);
-
 
         var selectCreateUser = document.getElementById('selectCreateUser');
         var createUser = document.getElementById('createUser');
@@ -307,24 +285,6 @@
             projectsPicker.show(function(items) {
                 selectProjectName.value = items[0].text;
                 projectId.value = items[0].value;
-                //返回 false 可以阻止选择框的关闭
-                //return false;
-            });
-        }, false);
-
-
-
-        var purchaseOrdersJson = '${purchaseOrders}';
-        var purchaseOrdersPicker = new mui.PopPicker({
-            layer: 1
-        });
-        purchaseOrdersPicker.setData(JSON.parse(purchaseOrdersJson));
-        var selectSourceOrderIdName = document.getElementById('sourceOrderIdName');
-        var sourceOrderId = document.getElementById('sourceOrderId');
-        selectSourceOrderIdName.addEventListener('tap', function(event) {
-            purchaseOrdersPicker.show(function(items) {
-                selectSourceOrderIdName.value = items[0].text;
-                sourceOrderId.value = items[0].value;
                 //返回 false 可以阻止选择框的关闭
                 //return false;
             });
@@ -365,48 +325,51 @@
     {{#each data}}
     <div class="mui-card" style="margin: 0px; margin-top: 5px;">
         <div class="mui-card-header mui-card-media toDetails" value="{{id}}">
-            <!-- 订单类型 用图标展示 -->
-            <img src="${ctx }/images/icon/contract_apply_money.png">
+            <img src="${ctx}/images/icon/purchase_order.png">
             <div class="mui-media-body">
                 <label>单号:{{orderNo}}</label>
                 <p>
-                <p>
-                    <label>开单人:{{admin.fullname}}</label>&nbsp;
+                    <label>开单人:{{admin.fullname}}</label>&nbsp;&nbsp;
                     <label>开单日期：{{createTime}}</label>
                     <span class="mui-badge mui-badge-primary mui-pull-right">{{purchaseOrder_statusConversion status}}</span>
-                </p>
                 </p>
             </div>
         </div>
         <div class="mui-card-content toDetails" value="{{id}}">
             <div class="mui-card-content-inner">
                 <p>
-                    <label>来源订单：{{admin.fullname}}</label>
+                    <label>合同号：{{contractId}}</label>&nbsp;&nbsp;
                     <label>供应商：{{supplier.name}}</label>
                 </p>
                 <p>
-                    <label>所属项目：所属项目</label>
-                    <label>单据类型：单据类型</label>
+                    <label>请款类型：{{applyType}}</label>&nbsp;&nbsp;
+                    <label>请款性质：{{applyNature}}</label>
                 </p>
                 <p>
-                    <label>请款金额合计：{{applyPrice}}</label>
+                    <label>请款人：{{applyAdmin.fullname}}</label>&nbsp;&nbsp;
+                    <label>请款金额：{{applyPrice}}</label>
+                </p>
+                <p>
+                    <label>审定金额：{{approvalPrice}}</label>&nbsp;&nbsp;
+                    <label>项目：{{projectManger.name}}</label>
                 </p>
             </div>
         </div>
         <div class="mui-card-footer">
             <div class="mui-pull-left">
-                <label>{{purchaseOrder_departUser}}</label>
-                <label>{{purchaseOrder_departDate}}</label>
+                <label>实付金额：{{actualPrice}}</label>&nbsp;&nbsp;
+                <label>单据状态：{{status}}</label>
             </div>
             <div>
                 {{#unless status}}
-                <button type="button" class="mui-btn mui-btn-primary toUpdate" value="{{id}}">修改</button>
+                 <button type="button" class="mui-btn mui-btn-primary toUpdate" value="{{id}}">修改</button>
                 {{/unless}}
-                <button type="button" class="mui-btn mui-btn-primary toDetails" value="{{id}}">详情</button>
+                <button type="button" class="mui-btn mui-btn-primary toDetails"  value="{{id}}">详情</button>
             </div>
         </div>
     </div>
     {{/each}}
 </script>
+<!-- 采购订单 end -->
 </body>
 </html>

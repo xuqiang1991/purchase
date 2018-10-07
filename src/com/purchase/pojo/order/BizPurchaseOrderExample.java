@@ -506,6 +506,66 @@ public class BizPurchaseOrderExample {
             return (Criteria) this;
         }
 
+        public Criteria andApplyUserIsNull() {
+            addCriterion("apply_user is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyUserIsNotNull() {
+            addCriterion("apply_user is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyUserEqualTo(Long value) {
+            addCriterion("apply_user =", value, "applyUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyUserNotEqualTo(Long value) {
+            addCriterion("apply_user <>", value, "applyUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyUserGreaterThan(Long value) {
+            addCriterion("apply_user >", value, "applyUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyUserGreaterThanOrEqualTo(Long value) {
+            addCriterion("apply_user >=", value, "applyUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyUserLessThan(Long value) {
+            addCriterion("apply_user <", value, "applyUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyUserLessThanOrEqualTo(Long value) {
+            addCriterion("apply_user <=", value, "applyUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyUserIn(List<Long> values) {
+            addCriterion("apply_user in", values, "applyUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyUserNotIn(List<Long> values) {
+            addCriterion("apply_user not in", values, "applyUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyUserBetween(Long value1, Long value2) {
+            addCriterion("apply_user between", value1, value2, "applyUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyUserNotBetween(Long value1, Long value2) {
+            addCriterion("apply_user not between", value1, value2, "applyUser");
+            return (Criteria) this;
+        }
+
         public Criteria andSupplierIdIsNull() {
             addCriterion("supplier_id is null");
             return (Criteria) this;
@@ -576,52 +636,62 @@ public class BizPurchaseOrderExample {
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdEqualTo(Long value) {
+        public Criteria andProjectIdEqualTo(String value) {
             addCriterion("project_id =", value, "projectId");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdNotEqualTo(Long value) {
+        public Criteria andProjectIdNotEqualTo(String value) {
             addCriterion("project_id <>", value, "projectId");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdGreaterThan(Long value) {
+        public Criteria andProjectIdGreaterThan(String value) {
             addCriterion("project_id >", value, "projectId");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdGreaterThanOrEqualTo(Long value) {
+        public Criteria andProjectIdGreaterThanOrEqualTo(String value) {
             addCriterion("project_id >=", value, "projectId");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdLessThan(Long value) {
+        public Criteria andProjectIdLessThan(String value) {
             addCriterion("project_id <", value, "projectId");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdLessThanOrEqualTo(Long value) {
+        public Criteria andProjectIdLessThanOrEqualTo(String value) {
             addCriterion("project_id <=", value, "projectId");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdIn(List<Long> values) {
+        public Criteria andProjectIdLike(String value) {
+            addCriterion("project_id like", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdNotLike(String value) {
+            addCriterion("project_id not like", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdIn(List<String> values) {
             addCriterion("project_id in", values, "projectId");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdNotIn(List<Long> values) {
+        public Criteria andProjectIdNotIn(List<String> values) {
             addCriterion("project_id not in", values, "projectId");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdBetween(Long value1, Long value2) {
+        public Criteria andProjectIdBetween(String value1, String value2) {
             addCriterion("project_id between", value1, value2, "projectId");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIdNotBetween(Long value1, Long value2) {
+        public Criteria andProjectIdNotBetween(String value1, String value2) {
             addCriterion("project_id not between", value1, value2, "projectId");
             return (Criteria) this;
         }

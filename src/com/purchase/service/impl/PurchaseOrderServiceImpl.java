@@ -10,6 +10,7 @@ import com.purchase.mapper.order.BizPurchaseOrderDetailMapper;
 import com.purchase.mapper.order.BizPurchaseOrderMapper;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbProjectManger;
+import com.purchase.pojo.admin.TbProjectMangerExample;
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.BizPurchaseOrder;
 import com.purchase.pojo.order.BizPurchaseOrderDetail;
@@ -18,6 +19,8 @@ import com.purchase.pojo.order.BizPurchaseOrderExample;
 import com.purchase.service.PurchaseOrderService;
 import com.purchase.util.*;
 import com.purchase.vo.admin.ChoseAdminVO;
+import com.purchase.vo.admin.ChoseProjectVO;
+import com.purchase.vo.admin.ChosePurchaseOrderVO;
 import com.purchase.vo.order.BizPurchaseOrderDetailsVo;
 import com.purchase.vo.order.BizPurchaseOrderSearch;
 import com.purchase.vo.order.BizPurchaseOrderVo;
@@ -30,6 +33,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -70,12 +76,35 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			if(search.getSupplierId() != null){
 				criteria.andSupplierIdEqualTo(search.getSupplierId());
 			}
-
-			if(search.getStartCreateTime() != null){
-				criteria.andCreateTimeGreaterThanOrEqualTo(search.getStartCreateTime());
+			if(StringUtils.isNotBlank(search.getProjectId())){
+				criteria.andProjectIdEqualTo(search.getProjectId());
 			}
-			if(search.getEndCreateTime() != null){
-				criteria.andCreateTimeLessThanOrEqualTo(search.getEndCreateTime());
+			if(StringUtils.isNotBlank(search.getContractNo())){
+				criteria.andContractNoLike("%"+search.getContractNo()+"%");
+			}
+			if(search.getCreateUser() != null){
+				criteria.andCreateUserEqualTo(search.getCreateUser());
+			}
+			if(search.getCreateTime() != null){
+				criteria.andCreateTimeEqualTo(search.getCreateTime());
+			}
+			if(search.getDepartUser() != null){
+				BizPurchaseOrderExample.Criteria criteria1 = example.createCriteria();
+				criteria1.andCostDepartUserEqualTo(search.getDepartUser());
+				BizPurchaseOrderExample.Criteria criteria2 = example.createCriteria();
+				criteria2.andProjectDepartUserEqualTo(search.getDepartUser());
+				BizPurchaseOrderExample.Criteria criteria3 = example.createCriteria();
+				criteria3.andManagerDepartUserEqualTo(search.getDepartUser());
+				example.or(criteria3);
+			}
+			if(search.getDepartDate() != null){
+				BizPurchaseOrderExample.Criteria criteria1 = example.createCriteria();
+				criteria1.andCostDepartDateEqualTo(search.getDepartDate());
+				BizPurchaseOrderExample.Criteria criteria2 = example.createCriteria();
+				criteria2.andProjectDepartDateEqualTo(search.getDepartDate());
+				BizPurchaseOrderExample.Criteria criteria3 = example.createCriteria();
+				criteria3.andManagerDepartDateEqualTo(search.getDepartDate());
+				example.or(criteria3);
 			}
 
 			List<BizPurchaseOrderVo> users = purchaseOrderMapper.selectByExampleExt(example, search);
@@ -149,15 +178,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 		//选择审核人
 		int status = vo.getStatus();
-		String depart = null;
+		String depart = "成本部";
 		Long reviewUserId = null;
 		if(PurchaseUtil.STATUS_1 == status){
 			Long cId = vo.getCostDepartUser();
 			if(cId != null){
 				reviewUserId = vo.getCostDepartUser();
 				depart = "工程部";
-			}else {
-				depart = "成本部";
 			}
 		}else if(PurchaseUtil.STATUS_2 == status){
 			depart = "工程部";
@@ -460,4 +487,18 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public BizPurchaseOrderVo selPurchaseOrderById(String id) {
         return getBizPurchaseOrderVo(id);
     }
+
+	@Override
+	public List<ChosePurchaseOrderVO> selectChosePurchaseOrder() {
+		List<ChosePurchaseOrderVO> item = new ArrayList<>();
+		BizPurchaseOrderExample example=new BizPurchaseOrderExample();
+		List<BizPurchaseOrder> depts = purchaseOrderMapper.selectByExample(example);
+		if(!CollectionUtils.isEmpty(depts)){
+			for (BizPurchaseOrder d: depts) {
+				ChosePurchaseOrderVO dept = new ChosePurchaseOrderVO(d.getId(),d.getPurchaseNo());
+				item.add(dept);
+			}
+		}
+		return item;
+	}
 }
