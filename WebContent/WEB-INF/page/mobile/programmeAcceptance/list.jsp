@@ -316,7 +316,9 @@
             </div>
             <div>
                 <shiro:hasPermission name="mobile:CAM:update">
-                    <button type="button" class="mui-btn mui-btn-primary details-edit"  data-id="{{id}}" >修改</button>
+                    {{#compare status 0}}
+                        <button type="button" class="mui-btn mui-btn-primary details-edit"  data-id="{{id}}" >修改</button>
+                    {{/compare}}
                 </shiro:hasPermission>
 
                 <%--<button type="button" class="mui-btn mui-btn-primary">审核</button>--%>

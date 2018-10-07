@@ -119,14 +119,21 @@
                     <label>指令单号</label>
                     <input type="text" class="mui-input-clear" name="instructOrderNo" placeholder="${ucamVo.instructOrderNo}">
                     </div>
-
             <div>
                 <textarea id="textarea" name="summary" rows="5" class="mui-input-clear" placeholder="摘要">${ucamVo.summary}</textarea>
             </div>
-
         </form>
         <div class="mui-button-row" style="padding-bottom: 20px;">
-            <button type="button" class="mui-btn mui-btn-primary" onclick="ucamSave();">保存</button>&nbsp;&nbsp;
+            <c:choose>
+                <c:when test="${empty ucamVo.id}">
+                    <button type="button" class="mui-btn mui-btn-primary" onclick="ucamSave();">保存</button>
+                </c:when>
+                <c:otherwise>
+                    <c:if test="${ucamVo.status == 0}">
+                        <button type="button" class="mui-btn mui-btn-primary" onclick="ucamSave();">保存</button>
+                    </c:if>
+                </c:otherwise>
+            </c:choose>
             <%--<button type="button" class="mui-btn mui-btn-danger" onclick="return false;">取消</button>--%>
         </div>
     </div>
