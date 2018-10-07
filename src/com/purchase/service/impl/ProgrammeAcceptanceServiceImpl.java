@@ -75,6 +75,11 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
             criteria.andProjectIdEqualTo(search.getProjectId());
         }
 
+        if(!StringUtils.isEmpty(search.getContractNo())){
+            //注意：模糊查询需要进行拼接”%“  如下，不进行拼接是不能完成查询的哦。
+            criteria.andContractNoLike("%"+search.getContractNo()+"%");
+        }
+
         if(search.getCreateUser() != null){
             criteria.andCreateUserEqualTo(search.getCreateUser());
         }
@@ -101,37 +106,35 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
     }
 
     @Override
-    public ResultUtil addPAOOrder(BizProgrammeAcceptanceOrder order) {
+    public ResultUtil savePAOOrder(BizProgrammeAcceptanceOrder order) {
         Date date = new Date();
-
-        String id = WebUtils.generateUUID();
-        order.setId(id);
-
-        //生成工程验收单号
-        String yyddmm = DateUtil.formatDate(date,DateUtil.DateFormat3);
-        String maxNo = paoMapper.selMaxNo(yyddmm);
-        if(StringUtils.isEmpty(maxNo)){
-            maxNo = "0";
+        if(!StringUtils.isEmpty(order.getId())){
+            order.setUpdateDate(date);
+            paoMapper.updateByPrimaryKeySelective(order);
         }else{
-            maxNo = maxNo.substring(maxNo.length() - 3);
+            String id = WebUtils.generateUUID();
+            order.setId(id);
+
+            //生成工程验收单号
+            String yyddmm = DateUtil.formatDate(date,DateUtil.DateFormat3);
+            String maxNo = paoMapper.selMaxNo(yyddmm);
+            if(StringUtils.isEmpty(maxNo)){
+                maxNo = "0";
+            }else{
+                maxNo = maxNo.substring(maxNo.length() - 3);
+            }
+            maxNo = String.format("%03d", Integer.parseInt(maxNo) + 1);
+            String orderNo = PAO_PREFIX + yyddmm + "-" + maxNo;
+
+            order.setOrderNo(orderNo);
+            //参数补充
+            //order.setCostDepartDate(date);
+            order.setStatus(PurchaseUtil.STATUS_0);
+            order.setUpdateDate(date);
+            order.setCreateTime(date);
+            paoMapper.insertSelective(order);
         }
-        maxNo = String.format("%03d", Integer.parseInt(maxNo) + 1);
-        String ucamNo = PAO_PREFIX + yyddmm + "-" + maxNo;
-
-        order.setOrderNo(ucamNo);
-        //参数补充
-        order.setCostDepartDate(date);
-        order.setUpdateDate(date);
-        order.setCreateTime(date);
-
-        paoMapper.insertSelective(order);
-
         return ResultUtil.ok();
-    }
-
-    @Override
-    public ResultUtil editPAOOrder(BizProgrammeAcceptanceOrder order) {
-        return null;
     }
 
     @Override
@@ -287,8 +290,6 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
         if(StringUtils.isEmpty(order.getId())){
             String id = MyUtil.getStrUUID();
             order.setId(id);
-        }else{
-
         }
         paoDetailMapper.insert(order);
         return ResultUtil.ok();

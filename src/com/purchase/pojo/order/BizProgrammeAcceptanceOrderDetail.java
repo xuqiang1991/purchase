@@ -1,5 +1,7 @@
 package com.purchase.pojo.order;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class BizProgrammeAcceptanceOrderDetail {
@@ -51,6 +53,7 @@ public class BizProgrammeAcceptanceOrderDetail {
         this.rectifyMeasure = rectifyMeasure == null ? null : rectifyMeasure.trim();
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getPlayOverDate() {
         return playOverDate;
     }
@@ -67,6 +70,7 @@ public class BizProgrammeAcceptanceOrderDetail {
         this.rectifyFlag = rectifyFlag;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getActualOverDate() {
         return actualOverDate;
     }

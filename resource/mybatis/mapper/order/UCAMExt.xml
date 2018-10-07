@@ -68,7 +68,7 @@
     select
         a.*,
         b.id as supplier_id, b.name as supplierName,
-        c.id as costId, c.fullname as adminFullname,
+        c.id as admin_id, c.fullname as adminFullname,
         tCost.id as costId, tCost.fullname as costFullname,
         tProject.id as projectId, tProject.fullname as projectFullname,
         tManager.id as managerId, tManager.fullname as managerFullname,

@@ -616,63 +616,73 @@ public class BizProgrammeAcceptanceOrderExample {
             return (Criteria) this;
         }
 
-        public Criteria andContractIdIsNull() {
-            addCriterion("contract_id is null");
+        public Criteria andContractNoIsNull() {
+            addCriterion("contract_no is null");
             return (Criteria) this;
         }
 
-        public Criteria andContractIdIsNotNull() {
-            addCriterion("contract_id is not null");
+        public Criteria andContractNoIsNotNull() {
+            addCriterion("contract_no is not null");
             return (Criteria) this;
         }
 
-        public Criteria andContractIdEqualTo(Long value) {
-            addCriterion("contract_id =", value, "contractId");
+        public Criteria andContractNoEqualTo(String value) {
+            addCriterion("contract_no =", value, "contractNo");
             return (Criteria) this;
         }
 
-        public Criteria andContractIdNotEqualTo(Long value) {
-            addCriterion("contract_id <>", value, "contractId");
+        public Criteria andContractNoNotEqualTo(String value) {
+            addCriterion("contract_no <>", value, "contractNo");
             return (Criteria) this;
         }
 
-        public Criteria andContractIdGreaterThan(Long value) {
-            addCriterion("contract_id >", value, "contractId");
+        public Criteria andContractNoGreaterThan(String value) {
+            addCriterion("contract_no >", value, "contractNo");
             return (Criteria) this;
         }
 
-        public Criteria andContractIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("contract_id >=", value, "contractId");
+        public Criteria andContractNoGreaterThanOrEqualTo(String value) {
+            addCriterion("contract_no >=", value, "contractNo");
             return (Criteria) this;
         }
 
-        public Criteria andContractIdLessThan(Long value) {
-            addCriterion("contract_id <", value, "contractId");
+        public Criteria andContractNoLessThan(String value) {
+            addCriterion("contract_no <", value, "contractNo");
             return (Criteria) this;
         }
 
-        public Criteria andContractIdLessThanOrEqualTo(Long value) {
-            addCriterion("contract_id <=", value, "contractId");
+        public Criteria andContractNoLessThanOrEqualTo(String value) {
+            addCriterion("contract_no <=", value, "contractNo");
             return (Criteria) this;
         }
 
-        public Criteria andContractIdIn(List<Long> values) {
-            addCriterion("contract_id in", values, "contractId");
+        public Criteria andContractNoLike(String value) {
+            addCriterion("contract_no like", value, "contractNo");
             return (Criteria) this;
         }
 
-        public Criteria andContractIdNotIn(List<Long> values) {
-            addCriterion("contract_id not in", values, "contractId");
+        public Criteria andContractNoNotLike(String value) {
+            addCriterion("contract_no not like", value, "contractNo");
             return (Criteria) this;
         }
 
-        public Criteria andContractIdBetween(Long value1, Long value2) {
-            addCriterion("contract_id between", value1, value2, "contractId");
+        public Criteria andContractNoIn(List<String> values) {
+            addCriterion("contract_no in", values, "contractNo");
             return (Criteria) this;
         }
 
-        public Criteria andContractIdNotBetween(Long value1, Long value2) {
-            addCriterion("contract_id not between", value1, value2, "contractId");
+        public Criteria andContractNoNotIn(List<String> values) {
+            addCriterion("contract_no not in", values, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoBetween(String value1, String value2) {
+            addCriterion("contract_no between", value1, value2, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoNotBetween(String value1, String value2) {
+            addCriterion("contract_no not between", value1, value2, "contractNo");
             return (Criteria) this;
         }
 

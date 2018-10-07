@@ -16,9 +16,7 @@ import com.purchase.vo.order.ProgrammeAcceptanceVo;
 public interface ProgrammeAcceptanceService {
     ResultUtil getPAOOrderList(Integer page, Integer limit, ProgrammeAcceptanceSearch search);
 
-    ResultUtil addPAOOrder(BizProgrammeAcceptanceOrder order);
-
-    ResultUtil editPAOOrder(BizProgrammeAcceptanceOrder order);
+    ResultUtil savePAOOrder(BizProgrammeAcceptanceOrder order);
 
     ProgrammeAcceptanceVo selPAOOrder(String id);
 

@@ -46,76 +46,73 @@
     <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 0px;width: 100%;">
         <div class="mui-scroll">
             <!-- 主界面具体展示内容 -->
-            <div class="mui-content-padded mui-card" style="margin: 5px;">
-                <input type="hidden" name="orderNo" id="orderNo" value="${detailsVo.ucamVo.orderNo}">
-                <input type="hidden" name="id" id="id" value="${detailsVo.ucamVo.id}">
-                <div class="mui-input-row">
-                    <label>请款单号</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.ucamVo.orderNo}</label>
-                </div>
-                <div class="mui-input-row">
-                    <label>请款人</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.ucamVo.admin.fullname}</label>
-                </div>
-                <div class="mui-input-row">
-                    <label>供应商</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.ucamVo.supplier.name}</label>
-                </div>
-                <div class="mui-input-row">
-                    <label>所属项目</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.ucamVo.tpm.name}</label>
-                </div>
-                <div class="mui-input-row">
-                    <label>单据类型</label>
-                    <label style="width: 65%;padding-left: 0px;">
-                        <c:choose>
-                            <c:when test="${detailsVo.ucamVo.orderType == 0}">
-                                绿化苗木
-                            </c:when>
-                            <c:when test="${detailsVo.ucamVo.orderType == 1}">
-                                园建水电
-                            </c:when>
-                            <c:when test="${detailsVo.ucamVo.orderType == 2}">
-                                机械租赁
-                            </c:when>
-                            <c:when test="${detailsVo.ucamVo.orderType == 3}">
-                                工程分包
-                            </c:when>
-                            <c:otherwise>无</c:otherwise>
-                        </c:choose>
-                    </label>
-                </div>
-                <div class="mui-input-row">
-                    <label>指令单号</label>
-                    <label style="width: 65%;padding-left: 0px;">
-                        <c:choose>
-                            <c:when test="${detailsVo.ucamVo.instructOrderFlag == 1}">
-                                ${detailsVo.ucamVo.instructOrderNo}
-                            </c:when>
-                            <c:otherwise>无</c:otherwise>
-                        </c:choose>
-                    </label>
-                </div>
-                <div class="mui-input-row">
-                    <label>请款总金额</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.ucamVo.applyPrice}</label>
-                </div>
-                <div>
-                    <textarea name="summary" id="summary" rows="5" class="mui-input-clear" readonly="readonly">${detailsVo.ucamVo.summary}</textarea>
-                </div>
-                <c:if test="${detailsVo.ucamVo.status == 0}">
-                    <div class="mui-button-row" style="padding-bottom: 20px;">
-                        <a href="#fromUCAMItem">
-                            <label id="selectProjectText" style="width: 65%;padding-left: 0px;">增加请款单项</label>
-                        </a>
-                    </div>
-                </c:if>
-            </div>
 
             <div class="mui-content" style="margin-left: 5px; margin-right: 5px; font-size: 14px;">
                 <ul class="mui-table-view">
                     <li class="mui-table-view-cell mui-collapse">
-                        <a class="mui-navigate-right" href="#">订单历史</a>
+                        <a class="mui-navigate-right" href="#">请款单详情:${detailsVo.ucamVo.orderNo}</a>
+                        <div class="mui-collapse-content">
+                            <input type="hidden" name="orderNo" id="orderNo" value="${detailsVo.ucamVo.orderNo}">
+                            <input type="hidden" name="id" id="id" value="${detailsVo.ucamVo.id}">
+                            <div class="mui-input-row">
+                                <label>请款单号</label>
+                                <label style="width: 65%;padding-left: 0px;">${detailsVo.ucamVo.orderNo}</label>
+                            </div>
+                            <div class="mui-input-row">
+                                <label>请款人</label>
+                                <label style="width: 65%;padding-left: 0px;">${detailsVo.ucamVo.admin.fullname}</label>
+                            </div>
+                            <div class="mui-input-row">
+                                <label>供应商</label>
+                                <label style="width: 65%;padding-left: 0px;">${detailsVo.ucamVo.supplier.name}</label>
+                            </div>
+                            <div class="mui-input-row">
+                                <label>所属项目</label>
+                                <label style="width: 65%;padding-left: 0px;">${detailsVo.ucamVo.tpm.name}</label>
+                            </div>
+                            <div class="mui-input-row">
+                                <label>单据类型</label>
+                                <label style="width: 65%;padding-left: 0px;">
+                                    <c:choose>
+                                        <c:when test="${detailsVo.ucamVo.orderType == 0}">
+                                            绿化苗木
+                                        </c:when>
+                                        <c:when test="${detailsVo.ucamVo.orderType == 1}">
+                                            园建水电
+                                        </c:when>
+                                        <c:when test="${detailsVo.ucamVo.orderType == 2}">
+                                            机械租赁
+                                        </c:when>
+                                        <c:when test="${detailsVo.ucamVo.orderType == 3}">
+                                            工程分包
+                                        </c:when>
+                                        <c:otherwise>无</c:otherwise>
+                                    </c:choose>
+                                </label>
+                            </div>
+                            <div class="mui-input-row">
+                                <label>指令单号</label>
+                                <label style="width: 65%;padding-left: 0px;">
+                                    <c:choose>
+                                        <c:when test="${detailsVo.ucamVo.instructOrderFlag == 1}">
+                                            ${detailsVo.ucamVo.instructOrderNo}
+                                        </c:when>
+                                        <c:otherwise>无</c:otherwise>
+                                    </c:choose>
+                                </label>
+                            </div>
+                            <div class="mui-input-row">
+                                <label>请款总金额</label>
+                                <label style="width: 65%;padding-left: 0px;">${detailsVo.ucamVo.applyPrice}</label>
+                            </div>
+                            <div>
+                                <textarea name="summary" id="summary" rows="5" class="mui-input-clear" readonly="readonly">${detailsVo.ucamVo.summary}</textarea>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="mui-table-view-cell mui-collapse">
+                        <a class="mui-navigate-right" href="#">订单记录</a>
                         <c:forEach items="${detailsVo.ucamVo.historyList}" var="history">
                             <div class="mui-collapse-content">
                                 <p>
@@ -133,69 +130,95 @@
                                     </strong>
                                     <label>操作人:${history.name}</label>
                                     <label>操作时间:<fmt:formatDate value="${history.date}" pattern="yyyy-MM-dd"/></label>
-                                    <label>意见:${history.opinion}</label>
+                                </p>
+                                <p>
+                                    <label>意见:
+                                        <c:choose>
+                                            <c:when test="${history.opinion == ''}">无</c:when>
+                                            <c:otherwise>${history.opinion}</c:otherwise>
+                                        </c:choose>
+                                    </label>
                                 </p>
                             </div>
                         </c:forEach>
                     </li>
+
+                    <li class="mui-table-view-cell mui-collapse mui-active">
+                        <a class="mui-navigate-right" href="#">请款单单项</a>
+                        <div class="mui-collapse-content">
+                            <c:choose>
+                                <c:when test="${fn:length(detailsVo.ucamDetail) > 0}">
+                                    <c:forEach items="${detailsVo.ucamDetail}" var="item">
+                                        <div class="mui-card">
+                                            <div class="mui-card-header mui-card-media">
+                                                <!-- 订单类型 用图标展示 -->
+                                                <img src="${ctx }/images/icon/contract_apply_money.png">
+                                                <div class="mui-media-body">
+                                                    <label>材料/项目内容</label>
+                                                    <p>${item.projectContent}</p>
+                                                </div>
+                                            </div>
+                                            <div class="mui-card-content">
+                                                <div class="mui-card-content-inner">
+                                                    <p>
+                                                        <label>工程量:${item.quantities}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <label>单位:${item.unit}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <label>单价：${item.price}</label>
+                                                    </p>
+                                                    <p>
+                                                        <label>申报完成率:${item.applyCompletionRate}%</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <label>申报金额：${item.applyPrice}%</label>
+                                                    </p>
+                                                    <p>
+                                                        <label>审核完成率：${item.approvalCompletionRate}%</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <label>审批金额：${item.approvalPrice}%</label>
+                                                    </p>
+                                                    <p>
+                                                        <c:if test="${detailsVo.ucamVo.orderType == 1}">
+                                                            <label>质保期（月）：${item.applyPrice}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        </c:if>
+                                                        <c:if test="${detailsVo.ucamVo.orderType == 2}">
+                                                            <label>日期：<fmt:formatDate value="${date}" pattern="yyyy-MM-dd"/></label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        </c:if>
+                                                            <%--<label>已支付金额：${item.applyPrice}</label>--%>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="mui-card-footer">
+                                                    <%--<div class="mui-pull-left">
+                                                        <label>总金额：${item.totalPrice}</label>&nbsp;&nbsp;
+                                                        <label>已結算数量：${item.settleAmout}</label>
+                                                    </div>--%>
+                                                <c:if test="${detailsVo.ucamVo.status == 0}">
+                                                    <div>
+                                                        <button type="button" class="mui-btn mui-btn-primary deleteItem" value="${item.id}">刪除</button>
+                                                    </div>
+                                                </c:if>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="mui-input-row">
+                                        <label>无请款单单项</label>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
+
+                        </div>
+
+                    </li>
+
                 </ul>
             </div>
 
 
-            <c:forEach items="${detailsVo.ucamDetail}" var="item">
-                <div class="mui-card">
-                    <div class="mui-card-header mui-card-media">
-                        <!-- 订单类型 用图标展示 -->
-                        <img src="${ctx }/images/icon/contract_apply_money.png">
-                        <div class="mui-media-body">
-                            <label>材料/项目内容</label>
-                            <p>
-                                    ${item.projectContent}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="mui-card-content">
-                        <div class="mui-card-content-inner">
-                            <p>
-                                <label>工程量:${item.quantities}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label>单位:${item.unit}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label>单价：${item.price}</label>
-                            </p>
-                            <p>
-                                <label>申报完成率:${item.applyCompletionRate}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label>申报金额：${item.applyPrice}</label>
-                            </p>
-                            <p>
-                                <label>审核完成率：${item.approvalCompletionRate}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label>审批金额：${item.approvalPrice}</label>
-                            </p>
-                            <p>
-                                <c:if test="${detailsVo.ucamVo.orderType == 1}">
-                                    <label>质保期（月）：${item.applyPrice}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                </c:if>
-                                <c:if test="${detailsVo.ucamVo.orderType == 2}">
-                                    <label>日期：<fmt:formatDate value="${date}" pattern="yyyy-MM-dd"/></label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                </c:if>
-                                <%--<label>已支付金额：${item.applyPrice}</label>--%>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="mui-card-footer">
-                        <%--<div class="mui-pull-left">
-                            <label>总金额：${item.totalPrice}</label>&nbsp;&nbsp;
-                            <label>已結算数量：${item.settleAmout}</label>
-                        </div>--%>
-                        <c:if test="${detailsVo.ucamVo.status == 0}">
-                            <div>
-                                <button type="button" class="mui-btn mui-btn-primary deleteItem" value="${item.id}">刪除</button>
-                            </div>
-                        </c:if>
-                    </div>
-                </div>
-            </c:forEach>
             <div class="mui-content-padded">
                 <c:choose>
                     <c:when test="${detailsVo.ucamVo.status == 0}">
+                        <a href="#fromUCAMItem">
+                            <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加请款单项</button>
+                        </a>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="UCAMDetails">提交</button>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="deleteUCAMOrder" value="${detailsVo.ucamVo.id}">删除</button>
                     </c:when>
@@ -227,46 +250,46 @@
                 <form class="mui-input-group" id="addFromUCAMItem">
                     <div class="mui-input-row">
                         <label>材料/项目内容</label>
-                        <input type="text" name="projectContent" class="mui-input-clear" mui-verify="required">
+                        <input type="text" name="projectContent" class="mui-input-clear" mui-verify="required" placeholder="请输入材料/项目内容">
                     </div>
                     <div class="mui-input-row">
                         <label>工程量</label>
-                        <input type="text" name="quantities" class="mui-input-clear" mui-verify="required">
+                        <input type="number" name="quantities" class="mui-input-clear" mui-verify="required" placeholder="请输入工程量">
                     </div>
-                    <div class="mui-input-row">
+                    <div class="mui-input-row mui-input-range">
                         <label>申报完成率</label>
-                        <input type="text" name="applyCompletionRate" class="mui-input-clear" mui-verify="required">
+                        <input type="range" min="0" max="100" value="100" name="applyCompletionRate" mui-verify="required">
                     </div>
-                    <div class="mui-input-row">
+                    <div class="mui-input-row mui-input-range">
                         <label>审核完成率</label>
-                        <input type="text" name="approvalCompletionRate" class="mui-input-clear" mui-verify="required">
+                        <input type="range" min="0" max="100" value="100" name="approvalCompletionRate" mui-verify="required">
                     </div>
                     <div class="mui-input-row">
                         <label>单位</label>
-                        <input type="text" name="unit" class="mui-input-clear" mui-verify="required">
+                        <input type="text" name="unit" class="mui-input-clear" mui-verify="required" placeholder="请输入单位">
                     </div>
                     <div class="mui-input-row">
                         <label>单价</label>
-                        <input type="text" name="price" class="mui-input-clear" mui-verify="required">
+                        <input type="number" name="price" class="mui-input-clear" mui-verify="required" placeholder="请输入单价">
                     </div>
                     <div class="mui-input-row">
                         <label>申报金额</label>
-                        <input type="text" name="applyPrice" class="mui-input-clear" mui-verify="required">
+                        <input type="number" name="applyPrice" class="mui-input-clear" mui-verify="required" placeholder="请输入申报金额">
                     </div>
                     <div class="mui-input-row">
                         <label>审批金额</label>
-                        <input type="text" name="approvalPrice" class="mui-input-clear" mui-verify="required">
+                        <input type="number" name="approvalPrice" class="mui-input-clear" mui-verify="required" placeholder="请输入审批金额">
                     </div>
                     <c:if test="${detailsVo.ucamVo.orderType == 1}">
                         <div class="mui-input-row">
                             <label>质保期（月）</label>
-                            <input type="text" name="warrantyDate" class="mui-input-clear" mui-verify="required">
+                            <input type="number" name="warrantyDate" class="mui-input-clear" mui-verify="required" placeholder="请输入质保期（月）">
                         </div>
                     </c:if>
                     <c:if test="${detailsVo.ucamVo.orderType == 2}">
                         <div class="mui-input-row">
                             <label>日期</label>
-                            <input type="text" name="date" class="mui-input-clear" mui-verify="required">
+                            <input type="text" id="date" name="date" class="mui-input-clear" mui-verify="required" readonly data-options='{"type":"date","beginYear":2018,"endYear":2028}' placeholder="请选择日期">
                         </div>
                     </c:if>
                     <%--<div class="mui-input-row">
@@ -324,6 +347,19 @@
     });
 
     mui('.mui-scroll-wrapper').scroll();
+
+    var btns_date =  mui('#date');
+    btns_date.each(function(i, btn) {
+        btn.addEventListener('tap', function() {
+            var optionsJson = this.getAttribute('data-options') || '{}';
+            var options = JSON.parse(optionsJson);
+            var picker = new mui.DtPicker(options);
+            picker.show(function(rs) {
+                date.value = rs.text;
+                picker.dispose();
+            });
+        }, false);
+    });
 
     /** 提交项 **/
     mui(document.body).on('tap', '#submitFromUCAMItem', function(e) {

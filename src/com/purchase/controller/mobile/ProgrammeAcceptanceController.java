@@ -14,6 +14,7 @@ import com.purchase.service.SupplierService;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.admin.ChoseDeptVO;
+import com.purchase.vo.admin.ChoseProjectVO;
 import com.purchase.vo.admin.ChoseSupplierVO;
 import com.purchase.vo.order.ProgrammeAcceptanceDetialVo;
 import com.purchase.vo.order.ProgrammeAcceptanceSearch;
@@ -31,6 +32,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -64,7 +67,8 @@ public class ProgrammeAcceptanceController {
         List<ChoseAdminVO> admins = adminService.selectAdmin();
         List<ChoseSupplierVO> suppliers = supplierService.selectSupplier();
         List<ChoseDeptVO> depts = adminService.selectDeptAdmin();
-        logger.info("------:{}", JSON.toJSONString(depts));
+        List<ChoseProjectVO> projects = projectMangerService.selectProjectManger();
+        req.setAttribute("projects", JSON.toJSONString(projects));
         req.setAttribute("admins", JSON.toJSONString(admins));
         req.setAttribute("suppliers", JSON.toJSONString(suppliers));
         req.setAttribute("depts", JSON.toJSONString(depts));
@@ -89,7 +93,6 @@ public class ProgrammeAcceptanceController {
         req.setAttribute("admin", admin);
         req.setAttribute("pmItem",JSON.toJSONString(projectMangerList));
         String id = req.getParameter("id");
-
         ProgrammeAcceptanceVo paVo = new ProgrammeAcceptanceVo();
         if(!StringUtils.isEmpty(id)){
             paVo = paService.selPAOOrder(id);
@@ -116,14 +119,14 @@ public class ProgrammeAcceptanceController {
     }
 
 
-    @SysLog(value="新增工程验收详情")
+    @SysLog(value="新增工程验收")
     @RequestMapping("addProgrammeAcceptanceOrder")
     @RequiresPermissions("mobile:programmeAcceptance:save")
     @ResponseBody
     public ResultUtil addProgrammeAcceptanceOrder(BizProgrammeAcceptanceOrder order){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         order.setCreateUser(admin.getId());
-        return paService.addPAOOrder(order);
+        return paService.savePAOOrder(order);
     }
 
     @RequestMapping("/toDetails/{id}")
@@ -135,17 +138,16 @@ public class ProgrammeAcceptanceController {
     }
 
 
-    @SysLog(value="编辑工程验收详情")
+    @SysLog(value="编辑工程验收")
     @RequestMapping("editProgrammeAcceptanceOrder")
-    @RequiresPermissions("mobile:programmeAcceptance:edit")
+    @RequiresPermissions("mobile:programmeAcceptance:update")
     @ResponseBody
     public ResultUtil editProgrammeAcceptanceOrder(BizProgrammeAcceptanceOrder order){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        order.setCreateUser(admin.getId());
-        return paService.editPAOOrder(order);
+        return paService.savePAOOrder(order);
     }
 
-    @SysLog(value="删除工程验收详情")
+    @SysLog(value="删除工程验收")
     @RequestMapping("delProgrammeAcceptanceOrder")
     @RequiresPermissions("mobile:programmeAcceptance:delete")
     @ResponseBody
@@ -182,13 +184,30 @@ public class ProgrammeAcceptanceController {
 
 
     @SysLog(value="新增工程验收单项")
-    @RequestMapping("addProgrammeAcceptanceItem/{orderNo}")
+    @RequestMapping("addProgrammeAcceptanceItem")
     @RequiresPermissions("mobile:programmeAcceptance:save")
     @ResponseBody
-    public ResultUtil addProgrammeAcceptanceItem(@PathVariable("orderNo") String orderNo, BizProgrammeAcceptanceOrderDetail order){
+    public ResultUtil addProgrammeAcceptanceItem(String orderNo, String rectifyContent, String rectifyMeasure, String playOverDate, Integer rectifyFlag, String actualOverDate, String remark){
         Date date = new Date();
         /*order.setUpdateDate(date);
         order.setCreateTime(date);*/
+
+        BizProgrammeAcceptanceOrderDetail order = new BizProgrammeAcceptanceOrderDetail();
+        order.setRectifyContent(rectifyContent);
+        order.setRectifyMeasure(rectifyMeasure);
+        order.setRectifyFlag(rectifyFlag);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            if(!StringUtils.isEmpty(playOverDate)) {
+                order.setPlayOverDate(sdf.parse(playOverDate));
+            }
+            if(!StringUtils.isEmpty(actualOverDate)) {
+                order.setActualOverDate(sdf.parse(actualOverDate));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        order.setRemark(remark);
         order.setOrderNo(orderNo);
         return paService.addPAOOrderDetail(order);
     }

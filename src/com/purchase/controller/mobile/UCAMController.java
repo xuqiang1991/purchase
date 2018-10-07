@@ -11,6 +11,7 @@ import com.purchase.service.*;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.admin.ChoseDeptVO;
+import com.purchase.vo.admin.ChoseProjectVO;
 import com.purchase.vo.admin.ChoseSupplierVO;
 import com.purchase.vo.order.UCAMOrderDetialVo;
 import com.purchase.vo.order.UCAMSearch;
@@ -61,7 +62,8 @@ public class UCAMController {
         List<ChoseAdminVO> admins = adminService.selectAdmin();
         List<ChoseSupplierVO> suppliers = supplierService.selectSupplier();
         List<ChoseDeptVO> depts = adminService.selectDeptAdmin();
-        logger.info("------:{}", JSON.toJSONString(depts));
+        List<ChoseProjectVO> projects = projectMangerService.selectProjectManger();
+        req.setAttribute("projects", JSON.toJSONString(projects));
         req.setAttribute("admins", JSON.toJSONString(admins));
         req.setAttribute("suppliers", JSON.toJSONString(suppliers));
         req.setAttribute("depts", JSON.toJSONString(depts));
@@ -86,14 +88,6 @@ public class UCAMController {
         req.setAttribute("admin", admin);
         req.setAttribute("pmItem",JSON.toJSONString(projectMangerList));
         String id = req.getParameter("id");
-        /*
-        UCAMOrderDetialVo detialVo = new UCAMOrderDetialVo();
-        if(!StringUtils.isEmpty(id)){
-            detialVo = ucamService.selUCAMDetail(id);
-        }
-        req.setAttribute("detailVo",detialVo);
-        //return "page/mobile/UCAM/from";
-        return "page/mobile/UCAM/detial";*/
         UCAMVo ucamVo = new UCAMVo();
         if(!StringUtils.isEmpty(id)){
             ucamVo = ucamService.selUCAMOrder(id);
@@ -120,14 +114,14 @@ public class UCAMController {
     }
 
 
-    @SysLog(value="新增合同外请款单详情")
+    @SysLog(value="新增合同外请款单")
     @RequestMapping("addUCAMOrder")
     @RequiresPermissions("mobile:UCAM:save")
     @ResponseBody
     public ResultUtil addUCAMOrder(BizUncontractApplyMoney order){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         order.setCreateUser(admin.getId());
-        return ucamService.addUCAMOrder(order);
+        return ucamService.saveUCAMOrder(order);
     }
 
     @RequestMapping("/toDetails/{id}")
@@ -141,12 +135,12 @@ public class UCAMController {
 
     @SysLog(value="编辑合同外请款单详情")
     @RequestMapping("editUCAMOrder")
-    @RequiresPermissions("mobile:UCAM:edit")
+    @RequiresPermissions("mobile:UCAM:update")
     @ResponseBody
     public ResultUtil editUCAMOrder(BizUncontractApplyMoney order){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         order.setCreateUser(admin.getId());
-        return ucamService.editUCAMOrder(order);
+        return ucamService.saveUCAMOrder(order);
     }
 
     @SysLog(value="删除合同外请款单详情")

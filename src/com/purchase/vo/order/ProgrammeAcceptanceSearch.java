@@ -12,6 +12,7 @@ public class ProgrammeAcceptanceSearch {
     private String orderNo;
     private Long supplierId;
     private String projectId;
+    private String contractNo;
     private Long createUser;
     private String createTime;
     private Integer status;
@@ -49,6 +50,14 @@ public class ProgrammeAcceptanceSearch {
 
     public void setProjectId(String projectId) {
         this.projectId = projectId;
+    }
+
+    public String getContractNo() {
+        return contractNo;
+    }
+
+    public void setContractNo(String contractNo) {
+        this.contractNo = contractNo;
     }
 
     public Long getCreateUser() {

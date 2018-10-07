@@ -17,9 +17,7 @@ public interface UCAMService {
 
     ResultUtil getUCAMOrderList(Integer page, Integer limit, UCAMSearch search);
 
-    ResultUtil addUCAMOrder(BizUncontractApplyMoney order);
-
-    ResultUtil editUCAMOrder(BizUncontractApplyMoney order);
+    ResultUtil saveUCAMOrder(BizUncontractApplyMoney order);
 
     UCAMVo selUCAMOrder(String id);
 

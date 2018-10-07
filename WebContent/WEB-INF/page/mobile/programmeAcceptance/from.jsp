@@ -5,7 +5,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>工程验收单</title>
+    <title>
+        <c:choose>
+            <c:when test="${empty paVo.id}">新建工程验收单</c:when>
+            <c:otherwise>修改工程验收单</c:otherwise>
+        </c:choose>
+    </title>
     <link href="${ctx }/mui/css/mui.min.css" rel="stylesheet"/>
     <link href="${ctx }/mui/css/iconfont.css" rel="stylesheet"/>
     <link href="${ctx }/mui/css/mui.picker.min.css" rel="stylesheet" />
@@ -25,16 +30,17 @@
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>
         </button>
-        <h1 class="mui-center mui-title">工程验收单</h1>
+        <h1 class="mui-center mui-title">
+            <c:choose>
+                <c:when test="${empty paVo.id}">新建工程验收单</c:when>
+                <c:otherwise>修改工程验收单</c:otherwise>
+            </c:choose>
+        </h1>
     </div>
 
     <div class="mui-content-padded mui-card" style="margin: 5px;">
-        <form class="mui-input-group" id="ucamForm">
-            <%--<div class="mui-input-row">
-                <label>单号</label>
-                <input type="text" readonly="readonly" class="mui-input-clear" placeholder="PC20180817001">
-            </div>--%>
-            <input type="hidden" name="id" value="${paVo.id}" />
+        <form class="mui-input-group" id="programmeAcceptanceForm">
+            <input type="hidden" id="id" name="id" value="${paVo.id}" />
 
             <div class="mui-input-row">
                 <label>申请人</label>
@@ -44,8 +50,8 @@
                         <input type="hidden" id="applyUser" name="applyUser" value="${admin.id}" mui-verify="required">
                     </c:when>
                     <c:otherwise>
-                        <input type="text" id="selectApplyUser" placeholder="请选择开单人" value="${paVo.admin.fullname}">
-                        <input type="hidden" id="applyUser" name="applyUser" value="${paVo.admin.id}" mui-verify="required">
+                        <input type="text" id="selectApplyUser" placeholder="请选择开单人" value="${paVo.auAdmin.fullname}">
+                        <input type="hidden" id="applyUser" name="applyUser" value="${paVo.auAdmin.id}" mui-verify="required">
                     </c:otherwise>
                 </c:choose>
             </div>
@@ -79,12 +85,12 @@
                 </a>
             </div>
             <div>
-                <textarea id="textarea" name="summary" rows="5" class="mui-input-clear" placeholder="摘要">${ucamVo.summary}</textarea>
+                <textarea id="textarea" name="summary" rows="5" class="mui-input-clear" placeholder="摘要">${paVo.summary}</textarea>
             </div>
         </form>
         <div class="mui-button-row" style="padding-bottom: 20px;">
-            <button type="button" class="mui-btn mui-btn-primary" onclick="ucamSave();">保存</button>&nbsp;&nbsp;
-            <button type="button" class="mui-btn mui-btn-danger" onclick="return false;">取消</button>
+            <button type="button" class="mui-btn mui-btn-primary" onclick="programmeAcceptanceSave();">保存</button>&nbsp;&nbsp;
+            <%--<button type="button" class="mui-btn mui-btn-danger" onclick="return false;">取消</button>--%>
         </div>
     </div>
 
@@ -139,10 +145,6 @@
     });
     var view = viewApi.view;
 
-    var orderTypeJosn = '[{"text":"绿化苗木","value":"0"},{"text":"园建水电","value":"1"},{"text":"机械租赁","value":"2"},{"text":"工程分包","value":"3"}]';
-    var statusJson = '[{"value": "0", "text": "未提交"}, {"value": "1", "text": "已提交"}, {"value": "2", "text": "成本部已审核"}, {"value": "3", "text": "工程部已审核"},{"value": "4", "text": "总经理已审核"}]';
-    var instrutOrderJson = '[{"value":0,"text":"未到"},{"value":1,"text":"已到"}]';
-
     mui.ready(function() {
         var adminsJson = '${admins}';
         console.log(adminsJson);
@@ -173,65 +175,8 @@
 
 
 
-        var orderTypeNamePicker = new mui.PopPicker();
-        orderTypeNamePicker.setData(JSON.parse(orderTypeJosn));
-        var orderTypeName = document.getElementById('orderTypeName');
-        var orderTypeId = document.getElementById('orderTypeId');
-        orderTypeName.addEventListener('tap', function(event) {
-            orderTypeNamePicker.show(function(items) {
-                orderTypeName.value = items[0].text;
-                orderTypeId.value = items[0].value;
-                //返回 false 可以阻止选择框的关闭
-                //return false;
-            });
-        }, false);
-
-
-        /*var statusNamePicker = new mui.PopPicker();
-        statusNamePicker.setData(JSON.parse(statusJson));
-        var statusName = document.getElementById('statusName');
-        var statusId = document.getElementById('statusId');
-        statusName.addEventListener('tap', function(event) {
-            statusNamePicker.show(function(items) {
-                statusName.value = items[0].text;
-                statusId.value = items[0].value;
-                //返回 false 可以阻止选择框的关闭
-                //return false;
-            });
-        }, false);*/
-
-
-        var instructOrderFlagPicker = new mui.PopPicker();
-        instructOrderFlagPicker.setData(JSON.parse(instrutOrderJson));
-        var instructOrderFlagName = document.getElementById('instructOrderFlagName');
-        var instructOrderFlag = document.getElementById('instructOrderFlag');
-        instructOrderFlagName.addEventListener('tap', function(event) {
-            instructOrderFlagPicker.show(function(items) {
-                instructOrderFlagName.value = items[0].text;
-                instructOrderFlag.value = items[0].value;
-                console.log(items[0].value);
-                if(items[0].value == 1){
-                    $("#instrucoOrderNoDiv").show();
-                }else{
-                    $("#instrucoOrderNoDiv").hide();
-                }
-                //返回 false 可以阻止选择框的关闭
-                //return false;
-            });
-        }, false);
         var pmItem = '${pmItem}';
         buiderProjectManger(pmItem);
-
-        var orderType = '${ucamVo.orderType}';
-        if(orderType != null){
-            var ot = JSON.parse(orderTypeJosn);
-            console.log(orderType);
-            for(var i = 0; i < ot.length; i++){
-                if(ot[i].value == orderType){
-                    $("#orderTypeName").val(ot[i].text);
-                }
-            }
-        }
 
     });
 
@@ -286,7 +231,7 @@
         }
     }
 
-    function ucamSave(){
+    function programmeAcceptanceSave(){
         var check = true;
         mui("input").each(function() {
             //若当前input为空，则alert提醒
@@ -301,10 +246,13 @@
             }
         });
         if(check){
-            var url = '${ctx}/mobile/UCAM/addUCAMOrder'
+            var url = '${ctx}/mobile/programmeAcceptance/addProgrammeAcceptanceOrder';
+            if($('#id').val() != null){
+                url = '${ctx}/mobile/programmeAcceptance/editProgrammeAcceptanceOrder';
+            }
             $.ajax({
                 url: url,
-                data: $('#ucamForm').serialize(),
+                data: $('#programmeAcceptanceForm').serialize(),
                 dataType: 'json',
                 contentType : "application/x-www-form-urlencoded",
                 type: 'post',
@@ -313,8 +261,8 @@
                     if(result.code!=0){
                         mui.alert(data.msg);
                     }else {
-                        mui.alert("添加成功！");
-                        document.location.href='${ctx }/mobile/UCAM/list';
+                        mui.alert("保存成功！");
+                        document.location.href='${ctx }/mobile/programmeAcceptance/list';
                     }
                 }
             });

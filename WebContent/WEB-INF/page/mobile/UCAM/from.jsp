@@ -5,7 +5,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>合同外请款单</title>
+    <title>
+        <c:choose>
+            <c:when test="${empty ucamVo.id}">新建合同外请款单</c:when>
+            <c:otherwise>修改合同外请款单</c:otherwise>
+        </c:choose>
+    </title>
     <link href="${ctx }/mui/css/mui.min.css" rel="stylesheet"/>
     <link href="${ctx }/mui/css/iconfont.css" rel="stylesheet"/>
     <link href="${ctx }/mui/css/mui.picker.min.css" rel="stylesheet" />
@@ -25,7 +30,12 @@
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>
         </button>
-        <h1 class="mui-center mui-title">合同外请款单</h1>
+        <h1 class="mui-center mui-title">
+            <c:choose>
+                <c:when test="${empty ucamVo.id}">新建合同外请款单</c:when>
+                <c:otherwise>修改合同外请款单</c:otherwise>
+            </c:choose>
+        </h1>
     </div>
 
     <div class="mui-content-padded mui-card" style="margin: 5px;">
@@ -34,7 +44,7 @@
                 <label>单号</label>
                 <input type="text" readonly="readonly" class="mui-input-clear" placeholder="PC20180817001">
             </div>--%>
-            <input type="hidden" name="id" value="${ucamVo.id}" />
+            <input type="hidden" id="id" name="id" value="${ucamVo.id}" />
 
             <div class="mui-input-row">
                 <label>请款人</label>
@@ -44,8 +54,8 @@
                         <input type="hidden" id="applyUser" name="applyUser" value="${admin.id}" mui-verify="required">
                     </c:when>
                     <c:otherwise>
-                        <input type="text" id="selectApplyUser" placeholder="请选择开单人" value="${ucamVo.admin.fullname}">
-                        <input type="hidden" id="applyUser" name="applyUser" value="${ucamVo.admin.id}" mui-verify="required">
+                        <input type="text" id="selectApplyUser" placeholder="请选择开单人" value="${ucamVo.auAdmin.fullname}">
+                        <input type="hidden" id="applyUser" name="applyUser" value="${ucamVo.auAdmin.id}" mui-verify="required">
                     </c:otherwise>
                 </c:choose>
             </div>
@@ -110,106 +120,14 @@
                     <input type="text" class="mui-input-clear" name="instructOrderNo" placeholder="${ucamVo.instructOrderNo}">
                     </div>
 
-
-            <%--<div class="mui-input-row">
-                <label>单据状态</label>
-                <input type="text" id="statusName" readonly class="mui-input-clear" placeholder="请选择单据状态"  value="">
-                <input type="hidden" id="statusId" name="status" value="0">
-            </div>
---%>
-
-            <%--<div class="mui-input-row">
-                <label>请款金额(元)</label>
-                <input type="number" class="mui-input-clear" style="color: red;" name="applyPrice" placeholder="请输入请款金额合计">
-            </div>--%>
-            <%--<div class="mui-control-content mui-active">
-                <h5 style="margin-left: 15px; padding-top: 5px;">自定义详情块</h5>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th width="16%">材料/项目</th>
-                        <th width="16.6%">工程量</th>
-                        <th width="16.6%">申报完成率</th>
-                        <th width="16.6%">审核完成率</th>
-                        <th width="16.6%">单位</th>
-                        <th width="16.6%">单价</th>
-                        <th width="16.6%">申报金额</th>
-                        <th width="16.6%">审批金额</th>
-                        <th width="16.6%">
-                            <span class="mui-icon mui-icon-plusempty icon-color-F0AD4E"></span>
-                            <!--<button type="button" data-loading-icon="mui-spinner mui-icon-plusempt" class="mui-btn"></button> -->
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td><input placeholder="内容" style="width: 100%;"/></td>
-                        <td><input placeholder="内容" style="width: 100%;"/></td>
-                        <td><input placeholder="内容" style="width: 100%;"/></td>
-                        <td><input placeholder="内容" style="width: 100%;"/></td>
-                        <td><span class="mui-icon mui-icon-closeempty icon-color-F0AD4E"></span></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>--%>
-
             <div>
                 <textarea id="textarea" name="summary" rows="5" class="mui-input-clear" placeholder="摘要">${ucamVo.summary}</textarea>
             </div>
 
-            <%--<div class="mui-input-row">
-                <label>数量</label>
-                <input type="number" class="mui-input-clear" placeholder="请输入数字">
-            </div>
-            <div class="mui-input-row">
-                <label>单价(元)</label>
-                <input type="number" class="mui-input-clear" style="color: red;" placeholder="请输入金额">
-            </div>
-            <div class="mui-input-row">
-                <label>下拉框</label>
-                <select>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                </select>
-            </div>
-            <div class="mui-input-row">
-                <label>下拉框</label>
-                <input type="text" id="selectChose" class="mui-input-clear" placeholder="请选择">
-                <input type="hidden" id="selectValue">
-            </div>
-            <div class="mui-input-row">
-                <label>日期</label>
-                <input id="dateText" type="text" data-options='{"type":"date","beginYear":2014,"endYear":2016}' placeholder="请选择日期">
-            </div>
-            <div class="mui-input-row">
-                <label>时间</label>
-                <input id="dateTimeText" type="text" data-options='{"type":"time"}' placeholder="请选择时间">
-            </div>
-            <div class="mui-input-row mui-input-range">
-                <label>滑块</label>
-                <input type="range" min="0" max="100">
-            </div>
-
-            <div class="mui-input-row mui-input-range">
-                <label>开关切换</label>
-                <div class="mui-switch mui-active" style="float: left;">
-                    <div class="mui-switch-handle"></div>
-                </div>
-            </div>
-            <div class="mui-input-row mui-input-range">
-                <label>页面回选</label>
-                <a href="#account">
-                    <label id="accountText" style="width: 65%;">请选择</label>
-                    <input type="hidden" id="accountHidden" value="">
-                </a>
-            </div>--%>
-
         </form>
         <div class="mui-button-row" style="padding-bottom: 20px;">
             <button type="button" class="mui-btn mui-btn-primary" onclick="ucamSave();">保存</button>&nbsp;&nbsp;
-            <button type="button" class="mui-btn mui-btn-danger" onclick="return false;">取消</button>
+            <%--<button type="button" class="mui-btn mui-btn-danger" onclick="return false;">取消</button>--%>
         </div>
     </div>
 
@@ -263,33 +181,6 @@
         defaultPage: '#setting'
     });
     var view = viewApi.view;
-    /*var btns =  mui('#dateText');
-    btns.each(function(i, btn) {
-        btn.addEventListener('tap', function() {
-            var optionsJson = this.getAttribute('data-options') || '{}';
-            var options = JSON.parse(optionsJson);
-            var id = this.getAttribute('id');
-            var picker = new mui.DtPicker(options);
-            picker.show(function(rs) {
-                dateText.value = rs.text;
-                picker.dispose();
-            });
-        }, false);
-    });
-
-    var btns1 =  mui('#dateTimeText');
-    btns1.each(function(i, btn) {
-        btn.addEventListener('tap', function() {
-            var optionsJson = this.getAttribute('data-options') || '{}';
-            var options = JSON.parse(optionsJson);
-            var id = this.getAttribute('id');
-            var picker = new mui.DtPicker(options);
-            picker.show(function(rs) {
-                dateTimeText.value = rs.text;
-                picker.dispose();
-            });
-        }, false);
-    });*/
     var orderTypeJosn = '[{"text":"绿化苗木","value":"0"},{"text":"园建水电","value":"1"},{"text":"机械租赁","value":"2"},{"text":"工程分包","value":"3"}]';
     var statusJson = '[{"value": "0", "text": "未提交"}, {"value": "1", "text": "已提交"}, {"value": "2", "text": "成本部已审核"}, {"value": "3", "text": "工程部已审核"},{"value": "4", "text": "总经理已审核"}]';
     var instrutOrderJson = '[{"value":0,"text":"未到"},{"value":1,"text":"已到"}]';
@@ -336,20 +227,6 @@
                 //return false;
             });
         }, false);
-
-
-        /*var statusNamePicker = new mui.PopPicker();
-        statusNamePicker.setData(JSON.parse(statusJson));
-        var statusName = document.getElementById('statusName');
-        var statusId = document.getElementById('statusId');
-        statusName.addEventListener('tap', function(event) {
-            statusNamePicker.show(function(items) {
-                statusName.value = items[0].text;
-                statusId.value = items[0].value;
-                //返回 false 可以阻止选择框的关闭
-                //return false;
-            });
-        }, false);*/
 
 
         var instructOrderFlagPicker = new mui.PopPicker();
@@ -452,7 +329,10 @@
             }
         });
         if(check){
-            var url = '${ctx}/mobile/UCAM/addUCAMOrder'
+            var url = '${ctx}/mobile/UCAM/addUCAMOrder';
+            if($('#ucamForm').find('#id').val() != null){
+                url = '${ctx}/mobile/UCAM/editUCAMOrder';
+            }
             $.ajax({
                 url: url,
                 data: $('#ucamForm').serialize(),
@@ -464,7 +344,7 @@
                     if(result.code!=0){
                         mui.alert(data.msg);
                     }else {
-                        mui.alert("添加成功！");
+                        mui.alert("保存成功！");
                         document.location.href='${ctx }/mobile/UCAM/list';
                     }
                 }

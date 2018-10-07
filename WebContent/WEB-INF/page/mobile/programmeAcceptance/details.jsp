@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>工程验收单</title>
+    <title>工程验收单详情</title>
     <link href="${ctx }/mui/css/mui.min.css" rel="stylesheet"/>
     <link href="${ctx }/mui/css/iconfont.css" rel="stylesheet"/>
     <link href="${ctx }/mui/css/mui.picker.min.css" rel="stylesheet" />
@@ -46,77 +46,39 @@
     <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 0px;width: 100%;">
         <div class="mui-scroll">
             <!-- 主界面具体展示内容 -->
-            <div class="mui-content-padded mui-card" style="margin: 5px;">
-                <input type="hidden" name="orderNo" id="orderNo" value="${detailsVo.ucamVo.orderNo}">
-                <input type="hidden" name="id" id="id" value="${detailsVo.ucamVo.id}">
-                <div class="mui-input-row">
-                    <label>请款单号</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.ucamVo.orderNo}</label>
-                </div>
-                <div class="mui-input-row">
-                    <label>请款人</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.ucamVo.admin.fullname}</label>
-                </div>
-                <div class="mui-input-row">
-                    <label>供应商</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.ucamVo.supplier.name}</label>
-                </div>
-                <div class="mui-input-row">
-                    <label>所属项目</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.ucamVo.tpm.name}</label>
-                </div>
-                <div class="mui-input-row">
-                    <label>单据类型</label>
-                    <label style="width: 65%;padding-left: 0px;">
-                        <c:choose>
-                            <c:when test="${detailsVo.ucamVo.orderType == 0}">
-                                绿化苗木
-                            </c:when>
-                            <c:when test="${detailsVo.ucamVo.orderType == 1}">
-                                园建水电
-                            </c:when>
-                            <c:when test="${detailsVo.ucamVo.orderType == 2}">
-                                机械租赁
-                            </c:when>
-                            <c:when test="${detailsVo.ucamVo.orderType == 3}">
-                                工程分包
-                            </c:when>
-                            <c:otherwise>无</c:otherwise>
-                        </c:choose>
-                    </label>
-                </div>
-                <div class="mui-input-row">
-                    <label>指令单号</label>
-                    <label style="width: 65%;padding-left: 0px;">
-                        <c:choose>
-                            <c:when test="${detailsVo.ucamVo.instructOrderFlag == 1}">
-                                ${detailsVo.ucamVo.instructOrderNo}
-                            </c:when>
-                            <c:otherwise>无</c:otherwise>
-                        </c:choose>
-                    </label>
-                </div>
-                <div class="mui-input-row">
-                    <label>请款总金额</label>
-                    <label style="width: 65%;padding-left: 0px;">${detailsVo.ucamVo.applyPrice}</label>
-                </div>
-                <div>
-                    <textarea name="summary" id="summary" rows="5" class="mui-input-clear" readonly="readonly">${detailsVo.ucamVo.summary}</textarea>
-                </div>
-                <c:if test="${detailsVo.ucamVo.status == 0}">
-                    <div class="mui-button-row" style="padding-bottom: 20px;">
-                        <a href="#fromUCAMItem">
-                            <label id="selectProjectText" style="width: 65%;padding-left: 0px;">增加请款单项</label>
-                        </a>
-                    </div>
-                </c:if>
-            </div>
+
 
             <div class="mui-content" style="margin-left: 5px; margin-right: 5px; font-size: 14px;">
                 <ul class="mui-table-view">
                     <li class="mui-table-view-cell mui-collapse">
-                        <a class="mui-navigate-right" href="#">订单历史</a>
-                        <c:forEach items="${detailsVo.ucamVo.historyList}" var="history">
+                        <a class="mui-navigate-right" href="#">工程验收单详情:${detailsVo.paoVo.orderNo}</a>
+                        <div class="mui-collapse-content">
+                            <input type="hidden" name="orderNo" id="orderNo" value="${detailsVo.paoVo.orderNo}">
+                            <input type="hidden" name="id" id="id" value="${detailsVo.paoVo.id}">
+                            <div class="mui-input-row">
+                                <label>请款单号</label>
+                                <label style="width: 65%;padding-left: 0px;">${detailsVo.paoVo.orderNo}</label>
+                            </div>
+                            <div class="mui-input-row">
+                                <label>请款人</label>
+                                <label style="width: 65%;padding-left: 0px;">${detailsVo.paoVo.admin.fullname}</label>
+                            </div>
+                            <div class="mui-input-row">
+                                <label>供应商</label>
+                                <label style="width: 65%;padding-left: 0px;">${detailsVo.paoVo.supplier.name}</label>
+                            </div>
+                            <div class="mui-input-row">
+                                <label>所属项目</label>
+                                <label style="width: 65%;padding-left: 0px;">${detailsVo.paoVo.tpm.name}</label>
+                            </div>
+                            <div>
+                                <textarea name="summary" id="summary" rows="5" class="mui-input-clear" readonly="readonly">${detailsVo.paoVo.summary}</textarea>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="mui-table-view-cell mui-collapse">
+                        <a class="mui-navigate-right" href="#">订单记录</a>
+                        <c:forEach items="${detailsVo.paoVo.historyList}" var="history">
                             <div class="mui-collapse-content">
                                 <p>
                                     <strong>
@@ -133,77 +95,97 @@
                                     </strong>
                                     <label>操作人:${history.name}</label>
                                     <label>操作时间:<fmt:formatDate value="${history.date}" pattern="yyyy-MM-dd"/></label>
-                                    <label>意见:${history.opinion}</label>
+                                </p>
+                                <p>
+                                    <label>意见:
+                                        <c:choose>
+                                            <c:when test="${history.opinion == ''}">无</c:when>
+                                            <c:otherwise>${history.opinion}</c:otherwise>
+                                        </c:choose>
+                                    </label>
                                 </p>
                             </div>
                         </c:forEach>
+                    </li>
+                    <li class="mui-table-view-cell mui-collapse mui-active">
+                        <a class="mui-navigate-right" href="#">工程验收单单项</a>
+                        <div class="mui-collapse-content">
+                            <c:choose>
+                                <c:when test="${fn:length(detailsVo.paoDetail) > 0}">
+                                    <c:forEach items="${detailsVo.paoDetail}" var="item">
+                                        <div class="mui-card">
+                                            <div class="mui-card-header mui-card-media">
+                                                <!-- 订单类型 用图标展示 -->
+                                                <img src="${ctx }/images/icon/programme_acceptance_order.png">
+                                                <div class="mui-media-body">
+                                                    <label>整改内容</label>
+                                                    <p>
+                                                        ${item.rectifyContent}
+                                                        <c:choose>
+                                                            <c:when test="${item.rectifyFlag == 1}">
+                                                                <span class="mui-badge mui-badge-success mui-pull-right" style="color: white;">已整改</span>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <span class="mui-badge mui-badge-danger mui-pull-right" style="color: white;">未整改</span>
+                                                            </c:otherwise>
+                                                        </c:choose>
+
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="mui-card-content">
+                                                <div class="mui-card-content-inner">
+                                                    <p>
+                                                        <label>整改措施:${item.rectifyMeasure}</label>
+                                                    </p>
+                                                    <p>
+                                                        <label>计划完成日期：<fmt:formatDate value="${item.playOverDate}" pattern="yyyy-MM-dd"/></label>
+                                                    </p>
+                                                    <p>
+                                                        <label>实际完成日期：<fmt:formatDate value="${item.actualOverDate}" pattern="yyyy-MM-dd"/></label>
+                                                    </p>
+                                                    <p>
+                                                        <label>备注：${item.remark}</label>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="mui-card-footer">
+                                                <c:if test="${detailsVo.paoVo.status == 0}">
+                                                    <div>
+                                                        <button type="button" class="mui-btn mui-btn-primary deleteItem" value="${item.id}">刪除</button>
+                                                    </div>
+                                                </c:if>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="mui-input-row">
+                                        <label>工程验收单单项</label>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
                     </li>
                 </ul>
             </div>
 
 
-            <c:forEach items="${detailsVo.ucamDetail}" var="item">
-                <div class="mui-card">
-                    <div class="mui-card-header mui-card-media">
-                        <!-- 订单类型 用图标展示 -->
-                        <img src="${ctx }/images/icon/contract_apply_money.png">
-                        <div class="mui-media-body">
-                            <label>材料/项目内容</label>
-                            <p>
-                                    ${item.projectContent}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="mui-card-content">
-                        <div class="mui-card-content-inner">
-                            <p>
-                                <label>工程量:${item.quantities}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label>单位:${item.unit}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label>单价：${item.price}</label>
-                            </p>
-                            <p>
-                                <label>申报完成率:${item.applyCompletionRate}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label>申报金额：${item.applyPrice}</label>
-                            </p>
-                            <p>
-                                <label>审核完成率：${item.approvalCompletionRate}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label>审批金额：${item.approvalPrice}</label>
-                            </p>
-                            <p>
-                                <c:if test="${detailsVo.ucamVo.orderType == 1}">
-                                    <label>质保期（月）：${item.applyPrice}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                </c:if>
-                                <c:if test="${detailsVo.ucamVo.orderType == 2}">
-                                    <label>日期：<fmt:formatDate value="${date}" pattern="yyyy-MM-dd"/></label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                </c:if>
-                                <%--<label>已支付金额：${item.applyPrice}</label>--%>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="mui-card-footer">
-                        <%--<div class="mui-pull-left">
-                            <label>总金额：${item.totalPrice}</label>&nbsp;&nbsp;
-                            <label>已結算数量：${item.settleAmout}</label>
-                        </div>--%>
-                        <c:if test="${detailsVo.ucamVo.status == 0}">
-                            <div>
-                                <button type="button" class="mui-btn mui-btn-primary deleteItem" value="${item.id}">刪除</button>
-                            </div>
-                        </c:if>
-                    </div>
-                </div>
-            </c:forEach>
+
             <div class="mui-content-padded">
                 <c:choose>
-                    <c:when test="${detailsVo.ucamVo.status == 0}">
-                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="UCAMDetails">提交</button>
-                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="deleteUCAMOrder" value="${detailsVo.ucamVo.id}">删除</button>
+                    <c:when test="${detailsVo.paoVo.status == 0}">
+                        <a href="#fromPAOItem">
+                            <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加工程验收单项</button>
+                        </a>
+                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="PAODetails">提交</button>
+                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="deletePAOOrder" value="${detailsVo.paoVo.id}">删除</button>
                     </c:when>
-                    <c:when test="${detailsVo.ucamVo.status == 1 && empty detailsVo.ucamVo.costDepartUser && empty detailsVo.reviewUserId}">
-                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="submitReviewUCAM">选择审核人</button>
+                    <c:when test="${detailsVo.paoVo.status == 1 && empty detailsVo.paoVo.costDepartUser && empty detailsVo.reviewUserId}">
+                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="submitReviewPAO">选择审核人</button>
                     </c:when>
                     <c:when test="${!empty detailsVo.reviewUserId}">
-                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewUCAM">审核</button>
+                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPAO">审核</button>
                     </c:when>
                 </c:choose>
             </div>
@@ -214,70 +196,44 @@
 </div>
 
 
-<div id="fromUCAMItem" class="mui-page">
+<div id="fromPAOItem" class="mui-page">
     <div class="mui-navbar-inner mui-bar mui-bar-nav">
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>返回
         </button>
-        <h1 class="mui-center mui-title">增加请款单项</h1>
+        <h1 class="mui-center mui-title">增加工程验收单项</h1>
     </div>
     <div class="mui-page-content">
         <div class="mui-scroll-wrapper">
             <div class="mui-scroll"  style="height: 100%;">
-                <form class="mui-input-group" id="addFromUCAMItem">
+                <form class="mui-input-group" id="addFromPAOItem">
+                    <input type="hidden" name="orderNo" value="${detailsVo.paoVo.orderNo}">
                     <div class="mui-input-row">
-                        <label>材料/项目内容</label>
-                        <input type="text" name="projectContent" class="mui-input-clear" mui-verify="required">
+                        <label>整改内容</label>
+                        <input type="text" name="rectifyContent" class="mui-input-clear" mui-verify="required" placeholder="请输入整改内容">
                     </div>
                     <div class="mui-input-row">
-                        <label>工程量</label>
-                        <input type="text" name="quantities" class="mui-input-clear" mui-verify="required">
+                        <label>整改措施</label>
+                        <input type="text" name="rectifyMeasure" class="mui-input-clear" mui-verify="required" placeholder="请输入整改措施">
                     </div>
                     <div class="mui-input-row">
-                        <label>申报完成率</label>
-                        <input type="text" name="applyCompletionRate" class="mui-input-clear" mui-verify="required">
+                        <label>计划完成日期</label>
+                        <input type="text" id="playOverDate" name="playOverDate" class="mui-input-clear" readonly data-options='{"type":"date","beginYear":2018,"endYear":2028}' placeholder="请选择计划完成日期" mui-verify="required">
                     </div>
                     <div class="mui-input-row">
-                        <label>审核完成率</label>
-                        <input type="text" name="approvalCompletionRate" class="mui-input-clear" mui-verify="required">
+                        <label>是否已整改</label>
+                        <input type="text" id="rectifyFlagName" name="rectifyFlagName" class="mui-input-clear" readonly value="已整改">
+                        <input type="hidden" id="rectifyFlag" name="rectifyFlag" class="mui-input-clear" mui-verify="required" value="1">
                     </div>
                     <div class="mui-input-row">
-                        <label>单位</label>
-                        <input type="text" name="unit" class="mui-input-clear" mui-verify="required">
+                        <label>实际完成日期</label>
+                        <input type="text" id="actualOverDate" name="actualOverDate" class="mui-input-clear" readonly data-options='{"type":"date","beginYear":2018,"endYear":2028}' placeholder="请选择实际完成日期" mui-verify="required">
                     </div>
-                    <div class="mui-input-row">
-                        <label>单价</label>
-                        <input type="text" name="price" class="mui-input-clear" mui-verify="required">
-                    </div>
-                    <div class="mui-input-row">
-                        <label>申报金额</label>
-                        <input type="text" name="applyPrice" class="mui-input-clear" mui-verify="required">
-                    </div>
-                    <div class="mui-input-row">
-                        <label>审批金额</label>
-                        <input type="text" name="approvalPrice" class="mui-input-clear" mui-verify="required">
-                    </div>
-                    <c:if test="${detailsVo.ucamVo.orderType == 1}">
-                        <div class="mui-input-row">
-                            <label>质保期（月）</label>
-                            <input type="text" name="warrantyDate" class="mui-input-clear" mui-verify="required">
-                        </div>
-                    </c:if>
-                    <c:if test="${detailsVo.ucamVo.orderType == 2}">
-                        <div class="mui-input-row">
-                            <label>日期</label>
-                            <input type="text" name="date" class="mui-input-clear" mui-verify="required">
-                        </div>
-                    </c:if>
-                    <%--<div class="mui-input-row">
-                        <label>已支付金额</label>
-                        <input type="text" name="amount" class="mui-input-clear" mui-verify="required">
-                    </div>--%>
                     <div>
                         <textarea name="remark" id="remark" rows="5" class="mui-input-clear" placeholder="备注"></textarea>
                     </div>
                     <div class="mui-button-row" style="padding-bottom: 20px;">
-                        <button type="button" class="mui-btn mui-btn-primary" id="submitFromUCAMItem">添加</button>
+                        <button type="button" class="mui-btn mui-btn-primary" id="submitFromPAOItem">添加</button>
                     </div>
                 </form>
             </div>
@@ -289,7 +245,7 @@
     <div class="mui-popover-arrow"></div>
     <div class="mui-scroll-wrapper">
         <div class="mui-scroll"  style="height: 100%;">
-            <form class="mui-input-group" id="reviewUCAMForm">
+            <form class="mui-input-group" id="reviewPAOForm">
                 <div class="mui-input-row">
                     <label style="width: 120px;">审核结果</label>
                     <input type="text" id="selectAuditResults" placeholder="请选择审核结果" readonly style="float: left;width: 150px;" value="审核通过">
@@ -304,7 +260,7 @@
                     <textarea name="auditOpinion" id="auditOpinion" rows="5" class="mui-input-clear" placeholder="审核意见"></textarea>
                 </div>
                 <div class="mui-button-row" style="padding-bottom: 20px;">
-                    <button type="button" class="mui-btn mui-btn-primary" id="reviewUCAMButton">审核</button>
+                    <button type="button" class="mui-btn mui-btn-primary" id="reviewPAOButton">审核</button>
                 </div>
             </form>
         </div>
@@ -325,10 +281,50 @@
 
     mui('.mui-scroll-wrapper').scroll();
 
+    var btns =  mui('#playOverDate');
+    btns.each(function(i, btn) {
+        btn.addEventListener('tap', function() {
+            var optionsJson = this.getAttribute('data-options') || '{}';
+            var options = JSON.parse(optionsJson);
+            var picker = new mui.DtPicker(options);
+            picker.show(function(rs) {
+                playOverDate.value = rs.text;
+                picker.dispose();
+            });
+        }, false);
+    });
+
+    var btns_actualOverDate =  mui('#actualOverDate');
+    btns_actualOverDate.each(function(i, btn) {
+        btn.addEventListener('tap', function() {
+            var optionsJson = this.getAttribute('data-options') || '{}';
+            var options = JSON.parse(optionsJson);
+            var picker = new mui.DtPicker(options);
+            picker.show(function(rs) {
+                actualOverDate.value = rs.text;
+                picker.dispose();
+            });
+        }, false);
+    });
+
+    var rectifyFlagJson = '[{"value":0,"text":"未整改"},{"value":1,"text":"已整改"}]';
+    var rectifyFlagPicker = new mui.PopPicker();
+    rectifyFlagPicker.setData(JSON.parse(rectifyFlagJson));
+    var rectifyFlagName = document.getElementById('rectifyFlagName');
+    var rectifyFlag = document.getElementById('rectifyFlag');
+    rectifyFlagName.addEventListener('tap', function(event) {
+        rectifyFlagPicker.show(function(items) {
+            rectifyFlagName.value = items[0].text;
+            rectifyFlag.value = items[0].value;
+            //返回 false 可以阻止选择框的关闭
+            //return false;
+        });
+    }, false);
+
     /** 提交项 **/
-    mui(document.body).on('tap', '#submitFromUCAMItem', function(e) {
+    mui(document.body).on('tap', '#submitFromPAOItem', function(e) {
         var check = true;
-        mui("#addFromUCAMItem input").each(function() {
+        mui("#addFromPAOItem input").each(function() {
             //若当前input为空，则alert提醒
             var verify = $(this).attr("mui-verify")
             if(verify == 'required'){
@@ -343,11 +339,11 @@
 
         //校验通过，继续执行业务逻辑
         if(check){
-            var orderNo = $('#orderNo').val();
-            var url = '${ctx}/mobile/UCAM/addUCAMItem/'+ orderNo
+            var id = $('#id').val();
+            var url = '${ctx}/mobile/programmeAcceptance/addProgrammeAcceptanceItem';
             $.ajax({
                 url: url,
-                data: $('#addFromUCAMItem').serialize(),
+                data: $('#addFromPAOItem').serialize(),
                 dataType: 'json',
                 contentType : "application/x-www-form-urlencoded",
                 type: 'post',
@@ -357,7 +353,7 @@
                         mui.alert(result.msg);
                     }else {
                         mui.alert('添加成功！', function() {
-                            document.location.href='${ctx }/mobile/UCAM/toDetails/${detailsVo.ucamVo.id}';
+                            document.location.href='${ctx }/mobile/programmeAcceptance/toDetails/${detailsVo.paoVo.id}';
                         });
                     }
                 }
@@ -373,7 +369,7 @@
         var btnArray = ['是', '否'];
         mui.confirm('确认删除此项？', '删除项', btnArray, function(e) {
             if (e.index == 0) {
-                var url = '${ctx}/mobile/UCAM/deleteUCAMItem/'+ itemId
+                var url = '${ctx}/mobile/programmeAcceptance/deleteProgrammeAcceptanceItem/'+ itemId
                 $.ajax({
                     url: url,
                     dataType: 'json',
@@ -385,7 +381,7 @@
                             mui.alert(result.msg);
                         }else {
                             mui.alert('删除成功！', function() {
-                                document.location.href='${ctx }/mobile/UCAM/toDetails/${detailsVo.ucamVo.id}';
+                                document.location.href='${ctx }/mobile/programmeAcceptance/toDetails/${detailsVo.paoVo.id}';
                             });
                         }
                     }
@@ -395,12 +391,12 @@
     });
 
     /** 删除工程验收单 **/
-    mui(document.body).on('tap', '#deleteUCAMOrder', function(e) {
+    mui(document.body).on('tap', '#deletePAOOrder', function(e) {
         var id = this.value;
         var btnArray = ['是', '否'];
         mui.confirm('确认删除此工程验收单？', '删除工程验收单', btnArray, function(e) {
             if (e.index == 0) {
-                var url = '${ctx}/mobile/UCAM/delUCAMOrder?id='+ id
+                var url = '${ctx}/mobile/programmeAcceptance/delProgrammeAcceptanceOrder?id='+ id
                 $.ajax({
                     url: url,
                     dataType: 'json',
@@ -412,7 +408,7 @@
                             mui.alert(result.msg);
                         }else {
                             mui.alert('删除成功！', function() {
-                                document.location.href='${ctx }/mobile/UCAM/list';
+                                document.location.href='${ctx }/mobile/programmeAcceptance/list';
                             });
                         }
                     }
@@ -422,11 +418,11 @@
     });
 
     /** 提交审核 **/
-    mui(document.body).on('tap', '#UCAMDetails', function(e) {
+    mui(document.body).on('tap', '#PAODetails', function(e) {
         var btnArray = ['是', '否'];
         mui.confirm('确认提交？', '提交工程验收单', btnArray, function(e) {
             if (e.index == 0) {
-                var url = '${ctx}/mobile/UCAM/submitUCAMOrder?id=${detailsVo.ucamVo.id}';
+                var url = '${ctx}/mobile/programmeAcceptance/submitProgrammeAcceptanceOrder?id=${detailsVo.paoVo.id}';
                 $.ajax({
                     url: url,
                     dataType: 'json',
@@ -438,7 +434,7 @@
                             mui.alert(result.msg);
                         }else {
                             mui.alert('提交成功！', function() {
-                                document.location.href='${ctx }/mobile/UCAM/toDetails/${detailsVo.ucamVo.id}';
+                                document.location.href='${ctx }/mobile/programmeAcceptance/toDetails/${detailsVo.paoVo.id}';
                             });
                         }
                     }
@@ -448,7 +444,7 @@
     });
 
     /** 选择审核人 **/
-    mui(document.body).on('tap', '#submitReviewUCAM', function(e) {
+    mui(document.body).on('tap', '#submitReviewPAO', function(e) {
         var adminsJson = '${detailsVo.departs}'
         var json =JSON.parse(adminsJson)
         var userPicker = new mui.PopPicker();
@@ -457,7 +453,7 @@
             var text = selectItems[0].text;
             mui.alert('确定提审核人为：' + text + "？" , function() {
                 var userId = selectItems[0].value;
-                var url = '${ctx}/mobile/UCAM/submitReviewUCAMOrder?id=${detailsVo.ucamVo.id}&userId=' + userId;
+                var url = '${ctx}/mobile/programmeAcceptance/submitReviewprogrammeAcceptanceOrder?id=${detailsVo.paoVo.id}&userId=' + userId;
                 $.ajax({
                     url: url,
                     dataType: 'json',
@@ -469,7 +465,7 @@
                             mui.alert(result.msg);
                         }else {
                             mui.alert('提交审核成功！', function() {
-                                document.location.href='${ctx }/mobile/UCAM/toDetails/${detailsVo.ucamVo.id}';
+                                document.location.href='${ctx }/mobile/programmeAcceptance/toDetails/${detailsVo.paoVo.id}';
                             });
                         }
                     }
@@ -480,7 +476,7 @@
     });
 
     /** 审核 **/
-    mui(document.body).on('tap', '#reviewUCAM', function(e) {
+    mui(document.body).on('tap', '#reviewPAO', function(e) {
         mui("#popover").popover('toggle', document.getElementById("div"));
     });
 
@@ -509,7 +505,7 @@
         });
     });
 
-    mui(document.body).on('tap', '#reviewUCAMButton', function(e) {
+    mui(document.body).on('tap', '#reviewPAOButton', function(e) {
 
         var auditResults = document.getElementById("auditResults");
         var applyUser = document.getElementById("applyUser");
@@ -526,7 +522,7 @@
         }
 
         mui.alert('确定提交审核？' , function() {
-            var url = '${ctx}/mobile/UCAM/reviewUCAMOrder/${detailsVo.ucamVo.id}';
+            var url = '${ctx}/mobile/programmeAcceptance/reviewProgrammeAcceptanceOrder/${detailsVo.paoVo.id}';
             $.ajax({
                 url: url,
                 data:{'auditResults':auditResults.value,'applyUser':applyUser.value,'auditOpinion': auditOpinion.value},
@@ -539,7 +535,7 @@
                         mui.alert(result.msg);
                     }else {
                         mui.alert('审核成功！', function() {
-                            document.location.href='${ctx }/mobile/UCAM/toDetails/${detailsVo.ucamVo.id}';
+                            document.location.href='${ctx }/mobile/programmeAcceptance/toDetails/${detailsVo.paoVo.id}';
                         });
                     }
                 }

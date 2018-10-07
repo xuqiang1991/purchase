@@ -121,42 +121,32 @@ public class UCAMServiceImpl implements UCAMService {
     }
 
     @Override
-    public ResultUtil addUCAMOrder(BizUncontractApplyMoney order) {
+    public ResultUtil saveUCAMOrder(BizUncontractApplyMoney order) {
         Date date = new Date();
+        if(StringUtils.isEmpty(order.getId())){
+            order.setId(WebUtils.generateUUID());
+            //生成采购单号
+            String yyddmm = DateUtil.formatDate(date,DateUtil.DateFormat3);
+            String maxNo = ucamMapper.selMaxNo(yyddmm);
+            if(StringUtils.isEmpty(maxNo)){
+                maxNo = "0";
+            }else{
+                maxNo = maxNo.substring(maxNo.length() - 3);
+            }
+            maxNo = String.format("%03d", Integer.parseInt(maxNo) + 1);
+            String ucamNo = UCAM_PREFIX + yyddmm + "-" + maxNo;
 
-        String id = WebUtils.generateUUID();
-        order.setId(id);
-
-        //生成采购单号
-        String yyddmm = DateUtil.formatDate(date,DateUtil.DateFormat3);
-        String maxNo = ucamMapper.selMaxNo(yyddmm);
-        if(StringUtils.isEmpty(maxNo)){
-            maxNo = "0";
+            order.setOrderNo(ucamNo);
+            //参数补充
+            order.setStatus(PurchaseUtil.STATUS_0);
+            order.setUpdateDate(date);
+            order.setCreateTime(date);
+            ucamMapper.insertSelective(order);
         }else{
-            maxNo = maxNo.substring(maxNo.length() - 3);
+            order.setUpdateDate(date);
+            ucamMapper.updateByPrimaryKeySelective(order);
         }
-        maxNo = String.format("%03d", Integer.parseInt(maxNo) + 1);
-        String ucamNo = UCAM_PREFIX + yyddmm + "-" + maxNo;
-
-        order.setOrderNo(ucamNo);
-        //参数补充
-        order.setCostDepartDate(date);
-        order.setUpdateDate(date);
-        order.setCreateTime(date);
-
-        ucamMapper.insertSelective(order);
-
         return ResultUtil.ok();
-    }
-
-    @Override
-    public ResultUtil editUCAMOrder(BizUncontractApplyMoney order) {
-        /*UCAMVo ucamVo = new UCAMVo();
-        if(!StringUtils.isEmpty(order.getId())){
-            ucamVo = ucamService.selUCAMOrder(id);
-        }*/
-
-        return null;
     }
 
     @Override
