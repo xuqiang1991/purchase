@@ -435,13 +435,6 @@
             return false;
         }
 
-        var applyUser =  mui("#auditResults");
-        if(!applyUser.value || applyUser.value.trim() == "") {
-            var label = applyUser.previousElementSibling;
-            mui.alert(label.innerText + "不允许为空");
-            return false;
-        }
-
         var auditOpinion =  mui("#auditOpinion");
         if(!auditOpinion.value || auditOpinion.value.trim() == "") {
             var label = auditOpinion.previousElementSibling;
@@ -450,7 +443,7 @@
         }
 
         mui.alert('确定提交审核？' , function() {
-            var url = '${ctx}/mobile/purchase/reviewPurchaseOrder/${order.id}';
+            var url = '${ctx}/mobile/paymentOrder/reviewOrder/${order.id}';
             $.ajax({
                 url: url,
                 data:{'auditResults':auditResults,'applyUser':applyUser,'auditOpinion': auditOpinion},
@@ -474,17 +467,6 @@
 
     //初始化数据
     mui.ready(function() {
-        //供应商
-        var url = '${ctx}/supplier/findSuppliersAll';
-        $.ajax({
-            url: url, dataType: 'json',   contentType : "application/x-www-form-urlencoded",  type: 'post', timeout: 10000,
-            success: function(result) {
-                if(result != null && result.length != 0){
-
-                }
-            }
-        });
-
 
         //编辑初始化
         var userPicker = new mui.PopPicker();

@@ -308,6 +308,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		}else if (PurchaseUtil.STATUS_4 == status){
 			tmp.setStatus(PurchaseUtil.STATUS_5);
 		}
+		//审核不通过
+		if(!auditResults){
+			tmp.setStatus(0);
+		}
 		tmp.setUpdateDate(date);
 
 		purchaseOrderMapper.updateByPrimaryKeySelective(tmp);

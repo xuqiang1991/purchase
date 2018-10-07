@@ -422,6 +422,10 @@ public class CAMServiceImpl implements CAMService {
         } else if (CAMUtil.STATUS_4 == status) {
             tmp.setStatus(CAMUtil.STATUS_5);
         }
+        //审核不通过
+        if(!auditResults){
+            tmp.setStatus(0);
+        }
         tmp.setUpdateDate(date);
 
         camMapper.updateByPrimaryKeySelective(tmp);

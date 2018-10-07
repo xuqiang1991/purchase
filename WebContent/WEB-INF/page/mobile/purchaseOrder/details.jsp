@@ -475,7 +475,7 @@
             return false;
         }
 
-        var applyUser =  mui("#auditResults");
+        var applyUser =  mui("#applyUser");
         if(!applyUser.value || applyUser.value.trim() == "") {
             var label = applyUser.previousElementSibling;
             mui.alert(label.innerText + "不允许为空");

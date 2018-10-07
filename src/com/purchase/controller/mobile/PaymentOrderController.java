@@ -1,6 +1,9 @@
 package com.purchase.controller.mobile;
 
 import com.alibaba.fastjson.JSON;
+import com.purchase.annotation.SysLog;
+import com.purchase.mapper.admin.TbDepartmentMapper;
+import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.order.BizPaymentOrder;
 import com.purchase.service.AdminService;
 import com.purchase.service.PaymentOrderService;
@@ -15,6 +18,7 @@ import com.purchase.vo.order.BizPaymentOrderSearch;
 import com.purchase.vo.order.BizPaymentOrderVo;
 import com.purchase.vo.order.BizPurchaseOrderDetailsVo;
 import com.purchase.vo.order.BizPurchaseOrderSearch;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,7 +80,8 @@ public class PaymentOrderController {
     @RequestMapping("/toDetails/{id}")
     @RequiresPermissions("mobile:purchase:details")
     public String toDetails(@PathVariable("id") String id, Model model){
-        BizPaymentOrderVo order = paymentOrderService.getPaymentOrderDetails(id);
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        BizPaymentOrderVo order = paymentOrderService.getPaymentOrderDetails(id,admin);
         model.addAttribute("order",order);
         return "page/mobile/payment/details";
     }
@@ -87,5 +92,14 @@ public class PaymentOrderController {
     public ResultUtil editPaymentOrder(BizPaymentOrder order){
         return paymentOrderService.editPaymentOrder(order);
     }
+
+    @SysLog(value="审核采购单")
+    @RequestMapping("reviewOrder/{id}")
+    @ResponseBody
+    public ResultUtil reviewOrder(@PathVariable("id") String id, Boolean auditResults, String auditOpinion){
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        return paymentOrderService.reviewOrder(admin, id, auditResults,auditOpinion);
+    }
+
 
 }
