@@ -105,7 +105,7 @@
                 <ul class="mui-table-view">
                     <li class="mui-table-view-cell mui-collapse">
                         <a class="mui-navigate-right" href="#">订单历史</a>
-                        <c:forEach items="${detailsVo.ucamVo.historyList}" var="history">
+                        <c:forEach items="${detailsVo.order.historyList}" var="history">
                             <div class="mui-collapse-content">
                                 <p>
                                     <strong>

@@ -508,7 +508,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             vo.setSupplier(supplier);
         }
 
-        return vo;
+		Long applyUserId = order.getApplyUser();
+		if(applyUserId != null){
+			TbAdmin auAdmin = adminMapper.selectByPrimaryKey(applyUserId);
+			vo.setAuAdmin(auAdmin);
+		}
+
+
+		return vo;
     }
 
     @Override

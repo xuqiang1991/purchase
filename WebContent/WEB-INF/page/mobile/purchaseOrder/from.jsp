@@ -39,6 +39,19 @@
         <form class="mui-input-group" id="submitFrom">
             <input type="hidden" id="id" name="id" value="${order.id}">
             <div class="mui-input-row">
+                <label>请款人</label>
+                <c:choose>
+                    <c:when test="${order.id == null}">
+                        <input type="text" id="selectApplyUser" placeholder="请选择开单人" value="${admin.fullname}">
+                        <input type="hidden" id="applyUser" name="applyUser" value="${admin.id}" mui-verify="required">
+                    </c:when>
+                    <c:otherwise>
+                        <input type="text" id="selectApplyUser" placeholder="请选择开单人" value="${order.admin.fullname}">
+                        <input type="hidden" id="applyUser" name="applyUser" value="${order.admin.id}" mui-verify="required">
+                    </c:otherwise>
+                </c:choose>
+            </div>
+            <div class="mui-input-row">
                 <label>订单类型</label>
                 <input type="text" id="typeName" class="mui-input-clear" placeholder="请选择订单类型" mui-verify="required">
                 <input type="hidden" id="type" name="type" value="${order.type}">
@@ -144,31 +157,37 @@
     //初始化数据
     mui.ready(function() {
         //供应商
-        var url = '${ctx}/supplier/findSuppliersAll';
-        $.ajax({
-            url: url, dataType: 'json',   contentType : "application/x-www-form-urlencoded",  type: 'post', timeout: 10000,
-            success: function(result) {
-                if(result != null && result.length != 0){
-                    initSupplier(result);
-                }
-            }
-        });
+        initSupplier();
 
         //订单类型
         initOrderType();
+
     });
 
-    function initSupplier(json){
+    function initSupplier(){
+        var adminsJson = '${admins}';
         var userPicker = new mui.PopPicker();
-        userPicker.setData(json);
-        var supplierName = document.getElementById('supplierName');
-        var supplierId = document.getElementById('supplierId');
-        supplierName.addEventListener('tap', function(event) {
+        userPicker.setData(JSON.parse(adminsJson));
+        var selectApplyUser = document.getElementById('selectApplyUser');
+        var applyUser = document.getElementById('applyUser');
+        selectApplyUser.addEventListener('tap', function(event) {
             userPicker.show(function(items) {
-                supplierName.value = items[0].text;
-                supplierId.value = items[0].value;
+                selectApplyUser.value = items[0].text;
+                applyUser.value = items[0].value;
                 //返回 false 可以阻止选择框的关闭
                 //return false;
+                var url = '${ctx}/sys/getAdmin?id=' + items[0].value;
+                $.ajax({
+                    url: url,
+                    type: 'get',
+                    timeout: 10000,
+                    success: function(result) {
+                        if(result.code == 0){
+                            $("#supplierId").val(result.data.supplierId);
+                            $("#supplierName").val(result.data.supplierName);
+                        }
+                    }
+                });
             });
         }, false);
     }

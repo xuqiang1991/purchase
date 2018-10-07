@@ -15,6 +15,7 @@ import com.purchase.pojo.order.*;
 import com.purchase.service.CAMService;
 import com.purchase.service.PurchaseOrderService;
 import com.purchase.util.*;
+import com.purchase.vo.OrderHistory;
 import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.order.BizPurchaseOrderVo;
 import com.purchase.vo.order.CAMDetailsVo;
@@ -30,6 +31,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -172,8 +175,35 @@ public class CAMServiceImpl implements CAMService {
         List<BizContractApplyMoneyDetail> detailList = contractApplyMoneyDetailMapper.selectByExample(example);
         detailsVo.setDetails(detailList);
 
-        //选择审核人
+
+        //审核历史
+        List<OrderHistory> historyList = new ArrayList<OrderHistory>();
         int status = vo.getStatus();
+        if(PurchaseUtil.STATUS_0 == status){
+            historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
+        }else if(PurchaseUtil.STATUS_1 == status){
+            historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
+            historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
+        }else if(PurchaseUtil.STATUS_2 == status){
+            historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
+            historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
+            historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),PurchaseUtil.STATUS_2));
+        }else if(PurchaseUtil.STATUS_3 == status){
+            historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
+            historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
+            historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),PurchaseUtil.STATUS_2));
+            historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),PurchaseUtil.STATUS_3));
+        }else if(PurchaseUtil.STATUS_4 == status){
+            historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
+            historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
+            historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),PurchaseUtil.STATUS_2));
+            historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),PurchaseUtil.STATUS_3));
+            historyList.add(new OrderHistory(vo.getManagerAdmin().getFullname(),vo.getManagerDepartDate(),vo.getManagerDepartOpinion(),vo.getManagerDepartApproval(),PurchaseUtil.STATUS_4));
+        }
+        Collections.reverse(historyList);
+        vo.setHistoryList(historyList);
+
+        //选择审核人
         String depart = "成本部";
         Long reviewUserId = null;
         if (CAMUtil.STATUS_1 == status) {
@@ -252,6 +282,12 @@ public class CAMServiceImpl implements CAMService {
         if(sourceOrderId != null){
             BizPurchaseOrderVo purchaseOrderVo = purchaseOrderService.selPurchaseOrderById(sourceOrderId);
             vo.setPurchaseOrderVo(purchaseOrderVo);
+        }
+
+        Long applyUserId = order.getApplyUser();
+        if(applyUserId != null){
+            TbAdmin auAdmin = adminMapper.selectByPrimaryKey(applyUserId);
+            vo.setAuAdmin(auAdmin);
         }
 
         return vo;

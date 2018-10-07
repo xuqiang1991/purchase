@@ -90,6 +90,11 @@ public class CAMController {
             admin.setSupplierName(supplier.getName());
         }
         model.addAttribute("admin", admin);
+
+        List<ChoseAdminVO> admins = adminService.selectAdmin();
+        logger.info("------:{}", JSON.toJSONString(admins));
+        model.addAttribute("admins", JSON.toJSONString(admins));
+
         return "page/mobile/CAM/from";
     }
 
@@ -107,6 +112,17 @@ public class CAMController {
     @RequestMapping("/toEdit")
     @RequiresPermissions("mobile:CAM:save")
     public String toUpdate(String id, Model model){
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        if(admin.getSupplierId() != null){
+            TbSupplier supplier = supplierService.selSupplierById(admin.getSupplierId());
+            admin.setSupplierName(supplier.getName());
+        }
+        List<ChoseAdminVO> admins = adminService.selectAdmin();
+        logger.info("------:{}", JSON.toJSONString(admins));
+        model.addAttribute("admins", JSON.toJSONString(admins));
+        model.addAttribute("admin", admin);
+
+
         CAMVo order = camService.getCAMOrder(id);
         model.addAttribute("order",order);
         return "page/mobile/CAM/from";

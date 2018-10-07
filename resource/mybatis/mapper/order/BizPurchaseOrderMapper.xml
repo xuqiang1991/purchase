@@ -9,6 +9,7 @@
     <result column="create_user" jdbcType="BIGINT" property="createUser" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="apply_user" jdbcType="BIGINT" property="applyUser" />
+    <result column="apply_date" jdbcType="TIMESTAMP" property="applyDate" />
     <result column="supplier_id" jdbcType="BIGINT" property="supplierId" />
     <result column="project_id" jdbcType="VARCHAR" property="projectId" />
     <result column="contract_money" jdbcType="DECIMAL" property="contractMoney" />
@@ -90,11 +91,12 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, purchase_no, contract_no, type, create_user, create_time, apply_user, supplier_id, 
-    project_id, contract_money, payment_ratio, request_amount, payment_amount, status, 
-    update_date, summary, cost_depart_approval, cost_depart_user, cost_depart_date, cost_depart_opinion, 
-    project_depart_approval, project_depart_user, project_depart_date, project_depart_opinion, 
-    manager_depart_approval, manager_depart_user, manager_depart_date, manager_depart_opinion
+    id, purchase_no, contract_no, type, create_user, create_time, apply_user, apply_date, 
+    supplier_id, project_id, contract_money, payment_ratio, request_amount, payment_amount, 
+    status, update_date, summary, cost_depart_approval, cost_depart_user, cost_depart_date, 
+    cost_depart_opinion, project_depart_approval, project_depart_user, project_depart_date, 
+    project_depart_opinion, manager_depart_approval, manager_depart_user, manager_depart_date, 
+    manager_depart_opinion
   </sql>
   <select id="selectByExample" parameterType="com.purchase.pojo.order.BizPurchaseOrderExample" resultMap="BaseResultMap">
     select
@@ -129,23 +131,23 @@
   <insert id="insert" parameterType="com.purchase.pojo.order.BizPurchaseOrder">
     insert into biz_purchase_order (id, purchase_no, contract_no, 
       type, create_user, create_time, 
-      apply_user, supplier_id, project_id, 
-      contract_money, payment_ratio, request_amount, 
-      payment_amount, status, update_date, 
-      summary, cost_depart_approval, cost_depart_user, 
-      cost_depart_date, cost_depart_opinion, project_depart_approval, 
-      project_depart_user, project_depart_date, 
+      apply_user, apply_date, supplier_id, 
+      project_id, contract_money, payment_ratio, 
+      request_amount, payment_amount, status, 
+      update_date, summary, cost_depart_approval, 
+      cost_depart_user, cost_depart_date, cost_depart_opinion, 
+      project_depart_approval, project_depart_user, project_depart_date, 
       project_depart_opinion, manager_depart_approval, 
       manager_depart_user, manager_depart_date, 
       manager_depart_opinion)
     values (#{id,jdbcType=VARCHAR}, #{purchaseNo,jdbcType=VARCHAR}, #{contractNo,jdbcType=VARCHAR}, 
       #{type,jdbcType=VARCHAR}, #{createUser,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{applyUser,jdbcType=BIGINT}, #{supplierId,jdbcType=BIGINT}, #{projectId,jdbcType=VARCHAR}, 
-      #{contractMoney,jdbcType=DECIMAL}, #{paymentRatio,jdbcType=DOUBLE}, #{requestAmount,jdbcType=DECIMAL}, 
-      #{paymentAmount,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, #{updateDate,jdbcType=TIMESTAMP}, 
-      #{summary,jdbcType=VARCHAR}, #{costDepartApproval,jdbcType=BIT}, #{costDepartUser,jdbcType=BIGINT}, 
-      #{costDepartDate,jdbcType=TIMESTAMP}, #{costDepartOpinion,jdbcType=VARCHAR}, #{projectDepartApproval,jdbcType=BIT}, 
-      #{projectDepartUser,jdbcType=BIGINT}, #{projectDepartDate,jdbcType=TIMESTAMP}, 
+      #{applyUser,jdbcType=BIGINT}, #{applyDate,jdbcType=TIMESTAMP}, #{supplierId,jdbcType=BIGINT}, 
+      #{projectId,jdbcType=VARCHAR}, #{contractMoney,jdbcType=DECIMAL}, #{paymentRatio,jdbcType=DOUBLE}, 
+      #{requestAmount,jdbcType=DECIMAL}, #{paymentAmount,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{summary,jdbcType=VARCHAR}, #{costDepartApproval,jdbcType=BIT}, 
+      #{costDepartUser,jdbcType=BIGINT}, #{costDepartDate,jdbcType=TIMESTAMP}, #{costDepartOpinion,jdbcType=VARCHAR}, 
+      #{projectDepartApproval,jdbcType=BIT}, #{projectDepartUser,jdbcType=BIGINT}, #{projectDepartDate,jdbcType=TIMESTAMP}, 
       #{projectDepartOpinion,jdbcType=VARCHAR}, #{managerDepartApproval,jdbcType=BIT}, 
       #{managerDepartUser,jdbcType=BIGINT}, #{managerDepartDate,jdbcType=TIMESTAMP}, 
       #{managerDepartOpinion,jdbcType=VARCHAR})
@@ -173,6 +175,9 @@
       </if>
       <if test="applyUser != null">
         apply_user,
+      </if>
+      <if test="applyDate != null">
+        apply_date,
       </if>
       <if test="supplierId != null">
         supplier_id,
@@ -259,6 +264,9 @@
       </if>
       <if test="applyUser != null">
         #{applyUser,jdbcType=BIGINT},
+      </if>
+      <if test="applyDate != null">
+        #{applyDate,jdbcType=TIMESTAMP},
       </if>
       <if test="supplierId != null">
         #{supplierId,jdbcType=BIGINT},
@@ -355,6 +363,9 @@
       <if test="record.applyUser != null">
         apply_user = #{record.applyUser,jdbcType=BIGINT},
       </if>
+      <if test="record.applyDate != null">
+        apply_date = #{record.applyDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.supplierId != null">
         supplier_id = #{record.supplierId,jdbcType=BIGINT},
       </if>
@@ -432,6 +443,7 @@
       create_user = #{record.createUser,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       apply_user = #{record.applyUser,jdbcType=BIGINT},
+      apply_date = #{record.applyDate,jdbcType=TIMESTAMP},
       supplier_id = #{record.supplierId,jdbcType=BIGINT},
       project_id = #{record.projectId,jdbcType=VARCHAR},
       contract_money = #{record.contractMoney,jdbcType=DECIMAL},
@@ -477,6 +489,9 @@
       </if>
       <if test="applyUser != null">
         apply_user = #{applyUser,jdbcType=BIGINT},
+      </if>
+      <if test="applyDate != null">
+        apply_date = #{applyDate,jdbcType=TIMESTAMP},
       </if>
       <if test="supplierId != null">
         supplier_id = #{supplierId,jdbcType=BIGINT},
@@ -552,6 +567,7 @@
       create_user = #{createUser,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       apply_user = #{applyUser,jdbcType=BIGINT},
+      apply_date = #{applyDate,jdbcType=TIMESTAMP},
       supplier_id = #{supplierId,jdbcType=BIGINT},
       project_id = #{projectId,jdbcType=VARCHAR},
       contract_money = #{contractMoney,jdbcType=DECIMAL},

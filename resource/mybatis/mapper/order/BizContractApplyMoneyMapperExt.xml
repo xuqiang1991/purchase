@@ -54,25 +54,27 @@
       <result column="managerId" jdbcType="BIGINT" property="id"></result>
       <result column="managerFullname" jdbcType="VARCHAR" property="fullname"></result>
     </association>
+    <association property="auAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
+      <result column="auId" jdbcType="BIGINT" property="id"></result>
+      <result column="auName" jdbcType="VARCHAR" property="fullname"></result>
+    </association>
   </resultMap>
   <select id="selectByExampleExt" resultMap="BaseResultMapExt">
     select
-    a.id, a.order_no, a.create_user, a.create_time, a.apply_user, a.source_order_id, a.supplier_id, a.project_id,
-    a.order_type, a.status, a.apply_price, a.actual_price, a.update_date,
-    a.summary, a.cost_depart_approval, a.cost_depart_user, a.cost_depart_date, a.cost_depart_opinion,
-    a.project_depart_approval, a.project_depart_user, a.project_depart_date, a.project_depart_opinion,
-    a.manager_depart_approval, a.manager_depart_user, a.manager_depart_date, a.manager_depart_opinion,
+    a.*,
     b.id as supplier_id, b.name as supplierName,
     c.id as costId, c.fullname as adminFullname,
     tCost.id as costId, tCost.fullname as costFullname,
     tProject.id as projectId, tProject.fullname as projectFullname,
-    tManager.id as managerId, tManager.fullname as managerFullname
+    tManager.id as managerId, tManager.fullname as managerFullname,
+    auAdmin.id as auId,auAdmin.fullname as auName
     from biz_contract_apply_money a
     INNER JOIN tb_supplier b ON (a.supplier_id = b.id)
     INNER JOIN tb_admin c ON (a.create_user = c.id)
     LEFT JOIN tb_admin tCost ON (a.cost_depart_user = tCost.id)
     LEFT JOIN tb_admin tProject ON (a.project_depart_user = tProject.id)
     LEFT JOIN tb_admin tManager ON (a.manager_depart_user = tManager.id)
+    LEFT JOIN tb_admin auAdmin ON (a.apply_user = auAdmin.id)
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause_Ext" />
     </if>
