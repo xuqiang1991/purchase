@@ -131,16 +131,16 @@
     });
 
     mui(document.body).on('tap', '#add-btn', function(e) {
-        document.location.href = ctx + '/mobile/UCAM/toEdit';
+        document.location.href = ctx + '/mobile/programmeAcceptance/toEdit';
     });
 
     mui(document.body).on('tap', '.detail-card', function(e) {
         var id = $(this).attr("data-id");
-        document.location.href = ctx + '/mobile/UCAM/toDetails/' + id;
+        document.location.href = ctx + '/mobile/programmeAcceptance/toDetails/' + id;
     });
     mui(document.body).on('tap', '.details-edit', function(e) {
         var id = $(this).attr("data-id");
-        document.location.href = ctx + '/mobile/UCAM/toEdit?id=' + id;
+        document.location.href = ctx + '/mobile/programmeAcceptance/toEdit?id=' + id;
 
     });
 
@@ -176,7 +176,7 @@
     function getBill() {
         var params = $('#searchForm').serialize();
         console.log(JSON.stringify(params));
-        var url = '${ctx}/mobile/UCAM/getUCAMList?' + 'limit=' + limit + '&page=' + page;
+        var url = '${ctx}/mobile/programmeAcceptance/getProgrammeAcceptanceOrderList?' + 'limit=' + limit + '&page=' + page;
         mui.toast("加载中...",1000);
         $.ajax({
             url: url,
@@ -343,7 +343,7 @@
 </script>
 
 <!-- 合同内请款单 start -->
-<%--单号、单据类型、供应商、所属项目、有无指令、指令单号、请款人、开单人、开单日期、审核人、审核日期、单号状态--%>
+<%--单号、供应商、所属项目、合同号、开单人、开单日期、审核人、审核日期、单号状态--%>
 <script type="text/template" id="listTpl">
     {{#each data}}
     <div class="mui-card" style="margin: 0px; margin-top: 5px;">
@@ -351,11 +351,7 @@
             <!-- 订单类型 用图标展示 -->
             <img src="${ctx }/images/icon/uncontract_apply_money.png">
             <div class="mui-media-body">
-                {{#if instructOrderNo}}
-                    <label>单号:{{orderNo}}</label>
-                {{else}}
-                    <label style="color: red;">单号:{{orderNo}}</label>
-                {{/if}}
+                <label>单号:{{orderNo}}</label>
                 <p>
                     <label>开单人:{{admin.fullname}}</label>&nbsp;
                     <label>开单日期：{{createTime}}</label>
@@ -369,17 +365,6 @@
                     <label>供应商：{{supplier.name}}</label>
                     <label>所属项目：{{tpm.name}}</label>
                 </p>
-                <p>
-                    {{#if instructOrderNo}}
-                    <label>指令单已到</label>
-                    <label>指令单号：{{instructOrderNo}}</label>
-                    {{else}}
-                    <label>指令单未到</label>
-                    {{/if}}
-                </p>
-                <p>
-                    <label>请款人：{{auAdmin.fullname}}</label>
-                 </p>
             </div>
         </div>
         <div class="mui-card-footer">

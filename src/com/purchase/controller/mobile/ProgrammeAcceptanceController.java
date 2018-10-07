@@ -100,7 +100,7 @@ public class ProgrammeAcceptanceController {
     }
 
     @SysLog(value="获取工程验收数据")
-    @RequestMapping("getProgrammeAcceptanceList")
+    @RequestMapping("getProgrammeAcceptanceOrderList")
     @RequiresPermissions("mobile:programmeAcceptance:list")
     @ResponseBody
     public ResultUtil getProgrammeAcceptanceOrderList(Integer page, Integer limit, ProgrammeAcceptanceSearch search){
