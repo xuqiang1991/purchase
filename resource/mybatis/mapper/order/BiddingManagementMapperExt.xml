@@ -27,10 +27,8 @@
             </foreach>
           </trim>
         </if>
-        <!--<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(search.createUserName)" >
-          and c.fullname LIKE concat(concat('%',#{search.createUserName}),'%')
-        </if>-->
       </foreach>
+      and (a.create_user = #{search.loginId} or a.bid_user = #{search.loginId})
     </where>
   </sql>
 

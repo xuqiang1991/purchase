@@ -325,7 +325,7 @@
         var check = true;
         mui("input").each(function() {
             //若当前input为空，则alert提醒
-            var verify = $(this).attr("mui-verify")
+            var verify = $(this).attr("mui-verify");
             if(verify == 'required'){
                 if(!this.value || this.value.trim() == "") {
                     var label = this.previousElementSibling;

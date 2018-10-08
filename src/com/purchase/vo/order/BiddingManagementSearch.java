@@ -25,6 +25,8 @@ public class BiddingManagementSearch {
     private Integer openBidInfo;
     private Integer bidCause;
 
+    private Long loginId;
+
     public String getId() {
         return id;
     }
@@ -103,5 +105,13 @@ public class BiddingManagementSearch {
 
     public void setBidCause(Integer bidCause) {
         this.bidCause = bidCause;
+    }
+
+    public Long getLoginId() {
+        return loginId;
+    }
+
+    public void setLoginId(Long loginId) {
+        this.loginId = loginId;
     }
 }

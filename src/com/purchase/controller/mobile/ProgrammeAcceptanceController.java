@@ -107,6 +107,8 @@ public class ProgrammeAcceptanceController {
     @RequiresPermissions("mobile:programmeAcceptance:list")
     @ResponseBody
     public ResultUtil getProgrammeAcceptanceOrderList(Integer page, Integer limit, ProgrammeAcceptanceSearch search){
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        search.setLoginId(admin.getId());
         return paService.getPAOOrderList(page,limit,search);
     }
 

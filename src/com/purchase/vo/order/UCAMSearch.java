@@ -19,6 +19,7 @@ public class UCAMSearch {
     private Long createUser;
     private String createTime;
     private Integer status;
+    private Long loginId;
 
     public UCAMSearch() {
     }
@@ -109,5 +110,13 @@ public class UCAMSearch {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Long getLoginId() {
+        return loginId;
+    }
+
+    public void setLoginId(Long loginId) {
+        this.loginId = loginId;
     }
 }

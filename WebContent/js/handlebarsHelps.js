@@ -73,6 +73,23 @@ purchaseOrder = {
             }
             return str;
         });
+    },
+    bmOpenBidInfo:function (helper) {
+        helper.registerHelper("bm_openBidInfo",function(){
+            var str,obj = this.openBidInfo;
+            switch (obj){
+                case 0:
+                    str = '未定标'
+                    break;
+                case 1:
+                    str = '未中标'
+                    break;
+                case 2:
+                    str = '已中标'
+                    break;
+            }
+            return str;
+        });
     }
 }
 

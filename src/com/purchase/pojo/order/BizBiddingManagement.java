@@ -1,5 +1,8 @@
 package com.purchase.pojo.order;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -10,6 +13,7 @@ public class BizBiddingManagement {
 
     private Long createUser;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date createTime;
 
     private Long bidUser;
@@ -26,8 +30,10 @@ public class BizBiddingManagement {
 
     private BigDecimal finalBid;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date estimateStartTime;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date bidMarkTime;
 
     private Integer openBidInfo;
@@ -60,6 +66,7 @@ public class BizBiddingManagement {
         this.createUser = createUser;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCreateTime() {
         return createTime;
     }
@@ -124,6 +131,7 @@ public class BizBiddingManagement {
         this.finalBid = finalBid;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getEstimateStartTime() {
         return estimateStartTime;
     }
@@ -132,6 +140,7 @@ public class BizBiddingManagement {
         this.estimateStartTime = estimateStartTime;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getBidMarkTime() {
         return bidMarkTime;
     }

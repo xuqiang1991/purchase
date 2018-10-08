@@ -112,7 +112,7 @@ public class BiddingManagementServiceImpl implements BiddingManagementService {
         if(StringUtils.isEmpty(order.getId())){
             order.setId(WebUtils.generateUUID());
             //生成采购单号
-            String yyddmm = DateUtil.formatDate(date,DateUtil.DateFormat3);
+            String yyddmm = DateUtil.formatDate(date,DateUtil.DateFormat8);
             String maxNo = bmMapper.selMaxNo(yyddmm);
             if(StringUtils.isEmpty(maxNo)){
                 maxNo = "0";

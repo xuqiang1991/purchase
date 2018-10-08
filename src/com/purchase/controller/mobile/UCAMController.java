@@ -102,6 +102,8 @@ public class UCAMController {
     @RequiresPermissions("mobile:UCAM:list")
     @ResponseBody
     public ResultUtil getUCAMOrderList(Integer page, Integer limit, UCAMSearch search){
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        search.setLoginId(admin.getId());
         return ucamService.getUCAMOrderList(page,limit,search);
     }
 

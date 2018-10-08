@@ -52,6 +52,11 @@ public class DateUtil {
      * Format String : yyyy年MM月dd日
      */
     public static final String DateFormat7 = "yyyy年MM月dd日";
+
+    /**
+     * Format String : yyyy
+     */
+    public static final String DateFormat8 = "yyyy";
     
     /**
      * 获取当前时间

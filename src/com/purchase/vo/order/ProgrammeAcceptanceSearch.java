@@ -16,6 +16,7 @@ public class ProgrammeAcceptanceSearch {
     private Long createUser;
     private String createTime;
     private Integer status;
+    private Long loginId;
 
     public ProgrammeAcceptanceSearch() {
     }
@@ -82,5 +83,13 @@ public class ProgrammeAcceptanceSearch {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Long getLoginId() {
+        return loginId;
+    }
+
+    public void setLoginId(Long loginId) {
+        this.loginId = loginId;
     }
 }

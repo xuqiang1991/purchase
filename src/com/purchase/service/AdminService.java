@@ -3,10 +3,7 @@ package com.purchase.service;
 
 import com.purchase.pojo.admin.*;
 import com.purchase.util.ResultUtil;
-import com.purchase.vo.admin.ChoseAdminVO;
-import com.purchase.vo.admin.ChoseDeptVO;
-import com.purchase.vo.admin.Menu;
-import com.purchase.vo.admin.XtreeData;
+import com.purchase.vo.admin.*;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 
 import java.util.List;
@@ -126,4 +123,10 @@ public interface AdminService {
 	 * @return
 	 */
 	List<ChoseDeptVO> selectDeptAdmin();
+
+	/**
+	 * 构建区域下拉框数据
+	 * @return
+	 */
+	List<ChoseAreaVO> selectArea();
 }

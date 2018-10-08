@@ -7,10 +7,7 @@ import com.purchase.pojo.admin.*;
 import com.purchase.pojo.admin.TbAdminExample.Criteria;
 import com.purchase.service.AdminService;
 import com.purchase.util.ResultUtil;
-import com.purchase.vo.admin.ChoseAdminVO;
-import com.purchase.vo.admin.ChoseDeptVO;
-import com.purchase.vo.admin.Menu;
-import com.purchase.vo.admin.XtreeData;
+import com.purchase.vo.admin.*;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -669,6 +666,18 @@ public class AdminServiceImpl implements AdminService {
 				}
 				item.add(dept);
 				//item.add(new ChoseDeptVO(d.getId().toString(),d.getName(),adminMap.get(d.getId())));
+			}
+		}
+		return item;
+	}
+
+	@Override
+	public List<ChoseAreaVO> selectArea() {
+		List<ChoseAreaVO> item = new ArrayList<>();
+		List<TbArea> areas = tbAreaMapper.selectByExample(new TbAreaExample());
+		if(!CollectionUtils.isEmpty(areas)){
+			for (TbArea s: areas) {
+				item.add(new ChoseAreaVO(s.getId().toString(),s.getName()));
 			}
 		}
 		return item;
