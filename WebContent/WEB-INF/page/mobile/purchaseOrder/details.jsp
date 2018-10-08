@@ -45,10 +45,10 @@
     <!-- 采购单项 start -->
     <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 0px;width: 100%;">
         <div class="mui-scroll">
-            <div class="mui-card">
+            <div class="mui-content" style="margin-left: 5px; margin-right: 5px; font-size: 14px;">
                 <ul class="mui-table-view">
                     <li class="mui-table-view-cell mui-collapse">
-                        <a class="mui-navigate-right" href="#">采购单详情</a>
+                        <a class="mui-navigate-right" href="#">采购单详情:${detailsVo.purchaseOrder.purchaseNo}</a>
                         <div class="mui-collapse-content">
                             <!-- 主界面具体展示内容 -->
                                 <input type="hidden" name="purchaseNo" id="purchaseNo" value="${detailsVo.purchaseOrder.purchaseNo}">
@@ -92,13 +92,8 @@
                                 </c:if>
                         </div>
                     </li>
-                </ul>
-            </div>
-
-            <div class="mui-content" style="margin-left: 5px; margin-right: 5px; font-size: 14px;">
-                <ul class="mui-table-view">
                     <li class="mui-table-view-cell mui-collapse">
-                        <a class="mui-navigate-right" href="#">订单历史</a>
+                        <a class="mui-navigate-right" href="#">订单记录</a>
                         <c:forEach items="${detailsVo.purchaseOrder.historyList}" var="history">
                             <div class="mui-collapse-content">
                                 <p>
@@ -121,50 +116,63 @@
                             </div>
                         </c:forEach>
                     </li>
+                    <li class="mui-table-view-cell mui-collapse mui-active">
+                        <a class="mui-navigate-right" href="#">采购单单项</a>
+                        <div class="mui-collapse-content">
+                            <c:choose>
+                                <c:when test="${fn:length(detailsVo.details) > 0}">
+                                    <c:forEach items="${detailsVo.details}" var="item">
+                                        <div class="mui-card">
+                                            <div class="mui-card-header mui-card-media">
+                                                <!-- 订单类型 用图标展示 -->
+                                                <img src="${ctx }/images/icon/contract_apply_money.png">
+                                                <div class="mui-media-body">
+                                                    <label>材料/项目内容</label>
+                                                    <p>
+                                                            ${item.content}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="mui-card-content">
+                                                <div class="mui-card-content-inner">
+                                                    <p>
+                                                        <label>单价:${item.price}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <label>规格：${item.model}</label>
+                                                    </p>
+                                                    <p>
+                                                        <label>单位：${item.unit}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <label>数量：${item.amount}</label>
+                                                    </p>
+                                                    <p>
+                                                        <label>质保期（月）：${item.warrantyDate}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <label>日期：<fmt:formatDate value="${item.date}" pattern="yyyy-MM-dd"/></label>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="mui-card-footer">
+                                                <div class="mui-pull-left">
+                                                    <label>总金额：${item.totalPrice}</label>&nbsp;&nbsp;
+                                                    <label>已結算数量：${item.settleAmout}</label>
+                                                </div>
+                                                <c:if test="${detailsVo.purchaseOrder.status == 0}">
+                                                    <div>
+                                                        <button type="button" class="mui-btn mui-btn-primary" id="deleteItem" value="${item.id}">刪除</button>
+                                                    </div>
+                                                </c:if>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                 </c:when>
+                                 <c:otherwise>
+                                    <div class="mui-input-row">
+                                        <label>无采购单单项</label>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                    </li>
                 </ul>
             </div>
-
-            <c:forEach items="${detailsVo.details}" var="item">
-                <div class="mui-card">
-                    <div class="mui-card-header mui-card-media">
-                        <!-- 订单类型 用图标展示 -->
-                        <img src="${ctx }/images/icon/contract_apply_money.png">
-                        <div class="mui-media-body">
-                            <label>材料/项目内容</label>
-                            <p>
-                                    ${item.content}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="mui-card-content">
-                        <div class="mui-card-content-inner">
-                            <p>
-                                <label>单价:${item.price}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label>规格：${item.model}</label>
-                            </p>
-                            <p>
-                                <label>单位：${item.unit}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label>数量：${item.amount}</label>
-                            </p>
-                            <p>
-                                <label>质保期（月）：${item.warrantyDate}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label>日期：<fmt:formatDate value="${item.date}" pattern="yyyy-MM-dd"/></label>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="mui-card-footer">
-                        <div class="mui-pull-left">
-                            <label>总金额：${item.totalPrice}</label>&nbsp;&nbsp;
-                            <label>已結算数量：${item.settleAmout}</label>
-                        </div>
-                        <c:if test="${detailsVo.purchaseOrder.status == 0}">
-                            <div>
-                                <button type="button" class="mui-btn mui-btn-primary" id="deleteItem" value="${item.id}">刪除</button>
-                            </div>
-                        </c:if>
-                    </div>
-                </div>
-            </c:forEach>
             <div class="mui-content-padded">
                 <c:choose>
                     <c:when test="${detailsVo.purchaseOrder.status == 0}">

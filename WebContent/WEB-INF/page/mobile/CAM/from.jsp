@@ -152,20 +152,9 @@
     mui.ready(function() {
         //供应商
         initSupplier();
-
-        //请款人
-        var url = '${ctx}/sys/getSelectAdmin';
-        $.ajax({
-            url: url, dataType: 'json',   contentType : "application/x-www-form-urlencoded",  type: 'post', timeout: 10000,
-            success: function(result) {
-                if(result != null && result.data != null && result.data.length != 0){
-                    initAdmin(result.data);
-                }
-            }
-        });
     });
 
-    function initSupplier(json){
+    function initSupplier(){
         var adminsJson = '${admins}';
         var userPicker = new mui.PopPicker();
         userPicker.setData(JSON.parse(adminsJson));
