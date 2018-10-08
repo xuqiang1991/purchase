@@ -60,8 +60,16 @@
             </div>
             <div class="mui-input-row">
                 <label>供应商</label>
-                <input type="text" id="supplierName" class="mui-input-clear" mui-verify="required" value="${order.supplier.name}">
-                <input type="hidden" id="supplierId" name="supplierId"  value="${order.supplierId}">
+                <c:choose>
+                    <c:when test="${ucamVo.id == null}">
+                        <input type="text" id="supplierName" readonly value="${admin.supplierName}">
+                        <input type="hidden" id="supplierId" name="supplierId" value="${admin.supplierId}" mui-verify="required">
+                    </c:when>
+                    <c:otherwise>
+                        <input type="text" id="supplierName" readonly value="${order.supplier.name}">
+                        <input type="hidden" id="supplierId" name="supplierId" value="${order.supplier.id}" mui-verify="required">
+                    </c:otherwise>
+                </c:choose>
             </div>
             <div>
                 <textarea name="summary" id="summary" rows="5" class="mui-input-clear" placeholder="摘要">${order.summary}</textarea>
