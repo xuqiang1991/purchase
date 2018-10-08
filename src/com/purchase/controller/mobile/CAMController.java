@@ -78,6 +78,8 @@ public class CAMController {
     @RequiresPermissions("mobile:CAM:list")
     @ResponseBody
     public ResultUtil getCAMOrderList(Integer page, Integer limit, CAMSearch search){
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        search.setLoginId(admin.getId());
         return camService.getCAMOrderList(page,limit,search);
     }
 

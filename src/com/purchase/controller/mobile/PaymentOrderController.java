@@ -74,6 +74,8 @@ public class PaymentOrderController {
     @RequiresPermissions("mobile:paymentOrder:list")
     @ResponseBody
     public ResultUtil getOrderList(Integer page, Integer limit, BizPaymentOrderSearch search){
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        search.setLoginId(admin.getId());
         return paymentOrderService.getOrderList(page,limit,search);
     }
 

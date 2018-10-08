@@ -12,6 +12,7 @@ import java.util.Date;
 public class CAMSearch {
 
     /*单号、订单类型、来源订单、供应商、所属项目、合同号、请款人、开单人、开单日期、单据状态*/
+    private Long loginId;
     private String orderNo;
     private String orderType;
     private String sourceOrderId;
@@ -28,6 +29,14 @@ public class CAMSearch {
     private Date endCreateTime;
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private String contractNo;
+
+    public Long getLoginId() {
+        return loginId;
+    }
+
+    public void setLoginId(Long loginId) {
+        this.loginId = loginId;
+    }
 
     public String getOrderNo() {
         return orderNo;

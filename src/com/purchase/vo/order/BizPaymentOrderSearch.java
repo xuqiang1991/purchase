@@ -10,6 +10,7 @@ import java.util.Date;
  */
 public class BizPaymentOrderSearch {
 
+    private Long loginId;
     private String id;
     private String orderNo;
     private Integer orderType;
@@ -28,6 +29,14 @@ public class BizPaymentOrderSearch {
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date departDate;
     private String contractNo;
+
+    public Long getLoginId() {
+        return loginId;
+    }
+
+    public void setLoginId(Long loginId) {
+        this.loginId = loginId;
+    }
 
     public String getId() {
         return id;

@@ -74,6 +74,8 @@ public class PurchaseOrderController {
     @RequiresPermissions("mobile:purchase:list")
     @ResponseBody
     public ResultUtil getOrderList(Integer page, Integer limit, BizPurchaseOrderSearch search){
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        search.setLoginId(admin.getId());
         return purchaseOrderService.getOrderList(page,limit,search);
     }
 

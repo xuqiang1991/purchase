@@ -31,6 +31,8 @@
           and c.fullname LIKE concat(concat('%',#{search.createUserName}),'%')
         </if>
       </foreach>
+      and (a.create_user = #{search.loginId} or a.apply_user = #{search.loginId}
+      or a.cost_depart_user = #{search.loginId} or a.project_depart_user = #{search.loginId} or a.manager_depart_user = #{search.loginId})
     </where>
   </sql>
 
