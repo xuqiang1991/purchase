@@ -71,7 +71,7 @@
             </div>
             <div class="mui-input-row">
                 <label>所属项目</label>
-                <a href="#selectProject">
+                <a href="#selectProject" id="app-a">
                     <label id="selectProjectText" style="width: 65%;padding-left: 0px;"><c:choose><c:when test="${empty order}">请选择所属项目</c:when><c:otherwise>${order.projectManger.name}</c:otherwise></c:choose></label>
                     <input type="hidden" id="selectProjectHidden" name="projectId" mui-verify="required" value="${order.projectId}">
                 </a>
@@ -169,6 +169,11 @@
 
         //订单类型
         initOrderType();
+
+        var appA = document.getElementById('app-a');
+        appA.addEventListener('tap', function(event) {
+            $project.projectList();
+        },false);
 
     });
 

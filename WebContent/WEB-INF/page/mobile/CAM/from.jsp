@@ -53,7 +53,7 @@
             </div>
             <div class="mui-input-row">
                 <label>来源订单</label>
-                <a href="#selectProject">
+                <a href="#selectProject" id="app-a">
                     <label id="selectProjectText" style="width: 65%;padding-left: 0px;"><c:choose><c:when test="${empty order}">请选择来源订单</c:when><c:otherwise>${order.purchaseOrderVo.purchaseNo}</c:otherwise></c:choose></label>
                     <input type="hidden" id="selectProjectHidden" name="sourceOrderId" value="${order.sourceOrderId}">
                 </a>
@@ -160,6 +160,10 @@
     mui.ready(function() {
         //供应商
         initSupplier();
+        var appA = document.getElementById('app-a');
+        appA.addEventListener('tap', function(event) {
+            $purchaseOrder.projectList();
+        },false);
     });
 
     function initSupplier(){

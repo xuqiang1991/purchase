@@ -70,8 +70,8 @@
             </div>
             <div class="mui-input-row">
                 <label>所属项目</label>
-                <a href="#selectProjectManger">
-                    <label id="projectIdText" style="width: 65%;padding-left: 0px;">
+                <a href="#selectProject" id="app-a">
+                    <label id="selectProjectText" style="width: 65%;padding-left: 0px;">
                         <c:choose>
                             <c:when test="${paVo.id == null}">
                                 请选择所属项目
@@ -81,7 +81,7 @@
                             </c:otherwise>
                         </c:choose>
                     </label>
-                    <input type="hidden" id="projectIdHidden" name="projectId" value="${paVo.tpm.id}" mui-verify="required">
+                    <input type="hidden" id="selectProjectHidden" name="projectId" value="${paVo.tpm.id}" mui-verify="required">
                 </a>
             </div>
             <div>
@@ -106,8 +106,7 @@
 </div>
 
 
-
-<div id="selectProjectManger" class="mui-page">
+<div id="selectProject" class="mui-page">
     <div class="mui-navbar-inner mui-bar mui-bar-nav">
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>返回
@@ -117,24 +116,43 @@
     <div class="mui-page-content">
         <div class="mui-scroll-wrapper">
             <div class="mui-input-row mui-search">
-                <input type="search" class="mui-input-clear" placeholder="请输入搜索条件" style="width: 100%;">
-            </div>
-            <div class="mui-scroll">
-                <ul id="selectProjectMangerUl" class="mui-table-view mui-table-view-radio">
-                    <li class="mui-table-view-cell" data-id="1" data-text="Item 1">
-                        <a class="mui-navigate-right">Item 1</a>
+                <ul class="mui-table-view" style="margin: 5px 15px 10px;z-index: 100">
+                    <li class="mui-table-view-cell mui-collapse" id="searchCollapse">
+                        <a class="mui-navigate-right" href="#">搜索</a>
+                        <div class="mui-collapse-content">
+                            <div class="mui-collapse-content">
+                                <form class="mui-input-group" id="searchForm">
+                                    <div class="mui-input-row">
+                                        <label>名称</label>
+                                        <input type="text" placeholder="项目名称" name="name">
+                                    </div>
+                                    <div class="mui-input-row">
+                                        <label>项目简称</label>
+                                        <input type="text" placeholder="项目简称" name="shortName">
+                                    </div>
+                                    <div class="mui-button-row">
+                                        <button class="mui-btn mui-btn-primary" id="search-btn" type="button">确认</button>&nbsp;&nbsp;
+                                        <button class="mui-btn mui-btn-danger"  id="cancel-btn" type="button">取消</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </li>
-                    <li class="mui-table-view-cell" data-id="2" data-text="手机号 1">
-                        <a class="mui-navigate-right">手机号 1</a>
-                    </li>
-                    <li class="mui-table-view-cell" data-id="3" data-text="邮箱地址 1">
-                        <a class="mui-navigate-right">邮箱地址 1</a>
-                    </li>
-
                 </ul>
-                <div class="mui-button-row" style="padding-bottom: 20px;">
-                    <button type="button" class="mui-btn mui-btn-primary account-cancel" onclick="cancel();">取消</button>&nbsp;&nbsp;
-                    <button type="button" class="mui-btn mui-btn-danger account-ensure" onclick="projectMangerEnsure('selectProjectManger','projectIdText','projectIdHidden');">确定</button>
+            </div>
+            <div class="mui-scroll"  style="height: 100%;">
+                <!--下拉刷新容器-->
+                <div id="projectRefreshContainer" class="mui-content mui-scroll-wrapper">
+                    <div class="mui-scroll">
+                        <!--数据列表-->
+                        <ul id="selectProjectUl" class="mui-table-view mui-table-view-radio projectRefreshContainerData">
+
+                        </ul>
+                        <div class="mui-button-row" style="padding-bottom: 20px;">
+                            <button type="button" class="mui-btn mui-btn-primary account-cancel" onclick="cancel();">取消</button>&nbsp;&nbsp;
+                            <button type="button" class="mui-btn mui-btn-danger account-ensure" onclick="projectEnsure('selectProject','selectProjectText','selectProjectHidden');">确定</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -142,17 +160,20 @@
     </div>
 </div>
 
+
+
+
 <script src="${ctx }/mui/js/mui.min.js"></script>
 <script src="${ctx }/js/jquery-1.11.1.js"></script>
 <script src="${ctx }/mui/js/mui.picker.min.js"></script>
 <script src="${ctx }/mui/js/mui.view.js"></script>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/handlebars.js/2.0.0-alpha.4/handlebars.js"></script>
 <script type="text/javascript" charset="utf-8">
     mui.init();
     //初始化单页view
     var viewApi = mui('#app').view({
         defaultPage: '#setting'
     });
-    var view = viewApi.view;
 
     mui.ready(function() {
         var adminsJson = '${admins}';
@@ -182,42 +203,101 @@
             });
         }, false);
 
-
-
-        var pmItem = '${pmItem}';
-        buiderProjectManger(pmItem);
-
+        var appA = document.getElementById('app-a');
+        appA.addEventListener('tap', function(event) {
+            $project.projectList();
+        },false);
     });
 
-    //处理view的后退与webview后退
-    var oldBack = mui.back;
-    mui.back = function() {
-        if (viewApi.canBack()) { //如果view可以后退，则执行view的后退
-            viewApi.back();
-        } else { //执行webview后退
-            oldBack();
-        }
-    };
-    view.addEventListener('pageBack', function(e) {
-        console.log(e.detail.page.id + ' back');
+    /** start 选择所属项目 **/
+    mui(document.body).on('tap', '#search-btn', function(e) {
+        $('#searchCollapse').removeClass('mui-active')
+        $project.projectList();
     });
 
-    function buiderProjectManger(obj){
-        var selectProjectMangerUl = $("#selectProjectMangerUl");
-        var items = JSON.parse(obj);
-        if(items.length > 0){
-            var html = "";
-            for(var i = 0; i < items.length; i++){
-                console.log(items[i]);
-                var id = items[i].id;
-                var text = items[i].projectNo + "-" + items[i].name;
-                html += "<li class='mui-table-view-cell' data-id='" + id + "' data-text='" + text + "'><a class='mui-navigate-right'>" + text + "</a></li>";
+    mui(document.body).on('tap', '#cancel-btn', function(e) {
+        $('#searchCollapse').removeClass('mui-active')
+    });
+
+    //选择项目
+    var $project = {
+        list : mui('#projectRefreshContainer'),
+        page : 1, //当前页
+        limit :  10, //每页显示条数
+        enablePullUp : true, //是否加载
+        projectList:function () {
+            this.list.pullRefresh({
+                down : {
+                    style:'circle',//必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+                    auto: true,//可选,默认false.首次加载自动上拉刷新一次
+                    callback :this.billRefresh
+                },
+                up: {
+                    auto:false,
+                    contentrefresh: '正在加载...',
+                    contentnomore:'',
+                    callback: this.billLoad
+                }
+            })
+        },
+        billLoad : function() {
+            if (!$project.enablePullUp) {
+                $project.list.pullRefresh().endPullupToRefresh(false);
+                mui.toast("没有更多数据了");
+                return;
             }
-            $(selectProjectMangerUl).html(html);
+            $project.page++;
+            $project.getBill();
+            $project.list.pullRefresh().endPullupToRefresh(false);
+        },
+        billRefresh : function() {
+            $('.projectRefreshContainerData').empty();
+            $project.enablePullUp = true;
+            $project.page = 1;
+            $project.getBill();
+
+            $project.list.pullRefresh().endPulldownToRefresh();
+        },
+        getBill: function () {
+            var url = '${ctx}/projectManger/findProjectMangerList?' + 'limit=' + $project.limit + '&page=' + $project.page;
+            mui.toast("加载中...",1000);
+            $.ajax({
+                url: url,
+                data: $('#searchForm').serialize(),
+                dataType: 'json',
+                contentType : "application/x-www-form-urlencoded",
+                type: 'post',
+                timeout: 10000,
+                success: function(result) {
+                    if(result.data != null && result.data.length != 0){
+                        var data = result.data;
+                        // 请求成功
+                        var listTargt = $('.projectRefreshContainerData')
+
+                        var tpl = $("#listTpl").html();
+                        //预编译模板
+                        var template = Handlebars.compile(tpl);
+
+                        //匹配json内容
+                        var html = template({data});//data
+                        //输入模板
+                        listTargt.append(html);
+
+                        if (data.length < this.limit) {
+                            $project.enablePullUp = false;
+                        }
+                    }
+                },
+                error: function () {
+                    $project.list.pullRefresh().endPullupToRefresh(false); //参数为true代表没有更多数据了。
+                    $project.list.pullRefresh().endPulldownToRefresh(); //refresh completed
+                    $project.enablePullUp = false;
+                }
+            });
         }
     }
 
-
+    var oldBack = mui.back;
     function cancel(){
         if (viewApi.canBack()) { //如果view可以后退，则执行view的后退
             viewApi.back();
@@ -225,7 +305,7 @@
             oldBack();
         }
     }
-    function projectMangerEnsure(flag,callText,callValue){
+    function projectEnsure(flag,callText,callValue){
         var accountSelected = $("#" + flag).find("li").hasClass("mui-selected");
         if(accountSelected){
             var li = $("#" + flag).find("li.mui-selected");
@@ -278,6 +358,13 @@
         }
 
     }
+</script>
+<script type="text/template" id="listTpl">
+    {{#each data}}
+    <li class="mui-table-view-cell" data-id="{{id}}" data-text="{{name}}">
+        <a class="mui-navigate-right">{{name}}</a>
+    </li>
+    {{/each}}
 </script>
 </body>
 </html>
