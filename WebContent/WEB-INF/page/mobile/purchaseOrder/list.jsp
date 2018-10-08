@@ -394,7 +394,7 @@
                 {{#unless status}}
                  <button type="button" class="mui-btn mui-btn-primary toUpdate" value="{{id}}">修改</button>
                 {{/unless}}
-                <button type="button" class="mui-btn mui-btn-primary toDetails"  value="{{id}}">详情</button>
+                <%--<button type="button" class="mui-btn mui-btn-primary toDetails"  value="{{id}}">详情</button>--%>
             </div>
         </div>
     </div>
