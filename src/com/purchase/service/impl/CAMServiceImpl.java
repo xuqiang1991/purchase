@@ -7,12 +7,12 @@ import com.purchase.mapper.admin.TbAdminMapper;
 import com.purchase.mapper.admin.TbSupplierMapper;
 import com.purchase.mapper.order.BizContractApplyMoneyDetailMapper;
 import com.purchase.mapper.order.BizContractApplyMoneyMapper;
-import com.purchase.mapper.order.BizPaymentOrderMapper;
 import com.purchase.mapper.order.BizPurchaseOrderMapper;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.*;
 import com.purchase.service.CAMService;
+import com.purchase.service.PaymentOrderService;
 import com.purchase.service.PurchaseOrderService;
 import com.purchase.util.*;
 import com.purchase.vo.OrderHistory;
@@ -65,7 +65,7 @@ public class CAMServiceImpl implements CAMService {
     private PurchaseOrderService purchaseOrderService;
 
     @Autowired
-    private BizPaymentOrderMapper paymentOrderMapper;
+    private PaymentOrderService paymentOrderService;
 
 
     @Override
@@ -469,49 +469,12 @@ public class CAMServiceImpl implements CAMService {
 
         //总经理审核写入付款单
         if(PurchaseUtil.STATUS_3 == status){
-            generatePaymenyOrder(order);
+            paymentOrderService.generatePaymenyOrder(order);
         }
-
 
         return ResultUtil.ok();
     }
 
-    /**
-     * 生产付款单
-     */
-    private void generatePaymenyOrder(BizContractApplyMoney order){
-        Date date = new Date();
-        BizPaymentOrder paymentOrder = new BizPaymentOrder();
 
-        String id = WebUtils.generateUUID();
-        paymentOrder.setId(id);
-        //生成订单号
-        String yyddmm = DateUtil.formatDate(date, DateUtil.DateFormat3);
-        String prefix = PaymentOrderUtil.prefix + yyddmm;
-        String pn = paymentOrderMapper.selMaxOrderNo(prefix);
-        String purchaseNo = CAMUtil.generateOrderNo(pn);
-        paymentOrder.setOrderNo(purchaseNo);
-
-
-        paymentOrder.setCreateUser(order.getApplyUser());
-        paymentOrder.setCreateTime(order.getCreateTime());
-        paymentOrder.setSupplierId(order.getSupplierId());
-        paymentOrder.setApplyType(0);
-        paymentOrder.setApplyUser(order.getApplyUser());
-
-        TbAdmin applyAdmin = adminMapper.selectByPrimaryKey(order.getApplyUser());
-        paymentOrder.setApplyUserPhone(applyAdmin.getPhone());
-
-        paymentOrder.setProjectId(order.getProjectId());
-
-        String sourceOrderId = order.getSourceOrderId();
-        BizPurchaseOrder purchaseOrder = purchaseOrderMapper.selectByPrimaryKey(sourceOrderId);
-        paymentOrder.setContractId(purchaseOrder.getContractNo());
-
-        paymentOrder.setApplyPrice(order.getApplyPrice());
-        paymentOrder.setApprovalPrice(order.getActualPrice());
-
-        paymentOrderMapper.insertSelective(paymentOrder);
-    }
 }
 

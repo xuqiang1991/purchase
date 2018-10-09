@@ -2,16 +2,15 @@ package com.purchase.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.purchase.mapper.admin.TbAdminMapper;
 import com.purchase.mapper.admin.TbDepartmentMapper;
 import com.purchase.mapper.order.BizPaymentOrderMapper;
+import com.purchase.mapper.order.BizPurchaseOrderMapper;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbDepartment;
-import com.purchase.pojo.order.BizPaymentOrder;
-import com.purchase.pojo.order.BizPaymentOrderExample;
-import com.purchase.pojo.order.BizPurchaseOrder;
+import com.purchase.pojo.order.*;
 import com.purchase.service.PaymentOrderService;
-import com.purchase.util.PurchaseUtil;
-import com.purchase.util.ResultUtil;
+import com.purchase.util.*;
 import com.purchase.vo.order.BizPaymentOrderSearch;
 import com.purchase.vo.order.BizPaymentOrderVo;
 import org.apache.commons.lang.StringUtils;
@@ -37,6 +36,12 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
 
     @Autowired
     private TbDepartmentMapper departmentMapper;
+
+    @Autowired
+    private TbAdminMapper adminMapper;
+
+    @Autowired
+    private BizPurchaseOrderMapper purchaseOrderMapper;
 
     @Override
     public ResultUtil getOrderList(Integer page, Integer limit, BizPaymentOrderSearch search) {
@@ -144,4 +149,80 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         return ResultUtil.ok();
 
     }
+
+
+
+    /**
+     * 合同内生产付款单
+     */
+    public void generatePaymenyOrder(BizContractApplyMoney order){
+        Date date = new Date();
+        BizPaymentOrder paymentOrder = new BizPaymentOrder();
+
+        String id = WebUtils.generateUUID();
+        paymentOrder.setId(id);
+        //生成订单号
+        String yyddmm = DateUtil.formatDate(date, DateUtil.DateFormat3);
+        String prefix = PaymentOrderUtil.prefix + yyddmm;
+        String pn = bizPaymentOrderMapper.selMaxOrderNo(prefix);
+        String purchaseNo = CAMUtil.generateOrderNo(pn);
+        paymentOrder.setOrderNo(purchaseNo);
+
+
+        paymentOrder.setCreateUser(order.getApplyUser());
+        paymentOrder.setCreateTime(order.getCreateTime());
+        paymentOrder.setSupplierId(order.getSupplierId());
+        paymentOrder.setApplyType(0);
+        paymentOrder.setApplyUser(order.getApplyUser());
+
+        TbAdmin applyAdmin = adminMapper.selectByPrimaryKey(order.getApplyUser());
+        paymentOrder.setApplyUserPhone(applyAdmin.getPhone());
+
+        paymentOrder.setProjectId(order.getProjectId());
+
+        String sourceOrderId = order.getSourceOrderId();
+        BizPurchaseOrder purchaseOrder = purchaseOrderMapper.selectByPrimaryKey(sourceOrderId);
+        paymentOrder.setContractId(purchaseOrder.getContractNo());
+
+        paymentOrder.setApplyPrice(order.getApplyPrice());
+        paymentOrder.setApprovalPrice(order.getActualPrice());
+
+        bizPaymentOrderMapper.insertSelective(paymentOrder);
+    }
+
+    /**
+     * 合同外生产付款单
+     */
+    public void generatePaymenyOrder(BizUncontractApplyMoney order){
+        Date date = new Date();
+        BizPaymentOrder paymentOrder = new BizPaymentOrder();
+
+        String id = WebUtils.generateUUID();
+        paymentOrder.setId(id);
+        //生成订单号
+        String yyddmm = DateUtil.formatDate(date, DateUtil.DateFormat3);
+        String prefix = PaymentOrderUtil.prefix + yyddmm;
+        String pn = bizPaymentOrderMapper.selMaxOrderNo(prefix);
+        String purchaseNo = CAMUtil.generateOrderNo(pn);
+        paymentOrder.setOrderNo(purchaseNo);
+
+
+        paymentOrder.setCreateUser(order.getApplyUser());
+        paymentOrder.setCreateTime(order.getCreateTime());
+        paymentOrder.setSupplierId(order.getSupplierId());
+        paymentOrder.setApplyType(0);
+        paymentOrder.setApplyUser(order.getApplyUser());
+
+        TbAdmin applyAdmin = adminMapper.selectByPrimaryKey(order.getApplyUser());
+        paymentOrder.setApplyUserPhone(applyAdmin.getPhone());
+
+        paymentOrder.setProjectId(order.getProjectId());
+
+        paymentOrder.setApplyPrice(order.getApplyPrice());
+        paymentOrder.setApprovalPrice(order.getActualPrice());
+
+        bizPaymentOrderMapper.insertSelective(paymentOrder);
+    }
+
+
 }

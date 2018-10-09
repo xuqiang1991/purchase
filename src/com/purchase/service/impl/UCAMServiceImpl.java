@@ -11,6 +11,7 @@ import com.purchase.pojo.order.BizUncontractApplyMoney;
 import com.purchase.pojo.order.BizUncontractApplyMoneyDetail;
 import com.purchase.pojo.order.BizUncontractApplyMoneyDetailExample;
 import com.purchase.pojo.order.BizUncontractApplyMoneyExample;
+import com.purchase.service.PaymentOrderService;
 import com.purchase.service.UCAMService;
 import com.purchase.util.*;
 import com.purchase.vo.OrderHistory;
@@ -52,6 +53,9 @@ public class UCAMServiceImpl implements UCAMService {
 
     @Autowired
     private TbAdminMapper adminMapper;
+
+    @Autowired
+    private PaymentOrderService paymentOrderService;
 
     /**
      * 合同外请款单单号前缀
@@ -438,6 +442,11 @@ public class UCAMServiceImpl implements UCAMService {
         order.setUpdateDate(date);
 
         ucamMapper.updateByPrimaryKeySelective(order);
+
+        //总经理审核写入付款单
+        if(PurchaseUtil.STATUS_3 == order.getStatus()){
+            paymentOrderService.generatePaymenyOrder(order);
+        }
 
         return ResultUtil.ok();
     }
