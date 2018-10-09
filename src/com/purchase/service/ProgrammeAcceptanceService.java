@@ -18,7 +18,7 @@ public interface ProgrammeAcceptanceService {
 
     ResultUtil savePAOOrder(BizProgrammeAcceptanceOrder order);
 
-    ProgrammeAcceptanceVo selPAOOrder(String id);
+    ProgrammeAcceptanceVo selPAOOrder(String id, Long adminId);
 
     ResultUtil selPAOOrderByOrder(String orderNo);
 
@@ -26,7 +26,7 @@ public interface ProgrammeAcceptanceService {
 
     ResultUtil submitPAOOrder(String id);
 
-    ProgrammeAcceptanceDetialVo selPAODetail(String id);
+    ProgrammeAcceptanceDetialVo selPAODetail(String id,Long adminId);
 
     ResultUtil addPAOOrderDetail(BizProgrammeAcceptanceOrderDetail order);
 

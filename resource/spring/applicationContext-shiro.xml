@@ -61,10 +61,14 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         <property name="globalSessionTimeout" value="86400000"/>
         <!-- 删除失效的session -->
         <property name="deleteInvalidSessions" value="true"/>
-    </bean>
-	
-	
-		<!-- 自定义Realm -->
+		<property name="sessionIdCookie" ref="sessionIdCookie"/>
+	</bean>
+	<!-- 指定本系统SESSIONID, 默认为: JSESSIONID 问题: 与SERVLET容器名冲突, 如JETTY, TOMCAT 等默认JSESSIONID,        当跳出SHIRO SERVLET时如ERROR-PAGE容器会为JSESSIONID重新分配值导致登录会话丢失! -->
+	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<constructor-arg name="name" value="purchase.session.id"/>
+	</bean>
+
+	<!-- 自定义Realm -->
 	<bean id="customRealm" class="com.purchase.shiro.CustomRealm">
 		<!-- 将凭证匹配器设置到realm中，realm按照凭证匹配器的要求进行散列 -->
 		<property name="credentialsMatcher" ref="credentialsMatcher"/>

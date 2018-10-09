@@ -95,7 +95,8 @@ public class ProgrammeAcceptanceController {
         String id = req.getParameter("id");
         ProgrammeAcceptanceVo paVo = new ProgrammeAcceptanceVo();
         if(!StringUtils.isEmpty(id)){
-            paVo = paService.selPAOOrder(id);
+            Long adminId = admin.getId();
+            paVo = paService.selPAOOrder(id,adminId);
         }
         req.setAttribute("paVo",paVo);
         return "page/mobile/programmeAcceptance/from";
@@ -134,7 +135,9 @@ public class ProgrammeAcceptanceController {
     @RequestMapping("/toDetails/{id}")
     @RequiresPermissions("mobile:programmeAcceptance:details")
     public String toDetails(@PathVariable("id") String id, Model model){
-        ProgrammeAcceptanceDetialVo detailsVo = paService.selPAODetail(id);
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        Long adminId = admin.getId();
+        ProgrammeAcceptanceDetialVo detailsVo = paService.selPAODetail(id,adminId);
         model.addAttribute("detailsVo",detailsVo);
         return "page/mobile/programmeAcceptance/details";
     }

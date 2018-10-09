@@ -129,7 +129,9 @@ public class UCAMController {
     @RequestMapping("/toDetails/{id}")
     @RequiresPermissions("mobile:UCAM:details")
     public String toDetails(@PathVariable("id") String id, Model model){
-        UCAMOrderDetialVo detailsVo = ucamService.selUCAMDetail(id);
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        Long adminId = admin.getId();
+        UCAMOrderDetialVo detailsVo = ucamService.selUCAMDetail(id,adminId);
         model.addAttribute("detailsVo",detailsVo);
         return "page/mobile/UCAM/details";
     }

@@ -223,7 +223,7 @@ public class UCAMServiceImpl implements UCAMService {
     }*/
 
     @Override
-    public UCAMOrderDetialVo selUCAMDetail(String id) {
+    public UCAMOrderDetialVo selUCAMDetail(String id, Long adminId) {
         UCAMOrderDetialVo ucamOrderDetialVo = new UCAMOrderDetialVo();
         try {
             BizUncontractApplyMoneyExample example = new BizUncontractApplyMoneyExample();
@@ -231,6 +231,7 @@ public class UCAMServiceImpl implements UCAMService {
             criteria.andIdEqualTo(id);
             UCAMSearch search = new UCAMSearch();
             search.setId(id);
+            search.setLoginId(adminId);
             List<UCAMVo> ucamList = ucamMapper.selectByExampleExt(example,search);
             UCAMVo vo = new UCAMVo();
             if(!CollectionUtils.isEmpty(ucamList)){

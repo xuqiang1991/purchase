@@ -29,7 +29,7 @@ public interface UCAMService {
 
     /*ResultUtil reviewUCAMOrder(TbAdmin admin, String id);*/
 
-    UCAMOrderDetialVo selUCAMDetail(String id);
+    UCAMOrderDetialVo selUCAMDetail(String id, Long adminId);
 
     ResultUtil addUCAMOrderDetail(BizUncontractApplyMoneyDetail ucamDetail);
 

@@ -138,7 +138,7 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
     }
 
     @Override
-    public ProgrammeAcceptanceVo selPAOOrder(String id) {
+    public ProgrammeAcceptanceVo selPAOOrder(String id, Long adminId) {
         BizProgrammeAcceptanceOrderExample example = new BizProgrammeAcceptanceOrderExample();
         //设置按创建时间降序排序
         example.setOrderByClause("update_date DESC");
@@ -146,6 +146,7 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
         criteria.andIdEqualTo(id);
         ProgrammeAcceptanceSearch search = new ProgrammeAcceptanceSearch();
         search.setId(id);
+        search.setLoginId(adminId);
         List<ProgrammeAcceptanceVo> paList = paoMapper.selectByExampleExt(example,search);
         if(!CollectionUtils.isEmpty(paList)){
             return paList.get(0);
@@ -200,7 +201,7 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
     }
 
     @Override
-    public ProgrammeAcceptanceDetialVo selPAODetail(String id) {
+    public ProgrammeAcceptanceDetialVo selPAODetail(String id,  Long adminId) {
         ProgrammeAcceptanceDetialVo paOrderDetialVo = new ProgrammeAcceptanceDetialVo();
         try {
             BizProgrammeAcceptanceOrderExample example = new BizProgrammeAcceptanceOrderExample();
@@ -208,6 +209,7 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
             criteria.andIdEqualTo(id);
             ProgrammeAcceptanceSearch search = new ProgrammeAcceptanceSearch();
             search.setId(id);
+            search.setLoginId(adminId);
             List<ProgrammeAcceptanceVo> pavList = paoMapper.selectByExampleExt(example,search);
             ProgrammeAcceptanceVo vo = new ProgrammeAcceptanceVo();
             if(!CollectionUtils.isEmpty(pavList)){
