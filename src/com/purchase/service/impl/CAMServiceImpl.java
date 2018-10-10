@@ -450,11 +450,13 @@ public class CAMServiceImpl implements CAMService {
             tmp.setProjectDepartUser(applyUser);
         } else if (CAMUtil.STATUS_2 == status) {
             tmp.setStatus(CAMUtil.STATUS_3);
+            tmp.setProjectDepartApproval(auditResults);
             tmp.setProjectDepartDate(date);
             tmp.setProjectDepartOpinion(auditOpinion);
             tmp.setManagerDepartUser(applyUser);
         } else if (CAMUtil.STATUS_3 == status) {
             tmp.setStatus(CAMUtil.STATUS_4);
+            tmp.setManagerDepartApproval(auditResults);
             tmp.setManagerDepartDate(date);
             tmp.setManagerDepartOpinion(auditOpinion);
         } else if (CAMUtil.STATUS_4 == status) {
@@ -471,6 +473,13 @@ public class CAMServiceImpl implements CAMService {
         //总经理审核写入付款单
         if(PurchaseUtil.STATUS_3 == status){
             paymentOrderService.generatePaymenyOrder(order);
+
+
+            //回写采购单
+            BizPurchaseOrder tmp1 = new BizPurchaseOrder();
+            tmp1.setId(id);
+            tmp1.setRequestAmount(order.getApplyPrice());
+            purchaseOrderMapper.updateByPrimaryKeySelective(tmp1);
         }
 
         return ResultUtil.ok();

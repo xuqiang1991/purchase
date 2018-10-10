@@ -42,7 +42,10 @@
     <result column="manager_depart_user" jdbcType="BIGINT" property="managerDepartUser" />
     <result column="manager_depart_date" jdbcType="TIMESTAMP" property="managerDepartDate" />
     <result column="manager_depart_opinion" jdbcType="VARCHAR" property="managerDepartOpinion" />
-    <result column="finance_payment" jdbcType="INTEGER" property="financePayment" />
+    <result column="finance_payment_approval" jdbcType="BIT" property="financePaymentApproval" />
+    <result column="finance_payment_user" jdbcType="BIGINT" property="financePaymentUser" />
+    <result column="finance_payment_date" jdbcType="TIMESTAMP" property="financePaymentDate" />
+    <result column="finance_payment_opinion" jdbcType="VARCHAR" property="financePaymentOpinion" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -109,7 +112,8 @@
     advance_rate, cost_rate, financial_rate, tax_rate, contract_volume, finish_measure, 
     amount_paid, paid_proportion, payment_proportion, invoice_type, special_tax_rate, 
     quality_grade, quality_assessor, status, summary, manager_depart_approval, manager_depart_user, 
-    manager_depart_date, manager_depart_opinion, finance_payment
+    manager_depart_date, manager_depart_opinion, finance_payment_approval, finance_payment_user, 
+    finance_payment_date, finance_payment_opinion
   </sql>
   <select id="selectByExample" parameterType="com.purchase.pojo.order.BizPaymentOrderExample" resultMap="BaseResultMap">
     select
@@ -155,7 +159,9 @@
       invoice_type, special_tax_rate, quality_grade, 
       quality_assessor, status, summary, 
       manager_depart_approval, manager_depart_user, manager_depart_date, 
-      manager_depart_opinion, finance_payment)
+      manager_depart_opinion, finance_payment_approval, 
+      finance_payment_user, finance_payment_date, 
+      finance_payment_opinion)
     values (#{id,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{applyType,jdbcType=INTEGER}, 
       #{applyNature,jdbcType=INTEGER}, #{createUser,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
       #{supplierId,jdbcType=BIGINT}, #{applyUser,jdbcType=BIGINT}, #{applyUserPhone,jdbcType=VARCHAR}, 
@@ -169,7 +175,9 @@
       #{invoiceType,jdbcType=INTEGER}, #{specialTaxRate,jdbcType=DOUBLE}, #{qualityGrade,jdbcType=INTEGER}, 
       #{qualityAssessor,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, #{summary,jdbcType=VARCHAR}, 
       #{managerDepartApproval,jdbcType=BIT}, #{managerDepartUser,jdbcType=BIGINT}, #{managerDepartDate,jdbcType=TIMESTAMP}, 
-      #{managerDepartOpinion,jdbcType=VARCHAR}, #{financePayment,jdbcType=INTEGER})
+      #{managerDepartOpinion,jdbcType=VARCHAR}, #{financePaymentApproval,jdbcType=BIT}, 
+      #{financePaymentUser,jdbcType=BIGINT}, #{financePaymentDate,jdbcType=TIMESTAMP}, 
+      #{financePaymentOpinion,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.purchase.pojo.order.BizPaymentOrder">
     insert into biz_payment_order
@@ -294,8 +302,17 @@
       <if test="managerDepartOpinion != null">
         manager_depart_opinion,
       </if>
-      <if test="financePayment != null">
-        finance_payment,
+      <if test="financePaymentApproval != null">
+        finance_payment_approval,
+      </if>
+      <if test="financePaymentUser != null">
+        finance_payment_user,
+      </if>
+      <if test="financePaymentDate != null">
+        finance_payment_date,
+      </if>
+      <if test="financePaymentOpinion != null">
+        finance_payment_opinion,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -419,8 +436,17 @@
       <if test="managerDepartOpinion != null">
         #{managerDepartOpinion,jdbcType=VARCHAR},
       </if>
-      <if test="financePayment != null">
-        #{financePayment,jdbcType=INTEGER},
+      <if test="financePaymentApproval != null">
+        #{financePaymentApproval,jdbcType=BIT},
+      </if>
+      <if test="financePaymentUser != null">
+        #{financePaymentUser,jdbcType=BIGINT},
+      </if>
+      <if test="financePaymentDate != null">
+        #{financePaymentDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="financePaymentOpinion != null">
+        #{financePaymentOpinion,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -553,8 +579,17 @@
       <if test="record.managerDepartOpinion != null">
         manager_depart_opinion = #{record.managerDepartOpinion,jdbcType=VARCHAR},
       </if>
-      <if test="record.financePayment != null">
-        finance_payment = #{record.financePayment,jdbcType=INTEGER},
+      <if test="record.financePaymentApproval != null">
+        finance_payment_approval = #{record.financePaymentApproval,jdbcType=BIT},
+      </if>
+      <if test="record.financePaymentUser != null">
+        finance_payment_user = #{record.financePaymentUser,jdbcType=BIGINT},
+      </if>
+      <if test="record.financePaymentDate != null">
+        finance_payment_date = #{record.financePaymentDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.financePaymentOpinion != null">
+        finance_payment_opinion = #{record.financePaymentOpinion,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -603,7 +638,10 @@
       manager_depart_user = #{record.managerDepartUser,jdbcType=BIGINT},
       manager_depart_date = #{record.managerDepartDate,jdbcType=TIMESTAMP},
       manager_depart_opinion = #{record.managerDepartOpinion,jdbcType=VARCHAR},
-      finance_payment = #{record.financePayment,jdbcType=INTEGER}
+      finance_payment_approval = #{record.financePaymentApproval,jdbcType=BIT},
+      finance_payment_user = #{record.financePaymentUser,jdbcType=BIGINT},
+      finance_payment_date = #{record.financePaymentDate,jdbcType=TIMESTAMP},
+      finance_payment_opinion = #{record.financePaymentOpinion,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -728,8 +766,17 @@
       <if test="managerDepartOpinion != null">
         manager_depart_opinion = #{managerDepartOpinion,jdbcType=VARCHAR},
       </if>
-      <if test="financePayment != null">
-        finance_payment = #{financePayment,jdbcType=INTEGER},
+      <if test="financePaymentApproval != null">
+        finance_payment_approval = #{financePaymentApproval,jdbcType=BIT},
+      </if>
+      <if test="financePaymentUser != null">
+        finance_payment_user = #{financePaymentUser,jdbcType=BIGINT},
+      </if>
+      <if test="financePaymentDate != null">
+        finance_payment_date = #{financePaymentDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="financePaymentOpinion != null">
+        finance_payment_opinion = #{financePaymentOpinion,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -775,7 +822,10 @@
       manager_depart_user = #{managerDepartUser,jdbcType=BIGINT},
       manager_depart_date = #{managerDepartDate,jdbcType=TIMESTAMP},
       manager_depart_opinion = #{managerDepartOpinion,jdbcType=VARCHAR},
-      finance_payment = #{financePayment,jdbcType=INTEGER}
+      finance_payment_approval = #{financePaymentApproval,jdbcType=BIT},
+      finance_payment_user = #{financePaymentUser,jdbcType=BIGINT},
+      finance_payment_date = #{financePaymentDate,jdbcType=TIMESTAMP},
+      finance_payment_opinion = #{financePaymentOpinion,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

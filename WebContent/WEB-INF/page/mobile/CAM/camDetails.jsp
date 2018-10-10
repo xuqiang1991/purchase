@@ -89,13 +89,6 @@
                             <div>
                                 <textarea name="summary" id="summary" rows="5" class="mui-input-clear" readonly="readonly">${detailsVo.order.summary}</textarea>
                             </div>
-                            <c:if test="${detailsVo.order.status == 0}">
-                                <div class="mui-button-row" style="padding-bottom: 20px;">
-                                    <a href="#fromPurchaseOrderItem">
-                                        <label id="selectProjectText" style="width: 65%;padding-left: 0px;">增加合同内请款单项</label>
-                                    </a>
-                                </div>
-                            </c:if>
                         </div>
                     </li>
                     <li class="mui-table-view-cell mui-collapse">
@@ -182,6 +175,9 @@
             <div class="mui-content-padded">
                 <c:choose>
                     <c:when test="${detailsVo.order.status == 0}">
+                        <a href="#fromPurchaseOrderItem">
+                            <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加合同内请款单项</button>
+                        </a>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="orderDetails">提交</button>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="deletePurchaseOrder" value="${detailsVo.order.id}">删除</button>
                     </c:when>
@@ -212,28 +208,40 @@
                 <form class="mui-input-group" id="addFromPurchaseOrderItem">
                     <div class="mui-input-row">
                         <label>施工部位</label>
-                        <input type="text" name="constructionSite" class="mui-input-clear" mui-verify="required">
+                        <input type="text" name="constructionSite" class="mui-input-clear" mui-verify="required" placeholder="请输入数量">
                     </div>
                     <div class="mui-input-row">
                         <label>项目内容</label>
-                        <input type="text" name="projectContent" class="mui-input-clear" mui-verify="required">
+                        <input type="text" name="projectContent" class="mui-input-clear" mui-verify="required" placeholder="请输入项目内容">
                     </div>
                     <div class="mui-input-row">
                         <label>规格型号</label>
-                        <input type="text" name="model" class="mui-input-clear" mui-verify="required">
+                        <input type="text" name="model" class="mui-input-clear" mui-verify="required" placeholder="请输入规格型号">
                     </div>
                     <div class="mui-input-row">
                         <label>单位</label>
-                        <input type="text" name="unit" class="mui-input-clear" mui-verify="required">
+                        <input type="text" name="unit" class="mui-input-clear" mui-verify="required" placeholder="请输入单位">
                     </div>
                     <div class="mui-input-row">
                         <label>结算数量</label>
-                        <input type="number" name="settleAmout" class="mui-input-clear" mui-verify="required">
+                        <input type="number" name="settleAmout" class="mui-input-clear" mui-verify="required" placeholder="请输入结算数量">
                     </div>
                     <div class="mui-input-row">
                         <label>结算金额</label>
-                        <input type="number" name="settlePrice" class="mui-input-clear" mui-verify="required">
+                        <input type="number" name="settlePrice" class="mui-input-clear" mui-verify="required" placeholder="请输入结算金额">
                     </div>
+                    <c:if test="${detailsVo.order.orderType == 1}">
+                        <div class="mui-input-row">
+                            <label>质保期（月）</label>
+                            <input type="number" name="warrantyDate" class="mui-input-clear" mui-verify="required" placeholder="请输入质保期（月）">
+                        </div>
+                    </c:if>
+                    <c:if test="${detailsVo.order.orderType == 2}">
+                        <div class="mui-input-row">
+                            <label>日期</label>
+                            <input id="dateText" type="text" name="date" class="mui-input-clear" mui-verify="required" data-options='{"type":"date","beginYear":2014}' placeholder="请选择日期">
+                        </div>
+                    </c:if>
                     <div>
                         <textarea name="remark" id="remark" rows="5" class="mui-input-clear" placeholder="备注"></textarea>
                     </div>

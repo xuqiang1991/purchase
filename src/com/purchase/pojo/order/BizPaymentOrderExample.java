@@ -2586,63 +2586,253 @@ public class BizPaymentOrderExample {
             return (Criteria) this;
         }
 
-        public Criteria andFinancePaymentIsNull() {
-            addCriterion("finance_payment is null");
+        public Criteria andFinancePaymentApprovalIsNull() {
+            addCriterion("finance_payment_approval is null");
             return (Criteria) this;
         }
 
-        public Criteria andFinancePaymentIsNotNull() {
-            addCriterion("finance_payment is not null");
+        public Criteria andFinancePaymentApprovalIsNotNull() {
+            addCriterion("finance_payment_approval is not null");
             return (Criteria) this;
         }
 
-        public Criteria andFinancePaymentEqualTo(Integer value) {
-            addCriterion("finance_payment =", value, "financePayment");
+        public Criteria andFinancePaymentApprovalEqualTo(Boolean value) {
+            addCriterion("finance_payment_approval =", value, "financePaymentApproval");
             return (Criteria) this;
         }
 
-        public Criteria andFinancePaymentNotEqualTo(Integer value) {
-            addCriterion("finance_payment <>", value, "financePayment");
+        public Criteria andFinancePaymentApprovalNotEqualTo(Boolean value) {
+            addCriterion("finance_payment_approval <>", value, "financePaymentApproval");
             return (Criteria) this;
         }
 
-        public Criteria andFinancePaymentGreaterThan(Integer value) {
-            addCriterion("finance_payment >", value, "financePayment");
+        public Criteria andFinancePaymentApprovalGreaterThan(Boolean value) {
+            addCriterion("finance_payment_approval >", value, "financePaymentApproval");
             return (Criteria) this;
         }
 
-        public Criteria andFinancePaymentGreaterThanOrEqualTo(Integer value) {
-            addCriterion("finance_payment >=", value, "financePayment");
+        public Criteria andFinancePaymentApprovalGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("finance_payment_approval >=", value, "financePaymentApproval");
             return (Criteria) this;
         }
 
-        public Criteria andFinancePaymentLessThan(Integer value) {
-            addCriterion("finance_payment <", value, "financePayment");
+        public Criteria andFinancePaymentApprovalLessThan(Boolean value) {
+            addCriterion("finance_payment_approval <", value, "financePaymentApproval");
             return (Criteria) this;
         }
 
-        public Criteria andFinancePaymentLessThanOrEqualTo(Integer value) {
-            addCriterion("finance_payment <=", value, "financePayment");
+        public Criteria andFinancePaymentApprovalLessThanOrEqualTo(Boolean value) {
+            addCriterion("finance_payment_approval <=", value, "financePaymentApproval");
             return (Criteria) this;
         }
 
-        public Criteria andFinancePaymentIn(List<Integer> values) {
-            addCriterion("finance_payment in", values, "financePayment");
+        public Criteria andFinancePaymentApprovalIn(List<Boolean> values) {
+            addCriterion("finance_payment_approval in", values, "financePaymentApproval");
             return (Criteria) this;
         }
 
-        public Criteria andFinancePaymentNotIn(List<Integer> values) {
-            addCriterion("finance_payment not in", values, "financePayment");
+        public Criteria andFinancePaymentApprovalNotIn(List<Boolean> values) {
+            addCriterion("finance_payment_approval not in", values, "financePaymentApproval");
             return (Criteria) this;
         }
 
-        public Criteria andFinancePaymentBetween(Integer value1, Integer value2) {
-            addCriterion("finance_payment between", value1, value2, "financePayment");
+        public Criteria andFinancePaymentApprovalBetween(Boolean value1, Boolean value2) {
+            addCriterion("finance_payment_approval between", value1, value2, "financePaymentApproval");
             return (Criteria) this;
         }
 
-        public Criteria andFinancePaymentNotBetween(Integer value1, Integer value2) {
-            addCriterion("finance_payment not between", value1, value2, "financePayment");
+        public Criteria andFinancePaymentApprovalNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("finance_payment_approval not between", value1, value2, "financePaymentApproval");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentUserIsNull() {
+            addCriterion("finance_payment_user is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentUserIsNotNull() {
+            addCriterion("finance_payment_user is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentUserEqualTo(Long value) {
+            addCriterion("finance_payment_user =", value, "financePaymentUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentUserNotEqualTo(Long value) {
+            addCriterion("finance_payment_user <>", value, "financePaymentUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentUserGreaterThan(Long value) {
+            addCriterion("finance_payment_user >", value, "financePaymentUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentUserGreaterThanOrEqualTo(Long value) {
+            addCriterion("finance_payment_user >=", value, "financePaymentUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentUserLessThan(Long value) {
+            addCriterion("finance_payment_user <", value, "financePaymentUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentUserLessThanOrEqualTo(Long value) {
+            addCriterion("finance_payment_user <=", value, "financePaymentUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentUserIn(List<Long> values) {
+            addCriterion("finance_payment_user in", values, "financePaymentUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentUserNotIn(List<Long> values) {
+            addCriterion("finance_payment_user not in", values, "financePaymentUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentUserBetween(Long value1, Long value2) {
+            addCriterion("finance_payment_user between", value1, value2, "financePaymentUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentUserNotBetween(Long value1, Long value2) {
+            addCriterion("finance_payment_user not between", value1, value2, "financePaymentUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentDateIsNull() {
+            addCriterion("finance_payment_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentDateIsNotNull() {
+            addCriterion("finance_payment_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentDateEqualTo(Date value) {
+            addCriterion("finance_payment_date =", value, "financePaymentDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentDateNotEqualTo(Date value) {
+            addCriterion("finance_payment_date <>", value, "financePaymentDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentDateGreaterThan(Date value) {
+            addCriterion("finance_payment_date >", value, "financePaymentDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("finance_payment_date >=", value, "financePaymentDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentDateLessThan(Date value) {
+            addCriterion("finance_payment_date <", value, "financePaymentDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentDateLessThanOrEqualTo(Date value) {
+            addCriterion("finance_payment_date <=", value, "financePaymentDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentDateIn(List<Date> values) {
+            addCriterion("finance_payment_date in", values, "financePaymentDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentDateNotIn(List<Date> values) {
+            addCriterion("finance_payment_date not in", values, "financePaymentDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentDateBetween(Date value1, Date value2) {
+            addCriterion("finance_payment_date between", value1, value2, "financePaymentDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentDateNotBetween(Date value1, Date value2) {
+            addCriterion("finance_payment_date not between", value1, value2, "financePaymentDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentOpinionIsNull() {
+            addCriterion("finance_payment_opinion is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentOpinionIsNotNull() {
+            addCriterion("finance_payment_opinion is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentOpinionEqualTo(String value) {
+            addCriterion("finance_payment_opinion =", value, "financePaymentOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentOpinionNotEqualTo(String value) {
+            addCriterion("finance_payment_opinion <>", value, "financePaymentOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentOpinionGreaterThan(String value) {
+            addCriterion("finance_payment_opinion >", value, "financePaymentOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentOpinionGreaterThanOrEqualTo(String value) {
+            addCriterion("finance_payment_opinion >=", value, "financePaymentOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentOpinionLessThan(String value) {
+            addCriterion("finance_payment_opinion <", value, "financePaymentOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentOpinionLessThanOrEqualTo(String value) {
+            addCriterion("finance_payment_opinion <=", value, "financePaymentOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentOpinionLike(String value) {
+            addCriterion("finance_payment_opinion like", value, "financePaymentOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentOpinionNotLike(String value) {
+            addCriterion("finance_payment_opinion not like", value, "financePaymentOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentOpinionIn(List<String> values) {
+            addCriterion("finance_payment_opinion in", values, "financePaymentOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentOpinionNotIn(List<String> values) {
+            addCriterion("finance_payment_opinion not in", values, "financePaymentOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentOpinionBetween(String value1, String value2) {
+            addCriterion("finance_payment_opinion between", value1, value2, "financePaymentOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinancePaymentOpinionNotBetween(String value1, String value2) {
+            addCriterion("finance_payment_opinion not between", value1, value2, "financePaymentOpinion");
             return (Criteria) this;
         }
     }

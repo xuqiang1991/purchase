@@ -1,7 +1,5 @@
 package com.purchase.pojo.order;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -86,7 +84,13 @@ public class BizPaymentOrder {
 
     private String managerDepartOpinion;
 
-    private Integer financePayment;
+    private Boolean financePaymentApproval;
+
+    private Long financePaymentUser;
+
+    private Date financePaymentDate;
+
+    private String financePaymentOpinion;
 
     public String getId() {
         return id;
@@ -128,7 +132,6 @@ public class BizPaymentOrder {
         this.createUser = createUser;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCreateTime() {
         return createTime;
     }
@@ -393,7 +396,6 @@ public class BizPaymentOrder {
         this.managerDepartUser = managerDepartUser;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getManagerDepartDate() {
         return managerDepartDate;
     }
@@ -410,11 +412,35 @@ public class BizPaymentOrder {
         this.managerDepartOpinion = managerDepartOpinion == null ? null : managerDepartOpinion.trim();
     }
 
-    public Integer getFinancePayment() {
-        return financePayment;
+    public Boolean getFinancePaymentApproval() {
+        return financePaymentApproval;
     }
 
-    public void setFinancePayment(Integer financePayment) {
-        this.financePayment = financePayment;
+    public void setFinancePaymentApproval(Boolean financePaymentApproval) {
+        this.financePaymentApproval = financePaymentApproval;
+    }
+
+    public Long getFinancePaymentUser() {
+        return financePaymentUser;
+    }
+
+    public void setFinancePaymentUser(Long financePaymentUser) {
+        this.financePaymentUser = financePaymentUser;
+    }
+
+    public Date getFinancePaymentDate() {
+        return financePaymentDate;
+    }
+
+    public void setFinancePaymentDate(Date financePaymentDate) {
+        this.financePaymentDate = financePaymentDate;
+    }
+
+    public String getFinancePaymentOpinion() {
+        return financePaymentOpinion;
+    }
+
+    public void setFinancePaymentOpinion(String financePaymentOpinion) {
+        this.financePaymentOpinion = financePaymentOpinion == null ? null : financePaymentOpinion.trim();
     }
 }

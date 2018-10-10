@@ -82,7 +82,7 @@
             <%--</div>--%>
             <div class="mui-input-row mui-input-range">
                 <label>付款比例(%)</label>
-                <input name="paymentRatio" type="range" min="0" max="100"   <c:choose><c:when test="${empty order}">value="100"</c:when><c:otherwise>value="${order.paymentRatio}"</c:otherwise></c:choose> />
+                <input type="number" name="paymentRatio" class="mui-input-clear" mui-verify="required" placeholder="请输入付款比例" <c:choose><c:when test="${empty order}">value="100"</c:when><c:otherwise>value="${order.paymentRatio}"</c:otherwise></c:choose> >
             </div>
             <div>
                 <textarea name="summary" id="summary" rows="5" class="mui-input-clear" placeholder="摘要">${order.summary}</textarea>

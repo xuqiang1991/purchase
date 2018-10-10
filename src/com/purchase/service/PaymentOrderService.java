@@ -22,7 +22,7 @@ public interface PaymentOrderService {
 
     ResultUtil editPaymentOrder(BizPaymentOrder order);
 
-    ResultUtil reviewOrder(TbAdmin admin, String id, Boolean auditResults, String auditOpinion);
+    ResultUtil reviewOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion);
 
     void generatePaymenyOrder(BizContractApplyMoney order);
 
