@@ -169,11 +169,9 @@
             <div class="mui-content-padded">
                 <c:choose>
                     <c:when test="${detailsVo.purchaseOrder.status == 0}">
-                        <div class="mui-button-row" style="padding-bottom: 20px;">
-                            <a href="#fromPurchaseOrderItem">
-                                <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加采购单项</button>
-                            </a>
-                        </div>
+                        <a href="#fromPurchaseOrderItem">
+                            <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加采购单项</button>
+                        </a>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="purchaseOrderDetails">提交</button>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="deletePurchaseOrder" value="${detailsVo.purchaseOrder.id}">删除</button>
                     </c:when>
