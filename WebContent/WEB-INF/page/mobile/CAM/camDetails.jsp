@@ -212,27 +212,27 @@
                 <form class="mui-input-group" id="addFromPurchaseOrderItem">
                     <div class="mui-input-row">
                         <label>施工部位</label>
-                        <input type="text" name="constructionSite" class="mui-input-clear" mui-verify="required">
+                        <input type="text" name="constructionSite" class="mui-input-clear" mui-verify="required" placeholder="请输入数量">
                     </div>
                     <div class="mui-input-row">
                         <label>项目内容</label>
-                        <input type="text" name="projectContent" class="mui-input-clear" mui-verify="required">
+                        <input type="text" name="projectContent" class="mui-input-clear" mui-verify="required" placeholder="请输入项目内容">
                     </div>
                     <div class="mui-input-row">
                         <label>规格型号</label>
-                        <input type="text" name="model" class="mui-input-clear" mui-verify="required">
+                        <input type="text" name="model" class="mui-input-clear" mui-verify="required" placeholder="请输入规格型号">
                     </div>
                     <div class="mui-input-row">
                         <label>单位</label>
-                        <input type="text" name="unit" class="mui-input-clear" mui-verify="required">
+                        <input type="text" name="unit" class="mui-input-clear" mui-verify="required" placeholder="请输入单位">
                     </div>
                     <div class="mui-input-row">
                         <label>结算数量</label>
-                        <input type="number" name="settleAmout" class="mui-input-clear" mui-verify="required">
+                        <input type="number" name="settleAmout" class="mui-input-clear" mui-verify="required" placeholder="请输入结算数量">
                     </div>
                     <div class="mui-input-row">
                         <label>结算金额</label>
-                        <input type="number" name="settlePrice" class="mui-input-clear" mui-verify="required">
+                        <input type="number" name="settlePrice" class="mui-input-clear" mui-verify="required" placeholder="请输入结算金额">
                     </div>
                     <div>
                         <textarea name="remark" id="remark" rows="5" class="mui-input-clear" placeholder="备注"></textarea>

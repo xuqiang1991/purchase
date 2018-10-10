@@ -246,15 +246,15 @@
                     </div>
                     <div class="mui-input-row">
                         <label>扣质保金</label>
-                        <input type="number" id="guaranteePrice" name="guaranteePrice" value="${order.guaranteePrice}">
+                        <input type="number" id="guaranteePrice" name="guaranteePrice" value="${order.guaranteePrice}" placeholder="请输入扣质保金">
                     </div>
                     <div class="mui-input-row">
                         <label>扣预付款</label>
-                        <input type="number" id="advancePrice" name="advancePrice" value="${order.advancePrice}">
+                        <input type="number" id="advancePrice" name="advancePrice" value="${order.advancePrice}" placeholder="请输入扣预付款">
                     </div>
                     <div class="mui-input-row">
                         <label>其它扣款</label>
-                        <input type="number" id="otherPrice" name="otherPrice" value="${order.otherPrice}">
+                        <input type="number" id="otherPrice" name="otherPrice" value="${order.otherPrice}" placeholder="请输入其它扣款">
                     </div>
                     <div class="mui-input-row">
                         <label>付款方式</label>
@@ -263,61 +263,61 @@
                     </div>
                     <div class="mui-input-row">
                         <label>商票期限(月)</label>
-                        <input type="number" id="spqxTerm" name="spqxTerm" value="${order.spqxTerm}">
+                        <input type="number" id="spqxTerm" name="spqxTerm" value="${order.spqxTerm}" placeholder="请输入商票期限(月)">
                     </div>
                     <div class="mui-input-row">
                         <label>保理期限(月)</label>
-                        <input type="number" id="blqxTerm" name="blqxTerm" value="${order.blqxTerm}">
+                        <input type="number" id="blqxTerm" name="blqxTerm" value="${order.blqxTerm}" placeholder="请输入保理期限(月)">
                     </div>
                     <div class="mui-input-row">
                         <label>付款凭证号</label>
-                        <input type="number" id="paymentVoucherNo" name="paymentVoucherNo" value="${order.paymentVoucherNo}">
+                        <input type="number" id="paymentVoucherNo" name="paymentVoucherNo" value="${order.paymentVoucherNo}" placeholder="请输入付款凭证号">
                     </div>
                     <div class="mui-input-row">
                         <label>垫付比</label>
-                        <input type="number" id="advanceRate" name="advanceRate" value="${order.advanceRate}">
+                        <input type="number" id="advanceRate" name="advanceRate" value="${order.advanceRate}" placeholder="请输入垫付比">
                     </div>
                     <div class="mui-input-row">
                         <label>成本率</label>
-                        <input type="number" id="costRate" name="costRate" value="${order.costRate}">
+                        <input type="number" id="costRate" name="costRate" value="${order.costRate}" placeholder="请输入成本率">
                     </div>
                     <div class="mui-input-row">
                         <label>收支比</label>
-                        <input type="number" id="financialRate" name="financialRate" value="${order.financialRate}">
+                        <input type="number" id="financialRate" name="financialRate" value="${order.financialRate}" placeholder="请输入收支比">
                     </div>
                     <div class="mui-input-row">
                         <label>税率</label>
-                        <input type="number" id="taxRate" name="taxRate" value="${order.taxRate}">
+                        <input type="number" id="taxRate" name="taxRate" value="${order.taxRate}" placeholder="请输入税率">
                     </div>
                     <div class="mui-input-row">
                         <label>合同量</label>
-                        <input type="number" id="contractVolume" name="contractVolume" value="${order.contractVolume}">
+                        <input type="number" id="contractVolume" name="contractVolume" value="${order.contractVolume}" placeholder="请输入合同量">
                     </div>
                     <div class="mui-input-row">
                         <label>完成量(供货量)</label>
-                        <input type="number" id="finishMeasure" name="finishMeasure" value="${order.finishMeasure}">
+                        <input type="number" id="finishMeasure" name="finishMeasure" value="${order.finishMeasure}" placeholder="请输入完成量(供货量)">
                     </div>
                     <div class="mui-input-row">
                         <label>已付金额</label>
-                        <input type="number" id="amountPaid" name="amountPaid" value="${order.amountPaid}">
+                        <input type="number" id="amountPaid" name="amountPaid" value="${order.amountPaid}" placeholder="请输入已付金额">
                     </div>
                     <div class="mui-input-row">
                         <label>发票类型</label>
-                        <input type="text" id="invoiceTypeName" class="mui-input-clear" placeholder="请选择付款方式" mui-verify="required">
+                        <input type="text" id="invoiceTypeName" class="mui-input-clear" placeholder="请选择发票类型" mui-verify="required" >
                         <input type="hidden" id="invoiceType" name="invoiceType" value="${order.invoiceType}">
                     </div>
                     <div class="mui-input-row">
                         <label>专票税率</label>
-                        <input type="number" id="specialTaxRate" name="specialTaxRate" value="${order.specialTaxRate}">
+                        <input type="number" id="specialTaxRate" name="specialTaxRate" value="${order.specialTaxRate}" placeholder="请输入专票税率">
                     </div>
                     <div class="mui-input-row">
                         <label>质量验收</label>
-                        <input type="text" id="qualityGradeName" class="mui-input-clear" placeholder="请选择质量验收" mui-verify="required">
+                        <input type="text" id="qualityGradeName" class="mui-input-clear" placeholder="请选择质量验收" mui-verify="required" >
                         <input type="hidden" id="qualityGrade" name="qualityGrade" value="${order.invoiceType}">
                     </div>
                     <div class="mui-input-row">
                         <label>质量评定人</label>
-                        <input type="number" id="qualityAssessor" name="qualityAssessor" value="${order.qualityAssessor}">
+                        <input type="number" id="qualityAssessor" name="qualityAssessor" value="${order.qualityAssessor}" placeholder="请输入质量评定人">
                     </div>
                     <div>
                         <textarea name="summary" id="summary" rows="5" class="mui-input-clear" placeholder="摘要">${order.summary}</textarea>

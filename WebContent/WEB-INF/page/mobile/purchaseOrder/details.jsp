@@ -207,27 +207,27 @@
                 <form class="mui-input-group" id="addFromPurchaseOrderItem">
                     <div class="mui-input-row">
                         <label>材料/项目内容</label>
-                        <input type="text" name="content" class="mui-input-clear" mui-verify="required">
+                        <input type="text" name="content" class="mui-input-clear" mui-verify="required" placeholder="请输入材料/项目内容">
                     </div>
                     <div class="mui-input-row">
                         <label>规格型号</label>
-                        <input type="text" name="model" class="mui-input-clear" mui-verify="required">
+                        <input type="text" name="model" class="mui-input-clear" mui-verify="required" placeholder="请输入规格型号">
                     </div>
                     <div class="mui-input-row">
                         <label>单位</label>
-                        <input type="text" name="unit" class="mui-input-clear" mui-verify="required">
+                        <input type="text" name="unit" class="mui-input-clear" mui-verify="required" placeholder="请输入单位">
                     </div>
                     <div class="mui-input-row">
                         <label>单价</label>
-                        <input type="number" name="price" class="mui-input-clear" mui-verify="required">
+                        <input type="number" name="price" class="mui-input-clear" mui-verify="required" placeholder="请输入单价">
                     </div>
                     <div class="mui-input-row">
                         <label>数量</label>
-                        <input type="number" name="amount" class="mui-input-clear" mui-verify="required">
+                        <input type="number" name="amount" class="mui-input-clear" mui-verify="required" placeholder="请输入数量">
                     </div>
                     <div class="mui-input-row">
                         <label>质保期（月）</label>
-                        <input type="number" name="warrantyDate" class="mui-input-clear" mui-verify="required">
+                        <input type="number" name="warrantyDate" class="mui-input-clear" mui-verify="required" placeholder="请输入质保期（月）">
                     </div>
                     <div class="mui-input-row">
                         <label>日期</label>
