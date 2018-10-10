@@ -19,6 +19,16 @@ public class BizPaymentOrderVo extends BizPaymentOrder {
 
     private Long reviewUserId;
 
+    private String departs;
+
+    public String getDeparts() {
+        return departs;
+    }
+
+    public void setDeparts(String departs) {
+        this.departs = departs;
+    }
+
     public Long getReviewUserId() {
         return reviewUserId;
     }
@@ -150,11 +160,11 @@ public class BizPaymentOrderVo extends BizPaymentOrder {
 
     public String getFinancePaymentName() {
         String str = null;
-        Integer financePayment = getFinancePayment();
+        Boolean financePayment = getFinancePaymentApproval();
         if(financePayment != null){
-            if(financePayment == 0){
+            if(!financePayment){
                 str = "已付";
-            }else if(financePayment == 1){
+            }else if(financePayment){
                 str = "不同意";
             }
         }

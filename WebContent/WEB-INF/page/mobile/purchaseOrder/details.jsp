@@ -83,13 +83,6 @@
                                 <div>
                                     <textarea name="summary" id="summary" rows="5" class="mui-input-clear" readonly="readonly">${detailsVo.purchaseOrder.summary}</textarea>
                                 </div>
-                                <c:if test="${detailsVo.purchaseOrder.status == 0}">
-                                    <div class="mui-button-row" style="padding-bottom: 20px;">
-                                        <a href="#fromPurchaseOrderItem">
-                                            <label id="selectProjectText" style="width: 65%;padding-left: 0px;">增加采购单项</label>
-                                        </a>
-                                    </div>
-                                </c:if>
                         </div>
                     </li>
                     <li class="mui-table-view-cell mui-collapse">
@@ -176,6 +169,11 @@
             <div class="mui-content-padded">
                 <c:choose>
                     <c:when test="${detailsVo.purchaseOrder.status == 0}">
+                        <div class="mui-button-row" style="padding-bottom: 20px;">
+                            <a href="#fromPurchaseOrderItem">
+                                <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加采购单项</button>
+                            </a>
+                        </div>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="purchaseOrderDetails">提交</button>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="deletePurchaseOrder" value="${detailsVo.purchaseOrder.id}">删除</button>
                     </c:when>

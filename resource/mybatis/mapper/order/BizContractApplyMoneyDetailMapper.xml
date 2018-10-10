@@ -12,6 +12,8 @@
     <result column="contract_count" jdbcType="DOUBLE" property="contractCount" />
     <result column="settle_amout" jdbcType="DOUBLE" property="settleAmout" />
     <result column="settle_price" jdbcType="DECIMAL" property="settlePrice" />
+    <result column="warranty_date" jdbcType="REAL" property="warrantyDate" />
+    <result column="date" jdbcType="DATE" property="date" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
@@ -76,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, order_no, construction_site, project_content, model, unit, price, contract_count, 
-    settle_amout, settle_price, remark, create_time, update_date
+    settle_amout, settle_price, warranty_date, date, remark, create_time, update_date
   </sql>
   <select id="selectByExample" parameterType="com.purchase.pojo.order.BizContractApplyMoneyDetailExample" resultMap="BaseResultMap">
     select
@@ -112,13 +114,15 @@
     insert into biz_contract_apply_money_detail (id, order_no, construction_site, 
       project_content, model, unit, 
       price, contract_count, settle_amout, 
-      settle_price, remark, create_time, 
-      update_date)
+      settle_price, warranty_date, date, 
+      remark, create_time, update_date
+      )
     values (#{id,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{constructionSite,jdbcType=VARCHAR}, 
       #{projectContent,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
       #{price,jdbcType=DECIMAL}, #{contractCount,jdbcType=DOUBLE}, #{settleAmout,jdbcType=DOUBLE}, 
-      #{settlePrice,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateDate,jdbcType=TIMESTAMP})
+      #{settlePrice,jdbcType=DECIMAL}, #{warrantyDate,jdbcType=REAL}, #{date,jdbcType=DATE}, 
+      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.purchase.pojo.order.BizContractApplyMoneyDetail">
     insert into biz_contract_apply_money_detail
@@ -152,6 +156,12 @@
       </if>
       <if test="settlePrice != null">
         settle_price,
+      </if>
+      <if test="warrantyDate != null">
+        warranty_date,
+      </if>
+      <if test="date != null">
+        date,
       </if>
       <if test="remark != null">
         remark,
@@ -193,6 +203,12 @@
       </if>
       <if test="settlePrice != null">
         #{settlePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="warrantyDate != null">
+        #{warrantyDate,jdbcType=REAL},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=DATE},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -244,6 +260,12 @@
       <if test="record.settlePrice != null">
         settle_price = #{record.settlePrice,jdbcType=DECIMAL},
       </if>
+      <if test="record.warrantyDate != null">
+        warranty_date = #{record.warrantyDate,jdbcType=REAL},
+      </if>
+      <if test="record.date != null">
+        date = #{record.date,jdbcType=DATE},
+      </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -270,6 +292,8 @@
       contract_count = #{record.contractCount,jdbcType=DOUBLE},
       settle_amout = #{record.settleAmout,jdbcType=DOUBLE},
       settle_price = #{record.settlePrice,jdbcType=DECIMAL},
+      warranty_date = #{record.warrantyDate,jdbcType=REAL},
+      date = #{record.date,jdbcType=DATE},
       remark = #{record.remark,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_date = #{record.updateDate,jdbcType=TIMESTAMP}
@@ -307,6 +331,12 @@
       <if test="settlePrice != null">
         settle_price = #{settlePrice,jdbcType=DECIMAL},
       </if>
+      <if test="warrantyDate != null">
+        warranty_date = #{warrantyDate,jdbcType=REAL},
+      </if>
+      <if test="date != null">
+        date = #{date,jdbcType=DATE},
+      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -330,6 +360,8 @@
       contract_count = #{contractCount,jdbcType=DOUBLE},
       settle_amout = #{settleAmout,jdbcType=DOUBLE},
       settle_price = #{settlePrice,jdbcType=DECIMAL},
+      warranty_date = #{warrantyDate,jdbcType=REAL},
+      date = #{date,jdbcType=DATE},
       remark = #{remark,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_date = #{updateDate,jdbcType=TIMESTAMP}

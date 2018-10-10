@@ -2,6 +2,7 @@ package com.purchase.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.gson.Gson;
 import com.purchase.mapper.admin.TbAdminMapper;
 import com.purchase.mapper.admin.TbDepartmentMapper;
 import com.purchase.mapper.order.BizPaymentOrderMapper;
@@ -11,6 +12,7 @@ import com.purchase.pojo.admin.TbDepartment;
 import com.purchase.pojo.order.*;
 import com.purchase.service.PaymentOrderService;
 import com.purchase.util.*;
+import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.order.BizPaymentOrderSearch;
 import com.purchase.vo.order.BizPaymentOrderVo;
 import org.apache.commons.lang.StringUtils;
@@ -18,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -91,6 +94,13 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
             TbDepartment department = departmentMapper.selectByPrimaryKey(Long.parseLong(admin.getDeptId()));
             if(department != null && "总经理".equals(department.getName())){
                 vo.setReviewUserId(admin.getId());
+                String depart = "财务部";
+                List<ChoseAdminVO> data = adminMapper.selectByDeptName(depart);
+                if(!CollectionUtils.isEmpty(data)){
+                    Gson gson = new Gson();
+                    String json = gson.toJson(data);
+                    vo.setDeparts(json);
+                }
             }
         }
 
@@ -104,20 +114,26 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
     }
 
     @Override
-    public ResultUtil reviewOrder(TbAdmin admin, String id, Boolean auditResults, String auditOpinion) {
+    public ResultUtil reviewOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion) {
         Date date = new Date();
         BizPaymentOrder order = bizPaymentOrderMapper.selectByPrimaryKey(id);
         Long userId = admin.getId();
         int status = order.getStatus();
 
-        if(status != 0){
+
+        if(status == 0){//总经理审核
+            TbDepartment department = departmentMapper.selectByPrimaryKey(userId);
+            if(!(department != null && "总经理".equals(department.getName()))){
+                return ResultUtil.error("没有审核权限!");
+            }
+        }else if(status == 1){
+            if(order.getFinancePaymentUser() != userId.longValue()){
+                return ResultUtil.error("没有审核权限!");
+            }
+        }else {
             return ResultUtil.error("订单不需要审核");
         }
 
-        TbDepartment department = departmentMapper.selectByPrimaryKey(userId);
-        if(!(department != null && "总经理".equals(department.getName()))){
-            return ResultUtil.error("没有审核权限!");
-        }
 
         //判断审核人
         Long reviewer = order.getManagerDepartUser();
@@ -136,15 +152,32 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         //审核状态
         BizPaymentOrder tmp = new BizPaymentOrder();
         tmp.setId(order.getId());
-        tmp.setManagerDepartApproval(auditResults);
-        tmp.setManagerDepartDate(date);
-        tmp.setManagerDepartOpinion(auditOpinion);
-        tmp.setManagerDepartUser(userId);
+
+        if(status == 0){
+            tmp.setStatus(1);
+            tmp.setManagerDepartApproval(auditResults);
+            tmp.setManagerDepartDate(date);
+            tmp.setManagerDepartOpinion(auditOpinion);
+            tmp.setManagerDepartUser(userId);
+            tmp.setFinancePaymentUser(applyUser);
+        }else if(status == 1){
+            tmp.setStatus(2);
+            tmp.setFinancePaymentApproval(auditResults);
+            tmp.setFinancePaymentDate(date);
+            tmp.setFinancePaymentOpinion(auditOpinion);
+            tmp.setFinancePaymentUser(userId);
+        }
+
         //审核不通过
         if(!auditResults){
             tmp.setStatus(0);
         }
+
         bizPaymentOrderMapper.updateByPrimaryKeySelective(tmp);
+
+        //财务付款
+        if(tmp.getStatus() == 2){
+        }
 
         return ResultUtil.ok();
 

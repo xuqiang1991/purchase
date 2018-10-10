@@ -323,11 +323,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			tmp.setProjectDepartUser(applyUser);
 		}else if (PurchaseUtil.STATUS_2 == status){
 			tmp.setStatus(PurchaseUtil.STATUS_3);
+			tmp.setProjectDepartApproval(auditResults);
 			tmp.setProjectDepartDate(date);
 			tmp.setProjectDepartOpinion(auditOpinion);
 			tmp.setManagerDepartUser(applyUser);
 		}else if (PurchaseUtil.STATUS_3 == status){
 			tmp.setStatus(PurchaseUtil.STATUS_4);
+			tmp.setManagerDepartApproval(auditResults);
 			tmp.setManagerDepartDate(date);
 			tmp.setManagerDepartOpinion(auditOpinion);
 		}else if (PurchaseUtil.STATUS_4 == status){

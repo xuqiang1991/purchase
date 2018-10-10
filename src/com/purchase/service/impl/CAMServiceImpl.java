@@ -450,11 +450,13 @@ public class CAMServiceImpl implements CAMService {
             tmp.setProjectDepartUser(applyUser);
         } else if (CAMUtil.STATUS_2 == status) {
             tmp.setStatus(CAMUtil.STATUS_3);
+            tmp.setProjectDepartApproval(auditResults);
             tmp.setProjectDepartDate(date);
             tmp.setProjectDepartOpinion(auditOpinion);
             tmp.setManagerDepartUser(applyUser);
         } else if (CAMUtil.STATUS_3 == status) {
             tmp.setStatus(CAMUtil.STATUS_4);
+            tmp.setManagerDepartApproval(auditResults);
             tmp.setManagerDepartDate(date);
             tmp.setManagerDepartOpinion(auditOpinion);
         } else if (CAMUtil.STATUS_4 == status) {

@@ -204,8 +204,20 @@
                     <label style="width: 65%;padding-left: 0px;">${order.managerDepartOpinion}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
-                    <label>财务付款</label>
+                    <label>财务付款状态</label>
                     <label style="width: 65%;padding-left: 0px;">${order.financePaymentName}</label>
+                </div>
+                <div class="mui-input-row mui-input-range">
+                    <label>财务付款人</label>
+                    <label style="width: 65%;padding-left: 0px;">${order.financePaymentUser}</label>
+                </div>
+                <div class="mui-input-row mui-input-range">
+                    <label>财务付款时间</label>
+                    <label style="width: 65%;padding-left: 0px;"><fmt:formatDate value="${order.financePaymentDate}" pattern="yyyy-MM-dd"/></label>
+                </div>
+                <div class="mui-input-row mui-input-range">
+                    <label>财务付款意见</label>
+                    <label style="width: 65%;padding-left: 0px;">${order.financePaymentOpinion}</label>
                 </div>
                 <div class="mui-content-padded">
                     <c:if test="${detailsVo.financePayment != 1}">
@@ -323,7 +335,7 @@
                         <textarea name="summary" id="summary" rows="5" class="mui-input-clear" placeholder="摘要">${order.summary}</textarea>
                     </div>
                     <div class="mui-button-row" style="padding-bottom: 20px;">
-                        <button type="button" class="mui-btn mui-btn-primary" id="submitFromPurchaseOrderItem">提交</button>
+                        <button type="button" class="mui-btn mui-btn-primary" id="submitFromPurchaseOrderItem">保存</button>
                     </div>
                 </form>
             </div>
@@ -342,6 +354,13 @@
                     <input type="text" id="selectAuditResults" placeholder="请选择审核结果" style="float: left;width: 150px;">
                     <input type="hidden" id="auditResults" name="auditResults">
                 </div>
+                <c:if test="${order.status == 0}">
+                    <div class="mui-input-row">
+                        <label style="width: 120px;">财务付款人</label>
+                        <input type="text" id="selectApplyUser" placeholder="请选择付款的财务人员" style="float: left;width: 150px;">
+                        <input type="hidden" id="applyUser" name="applyUser">
+                    </div>
+                </c:if>
                 <div class="mui-input-row" style="height: auto">
                     <textarea name="auditOpinion" id="auditOpinion" rows="5" class="mui-input-clear" placeholder="审核意见"></textarea>
                 </div>
@@ -411,6 +430,19 @@
     /** 审核 **/
     mui(document.body).on('tap', '#reviewPurchaseOrder', function(e) {
         mui("#popover").popover('toggle', document.getElementById("div"));
+    });
+
+    mui(document.body).on('tap', '#selectApplyUser', function(e) {
+        var adminsJson = '${order.departs}'
+        var json =JSON.parse(adminsJson)
+        var userPicker = new mui.PopPicker();
+        userPicker.setData(json);
+        var selectApplyUser = document.getElementById('selectApplyUser');
+        var applyUser = document.getElementById('applyUser');
+        userPicker.show(function (items) {
+            selectApplyUser.value = items[0].text;
+            applyUser.value = items[0].value;
+        });
     });
 
     mui(document.body).on('tap', '#selectAuditResults', function(e) {
