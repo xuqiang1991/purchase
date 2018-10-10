@@ -75,7 +75,7 @@
                 <textarea name="summary" id="summary" rows="5" class="mui-input-clear" placeholder="摘要">${order.summary}</textarea>
             </div>
             <div class="mui-button-row" style="padding-bottom: 20px;">
-                <button type="button" class="mui-btn mui-btn-primary" onclick="submitPurchaseOrder()">提交</button>
+                <button type="button" class="mui-btn mui-btn-primary" onclick="submitPurchaseOrder()">保存</button>
             </div>
         </form>
     </div>

@@ -184,7 +184,7 @@ public class AdminController {
 					Menu menu = menus.get(i);
 					String href = menu.getHref();
 					//过滤mobile开头的菜单
-					if(StringUtils.isNotBlank(href) && "mobile/".startsWith(menu.getHref())){
+					if("订单管理".equals(menu.getTitle())){
 						menus.remove(i);
 					}
 				}
