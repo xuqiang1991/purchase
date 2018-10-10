@@ -334,8 +334,8 @@
                     if(result.code!=0){
                         mui.alert(data.msg);
                     }else {
-                        mui.alert("提交成功！");
-                        document.location.href='${ctx }/mobile/CAM/list';
+                        mui.alert("保存成功！");
+                        document.location.href='${ctx }/mobile/CAM/toDetails/' + result.msg;
                     }
                 }
             });

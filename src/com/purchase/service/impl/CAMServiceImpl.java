@@ -108,8 +108,9 @@ public class CAMServiceImpl implements CAMService {
     public ResultUtil addCAMOrder(BizContractApplyMoney order) {
         Date date = new Date();
 
+        String id = null;
         if(StringUtils.isBlank(order.getId())){
-            String id = WebUtils.generateUUID();
+            id = WebUtils.generateUUID();
             order.setId(id);
             //生成订单号
             String yyddmm = DateUtil.formatDate(date, DateUtil.DateFormat3);
@@ -135,7 +136,7 @@ public class CAMServiceImpl implements CAMService {
 
             camMapper.insertSelective(order);
         }else {
-
+            id = order.getId();
             String sourceOrderId = order.getSourceOrderId();
             BizPurchaseOrder purchaseOrder = purchaseOrderMapper.selectByPrimaryKey(sourceOrderId);
 
@@ -151,7 +152,7 @@ public class CAMServiceImpl implements CAMService {
             camMapper.updateByPrimaryKeySelective(order);
         }
 
-        return ResultUtil.ok();
+        return ResultUtil.ok(id);
     }
 
     @Override

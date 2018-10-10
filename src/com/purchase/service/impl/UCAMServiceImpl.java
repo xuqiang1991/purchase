@@ -127,8 +127,10 @@ public class UCAMServiceImpl implements UCAMService {
     @Override
     public ResultUtil saveUCAMOrder(BizUncontractApplyMoney order) {
         Date date = new Date();
+        String id = null;
         if(StringUtils.isEmpty(order.getId())){
-            order.setId(WebUtils.generateUUID());
+            id = WebUtils.generateUUID();
+            order.setId(id);
             //生成采购单号
             String yyddmm = DateUtil.formatDate(date,DateUtil.DateFormat3);
             String maxNo = ucamMapper.selMaxNo(yyddmm);
@@ -147,10 +149,11 @@ public class UCAMServiceImpl implements UCAMService {
             order.setCreateTime(date);
             ucamMapper.insertSelective(order);
         }else{
+            id = order.getId();
             order.setUpdateDate(date);
             ucamMapper.updateByPrimaryKeySelective(order);
         }
-        return ResultUtil.ok();
+        return ResultUtil.ok(id);
     }
 
     @Override

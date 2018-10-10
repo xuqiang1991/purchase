@@ -108,11 +108,13 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
     @Override
     public ResultUtil savePAOOrder(BizProgrammeAcceptanceOrder order) {
         Date date = new Date();
+        String id = null;
         if(!StringUtils.isEmpty(order.getId())){
+            id = order.getId();
             order.setUpdateDate(date);
             paoMapper.updateByPrimaryKeySelective(order);
         }else{
-            String id = WebUtils.generateUUID();
+            id = WebUtils.generateUUID();
             order.setId(id);
 
             //生成工程验收单号
@@ -134,7 +136,7 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
             order.setCreateTime(date);
             paoMapper.insertSelective(order);
         }
-        return ResultUtil.ok();
+        return ResultUtil.ok(id);
     }
 
     @Override

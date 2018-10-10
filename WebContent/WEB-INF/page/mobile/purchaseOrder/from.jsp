@@ -369,10 +369,10 @@
                 timeout: 10000,
                 success: function(result) {
                     if(result.code!=0){
-                        mui.alert(data.msg);
+                        mui.alert(result.msg);
                     }else {
-                        mui.alert("提交成功！");
-                        document.location.href='${ctx }/mobile/purchase/list';
+                        mui.alert("保存成功！");
+                        document.location.href='${ctx }/mobile/purchase/toDetails/' + result.msg;
                     }
                 }
             });

@@ -118,9 +118,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	public ResultUtil addPurchaseOrder(BizPurchaseOrder order) {
 
 		Date date = new Date();
-
+		String id = null;
 		if(StringUtils.isBlank(order.getId())){
-			String id = WebUtils.generateUUID();
+			id = WebUtils.generateUUID();
 			order.setId(id);
 
 			//生成采购单号
@@ -136,10 +136,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 			purchaseOrderMapper.insertSelective(order);
 		}else {
+			id = order.getId();
 			order.setUpdateDate(date);
 			purchaseOrderMapper.updateByPrimaryKeySelective(order);
 		}
-		return ResultUtil.ok();
+		return ResultUtil.ok(id);
 	}
 
 	@Override
@@ -403,7 +404,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			purchaseOrderMapper.updateByPrimaryKeySelective(tmp);
 		}
 
-		return ResultUtil.ok();
+		return ResultUtil.ok(id);
 	}
 
 	@Override
