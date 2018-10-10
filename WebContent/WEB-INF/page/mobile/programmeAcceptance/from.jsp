@@ -336,9 +336,9 @@
         });
         if(check){
             var url = '${ctx}/mobile/programmeAcceptance/addProgrammeAcceptanceOrder';
-            if($('#id').val() != null){
+            /*if($('#id').val() != ''){
                 url = '${ctx}/mobile/programmeAcceptance/editProgrammeAcceptanceOrder';
-            }
+            }*/
             $.ajax({
                 url: url,
                 data: $('#programmeAcceptanceForm').serialize(),

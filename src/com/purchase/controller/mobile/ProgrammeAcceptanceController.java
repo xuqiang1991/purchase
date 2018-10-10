@@ -175,7 +175,13 @@ public class ProgrammeAcceptanceController {
     @ResponseBody
     public ResultUtil submitReviewprogrammeAcceptanceOrder(String id, Long userId){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        return paService.submitReviewPAOOrder(admin, id, userId);
+        ResultUtil resultUtil = paService.submitPAOOrder(id);
+        //return paService.submitReviewPAOOrder(admin, id, userId);
+        if(resultUtil.getCode() == 0){
+            return paService.submitReviewPAOOrder(admin, id, userId);
+        }else {
+            return resultUtil;
+        }
     }
 
     @SysLog(value="审核工程验收")
@@ -193,10 +199,6 @@ public class ProgrammeAcceptanceController {
     @RequiresPermissions("mobile:programmeAcceptance:save")
     @ResponseBody
     public ResultUtil addProgrammeAcceptanceItem(String orderNo, String rectifyContent, String rectifyMeasure, String playOverDate, Integer rectifyFlag, String actualOverDate, String remark){
-        Date date = new Date();
-        /*order.setUpdateDate(date);
-        order.setCreateTime(date);*/
-
         BizProgrammeAcceptanceOrderDetail order = new BizProgrammeAcceptanceOrderDetail();
         order.setRectifyContent(rectifyContent);
         order.setRectifyMeasure(rectifyMeasure);
@@ -217,6 +219,26 @@ public class ProgrammeAcceptanceController {
         return paService.addPAOOrderDetail(order);
     }
 
+    @SysLog(value="更新工程验收单项")
+    @RequestMapping("editProgrammeAcceptanceItem")
+    @RequiresPermissions("mobile:programmeAcceptance:save")
+    @ResponseBody
+    public ResultUtil editProgrammeAcceptanceItem(String id, Integer rectifyFlag, String actualOverDate, String remark){
+        BizProgrammeAcceptanceOrderDetail order = new BizProgrammeAcceptanceOrderDetail();
+        order.setRectifyFlag(rectifyFlag);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            if(!StringUtils.isEmpty(actualOverDate)) {
+                order.setActualOverDate(sdf.parse(actualOverDate));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //order.setRemark(remark);
+        order.setId(id);
+        return paService.editPAOOrderDetail(order);
+    }
+
     @SysLog(value="删除工程验收单项")
     @RequestMapping("deleteProgrammeAcceptanceItem/{id}")
     @RequiresPermissions("mobile:programmeAcceptance:save")
@@ -225,6 +247,12 @@ public class ProgrammeAcceptanceController {
         return paService.deletePAOItem(id);
     }
 
-
+    @SysLog(value="查询工程验收单项")
+    @RequestMapping("getProgrammeAcceptanceItem/{id}")
+    @RequiresPermissions("mobile:programmeAcceptance:list")
+    @ResponseBody
+    public ResultUtil getProgrammeAcceptanceItem(@PathVariable("id") String id){
+        return paService.selPAOItem(id);
+    }
 
 }

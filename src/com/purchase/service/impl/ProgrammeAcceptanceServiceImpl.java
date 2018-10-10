@@ -39,6 +39,12 @@ import java.util.List;
 public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceService {
     private static Logger logger = LoggerFactory.getLogger(ProgrammeAcceptanceServiceImpl.class);
 
+    public static final int STATUS_0 = 0;//未提交
+    public static final int STATUS_1 = 1;//已提交
+    public static final int STATUS_2 = 2;//工程部已审核
+    public static final int STATUS_3 = 3;//成本部已审核
+    public static final int STATUS_4 = 4;//总经理已审核
+
     @Autowired
     private BizProgrammeAcceptanceOrderMapper paoMapper;
 
@@ -116,7 +122,6 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
         }else{
             id = WebUtils.generateUUID();
             order.setId(id);
-
             //生成工程验收单号
             String yyddmm = DateUtil.formatDate(date,DateUtil.DateFormat3);
             String maxNo = paoMapper.selMaxNo(yyddmm);
@@ -130,8 +135,7 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
 
             order.setOrderNo(orderNo);
             //参数补充
-            //order.setCostDepartDate(date);
-            order.setStatus(PurchaseUtil.STATUS_0);
+            order.setStatus(STATUS_0);
             order.setUpdateDate(date);
             order.setCreateTime(date);
             paoMapper.insertSelective(order);
@@ -174,7 +178,7 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
     @Override
     public ResultUtil delPAOOrder(String id) {
         BizProgrammeAcceptanceOrder order = paoMapper.selectByPrimaryKey(id);
-        if(!(PurchaseUtil.STATUS_0 == order.getStatus())){
+        if(!(STATUS_0 == order.getStatus())){
             return ResultUtil.error("非未提交状态的工程验收单不能删除！");
         }
         paoMapper.deleteByPrimaryKey(id);
@@ -190,13 +194,13 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
         BizProgrammeAcceptanceOrder order = paoMapper.selectByPrimaryKey(id);
 
         int status = order.getStatus();
-        if(!(PurchaseUtil.STATUS_0 == status)){
+        if(!(STATUS_0 == status)){
             return ResultUtil.error("非未提交状态的工程验收单不能提交！");
         }
 
         BizProgrammeAcceptanceOrder tmp = new BizProgrammeAcceptanceOrder();
         tmp.setId(order.getId());
-        tmp.setStatus(PurchaseUtil.STATUS_1);
+        tmp.setStatus(STATUS_1);
         tmp.setApplyDate(new Date());
         paoMapper.updateByPrimaryKeySelective(tmp);
         return ResultUtil.ok();
@@ -219,26 +223,26 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
             }
             List<OrderHistory> historyList = new ArrayList<OrderHistory>();
             int status = vo.getStatus();
-            if(PurchaseUtil.STATUS_0 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
-            }else if(PurchaseUtil.STATUS_1 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
-                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
-            }else if(PurchaseUtil.STATUS_2 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
-                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
-                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),PurchaseUtil.STATUS_2));
-            }else if(PurchaseUtil.STATUS_3 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
-                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
-                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),PurchaseUtil.STATUS_2));
-                historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),PurchaseUtil.STATUS_3));
-            }else if(PurchaseUtil.STATUS_4 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
-                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
-                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),PurchaseUtil.STATUS_2));
-                historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),PurchaseUtil.STATUS_3));
-                historyList.add(new OrderHistory(vo.getManagerAdmin().getFullname(),vo.getManagerDepartDate(),vo.getManagerDepartOpinion(),vo.getManagerDepartApproval(),PurchaseUtil.STATUS_4));
+            if(STATUS_0 == status){
+                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,STATUS_0));
+            }else if(STATUS_1 == status){
+                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,STATUS_0));
+                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,STATUS_1));
+            }else if(STATUS_2 == status){
+                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,STATUS_0));
+                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,STATUS_1));
+                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),STATUS_2));
+            }else if(STATUS_3 == status){
+                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,STATUS_0));
+                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,STATUS_1));
+                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),STATUS_2));
+                historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),STATUS_3));
+            }else if(STATUS_4 == status){
+                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,STATUS_0));
+                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,STATUS_1));
+                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),STATUS_2));
+                historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),STATUS_3));
+                historyList.add(new OrderHistory(vo.getManagerAdmin().getFullname(),vo.getManagerDepartDate(),vo.getManagerDepartOpinion(),vo.getManagerDepartApproval(),STATUS_4));
             }
             Collections.reverse(historyList);
             vo.setHistoryList(historyList);
@@ -252,19 +256,19 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
             paOrderDetialVo.setPaoDetail(detailList);
 
             //选择审核人
-            String depart = null;
+            String depart = "工程部";
             Long reviewUserId = null;
-            if(PurchaseUtil.STATUS_1 == vo.getStatus()){
-                if(vo.getCostDepartUser() != null){
-                    reviewUserId = vo.getCostDepartUser();
+            if(STATUS_1 == vo.getStatus()){
+                if(vo.getProjectDepartUser() != null){
+                    reviewUserId = vo.getProjectDepartUser();
                     depart = "工程部";
                 }else {
                     depart = "成本部";
                 }
-            }else if(PurchaseUtil.STATUS_2 == vo.getStatus()){
+            }else if(STATUS_2 == vo.getStatus()){
                 depart = "工程部";
-                reviewUserId = vo.getProjectDepartUser();
-            }else if(PurchaseUtil.STATUS_3 == vo.getStatus()){
+                reviewUserId = vo.getCostDepartUser();
+            }else if(STATUS_3 == vo.getStatus()){
                 depart = "总经理";
                 reviewUserId = vo.getManagerDepartUser();
             }
@@ -279,7 +283,6 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
                 long loginId = admin.getId();
                 if(reviewUserId != null && reviewUserId == loginId){
                     paOrderDetialVo.setReviewUserId(vo.getCreateUser());
-
                 }
             }
         }catch (Exception e){
@@ -300,9 +303,27 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
     }
 
     @Override
+    public ResultUtil editPAOOrderDetail(BizProgrammeAcceptanceOrderDetail order) {
+        BizProgrammeAcceptanceOrderDetail detail = paoDetailMapper.selectByPrimaryKey(order.getId());
+        detail.setActualOverDate(order.getActualOverDate());
+        detail.setRectifyFlag(order.getRectifyFlag());
+        paoDetailMapper.updateByPrimaryKey(detail);
+        return ResultUtil.ok();
+    }
+
+    @Override
     public ResultUtil deletePAOItem(String id) {
         paoDetailMapper.deleteByPrimaryKey(id);
         return ResultUtil.ok();
+    }
+
+    @Override
+    public ResultUtil selPAOItem(String id) {
+        BizProgrammeAcceptanceOrderDetail detail = paoDetailMapper.selectByPrimaryKey(id);
+        ResultUtil resultUtil = new ResultUtil();
+        resultUtil.setCode(0);
+        resultUtil.setData(detail);
+        return resultUtil;
     }
 
     @Override
@@ -310,13 +331,13 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
         BizProgrammeAcceptanceOrder order = paoMapper.selectByPrimaryKey(id);
 
         int status = order.getStatus();
-        if(PurchaseUtil.STATUS_1 != status){
-            return ResultUtil.error("非未提交状态的工程验收单不能选择成本部审核！");
+        if(STATUS_1 != status){
+            return ResultUtil.error("非未提交状态的工程验收单不能选择工程部审核！");
         }
         Date date = new Date();
         BizProgrammeAcceptanceOrder tmp = new BizProgrammeAcceptanceOrder();
         tmp.setId(order.getId());
-        tmp.setCostDepartUser(userId);
+        tmp.setProjectDepartUser(userId);
         tmp.setUpdateDate(date);
 
         paoMapper.updateByPrimaryKeySelective(tmp);
@@ -332,13 +353,13 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
         //判断审核人
         Long reviewer = null;
         Boolean reviewerResults = null;
-        if(PurchaseUtil.STATUS_1 ==  order.getStatus()){
-            reviewer = order.getCostDepartUser();
-            reviewerResults = order.getCostDepartApproval();
-        }else if (PurchaseUtil.STATUS_2 ==  order.getStatus()){
+        if(STATUS_1 ==  order.getStatus()){
             reviewer = order.getProjectDepartUser();
             reviewerResults = order.getProjectDepartApproval();
-        }else if (PurchaseUtil.STATUS_3 ==  order.getStatus()){
+        }else if (STATUS_2 ==  order.getStatus()){
+            reviewer = order.getCostDepartUser();
+            reviewerResults = order.getCostDepartApproval();
+        }else if (STATUS_3 ==  order.getStatus()){
             reviewer = order.getManagerDepartUser();
             reviewerResults = order.getManagerDepartApproval();
         }
@@ -353,23 +374,24 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
         }
 
         //审核状态
-        if(PurchaseUtil.STATUS_1 ==  order.getStatus()){
-            order.setStatus(PurchaseUtil.STATUS_2);
+        if(STATUS_1 ==  order.getStatus()){
+            order.setStatus(STATUS_2);
+            order.setProjectDepartDate(date);
+            order.setProjectDepartOpinion(auditOpinion);
+            order.setCostDepartUser(applyUser);
+            //order.setProjectDepartUser(applyUser);
+        }else if (STATUS_2 ==  order.getStatus()){
+            order.setStatus(STATUS_3);
             order.setCostDepartApproval(auditResults);
             order.setCostDepartDate(date);
             order.setCostDepartOpinion(auditOpinion);
-            order.setProjectDepartUser(applyUser);
-        }else if (PurchaseUtil.STATUS_2 ==  order.getStatus()){
-            order.setStatus(PurchaseUtil.STATUS_3);
-            order.setProjectDepartDate(date);
-            order.setProjectDepartOpinion(auditOpinion);
             order.setManagerDepartUser(applyUser);
-        }else if (PurchaseUtil.STATUS_3 ==  order.getStatus()){
-            order.setStatus(PurchaseUtil.STATUS_4);
+        }else if (STATUS_3 ==  order.getStatus()){
+            order.setStatus(STATUS_4);
             order.setManagerDepartDate(date);
             order.setManagerDepartOpinion(auditOpinion);
-        }else if (PurchaseUtil.STATUS_4 ==  order.getStatus()){
-            order.setStatus(PurchaseUtil.STATUS_5);
+        }else if (STATUS_4 ==  order.getStatus()){
+            //order.setStatus(STATUS_5);
         }
         order.setUpdateDate(date);
 

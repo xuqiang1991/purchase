@@ -74,8 +74,8 @@
         tpm.id as tpmId,tpm.name as tpmName,
         auAdmin.id as auId,auAdmin.fullname as auName
     from biz_programme_acceptance_order a
-    INNER JOIN tb_supplier b ON (a.supplier_id = b.id)
-    INNER JOIN tb_admin c ON (a.create_user = c.id)
+    LEFT JOIN tb_supplier b ON (a.supplier_id = b.id)
+    LEFT JOIN tb_admin c ON (a.create_user = c.id)
      LEFT JOIN tb_admin tCost ON (a.cost_depart_user = tCost.id)
      LEFT JOIN tb_admin tProject ON (a.project_depart_user = tProject.id)
      LEFT JOIN tb_admin tManager ON (a.manager_depart_user = tManager.id)

@@ -30,7 +30,11 @@ public interface ProgrammeAcceptanceService {
 
     ResultUtil addPAOOrderDetail(BizProgrammeAcceptanceOrderDetail order);
 
+    ResultUtil editPAOOrderDetail(BizProgrammeAcceptanceOrderDetail order);
+
     ResultUtil deletePAOItem(String id);
+
+    ResultUtil selPAOItem(String id);
 
     ResultUtil submitReviewPAOOrder(TbAdmin admin, String id, Long userId);
 

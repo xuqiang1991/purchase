@@ -155,6 +155,13 @@
                                                         <button type="button" class="mui-btn mui-btn-primary deleteItem" value="${item.id}">刪除</button>
                                                     </div>
                                                 </c:if>
+                                                <c:if test="${detailsVo.paoVo.status != 0}">
+                                                    <div>
+                                                        <a href="#fromPAOItem" name="app-a" data-id="${item.id}">
+                                                            <button type="button" class="mui-btn mui-btn-primary" value="${item.id}">审核</button>
+                                                        </a>
+                                                    </div>
+                                                </c:if>
                                             </div>
                                         </div>
                                     </c:forEach>
@@ -181,9 +188,9 @@
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="PAODetails">提交</button>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="deletePAOOrder" value="${detailsVo.paoVo.id}">删除</button>
                     </c:when>
-                    <c:when test="${detailsVo.paoVo.status == 1 && empty detailsVo.paoVo.costDepartUser && empty detailsVo.reviewUserId}">
+                    <%--<c:when test="${detailsVo.paoVo.status == 1 && empty detailsVo.paoVo.costDepartUser && empty detailsVo.reviewUserId}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="submitReviewPAO">选择审核人</button>
-                    </c:when>
+                    </c:when>--%>
                     <c:when test="${!empty detailsVo.reviewUserId}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPAO">审核</button>
                     </c:when>
@@ -201,39 +208,42 @@
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>返回
         </button>
-        <h1 class="mui-center mui-title">增加工程验收单项</h1>
+        <h1 class="mui-center mui-title"><c:if test="${detailsVo.paoVo.status != 0}">审批</c:if><c:if test="${detailsVo.paoVo.status == 0}">增加</c:if>工程验收单项</h1>
     </div>
     <div class="mui-page-content">
         <div class="mui-scroll-wrapper">
             <div class="mui-scroll"  style="height: 100%;">
                 <form class="mui-input-group" id="addFromPAOItem">
-                    <input type="hidden" name="orderNo" value="${detailsVo.paoVo.orderNo}">
+                    <input type="hidden" id="orderNo" name="orderNo" value="${detailsVo.paoVo.orderNo}">
+                    <input type="hidden" id="id" name="id" value="">
                     <div class="mui-input-row">
                         <label>整改内容</label>
-                        <input type="text" name="rectifyContent" class="mui-input-clear" mui-verify="required" placeholder="请输入整改内容">
+                        <input type="text" id="rectifyContent" name="rectifyContent" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.paoVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入整改内容">
                     </div>
                     <div class="mui-input-row">
                         <label>整改措施</label>
-                        <input type="text" name="rectifyMeasure" class="mui-input-clear" mui-verify="required" placeholder="请输入整改措施">
+                        <input type="text" id="rectifyMeasure" name="rectifyMeasure" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.paoVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入整改措施">
                     </div>
                     <div class="mui-input-row">
                         <label>计划完成日期</label>
-                        <input type="text" id="playOverDate" name="playOverDate" class="mui-input-clear" readonly data-options='{"type":"date","beginYear":2018,"endYear":2028}' placeholder="请选择计划完成日期" mui-verify="required">
+                        <input type="text" id="playOverDate" name="playOverDate" readonly data-options='{"type":"date","beginYear":2018,"endYear":2028}' <c:if test="${detailsVo.paoVo.status != 0}">disabled="disabled"</c:if> placeholder="请选择计划完成日期" mui-verify="required">
                     </div>
-                    <div class="mui-input-row">
-                        <label>是否已整改</label>
-                        <input type="text" id="rectifyFlagName" name="rectifyFlagName" class="mui-input-clear" readonly value="已整改">
-                        <input type="hidden" id="rectifyFlag" name="rectifyFlag" class="mui-input-clear" mui-verify="required" value="1">
-                    </div>
-                    <div class="mui-input-row">
-                        <label>实际完成日期</label>
-                        <input type="text" id="actualOverDate" name="actualOverDate" class="mui-input-clear" readonly data-options='{"type":"date","beginYear":2018,"endYear":2028}' placeholder="请选择实际完成日期" mui-verify="required">
-                    </div>
+                    <c:if test="${detailsVo.paoVo.status != 0}">
+                        <div class="mui-input-row">
+                            <label>是否已整改</label>
+                            <input type="text" id="rectifyFlagName" name="rectifyFlagName" readonly value="已整改">
+                            <input type="hidden" id="rectifyFlag" name="rectifyFlag" mui-verify="required" value="1">
+                        </div>
+                        <div class="mui-input-row">
+                            <label>实际完成日期</label>
+                            <input type="text" id="actualOverDate" name="actualOverDate" readonly data-options='{"type":"date","beginYear":2018,"endYear":2028}' placeholder="请选择实际完成日期" mui-verify="required">
+                        </div>
+                    </c:if>
                     <div>
-                        <textarea name="remark" id="remark" rows="5" class="mui-input-clear" placeholder="备注"></textarea>
+                        <textarea name="remark" id="remark" rows="5" class="mui-input-clear"　<c:if test="${detailsVo.paoVo.status != 0}">disabled="disabled"</c:if> placeholder="备注"></textarea>
                     </div>
                     <div class="mui-button-row" style="padding-bottom: 20px;">
-                        <button type="button" class="mui-btn mui-btn-primary" id="submitFromPAOItem">添加</button>
+                        <button type="button" class="mui-btn mui-btn-primary" id="submitFromPAOItem">保存</button>
                     </div>
                 </form>
             </div>
@@ -280,46 +290,102 @@
     });
 
     mui('.mui-scroll-wrapper').scroll();
-
-    var btns =  mui('#playOverDate');
-    btns.each(function(i, btn) {
-        btn.addEventListener('tap', function() {
-            var optionsJson = this.getAttribute('data-options') || '{}';
-            var options = JSON.parse(optionsJson);
-            var picker = new mui.DtPicker(options);
-            picker.show(function(rs) {
-                playOverDate.value = rs.text;
-                picker.dispose();
-            });
-        }, false);
-    });
-
-    var btns_actualOverDate =  mui('#actualOverDate');
-    btns_actualOverDate.each(function(i, btn) {
-        btn.addEventListener('tap', function() {
-            var optionsJson = this.getAttribute('data-options') || '{}';
-            var options = JSON.parse(optionsJson);
-            var picker = new mui.DtPicker(options);
-            picker.show(function(rs) {
-                actualOverDate.value = rs.text;
-                picker.dispose();
-            });
-        }, false);
-    });
+    var status = '${detailsVo.paoVo.status}';
 
     var rectifyFlagJson = '[{"value":0,"text":"未整改"},{"value":1,"text":"已整改"}]';
-    var rectifyFlagPicker = new mui.PopPicker();
-    rectifyFlagPicker.setData(JSON.parse(rectifyFlagJson));
-    var rectifyFlagName = document.getElementById('rectifyFlagName');
-    var rectifyFlag = document.getElementById('rectifyFlag');
-    rectifyFlagName.addEventListener('tap', function(event) {
-        rectifyFlagPicker.show(function(items) {
-            rectifyFlagName.value = items[0].text;
-            rectifyFlag.value = items[0].value;
-            //返回 false 可以阻止选择框的关闭
-            //return false;
+    //初始化数据
+    mui.ready(function() {
+        initplayOverDate();
+
+        if(status != 0) {
+            initactualOverDate();
+
+            inirectifyFlagName();
+
+            var appA = document.getElementsByName('app-a');
+            if(appA.length > 0){
+                for(var i = 0; i < appA.length; i++){
+                    appA[i].addEventListener('tap', function(event) {
+                        var itemId = $(this).attr("data-id");
+                        var url = '${ctx}/mobile/programmeAcceptance/getProgrammeAcceptanceItem/' + itemId;
+                        console.log(url);
+                        $.ajax({
+                            url: url,
+                            contentType : "application/x-www-form-urlencoded",
+                            type: 'post',
+                            timeout: 10000,
+                            success: function(result) {
+                                if(result.code!=0){
+                                    alert(result.msg);
+                                }else {
+                                    var data = result.data;
+                                    $("#rectifyContent").val(data.rectifyContent);
+                                    $("#orderNo").val(data.orderNo);
+                                    $("#addFromPAOItem").find("#id").val(data.id);
+                                    $("#playOverDate").val(data.playOverDate);
+                                    $("#rectifyFlag").val(data.rectifyFlag);
+                                    $("#remark").val(data.remark);
+                                    $("#rectifyMeasure").val(data.rectifyMeasure);
+                                    $("#actualOverDate").val(data.actualOverDate);
+                                    var rectifyFlagName = data.rectifyFlag == 0?"未整改":"已整改";
+                                    $("#rectifyFlagName").val(rectifyFlagName);
+                                }
+                            }
+                        });
+                    },false);
+                }
+            }
+
+        }
+    });
+
+    function initplayOverDate(){
+        var btns =  mui('#playOverDate');
+        btns.each(function(i, btn) {
+            btn.addEventListener('tap', function() {
+                var optionsJson = this.getAttribute('data-options') || '{}';
+                var options = JSON.parse(optionsJson);
+                var picker = new mui.DtPicker(options);
+                picker.show(function(rs) {
+                    playOverDate.value = rs.text;
+                    picker.dispose();
+                });
+            }, false);
         });
-    }, false);
+    }
+
+    function initactualOverDate(){
+        var btns_actualOverDate =  mui('#actualOverDate');
+        btns_actualOverDate.each(function(i, btn) {
+            btn.addEventListener('tap', function() {
+                var optionsJson = this.getAttribute('data-options') || '{}';
+                var options = JSON.parse(optionsJson);
+                var picker = new mui.DtPicker(options);
+                picker.show(function(rs) {
+                    actualOverDate.value = rs.text;
+                    picker.dispose();
+                });
+            }, false);
+        });
+    }
+
+    function inirectifyFlagName(){
+
+        var rectifyFlagPicker = new mui.PopPicker();
+        rectifyFlagPicker.setData(JSON.parse(rectifyFlagJson));
+        var rectifyFlagName = document.getElementById('rectifyFlagName');
+        var rectifyFlag = document.getElementById('rectifyFlag');
+        rectifyFlagName.addEventListener('tap', function(event) {
+            rectifyFlagPicker.show(function(items) {
+                rectifyFlagName.value = items[0].text;
+                rectifyFlag.value = items[0].value;
+                //返回 false 可以阻止选择框的关闭
+                //return false;
+            });
+        }, false);
+    }
+
+
 
     /** 提交项 **/
     mui(document.body).on('tap', '#submitFromPAOItem', function(e) {
@@ -339,8 +405,10 @@
 
         //校验通过，继续执行业务逻辑
         if(check){
-            var id = $('#id').val();
             var url = '${ctx}/mobile/programmeAcceptance/addProgrammeAcceptanceItem';
+            if(status != 0) {
+                url = '${ctx}/mobile/programmeAcceptance/editProgrammeAcceptanceItem';
+            }
             $.ajax({
                 url: url,
                 data: $('#addFromPAOItem').serialize(),
@@ -352,7 +420,7 @@
                     if(result.code!=0){
                         mui.alert(result.msg);
                     }else {
-                        mui.alert('添加成功！', function() {
+                        mui.alert('保存成功！', function() {
                             document.location.href='${ctx }/mobile/programmeAcceptance/toDetails/${detailsVo.paoVo.id}';
                         });
                     }
@@ -418,7 +486,7 @@
     });
 
     /** 提交审核 **/
-    mui(document.body).on('tap', '#PAODetails', function(e) {
+    /*mui(document.body).on('tap', '#PAODetails', function(e) {
         var btnArray = ['是', '否'];
         mui.confirm('确认提交？', '提交工程验收单', btnArray, function(e) {
             if (e.index == 0) {
@@ -441,10 +509,10 @@
                 });
             }
         })
-    });
+    });*/
 
     /** 选择审核人 **/
-    mui(document.body).on('tap', '#submitReviewPAO', function(e) {
+    mui(document.body).on('tap', '#PAODetails', function(e) {
         var adminsJson = '${detailsVo.departs}'
         var json =JSON.parse(adminsJson)
         var userPicker = new mui.PopPicker();
@@ -543,6 +611,33 @@
         });
     });
 
+
+    var view = viewApi.view;
+    (function($) {
+        //处理view的后退与webview后退
+        var oldBack = $.back;
+        $.back = function() {
+            if (viewApi.canBack()) { //如果view可以后退，则执行view的后退
+                viewApi.back();
+            } else { //执行webview后退
+                oldBack();
+            }
+        };
+        //监听页面切换事件方案1,通过view元素监听所有页面切换事件，目前提供pageBeforeShow|pageShow|pageBeforeBack|pageBack四种事件(before事件为动画开始前触发)
+        //第一个参数为事件名称，第二个参数为事件回调，其中e.detail.page为当前页面的html对象
+        view.addEventListener('pageBeforeShow', function(e) {
+            //				console.log(e.detail.page.id + ' beforeShow');
+        });
+        view.addEventListener('pageShow', function(e) {
+            //				console.log(e.detail.page.id + ' show');
+        });
+        view.addEventListener('pageBeforeBack', function(e) {
+            //				console.log(e.detail.page.id + ' beforeBack');
+        });
+        view.addEventListener('pageBack', function(e) {
+            //				console.log(e.detail.page.id + ' back');
+        });
+    })(mui);
 </script>
 </body>
 </html>
