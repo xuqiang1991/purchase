@@ -471,6 +471,13 @@ public class CAMServiceImpl implements CAMService {
         //总经理审核写入付款单
         if(PurchaseUtil.STATUS_3 == status){
             paymentOrderService.generatePaymenyOrder(order);
+
+
+            //回写采购单
+            BizPurchaseOrder tmp1 = new BizPurchaseOrder();
+            tmp1.setId(id);
+            tmp1.setRequestAmount(order.getApplyPrice());
+            purchaseOrderMapper.updateByPrimaryKeySelective(tmp1);
         }
 
         return ResultUtil.ok();

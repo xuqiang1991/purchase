@@ -234,6 +234,18 @@
                         <label>结算金额</label>
                         <input type="number" name="settlePrice" class="mui-input-clear" mui-verify="required" placeholder="请输入结算金额">
                     </div>
+                    <c:if test="${detailsVo.order.orderType == 1}">
+                        <div class="mui-input-row">
+                            <label>质保期（月）</label>
+                            <input type="number" name="warrantyDate" class="mui-input-clear" mui-verify="required" placeholder="请输入质保期（月）">
+                        </div>
+                    </c:if>
+                    <c:if test="${detailsVo.order.orderType == 2}">
+                        <div class="mui-input-row">
+                            <label>日期</label>
+                            <input id="dateText" type="text" name="date" class="mui-input-clear" mui-verify="required" data-options='{"type":"date","beginYear":2014}' placeholder="请选择日期">
+                        </div>
+                    </c:if>
                     <div>
                         <textarea name="remark" id="remark" rows="5" class="mui-input-clear" placeholder="备注"></textarea>
                     </div>

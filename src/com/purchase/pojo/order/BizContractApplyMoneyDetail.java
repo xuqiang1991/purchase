@@ -24,6 +24,10 @@ public class BizContractApplyMoneyDetail {
 
     private BigDecimal settlePrice;
 
+    private Float warrantyDate;
+
+    private Date date;
+
     private String remark;
 
     private Date createTime;
@@ -108,6 +112,22 @@ public class BizContractApplyMoneyDetail {
 
     public void setSettlePrice(BigDecimal settlePrice) {
         this.settlePrice = settlePrice;
+    }
+
+    public Float getWarrantyDate() {
+        return warrantyDate;
+    }
+
+    public void setWarrantyDate(Float warrantyDate) {
+        this.warrantyDate = warrantyDate;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getRemark() {
