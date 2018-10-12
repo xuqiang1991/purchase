@@ -145,7 +145,7 @@
                                                         <label>实际完成日期：<fmt:formatDate value="${item.actualOverDate}" pattern="yyyy-MM-dd"/></label>
                                                     </p>
                                                     <p>
-                                                        <label>备注：${item.remark}</label>
+                                                        <label>备注：${item.remark}${detailsVo.paoVo.status}</label>
                                                     </p>
                                                 </div>
                                             </div>
@@ -155,7 +155,7 @@
                                                         <button type="button" class="mui-btn mui-btn-primary deleteItem" value="${item.id}">刪除</button>
                                                     </div>
                                                 </c:if>
-                                                <c:if test="${detailsVo.paoVo.status != 0}">
+                                                <c:if test="${detailsVo.paoVo.status != 0 && detailsVo.paoVo.status != 4}">
                                                     <div>
                                                         <a href="#fromPAOItem" name="app-a" data-id="${item.id}">
                                                             <button type="button" class="mui-btn mui-btn-primary" value="${item.id}">审核</button>
@@ -308,7 +308,6 @@
                     appA[i].addEventListener('tap', function(event) {
                         var itemId = $(this).attr("data-id");
                         var url = '${ctx}/mobile/programmeAcceptance/getProgrammeAcceptanceItem/' + itemId;
-                        console.log(url);
                         $.ajax({
                             url: url,
                             contentType : "application/x-www-form-urlencoded",

@@ -33,7 +33,11 @@ public interface UCAMService {
 
     ResultUtil addUCAMOrderDetail(BizUncontractApplyMoneyDetail ucamDetail);
 
+    ResultUtil editUCAMOrderDetail(BizUncontractApplyMoneyDetail ucamDetail);
+
     ResultUtil deleteUCAMItem(String id);
+
+    ResultUtil selUCAMItem(String id);
 
     ResultUtil submitReviewUCAMOrder(TbAdmin admin, String id, Long userId);
 

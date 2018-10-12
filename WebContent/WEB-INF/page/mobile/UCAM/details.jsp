@@ -194,6 +194,13 @@
                                                         <button type="button" class="mui-btn mui-btn-primary deleteItem" value="${item.id}">刪除</button>
                                                     </div>
                                                 </c:if>
+                                                <c:if test="${detailsVo.ucamVo.status != 0 && detailsVo.ucamVo.status != 4}">
+                                                    <div>
+                                                        <a href="#fromUCAMItem" name="app-a" data-id="${item.id}">
+                                                            <button type="button" class="mui-btn mui-btn-primary" value="${item.id}">审核</button>
+                                                        </a>
+                                                    </div>
+                                                </c:if>
                                             </div>
                                         </div>
                                     </c:forEach>
@@ -222,9 +229,9 @@
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="UCAMDetails">提交</button>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="deleteUCAMOrder" value="${detailsVo.ucamVo.id}">删除</button>
                     </c:when>
-                    <c:when test="${detailsVo.ucamVo.status == 1 && empty detailsVo.ucamVo.costDepartUser && empty detailsVo.reviewUserId}">
+                    <%--<c:when test="${detailsVo.ucamVo.status == 1 && empty detailsVo.ucamVo.costDepartUser && empty detailsVo.reviewUserId}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="submitReviewUCAM">选择审核人</button>
-                    </c:when>
+                    </c:when>--%>
                     <c:when test="${!empty detailsVo.reviewUserId}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewUCAM">审核</button>
                     </c:when>
@@ -242,54 +249,59 @@
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>返回
         </button>
-        <h1 class="mui-center mui-title">增加请款单项</h1>
+        <h1 class="mui-center mui-title"><c:if test="${detailsVo.ucamVo.status != 0}">审批</c:if><c:if test="${detailsVo.ucamVo.status == 0}">增加</c:if>请款单项</h1>
     </div>
     <div class="mui-page-content">
         <div class="mui-scroll-wrapper">
             <div class="mui-scroll"  style="height: 100%;">
                 <form class="mui-input-group" id="addFromUCAMItem">
+                    <input type="hidden" id="orderNo" name="orderNo" value="${detailsVo.ucamVo.orderNo}">
+                    <input type="hidden" id="id" name="id" value="">
                     <div class="mui-input-row">
                         <label>材料/项目内容</label>
-                        <input type="text" name="projectContent" class="mui-input-clear" mui-verify="required" placeholder="请输入材料/项目内容">
+                        <input type="text" id="projectContent" name="projectContent" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入材料/项目内容">
                     </div>
                     <div class="mui-input-row">
                         <label>工程量</label>
-                        <input type="number" name="quantities" class="mui-input-clear" mui-verify="required" placeholder="请输入工程量">
+                        <input type="number" id="quantities" name="quantities" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入工程量">
                     </div>
-                    <div class="mui-input-row mui-input-range">
+                    <div class="mui-input-row">
                         <label>申报完成率</label>
-                        <input type="range" min="0" max="100" value="100" name="applyCompletionRate" mui-verify="required">
-                    </div>
-                    <div class="mui-input-row mui-input-range">
-                        <label>审核完成率</label>
-                        <input type="range" min="0" max="100" value="100" name="approvalCompletionRate" mui-verify="required">
+                        <input type="number" min="0" max="100" value="" id="applyCompletionRate" name="applyCompletionRate" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入申报完成率">
                     </div>
                     <div class="mui-input-row">
                         <label>单位</label>
-                        <input type="text" name="unit" class="mui-input-clear" mui-verify="required" placeholder="请输入单位">
+                        <input type="text" id="unit" name="unit" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入单位">
                     </div>
                     <div class="mui-input-row">
                         <label>单价</label>
-                        <input type="number" name="price" class="mui-input-clear" mui-verify="required" placeholder="请输入单价">
+                        <input type="number" id="price" name="price" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入单价">
                     </div>
                     <div class="mui-input-row">
                         <label>申报金额</label>
-                        <input type="number" name="applyPrice" class="mui-input-clear" mui-verify="required" placeholder="请输入申报金额">
+                        <input type="number" id="applyPrice" name="applyPrice" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入申报金额">
                     </div>
-                    <div class="mui-input-row">
-                        <label>审批金额</label>
-                        <input type="number" name="approvalPrice" class="mui-input-clear" mui-verify="required" placeholder="请输入审批金额">
-                    </div>
+
                     <c:if test="${detailsVo.ucamVo.orderType == 1}">
                         <div class="mui-input-row">
                             <label>质保期（月）</label>
-                            <input type="number" name="warrantyDate" class="mui-input-clear" mui-verify="required" placeholder="请输入质保期（月）">
+                            <input type="number" id="warrantyDate" name="warrantyDate" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入质保期（月）">
                         </div>
                     </c:if>
                     <c:if test="${detailsVo.ucamVo.orderType == 2}">
                         <div class="mui-input-row">
                             <label>日期</label>
-                            <input type="text" id="date" name="date" class="mui-input-clear" mui-verify="required" readonly data-options='{"type":"date","beginYear":2018,"endYear":2028}' placeholder="请选择日期">
+                            <input type="text" id="date" name="date" class="mui-input-clear" mui-verify="required" readonly  <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> data-options='{"type":"date","beginYear":2018,"endYear":2028}' placeholder="请选择日期">
+                        </div>
+                    </c:if>
+                    <c:if test="${detailsVo.ucamVo.status != 0}">
+                        <div class="mui-input-row">
+                            <label>审批金额</label>
+                            <input type="number" id="approvalPrice" name="approvalPrice" class="mui-input-clear" mui-verify="required" placeholder="请输入审批金额">
+                        </div>
+                        <div class="mui-input-row">
+                            <label>审核完成率</label>
+                            <input type="number" min="0" max="100"  id="approvalCompletionRate" name="approvalCompletionRate" mui-verify="required"placeholder="请输入审核完成率">
                         </div>
                     </c:if>
                     <%--<div class="mui-input-row">
@@ -297,10 +309,10 @@
                         <input type="text" name="amount" class="mui-input-clear" mui-verify="required">
                     </div>--%>
                     <div>
-                        <textarea name="remark" id="remark" rows="5" class="mui-input-clear" placeholder="备注"></textarea>
+                        <textarea name="remark" id="remark" rows="5" class="mui-input-clear"  <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="备注"></textarea>
                     </div>
                     <div class="mui-button-row" style="padding-bottom: 20px;">
-                        <button type="button" class="mui-btn mui-btn-primary" id="submitFromUCAMItem">添加</button>
+                        <button type="button" class="mui-btn mui-btn-primary" id="submitFromUCAMItem">保存</button>
                     </div>
                 </form>
             </div>
@@ -348,18 +360,75 @@
 
     mui('.mui-scroll-wrapper').scroll();
 
-    var btns_date =  mui('#date');
-    btns_date.each(function(i, btn) {
-        btn.addEventListener('tap', function() {
-            var optionsJson = this.getAttribute('data-options') || '{}';
-            var options = JSON.parse(optionsJson);
-            var picker = new mui.DtPicker(options);
-            picker.show(function(rs) {
-                date.value = rs.text;
-                picker.dispose();
-            });
-        }, false);
+    var ucamVoOrderType = '${detailsVo.ucamVo.orderType}';
+    var status = '${detailsVo.ucamVo.status}';
+
+
+    mui.ready(function() {
+        if(ucamVoOrderType == 2){
+            initDate();
+        }
+
+        if(status != 0) {
+            var appA = document.getElementsByName('app-a');
+            if(appA.length > 0){
+                for(var i = 0; i < appA.length; i++){
+                    appA[i].addEventListener('tap', function(event) {
+                        var itemId = $(this).attr("data-id");
+                        var url = '${ctx}/mobile/UCAM/getUCAMItem/' + itemId;
+                        $.ajax({
+                            url: url,
+                            contentType : "application/x-www-form-urlencoded",
+                            type: 'post',
+                            timeout: 10000,
+                            success: function(result) {
+                                if(result.code!=0){
+                                    alert(result.msg);
+                                }else {
+                                    var data = result.data;
+                                    $("#addFromUCAMItem").find("#id").val(data.id);
+                                    $("#orderNo").val(data.orderNo);
+                                    $("#projectContent").val(data.projectContent);
+                                    $("#quantities").val(data.quantities);
+                                    $("#applyCompletionRate").val(data.applyCompletionRate);
+                                    $("#unit").val(data.unit);
+                                    $("#price").val(data.price);
+                                    $("#applyPrice").val(data.applyPrice);
+                                    $("#remark").val(data.remark);
+                                    if(ucamVoOrderType == 1){
+                                        $("#warrantyDate").val(data.warrantyDate);
+                                    }
+                                    if(ucamVoOrderType == 2){
+                                        $("#date").val(data.date);
+                                    }
+                                    $("#approvalCompletionRate").val(data.approvalCompletionRate);
+                                    $("#approvalPrice").val(data.approvalPrice);
+                                }
+                            }
+                        });
+                    },false);
+                }
+            }
+
+        }
     });
+
+    function initDate(){
+        var btns_date =  mui('#date');
+        btns_date.each(function(i, btn) {
+            btn.addEventListener('tap', function() {
+                var optionsJson = this.getAttribute('data-options') || '{}';
+                var options = JSON.parse(optionsJson);
+                var picker = new mui.DtPicker(options);
+                picker.show(function(rs) {
+                    date.value = rs.text;
+                    picker.dispose();
+                });
+            }, false);
+        });
+    }
+
+
 
     /** 提交项 **/
     mui(document.body).on('tap', '#submitFromUCAMItem', function(e) {
@@ -380,7 +449,10 @@
         //校验通过，继续执行业务逻辑
         if(check){
             var orderNo = $('#orderNo').val();
-            var url = '${ctx}/mobile/UCAM/addUCAMItem/'+ orderNo
+            var url = '${ctx}/mobile/UCAM/addUCAMItem/'+ orderNo;
+            if(status != 0) {
+                url = '${ctx}/mobile/UCAM/editUCAMItem';
+            }
             $.ajax({
                 url: url,
                 data: $('#addFromUCAMItem').serialize(),
@@ -458,7 +530,7 @@
     });
 
     /** 提交审核 **/
-    mui(document.body).on('tap', '#UCAMDetails', function(e) {
+    /*mui(document.body).on('tap', '#UCAMDetails', function(e) {
         var btnArray = ['是', '否'];
         mui.confirm('确认提交？', '提交合同外请款单', btnArray, function(e) {
             if (e.index == 0) {
@@ -481,10 +553,10 @@
                 });
             }
         })
-    });
+    });*/
 
     /** 选择审核人 **/
-    mui(document.body).on('tap', '#submitReviewUCAM', function(e) {
+    mui(document.body).on('tap', '#UCAMDetails', function(e) {
         var adminsJson = '${detailsVo.departs}'
         var json =JSON.parse(adminsJson)
         var userPicker = new mui.PopPicker();
@@ -532,6 +604,7 @@
             applyUser.value = items[0].value;
         });
     });
+
     mui(document.body).on('tap', '#selectAuditResults', function(e) {
         var adminsJson = '[{"text":"审核通过","value":"1"},{"text":"审核不通过","value":"0"}]';
         var json =JSON.parse(adminsJson)
@@ -582,6 +655,33 @@
             });
         });
     });
+
+    var view = viewApi.view;
+    (function($) {
+        //处理view的后退与webview后退
+        var oldBack = $.back;
+        $.back = function() {
+            if (viewApi.canBack()) { //如果view可以后退，则执行view的后退
+                viewApi.back();
+            } else { //执行webview后退
+                oldBack();
+            }
+        };
+        //监听页面切换事件方案1,通过view元素监听所有页面切换事件，目前提供pageBeforeShow|pageShow|pageBeforeBack|pageBack四种事件(before事件为动画开始前触发)
+        //第一个参数为事件名称，第二个参数为事件回调，其中e.detail.page为当前页面的html对象
+        view.addEventListener('pageBeforeShow', function(e) {
+            //				console.log(e.detail.page.id + ' beforeShow');
+        });
+        view.addEventListener('pageShow', function(e) {
+            //				console.log(e.detail.page.id + ' show');
+        });
+        view.addEventListener('pageBeforeBack', function(e) {
+            //				console.log(e.detail.page.id + ' beforeBack');
+        });
+        view.addEventListener('pageBack', function(e) {
+            //				console.log(e.detail.page.id + ' back');
+        });
+    })(mui);
 
 </script>
 </body>

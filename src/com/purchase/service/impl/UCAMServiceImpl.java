@@ -7,10 +7,7 @@ import com.purchase.mapper.admin.TbAdminMapper;
 import com.purchase.mapper.order.BizUncontractApplyMoneyDetailMapper;
 import com.purchase.mapper.order.BizUncontractApplyMoneyMapper;
 import com.purchase.pojo.admin.TbAdmin;
-import com.purchase.pojo.order.BizUncontractApplyMoney;
-import com.purchase.pojo.order.BizUncontractApplyMoneyDetail;
-import com.purchase.pojo.order.BizUncontractApplyMoneyDetailExample;
-import com.purchase.pojo.order.BizUncontractApplyMoneyExample;
+import com.purchase.pojo.order.*;
 import com.purchase.service.PaymentOrderService;
 import com.purchase.service.UCAMService;
 import com.purchase.util.*;
@@ -44,6 +41,12 @@ import java.util.List;
 public class UCAMServiceImpl implements UCAMService {
 
     private static Logger logger = LoggerFactory.getLogger(UCAMServiceImpl.class);
+
+    public static final int STATUS_0 = 0;//未提交
+    public static final int STATUS_1 = 1;//已提交
+    public static final int STATUS_2 = 2;//工程部已审核
+    public static final int STATUS_3 = 3;//成本部已审核
+    public static final int STATUS_4 = 4;//总经理已审核
 
     @Autowired
     private BizUncontractApplyMoneyMapper ucamMapper;
@@ -131,7 +134,6 @@ public class UCAMServiceImpl implements UCAMService {
         if(StringUtils.isEmpty(order.getId())){
             id = WebUtils.generateUUID();
             order.setId(id);
-            //生成采购单号
             String yyddmm = DateUtil.formatDate(date,DateUtil.DateFormat3);
             String maxNo = ucamMapper.selMaxNo(yyddmm);
             if(StringUtils.isEmpty(maxNo)){
@@ -140,11 +142,9 @@ public class UCAMServiceImpl implements UCAMService {
                 maxNo = maxNo.substring(maxNo.length() - 3);
             }
             maxNo = String.format("%03d", Integer.parseInt(maxNo) + 1);
-            String ucamNo = UCAM_PREFIX + yyddmm + "-" + maxNo;
-
-            order.setOrderNo(ucamNo);
+            order.setOrderNo(UCAM_PREFIX + yyddmm + "-" + maxNo);
             //参数补充
-            order.setStatus(PurchaseUtil.STATUS_0);
+            order.setStatus(STATUS_0);
             order.setUpdateDate(date);
             order.setCreateTime(date);
             ucamMapper.insertSelective(order);
@@ -192,7 +192,7 @@ public class UCAMServiceImpl implements UCAMService {
     @Override
     public ResultUtil delUCAMOrder(String id) {
         BizUncontractApplyMoney order = ucamMapper.selectByPrimaryKey(id);
-        if(!(PurchaseUtil.STATUS_0 == order.getStatus())){
+        if(!(STATUS_0 == order.getStatus())){
             return ResultUtil.error("非未提交状态的合同外请款单不能删除！");
         }
         ucamMapper.deleteByPrimaryKey(id);
@@ -208,13 +208,13 @@ public class UCAMServiceImpl implements UCAMService {
         BizUncontractApplyMoney order = ucamMapper.selectByPrimaryKey(id);
 
         int status = order.getStatus();
-        if(!(PurchaseUtil.STATUS_0 == status)){
+        if(!(STATUS_0 == status)){
             return ResultUtil.error("非未提交状态的合同外请款单不能提交！");
         }
 
         BizUncontractApplyMoney tmp = new BizUncontractApplyMoney();
         tmp.setId(order.getId());
-        tmp.setStatus(PurchaseUtil.STATUS_1);
+        tmp.setStatus(STATUS_1);
         tmp.setApplyDate(new Date());
         ucamMapper.updateByPrimaryKeySelective(tmp);
         return ResultUtil.ok();
@@ -242,26 +242,26 @@ public class UCAMServiceImpl implements UCAMService {
             }
             List<OrderHistory> historyList = new ArrayList<OrderHistory>();
             int status = vo.getStatus();
-            if(PurchaseUtil.STATUS_0 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
-            }else if(PurchaseUtil.STATUS_1 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
-                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
-            }else if(PurchaseUtil.STATUS_2 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
-                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
-                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),PurchaseUtil.STATUS_2));
-            }else if(PurchaseUtil.STATUS_3 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
-                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
-                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),PurchaseUtil.STATUS_2));
-                historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),PurchaseUtil.STATUS_3));
-            }else if(PurchaseUtil.STATUS_4 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
-                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
-                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),PurchaseUtil.STATUS_2));
-                historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),PurchaseUtil.STATUS_3));
-                historyList.add(new OrderHistory(vo.getManagerAdmin().getFullname(),vo.getManagerDepartDate(),vo.getManagerDepartOpinion(),vo.getManagerDepartApproval(),PurchaseUtil.STATUS_4));
+            if(STATUS_0 == status){
+                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,STATUS_0));
+            }else if(STATUS_1 == status){
+                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,STATUS_0));
+                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,STATUS_1));
+            }else if(STATUS_2 == status){
+                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,STATUS_0));
+                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,STATUS_1));
+                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),STATUS_2));
+            }else if(STATUS_3 == status){
+                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,STATUS_0));
+                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,STATUS_1));
+                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),STATUS_2));
+                historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),STATUS_3));
+            }else if(STATUS_4 == status){
+                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,STATUS_0));
+                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,STATUS_1));
+                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),STATUS_2));
+                historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),STATUS_3));
+                historyList.add(new OrderHistory(vo.getManagerAdmin().getFullname(),vo.getManagerDepartDate(),vo.getManagerDepartOpinion(),vo.getManagerDepartApproval(),STATUS_4));
             }
             Collections.reverse(historyList);
             vo.setHistoryList(historyList);
@@ -275,19 +275,15 @@ public class UCAMServiceImpl implements UCAMService {
             ucamOrderDetialVo.setUcamDetail(detailList);
 
             //选择审核人
-            String depart = null;
+            String depart = "工程部";
             Long reviewUserId = null;
-            if(PurchaseUtil.STATUS_1 == vo.getStatus()){
-                if(vo.getCostDepartUser() != null){
-                    reviewUserId = vo.getCostDepartUser();
-                    depart = "工程部";
-                }else {
-                    depart = "成本部";
-                }
-            }else if(PurchaseUtil.STATUS_2 == vo.getStatus()){
-                depart = "工程部";
+            if(STATUS_1 == vo.getStatus()){
                 reviewUserId = vo.getProjectDepartUser();
-            }else if(PurchaseUtil.STATUS_3 == vo.getStatus()){
+                depart = "工程部";
+            }else if(STATUS_2 == vo.getStatus()){
+                depart = "成本部";
+                reviewUserId = vo.getCostDepartUser();
+            }else if(STATUS_3 == vo.getStatus()){
                 depart = "总经理";
                 reviewUserId = vo.getManagerDepartUser();
             }
@@ -350,6 +346,12 @@ public class UCAMServiceImpl implements UCAMService {
     }
 
     @Override
+    public ResultUtil editUCAMOrderDetail(BizUncontractApplyMoneyDetail ucamDetail) {
+        ucamDetailMapper.updateByPrimaryKeySelective(ucamDetail);
+        return ResultUtil.ok();
+    }
+
+    @Override
     public ResultUtil deleteUCAMItem(String id) {
         BizUncontractApplyMoneyDetail ucamDetail = ucamDetailMapper.selectByPrimaryKey(id);
         if(ucamDetail.getApplyPrice() != null){
@@ -378,17 +380,26 @@ public class UCAMServiceImpl implements UCAMService {
     }
 
     @Override
+    public ResultUtil selUCAMItem(String id) {
+        BizUncontractApplyMoneyDetail detail = ucamDetailMapper.selectByPrimaryKey(id);
+        ResultUtil resultUtil = new ResultUtil();
+        resultUtil.setCode(0);
+        resultUtil.setData(detail);
+        return resultUtil;
+    }
+
+    @Override
     public ResultUtil submitReviewUCAMOrder(TbAdmin admin, String id, Long userId) {
         BizUncontractApplyMoney order = ucamMapper.selectByPrimaryKey(id);
 
         int status = order.getStatus();
-        if(PurchaseUtil.STATUS_1 != status){
+        if(STATUS_1 != status){
             return ResultUtil.error("非未提交状态的合同外请款单不能选择成本部审核！");
         }
         Date date = new Date();
         BizUncontractApplyMoney tmp = new BizUncontractApplyMoney();
         tmp.setId(order.getId());
-        tmp.setCostDepartUser(userId);
+        tmp.setProjectDepartUser(userId);
         tmp.setUpdateDate(date);
 
         ucamMapper.updateByPrimaryKeySelective(tmp);
@@ -404,13 +415,13 @@ public class UCAMServiceImpl implements UCAMService {
         //判断审核人
         Long reviewer = null;
         Boolean reviewerResults = null;
-        if(PurchaseUtil.STATUS_1 ==  order.getStatus()){
-            reviewer = order.getCostDepartUser();
-            reviewerResults = order.getCostDepartApproval();
-        }else if (PurchaseUtil.STATUS_2 ==  order.getStatus()){
+        if(STATUS_1 ==  order.getStatus()){
             reviewer = order.getProjectDepartUser();
             reviewerResults = order.getProjectDepartApproval();
-        }else if (PurchaseUtil.STATUS_3 ==  order.getStatus()){
+        }else if (STATUS_2 ==  order.getStatus()){
+            reviewer = order.getCostDepartUser();
+            reviewerResults = order.getCostDepartApproval();
+        }else if (STATUS_3 ==  order.getStatus()){
             reviewer = order.getManagerDepartUser();
             reviewerResults = order.getManagerDepartApproval();
         }
@@ -425,30 +436,31 @@ public class UCAMServiceImpl implements UCAMService {
         }
 
         //审核状态
-        if(PurchaseUtil.STATUS_1 ==  order.getStatus()){
-            order.setStatus(PurchaseUtil.STATUS_2);
+        if(STATUS_1 ==  order.getStatus()){
+            order.setStatus(STATUS_2);
+            order.setProjectDepartDate(date);
+            order.setProjectDepartOpinion(auditOpinion);
+            order.setCostDepartUser(applyUser);
+            //order.setProjectDepartUser(applyUser);
+        }else if (STATUS_2 ==  order.getStatus()){
+            order.setStatus(STATUS_3);
             order.setCostDepartApproval(auditResults);
             order.setCostDepartDate(date);
             order.setCostDepartOpinion(auditOpinion);
-            order.setProjectDepartUser(applyUser);
-        }else if (PurchaseUtil.STATUS_2 ==  order.getStatus()){
-            order.setStatus(PurchaseUtil.STATUS_3);
-            order.setProjectDepartDate(date);
-            order.setProjectDepartOpinion(auditOpinion);
             order.setManagerDepartUser(applyUser);
-        }else if (PurchaseUtil.STATUS_3 ==  order.getStatus()){
-            order.setStatus(PurchaseUtil.STATUS_4);
+        }else if (STATUS_3 ==  order.getStatus()){
+            order.setStatus(STATUS_4);
             order.setManagerDepartDate(date);
             order.setManagerDepartOpinion(auditOpinion);
-        }else if (PurchaseUtil.STATUS_4 ==  order.getStatus()){
-            order.setStatus(PurchaseUtil.STATUS_5);
+        }else if (STATUS_4 ==  order.getStatus()){
+            //order.setStatus(STATUS_5);
         }
         order.setUpdateDate(date);
 
         ucamMapper.updateByPrimaryKeySelective(order);
 
         //总经理审核写入付款单
-        if(PurchaseUtil.STATUS_3 == order.getStatus()){
+        if(STATUS_4 == order.getStatus()){
             paymentOrderService.generatePaymenyOrder(order);
         }
 

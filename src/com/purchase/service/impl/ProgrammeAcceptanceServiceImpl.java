@@ -259,14 +259,10 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
             String depart = "工程部";
             Long reviewUserId = null;
             if(STATUS_1 == vo.getStatus()){
-                if(vo.getProjectDepartUser() != null){
-                    reviewUserId = vo.getProjectDepartUser();
-                    depart = "工程部";
-                }else {
-                    depart = "成本部";
-                }
-            }else if(STATUS_2 == vo.getStatus()){
+                reviewUserId = vo.getProjectDepartUser();
                 depart = "工程部";
+            }else if(STATUS_2 == vo.getStatus()){
+                depart = "成本部";
                 reviewUserId = vo.getCostDepartUser();
             }else if(STATUS_3 == vo.getStatus()){
                 depart = "总经理";

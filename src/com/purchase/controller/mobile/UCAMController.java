@@ -170,7 +170,12 @@ public class UCAMController {
     @ResponseBody
     public ResultUtil submitReviewUCAMOrder(String id, Long userId){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        return ucamService.submitReviewUCAMOrder(admin, id, userId);
+        ResultUtil resultUtil = ucamService.submitUCAMOrder(id);
+        if(resultUtil.getCode() == 0){
+            return ucamService.submitReviewUCAMOrder(admin, id, userId);
+        }else {
+            return resultUtil;
+        }
     }
 
     @SysLog(value="审核合同外请款单")
@@ -181,35 +186,6 @@ public class UCAMController {
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         return ucamService.reviewUCAMOrder(admin, id, auditResults,applyUser,auditOpinion);
     }
-
-
-   /* @SysLog(value="成本部审核合同外请款单详情")
-    @RequestMapping("costReviewUCAMOrder")
-    @RequiresPermissions("mobile:UCAM:costReview")
-    @ResponseBody
-    public ResultUtil costReviewUCAMOrder(String id){
-        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        return ucamService.reviewUCAMOrder(admin, id);
-    }
-
-    @SysLog(value="工程部合同外请款单详情")
-    @RequestMapping("projectUCAMOrder")
-    @RequiresPermissions("mobile:UCAM:projectReview")
-    @ResponseBody
-    public ResultUtil projectReviewUCAMOrder(String id){
-        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        return ucamService.reviewUCAMOrder(admin, id);
-    }
-*/
-
-    /*@SysLog(value="总经理审核合同外请款单详情")
-    @RequestMapping("managerUCAMOrder")
-    @RequiresPermissions("mobile:UCAM:managerReview")
-    @ResponseBody
-    public ResultUtil managerReviewUCAMOrder(String id){
-        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        return ucamService.reviewUCAMOrder(admin, id);
-    }*/
 
 
     @SysLog(value="新增合同外请款单单项")
@@ -224,6 +200,16 @@ public class UCAMController {
         return ucamService.addUCAMOrderDetail(order);
     }
 
+    @SysLog(value="更新合同外请款单单项")
+    @RequestMapping("editUCAMItem")
+    @RequiresPermissions("mobile:UCAM:save")
+    @ResponseBody
+    public ResultUtil editUCAMItem(BizUncontractApplyMoneyDetail order){
+        Date date = new Date();
+        order.setUpdateDate(date);
+        return ucamService.editUCAMOrderDetail(order);
+    }
+
     @SysLog(value="删除合同外请款单单项")
     @RequestMapping("deleteUCAMItem/{id}")
     @RequiresPermissions("mobile:UCAM:save")
@@ -232,6 +218,12 @@ public class UCAMController {
         return ucamService.deleteUCAMItem(id);
     }
 
-
+    @SysLog(value="查询合同外请款单单项")
+    @RequestMapping("getUCAMItem/{id}")
+    @RequiresPermissions("mobile:UCAM:list")
+    @ResponseBody
+    public ResultUtil getUCAMItem(@PathVariable("id") String id){
+        return ucamService.selUCAMItem(id);
+    }
 
 }
