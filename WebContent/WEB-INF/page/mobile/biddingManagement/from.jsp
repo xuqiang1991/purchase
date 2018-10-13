@@ -265,14 +265,21 @@
 
         var areasJson = '${areas}';
         console.log(areasJson);
-        var areasPicker = new mui.PopPicker();
+        var areasPicker = new mui.PopPicker({
+            layer: 2
+        });
         areasPicker.setData(JSON.parse(areasJson));
         var areaName = document.getElementById('areaName');
         var areaId = document.getElementById('areaId');
         areaName.addEventListener('tap', function(event) {
             areasPicker.show(function(items) {
-                areaName.value = items[0].text;
-                areaId.value = items[0].value;
+                if(items[1].value != null){
+                    areaName.value = items[1].text;
+                    areaId.value = items[1].value;
+                }else{
+                    areaName.value = items[0].text;
+                    areaId.value = items[0].value;
+                }
                 //返回 false 可以阻止选择框的关闭
                 //return false;
             });

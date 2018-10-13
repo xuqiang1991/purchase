@@ -16,7 +16,9 @@ import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -637,22 +639,6 @@ public class AdminServiceImpl implements AdminService {
 		example.createCriteria().andParentIdIsNull();
 		//查询没有上级菜单的部门
 		List<TbDepartment> depts = tbDepartmentMapper.selectByExample(example);
-		/*TbAdminExample adminExample = new TbAdminExample();*/
-		/*List<TbAdmin> admis = tbAdminMapper.getAdmins(1);
-		Map<String,List<ChoseAdminVO>> adminMap = new HashMap<>();
-		if(!CollectionUtils.isEmpty(admis)){
-			for (TbAdmin a: admis) {
-				if(a.getDeptId() != null){
-					String key = a.getDeptId().toString();
-					List<ChoseAdminVO> as = new ArrayList<>();
-					if(adminMap.containsKey(key)){
-						as = adminMap.get(key);
-					}
-					as.add(new ChoseAdminVO(a.getId().toString(),a.getUsername()));
-					adminMap.put(key,as);
-				}
-			}
-		}*/
 		if(!CollectionUtils.isEmpty(depts)){
 			for (TbDepartment d: depts) {
 				ChoseDeptVO dept = new ChoseDeptVO(d.getId().toString(),d.getName());
@@ -674,12 +660,60 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<ChoseAreaVO> selectArea() {
 		List<ChoseAreaVO> item = new ArrayList<>();
-		List<TbArea> areas = tbAreaMapper.selectByExample(new TbAreaExample());
+        TbAreaExample example=new TbAreaExample();
+        example.createCriteria().andParentIdIsNull().andValidEqualTo(Boolean.TRUE);
+		List<TbArea> areas = tbAreaMapper.selectByExample(example);
 		if(!CollectionUtils.isEmpty(areas)){
-			for (TbArea s: areas) {
-				item.add(new ChoseAreaVO(s.getId().toString(),s.getName()));
-			}
+            Map<String,Object> retMap = fristArea(areas);
+            for (TbArea s: areas) {
+                TbAreaExample exampleParant = new TbAreaExample();
+                exampleParant.createCriteria().andParentIdEqualTo(s.getId()).andValidEqualTo(Boolean.TRUE);
+                List<TbArea> areasParant = tbAreaMapper.selectByExample(exampleParant);
+                if(!CollectionUtils.isEmpty(areasParant)){
+                    List<ChoseAreaVO> itemParant = new ArrayList<>();
+                    for (TbArea sp: areasParant){
+                        itemParant.add(new ChoseAreaVO(sp.getId().toString(),sp.getName()));
+                    }
+                    item.add(new ChoseAreaVO(s.getId().toString(),s.getName(),itemParant));
+                }else{
+                    item.add(new ChoseAreaVO(s.getId().toString(),s.getName()));
+                }
+            }
+           /* List<ChoseAreaVO> fristArea = (List<ChoseAreaVO>) retMap.get("fristArea");
+            if(!CollectionUtils.isEmpty(fristArea)){
+                Map<Long,Object> areaMap = (Map<Long, Object>) retMap.get("otherArea");
+                for (ChoseAreaVO s: fristArea) {
+                    if(areaMap.containsKey(s.getValue())){
+
+                    }
+
+                    item.add(new ChoseAreaVO(s.getId().toString(),s.getName()));
+
+                }
+            }*/
 		}
+
 		return item;
 	}
+
+
+
+
+	private Map<String,Object> fristArea(List<TbArea> areas){
+        Map<String,Object> retMap = new HashMap<>();
+        List<ChoseAreaVO> fristArea = new ArrayList<>();
+        if(!CollectionUtils.isEmpty(areas)){
+            Map<Long,Object> areaMap = new HashMap<>();
+            for (TbArea s: areas) {
+                if(s.getParentId() == null){
+                    fristArea.add(new ChoseAreaVO(s.getId().toString(),s.getName()));
+                }else{
+                    areaMap.put(s.getParentId(),s);
+                }
+            }
+            retMap.put("fristArea",fristArea);
+            retMap.put("otherArea",areaMap);
+        }
+        return retMap;
+    }
 }

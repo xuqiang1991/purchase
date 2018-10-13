@@ -5,20 +5,16 @@ import com.github.pagehelper.PageInfo;
 import com.purchase.mapper.admin.TbAdminMapper;
 import com.purchase.mapper.admin.TbAreaMapper;
 import com.purchase.mapper.order.BizBiddingManagementMapper;
-import com.purchase.pojo.admin.TbArea;
+import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.order.BizBiddingManagement;
 import com.purchase.pojo.order.BizBiddingManagementExample;
-import com.purchase.pojo.order.BizUncontractApplyMoney;
-import com.purchase.pojo.order.BizUncontractApplyMoneyExample;
 import com.purchase.service.BiddingManagementService;
 import com.purchase.util.DateUtil;
-import com.purchase.util.PurchaseUtil;
 import com.purchase.util.ResultUtil;
 import com.purchase.util.WebUtils;
 import com.purchase.vo.order.BiddingManagementSearch;
 import com.purchase.vo.order.BiddingManagementVo;
-import com.purchase.vo.order.UCAMSearch;
-import com.purchase.vo.order.UCAMVo;
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -141,6 +135,8 @@ public class BiddingManagementServiceImpl implements BiddingManagementService {
         criteria.andIdEqualTo(id);
         BiddingManagementSearch search = new BiddingManagementSearch();
         search.setId(id);
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        search.setLoginId(admin.getId());
         List<BiddingManagementVo> ucamList = bmMapper.selectByExampleExt(example,search);
         if(!CollectionUtils.isEmpty(ucamList)){
             return ucamList.get(0);
