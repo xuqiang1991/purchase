@@ -5,6 +5,7 @@ import com.purchase.annotation.SysLog;
 import com.purchase.pojo.admin.*;
 import com.purchase.service.AdminService;
 import com.purchase.service.SupplierService;
+import com.purchase.shiro.MockToken;
 import com.purchase.util.RRException;
 import com.purchase.util.ResultUtil;
 import com.purchase.util.ShiroUtils;
@@ -16,7 +17,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.config.IniSecurityManagerFactory;
+import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.util.Factory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -62,6 +66,7 @@ public class AdminController {
 				if(admin == null){
 					return "redirect:/sys/wx/auth";
 				}else {
+					login(admin);
 					return "redirect:/mobile/login";
 				}
 			}else {
@@ -71,6 +76,27 @@ public class AdminController {
 			return "redirect:/index.jsp";
 		}
 	}
+
+	/**
+	 * 微信登录
+	 */
+	private void login(TbAdmin user){
+		//获取SecurityManager工厂
+		Factory<SecurityManager> factory = new IniSecurityManagerFactory();
+		org.apache.shiro.mgt.SecurityManager securityManager = factory.getInstance();
+		SecurityUtils.setSecurityManager(securityManager);
+		Subject subject = SecurityUtils.getSubject();
+		MockToken token = new MockToken();
+		token.setRememberMe(true);
+		token.setUsername(user.getUsername());
+		token.setPassword(user.getPassword().toCharArray());
+		try{
+			subject.login(token);
+		}catch (AuthenticationException e){
+			token.clear();
+		}
+	}
+
 	@RequestMapping("/refuse")
 	public String refuse() {
 		return "refuse";
