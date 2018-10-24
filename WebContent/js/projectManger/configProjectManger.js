@@ -10,7 +10,7 @@ layui.config({
 		form = layui.form;
         laydate.render({
             elem: '#contractSignDate,#startDate,#overDate,#acceptanceDate' //指定元素
-            ,max: 'new Date()'
+            //,max: 'new Date()'
         });
     form.verify({
         price: [

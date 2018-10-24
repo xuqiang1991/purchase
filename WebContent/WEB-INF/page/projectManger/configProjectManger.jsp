@@ -92,10 +92,10 @@
                 <c:forEach items="${admins }" var="ad">
                     <c:choose>
                         <c:when test="${projectManger.projectManager == ad.id }">
-                            <option value="${ad.id }" selected>${ad.fullname }${projectManger.projectManager == ad.id }</option>
+                            <option value="${ad.id }" selected>${ad.fullname }</option>
                         </c:when>
                         <c:otherwise>
-                            <option value="${ad.id }">${ad.fullname }${projectManger.projectManager == ad.id }</option>
+                            <option value="${ad.id }">${ad.fullname }</option>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
