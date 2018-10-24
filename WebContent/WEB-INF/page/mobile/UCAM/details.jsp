@@ -236,6 +236,7 @@
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewUCAM">审核</button>
                     </c:when>
                 </c:choose>
+                <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="UCAMInstructOrderNo" value="${detailsVo.ucamVo.id}">填写指令单号</button>
             </div>
 
         </div>
@@ -498,6 +499,39 @@
                         }
                     }
                 });
+            }
+        })
+    });
+
+    /** 填写合同号 **/
+    mui(document.body).on('tap', '#UCAMInstructOrderNo', function(e) {
+        var btnArray = ['取消', '确定'];
+        var id = this.value;
+        mui.prompt('', '请输入指令单号', '合同外请款单指令单号', btnArray, function(e1) {
+            if (e1.index == 1) {
+                var instructOrderNo = e1.value;
+                if(instructOrderNo == '' || instructOrderNo.trim() == ''){
+                    mui.alert('请填写指令单号！');
+                    return false
+                }else {
+                    var url = '${ctx}/mobile/UCAM/UCAMInstructOrderNo/'+ id + '?instructOrderNo=' + instructOrderNo;
+                    $.ajax({
+                        url: url,
+                        dataType: 'json',
+                        contentType : "application/x-www-form-urlencoded",
+                        type: 'post',
+                        timeout: 10000,
+                        success: function(result) {
+                            if(result.code!=0){
+                                mui.alert(result.msg);
+                            }else {
+                                mui.alert('添加成功！', function() {
+                                    document.location.href='${ctx }/mobile/UCAM/toDetails/${detailsVo.ucamVo.id}';
+                                });
+                            }
+                        }
+                    });
+                }
             }
         })
     });

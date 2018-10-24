@@ -466,4 +466,15 @@ public class UCAMServiceImpl implements UCAMService {
 
         return ResultUtil.ok();
     }
+
+    @Override
+    public ResultUtil setInstructOrderNo(String id, String instructOrderNo) {
+        BizUncontractApplyMoney tmp = new BizUncontractApplyMoney();
+        tmp.setId(id);
+        tmp.setInstructOrderFlag(1);
+        tmp.setInstructOrderNo(instructOrderNo);
+        tmp.setUpdateDate(new Date());
+        ucamMapper.updateByPrimaryKeySelective(tmp);
+        return ResultUtil.ok();
+    }
 }

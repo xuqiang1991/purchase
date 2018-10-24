@@ -42,4 +42,6 @@ public interface UCAMService {
     ResultUtil submitReviewUCAMOrder(TbAdmin admin, String id, Long userId);
 
     ResultUtil reviewUCAMOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion);
+
+    ResultUtil setInstructOrderNo(String id, String instructOrderNo);
 }

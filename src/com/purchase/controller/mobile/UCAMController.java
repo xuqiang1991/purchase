@@ -226,4 +226,12 @@ public class UCAMController {
         return ucamService.selUCAMItem(id);
     }
 
+    @SysLog(value="填写指令单号")
+    @RequestMapping("UCAMInstructOrderNo/{id}")
+    @RequiresPermissions("mobile:UCAM:save")
+    @ResponseBody
+    public ResultUtil UCAMInstructOrderNo(@PathVariable("id") String id, String instructOrderNo){
+        return ucamService.setInstructOrderNo(id,instructOrderNo);
+    }
+
 }
