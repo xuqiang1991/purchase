@@ -280,7 +280,7 @@
                     </div>
                     <div class="mui-input-row">
                         <label>申报金额</label>
-                        <input type="number" id="applyPrice" name="applyPrice" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入申报金额">
+                        <input type="number" id="applyPrice" name="applyPrice" class="mui-input-clear" mui-verify="required" readonly value="0" placeholder="请输入申报金额">
                     </div>
 
                     <c:if test="${detailsVo.ucamVo.orderType == 1}">
@@ -297,12 +297,12 @@
                     </c:if>
                     <c:if test="${detailsVo.ucamVo.status != 0}">
                         <div class="mui-input-row">
-                            <label>审批金额</label>
-                            <input type="number" id="approvalPrice" name="approvalPrice" class="mui-input-clear" mui-verify="required" placeholder="请输入审批金额">
+                            <label>审核完成率</label>
+                            <input type="number" min="0" max="100"  id="approvalCompletionRate" name="approvalCompletionRate" mui-verify="required" placeholder="请输入审核完成率">
                         </div>
                         <div class="mui-input-row">
-                            <label>审核完成率</label>
-                            <input type="number" min="0" max="100"  id="approvalCompletionRate" name="approvalCompletionRate" mui-verify="required"placeholder="请输入审核完成率">
+                            <label>审批金额</label>
+                            <input type="number" id="approvalPrice" name="approvalPrice"  mui-verify="required" readonly value="0" placeholder="请输入审批金额" >
                         </div>
                     </c:if>
                     <%--<div class="mui-input-row">
@@ -410,9 +410,41 @@
                     },false);
                 }
             }
-
         }
     });
+
+    /*var applyCompletionRate = document.getElementById("applyCompletionRate");*/
+   /* applyCompletionRate.addEventListener("change", function () {
+        console.log(this.value);
+        applyPriceReckon();
+    }, false);*/
+    if(status == 0) {
+        document.getElementById("applyCompletionRate").addEventListener("change", applyPriceReckon, false);
+        document.getElementById("price").addEventListener("change", applyPriceReckon, false);
+        function applyPriceReckon(){
+            var applyCompletionRate = document.getElementById("applyCompletionRate");
+            var price = document.getElementById("price");
+            console.log(applyCompletionRate + " " + price);
+            if(applyCompletionRate.value != "" && price.value != ""){
+                var applyPrice = applyCompletionRate.value * price.value;
+                console.log(applyPrice);
+                document.getElementById("applyPrice").value = applyPrice;
+            }
+        }
+    }else{
+        document.getElementById("approvalCompletionRate").addEventListener("change", approvalPriceReckon, false);
+        function approvalPriceReckon(){
+            var approvalCompletionRate = document.getElementById("approvalCompletionRate");
+            var price = document.getElementById("price");
+            console.log(approvalCompletionRate + " " + price);
+            if(approvalCompletionRate.value != "" && price.value != ""){
+                var applyPrice = approvalCompletionRate.value * price.value;
+                console.log(applyPrice);
+                document.getElementById("approvalPrice").value = applyPrice;
+            }
+        }
+    }
+
 
     function initDate(){
         var btns_date =  mui('#date');
@@ -465,7 +497,7 @@
                     if(result.code!=0){
                         mui.alert(result.msg);
                     }else {
-                        mui.alert('添加成功！', function() {
+                        mui.alert('保存成功！', function() {
                             document.location.href='${ctx }/mobile/UCAM/toDetails/${detailsVo.ucamVo.id}';
                         });
                     }
@@ -503,7 +535,7 @@
         })
     });
 
-    /** 填写合同号 **/
+    /** 设置指令单号 **/
     mui(document.body).on('tap', '#UCAMInstructOrderNo', function(e) {
         var btnArray = ['取消', '确定'];
         var id = this.value;
@@ -525,7 +557,7 @@
                             if(result.code!=0){
                                 mui.alert(result.msg);
                             }else {
-                                mui.alert('添加成功！', function() {
+                                mui.alert('保存成功！', function() {
                                     document.location.href='${ctx }/mobile/UCAM/toDetails/${detailsVo.ucamVo.id}';
                                 });
                             }
