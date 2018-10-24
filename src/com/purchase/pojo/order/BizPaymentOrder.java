@@ -8,6 +8,10 @@ public class BizPaymentOrder {
 
     private String orderNo;
 
+    private String purchaseNo;
+
+    private String contractOrderNo;
+
     private Integer applyType;
 
     private Integer applyNature;
@@ -106,6 +110,22 @@ public class BizPaymentOrder {
 
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo == null ? null : orderNo.trim();
+    }
+
+    public String getPurchaseNo() {
+        return purchaseNo;
+    }
+
+    public void setPurchaseNo(String purchaseNo) {
+        this.purchaseNo = purchaseNo == null ? null : purchaseNo.trim();
+    }
+
+    public String getContractOrderNo() {
+        return contractOrderNo;
+    }
+
+    public void setContractOrderNo(String contractOrderNo) {
+        this.contractOrderNo = contractOrderNo == null ? null : contractOrderNo.trim();
     }
 
     public Integer getApplyType() {

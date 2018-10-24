@@ -5,8 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.purchase.mapper.admin.TbAdminMapper;
 import com.purchase.mapper.admin.TbDepartmentMapper;
-import com.purchase.mapper.order.BizPaymentOrderMapper;
-import com.purchase.mapper.order.BizPurchaseOrderMapper;
+import com.purchase.mapper.order.*;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbDepartment;
 import com.purchase.pojo.order.*;
@@ -22,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -45,6 +45,12 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
 
     @Autowired
     private BizPurchaseOrderMapper purchaseOrderMapper;
+
+    @Autowired
+    private BizContractApplyMoneyMapper contractApplyMoneyMapper;
+
+    @Autowired
+    private BizUncontractApplyMoneyMapper uContractApplyMoneyMapper;
 
     @Override
     public ResultUtil getOrderList(Integer page, Integer limit, BizPaymentOrderSearch search) {
@@ -177,10 +183,45 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
 
         //财务付款
         if(tmp.getStatus() == 2){
+            int applyType = order.getApplyType();
+            String contractOrderNo = order.getContractOrderNo();
+            if(applyType == 0){
+                //回写采购单
+                String purchaseNo = order.getPurchaseNo();
+                BizPurchaseOrder purchaseOrder = purchaseOrderMapper.selectByPurchaseNo(purchaseNo);
+                BizPurchaseOrder pTmp = new BizPurchaseOrder();
+                pTmp.setId(purchaseOrder.getId());
+                BigDecimal paymentAmount = purchaseOrder.getPaymentAmount();
+                if(paymentAmount == null){
+                    paymentAmount = new BigDecimal(0);
+                }
+                pTmp.setPaymentAmount(new BigDecimal(order.getAmountPaid()).add(paymentAmount));
+                purchaseOrderMapper.updateByPrimaryKeySelective(pTmp);
+
+
+                //回写请款单
+                BizContractApplyMoney contractApplyMoney = contractApplyMoneyMapper.selectByOrderNo(contractOrderNo);
+                BizContractApplyMoney cTmp = new BizContractApplyMoney();
+                cTmp.setId(contractApplyMoney.getId());
+                BigDecimal actualPrice = contractApplyMoney.getActualPrice();
+                if(actualPrice == null){
+                    actualPrice = new BigDecimal(0);
+                }
+                cTmp.setActualPrice(new BigDecimal(order.getAmountPaid()).add(actualPrice));
+
+            }else {
+                //回写请款单
+                BizUncontractApplyMoney uContractApplyMoney = uContractApplyMoneyMapper.selectByOrderNo(contractOrderNo);
+                BizContractApplyMoney cTmp = new BizContractApplyMoney();
+                cTmp.setId(uContractApplyMoney.getId());
+                BigDecimal actualPrice = uContractApplyMoney.getActualPrice();
+                if(actualPrice == null){
+                    actualPrice = new BigDecimal(0);
+                }
+                cTmp.setActualPrice(new BigDecimal(order.getAmountPaid()).add(actualPrice));
+            }
         }
-
         return ResultUtil.ok();
-
     }
 
 
@@ -206,6 +247,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         paymentOrder.setCreateTime(order.getCreateTime());
         paymentOrder.setSupplierId(order.getSupplierId());
         paymentOrder.setApplyType(0);
+        paymentOrder.setContractOrderNo(order.getOrderNo());
         paymentOrder.setApplyUser(order.getApplyUser());
 
         TbAdmin applyAdmin = adminMapper.selectByPrimaryKey(order.getApplyUser());
@@ -215,6 +257,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
 
         String sourceOrderId = order.getSourceOrderId();
         BizPurchaseOrder purchaseOrder = purchaseOrderMapper.selectByPrimaryKey(sourceOrderId);
+        paymentOrder.setPurchaseNo(purchaseOrder.getPurchaseNo());
         paymentOrder.setContractId(purchaseOrder.getContractNo());
 
         paymentOrder.setApplyPrice(order.getApplyPrice());
@@ -243,7 +286,8 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         paymentOrder.setCreateUser(order.getApplyUser());
         paymentOrder.setCreateTime(order.getCreateTime());
         paymentOrder.setSupplierId(order.getSupplierId());
-        paymentOrder.setApplyType(0);
+        paymentOrder.setApplyType(1);
+        paymentOrder.setContractOrderNo(order.getOrderNo());
         paymentOrder.setApplyUser(order.getApplyUser());
 
         TbAdmin applyAdmin = adminMapper.selectByPrimaryKey(order.getApplyUser());

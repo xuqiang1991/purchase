@@ -4,6 +4,8 @@
   <resultMap id="BaseResultMap" type="com.purchase.pojo.order.BizPaymentOrder">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="purchase_no" jdbcType="VARCHAR" property="purchaseNo" />
+    <result column="contract_order_no" jdbcType="VARCHAR" property="contractOrderNo" />
     <result column="apply_type" jdbcType="INTEGER" property="applyType" />
     <result column="apply_nature" jdbcType="INTEGER" property="applyNature" />
     <result column="create_user" jdbcType="BIGINT" property="createUser" />
@@ -106,14 +108,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, order_no, apply_type, apply_nature, create_user, create_time, supplier_id, apply_user, 
-    apply_user_phone, project_id, contract_id, apply_price, approval_price, guarantee_price, 
-    advance_price, other_price, actual_price, payment_type, spqx_term, blqx_term, payment_voucher_no, 
-    advance_rate, cost_rate, financial_rate, tax_rate, contract_volume, finish_measure, 
-    amount_paid, paid_proportion, payment_proportion, invoice_type, special_tax_rate, 
-    quality_grade, quality_assessor, status, summary, manager_depart_approval, manager_depart_user, 
-    manager_depart_date, manager_depart_opinion, finance_payment_approval, finance_payment_user, 
-    finance_payment_date, finance_payment_opinion
+    id, order_no, purchase_no, contract_order_no, apply_type, apply_nature, create_user, 
+    create_time, supplier_id, apply_user, apply_user_phone, project_id, contract_id, 
+    apply_price, approval_price, guarantee_price, advance_price, other_price, actual_price, 
+    payment_type, spqx_term, blqx_term, payment_voucher_no, advance_rate, cost_rate, 
+    financial_rate, tax_rate, contract_volume, finish_measure, amount_paid, paid_proportion, 
+    payment_proportion, invoice_type, special_tax_rate, quality_grade, quality_assessor, 
+    status, summary, manager_depart_approval, manager_depart_user, manager_depart_date, 
+    manager_depart_opinion, finance_payment_approval, finance_payment_user, finance_payment_date, 
+    finance_payment_opinion
   </sql>
   <select id="selectByExample" parameterType="com.purchase.pojo.order.BizPaymentOrderExample" resultMap="BaseResultMap">
     select
@@ -146,35 +149,37 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.purchase.pojo.order.BizPaymentOrder">
-    insert into biz_payment_order (id, order_no, apply_type, 
-      apply_nature, create_user, create_time, 
-      supplier_id, apply_user, apply_user_phone, 
-      project_id, contract_id, apply_price, 
-      approval_price, guarantee_price, advance_price, 
-      other_price, actual_price, payment_type, 
-      spqx_term, blqx_term, payment_voucher_no, 
-      advance_rate, cost_rate, financial_rate, 
-      tax_rate, contract_volume, finish_measure, 
-      amount_paid, paid_proportion, payment_proportion, 
-      invoice_type, special_tax_rate, quality_grade, 
-      quality_assessor, status, summary, 
-      manager_depart_approval, manager_depart_user, manager_depart_date, 
+    insert into biz_payment_order (id, order_no, purchase_no, 
+      contract_order_no, apply_type, apply_nature, 
+      create_user, create_time, supplier_id, 
+      apply_user, apply_user_phone, project_id, 
+      contract_id, apply_price, approval_price, 
+      guarantee_price, advance_price, other_price, 
+      actual_price, payment_type, spqx_term, 
+      blqx_term, payment_voucher_no, advance_rate, 
+      cost_rate, financial_rate, tax_rate, 
+      contract_volume, finish_measure, amount_paid, 
+      paid_proportion, payment_proportion, invoice_type, 
+      special_tax_rate, quality_grade, quality_assessor, 
+      status, summary, manager_depart_approval, 
+      manager_depart_user, manager_depart_date, 
       manager_depart_opinion, finance_payment_approval, 
       finance_payment_user, finance_payment_date, 
       finance_payment_opinion)
-    values (#{id,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{applyType,jdbcType=INTEGER}, 
-      #{applyNature,jdbcType=INTEGER}, #{createUser,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{supplierId,jdbcType=BIGINT}, #{applyUser,jdbcType=BIGINT}, #{applyUserPhone,jdbcType=VARCHAR}, 
-      #{projectId,jdbcType=VARCHAR}, #{contractId,jdbcType=VARCHAR}, #{applyPrice,jdbcType=DECIMAL}, 
-      #{approvalPrice,jdbcType=DECIMAL}, #{guaranteePrice,jdbcType=DECIMAL}, #{advancePrice,jdbcType=DECIMAL}, 
-      #{otherPrice,jdbcType=DECIMAL}, #{actualPrice,jdbcType=DECIMAL}, #{paymentType,jdbcType=INTEGER}, 
-      #{spqxTerm,jdbcType=INTEGER}, #{blqxTerm,jdbcType=INTEGER}, #{paymentVoucherNo,jdbcType=VARCHAR}, 
-      #{advanceRate,jdbcType=DOUBLE}, #{costRate,jdbcType=DOUBLE}, #{financialRate,jdbcType=DOUBLE}, 
-      #{taxRate,jdbcType=DOUBLE}, #{contractVolume,jdbcType=DOUBLE}, #{finishMeasure,jdbcType=DOUBLE}, 
-      #{amountPaid,jdbcType=DOUBLE}, #{paidProportion,jdbcType=DOUBLE}, #{paymentProportion,jdbcType=DOUBLE}, 
-      #{invoiceType,jdbcType=INTEGER}, #{specialTaxRate,jdbcType=DOUBLE}, #{qualityGrade,jdbcType=INTEGER}, 
-      #{qualityAssessor,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, #{summary,jdbcType=VARCHAR}, 
-      #{managerDepartApproval,jdbcType=BIT}, #{managerDepartUser,jdbcType=BIGINT}, #{managerDepartDate,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{purchaseNo,jdbcType=VARCHAR}, 
+      #{contractOrderNo,jdbcType=VARCHAR}, #{applyType,jdbcType=INTEGER}, #{applyNature,jdbcType=INTEGER}, 
+      #{createUser,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{supplierId,jdbcType=BIGINT}, 
+      #{applyUser,jdbcType=BIGINT}, #{applyUserPhone,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, 
+      #{contractId,jdbcType=VARCHAR}, #{applyPrice,jdbcType=DECIMAL}, #{approvalPrice,jdbcType=DECIMAL}, 
+      #{guaranteePrice,jdbcType=DECIMAL}, #{advancePrice,jdbcType=DECIMAL}, #{otherPrice,jdbcType=DECIMAL}, 
+      #{actualPrice,jdbcType=DECIMAL}, #{paymentType,jdbcType=INTEGER}, #{spqxTerm,jdbcType=INTEGER}, 
+      #{blqxTerm,jdbcType=INTEGER}, #{paymentVoucherNo,jdbcType=VARCHAR}, #{advanceRate,jdbcType=DOUBLE}, 
+      #{costRate,jdbcType=DOUBLE}, #{financialRate,jdbcType=DOUBLE}, #{taxRate,jdbcType=DOUBLE}, 
+      #{contractVolume,jdbcType=DOUBLE}, #{finishMeasure,jdbcType=DOUBLE}, #{amountPaid,jdbcType=DOUBLE}, 
+      #{paidProportion,jdbcType=DOUBLE}, #{paymentProportion,jdbcType=DOUBLE}, #{invoiceType,jdbcType=INTEGER}, 
+      #{specialTaxRate,jdbcType=DOUBLE}, #{qualityGrade,jdbcType=INTEGER}, #{qualityAssessor,jdbcType=BIGINT}, 
+      #{status,jdbcType=INTEGER}, #{summary,jdbcType=VARCHAR}, #{managerDepartApproval,jdbcType=BIT}, 
+      #{managerDepartUser,jdbcType=BIGINT}, #{managerDepartDate,jdbcType=TIMESTAMP}, 
       #{managerDepartOpinion,jdbcType=VARCHAR}, #{financePaymentApproval,jdbcType=BIT}, 
       #{financePaymentUser,jdbcType=BIGINT}, #{financePaymentDate,jdbcType=TIMESTAMP}, 
       #{financePaymentOpinion,jdbcType=VARCHAR})
@@ -187,6 +192,12 @@
       </if>
       <if test="orderNo != null">
         order_no,
+      </if>
+      <if test="purchaseNo != null">
+        purchase_no,
+      </if>
+      <if test="contractOrderNo != null">
+        contract_order_no,
       </if>
       <if test="applyType != null">
         apply_type,
@@ -321,6 +332,12 @@
       </if>
       <if test="orderNo != null">
         #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseNo != null">
+        #{purchaseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractOrderNo != null">
+        #{contractOrderNo,jdbcType=VARCHAR},
       </if>
       <if test="applyType != null">
         #{applyType,jdbcType=INTEGER},
@@ -465,6 +482,12 @@
       <if test="record.orderNo != null">
         order_no = #{record.orderNo,jdbcType=VARCHAR},
       </if>
+      <if test="record.purchaseNo != null">
+        purchase_no = #{record.purchaseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contractOrderNo != null">
+        contract_order_no = #{record.contractOrderNo,jdbcType=VARCHAR},
+      </if>
       <if test="record.applyType != null">
         apply_type = #{record.applyType,jdbcType=INTEGER},
       </if>
@@ -600,6 +623,8 @@
     update biz_payment_order
     set id = #{record.id,jdbcType=VARCHAR},
       order_no = #{record.orderNo,jdbcType=VARCHAR},
+      purchase_no = #{record.purchaseNo,jdbcType=VARCHAR},
+      contract_order_no = #{record.contractOrderNo,jdbcType=VARCHAR},
       apply_type = #{record.applyType,jdbcType=INTEGER},
       apply_nature = #{record.applyNature,jdbcType=INTEGER},
       create_user = #{record.createUser,jdbcType=BIGINT},
@@ -651,6 +676,12 @@
     <set>
       <if test="orderNo != null">
         order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseNo != null">
+        purchase_no = #{purchaseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractOrderNo != null">
+        contract_order_no = #{contractOrderNo,jdbcType=VARCHAR},
       </if>
       <if test="applyType != null">
         apply_type = #{applyType,jdbcType=INTEGER},
@@ -784,6 +815,8 @@
   <update id="updateByPrimaryKey" parameterType="com.purchase.pojo.order.BizPaymentOrder">
     update biz_payment_order
     set order_no = #{orderNo,jdbcType=VARCHAR},
+      purchase_no = #{purchaseNo,jdbcType=VARCHAR},
+      contract_order_no = #{contractOrderNo,jdbcType=VARCHAR},
       apply_type = #{applyType,jdbcType=INTEGER},
       apply_nature = #{applyNature,jdbcType=INTEGER},
       create_user = #{createUser,jdbcType=BIGINT},
