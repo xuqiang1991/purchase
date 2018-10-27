@@ -23,9 +23,9 @@
 </head>
 <body class="childrenBody" style="margin:1%">
 	<blockquote class="layui-elem-quote">
-		<p>欢迎使用信息发布后台系统！v1.0。</p>
+		<p>欢迎普邦园林后台管理系统。</p>
 	</blockquote>
-	<fieldset class="layui-elem-field layui-field-title">
+	<%--<fieldset class="layui-elem-field layui-field-title">
 	  <legend>信息统计</legend>
 	</fieldset>
 	<div>
@@ -64,15 +64,15 @@
 		    </tr>
 		  </tbody>
 		</table>
-	</div>
-	<fieldset class="layui-elem-field layui-field-title">
+	</div>--%>
+	<%--<fieldset class="layui-elem-field layui-field-title">
 	  <legend>网站用户性别占比</legend>
 	</fieldset>
 	<div id="info" style="width: 600px;height:400px;"></div>
 	<script type="text/javascript">
         
-    </script>
-		<div class="sysNotice col">
+    </script>--%>
+		<%--<div class="sysNotice col">
 			<blockquote class="layui-elem-quote title">系统基本参数</blockquote>
 			<table class="layui-table">
 				<colgroup>
@@ -108,10 +108,10 @@
 			</table>
 			
 		</div>
-	</div>
+	</div>--%>
 
 	<script type="text/javascript" src="${ctx}/layui/layui.js"></script>
-	<script type="text/javascript" src="${ctx}/js/main.js"></script>
+	<%--<script type="text/javascript" src="${ctx}/js/main.js"></script>--%>
 	
 </body>
 </html>
