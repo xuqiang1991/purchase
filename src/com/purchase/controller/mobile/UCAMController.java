@@ -180,7 +180,7 @@ public class UCAMController {
 
     @SysLog(value="审核合同外请款单")
     @RequestMapping("reviewUCAMOrder/{id}")
-    //@RequiresPermissions("mobile:UCAM:review")
+    @RequiresPermissions("mobile:UCAM:review")
     @ResponseBody
     public ResultUtil reviewUCAMOrder(@PathVariable("id") String id, Boolean auditResults, Long applyUser, String auditOpinion){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();

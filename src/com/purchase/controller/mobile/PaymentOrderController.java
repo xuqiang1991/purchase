@@ -97,6 +97,7 @@ public class PaymentOrderController {
 
     @SysLog(value="审核采购单")
     @RequestMapping("reviewOrder/{id}")
+    @RequiresPermissions("mobile:paymentOrder:review")
     @ResponseBody
     public ResultUtil reviewOrder(@PathVariable("id") String id, Boolean auditResults, Long applyUser, String auditOpinion){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();

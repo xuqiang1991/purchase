@@ -439,6 +439,7 @@ public class UCAMServiceImpl implements UCAMService {
         if(STATUS_1 ==  order.getStatus()){
             order.setStatus(STATUS_2);
             order.setProjectDepartDate(date);
+            order.setProjectDepartApproval(auditResults);
             order.setProjectDepartOpinion(auditOpinion);
             order.setCostDepartUser(applyUser);
             //order.setProjectDepartUser(applyUser);
@@ -451,6 +452,7 @@ public class UCAMServiceImpl implements UCAMService {
         }else if (STATUS_3 ==  order.getStatus()){
             order.setStatus(STATUS_4);
             order.setManagerDepartDate(date);
+            order.setManagerDepartApproval(auditResults);
             order.setManagerDepartOpinion(auditOpinion);
         }else if (STATUS_4 ==  order.getStatus()){
             //order.setStatus(STATUS_5);

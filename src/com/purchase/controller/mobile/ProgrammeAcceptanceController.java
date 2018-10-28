@@ -186,7 +186,7 @@ public class ProgrammeAcceptanceController {
 
     @SysLog(value="审核工程验收")
     @RequestMapping("reviewProgrammeAcceptanceOrder/{id}")
-    //@RequiresPermissions("mobile:programmeAcceptance:review")
+    @RequiresPermissions("mobile:programmeAcceptance:review")
     @ResponseBody
     public ResultUtil reviewProgrammeAcceptanceOrder(@PathVariable("id") String id, Boolean auditResults, Long applyUser, String auditOpinion){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();

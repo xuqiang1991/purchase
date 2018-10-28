@@ -294,7 +294,7 @@
             openBidInfoPicker.show(function(items) {
                 openBidInfoName.value = items[0].text;
                 openBidInfo.value = items[0].value;
-                console.log(items[0].value);
+                console.log(openBidInfo.value);
                 //返回 false 可以阻止选择框的关闭
                 //return false;
             });
@@ -309,27 +309,27 @@
             bidCausePicker.show(function(items) {
                 bidCauseName.value = items[0].text;
                 bidCause.value = items[0].value;
-                console.log(items[0].value);
+                console.log(bidCause.value);
                 //返回 false 可以阻止选择框的关闭
                 //return false;
             });
         }, false);
 
-        var openBidInfo = '${bmVo.openBidInfo}';
-        if(openBidInfo != null){
+        var openBidInfoValue = '${bmVo.openBidInfo}';
+        if(openBidInfoValue != null){
             var ot = JSON.parse(openBidInfoJosn);
             for(var i = 0; i < ot.length; i++){
-                if(ot[i].value == openBidInfo){
+                if(ot[i].value == openBidInfoValue){
                     $("#openBidInfoName").val(ot[i].text);
                 }
             }
         }
 
-        var bidCause = '${bmVo.bidCause}';
-        if(bidCause != null){
+        var bidCauseValue = '${bmVo.bidCause}';
+        if(bidCauseValue != null){
             var ot = JSON.parse(bidCauseJson);
             for(var i = 0; i < ot.length; i++){
-                if(ot[i].value == bidCause){
+                if(ot[i].value == bidCauseValue){
                     $("#bidCauseName").val(ot[i].text);
                 }
             }
