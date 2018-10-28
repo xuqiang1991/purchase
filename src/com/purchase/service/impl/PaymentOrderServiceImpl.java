@@ -93,6 +93,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         BizPaymentOrderExample.Criteria criteria = example.createCriteria();
         criteria.andIdEqualTo(id);
         BizPaymentOrderSearch search = new BizPaymentOrderSearch();
+        search.setLoginId(admin.getId());
         List<BizPaymentOrderVo> users = bizPaymentOrderMapper.selectByExampleExt(example, search);
         BizPaymentOrderVo vo = users.get(0);
 

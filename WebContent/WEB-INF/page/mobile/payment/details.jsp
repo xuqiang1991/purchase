@@ -55,10 +55,12 @@
                     <label>请款类型</label>
                     <label style="width: 65%;padding-left: 0px;">${order.applyTypeName}</label>
                 </div>
-                <div class="mui-input-row">
-                    <label>请款性质</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.applyNatureName}</label>
-                </div>
+                <c:if test="${!empty order.purchaseNo}">
+                    <div class="mui-input-row">
+                        <label>请款性质</label>
+                        <label style="width: 65%;padding-left: 0px;">${order.applyNatureName}</label>
+                    </div>
+                </c:if>
                 <div class="mui-input-row">
                     <label>开单人</label>
                     <label style="width: 65%;padding-left: 0px;">${order.admin.fullname}</label>
@@ -524,19 +526,19 @@
 
 
         var applyNatureJson = '[{"text":"材料采购","value":"0"},{"text":"工程分包","value":"1"}]';
-        var json =JSON.parse(applyNatureJson)
-        userPicker.setData(json);
+        var json1 =JSON.parse(applyNatureJson)
         var applyNatureName = document.getElementById('applyNatureName');
         var applyNature = document.getElementById('applyNature');
         var applyNatureValue = applyNature.value;
         if(applyNatureValue){
-            $.each(json,function (idx,obj) {
+            $.each(json1,function (idx,obj) {
                 if(obj.value == applyNatureValue){
                     applyNatureName.value = obj.text;
                 }
             })
         }
         applyNatureName.addEventListener('tap',  function(e) {
+            userPicker.setData(json1);
             userPicker.show(function (items) {
                 applyNatureName.value = items[0].text;
                 applyNature.value = items[0].value;
@@ -544,19 +546,19 @@
         });
 
         var paymentTypeJson = '[{"text":"汇款","value":"0"},{"text":"支票","value":"1"},{"text":"现金","value":"2"},{"text":"商票","value":"3"},{"text":"保理","value":"4"}]';
-        var json =JSON.parse(paymentTypeJson)
-        userPicker.setData(json);
+        var json2 =JSON.parse(paymentTypeJson)
         var paymentTypeName = document.getElementById('paymentTypeName');
         var paymentType = document.getElementById('paymentType');
         var paymentTypeValue = paymentType.value;
         if(paymentTypeValue){
-            $.each(json,function (idx,obj) {
+            $.each(json2,function (idx,obj) {
                 if(obj.value == paymentTypeValue){
                     paymentTypeName.value = obj.text;
                 }
             })
         }
         paymentTypeName.addEventListener('tap',  function(e) {
+            userPicker.setData(json2);
             userPicker.show(function (items) {
                 paymentTypeName.value = items[0].text;
                 paymentType.value = items[0].value;
@@ -565,19 +567,19 @@
 
 
         var invoiceTypeJson = '[{"text":"普票","value":"0"},{"text":"专票","value":"1"} ]';
-        var json =JSON.parse(invoiceTypeJson)
-        userPicker.setData(json);
+        var json3 =JSON.parse(invoiceTypeJson)
         var invoiceTypeName = document.getElementById('invoiceTypeName');
         var invoiceType = document.getElementById('invoiceType');
         var invoiceTypeValue = invoiceType.value;
         if(invoiceTypeValue){
-            $.each(json,function (idx,obj) {
+            $.each(json3,function (idx,obj) {
                 if(obj.value == invoiceTypeValue){
                     invoiceTypeName.value = obj.text;
                 }
             })
         }
         invoiceTypeName.addEventListener('tap',  function(e) {
+            userPicker.setData(json3);
             userPicker.show(function (items) {
                 invoiceTypeName.value = items[0].text;
                 invoiceType.value = items[0].value;
@@ -585,19 +587,19 @@
         });
 
         var qualityGradeJson = '[{"text":"优","value":"0"},{"text":"良","value":"1"},{"text":"中","value":"2"},{"text":"差","value":"3"}]';
-        var json =JSON.parse(qualityGradeJson)
-        userPicker.setData(json);
+        var json4 =JSON.parse(qualityGradeJson)
         var qualityGradeName = document.getElementById('qualityGradeName');
         var qualityGrade = document.getElementById('qualityGrade');
         var qualityGradeValue = qualityGrade.value;
         if(qualityGradeValue){
-            $.each(json,function (idx,obj) {
+            $.each(json4,function (idx,obj) {
                 if(obj.value == qualityGradeValue){
                     qualityGradeName.value = obj.text;
                 }
             })
         }
         qualityGradeName.addEventListener('tap', function(e) {
+            userPicker.setData(json4);
             userPicker.show(function (items) {
                 qualityGradeName.value = items[0].text;
                 qualityGrade.value = items[0].value;

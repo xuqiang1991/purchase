@@ -34,6 +34,6 @@ public interface BizPaymentOrderMapper {
 
     List<BizPaymentOrderVo> selectByExampleExt(@Param("example") BizPaymentOrderExample example, @Param("search") BizPaymentOrderSearch search);
 
-    @Select("select max(order_no) order_no from biz_purchase_order where order_no like '${prefix}%'")
+    @Select("select max(order_no) order_no from biz_payment_order where order_no like '${prefix}%'")
     String selMaxOrderNo(@Param("prefix") String prefix);
 }
