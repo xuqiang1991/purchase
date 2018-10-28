@@ -167,11 +167,21 @@
                                                     </p>
                                                     <p>
                                                         <label>申报完成率:${item.applyCompletionRate}%</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <label>申报金额：${item.applyPrice}%</label>
+                                                        <label>申报金额：${item.applyPrice}</label>
                                                     </p>
                                                     <p>
-                                                        <label>审核完成率：${item.approvalCompletionRate}%</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <label>审批金额：${item.approvalPrice}%</label>
+                                                        <label>审核完成率：
+                                                            <c:choose>
+                                                                <c:when test="${item.approvalCompletionRate == null}">未审核</c:when>
+                                                                <c:otherwise>${item.approvalCompletionRate}%</c:otherwise>
+                                                            </c:choose>
+                                                        </label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <label>审批金额：
+                                                            <c:choose>
+                                                                <c:when test="${item.approvalPrice == null}">未审核</c:when>
+                                                                <c:otherwise>${item.approvalPrice}</c:otherwise>
+                                                            </c:choose>
+                                                        </label>
                                                     </p>
                                                     <p>
                                                         <c:if test="${detailsVo.ucamVo.orderType == 1}">
@@ -321,7 +331,14 @@
     </div>
 </div>
 <div id="div"></div>
-<div id="popover" class="mui-popover" style="height: 270px;">
+    <c:choose>
+        <c:when test="${detailsVo.ucamVo.status != 3}">
+            <div id="popover" class="mui-popover" style="height: 270px;">
+        </c:when>
+        <c:otherwise>
+            <div id="popover" class="mui-popover" style="height: 230px;">
+        </c:otherwise>
+    </c:choose>
     <div class="mui-popover-arrow"></div>
     <div class="mui-scroll-wrapper">
         <div class="mui-scroll"  style="height: 100%;">
@@ -331,11 +348,13 @@
                     <input type="text" id="selectAuditResults" placeholder="请选择审核结果" readonly style="float: left;width: 150px;" value="审核通过">
                     <input type="hidden" id="auditResults" name="auditResults" value="1">
                 </div>
-                <div class="mui-input-row">
-                    <label style="width: 120px;">上级审核人</label>
-                    <input type="text" id="selectApplyUser" placeholder="上级审核人" readonly style="float: left;width: 150px;">
-                    <input type="hidden" id="applyUser" name="applyUser">
-                </div>
+                <c:if test="${detailsVo.ucamVo.status != 3}">
+                    <div class="mui-input-row">
+                        <label style="width: 120px;">上级审核人</label>
+                        <input type="text" id="selectApplyUser" placeholder="上级审核人" readonly style="float: left;width: 150px;">
+                        <input type="hidden" id="applyUser" name="applyUser">
+                    </div>
+                </c:if>
                 <div class="mui-input-row" style="height: auto">
                     <textarea name="auditOpinion" id="auditOpinion" rows="5" class="mui-input-clear" placeholder="审核意见"></textarea>
                 </div>
@@ -687,12 +706,16 @@
     mui(document.body).on('tap', '#reviewUCAMButton', function(e) {
 
         var auditResults = document.getElementById("auditResults");
-        var applyUser = document.getElementById("applyUser");
-        console.log(applyUser.value);
-        if(!applyUser.value || applyUser.value.trim() == "") {
-            mui.alert("请选择上级审核人");
-            return false;
+        var applyUser = "1";
+        if(status != 3){
+            applyUser = document.getElementById("applyUser");
+            if(!applyUser.value || applyUser.value.trim() == "") {
+                mui.alert("请选择上级审核人");
+                return false;
+            }
+            applyUser = applyUser.value;
         }
+
 
         var auditOpinion = document.getElementById("auditOpinion");
         if(!auditOpinion.value || auditOpinion.value.trim() == "") {
@@ -704,7 +727,7 @@
             var url = '${ctx}/mobile/UCAM/reviewUCAMOrder/${detailsVo.ucamVo.id}';
             $.ajax({
                 url: url,
-                data:{'auditResults':auditResults.value,'applyUser':applyUser.value,'auditOpinion': auditOpinion.value},
+                data:{'auditResults':auditResults.value,'applyUser':applyUser,'auditOpinion': auditOpinion.value},
                 dataType: 'json',
                 contentType : "application/x-www-form-urlencoded",
                 type: 'post',

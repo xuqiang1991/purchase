@@ -13,7 +13,7 @@
 <body>
 <header class="mui-bar mui-bar-nav">
     <a class="mui-icon mui-icon-bars mui-pull-left mui-plus-visible"></a>
-    <h1 class="mui-title">订单管理</h1>
+    <h1 class="mui-title">您好，${admin.fullname}。欢迎进入订单管理</h1>
 </header>
 <div class="mui-content">
     <ul class="mui-table-view mui-grid-view mui-grid-9">

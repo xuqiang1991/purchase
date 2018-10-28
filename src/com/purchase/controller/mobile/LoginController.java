@@ -1,9 +1,13 @@
 package com.purchase.controller.mobile;
 
+import com.purchase.pojo.admin.TbAdmin;
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * mobile端入口
@@ -15,7 +19,9 @@ public class LoginController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @RequestMapping(value = "/login")
-    public String login() {
+    public String login(HttpServletRequest req) {
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        req.setAttribute("admin",admin);
         return "page/mobile/index";
     }
 
