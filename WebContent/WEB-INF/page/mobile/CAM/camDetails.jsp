@@ -265,11 +265,13 @@
                     <input type="text" id="selectAuditResults" placeholder="请选择审核结果" style="float: left;width: 150px;">
                     <input type="hidden" id="auditResults" name="auditResults">
                 </div>
-                <div class="mui-input-row">
-                    <label style="width: 120px;">上级审核人</label>
-                    <input type="text" id="selectApplyUser" placeholder="请选择请款人" style="float: left;width: 150px;">
-                    <input type="hidden" id="applyUser" name="applyUser">
-                </div>
+                <c:if test="${detailsVo.order.status != 3}">
+                    <div class="mui-input-row">
+                        <label style="width: 120px;">上级审核人</label>
+                        <input type="text" id="selectApplyUser" placeholder="请选择请款人" style="float: left;width: 150px;">
+                        <input type="hidden" id="applyUser" name="applyUser">
+                    </div>
+                </c:if>
                 <div class="mui-input-row" style="height: auto">
                     <textarea name="auditOpinion" id="auditOpinion" rows="5" class="mui-input-clear" placeholder="审核意见"></textarea>
                 </div>
@@ -451,7 +453,7 @@
     <%--});--%>
 
     /** 选择审核人 **/
-    mui(document.body).on('tap', '#purchaseOrderDetails', function(e) {
+    mui(document.body).on('tap', '#orderDetails', function(e) {
         var adminsJson = '${detailsVo.departs}'
         var json =JSON.parse(adminsJson)
         var userPicker = new mui.PopPicker();
@@ -515,26 +517,30 @@
 
     mui(document.body).on('tap', '#reviewPurchaseOrderButton', function(e) {
 
-        var auditResults =  mui("#auditResults");
+        var auditResults = document.getElementById('auditResults');
         if(!auditResults.value || auditResults.value.trim() == "") {
-            var label = auditResults.previousElementSibling;
-            mui.alert(label.innerText + "不允许为空");
+            mui.alert("审核结果不允许为空");
             return false;
         }
+        auditResults = auditResults.value;
 
-        var applyUser =  mui("#auditResults");
-        if(!applyUser.value || applyUser.value.trim() == "") {
-            var label = applyUser.previousElementSibling;
-            mui.alert(label.innerText + "不允许为空");
-            return false;
+        var applyUser = document.getElementById('applyUser');
+        if(applyUser == null){
+            applyUser = '0'
+        }else {
+            if(!applyUser.value || applyUser.value.trim() == "") {
+                mui.alert("上级审核人不允许为空");
+                return false;
+            }
+            applyUser = applyUser.value;
         }
 
-        var auditOpinion =  mui("#auditOpinion");
+        var auditOpinion = document.getElementById('auditOpinion');
         if(!auditOpinion.value || auditOpinion.value.trim() == "") {
-            var label = auditOpinion.previousElementSibling;
-            mui.alert(label.innerText + "不允许为空");
+            mui.alert("审核意见不允许为空");
             return false;
         }
+        auditOpinion = auditOpinion.value;
 
         mui.alert('确定提交审核？' , function() {
             var url = '${ctx}/mobile/CAM/reviewCAMOrder/${detailsVo.order.id}';

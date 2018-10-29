@@ -207,17 +207,16 @@ public class CAMServiceImpl implements CAMService {
         //选择审核人
         String depart = "成本部";
         Long reviewUserId = null;
-        if (CAMUtil.STATUS_1 == status) {
+        if(PurchaseUtil.STATUS_1 == status){
             Long cId = vo.getCostDepartUser();
-            if (cId != null) {
+            if(cId != null){
                 reviewUserId = vo.getCostDepartUser();
                 depart = "工程部";
             }
-        } else if (CAMUtil.STATUS_2 == status) {
-            depart = "工程部";
-            reviewUserId = vo.getProjectDepartUser();
-        } else if (CAMUtil.STATUS_3 == status) {
+        }else if(PurchaseUtil.STATUS_2 == status){
             depart = "总经理";
+            reviewUserId = vo.getProjectDepartUser();
+        }else if(PurchaseUtil.STATUS_3 == status){
             reviewUserId = vo.getManagerDepartUser();
         }
         if (depart != null) {
@@ -263,7 +262,7 @@ public class CAMServiceImpl implements CAMService {
         Long projectUserId = order.getProjectDepartUser();
         if (projectUserId != null) {
             TbAdmin projectAdmin = adminMapper.selectByPrimaryKey(projectUserId);
-            vo.setCostAdmin(projectAdmin);
+            vo.setProjectAdmin(projectAdmin);
         }
 
         Long managerUserId = order.getManagerDepartUser();

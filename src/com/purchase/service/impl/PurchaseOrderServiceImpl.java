@@ -211,10 +211,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 				depart = "工程部";
 			}
 		}else if(PurchaseUtil.STATUS_2 == status){
-			depart = "工程部";
+			depart = "总经理";
 			reviewUserId = vo.getProjectDepartUser();
 		}else if(PurchaseUtil.STATUS_3 == status){
-			depart = "总经理";
 			reviewUserId = vo.getManagerDepartUser();
 		}
 		if(depart != null){
@@ -496,7 +495,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         Long projectUserId = order.getProjectDepartUser();
         if(projectUserId != null){
             TbAdmin projectAdmin = adminMapper.selectByPrimaryKey(projectUserId);
-            vo.setCostAdmin(projectAdmin);
+            vo.setProjectAdmin(projectAdmin);
         }
 
         Long managerUserId = order.getManagerDepartUser();
