@@ -184,7 +184,6 @@
                     var template = Handlebars.compile(tpl);
 
                     //数据转换
-                    purchaseOrder.statusConversion(Handlebars)
                     purchaseOrder.departUser(Handlebars)
                     purchaseOrder.departDate(Handlebars)
 
@@ -331,7 +330,7 @@
                 <p>
                     <label>开单人:{{admin.fullname}}</label>&nbsp;&nbsp;
                     <label>开单日期：{{createTime}}</label>
-                    <span class="mui-badge mui-badge-primary mui-pull-right">{{purchaseOrder_statusConversion status}}</span>
+                    <span class="mui-badge mui-badge-primary mui-pull-right">{{statusName}}</span>
                 </p>
             </div>
         </div>
@@ -350,7 +349,6 @@
                     <label>请款金额：{{applyPrice}}</label>
                 </p>
                 <p>
-                    <label>审定金额：{{approvalPrice}}</label>&nbsp;&nbsp;
                     <label>项目：{{projectManger.name}}</label>
                 </p>
             </div>
@@ -358,7 +356,7 @@
         <div class="mui-card-footer">
             <div class="mui-pull-left">
                 <label>实付金额：{{actualPrice}}</label>&nbsp;&nbsp;
-                <label>单据状态：{{statusName}}</label>
+                <label>审定金额：{{approvalPrice}}</label>
             </div>
             <div>
                 {{#unless status}}
