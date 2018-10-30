@@ -326,7 +326,11 @@
         <div class="mui-card-header mui-card-media toDetails" value="{{id}}">
             <img src="${ctx}/images/icon/purchase_order.png">
             <div class="mui-media-body">
+                {{#if financePaymentApproval}}
                 <label>单号:{{orderNo}}</label>
+                {{else}}
+                <label style="color: red;">单号:{{orderNo}}</label>
+                {{/if}}
                 <p>
                     <label>开单人:{{admin.fullname}}</label>&nbsp;&nbsp;
                     <label>开单日期：{{createTime}}</label>
