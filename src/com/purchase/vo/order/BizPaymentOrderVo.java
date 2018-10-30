@@ -15,9 +15,12 @@ public class BizPaymentOrderVo extends BizPaymentOrder {
     private TbAdmin admin;
     private TbAdmin applyAdmin;
     private TbAdmin managerAdmin;
+    private TbAdmin financeAdmin;
     private TbProjectManger projectManger;
 
     private Long reviewUserId;
+
+    private Long financeUserId;
 
     private String departs;
 
@@ -75,6 +78,22 @@ public class BizPaymentOrderVo extends BizPaymentOrder {
 
     public void setProjectManger(TbProjectManger projectManger) {
         this.projectManger = projectManger;
+    }
+
+    public TbAdmin getFinanceAdmin() {
+        return financeAdmin;
+    }
+
+    public void setFinanceAdmin(TbAdmin financeAdmin) {
+        this.financeAdmin = financeAdmin;
+    }
+
+    public Long getFinanceUserId() {
+        return financeUserId;
+    }
+
+    public void setFinanceUserId(Long financeUserId) {
+        this.financeUserId = financeUserId;
     }
 
 
@@ -157,6 +176,29 @@ public class BizPaymentOrderVo extends BizPaymentOrder {
         }
         return str;
     }
+
+    public String getManagerDepartApprovalName() {
+        String str = null;
+        Boolean managerDepartApproval = getManagerDepartApproval();
+        if(managerDepartApproval != null && managerDepartApproval){
+            str = "审批通过";
+        }else {
+            str = "审批未通过";
+        }
+        return str;
+    }
+
+    public String getFinancePaymentApprovalName() {
+        String str = null;
+        Boolean financeDepartApproval = getFinancePaymentApproval();
+        if(financeDepartApproval != null && financeDepartApproval){
+            str = "已提交";
+        }else {
+            str = "未提交";
+        }
+        return str;
+    }
+
 
     public String getFinancePaymentName() {
         String str = null;

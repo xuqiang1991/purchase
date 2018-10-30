@@ -95,7 +95,7 @@ public class PaymentOrderController {
         return paymentOrderService.editPaymentOrder(order);
     }
 
-    @SysLog(value="审核采购单")
+    @SysLog(value="审核付款单")
     @RequestMapping("reviewOrder/{id}")
     @RequiresPermissions("mobile:paymentOrder:review")
     @ResponseBody

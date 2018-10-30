@@ -342,8 +342,8 @@
                     <label>供应商：{{supplier.name}}</label>
                 </p>
                 <p>
-                    <label>请款类型：{{applyType}}</label>&nbsp;&nbsp;
-                    <label>请款性质：{{applyNature}}</label>
+                    <label>请款类型：{{applyTypeName}}</label>&nbsp;&nbsp;
+                    <label>请款性质：{{applyNatureName}}</label>
                 </p>
                 <p>
                     <label>请款人：{{applyAdmin.fullname}}</label>&nbsp;&nbsp;
@@ -358,7 +358,7 @@
         <div class="mui-card-footer">
             <div class="mui-pull-left">
                 <label>实付金额：{{actualPrice}}</label>&nbsp;&nbsp;
-                <label>单据状态：{{status}}</label>
+                <label>单据状态：{{statusName}}</label>
             </div>
             <div>
                 {{#unless status}}

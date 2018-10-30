@@ -36,7 +36,7 @@ public interface BizUncontractApplyMoneyMapper {
     @Select("select max(order_no) order_no from biz_uncontract_apply_money where order_no like '%${prefix}%'")
     String selMaxNo(@Param("prefix") String prefix);
 
-    @Select("select * from biz_contract_apply_money where order_no = #{orderNo}")
+    @Select("select * from biz_uncontract_apply_money where order_no = #{orderNo}")
     BizUncontractApplyMoney selectByOrderNo(@Param("orderNo") String orderNo);
 
     List<UCAMVo> selectByExampleExt(@Param("example") BizUncontractApplyMoneyExample example, @Param("search") UCAMSearch search);

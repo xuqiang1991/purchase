@@ -51,6 +51,10 @@
       <result column="managerId" jdbcType="BIGINT" property="id"></result>
       <result column="managerFullname" jdbcType="VARCHAR" property="fullname"></result>
     </association>
+    <association property="financeAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
+      <result column="financeId" jdbcType="BIGINT" property="id"></result>
+      <result column="financeFullname" jdbcType="VARCHAR" property="fullname"></result>
+    </association>
     <association property="projectManger" javaType="com.purchase.pojo.admin.TbProjectManger">
       <result column="projectMangerId" jdbcType="VARCHAR" property="id"></result>
       <result column="projectMangerName" jdbcType="VARCHAR" property="name"></result>
@@ -63,12 +67,14 @@
     c.id as createId, c.fullname as createFullname,
     d.id as applyId, d.fullname as applyFullname,
     tManager.id as managerId, tManager.fullname as managerFullname,
+    tFinance.id as financeId, tFinance.fullname as financeFullname,
     tbProjectManger.id as projectMangerId, tbProjectManger.name as projectMangerName
     from biz_payment_order a
     LEFT JOIN tb_admin c ON (a.create_user = c.id)
     LEFT JOIN tb_supplier b ON (a.supplier_id = b.id)
     LEFT JOIN tb_admin d ON (a.apply_user = c.id)
     LEFT JOIN tb_admin tManager ON (a.manager_depart_user = tManager.id)
+    LEFT JOIN tb_admin tFinance ON (a.finance_payment_user = tFinance.id)
     LEFT JOIN tb_project_manger tbProjectManger ON (tbProjectManger.id = a.project_id)
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause_Ext" />

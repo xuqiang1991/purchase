@@ -5,9 +5,13 @@ import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.purchase.mapper.admin.TbAdminMapper;
 import com.purchase.mapper.admin.TbDepartmentMapper;
-import com.purchase.mapper.order.*;
+import com.purchase.mapper.order.BizContractApplyMoneyMapper;
+import com.purchase.mapper.order.BizPaymentOrderMapper;
+import com.purchase.mapper.order.BizPurchaseOrderMapper;
+import com.purchase.mapper.order.BizUncontractApplyMoneyMapper;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbDepartment;
+import com.purchase.pojo.admin.TbDepartmentExample;
 import com.purchase.pojo.order.*;
 import com.purchase.service.PaymentOrderService;
 import com.purchase.util.*;
@@ -19,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
@@ -99,7 +104,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
 
         if(admin.getDeptId() != null){
             TbDepartment department = departmentMapper.selectByPrimaryKey(Long.parseLong(admin.getDeptId()));
-            if(department != null && "总经理".equals(department.getName())){
+            if(department != null && "总经理".equals(department.getName()) && vo.getFinancePaymentUser() == null ){
                 vo.setReviewUserId(admin.getId());
                 String depart = "财务部";
                 List<ChoseAdminVO> data = adminMapper.selectByDeptName(depart);
@@ -108,6 +113,8 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
                     String json = gson.toJson(data);
                     vo.setDeparts(json);
                 }
+            }else if(vo.getFinancePaymentUser() != null && vo.getFinancePaymentUser().compareTo(admin.getId()) == 0){
+                vo.setFinanceUserId(admin.getId());
             }
         }
 
@@ -121,6 +128,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ResultUtil reviewOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion) {
         Date date = new Date();
         BizPaymentOrder order = bizPaymentOrderMapper.selectByPrimaryKey(id);
@@ -128,23 +136,25 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         int status = order.getStatus();
 
 
+        Long reviewer = null;
+        Boolean reviewerResults = null;
         if(status == 0){//总经理审核
-            TbDepartment department = departmentMapper.selectByPrimaryKey(userId);
+            TbDepartment department = departmentMapper.selectByPrimaryKey(Long.parseLong(admin.getDeptId()));
             if(!(department != null && "总经理".equals(department.getName()))){
                 return ResultUtil.error("没有审核权限!");
             }
+            //判断审核人
+            reviewer = order.getManagerDepartUser();
+            reviewerResults = order.getManagerDepartApproval();
         }else if(status == 1){
             if(order.getFinancePaymentUser() != userId.longValue()){
                 return ResultUtil.error("没有审核权限!");
             }
+            reviewer = order.getFinancePaymentUser();
+            reviewerResults = order.getFinancePaymentApproval();
         }else {
             return ResultUtil.error("订单不需要审核");
         }
-
-
-        //判断审核人
-        Long reviewer = order.getManagerDepartUser();
-        Boolean reviewerResults = order.getManagerDepartApproval();
 
         if(reviewer == null){
             return ResultUtil.error("审核人不存在");
@@ -155,6 +165,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         if(reviewerResults != null && reviewerResults){
             return ResultUtil.error("请不要重新审核！");
         }
+
 
         //审核状态
         BizPaymentOrder tmp = new BizPaymentOrder();
@@ -209,17 +220,18 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
                     actualPrice = new BigDecimal(0);
                 }
                 cTmp.setActualPrice(new BigDecimal(order.getAmountPaid()).add(actualPrice));
-
+                contractApplyMoneyMapper.updateByPrimaryKey(cTmp);
             }else {
                 //回写请款单
                 BizUncontractApplyMoney uContractApplyMoney = uContractApplyMoneyMapper.selectByOrderNo(contractOrderNo);
-                BizContractApplyMoney cTmp = new BizContractApplyMoney();
+                BizUncontractApplyMoney cTmp = new BizUncontractApplyMoney();
                 cTmp.setId(uContractApplyMoney.getId());
                 BigDecimal actualPrice = uContractApplyMoney.getActualPrice();
                 if(actualPrice == null){
                     actualPrice = new BigDecimal(0);
                 }
                 cTmp.setActualPrice(new BigDecimal(order.getAmountPaid()).add(actualPrice));
+                uContractApplyMoneyMapper.updateByPrimaryKey(cTmp);
             }
         }
         return ResultUtil.ok();
@@ -264,6 +276,9 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         paymentOrder.setApplyPrice(order.getApplyPrice());
         paymentOrder.setApprovalPrice(order.getActualPrice());
 
+        //初始化总经理审核
+        paymentOrder.setManagerDepartUser(getManagerAdminByDeptId());
+
         bizPaymentOrderMapper.insertSelective(paymentOrder);
     }
 
@@ -299,7 +314,32 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         paymentOrder.setApplyPrice(order.getApplyPrice());
         paymentOrder.setApprovalPrice(order.getActualPrice());
 
+        //初始化总经理审核
+        paymentOrder.setManagerDepartUser(getManagerAdminByDeptId());
+
         bizPaymentOrderMapper.insertSelective(paymentOrder);
+    }
+
+
+    /**
+     * 获取总经理ID
+     */
+    private Long getManagerAdminByDeptId(){
+        Long id = null;
+        TbDepartmentExample example=new TbDepartmentExample();
+        TbDepartmentExample.Criteria criteria = example.createCriteria();
+        criteria.andNameEqualTo("总经理");
+        List<TbDepartment> list = departmentMapper.selectByExample(example);
+        if(!CollectionUtils.isEmpty(list)){
+            TbDepartment department = list.get(0);
+            Long deptId = department.getId();
+            List<TbAdmin> admins = adminMapper.getAdminsByDeptId(String.valueOf(deptId));
+            if(!CollectionUtils.isEmpty(admins)){
+                TbAdmin admin = admins.get(0);
+                id = admin.getId();
+            }
+        }
+        return id;
     }
 
 

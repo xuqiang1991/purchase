@@ -49,186 +49,193 @@
                 <!-- 主界面具体展示内容 -->
                 <div class="mui-input-row">
                     <label>订单号</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.orderNo}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.orderNo}</label>
                 </div>
                 <div class="mui-input-row">
                     <label>请款类型</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.applyTypeName}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.applyTypeName}</label>
                 </div>
                 <c:if test="${!empty order.purchaseNo}">
                     <div class="mui-input-row">
                         <label>请款性质</label>
-                        <label style="width: 65%;padding-left: 0px;">${order.applyNatureName}</label>
+                        <label style="width: 50%;padding-left: 0px;">${order.applyNatureName}</label>
                     </div>
                 </c:if>
                 <div class="mui-input-row">
                     <label>开单人</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.admin.fullname}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.admin.fullname}</label>
                 </div>
                 <div class="mui-input-row">
                     <label>开单日期</label>
-                    <label style="width: 65%;padding-left: 0px;"><fmt:formatDate value="${order.createTime}" pattern="yyyy-MM-dd"/></label>
+                    <label style="width: 50%;padding-left: 0px;"><fmt:formatDate value="${order.createTime}" pattern="yyyy-MM-dd"/></label>
                 </div>
                 <div class="mui-input-row">
                     <label>供应商</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.supplier.name}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.supplier.name}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>申请人</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.applyAdmin.fullname}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.applyAdmin.fullname}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>请款人电话</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.applyUserPhone}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.applyUserPhone}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>所属项目</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.projectManger.name}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.projectManger.name}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>所属合同</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.contractId}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.contractId}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>申请金额</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.applyPrice}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.applyPrice}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>审定金额</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.approvalPrice}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.approvalPrice}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>扣质保金</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.guaranteePrice}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.guaranteePrice}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>扣预付款</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.advancePrice}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.advancePrice}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>其它扣款</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.otherPrice}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.otherPrice}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>实付金额</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.actualPrice}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.actualPrice}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>付款方式</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.paymentTypeName}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.paymentTypeName}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>商票期限</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.spqxTerm}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.spqxTerm}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>保理期限</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.blqxTerm}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.blqxTerm}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>付款凭证号</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.paymentVoucherNo}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.paymentVoucherNo}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>垫付比</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.advanceRate}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.advanceRate}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>成本率</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.costRate}%</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.costRate}%</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>收支比</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.financialRate}%</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.financialRate}%</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>税率</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.taxRate}%</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.taxRate}%</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>合同量</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.contractVolume}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.contractVolume}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>完成量(供货量)</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.finishMeasure}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.finishMeasure}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>已付金额</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.amountPaid}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.amountPaid}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>已付比例</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.paidProportion}%</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.paidProportion}%</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>支付比例</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.paymentProportion}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.paymentProportion}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>发票类型</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.invoiceType}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.invoiceType}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>专票税率</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.specialTaxRate}%</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.specialTaxRate}%</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>质量验收</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.qualityGradeName}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.qualityGradeName}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>质量评定人</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.qualityAssessor}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.qualityAssessor}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>单据状态</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.statusName}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.statusName}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>摘要</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.summary}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.summary}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>总经理审批状态</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.managerDepartApproval}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.managerDepartApprovalName}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>总经理审批人</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.managerDepartUser}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.managerAdmin.fullname}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>总经理审批时间</label>
-                    <label style="width: 65%;padding-left: 0px;"><fmt:formatDate value="${order.managerDepartDate}" pattern="yyyy-MM-dd"/></label>
+                    <label style="width: 50%;padding-left: 0px;"><fmt:formatDate value="${order.managerDepartDate}" pattern="yyyy-MM-dd"/></label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>总经理审批意见</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.managerDepartOpinion}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.managerDepartOpinion}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>财务付款状态</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.financePaymentName}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.financePaymentApprovalName}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>财务付款人</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.financePaymentUser}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.financeAdmin.fullname}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>财务付款时间</label>
-                    <label style="width: 65%;padding-left: 0px;"><fmt:formatDate value="${order.financePaymentDate}" pattern="yyyy-MM-dd"/></label>
+                    <label style="width: 50%;padding-left: 0px;"><fmt:formatDate value="${order.financePaymentDate}" pattern="yyyy-MM-dd"/></label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>财务付款意见</label>
-                    <label style="width: 65%;padding-left: 0px;">${order.financePaymentOpinion}</label>
+                    <label style="width: 50%;padding-left: 0px;">${order.financePaymentOpinion}</label>
                 </div>
-                <div class="mui-content-padded">
-                    <c:if test="${detailsVo.financePayment != 1}">
-                        <a href="#fromPurchaseOrderItem" class="mui-btn mui-btn-primary mui-btn-block">编辑</a>
-                    </c:if>
-                    <c:if test="${!empty detailsVo.reviewUserId}">
-                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">审核</button>
-                    </c:if>
-                </div>
+                <c:if test="${order.status != 2}">
+                    <div class="mui-content-padded">
+                        <c:if test="${order.financePayment != 1}">
+                            <a href="#fromPurchaseOrderItem" name="app-a" data-id="${order.id}">
+                                <button type="button" class="mui-btn mui-btn-primary mui-btn-block" value="${detailsVo.id}">编辑</button>
+                            </a>
+                        </c:if>
+                        <c:if test="${!empty order.reviewUserId}">
+                            <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">审核</button>
+                        </c:if>
+                        <c:if test="${!empty order.financeUserId}">
+                            <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">提交</button>
+                        </c:if>
+                    </div>
+                </c:if>
         </div>
     </div>
     <!-- 采购单项 end -->
@@ -462,19 +469,30 @@
 
     mui(document.body).on('tap', '#reviewPurchaseOrderButton', function(e) {
 
-        var auditResults =  mui("#auditResults");
+        var auditResults = document.getElementById('auditResults');
         if(!auditResults.value || auditResults.value.trim() == "") {
-            var label = auditResults.previousElementSibling;
-            mui.alert(label.innerText + "不允许为空");
+            mui.alert("审核结果不允许为空");
             return false;
+        }
+        auditResults = auditResults.value;
+
+        var applyUser = document.getElementById('applyUser');
+        if(applyUser == null){
+            applyUser = '0'
+        }else {
+            if(!applyUser.value || applyUser.value.trim() == "") {
+                mui.alert("上级审核人不允许为空");
+                return false;
+            }
+            applyUser = applyUser.value;
         }
 
-        var auditOpinion =  mui("#auditOpinion");
+        var auditOpinion = document.getElementById('auditOpinion');
         if(!auditOpinion.value || auditOpinion.value.trim() == "") {
-            var label = auditOpinion.previousElementSibling;
-            mui.alert(label.innerText + "不允许为空");
+            mui.alert("审核意见不允许为空");
             return false;
         }
+        auditOpinion = auditOpinion.value;
 
         mui.alert('确定提交审核？' , function() {
             var url = '${ctx}/mobile/paymentOrder/reviewOrder/${order.id}';
