@@ -1,6 +1,7 @@
 package com.purchase.pojo.admin;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class TbAdmin implements Serializable {
     private Long id;
@@ -23,8 +24,6 @@ public class TbAdmin implements Serializable {
 
     private String phone;
 
-    private Long roleId;
-    
     private String roleName;
 
     private String quarters;
@@ -48,6 +47,8 @@ public class TbAdmin implements Serializable {
     private String supplierName;
 
     private Integer userType;
+
+    private List<Long> roleId;
 
     public Long getId() {
         return id;
@@ -137,11 +138,11 @@ public class TbAdmin implements Serializable {
         this.phone = phone == null ? null : phone.trim();
     }
 
-    public Long getRoleId() {
+    public List<Long> getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Long roleId) {
+    public void setRoleId(List<Long> roleId) {
         this.roleId = roleId;
     }
 

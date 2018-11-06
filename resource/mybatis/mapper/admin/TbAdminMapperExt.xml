@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.purchase.mapper.admin.TbAdminMapper" >
+
+  <sql id="Example_Where_Clause_Ext">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and a.${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and a.${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and a.${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and a.${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+  <resultMap id="BaseResultMapExt" type="com.purchase.pojo.admin.TbAdmin" extends="BaseResultMap">
+    <collection property="roleId" column="role_id" ofType="java.lang.Long">
+      <id column="role_id" property="roleId" jdbcType="BIGINT"></id>
+    </collection>
+  </resultMap>
+  <select id="selectByExampleExt" resultMap="BaseResultMapExt">
+    select
+    a.*,
+    b.role_id
+    from tb_admin a
+    LEFT JOIN tb_admin_role b ON (a.id = b.user_id)
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause_Ext" />
+    </if>
+    <if test="example.orderByClause != null" >
+      order by ${example.orderByClause}
+    </if>
+  </select>
+</mapper>

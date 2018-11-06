@@ -7,6 +7,7 @@ import com.purchase.pojo.admin.*;
 import com.purchase.pojo.admin.TbAdminExample.Criteria;
 import com.purchase.service.AdminService;
 import com.purchase.util.ResultUtil;
+import com.purchase.util.WebUtils;
 import com.purchase.vo.admin.*;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,10 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	private TbRolesMenusMapper tbRolesMenusMapper;
+
+
+	@Autowired
+	private TbAdminRoleMapper tbAdminRoleMapper;
 
 	@Autowired
 	private AdminMenusMapper adminMenusMapper;
@@ -61,7 +66,7 @@ public class AdminServiceImpl implements AdminService {
 		Criteria criteria = example.createCriteria();
 		criteria.andUsernameEqualTo(username);
 		criteria.andPasswordEqualTo(password);
-		List<TbAdmin> admin = adminMapper.selectByExample(example);
+		List<TbAdmin> admin = adminMapper.selectByExampleExt(example);
 		if (admin != null && admin.size() > 0) {
 			return admin.get(0);
 		}
@@ -85,14 +90,22 @@ public class AdminServiceImpl implements AdminService {
 	public ResultUtil selAdmins(Integer page, Integer limit) {
 		PageHelper.startPage(page, limit);
 		TbAdminExample example = new TbAdminExample();
-		List<TbAdmin> list = tbAdminMapper.selectByExample(example);
+		List<TbAdmin> list = tbAdminMapper.selectByExampleExt(example);
 		// 将roleName写进TbAdmin
         List<TbRoles> roles = selRoles();
 		for (TbAdmin tbAdmin : list) {
 			for (TbRoles tbRole : roles) {
-				if (tbRole.getRoleId() == tbAdmin.getRoleId()) {
-					tbAdmin.setRoleName(tbRole.getRoleName());
+				if(!CollectionUtils.isEmpty(tbAdmin.getRoleId())){
+					if (tbAdmin.getRoleId().contains(tbRole.getRoleId())) {
+						String roleName = tbAdmin.getRoleName();
+						if(roleName == null){
+							tbAdmin.setRoleName(tbRole.getRoleName());
+						}else {
+							tbAdmin.setRoleName(roleName + "," + tbRole.getRoleName());
+						}
+					}
 				}
+
 			}
 			//部门写入
             if(!StringUtils.isEmpty(tbAdmin.getDeptId())){
@@ -127,10 +140,10 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<Menu> selMenus(TbAdmin admin) {
 		List<Menu> results = new ArrayList<>();
-		Long roleId = admin.getRoleId();
+		List<Long> roleId = admin.getRoleId();
 		TbRolesMenusExample example = new TbRolesMenusExample();
 		com.purchase.pojo.admin.TbRolesMenusExample.Criteria criteria = example.createCriteria();
-		criteria.andRoleIdEqualTo(roleId);
+		criteria.andRoleIdIn(roleId);
 		List<TbRolesMenusKey> list = tbRolesMenusMapper.selectByExample(example);
 		if (list != null && list.size() > 0) {
 			List<TbMenus> menus = adminMenusMapper.getMenus(roleId);
@@ -410,7 +423,7 @@ public class AdminServiceImpl implements AdminService {
 		TbAdminExample example = new TbAdminExample();
 		com.purchase.pojo.admin.TbAdminExample.Criteria criteria = example.createCriteria();
 		criteria.andUsernameEqualTo(username);
-		List<TbAdmin> admins = tbAdminMapper.selectByExample(example);
+		List<TbAdmin> admins = tbAdminMapper.selectByExampleExt(example);
 		if (admins != null && admins.size() > 0) {
 			return admins.get(0);
 		}
@@ -422,6 +435,16 @@ public class AdminServiceImpl implements AdminService {
 		//对密码md5加密
 		admin.setPassword(DigestUtils.md5DigestAsHex(admin.getPassword().getBytes()));
 		tbAdminMapper.insert(admin);
+
+		List<Long> roleIds = admin.getRoleId();
+		if(!CollectionUtils.isEmpty(roleIds)){
+			for (Long roleId : roleIds){
+				TbAdminRole tbAdminRole = new TbAdminRole();
+				tbAdminRole.setUserId(admin.getId());
+				tbAdminRole.setRoleId(roleId);
+				tbAdminRoleMapper.insert(tbAdminRole);
+			}
+		}
 	}
 
 	@Override
@@ -435,6 +458,18 @@ public class AdminServiceImpl implements AdminService {
            TbSupplier supplier = supplierMapper.selectByPrimaryKey(admin.getSupplierId());
             admin.setSupplierName(supplier.getName());
         }
+		TbAdminRoleExample example = new TbAdminRoleExample();
+		TbAdminRoleExample.Criteria criteria = example.createCriteria();
+		criteria.andUserIdEqualTo(id);
+		List<TbAdminRole> roles = tbAdminRoleMapper.selectByExample(example);
+		if(!CollectionUtils.isEmpty(roles)){
+			List<Long> rolesIds = new ArrayList<>();
+			for (TbAdminRole role : roles){
+				rolesIds.add(role.getRoleId());
+			}
+			admin.setRoleId(rolesIds);
+		}
+
 		//为了安全，密码置空
 		admin.setPassword("");
 		return admin;
@@ -448,7 +483,7 @@ public class AdminServiceImpl implements AdminService {
 		if(username!=null&&!"".equals(username)){
 			criteria.andUsernameNotEqualTo(username);
 		}
-		List<TbAdmin> admins = tbAdminMapper.selectByExample(example);
+		List<TbAdmin> admins = tbAdminMapper.selectByExampleExt(example);
 		if (admins != null && admins.size() > 0) {
 			return admins.get(0);
 		}
@@ -464,6 +499,21 @@ public class AdminServiceImpl implements AdminService {
 		}
 		admin.setPassword(a.getPassword());
 		tbAdminMapper.updateByPrimaryKey(admin);
+
+		//删除角色后新增
+		TbAdminRoleExample example = new TbAdminRoleExample();
+		TbAdminRoleExample.Criteria criteria = example.createCriteria();
+		criteria.andUserIdEqualTo(admin.getId());
+		tbAdminRoleMapper.deleteByExample(example);
+		List<Long> roleIds = admin.getRoleId();
+		if(!CollectionUtils.isEmpty(roleIds)){
+			for (Long roleId : roleIds){
+				TbAdminRole tbAdminRole = new TbAdminRole();
+				tbAdminRole.setUserId(admin.getId());
+				tbAdminRole.setRoleId(roleId);
+				tbAdminRoleMapper.insert(tbAdminRole);
+			}
+		}
 	}
 
 	@Override

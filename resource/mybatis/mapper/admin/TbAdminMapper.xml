@@ -12,8 +12,6 @@
     <result column="birthday" property="birthday" jdbcType="DATE" />
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
-    <result column="role_id" property="roleId" jdbcType="BIGINT" />
-
     <result column="quarters" property="quarters" jdbcType="VARCHAR" />
     <result column="dept_id" property="deptId" jdbcType="VARCHAR" />
     <result column="entry_date" property="entryDate" jdbcType="DATE" />
@@ -85,7 +83,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, username, password, salt, fullname, e_mail, sex, birthday, address, phone, role_id,quarters,dept_id,entry_date,is_on_job,open_id,wx_nick,remark,supplier_id,user_type
+    id, username, password, salt, fullname, e_mail, sex, birthday, address, phone, quarters,dept_id,entry_date,is_on_job,open_id,wx_nick,remark,supplier_id,user_type
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.purchase.pojo.admin.TbAdminExample" >
     select
@@ -117,15 +115,15 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.purchase.pojo.admin.TbAdmin" >
+  <insert id="insert" parameterType="com.purchase.pojo.admin.TbAdmin" useGeneratedKeys="true" keyProperty="id">
     insert into tb_admin (id, username, password, 
       salt, fullname, e_mail, 
       sex, birthday, address, 
-      phone, role_id, quarters,dept_id,entry_date,is_on_job,open_id,wx_nick,remark,supplier_id,user_type)
+      phone, quarters,dept_id,entry_date,is_on_job,open_id,wx_nick,remark,supplier_id,user_type)
     values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{salt,jdbcType=VARCHAR}, #{fullname,jdbcType=VARCHAR}, #{eMail,jdbcType=VARCHAR}, 
       #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{address,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{roleId,jdbcType=BIGINT}, #{quarters,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR},
+      #{phone,jdbcType=VARCHAR}, #{quarters,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR},
       #{entryDate,jdbcType=DATE}, #{isOnJob,jdbcType=INTEGER}, #{openId,jdbcType=VARCHAR}, #{wxNick,jdbcType=VARCHAR},
       #{remark,jdbcType=VARCHAR},#{supplierId,jdbcType=BIGINT}, #{userType,jdbcType=INTEGER})
   </insert>
@@ -161,9 +159,6 @@
       </if>
       <if test="phone != null" >
         phone,
-      </if>
-      <if test="roleId != null" >
-        role_id,
       </if>
       <if test="quarters != null" >
         quarters,
@@ -223,9 +218,6 @@
       </if>
       <if test="phone != null" >
         #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="roleId != null" >
-        #{roleId,jdbcType=BIGINT},
       </if>
       <if test="quarters != null" >
         #{quarters,jdbcType=VARCHAR},
@@ -295,9 +287,6 @@
       <if test="record.phone != null" >
         phone = #{record.phone,jdbcType=VARCHAR},
       </if>
-      <if test="record.roleId != null" >
-        role_id = #{record.roleId,jdbcType=BIGINT},
-      </if>
       <if test="record.quarters != null" >
         quarters = #{quarters,jdbcType=VARCHAR},
       </if>
@@ -342,7 +331,6 @@
       birthday = #{record.birthday,jdbcType=DATE},
       address = #{record.address,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
-      role_id = #{record.roleId,jdbcType=BIGINT},
       quarters = #{quarters,jdbcType=VARCHAR},
       dept_id = #{deptId,jdbcType=VARCHAR},
       entry_date = #{entryDate,jdbcType=DATE},
@@ -386,9 +374,6 @@
       <if test="phone != null" >
         phone = #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="roleId != null" >
-        role_id = #{roleId,jdbcType=BIGINT},
-      </if>
       <if test="quarters != null" >
         quarters = #{quarters,jdbcType=VARCHAR},
       </if>
@@ -430,7 +415,6 @@
       birthday = #{birthday,jdbcType=DATE},
       address = #{address,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
-      role_id = #{roleId,jdbcType=BIGINT},
       quarters = #{quarters,jdbcType=VARCHAR},
       dept_id = #{deptId,jdbcType=VARCHAR},
       entry_date = #{entryDate,jdbcType=DATE},

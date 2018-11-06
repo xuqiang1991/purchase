@@ -62,7 +62,7 @@ public class ProjectMangerServiceImpl implements ProjectMangerService {
         }
 
         List<TbProjectManger> list = projectMangerMapper.selectByExample(example);
-        List<TbAdmin> admins = adminMapper.selectByExample(new TbAdminExample());
+        List<TbAdmin> admins = adminMapper.selectByExampleExt(new TbAdminExample());
         for (TbProjectManger pm : list) {
             for (TbAdmin admin : admins) {
                 if (admin.getId() == pm.getProjectManager()) {

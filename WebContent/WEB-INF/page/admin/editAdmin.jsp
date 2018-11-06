@@ -160,13 +160,17 @@
         <div class="layui-form-item">
             <label class="layui-form-label">分配角色</label>
             <div class="layui-input-block">
-                <select name="roleId">
+                <select name="roleId" multiple>
                     <option value="">请选择</option>
                     <c:forEach items="${roles }" var="r">
-                        <c:if test="${ad.roleId==r.roleId }">
-                            <option value="${r.roleId }" selected>${r.roleName }</option>
-                        </c:if>
-                        <c:if test="${ad.roleId!=r.roleId }">
+                        <c:set var="i" value="0"></c:set>
+                        <c:forEach items="${ad.roleId}" var="s">
+                            <c:if test="${s==r.roleId }">
+                                <option value="${r.roleId }" selected>${r.roleName }</option>
+                                <c:set var="i" value="1"></c:set>
+                            </c:if>
+                        </c:forEach>
+                        <c:if test="${i == 0}">
                             <option value="${r.roleId }">${r.roleName }</option>
                         </c:if>
                     </c:forEach>

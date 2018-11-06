@@ -1,11 +1,11 @@
 package com.purchase.shiro;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import com.purchase.mapper.admin.AdminMenusMapper;
+import com.purchase.mapper.admin.TbAdminMapper;
+import com.purchase.pojo.admin.TbAdmin;
+import com.purchase.pojo.admin.TbAdminExample;
+import com.purchase.pojo.admin.TbAdminExample.Criteria;
+import com.purchase.pojo.admin.TbMenus;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -16,14 +16,9 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.purchase.mapper.admin.AdminMenusMapper;
-import com.purchase.mapper.admin.TbAdminMapper;
-import com.purchase.pojo.admin.TbAdmin;
-import com.purchase.pojo.admin.TbAdminExample;
-import com.purchase.pojo.admin.TbAdminExample.Criteria;
-import com.purchase.pojo.admin.TbMenus;
 import org.springframework.util.CollectionUtils;
+
+import java.util.*;
 
 /**
  * 
@@ -56,7 +51,7 @@ public class CustomRealm extends AuthorizingRealm {
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
 		TbAdmin admin = (TbAdmin) principalCollection.getPrimaryPrincipal();
-		Long roleId = admin.getRoleId();
+		List<Long> roleId = admin.getRoleId();
 
 		List<String> permsList = null;
 
@@ -113,7 +108,7 @@ public class CustomRealm extends AuthorizingRealm {
 		}
 
 		// 账号未分配角色
-		if (admin.getRoleId() == null || admin.getRoleId() == 0) {
+		if (CollectionUtils.isEmpty(admin.getRoleId())) {
 			throw new UnknownAccountException("账号未分配角色!");
 		}
 
@@ -140,7 +135,7 @@ public class CustomRealm extends AuthorizingRealm {
 		criteria.andUsernameEqualTo(userName);
 		List<TbAdmin> admins = null;
 		try {
-			admins = tbAdminMapper.selectByExample(example);
+			admins = tbAdminMapper.selectByExampleExt(example);
 		} catch (Exception e) {
 			logger.error("selAdmin",e);
 		}

@@ -35,6 +35,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -298,8 +299,10 @@ public class AdminController {
 	@RequestMapping("/xtreedata")
 	@ResponseBody
 	public List<XtreeData> xtreeData(@RequestParam(value="roleId", defaultValue="-1") Long roleId) {
+		List<Long> roleIds = new ArrayList<>();
+		roleIds.add(roleId);
 		TbAdmin admin=new TbAdmin();
-		admin.setRoleId(roleId);
+		admin.setRoleId(roleIds);
 		return adminServiceImpl.selXtreeData1(admin);
 	}
 	

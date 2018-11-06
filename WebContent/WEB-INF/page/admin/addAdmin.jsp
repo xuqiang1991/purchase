@@ -136,7 +136,7 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">分配角色</label>
 			<div class="layui-input-block">
-				<select name="roleId">
+				<select name="roleId" multiple>
 					<option value="">请选择</option>
 					<c:forEach items="${roles }" var="r">
 						<option value="${r.roleId }">${r.roleName }</option>
