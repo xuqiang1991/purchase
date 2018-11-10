@@ -300,10 +300,10 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
 
     @Override
     public ResultUtil editPAOOrderDetail(BizProgrammeAcceptanceOrderDetail order) {
-        BizProgrammeAcceptanceOrderDetail detail = paoDetailMapper.selectByPrimaryKey(order.getId());
+        /*BizProgrammeAcceptanceOrderDetail detail = paoDetailMapper.selectByPrimaryKey(order.getId());
         detail.setActualOverDate(order.getActualOverDate());
-        detail.setRectifyFlag(order.getRectifyFlag());
-        paoDetailMapper.updateByPrimaryKey(detail);
+        detail.setRectifyFlag(order.getRectifyFlag());*/
+        paoDetailMapper.updateByPrimaryKey(order);
         return ResultUtil.ok();
     }
 

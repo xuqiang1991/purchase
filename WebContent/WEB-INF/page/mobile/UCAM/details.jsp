@@ -201,6 +201,11 @@
                                                     </div>--%>
                                                 <c:if test="${detailsVo.ucamVo.status == 0}">
                                                     <div>
+                                                        <a href="#fromUCAMItem" name="app-a" data-id="${item.id}">
+                                                            <button type="button" class="mui-btn mui-btn-primary" value="${item.id}">修改</button>
+                                                        </a>
+                                                    </div>
+                                                    <div>
                                                         <button type="button" class="mui-btn mui-btn-primary deleteItem" value="${item.id}">刪除</button>
                                                     </div>
                                                 </c:if>
@@ -389,12 +394,13 @@
             initDate();
         }
 
-        if(status != 0) {
+        //if(status != 0) {
             var appA = document.getElementsByName('app-a');
             if(appA.length > 0){
                 for(var i = 0; i < appA.length; i++){
                     appA[i].addEventListener('tap', function(event) {
                         var itemId = $(this).attr("data-id");
+                        console.log(itemId);
                         var url = '${ctx}/mobile/UCAM/getUCAMItem/' + itemId;
                         $.ajax({
                             url: url,
@@ -429,7 +435,7 @@
                     },false);
                 }
             }
-        }
+        //}
     });
 
     /*var applyCompletionRate = document.getElementById("applyCompletionRate");*/
@@ -501,8 +507,9 @@
         //校验通过，继续执行业务逻辑
         if(check){
             var orderNo = $('#orderNo').val();
+            var itemId = $('#addFromUCAMItem').find('#id').val();
             var url = '${ctx}/mobile/UCAM/addUCAMItem/'+ orderNo;
-            if(status != 0) {
+            if(itemId != '') {
                 url = '${ctx}/mobile/UCAM/editUCAMItem';
             }
             $.ajax({
@@ -529,6 +536,33 @@
 
     /** 删除项 **/
     mui(document.body).on('tap', '.deleteItem', function(e) {
+        var itemId = this.value;
+        var btnArray = ['是', '否'];
+        mui.confirm('确认删除此项？', '删除项', btnArray, function(e) {
+            if (e.index == 0) {
+                var url = '${ctx}/mobile/UCAM/deleteUCAMItem/'+ itemId
+                $.ajax({
+                    url: url,
+                    dataType: 'json',
+                    contentType : "application/x-www-form-urlencoded",
+                    type: 'post',
+                    timeout: 10000,
+                    success: function(result) {
+                        if(result.code!=0){
+                            mui.alert(result.msg);
+                        }else {
+                            mui.alert('删除成功！', function() {
+                                document.location.href='${ctx }/mobile/UCAM/toDetails/${detailsVo.ucamVo.id}';
+                            });
+                        }
+                    }
+                });
+            }
+        })
+    });
+
+    /** 编辑项 **/
+    mui(document.body).on('tap', '.editItem', function(e) {
         var itemId = this.value;
         var btnArray = ['是', '否'];
         mui.confirm('确认删除此项？', '删除项', btnArray, function(e) {
@@ -750,10 +784,12 @@
         //处理view的后退与webview后退
         var oldBack = $.back;
         $.back = function() {
-            if (viewApi.canBack()) { //如果view可以后退，则执行view的后退
+            if (viewApi.canBack()) { //如果view可以后退，则执行view的
+                document.getElementById('addFromUCAMItem').reset();
                 viewApi.back();
             } else { //执行webview后退
-                oldBack();
+                //oldBack();
+                history.go(-1);
             }
         };
         //监听页面切换事件方案1,通过view元素监听所有页面切换事件，目前提供pageBeforeShow|pageShow|pageBeforeBack|pageBack四种事件(before事件为动画开始前触发)

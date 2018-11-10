@@ -152,6 +152,11 @@
                                             <div class="mui-card-footer">
                                                 <c:if test="${detailsVo.paoVo.status == 0}">
                                                     <div>
+                                                        <a href="#fromPAOItem" name="app-a" data-id="${item.id}">
+                                                            <button type="button" class="mui-btn mui-btn-primary" value="${item.id}">修改</button>
+                                                        </a>
+                                                    </div>
+                                                    <div>
                                                         <button type="button" class="mui-btn mui-btn-primary deleteItem" value="${item.id}">刪除</button>
                                                     </div>
                                                 </c:if>
@@ -310,7 +315,7 @@
             initactualOverDate();
 
             inirectifyFlagName();
-
+        }
             var appA = document.getElementsByName('app-a');
             if(appA.length > 0){
                 for(var i = 0; i < appA.length; i++){
@@ -344,7 +349,7 @@
                 }
             }
 
-        }
+        //}
     });
 
     function initplayOverDate(){
@@ -413,8 +418,9 @@
 
         //校验通过，继续执行业务逻辑
         if(check){
+            var itemId = $('#addFromUCAMItem').find('#id').val();
             var url = '${ctx}/mobile/programmeAcceptance/addProgrammeAcceptanceItem';
-            if(status != 0) {
+            if(itemId != '') {
                 url = '${ctx}/mobile/programmeAcceptance/editProgrammeAcceptanceItem';
             }
             $.ajax({
@@ -629,9 +635,11 @@
         var oldBack = $.back;
         $.back = function() {
             if (viewApi.canBack()) { //如果view可以后退，则执行view的后退
+                document.getElementById('addFromPAOItem').reset();
                 viewApi.back();
             } else { //执行webview后退
-                oldBack();
+                //oldBack();
+                history.go(-1);
             }
         };
         //监听页面切换事件方案1,通过view元素监听所有页面切换事件，目前提供pageBeforeShow|pageShow|pageBeforeBack|pageBack四种事件(before事件为动画开始前触发)

@@ -34,7 +34,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -223,7 +222,7 @@ public class ProgrammeAcceptanceController {
     @RequestMapping("editProgrammeAcceptanceItem")
     @RequiresPermissions("mobile:programmeAcceptance:save")
     @ResponseBody
-    public ResultUtil editProgrammeAcceptanceItem(String id, Integer rectifyFlag, String actualOverDate, String remark){
+    public ResultUtil editProgrammeAcceptanceItem(String id,String orderNo, String rectifyContent, String rectifyMeasure, String playOverDate, Integer rectifyFlag, String actualOverDate, String remark){
         BizProgrammeAcceptanceOrderDetail order = new BizProgrammeAcceptanceOrderDetail();
         order.setRectifyFlag(rectifyFlag);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -231,10 +230,17 @@ public class ProgrammeAcceptanceController {
             if(!StringUtils.isEmpty(actualOverDate)) {
                 order.setActualOverDate(sdf.parse(actualOverDate));
             }
+            if(!StringUtils.isEmpty(playOverDate)) {
+                order.setPlayOverDate(sdf.parse(playOverDate));
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        //order.setRemark(remark);
+        order.setRectifyContent(rectifyContent);
+        order.setRectifyMeasure(rectifyMeasure);
+        order.setRectifyFlag(rectifyFlag);
+        order.setRemark(remark);
+        order.setOrderNo(orderNo);
         order.setId(id);
         return paService.editPAOOrderDetail(order);
     }
