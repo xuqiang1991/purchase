@@ -231,6 +231,14 @@ public class PurchaseOrderController {
         return purchaseOrderService.deletePurchaseOrderItem(itemId);
     }
 
+    @SysLog(value="查询采购单项")
+    @RequestMapping("getPurchaseOrderItem/{itemId}")
+    @RequiresPermissions("mobile:purchase:list")
+    @ResponseBody
+    public ResultUtil getPurchaseOrderItem(@PathVariable("itemId") String itemId){
+        return purchaseOrderService.getPurchaseOrderItem(itemId);
+    }
+
 
     /**
      * 不需要权限，查询采购单列表（合同内订单来源）

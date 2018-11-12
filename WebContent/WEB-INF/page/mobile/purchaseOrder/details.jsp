@@ -149,6 +149,11 @@
                                                 </div>
                                                 <c:if test="${detailsVo.purchaseOrder.status == 0}">
                                                     <div>
+                                                        <a href="#fromPurchaseOrderItem" name="app-a" data-id="${item.id}">
+                                                            <button type="button" class="mui-btn mui-btn-primary" value="${item.id}">修改</button>
+                                                        </a>
+                                                    </div>
+                                                    <div>
                                                         <button type="button" class="mui-btn mui-btn-primary" id="deleteItem" value="${item.id}">刪除</button>
                                                     </div>
                                                 </c:if>
@@ -201,6 +206,8 @@
         <div class="mui-scroll-wrapper">
             <div class="mui-scroll"  style="height: 100%;">
                 <form class="mui-input-group" id="addFromPurchaseOrderItem">
+                    <input type="hidden" id="orderNo" name="orderNo" value="${detailsVo.purchaseOrder.purchaseNo}">
+                    <input type="hidden" id="id" name="id" value="">
                     <div class="mui-input-row">
                         <label>材料/项目内容</label>
                         <input type="text" name="content" class="mui-input-clear" mui-verify="required" placeholder="请输入材料/项目内容">
@@ -571,6 +578,55 @@
                 }
             }
         });
+
+
+        var appA = document.getElementsByName('app-a');
+        if(appA.length > 0){
+            for(var i = 0; i < appA.length; i++){
+                appA[i].addEventListener('tap', function(event) {
+                    var itemId = $(this).attr("data-id");
+                    var url = '${ctx}/mobile/purchase/getPurchaseOrderItem/' + itemId;
+                    $.ajax({
+                        url: url,
+                        contentType : "application/x-www-form-urlencoded",
+                        type: 'post',
+                        timeout: 10000,
+                        success: function(result) {
+                            if(result.code!=0){
+                                alert(result.msg);
+                            }else {
+                                var data = result.data;
+                                $("#addFromPurchaseOrderItem").find("#id").val(data.id);
+                                $("#addFromPurchaseOrderItem").find("input[name='orderNo']").val(data.orderNo);
+                                $("#addFromPurchaseOrderItem").find("input[name='content']").val(data.content);
+                                $("#addFromPurchaseOrderItem").find("input[name='model']").val(data.model);
+                                $("#addFromPurchaseOrderItem").find("input[name='unit']").val(data.unit);
+                                $("#addFromPurchaseOrderItem").find("input[name='price']").val(data.price);
+                                $("#addFromPurchaseOrderItem").find("input[name='amount']").val(data.amount);
+                                $("#remark").val(data.remark);
+
+                               /* $("#model").val(data.model);
+                                $("#applyCompletionRate").val(data.applyCompletionRate);
+                                $("#unit").val(data.unit);
+                                $("#price").val(data.price);
+                                $("#applyPrice").val(data.applyPrice);
+                                $("#remark").val(data.remark);
+                                if(ucamVoOrderType == 1){
+                                    $("#warrantyDate").val(data.warrantyDate);
+                                }
+                                if(ucamVoOrderType == 2){
+                                    $("#date").val(data.date);
+                                }
+                                $("#approvalCompletionRate").val(data.approvalCompletionRate);
+                                $("#approvalPrice").val(data.approvalPrice);*/
+                            }
+                        }
+                    });
+                },false);
+            }
+        }
+
+
     });
 
     (function($) {

@@ -11,10 +11,7 @@ import com.purchase.mapper.order.BizPurchaseOrderMapper;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbProjectManger;
 import com.purchase.pojo.admin.TbSupplier;
-import com.purchase.pojo.order.BizPurchaseOrder;
-import com.purchase.pojo.order.BizPurchaseOrderDetail;
-import com.purchase.pojo.order.BizPurchaseOrderDetailExample;
-import com.purchase.pojo.order.BizPurchaseOrderExample;
+import com.purchase.pojo.order.*;
 import com.purchase.service.PurchaseOrderService;
 import com.purchase.util.*;
 import com.purchase.vo.OrderHistory;
@@ -438,7 +435,16 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		return ResultUtil.ok();
 	}
 
-	@Override
+    @Override
+    public ResultUtil getPurchaseOrderItem(String itemId) {
+        BizPurchaseOrderDetail order = purchaseOrderDetailMapper.selectByPrimaryKey(itemId);
+        ResultUtil resultUtil = new ResultUtil();
+        resultUtil.setCode(0);
+        resultUtil.setData(order);
+        return resultUtil;
+    }
+
+    @Override
 	public ResultUtil submitReviewPurchaseOrder(TbAdmin admin, String id, Long userId) {
 
 		BizPurchaseOrder order = purchaseOrderMapper.selectByPrimaryKey(id);
