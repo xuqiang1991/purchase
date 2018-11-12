@@ -223,6 +223,18 @@ public class PurchaseOrderController {
         return purchaseOrderService.addPurchaseOrderItem(order);
     }
 
+    @SysLog(value="更新采购单项")
+    @RequestMapping("editPurchaseOrderItem/{purchaseNo}")
+    @RequiresPermissions("mobile:purchase:save")
+    @ResponseBody
+    public ResultUtil editPurchaseOrderItem(@PathVariable("purchaseNo") String purchaseNo, BizPurchaseOrderDetail order){
+        Date date = new Date();
+        order.setUpdateDate(date);
+        order.setCreateTime(date);
+        order.setPurchaseNo(purchaseNo);
+        return purchaseOrderService.editPurchaseOrderItem(order);
+    }
+
     @SysLog(value="删除采购单项")
     @RequestMapping("deletePurchaseOrderItem/{itemId}")
     @RequiresPermissions("mobile:purchase:save")

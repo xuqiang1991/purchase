@@ -206,7 +206,7 @@
         <div class="mui-scroll-wrapper">
             <div class="mui-scroll"  style="height: 100%;">
                 <form class="mui-input-group" id="addFromPurchaseOrderItem">
-                    <input type="hidden" id="orderNo" name="orderNo" value="${detailsVo.purchaseOrder.purchaseNo}">
+                    <%--<input type="hidden" id="purchaseNo" name="purchaseNo" value="${detailsVo.purchaseOrder.purchaseNo}">--%>
                     <input type="hidden" id="id" name="id" value="">
                     <div class="mui-input-row">
                         <label>材料/项目内容</label>
@@ -244,7 +244,7 @@
                         <textarea name="remark" id="remark" rows="5" class="mui-input-clear" placeholder="备注"></textarea>
                     </div>
                     <div class="mui-button-row" style="padding-bottom: 20px;">
-                        <button type="button" class="mui-btn mui-btn-primary" id="submitFromPurchaseOrderItem">添加</button>
+                        <button type="button" class="mui-btn mui-btn-primary" id="submitFromPurchaseOrderItem">保存</button>
                     </div>
                 </form>
             </div>
@@ -314,7 +314,11 @@
         //校验通过，继续执行业务逻辑
         if(check){
             var purchaseNo = $('#purchaseNo').val();
-            var url = '${ctx}/mobile/purchase/addPurchaseOrderItem/'+ purchaseNo
+            var itemId = $('#addFromPurchaseOrderItem').find('#id').val();
+            var url = '${ctx}/mobile/purchase/addPurchaseOrderItem/'+ purchaseNo;
+            if(itemId != ''){
+                url = '${ctx}/mobile/purchase/editPurchaseOrderItem/'+ purchaseNo;
+            }
             $.ajax({
                 url: url,
                 data: $('#addFromPurchaseOrderItem').serialize(),
@@ -326,7 +330,7 @@
                     if(result.code!=0){
                         mui.alert(result.msg);
                     }else {
-                        mui.alert('添加成功！', function() {
+                        mui.alert('保存成功！', function() {
                             document.location.href='${ctx }/mobile/purchase/toDetails/${detailsVo.purchaseOrder.id}';
                         });
                     }
@@ -597,7 +601,7 @@
                             }else {
                                 var data = result.data;
                                 $("#addFromPurchaseOrderItem").find("#id").val(data.id);
-                                $("#addFromPurchaseOrderItem").find("input[name='orderNo']").val(data.orderNo);
+                                $("#addFromPurchaseOrderItem").find("input[name='purchaseNo']").val(data.purchaseNo);
                                 $("#addFromPurchaseOrderItem").find("input[name='content']").val(data.content);
                                 $("#addFromPurchaseOrderItem").find("input[name='model']").val(data.model);
                                 $("#addFromPurchaseOrderItem").find("input[name='unit']").val(data.unit);
@@ -653,9 +657,10 @@
         var oldBack = $.back;
         $.back = function() {
             if (viewApi.canBack()) { //如果view可以后退，则执行view的后退
+                document.getElementById('addFromPurchaseOrderItem').reset();
                 viewApi.back();
             } else { //执行webview后退
-                oldBack();
+                history.go(-1);
             }
         };
         //监听页面切换事件方案1,通过view元素监听所有页面切换事件，目前提供pageBeforeShow|pageShow|pageBeforeBack|pageBack四种事件(before事件为动画开始前触发)
