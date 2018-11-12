@@ -256,20 +256,20 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
             paOrderDetialVo.setPaoDetail(detailList);
 
             //选择审核人
-            String depart = "工程部";
+            String roleName = "工程部";
             Long reviewUserId = null;
             if(STATUS_1 == vo.getStatus()){
                 reviewUserId = vo.getProjectDepartUser();
-                depart = "成本部";
+                roleName = "成本部";
             }else if(STATUS_2 == vo.getStatus()){
-                depart = "总经理";
+                roleName = "总经理";
                 reviewUserId = vo.getCostDepartUser();
             }else if(STATUS_3 == vo.getStatus()){
                 //depart = "总经理";
                 reviewUserId = vo.getManagerDepartUser();
             }
-            if(depart != null){
-                List<ChoseAdminVO> data = adminMapper.selectByDeptName(depart);
+            if(roleName != null){
+                List<ChoseAdminVO> data = adminMapper.selectByRoleName(roleName);
                 if(!CollectionUtils.isEmpty(data)){
                     Gson gson = new Gson();
                     String json = gson.toJson(data);

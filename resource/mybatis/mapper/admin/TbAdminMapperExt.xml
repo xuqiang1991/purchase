@@ -50,4 +50,24 @@
       order by ${example.orderByClause}
     </if>
   </select>
+
+
+  <resultMap id="BaseResultMapRole" type="com.purchase.pojo.admin.TbRoles" extends="com.purchase.mapper.admin.TbRolesMapper.BaseResultMap">
+    <collection property="roleId" column="role_id" ofType="java.lang.Long">
+      <id column="role_id" property="roleId" jdbcType="BIGINT"></id>
+    </collection>
+  </resultMap>
+  <select id="selectRoleByExample" resultMap="BaseResultMapRole">
+    select
+          c.*
+    from tb_admin a
+    INSERT JOIN tb_admin_role b ON (a.id = b.user_id)
+    INSERT JOIN tb_roles c ON (c.role_id = b.role_id)
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause_Ext" />
+    </if>
+    <if test="example.orderByClause != null" >
+      order by ${example.orderByClause}
+    </if>
+  </select>
 </mapper>

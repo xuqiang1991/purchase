@@ -205,27 +205,27 @@ public class CAMServiceImpl implements CAMService {
         vo.setHistoryList(historyList);
 
         //选择审核人
-        String depart = "成本部";
+        String roleName = "成本部";
         Long reviewUserId = null;
         if(PurchaseUtil.STATUS_1 == status){
             Long cId = vo.getCostDepartUser();
             if(cId != null){
                 reviewUserId = vo.getCostDepartUser();
-                depart = "工程部";
+                roleName = "工程部";
             }
         }else if(PurchaseUtil.STATUS_2 == status){
-            depart = "总经理";
+            roleName = "总经理";
             reviewUserId = vo.getProjectDepartUser();
         }else if(PurchaseUtil.STATUS_3 == status){
             reviewUserId = vo.getManagerDepartUser();
         }
-        if (depart != null) {
+        if (roleName != null) {
             TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
             long loginId = admin.getId();
             if (reviewUserId != null && reviewUserId == loginId) {
                 detailsVo.setReviewUserId(userId);
             }
-            List<ChoseAdminVO> data = adminMapper.selectByDeptName(depart);
+            List<ChoseAdminVO> data = adminMapper.selectByRoleName(roleName);
             if (!CollectionUtils.isEmpty(data)) {
                 Gson gson = new Gson();
                 String json = gson.toJson(data);

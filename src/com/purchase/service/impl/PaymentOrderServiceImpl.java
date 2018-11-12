@@ -2,6 +2,7 @@ package com.purchase.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.purchase.mapper.admin.TbAdminMapper;
 import com.purchase.mapper.admin.TbDepartmentMapper;
@@ -9,9 +10,7 @@ import com.purchase.mapper.order.BizContractApplyMoneyMapper;
 import com.purchase.mapper.order.BizPaymentOrderMapper;
 import com.purchase.mapper.order.BizPurchaseOrderMapper;
 import com.purchase.mapper.order.BizUncontractApplyMoneyMapper;
-import com.purchase.pojo.admin.TbAdmin;
-import com.purchase.pojo.admin.TbDepartment;
-import com.purchase.pojo.admin.TbDepartmentExample;
+import com.purchase.pojo.admin.*;
 import com.purchase.pojo.order.*;
 import com.purchase.service.PaymentOrderService;
 import com.purchase.util.*;
@@ -103,11 +102,16 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         BizPaymentOrderVo vo = users.get(0);
 
         if(admin.getDeptId() != null){
-            TbDepartment department = departmentMapper.selectByPrimaryKey(Long.parseLong(admin.getDeptId()));
-            if(department != null && "总经理".equals(department.getName()) && vo.getFinancePaymentUser() == null ){
+            TbAdminExample adminExample = new TbAdminExample();
+            TbAdminExample.Criteria adminCriteria = adminExample.createCriteria();
+            adminCriteria.andIdEqualTo(admin.getId());
+            List<TbRoles> roles = adminMapper.selectRoleByExample(adminExample);
+            List<String> roleNames = Lists.transform(roles, entity -> entity.getRoleName());
+
+            if(roleNames.contains("总经理") && vo.getFinancePaymentUser() == null){
                 vo.setReviewUserId(admin.getId());
-                String depart = "财务部";
-                List<ChoseAdminVO> data = adminMapper.selectByDeptName(depart);
+                String roleName = "财务部";
+                List<ChoseAdminVO> data = adminMapper.selectByRoleName(roleName);
                 if(!CollectionUtils.isEmpty(data)){
                     Gson gson = new Gson();
                     String json = gson.toJson(data);
@@ -139,8 +143,11 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         Long reviewer = null;
         Boolean reviewerResults = null;
         if(status == 0){//总经理审核
-            TbDepartment department = departmentMapper.selectByPrimaryKey(Long.parseLong(admin.getDeptId()));
-            if(!(department != null && "总经理".equals(department.getName()))){
+            TbAdminExample adminExample = new TbAdminExample();
+            TbAdminExample.Criteria adminCriteria = adminExample.createCriteria();
+            adminCriteria.andIdEqualTo(admin.getId());
+            List<TbRoles> roles = adminMapper.selectRoleByExample(adminExample);
+            if(!roles.contains("总经理")){
                 return ResultUtil.error("没有审核权限!");
             }
             //判断审核人
