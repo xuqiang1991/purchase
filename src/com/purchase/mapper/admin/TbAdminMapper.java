@@ -53,11 +53,11 @@ public interface TbAdminMapper {
     })
     List<ChoseAdminVO> selectByDeptName(String depart);
 
-    List<TbAdmin> selectByExampleExt(@Param("example") TbAdminExample example);
+    List<TbAdmin> selectByExampleExt(@Param("example") TbAdminExample example);c
 
     List<TbRoles> selectRoleByExample(@Param("example") TbAdminExample example);
 
-    @Select("SELECT a.fullname, a.id FROM tb_admin a,tb_admin_role b,tb_roles c WHERE a.id = b.user_id and c.role_id = b.role_id and b.role_name = #{0}")
+    @Select("SELECT a.fullname, a.id FROM tb_admin a,tb_admin_role b,tb_roles c WHERE a.id = b.user_id and c.role_id = b.role_id and .role_name = #{0}")
     @Results({
             @Result(property = "text", column = "fullname"),
             @Result(property = "value", column = "id")
