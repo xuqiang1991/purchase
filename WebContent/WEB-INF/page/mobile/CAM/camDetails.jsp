@@ -155,6 +155,11 @@
                                                 </div>
                                                 <c:if test="${detailsVo.order.status == 0}">
                                                     <div>
+                                                        <a href="#fromPurchaseOrderItem" name="app-a" data-id="${item.id}">
+                                                            <button type="button" class="mui-btn mui-btn-primary" value="${item.id}">修改</button>
+                                                        </a>
+                                                    </div>
+                                                    <div>
                                                         <button type="button" class="mui-btn mui-btn-primary" id="deleteItem" value="${item.id}">刪除</button>
                                                     </div>
                                                 </c:if>
@@ -316,7 +321,12 @@
         //校验通过，继续执行业务逻辑
         if(check){
             var orderNo = $('#orderNo').val();
+            var itemId = $('#addFromPurchaseOrderItem').find('#id').val();
             var url = '${ctx}/mobile/CAM/addCAMItem/'+ orderNo
+            if(itemId != ''){
+                url = '${ctx}/mobile/CAM/editCAMItem/';
+            }
+
             $.ajax({
                 url: url,
                 data: $('#addFromPurchaseOrderItem').serialize(),
@@ -328,7 +338,7 @@
                     if(result.code!=0){
                         mui.alert(result.msg);
                     }else {
-                        mui.alert('添加成功！', function() {
+                        mui.alert('保存成功！', function() {
                             document.location.href='${ctx }/mobile/CAM/toDetails/${detailsVo.order.id}';
                         });
                     }
@@ -564,7 +574,7 @@
         });
     });
 
-
+    var camVoOrderType = '${detailsVo.order.orderType}';
     //初始化数据
     mui.ready(function() {
         //供应商
@@ -577,7 +587,75 @@
                 }
             }
         });
+
+        var appA = document.getElementsByName('app-a');
+        if(appA.length > 0){
+            for(var i = 0; i < appA.length; i++){
+                appA[i].addEventListener('tap', function(event) {
+                    var itemId = $(this).attr("data-id");
+                    var url = '${ctx}/mobile/CAM/getCAMItem/' + itemId;
+                    $.ajax({
+                        url: url,
+                        contentType : "application/x-www-form-urlencoded",
+                        type: 'post',
+                        timeout: 10000,
+                        success: function(result) {
+                            if(result.code!=0){
+                                alert(result.msg);
+                            }else {
+                                var data = result.data;
+                                $("#addFromPurchaseOrderItem").find("#id").val(data.id);
+                                $("#addFromPurchaseOrderItem").find("input[name='constructionSite']").val(data.constructionSite);
+                                $("#addFromPurchaseOrderItem").find("input[name='projectContent']").val(data.projectContent);
+                                $("#addFromPurchaseOrderItem").find("input[name='model']").val(data.model);
+
+                                $("#addFromPurchaseOrderItem").find("input[name='unit']").val(data.unit);
+                                $("#addFromPurchaseOrderItem").find("input[name='settleAmout']").val(data.settleAmout);
+                                $("#addFromPurchaseOrderItem").find("input[name='settlePrice']").val(data.settlePrice);
+                                $("#remark").val(data.remark);
+
+                                if(camVoOrderType == 1){
+                                    $("#warrantyDate").val(data.warrantyDate);
+                                }
+                                if(camVoOrderType == 2){
+                                    $("#date").val(data.date);
+                                }
+                            }
+                        }
+                    });
+                },false);
+            }
+        }
     });
+
+    var view = viewApi.view;
+    (function($) {
+        //处理view的后退与webview后退
+        var oldBack = $.back;
+        $.back = function() {
+            if (viewApi.canBack()) { //如果view可以后退，则执行view的
+                document.getElementById('addFromPurchaseOrderItem').reset();
+                viewApi.back();
+            } else { //执行webview后退
+                //oldBack();
+                history.go(-1);
+            }
+        };
+        //监听页面切换事件方案1,通过view元素监听所有页面切换事件，目前提供pageBeforeShow|pageShow|pageBeforeBack|pageBack四种事件(before事件为动画开始前触发)
+        //第一个参数为事件名称，第二个参数为事件回调，其中e.detail.page为当前页面的html对象
+        view.addEventListener('pageBeforeShow', function(e) {
+            //				console.log(e.detail.page.id + ' beforeShow');
+        });
+        view.addEventListener('pageShow', function(e) {
+            //				console.log(e.detail.page.id + ' show');
+        });
+        view.addEventListener('pageBeforeBack', function(e) {
+            //				console.log(e.detail.page.id + ' beforeBack');
+        });
+        view.addEventListener('pageBack', function(e) {
+            //				console.log(e.detail.page.id + ' back');
+        });
+    })(mui);
 </script>
 </body>
 </html>

@@ -4,7 +4,6 @@ import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.order.BizContractApplyMoney;
 import com.purchase.pojo.order.BizContractApplyMoneyDetail;
 import com.purchase.util.ResultUtil;
-import com.purchase.vo.order.BizPurchaseOrderVo;
 import com.purchase.vo.order.CAMDetailsVo;
 import com.purchase.vo.order.CAMSearch;
 import com.purchase.vo.order.CAMVo;
@@ -28,7 +27,11 @@ public interface CAMService {
 
     ResultUtil addCAMItem(BizContractApplyMoneyDetail order);
 
+    ResultUtil editCAMItem(BizContractApplyMoneyDetail order);
+
     ResultUtil delCAMItem(String itemId);
+
+    ResultUtil getCAMItem(String itemId);
 
     ResultUtil delCAM(String id);
 

@@ -9,7 +9,6 @@ import com.purchase.pojo.order.BizContractApplyMoneyDetail;
 import com.purchase.service.*;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.*;
-import com.purchase.vo.order.BizPurchaseOrderVo;
 import com.purchase.vo.order.CAMDetailsVo;
 import com.purchase.vo.order.CAMSearch;
 import com.purchase.vo.order.CAMVo;
@@ -168,6 +167,25 @@ public class CAMController {
         order.setCreateTime(date);
         order.setOrderNo(orderNo);
         return camService.addCAMItem(order);
+    }
+
+    @SysLog(value="查询合同内请款单详情")
+    @RequestMapping("getCAMItem/{itemId}")
+    @RequiresPermissions("mobile:CAM:list")
+    @ResponseBody
+    public ResultUtil getCAMItem(@PathVariable("itemId") String itemId){
+        return camService.getCAMItem(itemId);
+    }
+
+    @SysLog(value="编辑合同内请款单项")
+    @RequestMapping("editCAMItem")
+    @RequiresPermissions("mobile:CAM:save")
+    @ResponseBody
+    public ResultUtil editCAMItem(BizContractApplyMoneyDetail order){
+        Date date = new Date();
+        order.setUpdateDate(date);
+        order.setCreateTime(date);
+        return camService.editCAMItem(order);
     }
 
 

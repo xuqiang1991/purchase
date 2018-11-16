@@ -329,6 +329,39 @@ public class CAMServiceImpl implements CAMService {
     }
 
     @Override
+    public ResultUtil editCAMItem(BizContractApplyMoneyDetail order) {
+        contractApplyMoneyDetailMapper.updateByPrimaryKey(order);
+
+        BigDecimal price = order.getPrice();
+        Double amount = order.getContractCount();
+        BigDecimal totalPrice = null;
+        if (price != null && amount != null) {
+            BigDecimal amountBig = new BigDecimal(amount);
+            totalPrice = price.multiply(amountBig);
+        }
+
+        //如有金额更新采购单
+        if (totalPrice != null) {
+            String orderNo = order.getOrderNo();
+            BizContractApplyMoney camOrder = camMapper.selectByOrderNo(orderNo);
+            BigDecimal contractMoney = camOrder.getApplyPrice();
+            if (contractMoney == null) {
+                contractMoney = totalPrice;
+            } else {
+                contractMoney.add(totalPrice);
+            }
+
+            BizContractApplyMoney tmp = new BizContractApplyMoney();
+            tmp.setId(camOrder.getId());
+            tmp.setApplyPrice(contractMoney);
+            tmp.setUpdateDate(order.getUpdateDate());
+            camMapper.updateByPrimaryKeySelective(tmp);
+        }
+
+        return ResultUtil.ok();
+    }
+
+    @Override
     public ResultUtil delCAM(String id) {
         BizContractApplyMoney order = camMapper.selectByPrimaryKey(id);
         if (!(CAMUtil.STATUS_0 == order.getStatus())) {
@@ -370,6 +403,15 @@ public class CAMServiceImpl implements CAMService {
 
         contractApplyMoneyDetailMapper.deleteByPrimaryKey(id);
         return ResultUtil.ok();
+    }
+
+    @Override
+    public ResultUtil getCAMItem(String itemId) {
+        BizContractApplyMoneyDetail order = contractApplyMoneyDetailMapper.selectByPrimaryKey(itemId);
+        ResultUtil resultUtil = new ResultUtil();
+        resultUtil.setCode(0);
+        resultUtil.setData(order);
+        return resultUtil;
     }
 
     @Override
