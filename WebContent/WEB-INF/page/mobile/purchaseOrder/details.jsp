@@ -316,7 +316,7 @@
             var purchaseNo = $('#purchaseNo').val();
             var itemId = $('#addFromPurchaseOrderItem').find('#id').val();
             var url = '${ctx}/mobile/purchase/addPurchaseOrderItem/'+ purchaseNo;
-            if(itemId != ''){
+            if(itemId && itemId != ''){
                 url = '${ctx}/mobile/purchase/editPurchaseOrderItem/'+ purchaseNo;
             }
             $.ajax({

@@ -323,7 +323,7 @@
             var orderNo = $('#orderNo').val();
             var itemId = $('#addFromPurchaseOrderItem').find('#id').val();
             var url = '${ctx}/mobile/CAM/addCAMItem/'+ orderNo
-            if(itemId != ''){
+            if(itemId && itemId != ''){
                 url = '${ctx}/mobile/CAM/editCAMItem/';
             }
 
@@ -627,6 +627,25 @@
             }
         }
     });
+
+    (function($) {
+        $.init();
+        //var result = $('#dateText');
+        var btns =  $('#dateText');
+        btns.each(function(i, btn) {
+            btn.addEventListener('tap', function() {
+                var optionsJson = this.getAttribute('data-options') || '{}';
+                var options = JSON.parse(optionsJson);
+                var id = this.getAttribute('id');
+                var picker = new $.DtPicker(options);
+                picker.show(function(rs) {
+                    dateText.value = rs.text;
+                    picker.dispose();
+                });
+            }, false);
+        });
+
+    })(mui);
 
     var view = viewApi.view;
     (function($) {

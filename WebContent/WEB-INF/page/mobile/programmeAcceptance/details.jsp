@@ -420,7 +420,7 @@
         if(check){
             var itemId = $('#addFromUCAMItem').find('#id').val();
             var url = '${ctx}/mobile/programmeAcceptance/addProgrammeAcceptanceItem';
-            if(itemId != '') {
+            if(itemId && itemId != '') {
                 url = '${ctx}/mobile/programmeAcceptance/editProgrammeAcceptanceItem';
             }
             $.ajax({

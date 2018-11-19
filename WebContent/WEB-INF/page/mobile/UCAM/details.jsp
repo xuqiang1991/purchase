@@ -509,7 +509,7 @@
             var orderNo = $('#orderNo').val();
             var itemId = $('#addFromUCAMItem').find('#id').val();
             var url = '${ctx}/mobile/UCAM/addUCAMItem/'+ orderNo;
-            if(itemId != '') {
+            if(itemId && itemId != '') {
                 url = '${ctx}/mobile/UCAM/editUCAMItem';
             }
             $.ajax({
