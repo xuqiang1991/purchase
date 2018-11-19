@@ -48,7 +48,7 @@
 			</div>
 		</div>
         <div class="layui-form-item">
-            <label class="layui-form-label">性别${ad.sex}</label>
+            <label class="layui-form-label">性别</label>
             <div class="layui-input-block">
                 <c:if test="${ad.sex=='0' }">
                     <input type="radio" name="sex" value="1" title="男" >
