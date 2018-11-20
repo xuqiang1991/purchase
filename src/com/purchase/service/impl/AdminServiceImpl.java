@@ -7,7 +7,6 @@ import com.purchase.pojo.admin.*;
 import com.purchase.pojo.admin.TbAdminExample.Criteria;
 import com.purchase.service.AdminService;
 import com.purchase.util.ResultUtil;
-import com.purchase.util.WebUtils;
 import com.purchase.vo.admin.*;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,7 +104,6 @@ public class AdminServiceImpl implements AdminService {
 						}
 					}
 				}
-
 			}
 			//部门写入
             if(!StringUtils.isEmpty(tbAdmin.getDeptId())){

@@ -53,7 +53,20 @@ layui.config({
 			});
 		});
 
- 	form.on("submit(addAdmin)",function(data){
+    form.on('radio(userType)', function(data){
+        console.log(data.elem); //得到radio原始DOM对象
+        console.log(data.value); //被点击的radio的value值
+        if(data.value == 0){
+            $("#userSuppliersDiv").hide();
+            $("#userDeptsDiv").show();
+        }else{
+            $("#userSuppliersDiv").show();
+            $("#userDeptsDiv").hide();
+        }
+    });
+    $("#userSuppliersDiv").hide();
+
+    form.on("submit(addAdmin)",function(data){
 
         var roleIds = $('select[name="roleId"]').val();
         if(roleIds.length > 0){

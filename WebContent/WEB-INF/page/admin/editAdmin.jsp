@@ -70,11 +70,17 @@
         <div class="layui-form-item">
             <label class="layui-form-label">用户类型</label>
             <div class="layui-input-block">
-                <input type="radio" name="userType" value="0" title="内部用户" checked>
-                <input type="radio" name="userType" value="1" title="外部用户">
+                <c:if test="${ad.userType == '0' }">
+                    <input type="radio" lay-filter="userType" name="userType" value="0" title="内部用户" checked>
+                    <input type="radio" lay-filter="userType" name="userType" value="1" title="外部用户">
+                </c:if>
+                <c:if test="${ad.userType == '1' }">
+                    <input type="radio" lay-filter="userType" name="userType" value="0" title="内部用户" >
+                    <input type="radio" lay-filter="userType" name="userType" value="1" title="外部用户" checked>
+                </c:if>
             </div>
         </div>
-        <div class="layui-form-item">
+        <div class="layui-form-item" id="userDeptsDiv">
             <label class="layui-form-label">部门</label>
             <div class="layui-input-block">
                 <select name="deptId">
@@ -91,7 +97,7 @@
             </div>
         </div>
 
-        <div class="layui-form-item">
+        <div class="layui-form-item" id="userSuppliersDiv">
             <label class="layui-form-label">供应商</label>
             <div class="layui-input-block">
                 <select name="supplierId">
@@ -185,5 +191,8 @@
 	</form>
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>
 	<script type="text/javascript" src="${ctx }/js/admin/editAdmin.js"></script>
+    <script type="text/javascript">
+        var userType = '${ad.userType}';
+    </script>
 </body>
 </html>
