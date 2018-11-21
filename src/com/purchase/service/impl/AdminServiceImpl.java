@@ -595,6 +595,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<TbDepartment> selDepartmentByParentId(Long parentId) {
 		TbDepartmentExample example=new TbDepartmentExample();
+		example.setOrderByClause("id DESC");
 		if(parentId != null){
 			example.createCriteria().andParentIdEqualTo(parentId);
 		}
@@ -625,6 +626,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<TbArea> selAreaByParentId(Long parentId) {
 		TbAreaExample example=new TbAreaExample();
+		example.setOrderByClause("id DESC");
 		if(parentId != null){
 			example.createCriteria().andParentIdEqualTo(parentId);
 		}
@@ -691,6 +693,7 @@ public class AdminServiceImpl implements AdminService {
 	public List<ChoseDeptVO> selectDeptAdmin() {
 		List<ChoseDeptVO> item = new ArrayList<>();
 		TbDepartmentExample example=new TbDepartmentExample();
+		example.setOrderByClause("id DESC");
 		example.createCriteria().andParentIdIsNull();
 		//查询没有上级菜单的部门
 		List<TbDepartment> depts = tbDepartmentMapper.selectByExample(example);
@@ -716,6 +719,7 @@ public class AdminServiceImpl implements AdminService {
 	public List<ChoseAreaVO> selectArea() {
 		List<ChoseAreaVO> item = new ArrayList<>();
         TbAreaExample example=new TbAreaExample();
+		example.setOrderByClause("id DESC");
         example.createCriteria().andParentIdIsNull().andValidEqualTo(Boolean.TRUE);
 		List<TbArea> areas = tbAreaMapper.selectByExample(example);
 		if(!CollectionUtils.isEmpty(areas)){
