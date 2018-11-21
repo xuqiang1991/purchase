@@ -87,9 +87,10 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public ResultUtil selAdmins(Integer page, Integer limit) {
-		PageHelper.startPage(page, limit);
+		//PageHelper.startPage(page, limit);
 		TbAdminExample example = new TbAdminExample();
 		List<TbAdmin> list = tbAdminMapper.selectByExampleExt(example);
+		Long count = tbAdminMapper.selectByExampleExt_COUNT(example);
 		// 将roleName写进TbAdmin
         List<TbRoles> roles = selRoles();
 		for (TbAdmin tbAdmin : list) {
@@ -123,7 +124,7 @@ public class AdminServiceImpl implements AdminService {
 		PageInfo<TbAdmin> pageInfo = new PageInfo<TbAdmin>(list);
 		ResultUtil resultUtil = new ResultUtil();
 		resultUtil.setCode(0);
-		resultUtil.setCount(pageInfo.getTotal());
+		resultUtil.setCount(count);
 		resultUtil.setData(pageInfo.getList());
 		return resultUtil;
 	}
