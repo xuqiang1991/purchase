@@ -27,29 +27,34 @@
                 float: none;
             }
         }
-        .layui-form-label{width: 180px;}
-        .layui-input-block {
-            margin-left: 210px;
+        .layui-form-pane .layui-form-label{width: 180px;}
+        .layui-form-pane .layui-input-block {
+            margin-left: 180px;
+        }
+        .css-required:after {
+            content: ' *';
+            color: red;
+            font-size: 150%;
         }
     </style>
 </head>
 <body class="childrenBody">
-<form class="layui-form" style="width: 80%;" id="projectMangerForm">
+<form class="layui-form layui-form-pane" style="width: 80%;" id="projectMangerForm">
     <input type="hidden" name="id" value="${projectManger.id}">
     <div class="layui-form-item">
-        <label class="layui-form-label">项目名称</label>
+        <label class="layui-form-label css-required">项目名称</label>
         <div class="layui-input-block">
             <input type="text" id="name" class="layui-input" lay-verify="required" maxlength="50" placeholder="请输入项目名称" name="name" value="${projectManger.name}">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">项目简称</label>
+        <label class="layui-form-label css-required">项目简称</label>
         <div class="layui-input-block">
             <input type="text" id="shortName" class="layui-input" lay-verify="required" maxlength="20" placeholder="请输入项目简称" name="shortName" value="${projectManger.shortName}">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">项目来源</label>
+        <label class="layui-form-label css-required">项目来源</label>
         <div class="layui-input-block">
             <select name="source" lay-verify="required">
                 <option value="" selected>请选择</option>
@@ -60,7 +65,7 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">项目性质</label>
+        <label class="layui-form-label css-required">项目性质</label>
         <div class="layui-input-block">
             <select name="nature" lay-verify="required">
                 <option value="">请选择</option>
@@ -71,7 +76,7 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">工程进度方案</label>
+        <label class="layui-form-label css-required">工程进度方案</label>
         <div class="layui-input-block">
             <select name="progressPlan" lay-verify="required">
                 <option value="">请选择工程进度方案</option>
@@ -84,7 +89,7 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">项目经理</label>
+        <label class="layui-form-label css-required">项目经理</label>
         <div class="layui-input-block">
            <%-- <input type="text" id="projectManager" name="projectManager" class="layui-input" placeholder="请输入项目经理" value="${projectManger.projectManager}">--%>
             <select name="projectManager" lay-verify="required">
@@ -103,7 +108,7 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">预算负责人</label>
+        <label class="layui-form-label css-required">预算负责人</label>
         <div class="layui-input-block">
             <select name="budgetLeader" lay-verify="required">
                 <option value="">请选择预算负责人</option>
@@ -121,7 +126,7 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">发展商</label>
+        <label class="layui-form-label css-required">发展商</label>
         <div class="layui-input-block">
            <%-- <input type="text" id="developer" class="layui-input " name="developer" placeholder="请输入发展商" value="${projectManger.developer}">--%>
             <select name="developer" lay-verify="required">
@@ -152,7 +157,7 @@
         </div>
     </div>--%>
     <div class="layui-form-item">
-        <label class="layui-form-label">委托商</label>
+        <label class="layui-form-label css-required">委托商</label>
         <div class="layui-input-block">
           <%--  <input type="text" id="consignor" class="layui-input " name="consignor" placeholder="请输入委托商" value="${projectManger.consignor}">--%>
             <select name="consignor" lay-verify="required">
@@ -195,7 +200,7 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">结算方式</label>
+        <label class="layui-form-label css-required">结算方式</label>
         <div class="layui-input-block">
             <select name="settleType" lay-verify="required">
                 <option value="">请选择</option>
@@ -235,7 +240,7 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">项目状态</label>
+        <label class="layui-form-label css-required">项目状态</label>
         <div class="layui-input-block">
             <select id="status" name="status" lay-verify="required">
                 <option value="">请选择</option>
@@ -249,7 +254,7 @@
     </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button class="layui-btn" lay-submit="" lay-filter="projectMangerAdd">立即提交</button>
+            <button class="layui-btn" lay-submit="" lay-filter="projectMangerAdd">保存</button>
         </div>
     </div>
 </form>

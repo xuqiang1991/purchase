@@ -26,25 +26,34 @@
 		float: none;
 	}
 }
+.layui-form-pane .layui-form-label{width: 180px;}
+.layui-form-pane .layui-input-block {
+    margin-left: 180px;
+}
+.css-required:after {
+    content: ' *';
+    color: red;
+    font-size: 150%;
+}
 </style>
 </head>
 <body class="childrenBody">
-	<form class="layui-form" style="width: 80%;" id="customersForm">
+	<form class="layui-form layui-form-pane" style="width: 80%;" id="customersForm">
         <input type="hidden" name="id" value="${customers.id}">
 		<div class="layui-form-item">
-			<label class="layui-form-label">客户名称</label>
+			<label class="layui-form-label css-required">客户名称</label>
 			<div class="layui-input-block">
 				<input type="text" id="fullName" class="layui-input" lay-verify="required" maxlength="50" placeholder="请输入客户名称" name="fullName" value="${customers.fullName}">
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label">客户简称</label>
+			<label class="layui-form-label css-required">客户简称</label>
 			<div class="layui-input-block">
 				<input type="text" id="shortName" class="layui-input" lay-verify="required" maxlength="20" placeholder="请输入客户简称" name="shortName" value="${customers.shortName}">
 			</div>
 		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">客户类型</label>
+		<div class="layui-form-item" pane>
+			<label class="layui-form-label css-required">客户类型</label>
 			<div class="layui-input-block">
                 <c:choose>
                     <c:when test="${customers.id != null && customers.id != ''}">
@@ -66,8 +75,8 @@
                 </c:choose>
 			</div>
 		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">是否生效</label>
+		<div class="layui-form-item" pane="">
+			<label class="layui-form-label css-required">是否生效</label>
 			<div class="layui-input-block">
                 <c:choose>
                     <c:when test="${customers.id != null && customers.id != ''}">
@@ -90,19 +99,19 @@
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label">负责人姓名</label>
+			<label class="layui-form-label css-required">负责人姓名</label>
 			<div class="layui-input-block">
 				<input type="text" name="chargeName" class="layui-input" lay-verify="required" maxlength="10" placeholder="请输入负责人姓名" value="${customers.chargeName}">
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label">负责人电话</label>
+			<label class="layui-form-label css-required">负责人电话</label>
 			<div class="layui-input-block">
 				<input type="text" id="chargePhone" name="chargePhone" class="layui-input" maxlength="20" lay-verify="phone" placeholder="请输入负责人电话" value="${customers.chargePhone}">
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label">联系人姓名</label>
+			<label class="layui-form-label css-required">联系人姓名</label>
 			<div class="layui-input-block">
 				<input type="text" name="linkName" class="layui-input" lay-verify="required" maxlength="10" placeholder="请输入联系人姓名" value="${customers.linkName}">
 			</div>
@@ -114,14 +123,14 @@
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label">地区</label>
+			<label class="layui-form-label css-required">地区</label>
 			<div class="layui-input-block">
 				<input type="text" id="areaName" class="layui-input" lay-verify="required" readonly="readonly" placeholder="请选择地区" name="areaName" value="${!empty customers.areaName ? customers.areaName : ''}">
 				<input type="hidden" id="areaId" name="area" value="${customers.area }">
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label">地址</label>
+			<label class="layui-form-label css-required">地址</label>
 			<div class="layui-input-block">
 				<input type="text" name="address" class="layui-input" lay-verify="required" maxlength="50" placeholder="请输入地址" value="${customers.address}">
 			</div>
@@ -136,7 +145,7 @@
 
 		<div class="layui-form-item">
 			<div class="layui-input-block">
-				<button class="layui-btn" lay-submit="" lay-filter="coustomersAdd">立即提交</button>
+				<button class="layui-btn" lay-submit="" lay-filter="coustomersAdd">保存</button>
 			</div>
 		</div>
 	</form>

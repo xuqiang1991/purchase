@@ -20,7 +20,7 @@
 	</script>
 	<style type="text/css">
 		.layui-form-item .layui-inline {
-			width: 33.333%;
+			width: 45.333%;
 			float: left;
 			margin-right: 0;
 		}
@@ -31,46 +31,50 @@
 				float: none;
 			}
 		}
+        .layui-form-pane .layui-form-label{width: 180px;}
+        .layui-form-pane .layui-input-block {
+            margin-left: 180px;
+        }
+        .css-required:after {
+            content: ' *';
+            color: red;
+            font-size: 150%;
+        }
 	</style>
 </head>
 <body class="childrenBody">
-<form class="layui-form" style="width: 80%;">
+<form class="layui-form layui-form-pane" style="width: 80%;">
 	<input type="hidden" name="id" value="${department.id }"/>
 	<input type="hidden" name="parentId" value="${department.parentId }"/>
 	<input type="hidden" name="flag" value="${flag }"/>
 	<div class="layui-form-item">
-		<label class="layui-form-label">部门名称</label>
+		<label class="layui-form-label css-required">部门名称</label>
 		<div class="layui-input-block">
-			<input type="text" id="name" class="layui-input name" maxlength="50"
-				   lay-verify="required" placeholder="请输入部门名称" name="name" value="${department.name }">
+			<input type="text" id="name" class="layui-input name" maxlength="50" lay-verify="required" placeholder="请输入部门名称" name="name" value="${department.name }">
 		</div>
 	</div>
 	<div class="layui-form-item">
-		<label class="layui-form-label">负责人</label>
+		<label class="layui-form-label css-required">负责人</label>
 		<div class="layui-input-block">
-			<input type="text" class="layui-input principal" name="principal" id="principal"  maxlength="50"
-				   placeholder="请填负责人" name="icon" value="${department.principal}">
+			<input type="text" class="layui-input principal" name="principal" id="principal" lay-verify="required"  maxlength="50" placeholder="请填负责人" name="icon" value="${department.principal}">
 		</div>
 	</div>
 	<div class="layui-form-item">
-		<label class="layui-form-label">负责人电话</label>
+		<label class="layui-form-label css-required">负责人电话</label>
 		<div class="layui-input-block">
-			<input type="text" name="phone" class="layui-input userName"  maxlength="20" lay-verify="phone"
-				   placeholder="请输入负责人电话" value="${department.phone }">
+			<input type="text" name="phone" class="layui-input userName"  maxlength="20" lay-verify="phone" placeholder="请输入负责人电话" value="${department.phone }">
 		</div>
 	</div>
-	<div class="layui-form-item">
-		<label class="layui-form-label">是否有效</label>
-		<div class="layui-input-block">
-			<div class="layui-input-block">
-				<input type="radio" name="valid" value="1" title="有效" <c:if test="${department.valid}">checked</c:if>>
-				<input type="radio" name="valid" value="0" title="无效" <c:if test="${!department.valid}">checked</c:if>>
-			</div>
-		</div>
+	<div class="layui-form-item" pane>
+		<label class="layui-form-label css-required">是否有效</label>
+        <div class="layui-input-block">
+            <input type="radio" name="valid" value="1" title="有效" <c:if test="${department.valid}">checked</c:if>>
+            <input type="radio" name="valid" value="0" title="无效" <c:if test="${!department.valid}">checked</c:if>>
+        </div>
 	</div>
 	<div class="layui-form-item">
 		<div class="layui-input-block">
-			<button class="layui-btn" lay-submit="" lay-filter="departmentForm">立即提交</button>
+			<button class="layui-btn" lay-submit="" lay-filter="departmentForm">保存</button>
 		</div>
 	</div>
 </form>

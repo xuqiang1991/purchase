@@ -31,32 +31,38 @@
 				float: none;
 			}
 		}
+        .layui-form-pane .layui-form-label{width: 180px;}
+        .layui-form-pane .layui-input-block {
+            margin-left: 180px;
+        }
+        .css-required:after {
+            content: ' *';
+            color: red;
+            font-size: 150%;
+        }
 	</style>
 </head>
 <body class="childrenBody">
-<form class="layui-form" style="width: 80%;">
+<form class="layui-form layui-form-pane" style="width: 80%;">
 	<input type="hidden" name="id" value="${area.id }"/>
 	<input type="hidden" name="parentId" value="${area.parentId }"/>
 	<input type="hidden" name="flag" value="${flag }"/>
 	<div class="layui-form-item">
-		<label class="layui-form-label">地区名称</label>
+		<label class="layui-form-label css-required">地区名称</label>
 		<div class="layui-input-block">
-			<input type="text" id="name" class="layui-input name"  maxlength="50"
-				   lay-verify="required" placeholder="请输入地区名称" name="name" value="${area.name }">
+			<input type="text" id="name" class="layui-input name"  maxlength="50" lay-verify="required" placeholder="请输入地区名称" name="name" value="${area.name }">
+		</div>
+	</div>
+	<div class="layui-form-item" pane>
+		<label class="layui-form-label css-required">是否有效</label>
+		<div class="layui-input-block">
+            <input type="radio" name="valid" value="1" title="有效" <c:if test="${area.valid}">checked</c:if>>
+            <input type="radio" name="valid" value="0" title="无效" <c:if test="${!area.valid}">checked</c:if>>
 		</div>
 	</div>
 	<div class="layui-form-item">
-		<label class="layui-form-label">是否有效</label>
 		<div class="layui-input-block">
-			<div class="layui-input-block">
-				<input type="radio" name="valid" value="1" title="有效" <c:if test="${area.valid}">checked</c:if>>
-				<input type="radio" name="valid" value="0" title="无效" <c:if test="${!area.valid}">checked</c:if>>
-			</div>
-		</div>
-	</div>
-	<div class="layui-form-item">
-		<div class="layui-input-block">
-			<button class="layui-btn" lay-submit="" lay-filter="areaForm">立即提交</button>
+			<button class="layui-btn" lay-submit="" lay-filter="areaForm">保存</button>
 		</div>
 	</div>
 </form>
