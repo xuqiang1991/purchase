@@ -11,7 +11,7 @@ layui.config({
 		    elem: '#adminList'
 		    ,url: ctx+'/sys/getAdminList' //数据接口
 		    ,cellMinWidth: 80
-		    ,limit:10//每页默认数
+		    ,limit:20//每页默认数
 		    ,limits:[10,20,30,40]
 		    ,cols: [[ //表头
                 {type:'radio', width: 70,templet:"#radioTpl"}
