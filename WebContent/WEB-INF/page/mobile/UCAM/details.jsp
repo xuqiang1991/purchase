@@ -112,7 +112,7 @@
                     </li>
 
                     <li class="mui-table-view-cell mui-collapse">
-                        <a class="mui-navigate-right" href="#">订单记录</a>
+                        <a class="mui-navigate-right" href="#">审核状态</a>
                         <c:forEach items="${detailsVo.ucamVo.historyList}" var="history">
                             <div class="mui-collapse-content">
                                 <p>

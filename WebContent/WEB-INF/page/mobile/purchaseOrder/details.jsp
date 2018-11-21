@@ -86,7 +86,7 @@
                         </div>
                     </li>
                     <li class="mui-table-view-cell mui-collapse">
-                        <a class="mui-navigate-right" href="#">订单记录</a>
+                        <a class="mui-navigate-right" href="#">审核状态</a>
                         <c:forEach items="${detailsVo.purchaseOrder.historyList}" var="history">
                             <div class="mui-collapse-content">
                                 <p>
@@ -104,7 +104,14 @@
                                     </strong>
                                     <label>操作人:${history.name}</label>
                                     <label>操作时间:<fmt:formatDate value="${history.date}" pattern="yyyy-MM-dd"/></label>
-                                    <label>意见:${history.opinion}</label>
+                                </p>
+                                <p>
+                                    <label>意见:
+                                        <c:choose>
+                                            <c:when test="${history.opinion == ''}">无</c:when>
+                                            <c:otherwise>${history.opinion}</c:otherwise>
+                                        </c:choose>
+                                    </label>
                                 </p>
                             </div>
                         </c:forEach>
