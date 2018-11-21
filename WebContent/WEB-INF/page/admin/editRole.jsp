@@ -21,26 +21,31 @@
 		@media(max-width:1240px){
 			.layui-form-item .layui-inline{ width:100%; float:none; }
 		}
+        .css-required:after {
+            content: ' *';
+            color: red;
+            font-size: 150%;
+        }
 	</style>
 </head>
 <body class="childrenBody" style="margin-top: 5%">
-	<form class="layui-form" style="width:80%;" id="erf">
+	<form class="layui-form layui-form-pane" style="width:80%;" id="erf">
 		<!-- 权限提交隐藏域 -->
 		<input type="hidden" id="m" name="m"/>
 		<div class="layui-form-item">
-			<label class="layui-form-label">角色编号</label>
+			<label class="layui-form-label css-required">角色编号</label>
 			<div class="layui-input-block">
 				<input type="text" class="layui-input userName" id="roleId" name="roleId" readonly="readonly" value="${role.roleId }">
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label">角色名</label>
+			<label class="layui-form-label css-required">角色名</label>
 			<div class="layui-input-block">
 				<input type="text" id="roleName" class="layui-input userName" lay-verify="required" placeholder="请输入角色名" name="roleName" value="${role.roleName }">
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label">角色描述</label>
+			<label class="layui-form-label css-required">角色描述</label>
 			<div class="layui-input-block">
 				<textarea placeholder="请输入角色描述" class="layui-textarea linksDesc" lay-verify="required" name="roleRemark" >${role.roleRemark }</textarea>
 			</div>
@@ -53,7 +58,7 @@
       	</div>
 		<div class="layui-form-item">
 			<div class="layui-input-block">
-				<button class="layui-btn" lay-submit="" lay-filter="editRole">立即提交</button>
+				<button class="layui-btn" lay-submit="" lay-filter="editRole">保存</button>
 		    </div>
 		</div>
 	</form>
