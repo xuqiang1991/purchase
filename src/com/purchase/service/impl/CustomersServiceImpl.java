@@ -69,7 +69,7 @@ public class CustomersServiceImpl implements CustomersService {
 		
 		PageHelper.startPage(page, limit);
 		TbCustomersExample example = new TbCustomersExample();
-        example.setOrderByClause("add_date DESC");
+        example.setOrderByClause("id DESC");
         TbCustomersExample.Criteria criteria = example.createCriteria();
         if(!StringUtils.isEmpty(search.getName())){
             //注意：模糊查询需要进行拼接”%“  如下，不进行拼接是不能完成查询的哦。

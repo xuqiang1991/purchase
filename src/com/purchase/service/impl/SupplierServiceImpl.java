@@ -3,12 +3,10 @@ package com.purchase.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.purchase.mapper.admin.TbSupplierMapper;
-import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.admin.TbSupplierExample;
 import com.purchase.service.SupplierService;
 import com.purchase.util.ResultUtil;
-import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.admin.ChoseSupplierVO;
 import com.purchase.vo.admin.SupplierSearch;
 import com.purchase.vo.admin.SupplierVo;
@@ -32,8 +30,7 @@ public class SupplierServiceImpl implements SupplierService {
     public ResultUtil selSuppliers(Integer page, Integer limit, SupplierSearch search) {
         PageHelper.startPage(page, limit);
         TbSupplierExample example=new TbSupplierExample();
-        //设置按创建时间降序排序
-        example.setOrderByClause("create_time DESC");
+        example.setOrderByClause("id DESC");
         TbSupplierExample.Criteria criteria = example.createCriteria();
 
         if(StringUtils.isNotEmpty(search.getName())){

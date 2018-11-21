@@ -76,6 +76,7 @@ public class AdminServiceImpl implements AdminService {
 	public ResultUtil selRoles(Integer page, Integer limit) {
 		PageHelper.startPage(page, limit);
 		TbRolesExample example = new TbRolesExample();
+        example.setOrderByClause(" role_id asc");
 		List<TbRoles> list = tbRolesMapper.selectByExample(example);
 		PageInfo<TbRoles> pageInfo = new PageInfo<TbRoles>(list);
 		ResultUtil resultUtil = new ResultUtil();
@@ -89,6 +90,7 @@ public class AdminServiceImpl implements AdminService {
 	public ResultUtil selAdmins(Integer page, Integer limit) {
 		//PageHelper.startPage(page, limit);
 		TbAdminExample example = new TbAdminExample();
+        example.setOrderByClause(" a.id asc");
 		List<TbAdmin> list = tbAdminMapper.selectByExampleExt(example);
 		Long count = tbAdminMapper.selectByExampleExt_COUNT(example);
 		// 将roleName写进TbAdmin
