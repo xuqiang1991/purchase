@@ -26,6 +26,28 @@ purchaseOrder = {
             return statusStr;
         });
     },
+    //单据类型
+    typeConversion : function (helper) {
+        helper.registerHelper("purchaseOrder_typeConversion",function(data){
+            var statusStr;
+            var obj = parseInt(data);
+            switch (obj){
+                case 0:
+                    statusStr = '绿化苗木'
+                    break;
+                case 1:
+                    statusStr = '园建水电'
+                    break;
+                case 2:
+                    statusStr = '机械租赁'
+                    break;
+                case 3:
+                    statusStr = '工程分包'
+                    break;
+            }
+            return statusStr;
+        });
+    },
     //获取最后状态的人
     departUser:function (helper) {
         helper.registerHelper("purchaseOrder_departUser",function(){

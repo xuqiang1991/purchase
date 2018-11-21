@@ -18,6 +18,7 @@ public class CAMVo extends BizContractApplyMoney {
     private TbAdmin managerAdmin;
     private BizPurchaseOrderVo purchaseOrderVo;
     private TbAdmin auAdmin;
+    private TbProjectManger tpm;
     private List<OrderHistory> historyList;
 
     public TbSupplier getSupplier() {
@@ -90,5 +91,13 @@ public class CAMVo extends BizContractApplyMoney {
 
     public void setAuAdmin(TbAdmin auAdmin) {
         this.auAdmin = auAdmin;
+    }
+
+    public TbProjectManger getTpm() {
+        return tpm;
+    }
+
+    public void setTpm(TbProjectManger tpm) {
+        this.tpm = tpm;
     }
 }

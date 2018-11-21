@@ -135,24 +135,24 @@
                                             <div class="mui-card-content">
                                                 <div class="mui-card-content-inner">
                                                     <p>
-                                                        <label>单价:${item.price}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <label>规格：${item.model}</label>
+                                                        <label>规格：${item.model}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <label>单位：${item.unit}</label>
                                                     </p>
                                                     <p>
-                                                        <label>单位：${item.unit}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <label>单价:${item.price}</label>&nbsp;&nbsp;&nbsp;&nbsp;
                                                         <label>数量：${item.contractCount}</label>
                                                     </p>
                                                         <%--<p>--%>
                                                         <%--<label>质保期（月）：${item.warrantyDate}</label>&nbsp;&nbsp;&nbsp;&nbsp;--%>
                                                         <%--<label>日期：<fmt:formatDate value="${item.date}" pattern="yyyy-MM-dd"/></label>--%>
                                                         <%--</p>--%>
+                                                    <p>
+                                                        <label>已結算金额：${item.settlePrice}</label>&nbsp;&nbsp;
+                                                        <label>已結算数量：${item.settleAmout}</label>
+                                                    </p>
                                                 </div>
                                             </div>
                                             <div class="mui-card-footer">
-                                                <div class="mui-pull-left">
-                                                    <label>已結算金额：${item.settlePrice}</label>&nbsp;&nbsp;
-                                                    <label>已結算数量：${item.settleAmout}</label>
-                                                </div>
                                                 <c:if test="${detailsVo.order.status == 0}">
                                                     <div>
                                                         <a href="#fromPurchaseOrderItem" name="app-a" data-id="${item.id}">
