@@ -86,7 +86,7 @@
                         </div>
                     </li>
                     <li class="mui-table-view-cell mui-collapse">
-                        <a class="mui-navigate-right" href="#">订单记录</a>
+                        <a class="mui-navigate-right" href="#">审核状态</a>
                         <c:forEach items="${detailsVo.purchaseOrder.historyList}" var="history">
                             <div class="mui-collapse-content">
                                 <p>
@@ -104,7 +104,14 @@
                                     </strong>
                                     <label>操作人:${history.name}</label>
                                     <label>操作时间:<fmt:formatDate value="${history.date}" pattern="yyyy-MM-dd"/></label>
-                                    <label>意见:${history.opinion}</label>
+                                </p>
+                                <p>
+                                    <label>意见:
+                                        <c:choose>
+                                            <c:when test="${history.opinion == ''}">无</c:when>
+                                            <c:otherwise>${history.opinion}</c:otherwise>
+                                        </c:choose>
+                                    </label>
                                 </p>
                             </div>
                         </c:forEach>
@@ -129,24 +136,28 @@
                                             <div class="mui-card-content">
                                                 <div class="mui-card-content-inner">
                                                     <p>
-                                                        <label>单价:${item.price}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <label>规格：${item.model}</label>
+                                                        <label>规格：${item.model}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <label>单位：${item.unit}</label>
                                                     </p>
                                                     <p>
-                                                        <label>单位：${item.unit}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <label>单价:${item.price}</label>&nbsp;&nbsp;&nbsp;&nbsp;
                                                         <label>数量：${item.amount}</label>
                                                     </p>
                                                     <p>
-                                                        <label>质保期（月）：${item.warrantyDate}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <c:if test="${detailsVo.purchaseOrder.type == 1}">
+                                                            <label>质保期（月）：${item.warrantyDate}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        </c:if>
+                                                        <c:if test="${detailsVo.purchaseOrder.type == 2}">
                                                         <label>日期：<fmt:formatDate value="${item.date}" pattern="yyyy-MM-dd"/></label>
+                                                        </c:if>
+                                                    </p>
+                                                    <p>
+                                                        <label>总金额：${item.totalPrice}</label>&nbsp;&nbsp;
+                                                        <label>已結算数量：${item.settleAmout}</label>
                                                     </p>
                                                 </div>
                                             </div>
                                             <div class="mui-card-footer">
-                                                <div class="mui-pull-left">
-                                                    <label>总金额：${item.totalPrice}</label>&nbsp;&nbsp;
-                                                    <label>已結算数量：${item.settleAmout}</label>
-                                                </div>
                                                 <c:if test="${detailsVo.purchaseOrder.status == 0}">
                                                     <div>
                                                         <a href="#fromPurchaseOrderItem" name="app-a" data-id="${item.id}">

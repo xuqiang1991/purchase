@@ -183,8 +183,10 @@
                     //预编译模板
                     var template = Handlebars.compile(tpl);
 
+                    debugger
                     //数据转换
                     purchaseOrder.statusConversion(Handlebars)
+                    purchaseOrder.typeConversion(Handlebars)
                     purchaseOrder.departUser(Handlebars)
                     purchaseOrder.departDate(Handlebars)
 
@@ -385,8 +387,8 @@
                     <label>供应商：{{supplier.name}}</label>
                 </p>
                 <p>
-                    <label>所属项目：所属项目</label>
-                    <label>单据类型：单据类型</label>
+                    <label>所属项目：{{tpm.name}}</label>
+                    <label>单据类型：{{purchaseOrder_typeConversion purchaseOrderVo.type}}</label>
                 </p>
                 <p>
                     <label>请款金额合计：{{applyPrice}}</label>
