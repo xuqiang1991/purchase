@@ -31,15 +31,20 @@
 		float: none;
 	}
 }
+.css-required:after {
+    content: ' *';
+    color: red;
+    font-size: 150%;
+}
 </style>
 </head>
 <body class="childrenBody">
-	<form class="layui-form" style="width: 80%;">
+	<form class="layui-form  layui-form-pane" style="width: 80%;">
 		<input type="hidden" id="menuId" name="menuId" value="${menu.menuId }"/>
 		<input type="hidden" id="parentId" name="parentId" value="${menu.parentId }"/>
 		<input type="hidden" name="flag" value="${flag }"/>
 		<div class="layui-form-item">
-			<label class="layui-form-label">菜单名</label>
+			<label class="layui-form-label css-required">菜单名</label>
 			<div class="layui-input-block">
 				<input type="text" id="title" class="layui-input userName"
 					lay-verify="required" placeholder="请输入菜单名" name="title" value="${menu.title }">

@@ -69,13 +69,34 @@ layui.config({
         }
  	form.on("submit(updAdmin)",function(data){
         var roleIds = $('select[name="roleId"]').val();
-        if(roleIds.length > 0){
+        var userType = $('input[name="userType"]:checked').val();
+        console.log(userType);
+        if(userType == 0){
+            var deptId  = $('select[name="deptId"]').val();
+            if(deptId == null || deptId == ''){
+                layer.msg('请选择用户部门', {icon: 5});
+                $('select[name="deptId"]').focus();
+                return false;
+            }
+        }else{
+            var supplierId  = $('select[name="supplierId"]').val();
+            if(supplierId == null || supplierId == ''){
+                layer.msg('请选择用户供应商', {icon: 5});
+                $('select[name="supplierId"]').focus();
+                return false;
+            }
+        }
+        if(roleIds != null && roleIds != '' && roleIds.length > 0){
             var a = {};
-        	for (var i = 0; i < roleIds.length; i++){
+            for (var i = 0; i < roleIds.length; i++){
                 a[i] = roleIds[i];
-			}
+            }
             data.field.roleId = a;
-		}
+        }else{
+            layer.msg('请选择用户角色', {icon: 5});
+            $('select[name="roleId"]').focus();
+            return false;
+        }
  		//弹出loading
  		var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
  		var msg;
