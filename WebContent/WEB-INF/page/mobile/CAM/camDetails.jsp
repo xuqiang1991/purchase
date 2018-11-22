@@ -408,6 +408,12 @@
 
     /** 选择审核人 **/
     mui(document.body).on('tap', '#orderDetails', function(e) {
+
+        <c:if test="${fn:length(detailsVo.details) == 0}">
+            mui.alert("请先添加明细！");
+            return false;
+        </c:if>
+
         var adminsJson = '${detailsVo.departs}'
         var json =JSON.parse(adminsJson)
         var userPicker = new mui.PopPicker();

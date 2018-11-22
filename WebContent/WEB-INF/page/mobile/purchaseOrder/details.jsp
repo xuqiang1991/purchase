@@ -319,7 +319,7 @@
     /** 选择审核人 **/
     mui(document.body).on('tap', '#purchaseOrderDetails', function(e) {
         <c:if test="${fn:length(detailsVo.details) == 0}">
-            mui.alert("请添加订单详情！");
+            mui.alert("请先添加明细！");
             return false;
         </c:if>
 

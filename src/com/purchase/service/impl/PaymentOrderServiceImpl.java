@@ -101,6 +101,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         List<BizPaymentOrderVo> users = bizPaymentOrderMapper.selectByExampleExt(example, search);
         BizPaymentOrderVo vo = users.get(0);
 
+        //判断审核人
         if(admin.getDeptId() != null){
             TbAdminExample adminExample = new TbAdminExample();
             TbAdminExample.Criteria adminCriteria = adminExample.createCriteria();

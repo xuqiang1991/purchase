@@ -22,7 +22,6 @@ import com.purchase.vo.order.CAMDetailsVo;
 import com.purchase.vo.order.CAMSearch;
 import com.purchase.vo.order.CAMVo;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -207,24 +206,23 @@ public class CAMServiceImpl implements CAMService {
         //选择审核人
         String roleName = "成本部";
         Long reviewUserId = null;
-        if(PurchaseUtil.STATUS_1 == status){
-            Long cId = vo.getCostDepartUser();
-            if(cId != null){
-                reviewUserId = vo.getCostDepartUser();
-                roleName = "工程部";
-            }
-        }else if(PurchaseUtil.STATUS_2 == status){
-            roleName = "总经理";
-            reviewUserId = vo.getProjectDepartUser();
-        }else if(PurchaseUtil.STATUS_3 == status){
-            reviewUserId = vo.getManagerDepartUser();
+        switch (vo.getStatus()){
+            case PurchaseUtil.STATUS_1:
+                reviewUserId = vo.getCostDepartUser(); roleName = "工程部";
+                break;
+            case PurchaseUtil.STATUS_2:
+                reviewUserId = vo.getProjectDepartUser(); roleName = "总经理";
+                break;
+            case PurchaseUtil.STATUS_3:
+                reviewUserId = vo.getManagerDepartUser();
+                break;
+            default:
+                logger.info("不在处理流程内，不做修改");
+                break;
         }
+        detailsVo.setReviewUserId(reviewUserId);
+
         if (roleName != null) {
-            TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-            long loginId = admin.getId();
-            if (reviewUserId != null && reviewUserId == loginId) {
-                detailsVo.setReviewUserId(userId);
-            }
             List<ChoseAdminVO> data = adminMapper.selectByRoleName(roleName);
             if (!CollectionUtils.isEmpty(data)) {
                 Gson gson = new Gson();

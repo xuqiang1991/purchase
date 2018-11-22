@@ -183,7 +183,6 @@
                     //预编译模板
                     var template = Handlebars.compile(tpl);
 
-                    debugger
                     //数据转换
                     purchaseOrder.statusConversion(Handlebars)
                     purchaseOrder.typeConversion(Handlebars)

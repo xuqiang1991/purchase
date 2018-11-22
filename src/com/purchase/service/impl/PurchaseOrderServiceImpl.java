@@ -11,7 +11,10 @@ import com.purchase.mapper.order.BizPurchaseOrderMapper;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbProjectManger;
 import com.purchase.pojo.admin.TbSupplier;
-import com.purchase.pojo.order.*;
+import com.purchase.pojo.order.BizPurchaseOrder;
+import com.purchase.pojo.order.BizPurchaseOrderDetail;
+import com.purchase.pojo.order.BizPurchaseOrderDetailExample;
+import com.purchase.pojo.order.BizPurchaseOrderExample;
 import com.purchase.service.PurchaseOrderService;
 import com.purchase.util.*;
 import com.purchase.vo.OrderHistory;
@@ -21,7 +24,8 @@ import com.purchase.vo.order.BizPurchaseOrderDetailsVo;
 import com.purchase.vo.order.BizPurchaseOrderSearch;
 import com.purchase.vo.order.BizPurchaseOrderVo;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +40,8 @@ import java.util.List;
 
 @Service
 public class PurchaseOrderServiceImpl implements PurchaseOrderService {
+
+	private static Logger logger = LoggerFactory.getLogger(PurchaseOrderServiceImpl.class);
 
 	@Autowired
 	private BizPurchaseOrderDetailMapper purchaseOrderDetailMapper;
@@ -201,24 +207,23 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		//选择审核人
 		String roleName = "成本部";
 		Long reviewUserId = null;
-		if(PurchaseUtil.STATUS_1 == status){
-			Long cId = vo.getCostDepartUser();
-			if(cId != null){
-				reviewUserId = vo.getCostDepartUser();
-				roleName = "工程部";
-			}
-		}else if(PurchaseUtil.STATUS_2 == status){
-			roleName = "总经理";
-			reviewUserId = vo.getProjectDepartUser();
-		}else if(PurchaseUtil.STATUS_3 == status){
-			reviewUserId = vo.getManagerDepartUser();
+		switch (vo.getStatus()){
+			case PurchaseUtil.STATUS_1:
+				reviewUserId = vo.getCostDepartUser(); roleName = "工程部";
+				break;
+			case PurchaseUtil.STATUS_2:
+				reviewUserId = vo.getProjectDepartUser(); roleName = "总经理";
+				break;
+			case PurchaseUtil.STATUS_3:
+				reviewUserId = vo.getManagerDepartUser();
+				break;
+			default:
+				logger.info("不在处理流程内，不做修改");
+				break;
 		}
+		detailsVo.setReviewUserId(reviewUserId);
+
 		if(roleName != null){
-			TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-			long loginId = admin.getId();
-			if(reviewUserId != null && reviewUserId == loginId){
-				detailsVo.setReviewUserId(userId);
-			}
 			List<ChoseAdminVO> data = adminMapper.selectByRoleName(roleName);
 			if(!CollectionUtils.isEmpty(data)){
 				Gson gson = new Gson();
