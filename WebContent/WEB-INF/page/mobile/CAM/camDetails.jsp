@@ -12,14 +12,6 @@
     <link href="${ctx }/mui/css/feedback-page.css" rel="stylesheet" />
     <link href="${ctx }/mui/css/mui-page.css" rel="stylesheet" />
     <style type="text/css">
-        #div {
-            width: 0px;
-            height: 0px;
-            background: red;
-            position: fixed;
-            top: 70%;
-            left: 50%;
-        }
         /*移除底部或顶部三角,需要在删除此代码*/
         .mui-popover .mui-popover-arrow:after {
             width: 0px;
@@ -43,7 +35,7 @@
         <h1 class="mui-center mui-title">合同内请款单详情</h1>
     </div>
 
-    <!-- 合同内请款单项 start -->
+    <!-- 合同内请款明细 start -->
     <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 0px;width: 100%;">
         <div class="mui-scroll">
             <!-- 主界面具体展示内容 -->
@@ -91,32 +83,13 @@
                             </div>
                         </div>
                     </li>
-                    <li class="mui-table-view-cell mui-collapse">
-                        <a class="mui-navigate-right" href="#">订单历史</a>
-                        <c:forEach items="${detailsVo.order.historyList}" var="history">
-                            <div class="mui-collapse-content">
-                                <p>
-                                    <strong>
-                                        <c:choose>
-                                            <c:when test="${history.sort == 0}">创建</c:when>
-                                            <c:when test="${history.sort == 1}">提交</c:when>
-                                            <c:otherwise>
-                                                <c:choose>
-                                                    <c:when test="${history.approval == true}">审核通过</c:when>
-                                                    <c:otherwise>审核未通过</c:otherwise>
-                                                </c:choose>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </strong>
-                                    <label>操作人:${history.name}</label>
-                                    <label>操作时间:<fmt:formatDate value="${history.date}" pattern="yyyy-MM-dd"/></label>
-                                    <label>意见:${history.opinion}</label>
-                                </p>
-                            </div>
-                        </c:forEach>
-                    </li>
+
+                    <!-- 审核状态 -->
+                    <c:set value="${detailsVo.order.historyList}" var="historyList"/>
+                    <%@ include file="/WEB-INF/page/mobile/common/reviewHistory.jsp"%>
+
                     <li class="mui-table-view-cell mui-collapse mui-active">
-                        <a class="mui-navigate-right" href="#">合同内请款单单项</a>
+                        <a class="mui-navigate-right" href="#">合同内请款单明细</a>
                         <div class="mui-collapse-content">
                             <c:choose>
                                 <c:when test="${fn:length(detailsVo.details) > 0}">
@@ -169,7 +142,7 @@
                                 </c:when>
                                 <c:otherwise>
                                     <div class="mui-input-row">
-                                        <label  style="width: auto;">无合同内请款单单项</label>
+                                        <label  style="width: auto;">无合同内请款单明细</label>
                                     </div>
                                 </c:otherwise>
                             </c:choose>
@@ -181,7 +154,7 @@
                 <c:choose>
                     <c:when test="${detailsVo.order.status == 0}">
                         <a href="#fromPurchaseOrderItem">
-                            <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加合同内请款单项</button>
+                            <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加合同内请款明细</button>
                         </a>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="orderDetails">提交</button>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="deletePurchaseOrder" value="${detailsVo.order.id}">删除</button>
@@ -196,7 +169,7 @@
             </div>
         </div>
     </div>
-    <!-- 合同内请款单项 end -->
+    <!-- 合同内请款明细 end -->
 </div>
 
 
@@ -205,7 +178,7 @@
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>返回
         </button>
-        <h1 class="mui-center mui-title">增加合同内请款单项</h1>
+        <h1 class="mui-center mui-title">增加合同内请款明细</h1>
     </div>
     <div class="mui-page-content">
         <div class="mui-scroll-wrapper">
@@ -255,35 +228,6 @@
                     </div>
                 </form>
             </div>
-        </div>
-    </div>
-</div>
-
-<div id="div"></div>
-<div id="popover" class="mui-popover" style="height: 270px;">
-    <div class="mui-popover-arrow"></div>
-    <div class="mui-scroll-wrapper">
-        <div class="mui-scroll"  style="height: 100%;">
-            <form class="mui-input-group" id="reviewPurchaseOrderForm">
-                <div class="mui-input-row">
-                    <label style="width: 120px;">审核结果</label>
-                    <input type="text" id="selectAuditResults" placeholder="请选择审核结果" style="float: left;width: 150px;">
-                    <input type="hidden" id="auditResults" name="auditResults">
-                </div>
-                <c:if test="${detailsVo.order.status != 3}">
-                    <div class="mui-input-row">
-                        <label style="width: 120px;">上级审核人</label>
-                        <input type="text" id="selectApplyUser" placeholder="请选择请款人" style="float: left;width: 150px;">
-                        <input type="hidden" id="applyUser" name="applyUser">
-                    </div>
-                </c:if>
-                <div class="mui-input-row" style="height: auto">
-                    <textarea name="auditOpinion" id="auditOpinion" rows="5" class="mui-input-clear" placeholder="审核意见"></textarea>
-                </div>
-                <div class="mui-button-row" style="padding-bottom: 20px;">
-                    <button type="button" class="mui-btn mui-btn-primary" id="reviewPurchaseOrderButton">审核</button>
-                </div>
-            </form>
         </div>
     </div>
 </div>
@@ -494,86 +438,6 @@
         });
     });
 
-
-    /** 审核 **/
-    mui(document.body).on('tap', '#reviewPurchaseOrder', function(e) {
-        mui("#popover").popover('toggle', document.getElementById("div"));
-    });
-
-    mui(document.body).on('tap', '#selectApplyUser', function(e) {
-        var adminsJson = '${detailsVo.departs}'
-        var json =JSON.parse(adminsJson)
-        var userPicker = new mui.PopPicker();
-        userPicker.setData(json);
-        var selectApplyUser = document.getElementById('selectApplyUser');
-        var applyUser = document.getElementById('applyUser');
-        userPicker.show(function (items) {
-            selectApplyUser.value = items[0].text;
-            applyUser.value = items[0].value;
-        });
-    });
-    mui(document.body).on('tap', '#selectAuditResults', function(e) {
-        var adminsJson = '[{"text":"审核不通过","value":"0"},{"text":"审核通过","value":"1"}]';
-        var json =JSON.parse(adminsJson)
-        var userPicker = new mui.PopPicker();
-        userPicker.setData(json);
-        var selectAuditResults = document.getElementById('selectAuditResults');
-        var auditResults = document.getElementById('auditResults');
-        userPicker.show(function (items) {
-            selectAuditResults.value = items[0].text;
-            auditResults.value = items[0].value;
-        });
-    });
-
-    mui(document.body).on('tap', '#reviewPurchaseOrderButton', function(e) {
-
-        var auditResults = document.getElementById('auditResults');
-        if(!auditResults.value || auditResults.value.trim() == "") {
-            mui.alert("审核结果不允许为空");
-            return false;
-        }
-        auditResults = auditResults.value;
-
-        var applyUser = document.getElementById('applyUser');
-        if(applyUser == null){
-            applyUser = '0'
-        }else {
-            if(!applyUser.value || applyUser.value.trim() == "") {
-                mui.alert("上级审核人不允许为空");
-                return false;
-            }
-            applyUser = applyUser.value;
-        }
-
-        var auditOpinion = document.getElementById('auditOpinion');
-        if(!auditOpinion.value || auditOpinion.value.trim() == "") {
-            mui.alert("审核意见不允许为空");
-            return false;
-        }
-        auditOpinion = auditOpinion.value;
-
-        mui.alert('确定提交审核？' , function() {
-            var url = '${ctx}/mobile/CAM/reviewCAMOrder/${detailsVo.order.id}';
-            $.ajax({
-                url: url,
-                data:{'auditResults':auditResults,'applyUser':applyUser,'auditOpinion': auditOpinion},
-                dataType: 'json',
-                contentType : "application/x-www-form-urlencoded",
-                type: 'post',
-                timeout: 10000,
-                success: function(result) {
-                    if(result.code!=0){
-                        mui.alert(result.msg);
-                    }else {
-                        mui.alert('审核成功！', function() {
-                            document.location.href='${ctx }/mobile/CAM/toDetails/${detailsVo.order.id}';
-                        });
-                    }
-                }
-            });
-        });
-    });
-
     var camVoOrderType = '${detailsVo.order.orderType}';
     //初始化数据
     mui.ready(function() {
@@ -676,5 +540,13 @@
         });
     })(mui);
 </script>
+
+<!-- 审核 -->
+<c:set value="${ctx}/mobile/CAM/toDetails/${detailsVo.order.id}" var="reviewRefreshUrl"/>
+<c:set value="${ctx}/mobile/CAM/reviewCAMOrder/${detailsVo.order.id}" var="reviewSaveUrl"/>
+<c:set value="${detailsVo.order.status}" var="reviewStatus"/>
+<%@ include file="/WEB-INF/page/mobile/common/review.jsp"%>
+<!-- 审核 -->
+
 </body>
 </html>

@@ -12,14 +12,6 @@
     <link href="${ctx }/mui/css/feedback-page.css" rel="stylesheet" />
     <link href="${ctx }/mui/css/mui-page.css" rel="stylesheet" />
     <style type="text/css">
-        #div {
-            width: 0px;
-            height: 0px;
-            background: red;
-            position: fixed;
-            top: 70%;
-            left: 50%;
-        }
         /*移除底部或顶部三角,需要在删除此代码*/
         .mui-popover .mui-popover-arrow:after {
             width: 0px;
@@ -42,7 +34,7 @@
         <h1 class="mui-center mui-title">付款订单详情</h1>
     </div>
 
-    <!-- 采购单项 start -->
+    <!-- 采购明细 start -->
     <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 0px;width: 100%;">
         <div class="mui-scroll">
             <div class="mui-card">
@@ -238,7 +230,7 @@
                 </c:if>
         </div>
     </div>
-    <!-- 采购单项 end -->
+    <!-- 采购明细 end -->
 </div>
 </div>
 
@@ -352,35 +344,6 @@
     </div>
 </div>
 
-<div id="div"></div>
-<div id="popover" class="mui-popover" style="height: 270px;">
-    <div class="mui-popover-arrow"></div>
-    <div class="mui-scroll-wrapper">
-        <div class="mui-scroll"  style="height: 100%;">
-            <form class="mui-input-group" id="reviewPurchaseOrderForm">
-                <div class="mui-input-row">
-                    <label style="width: 120px;">审核结果</label>
-                    <input type="text" id="selectAuditResults" placeholder="请选择审核结果" style="float: left;width: 150px;">
-                    <input type="hidden" id="auditResults" name="auditResults">
-                </div>
-                <c:if test="${order.status == 0}">
-                    <div class="mui-input-row">
-                        <label style="width: 120px;">财务付款人</label>
-                        <input type="text" id="selectApplyUser" placeholder="请选择付款的财务人员" style="float: left;width: 150px;">
-                        <input type="hidden" id="applyUser" name="applyUser">
-                    </div>
-                </c:if>
-                <div class="mui-input-row" style="height: auto">
-                    <textarea name="auditOpinion" id="auditOpinion" rows="5" class="mui-input-clear" placeholder="审核意见"></textarea>
-                </div>
-                <div class="mui-button-row" style="padding-bottom: 20px;">
-                    <button type="button" class="mui-btn mui-btn-primary" id="reviewPurchaseOrderButton">审核</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
 <script src="${ctx }/mui/js/mui.picker.min.js"></script>
@@ -435,87 +398,6 @@
             mui.toast('检验不通过，请重新填写！',{ duration:'long', type:'div' })
         }
     });
-
-    /** 审核 **/
-    mui(document.body).on('tap', '#reviewPurchaseOrder', function(e) {
-        mui("#popover").popover('toggle', document.getElementById("div"));
-    });
-
-    mui(document.body).on('tap', '#selectApplyUser', function(e) {
-        var adminsJson = '${order.departs}'
-        var json =JSON.parse(adminsJson)
-        var userPicker = new mui.PopPicker();
-        userPicker.setData(json);
-        var selectApplyUser = document.getElementById('selectApplyUser');
-        var applyUser = document.getElementById('applyUser');
-        userPicker.show(function (items) {
-            selectApplyUser.value = items[0].text;
-            applyUser.value = items[0].value;
-        });
-    });
-
-    mui(document.body).on('tap', '#selectAuditResults', function(e) {
-        var adminsJson = '[{"text":"审核不通过","value":"0"},{"text":"审核通过","value":"1"}]';
-        var json =JSON.parse(adminsJson)
-        var userPicker = new mui.PopPicker();
-        userPicker.setData(json);
-        var selectAuditResults = document.getElementById('selectAuditResults');
-        var auditResults = document.getElementById('auditResults');
-        userPicker.show(function (items) {
-            selectAuditResults.value = items[0].text;
-            auditResults.value = items[0].value;
-        });
-    });
-
-    mui(document.body).on('tap', '#reviewPurchaseOrderButton', function(e) {
-
-        var auditResults = document.getElementById('auditResults');
-        if(!auditResults.value || auditResults.value.trim() == "") {
-            mui.alert("审核结果不允许为空");
-            return false;
-        }
-        auditResults = auditResults.value;
-
-        var applyUser = document.getElementById('applyUser');
-        if(applyUser == null){
-            applyUser = '0'
-        }else {
-            if(!applyUser.value || applyUser.value.trim() == "") {
-                mui.alert("上级审核人不允许为空");
-                return false;
-            }
-            applyUser = applyUser.value;
-        }
-
-        var auditOpinion = document.getElementById('auditOpinion');
-        if(!auditOpinion.value || auditOpinion.value.trim() == "") {
-            mui.alert("审核意见不允许为空");
-            return false;
-        }
-        auditOpinion = auditOpinion.value;
-
-        mui.alert('确定提交审核？' , function() {
-            var url = '${ctx}/mobile/paymentOrder/reviewOrder/${order.id}';
-            $.ajax({
-                url: url,
-                data:{'auditResults':auditResults,'applyUser':applyUser,'auditOpinion': auditOpinion},
-                dataType: 'json',
-                contentType : "application/x-www-form-urlencoded",
-                type: 'post',
-                timeout: 10000,
-                success: function(result) {
-                    if(result.code!=0){
-                        mui.alert(result.msg);
-                    }else {
-                        mui.alert('审核成功！', function() {
-                            document.location.href='${ctx }/mobile/purchase/toDetails/${order.id}';
-                        });
-                    }
-                }
-            });
-        });
-    });
-
 
     //初始化数据
     mui.ready(function() {
@@ -626,5 +508,14 @@
     });
 
 </script>
+
+<!-- 审核 -->
+<c:set value="${ctx}/mobile/purchase/toDetails/${order.id}" var="reviewRefreshUrl"/>
+<c:set value="${ctx}/mobile/paymentOrder/reviewOrder/${order.id}" var="reviewSaveUrl"/>
+<c:set value="${order.status}" var="reviewStatus"/>
+<c:set value="3" var="reviewType"/>
+<%@ include file="/WEB-INF/page/mobile/common/review.jsp"%>
+<!-- 审核 -->
+
 </body>
 </html>
