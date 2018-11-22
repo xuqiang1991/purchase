@@ -54,7 +54,8 @@
                     <textarea name="auditOpinion" id="auditOpinion" rows="5" class="mui-input-clear" placeholder="审核意见"></textarea>
                 </div>
                 <div class="mui-button-row" style="padding-bottom: 20px;">
-                    <button type="button" class="mui-btn mui-btn-primary" id="reviewPurchaseOrderButton">审核</button>
+                    <button type="button" class="mui-btn mui-btn-primary" id="reviewPurchaseOrderButton">审核</button>&nbsp;&nbsp;
+                    <button class="mui-btn mui-btn-danger"  id="review-cancel-btn" type="button">关闭</button>
                 </div>
             </form>
         </div>
@@ -66,6 +67,10 @@
     /** 审核 **/
     mui(document.body).on('tap', '#reviewPurchaseOrder', function(e) {
         mui("#popover").popover('toggle', document.getElementById("div"));
+    });
+
+    mui(document.body).on('tap', '#review-cancel-btn', function(e) {
+        mui('#popover').popover('hide',document.getElementById("div"));
     });
 
     mui(document.body).on('tap', '#selectApplyUser', function(e) {
