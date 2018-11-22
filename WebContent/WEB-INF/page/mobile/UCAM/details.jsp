@@ -145,7 +145,7 @@
 
                     <li class="mui-table-view-cell mui-collapse mui-active">
                         <a class="mui-navigate-right" href="#">请款单单项</a>
-                        <div class="mui-collapse-content">
+                        <div class="mui-collapse-content" id="ucamDetailDiv">
                             <c:choose>
                                 <c:when test="${fn:length(detailsVo.ucamDetail) > 0}">
                                     <c:forEach items="${detailsVo.ucamDetail}" var="item">
@@ -648,34 +648,15 @@
         })
     });
 
-    /** 提交审核 **/
-    /*mui(document.body).on('tap', '#UCAMDetails', function(e) {
-        var btnArray = ['是', '否'];
-        mui.confirm('确认提交？', '提交合同外请款单', btnArray, function(e) {
-            if (e.index == 0) {
-                var url = '${ctx}/mobile/UCAM/submitUCAMOrder?id=${detailsVo.ucamVo.id}';
-                $.ajax({
-                    url: url,
-                    dataType: 'json',
-                    contentType : "application/x-www-form-urlencoded",
-                    type: 'post',
-                    timeout: 10000,
-                    success: function(result) {
-                        if(result.code!=0){
-                            mui.alert(result.msg);
-                        }else {
-                            mui.alert('提交成功！', function() {
-                                document.location.href='${ctx }/mobile/UCAM/toDetails/${detailsVo.ucamVo.id}';
-                            });
-                        }
-                    }
-                });
-            }
-        })
-    });*/
 
     /** 选择审核人 **/
     mui(document.body).on('tap', '#UCAMDetails', function(e) {
+        var detailCard = $("#ucamDetailDiv").find("div.mui-card");
+        console.log(detailCard.length);
+        if(detailCard == null || detailCard.length <= 0){
+            mui.alert("请先添加明细");
+            return false;
+        }
         var adminsJson = '${detailsVo.departs}'
         var json =JSON.parse(adminsJson)
         var userPicker = new mui.PopPicker();
