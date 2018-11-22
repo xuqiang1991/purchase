@@ -118,7 +118,7 @@
                                                         </c:if>
                                                     </p>
                                                     <p>
-                                                        <label>总金额：${item.totalPrice}</label>&nbsp;&nbsp;
+                                                        <label>金额：${item.totalPrice}</label>&nbsp;&nbsp;
                                                         <label>已結算数量：${item.settleAmout}</label>
                                                     </p>
                                                 </div>
