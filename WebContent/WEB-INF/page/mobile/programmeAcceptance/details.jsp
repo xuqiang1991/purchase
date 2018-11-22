@@ -76,37 +76,11 @@
                             </div>
                         </div>
                     </li>
-                    <li class="mui-table-view-cell mui-collapse">
-                        <a class="mui-navigate-right" href="#">审核状态</a>
-                        <c:forEach items="${detailsVo.paoVo.historyList}" var="history">
-                            <div class="mui-collapse-content">
-                                <p>
-                                    <strong>
-                                        <c:choose>
-                                            <c:when test="${history.sort == 0}">创建</c:when>
-                                            <c:when test="${history.sort == 1}">提交</c:when>
-                                            <c:otherwise>
-                                                <c:choose>
-                                                    <c:when test="${history.approval == true}">审核通过</c:when>
-                                                    <c:otherwise>审核未通过</c:otherwise>
-                                                </c:choose>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </strong>
-                                    <label>操作人:${history.name}</label>
-                                    <label>操作时间:<fmt:formatDate value="${history.date}" pattern="yyyy-MM-dd"/></label>
-                                </p>
-                                <p>
-                                    <label>意见:
-                                        <c:choose>
-                                            <c:when test="${history.opinion == ''}">无</c:when>
-                                            <c:otherwise>${history.opinion}</c:otherwise>
-                                        </c:choose>
-                                    </label>
-                                </p>
-                            </div>
-                        </c:forEach>
-                    </li>
+
+                    <!-- 审核状态 -->
+                    <c:set value="${detailsVo.paoVo.historyList}" var="historyList"/>
+                    <%@ include file="/WEB-INF/page/mobile/common/reviewHistory.jsp"%>
+
                     <li class="mui-table-view-cell mui-collapse mui-active">
                         <a class="mui-navigate-right" href="#">工程验收单单项</a>
                         <div class="mui-collapse-content">
