@@ -7,15 +7,20 @@ import com.purchase.mapper.admin.TbAdminMapper;
 import com.purchase.mapper.order.BizProgrammeAcceptanceOrderDetailMapper;
 import com.purchase.mapper.order.BizProgrammeAcceptanceOrderMapper;
 import com.purchase.pojo.admin.TbAdmin;
-import com.purchase.pojo.order.*;
+import com.purchase.pojo.order.BizProgrammeAcceptanceOrder;
+import com.purchase.pojo.order.BizProgrammeAcceptanceOrderDetail;
+import com.purchase.pojo.order.BizProgrammeAcceptanceOrderDetailExample;
+import com.purchase.pojo.order.BizProgrammeAcceptanceOrderExample;
 import com.purchase.service.ProgrammeAcceptanceService;
-import com.purchase.util.*;
+import com.purchase.util.DateUtil;
+import com.purchase.util.MyUtil;
+import com.purchase.util.ResultUtil;
+import com.purchase.util.WebUtils;
 import com.purchase.vo.OrderHistory;
 import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.order.ProgrammeAcceptanceDetialVo;
 import com.purchase.vo.order.ProgrammeAcceptanceSearch;
 import com.purchase.vo.order.ProgrammeAcceptanceVo;
-import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -258,27 +263,27 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
             //选择审核人
             String roleName = "工程部";
             Long reviewUserId = null;
-            if(STATUS_1 == vo.getStatus()){
-                reviewUserId = vo.getProjectDepartUser();
-                roleName = "成本部";
-            }else if(STATUS_2 == vo.getStatus()){
-                roleName = "总经理";
-                reviewUserId = vo.getCostDepartUser();
-            }else if(STATUS_3 == vo.getStatus()){
-                //depart = "总经理";
-                reviewUserId = vo.getManagerDepartUser();
+            switch (vo.getStatus()){
+                case STATUS_1:
+                    reviewUserId = vo.getProjectDepartUser(); roleName = "成本部";
+                    break;
+                case STATUS_2:
+                    reviewUserId = vo.getCostDepartUser(); roleName = "总经理";
+                    break;
+                case STATUS_3:
+                    reviewUserId = vo.getManagerDepartUser();
+                    break;
+                default:
+                    logger.info("不在处理流程内，不做修改");
+                    break;
             }
+            paOrderDetialVo.setReviewUserId(reviewUserId);
             if(roleName != null){
                 List<ChoseAdminVO> data = adminMapper.selectByRoleName(roleName);
                 if(!CollectionUtils.isEmpty(data)){
                     Gson gson = new Gson();
                     String json = gson.toJson(data);
                     paOrderDetialVo.setDeparts(json);
-                }
-                TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-                long loginId = admin.getId();
-                if(reviewUserId != null && reviewUserId == loginId){
-                    paOrderDetialVo.setReviewUserId(vo.getCreateUser());
                 }
             }
         }catch (Exception e){

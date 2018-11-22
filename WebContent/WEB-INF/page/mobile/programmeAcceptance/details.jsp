@@ -134,7 +134,7 @@
                                                         <button type="button" class="mui-btn mui-btn-primary deleteItem" value="${item.id}">刪除</button>
                                                     </div>
                                                 </c:if>
-                                                <c:if test="${detailsVo.paoVo.status != 0 && detailsVo.paoVo.status != 4}">
+                                                <c:if test="${detailsVo.paoVo.status != 0 && detailsVo.paoVo.status != 4 && detailsVo.reviewUserId == admin.id}">
                                                     <div>
                                                         <a href="#fromPAOItem" name="app-a" data-id="${item.id}">
                                                             <button type="button" class="mui-btn mui-btn-primary" value="${item.id}">审核</button>
@@ -170,8 +170,8 @@
                     <%--<c:when test="${detailsVo.paoVo.status == 1 && empty detailsVo.paoVo.costDepartUser && empty detailsVo.reviewUserId}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="submitReviewPAO">选择审核人</button>
                     </c:when>--%>
-                    <c:when test="${!empty detailsVo.reviewUserId}">
-                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPAO">审核</button>
+                    <c:when test="${detailsVo.reviewUserId == admin.id}">
+                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">审核</button>
                     </c:when>
                 </c:choose>
             </div>
@@ -441,32 +441,6 @@
             }
         })
     });
-
-    /** 提交审核 **/
-    /*mui(document.body).on('tap', '#PAODetails', function(e) {
-        var btnArray = ['是', '否'];
-        mui.confirm('确认提交？', '提交工程验收单', btnArray, function(e) {
-            if (e.index == 0) {
-                var url = '${ctx}/mobile/programmeAcceptance/submitProgrammeAcceptanceOrder?id=${detailsVo.paoVo.id}';
-                $.ajax({
-                    url: url,
-                    dataType: 'json',
-                    contentType : "application/x-www-form-urlencoded",
-                    type: 'post',
-                    timeout: 10000,
-                    success: function(result) {
-                        if(result.code!=0){
-                            mui.alert(result.msg);
-                        }else {
-                            mui.alert('提交成功！', function() {
-                                document.location.href='${ctx }/mobile/programmeAcceptance/toDetails/${detailsVo.paoVo.id}';
-                            });
-                        }
-                    }
-                });
-            }
-        })
-    });*/
 
     /** 选择审核人 **/
     mui(document.body).on('tap', '#PAODetails', function(e) {

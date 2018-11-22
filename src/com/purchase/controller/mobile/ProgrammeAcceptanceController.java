@@ -138,6 +138,7 @@ public class ProgrammeAcceptanceController {
         Long adminId = admin.getId();
         ProgrammeAcceptanceDetialVo detailsVo = paService.selPAODetail(id,adminId);
         model.addAttribute("detailsVo",detailsVo);
+        model.addAttribute("admin",admin);
         return "page/mobile/programmeAcceptance/details";
     }
 
