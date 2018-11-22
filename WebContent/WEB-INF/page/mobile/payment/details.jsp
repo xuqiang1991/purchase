@@ -34,7 +34,7 @@
         <h1 class="mui-center mui-title">付款订单详情</h1>
     </div>
 
-    <!-- 采购单项 start -->
+    <!-- 采购明细 start -->
     <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 0px;width: 100%;">
         <div class="mui-scroll">
             <div class="mui-card">
@@ -230,7 +230,7 @@
                 </c:if>
         </div>
     </div>
-    <!-- 采购单项 end -->
+    <!-- 采购明细 end -->
 </div>
 </div>
 

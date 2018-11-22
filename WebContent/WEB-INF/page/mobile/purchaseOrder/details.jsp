@@ -34,7 +34,7 @@
         <h1 class="mui-center mui-title">采购订单详情</h1>
     </div>
 
-    <!-- 采购单项 start -->
+    <!-- 采购明细 start -->
     <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 0px;width: 100%;">
         <div class="mui-scroll">
             <div class="mui-content" style="margin-left: 5px; margin-right: 5px; font-size: 14px;">
@@ -83,7 +83,7 @@
                     <%@ include file="/WEB-INF/page/mobile/common/reviewHistory.jsp"%>
 
                     <li class="mui-table-view-cell mui-collapse mui-active">
-                        <a class="mui-navigate-right" href="#">采购单单项</a>
+                        <a class="mui-navigate-right" href="#">采购单明细</a>
                         <div class="mui-collapse-content">
                             <c:choose>
                                 <c:when test="${fn:length(detailsVo.details) > 0}">
@@ -140,7 +140,7 @@
                                  </c:when>
                                  <c:otherwise>
                                     <div class="mui-input-row">
-                                        <label>无采购单单项</label>
+                                        <label>无采购单明细</label>
                                     </div>
                                 </c:otherwise>
                             </c:choose>
@@ -152,7 +152,7 @@
                 <c:choose>
                     <c:when test="${detailsVo.purchaseOrder.status == 0}">
                         <a href="#fromPurchaseOrderItem">
-                            <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加采购单项</button>
+                            <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加采购明细</button>
                         </a>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="purchaseOrderDetails">提交</button>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="deletePurchaseOrder" value="${detailsVo.purchaseOrder.id}">删除</button>
@@ -168,7 +168,7 @@
             </div>
         </div>
     </div>
-    <!-- 采购单项 end -->
+    <!-- 采购明细 end -->
 </div>
 
 
@@ -177,7 +177,7 @@
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>返回
         </button>
-        <h1 class="mui-center mui-title">增加采购单项</h1>
+        <h1 class="mui-center mui-title">增加采购明细</h1>
     </div>
     <div class="mui-page-content">
         <div class="mui-scroll-wrapper">
