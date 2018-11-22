@@ -110,10 +110,12 @@
         var applyUser = document.getElementById('applyUser');
         if(applyUser == null){
             applyUser = '0'
-        }else if(auditResults == "1"){
-            if(!applyUser.value || applyUser.value.trim() == "") {
-                mui.alert("上级审核人不允许为空");
-                return false;
+        }else {
+            if(auditResults == "1"){
+                if(!applyUser.value || applyUser.value.trim() == "") {
+                    mui.alert("上级审核人不允许为空");
+                    return false;
+                }
             }
             applyUser = applyUser.value;
         }
