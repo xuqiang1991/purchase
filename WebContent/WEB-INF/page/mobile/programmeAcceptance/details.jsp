@@ -229,41 +229,6 @@
         </div>
     </div>
 </div>
-<div id="div"></div>
-    <c:choose>
-        <c:when test="${detailsVo.paoVo.status != 3}">
-            <div id="popover" class="mui-popover" style="height: 270px;">
-        </c:when>
-        <c:otherwise>
-            <div id="popover" class="mui-popover" style="height: 230px;">
-        </c:otherwise>
-    </c:choose>
-    <div class="mui-popover-arrow"></div>
-    <div class="mui-scroll-wrapper">
-        <div class="mui-scroll"  style="height: 100%;">
-            <form class="mui-input-group" id="reviewPAOForm">
-                <div class="mui-input-row">
-                    <label style="width: 120px;">审核结果</label>
-                    <input type="text" id="selectAuditResults" placeholder="请选择审核结果" readonly style="float: left;width: 150px;" value="审核通过">
-                    <input type="hidden" id="auditResults" name="auditResults" value="1">
-                </div>
-                <c:if test="${detailsVo.paoVo.status != 3}">
-                    <div class="mui-input-row">
-                        <label style="width: 120px;">上级审核人</label>
-                        <input type="text" id="selectApplyUser" placeholder="上级审核人" readonly style="float: left;width: 150px;">
-                        <input type="hidden" id="applyUser" name="applyUser">
-                    </div>
-                </c:if>
-                <div class="mui-input-row" style="height: auto">
-                    <textarea name="auditOpinion" id="auditOpinion" rows="5" class="mui-input-clear" placeholder="审核意见"></textarea>
-                </div>
-                <div class="mui-button-row" style="padding-bottom: 20px;">
-                    <button type="button" class="mui-btn mui-btn-primary" id="reviewPAOButton">审核</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 <script src="${ctx }/js/jquery-1.11.1.js"></script>
 <script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
@@ -542,77 +507,6 @@
         });
     });
 
-    /** 审核 **/
-    mui(document.body).on('tap', '#reviewPAO', function(e) {
-        mui("#popover").popover('toggle', document.getElementById("div"));
-    });
-
-    mui(document.body).on('tap', '#selectApplyUser', function(e) {
-        var adminsJson = '${detailsVo.departs}'
-        var json =JSON.parse(adminsJson)
-        var userPicker = new mui.PopPicker();
-        userPicker.setData(json);
-        var selectApplyUser = document.getElementById('selectApplyUser');
-        var applyUser = document.getElementById('applyUser');
-        userPicker.show(function (items) {
-            selectApplyUser.value = items[0].text;
-            applyUser.value = items[0].value;
-        });
-    });
-    mui(document.body).on('tap', '#selectAuditResults', function(e) {
-        var adminsJson = '[{"text":"审核通过","value":"1"},{"text":"审核不通过","value":"0"}]';
-        var json =JSON.parse(adminsJson)
-        var userPicker = new mui.PopPicker();
-        userPicker.setData(json);
-        var selectAuditResults = document.getElementById('selectAuditResults');
-        var auditResults = document.getElementById('auditResults');
-        userPicker.show(function (items) {
-            selectAuditResults.value = items[0].text;
-            auditResults.value = items[0].value;
-        });
-    });
-
-    mui(document.body).on('tap', '#reviewPAOButton', function(e) {
-
-        var auditResults = document.getElementById("auditResults");
-        var applyUser = "1";
-        if(status != 3){
-            applyUser = document.getElementById("applyUser");
-            if(!applyUser.value || applyUser.value.trim() == "") {
-                mui.alert("请选择上级审核人");
-                return false;
-            }
-            applyUser = applyUser.value;
-        }
-
-        var auditOpinion = document.getElementById("auditOpinion");
-        if(!auditOpinion.value || auditOpinion.value.trim() == "") {
-            mui.alert("审核意见不允许为空");
-            return false;
-        }
-
-        mui.alert('确定提交审核？' , function() {
-            var url = '${ctx}/mobile/programmeAcceptance/reviewProgrammeAcceptanceOrder/${detailsVo.paoVo.id}';
-            $.ajax({
-                url: url,
-                data:{'auditResults':auditResults.value,'applyUser':applyUser,'auditOpinion': auditOpinion.value},
-                dataType: 'json',
-                contentType : "application/x-www-form-urlencoded",
-                type: 'post',
-                timeout: 10000,
-                success: function(result) {
-                    if(result.code!=0){
-                        mui.alert(result.msg);
-                    }else {
-                        mui.alert('审核成功！', function() {
-                            document.location.href='${ctx }/mobile/programmeAcceptance/toDetails/${detailsVo.paoVo.id}';
-                        });
-                    }
-                }
-            });
-        });
-    });
-
 
     var view = viewApi.view;
     (function($) {
@@ -643,5 +537,12 @@
         });
     })(mui);
 </script>
+<!-- 审核 -->
+<c:set value="${ctx }/mobile/programmeAcceptance/toDetails/${detailsVo.paoVo.id}" var="reviewRefreshUrl"/>
+<c:set value="${ctx}/mobile/programmeAcceptance/reviewProgrammeAcceptanceOrder/${detailsVo.paoVo.id}" var="reviewSaveUrl"/>
+<c:set value="${detailsVo.paoVo.status}" var="reviewStatus"/>
+<%@ include file="/WEB-INF/page/mobile/common/review.jsp"%>
+<!-- 审核 -->
+
 </body>
 </html>
