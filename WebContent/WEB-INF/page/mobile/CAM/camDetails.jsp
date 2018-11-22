@@ -153,7 +153,7 @@
             <div class="mui-content-padded">
                 <c:choose>
                     <c:when test="${detailsVo.order.status == 0}">
-                        <a href="#fromPurchaseOrderItem">
+                        <a href="#fromPurchaseOrderDetailsItem">
                             <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加合同内请款明细</button>
                         </a>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="orderDetails">提交</button>
@@ -225,6 +225,71 @@
                     </div>
                     <div class="mui-button-row" style="padding-bottom: 20px;">
                         <button type="button" class="mui-btn mui-btn-primary" id="submitFromPurchaseOrderItem">添加</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="fromPurchaseOrderDetailsItem" class="mui-page">
+    <div class="mui-navbar-inner mui-bar mui-bar-nav">
+        <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+            <span class="mui-icon mui-icon-left-nav"></span>返回
+        </button>
+        <h1 class="mui-center mui-title">选择采购单明细</h1>
+    </div>
+    <div class="mui-page-content">
+        <div class="mui-scroll-wrapper">
+            <div class="mui-scroll"  style="height: 100%;">
+                <form class="mui-input-group" id="addFromPurchaseOrderDetailsItem">
+                    <ul class="mui-table-view mui-table-view-radio">
+                        <c:forEach items="${detailsVo.order.details}" var="item">
+                            <li class="mui-table-view-cell" style="position: static;">
+                                <a class="mui-navigate-right">
+                                    <div class="mui-card" style="margin: 0px;">
+                                        <div class="mui-card-header mui-card-media">
+                                            <!-- 订单类型 用图标展示 -->
+                                            <img src="${ctx }/images/icon/contract_apply_money.png">
+                                            <div class="mui-media-body">
+                                                <label>材料/项目内容</label>
+                                                <p>
+                                                    ${item.content}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="mui-card-content">
+                                            <div class="mui-card-content-inner">
+                                                <p>
+                                                    <label>规格：${item.model}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <label>单位：${item.unit}</label>
+                                                </p>
+                                                <p>
+                                                    <label>单价:${item.price}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <label>数量：${item.amount}</label>
+                                                </p>
+                                                <p>
+                                                    <c:if test="${detailsVo.order.purchaseOrderVo.type == 1}">
+                                                        <label>质保期（月）：${item.warrantyDate}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    </c:if>
+                                                    <c:if test="${detailsVo.order.purchaseOrderVo.type == 2}">
+                                                        <label>日期：<fmt:formatDate value="${item.date}" pattern="yyyy-MM-dd"/></label>
+                                                    </c:if>
+                                                </p>
+                                                <p>
+                                                    <label>金额：${item.totalPrice}</label>&nbsp;&nbsp;
+                                                    <label>已結算数量：${item.settleAmout}</label>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                    <div class="mui-button-row">
+                        <button class="mui-btn mui-btn-primary" id="search-btn" type="button">确认</button>&nbsp;&nbsp;
+                        <button class="mui-btn mui-btn-danger"  id="cancel-btn" type="button">取消</button>
                     </div>
                 </form>
             </div>

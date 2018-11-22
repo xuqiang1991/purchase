@@ -4,6 +4,7 @@ import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbProjectManger;
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.BizContractApplyMoney;
+import com.purchase.pojo.order.BizPurchaseOrderDetail;
 import com.purchase.vo.OrderHistory;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class CAMVo extends BizContractApplyMoney {
     private TbAdmin projectAdmin;
     private TbAdmin managerAdmin;
     private BizPurchaseOrderVo purchaseOrderVo;
+    private List<BizPurchaseOrderDetail> details;
     private TbAdmin auAdmin;
     private TbProjectManger tpm;
     private List<OrderHistory> historyList;
@@ -99,5 +101,13 @@ public class CAMVo extends BizContractApplyMoney {
 
     public void setTpm(TbProjectManger tpm) {
         this.tpm = tpm;
+    }
+
+    public List<BizPurchaseOrderDetail> getDetails() {
+        return details;
+    }
+
+    public void setDetails(List<BizPurchaseOrderDetail> details) {
+        this.details = details;
     }
 }

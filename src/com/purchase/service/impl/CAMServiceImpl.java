@@ -7,6 +7,7 @@ import com.purchase.mapper.admin.TbAdminMapper;
 import com.purchase.mapper.admin.TbSupplierMapper;
 import com.purchase.mapper.order.BizContractApplyMoneyDetailMapper;
 import com.purchase.mapper.order.BizContractApplyMoneyMapper;
+import com.purchase.mapper.order.BizPurchaseOrderDetailMapper;
 import com.purchase.mapper.order.BizPurchaseOrderMapper;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbSupplier;
@@ -59,6 +60,9 @@ public class CAMServiceImpl implements CAMService {
 
     @Autowired
     private BizPurchaseOrderMapper purchaseOrderMapper;
+
+    @Autowired
+    private BizPurchaseOrderDetailMapper purchaseOrderDetailMapper;
 
     @Autowired
     private PurchaseOrderService purchaseOrderService;
@@ -164,10 +168,9 @@ public class CAMServiceImpl implements CAMService {
         CAMDetailsVo detailsVo = new CAMDetailsVo();
 
         CAMVo vo = getCAMOrder(id);
-        Long userId = vo.getCreateUser();
         detailsVo.setOrder(vo);
 
-        //获取采购单详情
+        //获取合同内单详情
         String orderNo = vo.getOrderNo();
         BizContractApplyMoneyDetailExample example = new BizContractApplyMoneyDetailExample();
         BizContractApplyMoneyDetailExample.Criteria criteria = example.createCriteria();
@@ -280,6 +283,15 @@ public class CAMServiceImpl implements CAMService {
         if(sourceOrderId != null){
             BizPurchaseOrderVo purchaseOrderVo = purchaseOrderService.selPurchaseOrderById(sourceOrderId);
             vo.setPurchaseOrderVo(purchaseOrderVo);
+
+            //获取采购单详情
+            String purchaseNo = purchaseOrderVo.getPurchaseNo();
+            BizPurchaseOrderDetailExample example1 = new BizPurchaseOrderDetailExample();
+            BizPurchaseOrderDetailExample.Criteria criteria1 = example1.createCriteria();
+            criteria1.andPurchaseNoEqualTo(purchaseNo);
+            List<BizPurchaseOrderDetail> detailList1 = purchaseOrderDetailMapper.selectByExample(example1);
+            vo.setDetails(detailList1);
+
         }
 
         Long applyUserId = order.getApplyUser();
