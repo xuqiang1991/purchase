@@ -116,8 +116,8 @@
                     <%@ include file="/WEB-INF/page/mobile/common/reviewHistory.jsp"%>
 
                     <li class="mui-table-view-cell mui-collapse mui-active">
-                        <a class="mui-navigate-right" href="#">请款单单项</a>
-                        <div class="mui-collapse-content" id="ucamDetailDiv">
+                        <a class="mui-navigate-right" href="#">合同外请款单明细</a>
+                        <div class="mui-collapse-content" id="detailDiv">
                             <c:choose>
                                 <c:when test="${fn:length(detailsVo.ucamDetail) > 0}">
                                     <c:forEach items="${detailsVo.ucamDetail}" var="item">
@@ -623,7 +623,7 @@
 
     /** 选择审核人 **/
     mui(document.body).on('tap', '#UCAMDetails', function(e) {
-        var detailCard = $("#ucamDetailDiv").find("div.mui-card");
+        var detailCard = $("#detailDiv").find("div.mui-card");
         console.log(detailCard.length);
         if(detailCard == null || detailCard.length <= 0){
             mui.alert("请先添加明细");

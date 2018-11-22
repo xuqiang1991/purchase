@@ -82,8 +82,8 @@
                     <%@ include file="/WEB-INF/page/mobile/common/reviewHistory.jsp"%>
 
                     <li class="mui-table-view-cell mui-collapse mui-active">
-                        <a class="mui-navigate-right" href="#">工程验收单单项</a>
-                        <div class="mui-collapse-content">
+                        <a class="mui-navigate-right" href="#">工程验收单明细</a>
+                        <div class="mui-collapse-content" id="detailDiv">
                             <c:choose>
                                 <c:when test="${fn:length(detailsVo.paoDetail) > 0}">
                                     <c:forEach items="${detailsVo.paoDetail}" var="item">
@@ -147,7 +147,7 @@
                                 </c:when>
                                 <c:otherwise>
                                     <div class="mui-input-row">
-                                        <label>工程验收单单项</label>
+                                        <label>工程验收单明细</label>
                                     </div>
                                 </c:otherwise>
                             </c:choose>
@@ -310,11 +310,14 @@
                                     $("#orderNo").val(data.orderNo);
                                     $("#addFromPAOItem").find("#id").val(data.id);
                                     $("#playOverDate").val(data.playOverDate);
-                                    $("#rectifyFlag").val(data.rectifyFlag);
                                     $("#remark").val(data.remark);
                                     $("#rectifyMeasure").val(data.rectifyMeasure);
                                     $("#actualOverDate").val(data.actualOverDate);
-                                    var rectifyFlagName = data.rectifyFlag == 0?"未整改":"已整改";
+                                    var rectifyFlagName = "未整改";
+                                    if(data.rectifyFlag == 1){
+                                        rectifyFlagName = "已整改";
+                                    }
+                                    $("#rectifyFlag").val(data.rectifyFlag == 1 ? 1:0);
                                     $("#rectifyFlagName").val(rectifyFlagName);
                                 }
                             }
@@ -382,6 +385,7 @@
             var verify = $(this).attr("mui-verify")
             if(verify == 'required'){
                 if(!this.value || this.value.trim() == "") {
+                    console.log($(this).attr("name"));
                     var label = this.previousElementSibling;
                     mui.alert(label.innerText + "不允许为空");
                     check = false;
@@ -392,7 +396,7 @@
 
         //校验通过，继续执行业务逻辑
         if(check){
-            var itemId = $('#addFromUCAMItem').find('#id').val();
+            var itemId = $('#addFromPAOItem').find('#id').val();
             var url = '${ctx}/mobile/programmeAcceptance/addProgrammeAcceptanceItem';
             if(itemId && itemId != '') {
                 url = '${ctx}/mobile/programmeAcceptance/editProgrammeAcceptanceItem';
@@ -501,6 +505,13 @@
 
     /** 选择审核人 **/
     mui(document.body).on('tap', '#PAODetails', function(e) {
+        var detailCard = $("#detailDiv").find("div.mui-card");
+        console.log(detailCard.length);
+        if(detailCard == null || detailCard.length <= 0){
+            mui.alert("请先添加明细");
+            return false;
+        }
+
         var adminsJson = '${detailsVo.departs}'
         var json =JSON.parse(adminsJson)
         var userPicker = new mui.PopPicker();
