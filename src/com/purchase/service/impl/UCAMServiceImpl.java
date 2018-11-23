@@ -410,59 +410,51 @@ public class UCAMServiceImpl implements UCAMService {
     public ResultUtil reviewUCAMOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion) {
         Date date = new Date();
         BizUncontractApplyMoney order = ucamMapper.selectByPrimaryKey(id);
-        Long userId = admin.getId();
+        //审核不通过
+        if(!auditResults){
+            order.setStatus(STATUS_0);
+            order.setProjectDepartUser(null);
+            order.setCostDepartUser(null);
+            order.setManagerDepartUser(null);
 
-        //判断审核人
-        Long reviewer = null;
-        Boolean reviewerResults = null;
-        if(STATUS_1 ==  order.getStatus()){
-            reviewer = order.getProjectDepartUser();
-            reviewerResults = order.getProjectDepartApproval();
-        }else if (STATUS_2 ==  order.getStatus()){
-            reviewer = order.getCostDepartUser();
-            reviewerResults = order.getCostDepartApproval();
-        }else if (STATUS_3 ==  order.getStatus()){
-            reviewer = order.getManagerDepartUser();
-            reviewerResults = order.getManagerDepartApproval();
-        }
-        if(reviewer == null){
-            return ResultUtil.error("审核人不存在");
-        }
-        if(reviewer.compareTo(userId) != 0){
-            return ResultUtil.error("没有审核权限！");
-        }
-        if(reviewerResults != null && reviewerResults){
-            return ResultUtil.error("请不要重新审核！");
-        }
+            order.setProjectDepartApproval(null);
+            order.setCostDepartApproval(null);
+            order.setManagerDepartApproval(null);
 
-        //审核状态
-        if(STATUS_1 ==  order.getStatus()){
-            order.setStatus(STATUS_2);
-            order.setProjectDepartDate(date);
-            order.setProjectDepartApproval(auditResults);
-            order.setProjectDepartOpinion(auditOpinion);
-            order.setCostDepartUser(applyUser);
-            //order.setProjectDepartUser(applyUser);
-        }else if (STATUS_2 ==  order.getStatus()){
-            order.setStatus(STATUS_3);
-            order.setCostDepartApproval(auditResults);
-            order.setCostDepartDate(date);
-            order.setCostDepartOpinion(auditOpinion);
-            order.setManagerDepartUser(applyUser);
-        }else if (STATUS_3 ==  order.getStatus()){
-            order.setStatus(STATUS_4);
-            order.setManagerDepartDate(date);
-            order.setManagerDepartApproval(auditResults);
-            order.setManagerDepartOpinion(auditOpinion);
-        }else if (STATUS_4 ==  order.getStatus()){
-            //order.setStatus(STATUS_5);
+            order.setProjectDepartDate(null);
+            order.setCostDepartDate(null);
+            order.setManagerDepartDate(null);
+
+            order.setProjectDepartOpinion(null);
+            order.setCostDepartOpinion(null);
+            order.setManagerDepartOpinion(null);
+        }else{
+            //审核状态
+            if(STATUS_1 ==  order.getStatus()){
+                order.setStatus(STATUS_2);
+                order.setProjectDepartDate(date);
+                order.setProjectDepartApproval(auditResults);
+                order.setProjectDepartOpinion(auditOpinion);
+                order.setCostDepartUser(applyUser);
+            }else if (STATUS_2 ==  order.getStatus()){
+                order.setStatus(STATUS_3);
+                order.setCostDepartApproval(auditResults);
+                order.setCostDepartDate(date);
+                order.setCostDepartOpinion(auditOpinion);
+                order.setManagerDepartUser(applyUser);
+            }else if (STATUS_3 ==  order.getStatus()){
+                order.setStatus(STATUS_4);
+                order.setManagerDepartApproval(auditResults);
+                order.setManagerDepartDate(date);
+                order.setManagerDepartOpinion(auditOpinion);
+            }
         }
         order.setUpdateDate(date);
 
-        ucamMapper.updateByPrimaryKeySelective(order);
+        ucamMapper.updateByPrimaryKey(order);
 
         //总经理审核写入付款单
-        if(STATUS_4 == order.getStatus()){
+        if(auditResults && STATUS_4 == order.getStatus()){
             paymentOrderService.generatePaymenyOrder(order);
         }
 

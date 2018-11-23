@@ -34,7 +34,7 @@
                 </div>--%>
                 <div class="mui-input-row mui-input-range">
                     <label style="width: 120px;">审核结果</label>
-                    <input type="hidden" id="auditResults" name="auditResults" value="0">
+                    <input type="hidden" id="auditResults" name="auditResults" value="1">
                     <div id="mySwitch" class="mui-switch mui-active" style="float: left;">
                         <div class="mui-switch-handle"></div>
                     </div>
@@ -122,12 +122,12 @@
     document.getElementById("mySwitch").addEventListener("toggle",function(event){
         if(event.detail.isActive){
             console.log("你启动了开关");
-            document.getElementById('auditResults').value = 0;
+            document.getElementById('auditResults').value = 1;
             $("#applyUserReviewDiv").show();
             $("#popover").css("height","270px");
         }else{
             console.log("你关闭了开关");
-            document.getElementById('auditResults').value = 1;
+            document.getElementById('auditResults').value = 0;
             $("#applyUserReviewDiv").hide();
             $("#popover").css("height","230px");
         }
@@ -180,7 +180,11 @@
                         mui.alert(result.msg);
                     }else {
                         mui.alert('审核成功！', function() {
-                            document.location.href='${reviewRefreshUrl}';
+                            if(auditResults == "1"){
+                                document.location.href='${reviewRefreshUrl}';
+                            }else{
+                                history.go(-1);
+                            }
                         });
                     }
                 }

@@ -8,6 +8,11 @@
 	<title>合同外请款单</title>
 	<link href="${ctx }/mui/css/mui.min.css" rel="stylesheet"/>
     <link href="${ctx }/mui/css/mui.picker.min.css" rel="stylesheet" />
+    <style>
+        /*.mui-navigate-right:after, .mui-push-right:after{
+            !*color: white;*!
+        }*/
+    </style>
 </head>
 <body>
 <header class="mui-bar mui-bar-nav">
@@ -24,7 +29,9 @@
 
     <ul class="mui-table-view" style="z-index: 100">
         <li class="mui-table-view-cell mui-collapse" id="searchLi">
-            <a class="mui-navigate-right" href="#">搜索</a>
+            <a class="" href="#">
+                搜索 <span style="float: right;" class="mui-icon mui-icon mui-icon-search"></span>
+            </a>
             <div class="mui-collapse-content">
                 <form class="mui-input-group" id="searchForm">
                     <div class="mui-input-row">
@@ -387,14 +394,14 @@
                 <label>{{prorammeAcceptanceOrder_departUser status}}</label>
                 <label>{{prorammeAcceptanceOrder_departUser status}}</label>
             </div>
-            <div>
+            <%--<div>
                 <shiro:hasPermission name="mobile:UCAM:update">
                     {{#compare status 0}}
                         <button type="button" class="mui-btn mui-btn-primary details-edit"  data-id="{{id}}" >修改</button>
                     {{/compare}}
                 </shiro:hasPermission>
-                <%--<button type="button" class="mui-btn mui-btn-primary">审核</button>--%>
-            </div>
+                &lt;%&ndash;<button type="button" class="mui-btn mui-btn-primary">审核</button>&ndash;%&gt;
+            </div>--%>
         </div>
     </div>
 

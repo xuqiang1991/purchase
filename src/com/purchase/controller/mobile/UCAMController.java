@@ -133,6 +133,7 @@ public class UCAMController {
         Long adminId = admin.getId();
         UCAMOrderDetialVo detailsVo = ucamService.selUCAMDetail(id,adminId);
         model.addAttribute("detailsVo",detailsVo);
+        model.addAttribute("admin",admin);
         return "page/mobile/UCAM/details";
     }
 

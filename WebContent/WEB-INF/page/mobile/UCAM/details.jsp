@@ -171,7 +171,7 @@
                                                         <label>总金额：${item.totalPrice}</label>&nbsp;&nbsp;
                                                         <label>已結算数量：${item.settleAmout}</label>
                                                     </div>--%>
-                                                <c:if test="${detailsVo.ucamVo.status == 0}">
+                                                <c:if test="${detailsVo.ucamVo.status == 0 && detailsVo.ucamVo.createUser == admin.id}">
                                                     <div>
                                                         <a href="#fromUCAMItem" name="app-a" data-id="${item.id}">
                                                             <button type="button" class="mui-btn mui-btn-primary" value="${item.id}">修改</button>
@@ -209,7 +209,7 @@
 
             <div class="mui-content-padded">
                 <c:choose>
-                    <c:when test="${detailsVo.ucamVo.status == 0}">
+                    <c:when test="${detailsVo.ucamVo.status == 0 && detailsVo.ucamVo.createUser == admin.id}">
                         <a href="#fromUCAMItem">
                             <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加请款单项</button>
                         </a>
@@ -219,7 +219,7 @@
                     <%--<c:when test="${detailsVo.ucamVo.status == 1 && empty detailsVo.ucamVo.costDepartUser && empty detailsVo.reviewUserId}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="submitReviewUCAM">选择审核人</button>
                     </c:when>--%>
-                    <c:when test="${!empty detailsVo.reviewUserId}">
+                    <c:when test="${detailsVo.reviewUserId == admin.id}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewUCAM">审核</button>
                     </c:when>
                 </c:choose>

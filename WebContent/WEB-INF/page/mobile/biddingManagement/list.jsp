@@ -24,7 +24,9 @@
 
     <ul class="mui-table-view" style="z-index: 100">
         <li class="mui-table-view-cell mui-collapse" id="searchLi">
-            <a class="mui-navigate-right" href="#">搜索</a>
+            <a class="" href="#">
+                搜索 <span style="float: right;" class="mui-icon mui-icon mui-icon-search"></span>
+            </a>
             <div class="mui-collapse-content">
                 <form class="mui-input-group" id="searchForm">
                     <div class="mui-input-row">
