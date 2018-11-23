@@ -264,6 +264,7 @@ public class PurchaseOrderController {
     public ResultUtil findPurchaseOrderList(Integer page, Integer limit, BizPurchaseOrderSearch search){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         search.setLoginId(admin.getId());
+        search.setStatus(4);//查询通过的采购单
         return purchaseOrderService.getOrderList(page,limit,search);
     }
 
