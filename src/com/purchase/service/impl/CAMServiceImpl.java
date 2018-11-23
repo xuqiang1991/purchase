@@ -31,10 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Auther: zhoujb
@@ -569,9 +566,56 @@ public class CAMServiceImpl implements CAMService {
     }
 
     @Override
-    public ResultUtil checkCAMItem(String purchaseDetailNo) {
-        Long count = contractApplyMoneyDetailMapper.checkCAMItem(purchaseDetailNo);
-        return ResultUtil.ok(String.valueOf(count));
+    public ResultUtil checkCAMItem(String purchaseDetailId) {
+        Map<String,Object> map = new HashMap<>();
+
+        //查询结算数量是否超标
+        BizPurchaseOrderDetail detail = purchaseOrderDetailMapper.selectByPrimaryKey(purchaseDetailId);
+        Double amount = detail.getAmount();
+        Double allSettleAmount = contractApplyMoneyDetailMapper.checkCAMItemSettleAmout(purchaseDetailId);
+
+        map.put("amount",amount - allSettleAmount);//结算数量
+
+        //查询是否多条
+        Long count = contractApplyMoneyDetailMapper.checkCAMItemCount(purchaseDetailId);
+        map.put("count", count);
+
+        return ResultUtil.ok(map);
+    }
+
+    @Override
+    public ResultUtil checkCAM(String id) {
+        BizContractApplyMoney contractApplyMoney = camMapper.selectByPrimaryKey(id);
+        String sourceOrderId = contractApplyMoney.getSourceOrderId();
+        String orderNo = contractApplyMoney.getOrderNo();
+        Map<String,Object> map = new HashMap<>();
+
+        //查询结算数量是否超标
+        BizContractApplyMoneyDetailExample example = new BizContractApplyMoneyDetailExample();
+        BizContractApplyMoneyDetailExample.Criteria criteria = example.createCriteria();
+        criteria.andOrderNoEqualTo(orderNo);
+        List<BizContractApplyMoneyDetail> detailList = contractApplyMoneyDetailMapper.selectByExample(example);
+        Double a = null;
+        for (BizContractApplyMoneyDetail detail : detailList){
+            String purchaseDetailId = detail.getPurchaseDetailId();
+            Double settleAmount = detail.getSettleAmout();
+            BizPurchaseOrderDetail purchaseDetail = purchaseOrderDetailMapper.selectByPrimaryKey(purchaseDetailId);
+            Double amount = purchaseDetail.getAmount();
+
+            Double as = amount - settleAmount;
+            if(as < 0){
+                a = as;
+                break;
+            }
+        }
+
+        map.put("amount",a);//结算数量
+
+        //查询是否多条
+        Long count = contractApplyMoneyDetailMapper.checkCAMCount(sourceOrderId);
+        map.put("count", count);
+
+        return ResultUtil.ok(map);
     }
 }
 

@@ -77,6 +77,14 @@
                                 <label>开单日期</label>
                                 <label style="width: 65%;padding-left: 0px;"><fmt:formatDate value="${detailsVo.order.createTime}" pattern="yyyy-MM-dd"/></label>
                             </div>
+                            <div class="mui-input-row mui-input-range">
+                                <label>请款金额</label>
+                                <label style="width: 65%;padding-left: 0px;">${detailsVo.order.applyPrice}</label>
+                            </div>
+                            <div class="mui-input-row mui-input-range">
+                                <label>支付金额</label>
+                                <label style="width: 65%;padding-left: 0px;">${detailsVo.order.actualPrice}</label>
+                            </div>
                             <div>
                                 <textarea name="summary" id="summary" rows="5" class="mui-input-clear" readonly="readonly">${detailsVo.order.summary}</textarea>
                             </div>
@@ -342,6 +350,7 @@
         if(check){
 
             //检查是否有多条请款单
+            var checkCAMItemData = {};
             var purchaseDetailId = $('#addFromPurchaseOrderItem').find('#purchaseDetailId').val();
             var ajaxUrl = '${ctx}/mobile/CAM/checkCAMItem/'+ purchaseDetailId
             $.ajax({
@@ -352,42 +361,67 @@
                 timeout: 10000,
                 async: false,
                 success: function(result) {
-                    var count = parseInt(result.msg)
-                    if(count > 0){
-                        alert('有多条未审核的请款单！');
-                    }
+                    checkCAMItemData = result.data;
                 }
             });
 
-            //保存或编辑
-            var orderNo = $('#orderNo').val();
-            var itemId = $('#addFromPurchaseOrderItem').find('#id').val();
-            var url = '${ctx}/mobile/CAM/addCAMItem/'+ orderNo
-            if(itemId && itemId != ''){
-                url = '${ctx}/mobile/CAM/editCAMItem/';
+            var settleAmount = $("#addFromPurchaseOrderItem").find("input[name='settleAmout']").val();
+            if(checkCAMItemData != null){
+                checkCAMItemData.amount =  checkCAMItemData.amount - settleAmount;
             }
 
-            $.ajax({
-                url: url,
-                data: $('#addFromPurchaseOrderItem').serialize(),
-                dataType: 'json',
-                contentType : "application/x-www-form-urlencoded",
-                type: 'post',
-                timeout: 10000,
-                success: function(result) {
-                    if(result.code!=0){
-                        mui.alert(result.msg);
-                    }else {
-                        mui.alert('保存成功！', function() {
-                            document.location.href='${ctx }/mobile/CAM/toDetails/${detailsVo.order.id}';
-                        });
-                    }
+            //检查提示
+            if(checkCAMItemData != null && (checkCAMItemData.amount < 0 || checkCAMItemData.count > 0)){
+                var msg;
+                if(checkCAMItemData.amount < 0 && checkCAMItemData.count > 0){
+                    msg = "采购单明细有多条，且结算数量超过采购单未到货数量，是否提交？"
+                }else if(checkCAMItemData.amount < 0){
+                    msg = "采购单明细结算数量超过采购单未到货数量，是否提交？"
+                }else if(checkCAMItemData.count < 0){
+                    msg = "采购单明细有多条，是否提交？"
                 }
-            });
+
+                var btnArray = ['是', '否'];
+                mui.confirm(msg,"提示",btnArray, function(e) {
+                    if (e.index == 0) {
+                        submitItem();
+                    }
+                })
+            }else {
+                submitItem()
+            }
         }else{
             mui.toast('检验不通过，请重新填写！',{ duration:'long', type:'div' })
         }
     });
+
+    function submitItem(){
+        //保存或编辑
+        var orderNo = $('#orderNo').val();
+        var itemId = $('#addFromPurchaseOrderItem').find('#id').val();
+        var url = '${ctx}/mobile/CAM/addCAMItem/'+ orderNo
+        if(itemId && itemId != ''){
+            url = '${ctx}/mobile/CAM/editCAMItem/';
+        }
+
+        $.ajax({
+            url: url,
+            data: $('#addFromPurchaseOrderItem').serialize(),
+            dataType: 'json',
+            contentType : "application/x-www-form-urlencoded",
+            type: 'post',
+            timeout: 10000,
+            success: function(result) {
+                if(result.code!=0){
+                    mui.alert(result.msg);
+                }else {
+                    mui.alert('保存成功！', function() {
+                        document.location.href='${ctx }/mobile/CAM/toDetails/${detailsVo.order.id}';
+                    });
+                }
+            }
+        });
+    }
 
     /** 删除合同内请款单 **/
     mui(document.body).on('tap', '#deletePurchaseOrder', function(e) {
@@ -509,6 +543,11 @@
             mui.alert("请先添加明细！");
             return false;
         </c:if>
+
+        var checkC = checkCAM("提交");
+        if(!checkC){
+            return false;
+        }
 
         var adminsJson = '${detailsVo.departs}'
         var json =JSON.parse(adminsJson)
@@ -654,7 +693,6 @@
         //计算金额
         document.getElementById("settleAmout").addEventListener("change", totalPriceReckon, false);
         function totalPriceReckon(){
-            debugger
             var amount = document.getElementById("settleAmout");
             var price = document.getElementById("price");
             if(price.value != "" && amount.value != ""){
@@ -663,6 +701,45 @@
             }
         }
     });
+    
+    
+    function checkCAM(type) {
+        //检查是否有多条请款单
+        var checkCAMItemData = {};
+        var ajaxUrl = '${ctx}/mobile/CAM/checkCAM/${detailsVo.order.id}'
+        $.ajax({
+            url: ajaxUrl,
+            dataType: 'json',
+            contentType : "application/x-www-form-urlencoded",
+            type: 'post',
+            timeout: 10000,
+            async: false,
+            success: function(result) {
+                checkCAMItemData = result.data;
+            }
+        });
+
+        //检查提示
+        if(checkCAMItemData != null && (checkCAMItemData.amount < 0 || checkCAMItemData.count > 0)){
+            var msg = "采购单明细结算数量超过采购单未到货数量，是否"+type+"？"
+            if(checkCAMItemData.amount < 0 && checkCAMItemData.count > 0){
+                msg = "采购单明细有多条，且结算数量超过采购单未到货数量，是否"+type+"？"
+            }else if(checkCAMItemData.amount < 0){
+                msg = "采购单明细结算数量超过采购单未到货数量，是否"+type+"？"
+            }else if(checkCAMItemData.count < 0){
+                msg = "采购单明细有多条，是否"+type+"？"
+            }
+
+            var btnArray = ['是', '否'];
+            mui.confirm(msg,"提示",btnArray, function(e) {
+                if (e.index == 0) {
+                    return true;
+                }
+            })
+        }else {
+            return false;
+        }
+    }
 
 
     (function($) {
@@ -718,6 +795,7 @@
 <c:set value="${ctx}/mobile/CAM/toDetails/${detailsVo.order.id}" var="reviewRefreshUrl"/>
 <c:set value="${ctx}/mobile/CAM/reviewCAMOrder/${detailsVo.order.id}" var="reviewSaveUrl"/>
 <c:set value="${detailsVo.order.status}" var="reviewStatus"/>
+<c:set value="true" var="reviewCheckCAM"/>
 <%@ include file="/WEB-INF/page/mobile/common/review.jsp"%>
 <!-- 审核 -->
 

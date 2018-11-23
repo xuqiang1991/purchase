@@ -233,6 +233,12 @@ public class CAMController {
         return camService.editCAMOrder(order);
     }
 
+    @RequestMapping("checkCAM/{id}")
+    @ResponseBody
+    public ResultUtil checkCAM(@PathVariable("id") String id){
+        return camService.checkCAM(id);
+    }
+
     @RequestMapping("checkCAMItem/{purchaseDetailId}")
     @ResponseBody
     public ResultUtil checkCAMItem(@PathVariable("purchaseDetailId") String purchaseDetailId){

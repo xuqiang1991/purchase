@@ -42,4 +42,6 @@ public interface CAMService {
     CAMVo getCAMOrder(String id);
 
     ResultUtil checkCAMItem(String purchaseDetailId);
+
+    ResultUtil checkCAM(String id);
 }

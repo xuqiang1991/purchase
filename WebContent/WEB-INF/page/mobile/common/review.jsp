@@ -80,6 +80,13 @@
 
     /** 审核 **/
     mui(document.body).on('tap', '#reviewPurchaseOrder', function(e) {
+        var reviewCheckCAM = '${reviewCheckCAM}';
+        if(reviewCheckCAM == 'true'){
+            var checkC = checkCAM("审核");
+            if(!checkC){
+                return false;
+            }
+        }
         mui("#popover").popover('toggle', document.getElementById("div"));
     });
 
