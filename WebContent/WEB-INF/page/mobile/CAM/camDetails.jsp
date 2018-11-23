@@ -206,7 +206,11 @@
                     </div>
                     <div class="mui-input-row">
                         <label>合同数量</label>
-                        <input type="number" name="settleAmout" class="mui-input-clear" mui-verify="required" readonly unselectable="no">
+                        <input type="number" name="contractCount" class="mui-input-clear" mui-verify="required" readonly unselectable="no">
+                    </div>
+                    <div class="mui-input-row">
+                        <label>结算数量</label>
+                        <input type="number" name="settleAmout" class="mui-input-clear" mui-verify="required" placeholder="请输入结算数量">
                     </div>
                     <div class="mui-input-row">
                         <label>结算金额</label>
@@ -228,6 +232,7 @@
                         <textarea name="remark" id="remark" rows="5" class="mui-input-clear" placeholder="备注"></textarea>
                     </div>
                     <div class="mui-button-row" style="padding-bottom: 20px;">
+                        <input type="hidden" name="purchaseDetailId" id="purchaseDetailId">
                         <button type="button" class="mui-btn mui-btn-primary" id="submitFromPurchaseOrderItem">添加</button>
                     </div>
                 </form>
@@ -249,7 +254,7 @@
                 <form class="mui-input-group" id="addFromPurchaseOrderDetailsItem">
                     <ul class="mui-table-view mui-table-view-radio">
                         <c:forEach items="${detailsVo.order.details}" var="item">
-                            <li class="mui-table-view-cell" style="position: static;">
+                            <li class="mui-table-view-cell" style="position: static;" v="${item.id}">
                                 <a class="mui-navigate-right">
                                     <div class="mui-card" style="margin: 0px;">
                                         <div class="mui-card-header mui-card-media">
@@ -282,7 +287,7 @@
                                                 </p>
                                                 <p>
                                                     <label>金额：${item.totalPrice}</label>&nbsp;&nbsp;
-                                                    <label>已結算数量：${item.settleAmout}</label>
+                                                    <label  name="purchaseOrderSettleAmout"  v="${item.settleAmout}">已結算数量：${item.settleAmout}</label>
                                                 </p>
                                             </div>
                                         </div>
@@ -327,6 +332,22 @@
                     mui.alert(label.innerText + "不允许为空");
                     check = false;
                     return false;
+                }
+            }
+        });
+
+        var purchaseDetailId = $('#addFromPurchaseOrderItem').find('#purchaseDetailId').val();
+        var ajaxUrl = '${ctx}/mobile/CAM/checkCAMItem/'+ purchaseDetailId
+        $.ajax({
+            url: ajaxUrl,
+            dataType: 'json',
+            contentType : "application/x-www-form-urlencoded",
+            type: 'post',
+            timeout: 10000,
+            async: false,
+            success: function(result) {
+                if(result.code!=0){
+                    mui.alert("还有未审核和的请款单对应此详情！");
                 }
             }
         });
@@ -528,6 +549,8 @@
         if(accountSelected){
             //获取采购单参数
             var li = $("#fromPurchaseOrderDetailsItem").find("li.mui-selected");
+
+            var purchaseOrderDetailsId = $(li).attr("v");
             var purchaseOrderContent = $(li).find('p[name="purchaseOrderContent"]').attr("v");
             var purchaseOrderModel = $(li).find('label[name="purchaseOrderModel"]').attr("v");
             var purchaseOrderUnit = $(li).find('label[name="purchaseOrderUnit"]').attr("v");
@@ -535,17 +558,26 @@
             var purchaseOrderAmount = $(li).find('label[name="purchaseOrderAmount"]').attr("v");
             var purchaseOrderWarrantyDate = $(li).find('label[name="purchaseOrderWarrantyDate"]').attr("v");
             var purchaseOrderDate = $(li).find('label[name="purchaseOrderDate"]').attr("v");
+            var purchaseOrderSettleAmout = $(li).find('label[name="purchaseOrderSettleAmout"]').attr("v");
 
-            //结算金额
-            var settlePrice = purchaseOrderPrice * purchaseOrderAmount;
+
+            //请款数量
+            var settlePrice = (purchaseOrderAmount - purchaseOrderSettleAmout);
+            if(settlePrice < 0){//请款数量小于0的时候，设置为0
+                settlePrice = 0;
+            }
+            //请款金额
+            var settlePrice = purchaseOrderPrice * settlePrice;
 
             //赋值到请款单
+            $("#addFromPurchaseOrderItem").find("input[name='purchaseDetailId']").val(purchaseOrderDetailsId);
             $("#addFromPurchaseOrderItem").find("input[name='projectContent']").val(purchaseOrderContent);
             $("#addFromPurchaseOrderItem").find("input[name='model']").val(purchaseOrderModel);
             $("#addFromPurchaseOrderItem").find("input[name='unit']").val(purchaseOrderUnit);
             $("#addFromPurchaseOrderItem").find("input[name='price']").val(purchaseOrderPrice);
-            $("#addFromPurchaseOrderItem").find("input[name='settleAmout']").val(purchaseOrderAmount);
+            $("#addFromPurchaseOrderItem").find("input[name='settleAmout']").val(settlePrice);
             $("#addFromPurchaseOrderItem").find("input[name='settlePrice']").val(settlePrice);
+            $("#addFromPurchaseOrderItem").find("input[name='contractCount']").val(purchaseOrderAmount);
             if(purchaseOrderWarrantyDate != undefined){
                 $("#addFromPurchaseOrderItem").find("input[name='warrantyDate']").val(purchaseOrderWarrantyDate);
             }

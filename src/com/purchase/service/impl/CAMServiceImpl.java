@@ -187,6 +187,21 @@ public class CAMServiceImpl implements CAMService {
         List<BizContractApplyMoneyDetail> detailList = contractApplyMoneyDetailMapper.selectByExample(example);
         detailsVo.setDetails(detailList);
 
+        //过滤已添加过详情的采购单详情
+        List<BizPurchaseOrderDetail> details = vo.getDetails();
+        if(!CollectionUtils.isEmpty(details) && !CollectionUtils.isEmpty(detailList)){
+            for(int i = details.size() - 1; i >= 0; i--){
+                BizPurchaseOrderDetail item = details.get(i);
+                String itemId = item.getId();
+                for (BizContractApplyMoneyDetail detail :detailList ){
+                    String purchaseDetailId = detail.getPurchaseDetailId();
+                    if(itemId.equals(purchaseDetailId)){
+                        details.remove(item);
+                        break;
+                    }
+                }
+            }
+        }
 
         //审核历史
         List<OrderHistory> historyList = new ArrayList<OrderHistory>();
@@ -545,6 +560,10 @@ public class CAMServiceImpl implements CAMService {
         return ResultUtil.ok();
     }
 
-
+    @Override
+    public ResultUtil checkCAMItem(String purchaseDetailNo) {
+        Long count = contractApplyMoneyDetailMapper.checkCAMItem(purchaseDetailNo);
+        return ResultUtil.ok(count);
+    }
 }
 

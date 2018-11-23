@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.purchase.pojo.order.BizContractApplyMoneyDetail">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="purchase_detail_id" jdbcType="VARCHAR" property="purchaseDetailId" />
     <result column="construction_site" jdbcType="VARCHAR" property="constructionSite" />
     <result column="project_content" jdbcType="VARCHAR" property="projectContent" />
     <result column="model" jdbcType="VARCHAR" property="model" />
@@ -77,8 +78,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, order_no, construction_site, project_content, model, unit, price, contract_count, 
-    settle_amout, settle_price, warranty_date, date, remark, create_time, update_date
+    id, order_no, purchase_detail_id, construction_site, project_content, model, unit, 
+    price, contract_count, settle_amout, settle_price, warranty_date, date, remark, create_time, 
+    update_date
   </sql>
   <select id="selectByExample" parameterType="com.purchase.pojo.order.BizContractApplyMoneyDetailExample" resultMap="BaseResultMap">
     select
@@ -111,18 +113,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.purchase.pojo.order.BizContractApplyMoneyDetail">
-    insert into biz_contract_apply_money_detail (id, order_no, construction_site, 
-      project_content, model, unit, 
-      price, contract_count, settle_amout, 
-      settle_price, warranty_date, date, 
-      remark, create_time, update_date
-      )
-    values (#{id,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{constructionSite,jdbcType=VARCHAR}, 
-      #{projectContent,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
-      #{price,jdbcType=DECIMAL}, #{contractCount,jdbcType=DOUBLE}, #{settleAmout,jdbcType=DOUBLE}, 
-      #{settlePrice,jdbcType=DECIMAL}, #{warrantyDate,jdbcType=REAL}, #{date,jdbcType=DATE}, 
-      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
-      )
+    insert into biz_contract_apply_money_detail (id, order_no, purchase_detail_id, 
+      construction_site, project_content, model, 
+      unit, price, contract_count, 
+      settle_amout, settle_price, warranty_date, 
+      date, remark, create_time, 
+      update_date)
+    values (#{id,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{purchaseDetailId,jdbcType=VARCHAR}, 
+      #{constructionSite,jdbcType=VARCHAR}, #{projectContent,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}, 
+      #{unit,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{contractCount,jdbcType=DOUBLE}, 
+      #{settleAmout,jdbcType=DOUBLE}, #{settlePrice,jdbcType=DECIMAL}, #{warrantyDate,jdbcType=REAL}, 
+      #{date,jdbcType=DATE}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.purchase.pojo.order.BizContractApplyMoneyDetail">
     insert into biz_contract_apply_money_detail
@@ -132,6 +134,9 @@
       </if>
       <if test="orderNo != null">
         order_no,
+      </if>
+      <if test="purchaseDetailId != null">
+        purchase_detail_id,
       </if>
       <if test="constructionSite != null">
         construction_site,
@@ -179,6 +184,9 @@
       </if>
       <if test="orderNo != null">
         #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseDetailId != null">
+        #{purchaseDetailId,jdbcType=VARCHAR},
       </if>
       <if test="constructionSite != null">
         #{constructionSite,jdbcType=VARCHAR},
@@ -236,6 +244,9 @@
       <if test="record.orderNo != null">
         order_no = #{record.orderNo,jdbcType=VARCHAR},
       </if>
+      <if test="record.purchaseDetailId != null">
+        purchase_detail_id = #{record.purchaseDetailId,jdbcType=VARCHAR},
+      </if>
       <if test="record.constructionSite != null">
         construction_site = #{record.constructionSite,jdbcType=VARCHAR},
       </if>
@@ -284,6 +295,7 @@
     update biz_contract_apply_money_detail
     set id = #{record.id,jdbcType=VARCHAR},
       order_no = #{record.orderNo,jdbcType=VARCHAR},
+      purchase_detail_id = #{record.purchaseDetailId,jdbcType=VARCHAR},
       construction_site = #{record.constructionSite,jdbcType=VARCHAR},
       project_content = #{record.projectContent,jdbcType=VARCHAR},
       model = #{record.model,jdbcType=VARCHAR},
@@ -306,6 +318,9 @@
     <set>
       <if test="orderNo != null">
         order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseDetailId != null">
+        purchase_detail_id = #{purchaseDetailId,jdbcType=VARCHAR},
       </if>
       <if test="constructionSite != null">
         construction_site = #{constructionSite,jdbcType=VARCHAR},
@@ -352,6 +367,7 @@
   <update id="updateByPrimaryKey" parameterType="com.purchase.pojo.order.BizContractApplyMoneyDetail">
     update biz_contract_apply_money_detail
     set order_no = #{orderNo,jdbcType=VARCHAR},
+      purchase_detail_id = #{purchaseDetailId,jdbcType=VARCHAR},
       construction_site = #{constructionSite,jdbcType=VARCHAR},
       project_content = #{projectContent,jdbcType=VARCHAR},
       model = #{model,jdbcType=VARCHAR},

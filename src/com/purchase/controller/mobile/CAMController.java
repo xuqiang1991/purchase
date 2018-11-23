@@ -231,4 +231,10 @@ public class CAMController {
         order.setCreateUser(admin.getId());
         return camService.editCAMOrder(order);
     }
+
+    @RequestMapping("checkCAMItem/{purchaseDetailId}")
+    @ResponseBody
+    public ResultUtil checkCAMItem(@PathVariable("purchaseDetailId") String purchaseDetailId){
+        return camService.checkCAMItem(purchaseDetailId);
+    }
 }

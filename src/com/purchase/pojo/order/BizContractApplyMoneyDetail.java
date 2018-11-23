@@ -10,6 +10,8 @@ public class BizContractApplyMoneyDetail {
 
     private String orderNo;
 
+    private String purchaseDetailId;
+
     private String constructionSite;
 
     private String projectContent;
@@ -51,6 +53,14 @@ public class BizContractApplyMoneyDetail {
 
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo == null ? null : orderNo.trim();
+    }
+
+    public String getPurchaseDetailId() {
+        return purchaseDetailId;
+    }
+
+    public void setPurchaseDetailId(String purchaseDetailId) {
+        this.purchaseDetailId = purchaseDetailId == null ? null : purchaseDetailId.trim();
     }
 
     public String getConstructionSite() {

@@ -40,4 +40,6 @@ public interface CAMService {
     ResultUtil reviewCAMOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion);
 
     CAMVo getCAMOrder(String id);
+
+    ResultUtil checkCAMItem(String purchaseDetailId);
 }

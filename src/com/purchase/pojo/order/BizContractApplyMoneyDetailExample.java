@@ -273,6 +273,76 @@ public class BizContractApplyMoneyDetailExample {
             return (Criteria) this;
         }
 
+        public Criteria andPurchaseDetailIdIsNull() {
+            addCriterion("purchase_detail_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseDetailIdIsNotNull() {
+            addCriterion("purchase_detail_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseDetailIdEqualTo(String value) {
+            addCriterion("purchase_detail_id =", value, "purchaseDetailId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseDetailIdNotEqualTo(String value) {
+            addCriterion("purchase_detail_id <>", value, "purchaseDetailId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseDetailIdGreaterThan(String value) {
+            addCriterion("purchase_detail_id >", value, "purchaseDetailId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseDetailIdGreaterThanOrEqualTo(String value) {
+            addCriterion("purchase_detail_id >=", value, "purchaseDetailId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseDetailIdLessThan(String value) {
+            addCriterion("purchase_detail_id <", value, "purchaseDetailId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseDetailIdLessThanOrEqualTo(String value) {
+            addCriterion("purchase_detail_id <=", value, "purchaseDetailId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseDetailIdLike(String value) {
+            addCriterion("purchase_detail_id like", value, "purchaseDetailId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseDetailIdNotLike(String value) {
+            addCriterion("purchase_detail_id not like", value, "purchaseDetailId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseDetailIdIn(List<String> values) {
+            addCriterion("purchase_detail_id in", values, "purchaseDetailId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseDetailIdNotIn(List<String> values) {
+            addCriterion("purchase_detail_id not in", values, "purchaseDetailId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseDetailIdBetween(String value1, String value2) {
+            addCriterion("purchase_detail_id between", value1, value2, "purchaseDetailId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchaseDetailIdNotBetween(String value1, String value2) {
+            addCriterion("purchase_detail_id not between", value1, value2, "purchaseDetailId");
+            return (Criteria) this;
+        }
+
         public Criteria andConstructionSiteIsNull() {
             addCriterion("construction_site is null");
             return (Criteria) this;
