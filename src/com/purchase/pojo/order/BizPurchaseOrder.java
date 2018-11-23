@@ -104,7 +104,7 @@ public class BizPurchaseOrder {
         this.createUser = createUser;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getCreateTime() {
         return createTime;
     }
@@ -177,7 +177,7 @@ public class BizPurchaseOrder {
         this.status = status;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getUpdateDate() {
         return updateDate;
     }

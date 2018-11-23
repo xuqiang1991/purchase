@@ -74,6 +74,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			if(search.getStatus()!= null){
 				criteria.andStatusEqualTo(search.getStatus());
 			}
+			if(search.getSupplierId()!= null){
+				criteria.andSupplierIdEqualTo(search.getSupplierId());
+			}
 			if(search.getType() != null){
 				criteria.andTypeEqualTo(String.valueOf(search.getType()));
 			}
@@ -400,7 +403,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			if(contractMoney == null){
 				contractMoney = totalPrice;
 			}else {
-				contractMoney.add(totalPrice);
+				contractMoney = contractMoney.add(totalPrice);
 			}
 
 			BizPurchaseOrder tmp = new BizPurchaseOrder();

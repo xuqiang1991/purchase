@@ -91,4 +91,8 @@
       order by ${example.orderByClause}
     </if>
   </select>
+
+  <select id="selectByPurchaseNo" resultMap="BaseResultMap">
+    select * from biz_purchase_order where purchase_no = #{purchaseNo}
+  </select>
 </mapper>

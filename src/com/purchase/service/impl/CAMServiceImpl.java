@@ -537,11 +537,32 @@ public class CAMServiceImpl implements CAMService {
             paymentOrderService.generatePaymenyOrder(order);
 
 
-            //回写采购单
+            //回写主采购单
+           String sourceOrderId = order.getSourceOrderId();
             BizPurchaseOrder tmp1 = new BizPurchaseOrder();
-            tmp1.setId(id);
+            tmp1.setId(sourceOrderId);
             tmp1.setRequestAmount(order.getApplyPrice());
             purchaseOrderMapper.updateByPrimaryKeySelective(tmp1);
+
+            //回写采购单详情(已结算数量)
+            String orderNo = order.getOrderNo();
+            BizContractApplyMoneyDetailExample example = new BizContractApplyMoneyDetailExample();
+            BizContractApplyMoneyDetailExample.Criteria criteria = example.createCriteria();
+            criteria.andOrderNoEqualTo(orderNo);
+            List<BizContractApplyMoneyDetail> detailList = contractApplyMoneyDetailMapper.selectByExample(example);
+            if(!CollectionUtils.isEmpty(detailList)){
+                for (BizContractApplyMoneyDetail detail : detailList){
+                    Double settleAmout = detail.getSettleAmout();
+                    String purchaseDetailId = detail.getPurchaseDetailId();
+                    BizPurchaseOrderDetail detail1 = purchaseOrderDetailMapper.selectByPrimaryKey(purchaseDetailId);
+                    Double oldSettleAmout = detail1.getSettleAmout();
+
+                    BizPurchaseOrderDetail record = new BizPurchaseOrderDetail();
+                    record.setId(purchaseDetailId);
+                    record.setSettleAmout(oldSettleAmout + settleAmout);
+                    purchaseOrderDetailMapper.updateByPrimaryKeySelective(record);
+                }
+            }
         }
 
         return ResultUtil.ok();

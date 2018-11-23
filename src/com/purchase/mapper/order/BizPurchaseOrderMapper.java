@@ -40,6 +40,5 @@ public interface BizPurchaseOrderMapper {
     @Select("select * from biz_purchase_order where status = #{0} and supplier_id = #{1}")
     List<BizPurchaseOrder> selectPurchaseOrder(Integer status, Long supplier);
 
-    @Select("select * from biz_purchase_order where purchase_no = #{purchaseNo}")
     BizPurchaseOrder selectByPurchaseNo(@Param("purchaseNo") String purchaseNo);
 }

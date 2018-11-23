@@ -267,6 +267,7 @@ public class PurchaseOrderController {
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         search.setLoginId(admin.getId());
         search.setStatus(4);//查询通过的采购单
+        search.setSupplierId(admin.getSupplierId());
         return purchaseOrderService.getOrderList(page,limit,search);
     }
 
