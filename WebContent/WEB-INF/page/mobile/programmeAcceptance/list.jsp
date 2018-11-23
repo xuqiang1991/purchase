@@ -25,7 +25,9 @@
     <!-- 单号、供应商、所属项目、合同号、开单人、开单日期、单据状态 -->
     <ul class="mui-table-view" style="z-index: 100">
         <li class="mui-table-view-cell mui-collapse" id="searchLi">
-            <a class="mui-navigate-right" href="#">搜索</a>
+            <a class="" href="#">
+                搜索 <span style="float: right;" class="mui-icon mui-icon mui-icon-search"></span>
+            </a>
             <div class="mui-collapse-content">
                 <form class="mui-input-group" id="searchForm">
                     <div class="mui-input-row">
@@ -314,15 +316,15 @@
                 <label>{{prorammeAcceptanceOrder_departUser status}}</label>
                 <label>{{prorammeAcceptanceOrder_departDate status}}</label>
             </div>
-            <div>
+            <%--<div>
                 <shiro:hasPermission name="mobile:programmeAcceptance:update">
                     {{#compare status 0}}
                         <button type="button" class="mui-btn mui-btn-primary details-edit"  data-id="{{id}}" >修改</button>
                     {{/compare}}
                 </shiro:hasPermission>
 
-                <%--<button type="button" class="mui-btn mui-btn-primary">审核</button>--%>
-            </div>
+                &lt;%&ndash;<button type="button" class="mui-btn mui-btn-primary">审核</button>&ndash;%&gt;
+            </div>--%>
         </div>
     </div>
 

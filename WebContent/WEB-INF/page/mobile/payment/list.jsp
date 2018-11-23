@@ -20,7 +20,9 @@
     <!-- 单号、订单类型、供应商、所属项目、合同号、开单人、开单日期、单据状态 -->
     <ul class="mui-table-view" style="z-index: 100">
         <li class="mui-table-view-cell mui-collapse" id="searchCollapse">
-            <a class="mui-navigate-right" href="#">搜索</a>
+            <a class="" href="#">
+                搜索 <span style="float: right;" class="mui-icon mui-icon mui-icon-search"></span>
+            </a>
             <div class="mui-collapse-content">
                 <div class="mui-collapse-content">
                     <form class="mui-input-group" id="searchForm">

@@ -124,7 +124,7 @@
                                                 </div>
                                             </div>
                                             <div class="mui-card-footer">
-                                                <c:if test="${detailsVo.paoVo.status == 0}">
+                                                <c:if test="${detailsVo.paoVo.status == 0 && detailsVo.paoVo.createUser == admin.id}">
                                                     <div>
                                                         <a href="#fromPAOItem" name="app-a" data-id="${item.id}">
                                                             <button type="button" class="mui-btn mui-btn-primary" value="${item.id}">修改</button>
@@ -160,7 +160,7 @@
 
             <div class="mui-content-padded">
                 <c:choose>
-                    <c:when test="${detailsVo.paoVo.status == 0}">
+                    <c:when test="${detailsVo.paoVo.status == 0 && detailsVo.paoVo.createUser == admin.id}">
                         <a href="#fromPAOItem">
                             <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加工程验收单项</button>
                         </a>
@@ -471,7 +471,8 @@
                             mui.alert(result.msg);
                         }else {
                             mui.alert('提交审核成功！', function() {
-                                document.location.href='${ctx }/mobile/programmeAcceptance/toDetails/${detailsVo.paoVo.id}';
+                                //document.location.href='${ctx }/mobile/programmeAcceptance/toDetails/${detailsVo.paoVo.id}';
+                                history.go(-1);
                             });
                         }
                     }
