@@ -160,7 +160,7 @@
                     <%--<c:when test="${detailsVo.purchaseOrder.status == 1 && empty detailsVo.purchaseOrder.costDepartUser && empty detailsVo.reviewUserId}">--%>
                         <%--<button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="submitReviewPurchaseOrder">选择审核人</button>--%>
                     <%--</c:when>--%>
-                    <c:when test="${!empty detailsVo.reviewUserId}">
+                    <c:when test="${detailsVo.reviewUserId == admin.id}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">审核</button>
                     </c:when>
                 </c:choose>
@@ -199,11 +199,15 @@
                     </div>
                     <div class="mui-input-row">
                         <label>单价</label>
-                        <input type="number" name="price" class="mui-input-clear" mui-verify="required" placeholder="请输入单价">
+                        <input type="number" id="price" name="price" class="mui-input-clear" mui-verify="required" placeholder="请输入单价">
                     </div>
                     <div class="mui-input-row">
                         <label>数量</label>
-                        <input type="number" name="amount" class="mui-input-clear" mui-verify="required" placeholder="请输入数量">
+                        <input type="number" id="amount" name="amount" class="mui-input-clear" mui-verify="required" placeholder="请输入数量">
+                    </div>
+                    <div class="mui-input-row">
+                        <label>金额</label>
+                        <input type="number" id="totalPrice" name="totalPrice" class="mui-input-clear" mui-verify="required" readonly value="0">
                     </div>
                     <c:if test="${detailsVo.purchaseOrder.type == 1}">
                         <div class="mui-input-row">
@@ -475,7 +479,20 @@
         }
 
 
+        //计算金额
+        document.getElementById("amount").addEventListener("change", totalPriceReckon, false);
+        document.getElementById("price").addEventListener("change", totalPriceReckon, false);
+        function totalPriceReckon(){
+            var amount = document.getElementById("amount");
+            var price = document.getElementById("price");
+            if(price.value != "" && amount.value != ""){
+                var applyPrice = price.value * amount.value;
+                document.getElementById("totalPrice").value = applyPrice;
+            }
+        }
     });
+
+
 
     (function($) {
         $.init();

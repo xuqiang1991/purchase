@@ -135,7 +135,9 @@ public class CAMController {
     @RequiresPermissions("mobile:CAM:list")
     public String toDetails(@PathVariable("id") String id, Model model){
         CAMDetailsVo detailsVo = camService.selCAMOrder(id);
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         model.addAttribute("detailsVo",detailsVo);
+        model.addAttribute("admin",admin);
         return "page/mobile/CAM/camDetails";
     }
 
@@ -184,7 +186,6 @@ public class CAMController {
     public ResultUtil editCAMItem(BizContractApplyMoneyDetail order){
         Date date = new Date();
         order.setUpdateDate(date);
-        order.setCreateTime(date);
         return camService.editCAMItem(order);
     }
 

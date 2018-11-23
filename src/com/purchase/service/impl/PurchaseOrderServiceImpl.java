@@ -71,6 +71,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 				//注意：模糊查询需要进行拼接”%“  如下，不进行拼接是不能完成查询的哦。
 				criteria.andPurchaseNoLike("%"+search.getPurchaseNo()+"%");
 			}
+			if(search.getStatus()!= null){
+				criteria.andStatusEqualTo(search.getStatus());
+			}
 			if(search.getType() != null){
 				criteria.andTypeEqualTo(String.valueOf(search.getType()));
 			}

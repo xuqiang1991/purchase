@@ -333,23 +333,17 @@ public class CAMServiceImpl implements CAMService {
         order.setId(id);
         contractApplyMoneyDetailMapper.insert(order);
 
-        BigDecimal price = order.getPrice();
-        Double amount = order.getContractCount();
-        BigDecimal totalPrice = null;
-        if (price != null && amount != null) {
-            BigDecimal amountBig = new BigDecimal(amount);
-            totalPrice = price.multiply(amountBig);
-        }
+        BigDecimal price = order.getSettlePrice();
 
         //如有金额更新采购单
-        if (totalPrice != null) {
+        if (price != null) {
             String orderNo = order.getOrderNo();
             BizContractApplyMoney camOrder = camMapper.selectByOrderNo(orderNo);
             BigDecimal contractMoney = camOrder.getApplyPrice();
             if (contractMoney == null) {
-                contractMoney = totalPrice;
+                contractMoney = price;
             } else {
-                contractMoney.add(totalPrice);
+                contractMoney = contractMoney.add(price);
             }
 
             BizContractApplyMoney tmp = new BizContractApplyMoney();
@@ -364,25 +358,24 @@ public class CAMServiceImpl implements CAMService {
 
     @Override
     public ResultUtil editCAMItem(BizContractApplyMoneyDetail order) {
-        contractApplyMoneyDetailMapper.updateByPrimaryKey(order);
 
-        BigDecimal price = order.getPrice();
-        Double amount = order.getContractCount();
-        BigDecimal totalPrice = null;
-        if (price != null && amount != null) {
-            BigDecimal amountBig = new BigDecimal(amount);
-            totalPrice = price.multiply(amountBig);
-        }
+        BizContractApplyMoneyDetail detail = contractApplyMoneyDetailMapper.selectByPrimaryKey(order.getId());
+        BigDecimal oldPrice = detail.getSettlePrice();
+
+        order.setPurchaseDetailId(null);
+        contractApplyMoneyDetailMapper.updateByPrimaryKeySelective(order);
+
+        BigDecimal price = oldPrice.subtract(order.getSettlePrice());
 
         //如有金额更新采购单
-        if (totalPrice != null) {
+        if (price != null) {
             String orderNo = order.getOrderNo();
             BizContractApplyMoney camOrder = camMapper.selectByOrderNo(orderNo);
             BigDecimal contractMoney = camOrder.getApplyPrice();
             if (contractMoney == null) {
-                contractMoney = totalPrice;
+                contractMoney = price;
             } else {
-                contractMoney.add(totalPrice);
+                contractMoney = contractMoney.add(price);
             }
 
             BizContractApplyMoney tmp = new BizContractApplyMoney();
@@ -413,20 +406,14 @@ public class CAMServiceImpl implements CAMService {
     public ResultUtil delCAMItem(String id) {
         BizContractApplyMoneyDetail order = contractApplyMoneyDetailMapper.selectByPrimaryKey(id);
 
-        BigDecimal price = order.getPrice();
-        Double amount = order.getContractCount();
-        BigDecimal totalPrice = null;
-        if (price != null && amount != null) {
-            BigDecimal amountBig = new BigDecimal(amount);
-            totalPrice = price.multiply(amountBig);
-        }
+        BigDecimal price = order.getSettlePrice();
 
         //如有金额更新采购单
-        if (totalPrice != null) {
+        if (price != null) {
             String orderNo = order.getOrderNo();
             BizContractApplyMoney camOrder = camMapper.selectByOrderNo(orderNo);
             BigDecimal applyPrice = camOrder.getApplyPrice();
-            BigDecimal tmpPrice = applyPrice.subtract(totalPrice);
+            BigDecimal tmpPrice = applyPrice.subtract(price);
 
             BizContractApplyMoney tmp = new BizContractApplyMoney();
             tmp.setId(camOrder.getId());
@@ -563,7 +550,7 @@ public class CAMServiceImpl implements CAMService {
     @Override
     public ResultUtil checkCAMItem(String purchaseDetailNo) {
         Long count = contractApplyMoneyDetailMapper.checkCAMItem(purchaseDetailNo);
-        return ResultUtil.ok(count);
+        return ResultUtil.ok(String.valueOf(count));
     }
 }
 

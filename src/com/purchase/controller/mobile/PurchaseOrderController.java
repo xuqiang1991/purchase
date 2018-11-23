@@ -83,7 +83,9 @@ public class PurchaseOrderController {
     @RequiresPermissions("mobile:purchase:details")
     public String toDetails(@PathVariable("id") String id, Model model){
         BizPurchaseOrderDetailsVo detailsVo = purchaseOrderService.selPurchaseOrder(id);
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         model.addAttribute("detailsVo",detailsVo);
+        model.addAttribute("admin",admin);
         return "page/mobile/purchaseOrder/details";
     }
 

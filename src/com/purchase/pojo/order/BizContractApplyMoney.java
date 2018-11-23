@@ -3,10 +3,11 @@ package com.purchase.pojo.order;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class BizContractApplyMoney {
+public class BizContractApplyMoney implements Serializable {
     private String id;
 
     private String orderNo;

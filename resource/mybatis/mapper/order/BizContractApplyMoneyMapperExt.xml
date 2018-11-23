@@ -31,7 +31,8 @@
           and c.fullname LIKE concat(concat('%',#{search.createUserName}),'%')
         </if>
       </foreach>
-          and (a.create_user = #{search.loginId} or a.apply_user = #{search.loginId} or a.manager_depart_user = #{search.loginId})
+          and (a.create_user = #{search.loginId} or a.apply_user = #{search.loginId}
+          or a.cost_depart_user = #{search.loginId} or a.project_depart_user = #{search.loginId} or a.manager_depart_user = #{search.loginId})
     </where>
   </sql>
   <resultMap id="BaseResultMapExt" type="com.purchase.vo.order.CAMVo" extends="BaseResultMap">
@@ -94,5 +95,9 @@
     <if test="example.orderByClause != null" >
       order by ${example.orderByClause}
     </if>
+  </select>
+
+  <select id="selectByOrderNo" resultMap="BaseResultMap">
+    select * from biz_contract_apply_money where order_no = #{orderNo}
   </select>
 </mapper>

@@ -45,7 +45,6 @@
                         <a class="mui-navigate-right" href="#">合同内请款单详情</a>
                         <div class="mui-collapse-content">
                             <!-- 主界面具体展示内容 -->
-                            <input type="hidden" name="orderNo" id="orderNo" value="${detailsVo.order.orderNo}">
                             <div class="mui-input-row">
                                 <label>订单号</label>
                                 <label style="width: 65%;padding-left: 0px;">${detailsVo.order.orderNo}</label>
@@ -120,8 +119,8 @@
                                                         <%--<label>日期：<fmt:formatDate value="${item.date}" pattern="yyyy-MM-dd"/></label>--%>
                                                         <%--</p>--%>
                                                     <p>
-                                                        <label>已結算金额：${item.settlePrice}</label>&nbsp;&nbsp;
-                                                        <label>已結算数量：${item.settleAmout}</label>
+                                                        <label>結算金额：${item.settlePrice}</label>&nbsp;&nbsp;
+                                                        <label>結算数量：${item.settleAmout}</label>
                                                     </p>
                                                 </div>
                                             </div>
@@ -162,7 +161,7 @@
                     <%--<c:when test="${detailsVo.order.status == 1 && empty detailsVo.order.costDepartUser && empty detailsVo.reviewUserId}">--%>
                         <%--<button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="submitReviewPurchaseOrder">选择审核人</button>--%>
                     <%--</c:when>--%>
-                    <c:when test="${!empty detailsVo.reviewUserId}">
+                    <c:when test="${detailsVo.reviewUserId == admin.id}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">审核</button>
                     </c:when>
                 </c:choose>
@@ -202,7 +201,7 @@
                     </div>
                     <div class="mui-input-row">
                         <label>单价</label>
-                        <input type="price" name="price" class="mui-input-clear" mui-verify="required" readonly unselectable="no">
+                        <input type="price" id="price" name="price" class="mui-input-clear" mui-verify="required" readonly unselectable="no">
                     </div>
                     <div class="mui-input-row">
                         <label>合同数量</label>
@@ -210,11 +209,11 @@
                     </div>
                     <div class="mui-input-row">
                         <label>结算数量</label>
-                        <input type="number" name="settleAmout" class="mui-input-clear" mui-verify="required" placeholder="请输入结算数量">
+                        <input type="number" id="settleAmout" name="settleAmout" class="mui-input-clear" mui-verify="required" placeholder="请输入结算数量">
                     </div>
                     <div class="mui-input-row">
                         <label>结算金额</label>
-                        <input type="number" name="settlePrice" class="mui-input-clear" mui-verify="required" readonly  unselectable="no">
+                        <input type="number" id="settlePrice" name="settlePrice" class="mui-input-clear" mui-verify="required" readonly  unselectable="no">
                     </div>
                     <c:if test="${detailsVo.order.orderType == 1}">
                         <div class="mui-input-row">
@@ -232,7 +231,9 @@
                         <textarea name="remark" id="remark" rows="5" class="mui-input-clear" placeholder="备注"></textarea>
                     </div>
                     <div class="mui-button-row" style="padding-bottom: 20px;">
+                        <input type="hidden" name="orderNo" id="orderNo" value="${detailsVo.order.orderNo}">
                         <input type="hidden" name="purchaseDetailId" id="purchaseDetailId">
+                        <input type="hidden" name="id" id="id">
                         <button type="button" class="mui-btn mui-btn-primary" id="submitFromPurchaseOrderItem">添加</button>
                     </div>
                 </form>
@@ -336,24 +337,29 @@
             }
         });
 
-        var purchaseDetailId = $('#addFromPurchaseOrderItem').find('#purchaseDetailId').val();
-        var ajaxUrl = '${ctx}/mobile/CAM/checkCAMItem/'+ purchaseDetailId
-        $.ajax({
-            url: ajaxUrl,
-            dataType: 'json',
-            contentType : "application/x-www-form-urlencoded",
-            type: 'post',
-            timeout: 10000,
-            async: false,
-            success: function(result) {
-                if(result.code!=0){
-                    mui.alert("还有未审核和的请款单对应此详情！");
-                }
-            }
-        });
 
         //校验通过，继续执行业务逻辑
         if(check){
+
+            //检查是否有多条请款单
+            var purchaseDetailId = $('#addFromPurchaseOrderItem').find('#purchaseDetailId').val();
+            var ajaxUrl = '${ctx}/mobile/CAM/checkCAMItem/'+ purchaseDetailId
+            $.ajax({
+                url: ajaxUrl,
+                dataType: 'json',
+                contentType : "application/x-www-form-urlencoded",
+                type: 'post',
+                timeout: 10000,
+                async: false,
+                success: function(result) {
+                    var count = parseInt(result.msg)
+                    if(count > 0){
+                        alert('有多条未审核的请款单！');
+                    }
+                }
+            });
+
+            //保存或编辑
             var orderNo = $('#orderNo').val();
             var itemId = $('#addFromPurchaseOrderItem').find('#id').val();
             var url = '${ctx}/mobile/CAM/addCAMItem/'+ orderNo
@@ -562,12 +568,12 @@
 
 
             //请款数量
-            var settlePrice = (purchaseOrderAmount - purchaseOrderSettleAmout);
-            if(settlePrice < 0){//请款数量小于0的时候，设置为0
-                settlePrice = 0;
+            var settleAmount = (purchaseOrderAmount - purchaseOrderSettleAmout);
+            if(settleAmount < 0){//请款数量小于0的时候，设置为0
+                settleAmount = 0;
             }
             //请款金额
-            var settlePrice = purchaseOrderPrice * settlePrice;
+            var settlePrice = purchaseOrderPrice * settleAmount;
 
             //赋值到请款单
             $("#addFromPurchaseOrderItem").find("input[name='purchaseDetailId']").val(purchaseOrderDetailsId);
@@ -575,7 +581,7 @@
             $("#addFromPurchaseOrderItem").find("input[name='model']").val(purchaseOrderModel);
             $("#addFromPurchaseOrderItem").find("input[name='unit']").val(purchaseOrderUnit);
             $("#addFromPurchaseOrderItem").find("input[name='price']").val(purchaseOrderPrice);
-            $("#addFromPurchaseOrderItem").find("input[name='settleAmout']").val(settlePrice);
+            $("#addFromPurchaseOrderItem").find("input[name='settleAmout']").val(settleAmount);
             $("#addFromPurchaseOrderItem").find("input[name='settlePrice']").val(settlePrice);
             $("#addFromPurchaseOrderItem").find("input[name='contractCount']").val(purchaseOrderAmount);
             if(purchaseOrderWarrantyDate != undefined){
@@ -625,7 +631,8 @@
                                 $("#addFromPurchaseOrderItem").find("input[name='constructionSite']").val(data.constructionSite);
                                 $("#addFromPurchaseOrderItem").find("input[name='projectContent']").val(data.projectContent);
                                 $("#addFromPurchaseOrderItem").find("input[name='model']").val(data.model);
-
+                                $("#addFromPurchaseOrderItem").find("input[name='price']").val(data.price);
+                                $("#addFromPurchaseOrderItem").find("input[name='contractCount']").val(data.contractCount);
                                 $("#addFromPurchaseOrderItem").find("input[name='unit']").val(data.unit);
                                 $("#addFromPurchaseOrderItem").find("input[name='settleAmout']").val(data.settleAmout);
                                 $("#addFromPurchaseOrderItem").find("input[name='settlePrice']").val(data.settlePrice);
@@ -643,7 +650,20 @@
                 },false);
             }
         }
+
+        //计算金额
+        document.getElementById("settleAmout").addEventListener("change", totalPriceReckon, false);
+        function totalPriceReckon(){
+            debugger
+            var amount = document.getElementById("settleAmout");
+            var price = document.getElementById("price");
+            if(price.value != "" && amount.value != ""){
+                var applyPrice = price.value * amount.value;
+                document.getElementById("settlePrice").value = applyPrice;
+            }
+        }
     });
+
 
     (function($) {
         $.init();
