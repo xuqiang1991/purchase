@@ -140,9 +140,18 @@ public class CAMServiceImpl implements CAMService {
             camMapper.insertSelective(order);
         }else {
             id = order.getId();
-            String sourceOrderId = order.getSourceOrderId();
-            BizPurchaseOrder purchaseOrder = purchaseOrderMapper.selectByPrimaryKey(sourceOrderId);
 
+            //查询付款单订单来源是否改变，如果改变了，清空明细
+            String sourceOrderId = order.getSourceOrderId();
+            BizContractApplyMoney contractApplyMoney = camMapper.selectByPrimaryKey(id);
+            String oldSourceOrderId = contractApplyMoney.getSourceOrderId();
+            if(sourceOrderId.equals(oldSourceOrderId)){
+                BizContractApplyMoneyDetailExample example = new BizContractApplyMoneyDetailExample();
+                example.createCriteria().andOrderNoEqualTo(id);
+                contractApplyMoneyDetailMapper.deleteByExample(example);
+            }
+
+            BizPurchaseOrder purchaseOrder = purchaseOrderMapper.selectByPrimaryKey(sourceOrderId);
             //所属项目
             String projectId = purchaseOrder.getProjectId();
             order.setProjectId(projectId);

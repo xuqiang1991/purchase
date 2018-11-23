@@ -186,7 +186,7 @@
                 <form class="mui-input-group" id="addFromPurchaseOrderItem">
                     <div class="mui-input-row">
                         <label>施工部位</label>
-                        <input type="text" name="constructionSite" class="mui-input-clear" mui-verify="required" placeholder="请输入数量">
+                        <input type="text" name="constructionSite" class="mui-input-clear" mui-verify="required" placeholder="请施工部位">
                     </div>
                     <div class="mui-input-row">
                         <label>项目内容</label>
@@ -201,12 +201,16 @@
                         <input type="text" name="unit" class="mui-input-clear" mui-verify="required" placeholder="请输入单位">
                     </div>
                     <div class="mui-input-row">
-                        <label>结算数量</label>
-                        <input type="number" name="settleAmout" class="mui-input-clear" mui-verify="required" placeholder="请输入结算数量">
+                        <label>单价</label>
+                        <input type="price" name="price" class="mui-input-clear" mui-verify="required" readonly unselectable="no">
+                    </div>
+                    <div class="mui-input-row">
+                        <label>合同数量</label>
+                        <input type="number" name="settleAmout" class="mui-input-clear" mui-verify="required" readonly unselectable="no">
                     </div>
                     <div class="mui-input-row">
                         <label>结算金额</label>
-                        <input type="number" name="settlePrice" class="mui-input-clear" mui-verify="required" placeholder="请输入结算金额">
+                        <input type="number" name="settlePrice" class="mui-input-clear" mui-verify="required" readonly  unselectable="no">
                     </div>
                     <c:if test="${detailsVo.order.orderType == 1}">
                         <div class="mui-input-row">
@@ -253,7 +257,7 @@
                                             <img src="${ctx }/images/icon/contract_apply_money.png">
                                             <div class="mui-media-body">
                                                 <label>材料/项目内容</label>
-                                                <p>
+                                                <p name="purchaseOrderContent" v="${item.content}">
                                                     ${item.content}
                                                 </p>
                                             </div>
@@ -261,19 +265,19 @@
                                         <div class="mui-card-content">
                                             <div class="mui-card-content-inner">
                                                 <p>
-                                                    <label>规格：${item.model}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <label>单位：${item.unit}</label>
+                                                    <label name="purchaseOrderModel" v="${item.model}">规格：${item.model}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <label name="purchaseOrderUnit" v="${item.unit}">单位：${item.unit}</label>
                                                 </p>
                                                 <p>
-                                                    <label>单价:${item.price}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <label>数量：${item.amount}</label>
+                                                    <label name="purchaseOrderPrice" v="${item.price}">单价:${item.price}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <label name="purchaseOrderAmount" v="${item.amount}">数量：${item.amount}</label>
                                                 </p>
                                                 <p>
                                                     <c:if test="${detailsVo.order.purchaseOrderVo.type == 1}">
-                                                        <label>质保期（月）：${item.warrantyDate}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <label name="purchaseOrderWarrantyDate" v="${item.warrantyDate}">质保期（月）：${item.warrantyDate}</label>&nbsp;&nbsp;&nbsp;&nbsp;
                                                     </c:if>
                                                     <c:if test="${detailsVo.order.purchaseOrderVo.type == 2}">
-                                                        <label>日期：<fmt:formatDate value="${item.date}" pattern="yyyy-MM-dd"/></label>
+                                                        <label name="purchaseOrderDate"  v="${item.date}">日期：<fmt:formatDate value="${item.date}" pattern="yyyy-MM-dd"/></label>
                                                     </c:if>
                                                 </p>
                                                 <p>
@@ -287,9 +291,9 @@
                             </li>
                         </c:forEach>
                     </ul>
-                    <div class="mui-button-row">
-                        <button class="mui-btn mui-btn-primary" id="search-btn" type="button">确认</button>&nbsp;&nbsp;
-                        <button class="mui-btn mui-btn-danger"  id="cancel-btn" type="button">取消</button>
+                    <div class="mui-button-row" style="padding-bottom: 20px;">
+                        <button type="button" class="mui-btn mui-btn-primary account-cancel" onclick="cancel();">取消</button>&nbsp;&nbsp;
+                        <button type="button" class="mui-btn mui-btn-danger account-ensure" onclick="projectEnsure();">确定</button>
                     </div>
                 </form>
             </div>
@@ -508,6 +512,52 @@
 
         });
     });
+
+
+    //选择采购单明细
+    var oldBack = mui.back;
+    function cancel(){
+        if (viewApi.canBack()) { //如果view可以后退，则执行view的后退
+            viewApi.back();
+        } else { //执行webview后退
+            oldBack();
+        }
+    }
+    function projectEnsure(){
+        var accountSelected = $("#fromPurchaseOrderDetailsItem").find("li").hasClass("mui-selected");
+        if(accountSelected){
+            //获取采购单参数
+            var li = $("#fromPurchaseOrderDetailsItem").find("li.mui-selected");
+            var purchaseOrderContent = $(li).find('p[name="purchaseOrderContent"]').attr("v");
+            var purchaseOrderModel = $(li).find('label[name="purchaseOrderModel"]').attr("v");
+            var purchaseOrderUnit = $(li).find('label[name="purchaseOrderUnit"]').attr("v");
+            var purchaseOrderPrice = $(li).find('label[name="purchaseOrderPrice"]').attr("v");
+            var purchaseOrderAmount = $(li).find('label[name="purchaseOrderAmount"]').attr("v");
+            var purchaseOrderWarrantyDate = $(li).find('label[name="purchaseOrderWarrantyDate"]').attr("v");
+            var purchaseOrderDate = $(li).find('label[name="purchaseOrderDate"]').attr("v");
+
+            //结算金额
+            var settlePrice = purchaseOrderPrice * purchaseOrderAmount;
+
+            //赋值到请款单
+            $("#addFromPurchaseOrderItem").find("input[name='projectContent']").val(purchaseOrderContent);
+            $("#addFromPurchaseOrderItem").find("input[name='model']").val(purchaseOrderModel);
+            $("#addFromPurchaseOrderItem").find("input[name='unit']").val(purchaseOrderUnit);
+            $("#addFromPurchaseOrderItem").find("input[name='price']").val(purchaseOrderPrice);
+            $("#addFromPurchaseOrderItem").find("input[name='settleAmout']").val(purchaseOrderAmount);
+            $("#addFromPurchaseOrderItem").find("input[name='settlePrice']").val(settlePrice);
+            if(purchaseOrderWarrantyDate != undefined){
+                $("#addFromPurchaseOrderItem").find("input[name='warrantyDate']").val(purchaseOrderWarrantyDate);
+            }
+            if(purchaseOrderDate != undefined){
+                $("#addFromPurchaseOrderItem").find("input[name='date']").val(purchaseOrderDate);
+            }
+            viewApi.go("#fromPurchaseOrderItem");
+        }else{
+            mui.toast('您尚未选择，请选择后确定',{ duration:'long', type:'div' })
+        }
+    }
+
 
     var camVoOrderType = '${detailsVo.order.orderType}';
     //初始化数据

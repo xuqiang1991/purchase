@@ -196,8 +196,16 @@
 
     /** start 选择来源订单 **/
     mui(document.body).on('tap', '#search-btn', function(e) {
-        $('#searchCollapse').removeClass('mui-active')
-        $purchaseOrder.projectList();
+        var selectProjectHidden = $('#selectProjectHidden').val();
+        if(!(selectProjectHidden == '' && selectProjectHidden == null)){
+            mui.alert('修改订单来源会清空请款单明细，确认操作？' , function() {
+                $('#searchCollapse').removeClass('mui-active')
+                $purchaseOrder.projectList();
+            });
+        }else {
+            $('#searchCollapse').removeClass('mui-active')
+            $purchaseOrder.projectList();
+        }
     });
 
     mui(document.body).on('tap', '#cancel-btn', function(e) {
