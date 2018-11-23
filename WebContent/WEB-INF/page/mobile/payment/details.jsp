@@ -215,9 +215,9 @@
                 </div>
                 <c:if test="${order.status != 2}">
                     <div class="mui-content-padded">
-                        <c:if test="${order.financePayment != 1}">
+                        <c:if test="${order.financePaymentApproval != 1}">
                             <a href="#fromPurchaseOrderItem" name="app-a" data-id="${order.id}">
-                                <button type="button" class="mui-btn mui-btn-primary mui-btn-block" value="${detailsVo.id}">修改</button>
+                                <button type="button" class="mui-btn mui-btn-primary mui-btn-block" value="${order.id}">修改</button>
                             </a>
                         </c:if>
                         <c:if test="${!empty order.reviewUserId}">
