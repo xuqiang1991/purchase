@@ -209,7 +209,7 @@
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>财务付款状态</label>
-                    <label style="width: 50%;padding-left: 0px;">${detailsVo.financePaymentApprovalName}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.financePaymentName}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>财务付款人</label>
@@ -234,7 +234,7 @@
                             <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">审核</button>
                         </c:if>
                         <c:if test="${!empty detailsVo.financeUserId}">
-                            <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">提交</button>
+                            <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">付款</button>
                         </c:if>
                     </div>
                 </c:if>

@@ -16,6 +16,16 @@
         .mui-popover .mui-popover-arrow:after {
             width: 0px;
         }
+        .mui-input-row label{
+            width: 40%;
+        }
+        .mui-input-row label~input{
+            width: 60%;
+        }
+        .mui-input-row label~label{
+            width: 60%;
+            padding: 11px 0px;
+        }
     </style>
 </head>
 <body class="mui-fullscreen">
@@ -46,31 +56,39 @@
                                 <input type="hidden" name="purchaseNo" id="purchaseNo" value="${detailsVo.purchaseOrder.purchaseNo}">
                                 <div class="mui-input-row">
                                     <label>合同编号</label>
-                                    <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.purchaseNo}</label>
+                                    <label>${detailsVo.purchaseOrder.purchaseNo}</label>
                                 </div>
                                 <div class="mui-input-row">
                                     <label>订单类型</label>
-                                    <label style="width: 65%;padding-left: 0px;">${detailsVo.type}</label>
+                                    <label>${detailsVo.type}</label>
                                 </div>
                                 <div class="mui-input-row">
                                     <label>供应商</label>
-                                    <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.supplier.name}</label>
+                                    <label>${detailsVo.purchaseOrder.supplier.name}</label>
                                 </div>
                                 <div class="mui-input-row">
                                     <label>所属项目</label>
-                                    <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.projectManger.name}</label>
+                                    <label>${detailsVo.purchaseOrder.projectManger.name}</label>
                                 </div>
                                 <div class="mui-input-row">
                                     <label>合同号</label>
-                                    <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.contractNo}</label>
+                                    <label>${detailsVo.purchaseOrder.contractNo}</label>
                                 </div>
                                 <div class="mui-input-row">
                                     <label>合同总金额</label>
-                                    <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.contractMoney}</label>
+                                    <label>${detailsVo.purchaseOrder.contractMoney}</label>
+                                </div>
+                                <div class="mui-input-row">
+                                    <label>已请款金额</label>
+                                    <label>${detailsVo.purchaseOrder.requestAmount}</label>
+                                </div>
+                                <div class="mui-input-row">
+                                    <label>已付款金额</label>
+                                    <label>${detailsVo.purchaseOrder.paymentAmount}</label>
                                 </div>
                                 <div class="mui-input-row mui-input-range">
                                     <label>付款比例(%)</label>
-                                    <label style="width: 65%;padding-left: 0px;">${detailsVo.purchaseOrder.paymentRatio}%</label>
+                                    <label>${detailsVo.purchaseOrder.paymentRatio}%</label>
                                 </div>
                                 <div>
                                     <textarea name="summary" id="summary" rows="5" class="mui-input-clear" readonly="readonly">${detailsVo.purchaseOrder.summary}</textarea>
