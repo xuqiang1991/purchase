@@ -141,39 +141,22 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         int status = order.getStatus();
 
 
-        Long reviewer = null;
-        Boolean reviewerResults = null;
         if(status == 0){//总经理审核
             TbAdminExample adminExample = new TbAdminExample();
             TbAdminExample.Criteria adminCriteria = adminExample.createCriteria();
             adminCriteria.andIdEqualTo(admin.getId());
             List<TbRoles> roles = adminMapper.selectRoleByExample(adminExample);
-            if(!roles.contains("总经理")){
+            List<String> roleNames = Lists.transform(roles, entity -> entity.getRoleName());
+            if(!roleNames.contains("总经理")){
                 return ResultUtil.error("没有审核权限!");
             }
-            //判断审核人
-            reviewer = order.getManagerDepartUser();
-            reviewerResults = order.getManagerDepartApproval();
         }else if(status == 1){
             if(order.getFinancePaymentUser() != userId.longValue()){
                 return ResultUtil.error("没有审核权限!");
             }
-            reviewer = order.getFinancePaymentUser();
-            reviewerResults = order.getFinancePaymentApproval();
         }else {
             return ResultUtil.error("订单不需要审核");
         }
-
-        if(reviewer == null){
-            return ResultUtil.error("审核人不存在");
-        }
-        if(reviewer.compareTo(userId) != 0){
-            return ResultUtil.error("没有审核权限！");
-        }
-        if(reviewerResults != null && reviewerResults){
-            return ResultUtil.error("请不要重新审核！");
-        }
-
 
         //审核状态
         BizPaymentOrder tmp = new BizPaymentOrder();
@@ -194,54 +177,69 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
             tmp.setFinancePaymentUser(userId);
         }
 
-        //审核不通过
-        if(!auditResults){
+        //审核通过
+        if(auditResults){
+            //财务付款
+            if(tmp.getStatus() == 2){
+                int applyType = order.getApplyType();
+                String contractOrderNo = order.getContractOrderNo();
+                if(applyType == 0){
+                    //回写采购单
+                    String purchaseNo = order.getPurchaseNo();
+                    BizPurchaseOrder purchaseOrder = purchaseOrderMapper.selectByPurchaseNo(purchaseNo);
+                    BizPurchaseOrder pTmp = new BizPurchaseOrder();
+                    pTmp.setId(purchaseOrder.getId());
+                    BigDecimal paymentAmount = purchaseOrder.getPaymentAmount();
+                    if(paymentAmount == null){
+                        paymentAmount = new BigDecimal(0);
+                    }
+                    pTmp.setPaymentAmount(new BigDecimal(order.getAmountPaid()).add(paymentAmount));
+                    purchaseOrderMapper.updateByPrimaryKeySelective(pTmp);
+
+
+                    //回写请款单
+                    BizContractApplyMoney contractApplyMoney = contractApplyMoneyMapper.selectByOrderNo(contractOrderNo);
+                    BizContractApplyMoney cTmp = new BizContractApplyMoney();
+                    cTmp.setId(contractApplyMoney.getId());
+                    BigDecimal actualPrice = contractApplyMoney.getActualPrice();
+                    if(actualPrice == null){
+                        actualPrice = new BigDecimal(0);
+                    }
+                    cTmp.setActualPrice(new BigDecimal(order.getAmountPaid()).add(actualPrice));
+                    contractApplyMoneyMapper.updateByPrimaryKey(cTmp);
+                }else {
+                    //回写请款单
+                    BizUncontractApplyMoney uContractApplyMoney = uContractApplyMoneyMapper.selectByOrderNo(contractOrderNo);
+                    BizUncontractApplyMoney cTmp = new BizUncontractApplyMoney();
+                    cTmp.setId(uContractApplyMoney.getId());
+                    BigDecimal actualPrice = uContractApplyMoney.getActualPrice();
+                    if(actualPrice == null){
+                        actualPrice = new BigDecimal(0);
+                    }
+                    cTmp.setActualPrice(new BigDecimal(order.getAmountPaid()).add(actualPrice));
+                    uContractApplyMoneyMapper.updateByPrimaryKey(cTmp);
+                }
+            }
+
+        }else {
+            //审核不通过
+            tmp.setFinancePaymentUser(null);
+            tmp.setManagerDepartUser(null);
+
+            tmp.setFinancePaymentDate(null);
+            tmp.setManagerDepartDate(null);
+
+            tmp.setFinancePaymentApproval(null);
+            tmp.setManagerDepartApproval(null);
+
+            tmp.setFinancePaymentOpinion(null);
+            tmp.setFinancePaymentOpinion(null);
+
             tmp.setStatus(0);
         }
 
         bizPaymentOrderMapper.updateByPrimaryKeySelective(tmp);
 
-        //财务付款
-        if(tmp.getStatus() == 2){
-            int applyType = order.getApplyType();
-            String contractOrderNo = order.getContractOrderNo();
-            if(applyType == 0){
-                //回写采购单
-                String purchaseNo = order.getPurchaseNo();
-                BizPurchaseOrder purchaseOrder = purchaseOrderMapper.selectByPurchaseNo(purchaseNo);
-                BizPurchaseOrder pTmp = new BizPurchaseOrder();
-                pTmp.setId(purchaseOrder.getId());
-                BigDecimal paymentAmount = purchaseOrder.getPaymentAmount();
-                if(paymentAmount == null){
-                    paymentAmount = new BigDecimal(0);
-                }
-                pTmp.setPaymentAmount(new BigDecimal(order.getAmountPaid()).add(paymentAmount));
-                purchaseOrderMapper.updateByPrimaryKeySelective(pTmp);
-
-
-                //回写请款单
-                BizContractApplyMoney contractApplyMoney = contractApplyMoneyMapper.selectByOrderNo(contractOrderNo);
-                BizContractApplyMoney cTmp = new BizContractApplyMoney();
-                cTmp.setId(contractApplyMoney.getId());
-                BigDecimal actualPrice = contractApplyMoney.getActualPrice();
-                if(actualPrice == null){
-                    actualPrice = new BigDecimal(0);
-                }
-                cTmp.setActualPrice(new BigDecimal(order.getAmountPaid()).add(actualPrice));
-                contractApplyMoneyMapper.updateByPrimaryKey(cTmp);
-            }else {
-                //回写请款单
-                BizUncontractApplyMoney uContractApplyMoney = uContractApplyMoneyMapper.selectByOrderNo(contractOrderNo);
-                BizUncontractApplyMoney cTmp = new BizUncontractApplyMoney();
-                cTmp.setId(uContractApplyMoney.getId());
-                BigDecimal actualPrice = uContractApplyMoney.getActualPrice();
-                if(actualPrice == null){
-                    actualPrice = new BigDecimal(0);
-                }
-                cTmp.setActualPrice(new BigDecimal(order.getAmountPaid()).add(actualPrice));
-                uContractApplyMoneyMapper.updateByPrimaryKey(cTmp);
-            }
-        }
         return ResultUtil.ok();
     }
 

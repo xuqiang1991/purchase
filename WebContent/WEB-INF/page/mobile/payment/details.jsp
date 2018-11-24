@@ -51,189 +51,189 @@
                 <!-- 主界面具体展示内容 -->
                 <div class="mui-input-row">
                     <label>订单号</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.orderNo}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.orderNo}</label>
                 </div>
                 <div class="mui-input-row">
                     <label>请款类型</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.applyTypeName}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.applyTypeName}</label>
                 </div>
-                <c:if test="${!empty order.purchaseNo}">
+                <c:if test="${!empty detailsVo.purchaseNo}">
                     <div class="mui-input-row">
                         <label>请款性质</label>
-                        <label style="width: 50%;padding-left: 0px;">${order.applyNatureName}</label>
+                        <label style="width: 50%;padding-left: 0px;">${detailsVo.applyNatureName}</label>
                     </div>
                 </c:if>
                 <div class="mui-input-row">
                     <label>开单人</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.admin.fullname}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.admin.fullname}</label>
                 </div>
                 <div class="mui-input-row">
                     <label>开单日期</label>
-                    <label style="width: 50%;padding-left: 0px;"><fmt:formatDate value="${order.createTime}" pattern="yyyy-MM-dd"/></label>
+                    <label style="width: 50%;padding-left: 0px;"><fmt:formatDate value="${detailsVo.createTime}" pattern="yyyy-MM-dd"/></label>
                 </div>
                 <div class="mui-input-row">
                     <label>供应商</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.supplier.name}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.supplier.name}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>请款人</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.applyAdmin.fullname}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.applyAdmin.fullname}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>请款人电话</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.applyUserPhone}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.applyUserPhone}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>所属项目</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.projectManger.name}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.projectManger.name}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>所属合同</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.contractId}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.contractId}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>申请金额</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.applyPrice}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.applyPrice}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>审定金额</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.approvalPrice}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.approvalPrice}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>扣质保金</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.guaranteePrice}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.guaranteePrice}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>扣预付款</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.advancePrice}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.advancePrice}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>其它扣款</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.otherPrice}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.otherPrice}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>实付金额</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.actualPrice}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.actualPrice}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>付款方式</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.paymentTypeName}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.paymentTypeName}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>商票期限</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.spqxTerm}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.spqxTerm}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>保理期限</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.blqxTerm}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.blqxTerm}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>付款凭证号</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.paymentVoucherNo}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.paymentVoucherNo}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>垫付比</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.advanceRate}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.advanceRate}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>成本率</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.costRate}%</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.costRate}%</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>收支比</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.financialRate}%</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.financialRate}%</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>税率</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.taxRate}%</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.taxRate}%</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>合同量</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.contractVolume}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.contractVolume}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>完成量(供货量)</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.finishMeasure}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.finishMeasure}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>已付金额</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.amountPaid}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.amountPaid}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>已付比例</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.paidProportion}%</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.paidProportion}%</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>支付比例</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.paymentProportion}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.paymentProportion}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>发票类型</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.invoiceType}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.invoiceType}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>专票税率</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.specialTaxRate}%</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.specialTaxRate}%</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>质量验收</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.qualityGradeName}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.qualityGradeName}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>质量评定人</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.qualityAssessor}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.qualityAssessor}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>单据状态</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.statusName}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.statusName}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>摘要</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.summary}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.summary}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>总经理审批状态</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.managerDepartApprovalName}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.managerDepartApprovalName}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>总经理审批人</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.managerAdmin.fullname}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.managerAdmin.fullname}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>总经理审批时间</label>
-                    <label style="width: 50%;padding-left: 0px;"><fmt:formatDate value="${order.managerDepartDate}" pattern="yyyy-MM-dd"/></label>
+                    <label style="width: 50%;padding-left: 0px;"><fmt:formatDate value="${detailsVo.managerDepartDate}" pattern="yyyy-MM-dd"/></label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>总经理审批意见</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.managerDepartOpinion}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.managerDepartOpinion}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>财务付款状态</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.financePaymentApprovalName}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.financePaymentApprovalName}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>财务付款人</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.financeAdmin.fullname}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.financeAdmin.fullname}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>财务付款时间</label>
-                    <label style="width: 50%;padding-left: 0px;"><fmt:formatDate value="${order.financePaymentDate}" pattern="yyyy-MM-dd"/></label>
+                    <label style="width: 50%;padding-left: 0px;"><fmt:formatDate value="${detailsVo.financePaymentDate}" pattern="yyyy-MM-dd"/></label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>财务付款意见</label>
-                    <label style="width: 50%;padding-left: 0px;">${order.financePaymentOpinion}</label>
+                    <label style="width: 50%;padding-left: 0px;">${detailsVo.financePaymentOpinion}</label>
                 </div>
-                <c:if test="${order.status != 2}">
+                <c:if test="${detailsVo.status != 2}">
                     <div class="mui-content-padded">
-                        <c:if test="${order.financePaymentApproval != 1}">
-                            <a href="#fromPurchaseOrderItem" name="app-a" data-id="${order.id}">
-                                <button type="button" class="mui-btn mui-btn-primary mui-btn-block" value="${order.id}">修改</button>
+                        <c:if test="${detailsVo.financePaymentApproval != 1}">
+                            <a href="#fromPurchaseOrderItem" name="app-a" data-id="${detailsVo.id}">
+                                <button type="button" class="mui-btn mui-btn-primary mui-btn-block" value="${detailsVo.id}">修改</button>
                             </a>
                         </c:if>
-                        <c:if test="${!empty order.reviewUserId}">
+                        <c:if test="${!empty detailsVo.reviewUserId}">
                             <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">审核</button>
                         </c:if>
-                        <c:if test="${!empty order.financeUserId}">
+                        <c:if test="${!empty detailsVo.financeUserId}">
                             <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">提交</button>
                         </c:if>
                     </div>
@@ -256,150 +256,150 @@
         <div class="mui-scroll-wrapper">
             <div class="mui-scroll">
                 <form class="mui-input-group" id="editPaymentOrder">
-                    <input type="hidden" id="id" name="id" value="${order.id}">
+                    <input type="hidden" id="id" name="id" value="${detailsVo.id}">
                     <div class="mui-input-row">
                         <label>订单号</label>
-                        <label>${order.orderNo}</label>
+                        <label>${detailsVo.orderNo}</label>
                     </div>
                     <div class="mui-input-row">
                         <label>请款类型</label>
                         <input type="text" id="applyTypeName" class="mui-input-clear" placeholder="请选择请款类型" mui-verify="required">
-                        <input type="hidden" id="applyType" name="applyType" value="${order.applyType}">
+                        <input type="hidden" id="applyType" name="applyType" value="${detailsVo.applyType}">
                     </div>
                     <div class="mui-input-row">
                         <label>请款性质</label>
                         <input type="text" id="applyNatureName" class="mui-input-clear" placeholder="请选择请款性质" mui-verify="required">
-                        <input type="hidden" id="applyNature" name="applyNature" value="${order.applyNature}">
+                        <input type="hidden" id="applyNature" name="applyNature" value="${detailsVo.applyNature}">
                     </div>
                     <div class="mui-input-row">
                         <label>开单人</label>
-                        <label>${order.admin.fullname}</label>
+                        <label>${detailsVo.admin.fullname}</label>
                     </div>
                     <div class="mui-input-row">
                         <label>开单日期</label>
-                        <label><fmt:formatDate value="${order.createTime}" pattern="yyyy-MM-dd"/></label>
+                        <label><fmt:formatDate value="${detailsVo.createTime}" pattern="yyyy-MM-dd"/></label>
                     </div>
                     <div class="mui-input-row">
                         <label>供应商</label>
-                        <label>${order.supplier.name}</label>
+                        <label>${detailsVo.supplier.name}</label>
                     </div>
                     <div class="mui-input-row mui-input-range">
                         <label>请款人</label>
-                        <label>${order.applyAdmin.fullname}</label>
+                        <label>${detailsVo.applyAdmin.fullname}</label>
                     </div>
                     <div class="mui-input-row mui-input-range">
                         <label>请款人电话</label>
-                        <label>${order.applyUserPhone}</label>
+                        <label>${detailsVo.applyUserPhone}</label>
                     </div>
                     <div class="mui-input-row mui-input-range">
                         <label>所属项目</label>
-                        <label>${order.projectManger.name}</label>
+                        <label>${detailsVo.projectManger.name}</label>
                     </div>
                     <div class="mui-input-row mui-input-range">
                         <label>所属合同</label>
-                        <label>${order.contractId}</label>
+                        <label>${detailsVo.contractId}</label>
                     </div>
                     <div class="mui-input-row mui-input-range">
                         <label>申请金额</label>
-                        <label>${order.applyPrice}</label>
+                        <label>${detailsVo.applyPrice}</label>
                     </div>
                     <div class="mui-input-row mui-input-range">
                         <label>审定金额</label>
-                        <label>${order.approvalPrice}</label>
+                        <label>${detailsVo.approvalPrice}</label>
                     </div>
                     <div class="mui-input-row">
                         <label>扣质保金</label>
-                        <input type="number" id="guaranteePrice" name="guaranteePrice" value="${order.guaranteePrice}" placeholder="请输入扣质保金">
+                        <input type="number" id="guaranteePrice" name="guaranteePrice" value="${detailsVo.guaranteePrice}" placeholder="请输入扣质保金">
                     </div>
                     <div class="mui-input-row">
                         <label>扣预付款</label>
-                        <input type="number" id="advancePrice" name="advancePrice" value="${order.advancePrice}" placeholder="请输入扣预付款">
+                        <input type="number" id="advancePrice" name="advancePrice" value="${detailsVo.advancePrice}" placeholder="请输入扣预付款">
                     </div>
                     <div class="mui-input-row">
                         <label>其它扣款</label>
-                        <input type="number" id="otherPrice" name="otherPrice" value="${order.otherPrice}" placeholder="请输入其它扣款">
+                        <input type="number" id="otherPrice" name="otherPrice" value="${detailsVo.otherPrice}" placeholder="请输入其它扣款">
                     </div>
                     <div class="mui-input-row mui-input-range">
                         <label>实付金额</label>
-                        <input type="number" id="actualPrice" name="actualPrice" value="${order.actualPrice}" readonly>
+                        <input type="number" id="actualPrice" name="actualPrice" value="${detailsVo.actualPrice}" readonly>
                     </div>
                     <div class="mui-input-row">
                         <label>付款方式</label>
                         <input type="text" id="paymentTypeName" class="mui-input-clear" placeholder="请选择付款方式" mui-verify="required">
-                        <input type="hidden" id="paymentType" name="paymentType" value="${order.applyNature}">
+                        <input type="hidden" id="paymentType" name="paymentType" value="${detailsVo.applyNature}">
                     </div>
                     <div class="mui-input-row">
                         <label>商票期限(月)</label>
-                        <input type="number" id="spqxTerm" name="spqxTerm" value="${order.spqxTerm}" placeholder="请输入商票期限(月)">
+                        <input type="number" id="spqxTerm" name="spqxTerm" value="${detailsVo.spqxTerm}" placeholder="请输入商票期限(月)">
                     </div>
                     <div class="mui-input-row">
                         <label>保理期限(月)</label>
-                        <input type="number" id="blqxTerm" name="blqxTerm" value="${order.blqxTerm}" placeholder="请输入保理期限(月)">
+                        <input type="number" id="blqxTerm" name="blqxTerm" value="${detailsVo.blqxTerm}" placeholder="请输入保理期限(月)">
                     </div>
                     <div class="mui-input-row">
                         <label>付款凭证号</label>
-                        <input type="number" id="paymentVoucherNo" name="paymentVoucherNo" value="${order.paymentVoucherNo}" placeholder="请输入付款凭证号">
+                        <input type="number" id="paymentVoucherNo" name="paymentVoucherNo" value="${detailsVo.paymentVoucherNo}" placeholder="请输入付款凭证号">
                     </div>
                     <div class="mui-input-row">
                         <label>垫付比</label>
-                        <input type="number" id="advanceRate" name="advanceRate" value="${order.advanceRate}" placeholder="请输入垫付比">
+                        <input type="number" id="advanceRate" name="advanceRate" value="${detailsVo.advanceRate}" placeholder="请输入垫付比">
                     </div>
                     <div class="mui-input-row">
                         <label>成本率</label>
-                        <input type="number" id="costRate" name="costRate" value="${order.costRate}" placeholder="请输入成本率">
+                        <input type="number" id="costRate" name="costRate" value="${detailsVo.costRate}" placeholder="请输入成本率">
                     </div>
                     <div class="mui-input-row">
                         <label>收支比</label>
-                        <input type="number" id="financialRate" name="financialRate" value="${order.financialRate}" placeholder="请输入收支比">
+                        <input type="number" id="financialRate" name="financialRate" value="${detailsVo.financialRate}" placeholder="请输入收支比">
                     </div>
                     <div class="mui-input-row">
                         <label>税率</label>
-                        <input type="number" id="taxRate" name="taxRate" value="${order.taxRate}" placeholder="请输入税率">
+                        <input type="number" id="taxRate" name="taxRate" value="${detailsVo.taxRate}" placeholder="请输入税率">
                     </div>
                     <div class="mui-input-row">
                         <label>合同量</label>
-                        <input type="number" id="contractVolume" name="contractVolume" value="${order.contractVolume}" placeholder="请输入合同量">
+                        <input type="number" id="contractVolume" name="contractVolume" value="${detailsVo.contractVolume}" placeholder="请输入合同量">
                     </div>
                     <div class="mui-input-row">
                         <label>完成量(供货量)</label>
-                        <input type="number" id="finishMeasure" name="finishMeasure" value="${order.finishMeasure}" placeholder="请输入完成量(供货量)">
+                        <input type="number" id="finishMeasure" name="finishMeasure" value="${detailsVo.finishMeasure}" placeholder="请输入完成量(供货量)">
                     </div>
                     <div class="mui-input-row">
                         <label>已付金额</label>
-                        <input type="number" id="amountPaid" name="amountPaid" value="${order.amountPaid}" placeholder="请输入已付金额">
+                        <input type="number" id="amountPaid" name="amountPaid" value="${detailsVo.amountPaid}" placeholder="请输入已付金额">
                     </div>
                     <div class="mui-input-row mui-input-range">
                         <label>已付比例</label>
-                        <label>${order.paidProportion}%</label>
+                        <label>${detailsVo.paidProportion}%</label>
                     </div>
                     <div class="mui-input-row mui-input-range">
                         <label>支付比例</label>
-                        <label>${order.paymentProportion}</label>
+                        <label>${detailsVo.paymentProportion}</label>
                     </div>
                     <div class="mui-input-row">
                         <label>发票类型</label>
                         <input type="text" id="invoiceTypeName" class="mui-input-clear" placeholder="请选择发票类型" mui-verify="required" >
-                        <input type="hidden" id="invoiceType" name="invoiceType" value="${order.invoiceType}">
+                        <input type="hidden" id="invoiceType" name="invoiceType" value="${detailsVo.invoiceType}">
                     </div>
                     <div class="mui-input-row">
                         <label>专票税率</label>
-                        <input type="number" id="specialTaxRate" name="specialTaxRate" value="${order.specialTaxRate}" placeholder="请输入专票税率">
+                        <input type="number" id="specialTaxRate" name="specialTaxRate" value="${detailsVo.specialTaxRate}" placeholder="请输入专票税率">
                     </div>
                     <div class="mui-input-row">
                         <label>质量验收</label>
                         <input type="text" id="qualityGradeName" class="mui-input-clear" placeholder="请选择质量验收" mui-verify="required" >
-                        <input type="hidden" id="qualityGrade" name="qualityGrade" value="${order.invoiceType}">
+                        <input type="hidden" id="qualityGrade" name="qualityGrade" value="${detailsVo.invoiceType}">
                     </div>
                     <div class="mui-input-row">
                         <label>质量评定人</label>
-                        <input type="number" id="qualityAssessor" name="qualityAssessor" value="${order.qualityAssessor}" placeholder="请输入质量评定人">
+                        <input type="number" id="qualityAssessor" name="qualityAssessor" value="${detailsVo.qualityAssessor}" placeholder="请输入质量评定人">
                     </div>
                     <div class="mui-input-row mui-input-range">
                         <label>单据状态</label>
-                        <label>${order.statusName}</label>
+                        <label>${detailsVo.statusName}</label>
                     </div>
                     <div>
-                        <textarea name="summary" id="summary" rows="5" class="mui-input-clear" placeholder="摘要">${order.summary}</textarea>
+                        <textarea name="summary" id="summary" rows="5" class="mui-input-clear" placeholder="摘要">${detailsVo.summary}</textarea>
                     </div>
                     <div class="mui-button-row" style="padding-bottom: 20px;">
                         <button type="button" class="mui-btn mui-btn-primary" id="submitFromPurchaseOrderItem">保存</button>
@@ -455,7 +455,7 @@
                         mui.alert(result.msg);
                     }else {
                         mui.alert('编辑成功！', function() {
-                            document.location.href='${ctx }/mobile/paymentOrder/toDetails/${order.id}';
+                            document.location.href='${ctx }/mobile/paymentOrder/toDetails/${detailsVo.id}';
                         });
                     }
                 }
@@ -576,9 +576,9 @@
 </script>
 
 <!-- 审核 -->
-<c:set value="${ctx}/mobile/purchase/toDetails/${order.id}" var="reviewRefreshUrl"/>
-<c:set value="${ctx}/mobile/paymentOrder/reviewOrder/${order.id}" var="reviewSaveUrl"/>
-<c:set value="${order.status}" var="reviewStatus"/>
+<c:set value="${ctx}/mobile/purchase/toDetails/${detailsVo.id}" var="reviewRefreshUrl"/>
+<c:set value="${ctx}/mobile/paymentOrder/reviewOrder/${detailsVo.id}" var="reviewSaveUrl"/>
+<c:set value="${detailsVo.status}" var="reviewStatus"/>
 <c:set value="3" var="reviewType"/>
 <%@ include file="/WEB-INF/page/mobile/common/review.jsp"%>
 <!-- 审核 -->

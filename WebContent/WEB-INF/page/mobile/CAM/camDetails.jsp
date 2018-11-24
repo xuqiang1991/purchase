@@ -543,12 +543,10 @@
             mui.alert("请先添加明细！");
             return false;
         </c:if>
-
-        var checkC = checkCAM("提交");
-        if(!checkC){
-            return false;
-        }
-
+        checkCAM("提交");
+    });
+    
+    function submitOrder() {
         var adminsJson = '${detailsVo.departs}'
         var json =JSON.parse(adminsJson)
         var userPicker = new mui.PopPicker();
@@ -575,9 +573,8 @@
                     }
                 });
             });
-
         });
-    });
+    }
 
 
     //选择采购单明细
@@ -720,24 +717,32 @@
         });
 
         //检查提示
-        if(checkCAMItemData != null && (checkCAMItemData.amount < 0 || checkCAMItemData.count > 0)){
+        if(checkCAMItemData != null && (checkCAMItemData.amount < 0 || checkCAMItemData.count > 1)){
             var msg = "采购单明细结算数量超过采购单未到货数量，是否"+type+"？"
-            if(checkCAMItemData.amount < 0 && checkCAMItemData.count > 0){
+            if(checkCAMItemData.amount < 0 && checkCAMItemData.count > 1){
                 msg = "采购单明细有多条，且结算数量超过采购单未到货数量，是否"+type+"？"
             }else if(checkCAMItemData.amount < 0){
                 msg = "采购单明细结算数量超过采购单未到货数量，是否"+type+"？"
-            }else if(checkCAMItemData.count < 0){
+            }else if(checkCAMItemData.count < 1){
                 msg = "采购单明细有多条，是否"+type+"？"
             }
 
             var btnArray = ['是', '否'];
             mui.confirm(msg,"提示",btnArray, function(e) {
                 if (e.index == 0) {
-                    return true;
+                    if(type == "审核"){
+                        mui("#popover").popover('toggle', document.getElementById("div"));
+                    }else {
+                        submitOrder();
+                    }
                 }
             })
         }else {
-            return false;
+            if(type == "审核"){
+                mui("#popover").popover('toggle', document.getElementById("div"));
+            }else {
+                submitOrder();
+            }
         }
     }
 

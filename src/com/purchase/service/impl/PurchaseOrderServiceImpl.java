@@ -290,6 +290,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	 * @return
 	 */
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public ResultUtil reviewPurchaseOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion) {
 		Date date = new Date();
 		BizPurchaseOrder order = purchaseOrderMapper.selectByPrimaryKey(id);

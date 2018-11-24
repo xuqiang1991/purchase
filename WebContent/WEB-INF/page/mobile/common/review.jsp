@@ -46,7 +46,7 @@
                 </div>--%>
                 <c:choose>
                     <c:when test="${reviewType == 3}">
-                        <c:if test="${order.status == 0}">
+                        <c:if test="${detailsVo.status == 0}">
                             <div class="mui-input-row" id="applyUserReviewDiv">
                                 <label style="width: 120px;">财务付款人</label>
                                 <input type="text" id="selectApplyUser" placeholder="请选择付款的财务人员" style="float: left;width: 150px;">
@@ -82,12 +82,10 @@
     mui(document.body).on('tap', '#reviewPurchaseOrder', function(e) {
         var reviewCheckCAM = '${reviewCheckCAM}';
         if(reviewCheckCAM == 'true'){
-            var checkC = checkCAM("审核");
-            if(!checkC){
-                return false;
-            }
+           checkCAM("审核");
+        }else {
+            mui("#popover").popover('toggle', document.getElementById("div"));
         }
-        mui("#popover").popover('toggle', document.getElementById("div"));
     });
 
     mui(document.body).on('tap', '#review-cancel-btn', function(e) {

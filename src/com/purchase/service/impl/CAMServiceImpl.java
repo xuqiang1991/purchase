@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
@@ -482,6 +483,7 @@ public class CAMServiceImpl implements CAMService {
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ResultUtil reviewCAMOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion) {
         Date date = new Date();
         BizContractApplyMoney order = camMapper.selectByPrimaryKey(id);

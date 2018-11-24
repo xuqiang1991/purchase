@@ -83,8 +83,8 @@ public class PaymentOrderController {
     @RequiresPermissions("mobile:purchase:details")
     public String toDetails(@PathVariable("id") String id, Model model){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        BizPaymentOrderVo order = paymentOrderService.getPaymentOrderDetails(id,admin);
-        model.addAttribute("order",order);
+        BizPaymentOrderVo detailsVo = paymentOrderService.getPaymentOrderDetails(id,admin);
+        model.addAttribute("detailsVo",detailsVo);
         return "page/mobile/payment/details";
     }
 
