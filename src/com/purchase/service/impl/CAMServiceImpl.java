@@ -472,96 +472,85 @@ public class CAMServiceImpl implements CAMService {
     public ResultUtil reviewCAMOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion) {
         Date date = new Date();
         BizContractApplyMoney order = camMapper.selectByPrimaryKey(id);
-        Long userId = admin.getId();
         int status = order.getStatus();
-
-        //判断审核人
-        Long reviewer = null;
-        Boolean reviewerResults = null;
-        if (CAMUtil.STATUS_1 == status) {
-            reviewer = order.getCostDepartUser();
-            reviewerResults = order.getCostDepartApproval();
-        } else if (CAMUtil.STATUS_2 == status) {
-            reviewer = order.getProjectDepartUser();
-            reviewerResults = order.getProjectDepartApproval();
-        } else if (CAMUtil.STATUS_3 == status) {
-            reviewer = order.getManagerDepartUser();
-            reviewerResults = order.getManagerDepartApproval();
-        }
-        if (reviewer == null) {
-            return ResultUtil.error("审核人不存在");
-        }
-        if (reviewer.compareTo(userId) != 0) {
-            return ResultUtil.error("没有审核权限！");
-        }
-        if (reviewerResults != null && reviewerResults) {
-            return ResultUtil.error("请不要重新审核！");
-        }
 
         //审核状态
         BizContractApplyMoney tmp = new BizContractApplyMoney();
         tmp.setId(id);
-        if (CAMUtil.STATUS_1 == status) {
-            tmp.setStatus(CAMUtil.STATUS_2);
-            tmp.setCostDepartApproval(auditResults);
-            tmp.setCostDepartDate(date);
-            tmp.setCostDepartOpinion(auditOpinion);
-            tmp.setProjectDepartUser(applyUser);
-        } else if (CAMUtil.STATUS_2 == status) {
-            tmp.setStatus(CAMUtil.STATUS_3);
-            tmp.setProjectDepartApproval(auditResults);
-            tmp.setProjectDepartDate(date);
-            tmp.setProjectDepartOpinion(auditOpinion);
-            tmp.setManagerDepartUser(applyUser);
-        } else if (CAMUtil.STATUS_3 == status) {
-            tmp.setStatus(CAMUtil.STATUS_4);
-            tmp.setManagerDepartApproval(auditResults);
-            tmp.setManagerDepartDate(date);
-            tmp.setManagerDepartOpinion(auditOpinion);
-        } else if (CAMUtil.STATUS_4 == status) {
-            tmp.setStatus(CAMUtil.STATUS_5);
-        }
         //审核不通过
-        if(!auditResults){
-            tmp.setStatus(0);
-        }
-        tmp.setUpdateDate(date);
+        if(auditResults){
+            //审核状态
+            if (CAMUtil.STATUS_1 == status) {
+                tmp.setStatus(CAMUtil.STATUS_2);
+                tmp.setCostDepartApproval(auditResults);
+                tmp.setCostDepartDate(date);
+                tmp.setCostDepartOpinion(auditOpinion);
+                tmp.setProjectDepartUser(applyUser);
+            } else if (CAMUtil.STATUS_2 == status) {
+                tmp.setStatus(CAMUtil.STATUS_3);
+                tmp.setProjectDepartApproval(auditResults);
+                tmp.setProjectDepartDate(date);
+                tmp.setProjectDepartOpinion(auditOpinion);
+                tmp.setManagerDepartUser(applyUser);
+            } else if (CAMUtil.STATUS_3 == status) {
+                tmp.setStatus(CAMUtil.STATUS_4);
+                tmp.setManagerDepartApproval(auditResults);
+                tmp.setManagerDepartDate(date);
+                tmp.setManagerDepartOpinion(auditOpinion);
+            } else if (CAMUtil.STATUS_4 == status) {
+                tmp.setStatus(CAMUtil.STATUS_5);
+            }
 
-        camMapper.updateByPrimaryKeySelective(tmp);
+            //总经理审核写入付款单
+            if(PurchaseUtil.STATUS_3 == status){
+                paymentOrderService.generatePaymenyOrder(order);
 
-        //总经理审核写入付款单
-        if(PurchaseUtil.STATUS_3 == status){
-            paymentOrderService.generatePaymenyOrder(order);
+                //回写主采购单
+                String sourceOrderId = order.getSourceOrderId();
+                BizPurchaseOrder tmp1 = new BizPurchaseOrder();
+                tmp1.setId(sourceOrderId);
+                tmp1.setRequestAmount(order.getApplyPrice());
+                purchaseOrderMapper.updateByPrimaryKeySelective(tmp1);
 
+                //回写采购单详情(已结算数量)
+                String orderNo = order.getOrderNo();
+                BizContractApplyMoneyDetailExample example = new BizContractApplyMoneyDetailExample();
+                BizContractApplyMoneyDetailExample.Criteria criteria = example.createCriteria();
+                criteria.andOrderNoEqualTo(orderNo);
+                List<BizContractApplyMoneyDetail> detailList = contractApplyMoneyDetailMapper.selectByExample(example);
+                if(!CollectionUtils.isEmpty(detailList)){
+                    for (BizContractApplyMoneyDetail detail : detailList){
+                        Double settleAmout = detail.getSettleAmout();
+                        String purchaseDetailId = detail.getPurchaseDetailId();
+                        BizPurchaseOrderDetail detail1 = purchaseOrderDetailMapper.selectByPrimaryKey(purchaseDetailId);
+                        Double oldSettleAmout = detail1.getSettleAmout();
 
-            //回写主采购单
-           String sourceOrderId = order.getSourceOrderId();
-            BizPurchaseOrder tmp1 = new BizPurchaseOrder();
-            tmp1.setId(sourceOrderId);
-            tmp1.setRequestAmount(order.getApplyPrice());
-            purchaseOrderMapper.updateByPrimaryKeySelective(tmp1);
-
-            //回写采购单详情(已结算数量)
-            String orderNo = order.getOrderNo();
-            BizContractApplyMoneyDetailExample example = new BizContractApplyMoneyDetailExample();
-            BizContractApplyMoneyDetailExample.Criteria criteria = example.createCriteria();
-            criteria.andOrderNoEqualTo(orderNo);
-            List<BizContractApplyMoneyDetail> detailList = contractApplyMoneyDetailMapper.selectByExample(example);
-            if(!CollectionUtils.isEmpty(detailList)){
-                for (BizContractApplyMoneyDetail detail : detailList){
-                    Double settleAmout = detail.getSettleAmout();
-                    String purchaseDetailId = detail.getPurchaseDetailId();
-                    BizPurchaseOrderDetail detail1 = purchaseOrderDetailMapper.selectByPrimaryKey(purchaseDetailId);
-                    Double oldSettleAmout = detail1.getSettleAmout();
-
-                    BizPurchaseOrderDetail record = new BizPurchaseOrderDetail();
-                    record.setId(purchaseDetailId);
-                    record.setSettleAmout(oldSettleAmout + settleAmout);
-                    purchaseOrderDetailMapper.updateByPrimaryKeySelective(record);
+                        BizPurchaseOrderDetail record = new BizPurchaseOrderDetail();
+                        record.setId(purchaseDetailId);
+                        record.setSettleAmout(oldSettleAmout + settleAmout);
+                        purchaseOrderDetailMapper.updateByPrimaryKeySelective(record);
+                    }
                 }
             }
-        }
+        }else {
+            tmp.setStatus(0);
+            tmp.setProjectDepartUser(null);
+            tmp.setCostDepartUser(null);
+            tmp.setManagerDepartUser(null);
 
+            tmp.setProjectDepartDate(null);
+            tmp.setCostDepartDate(null);
+            tmp.setManagerDepartDate(null);
+
+            tmp.setProjectDepartApproval(null);
+            tmp.setCostDepartApproval(null);
+            tmp.setManagerDepartApproval(null);
+
+            tmp.setProjectDepartOpinion(null);
+            tmp.setCostDepartOpinion(null);
+        }
+        tmp.setUpdateDate(date);
+        camMapper.updateByPrimaryKeySelective(tmp);
         return ResultUtil.ok();
     }
 

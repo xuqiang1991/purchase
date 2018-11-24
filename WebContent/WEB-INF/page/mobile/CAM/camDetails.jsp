@@ -133,7 +133,7 @@
                                                 </div>
                                             </div>
                                             <div class="mui-card-footer">
-                                                <c:if test="${detailsVo.order.status == 0}">
+                                                <c:if test="${detailsVo.order.status == 0 && detailsVo.order.createUser == admin.id}">
                                                     <div>
                                                         <a href="#fromPurchaseOrderItem" name="app-a" data-id="${item.id}">
                                                             <button type="button" class="mui-btn mui-btn-primary" value="${item.id}">修改</button>
@@ -159,7 +159,7 @@
             </div>
             <div class="mui-content-padded">
                 <c:choose>
-                    <c:when test="${detailsVo.order.status == 0}">
+                    <c:when test="${detailsVo.order.status == 0 && detailsVo.order.createUser == admin.id}">
                         <a href="#fromPurchaseOrderDetailsItem">
                             <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加合同内请款明细</button>
                         </a>

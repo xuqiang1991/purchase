@@ -296,54 +296,48 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		Long userId = admin.getId();
 		int status = order.getStatus();
 
-		//判断审核人
-		Long reviewer = null;
-		Boolean reviewerResults = null;
-		if(PurchaseUtil.STATUS_1 == status){
-			reviewer = order.getCostDepartUser();
-			reviewerResults = order.getCostDepartApproval();
-		}else if (PurchaseUtil.STATUS_2 == status){
-			reviewer = order.getProjectDepartUser();
-			reviewerResults = order.getProjectDepartApproval();
-		}else if (PurchaseUtil.STATUS_3 == status){
-			reviewer = order.getManagerDepartUser();
-			reviewerResults = order.getManagerDepartApproval();
-		}
-		if(reviewer == null){
-			return ResultUtil.error("审核人不存在");
-		}
-		if(reviewer.compareTo(userId) != 0){
-			return ResultUtil.error("没有审核权限！");
-		}
-		if(reviewerResults != null && reviewerResults){
-			return ResultUtil.error("请不要重新审核！");
-		}
-
 		//审核状态
 		BizPurchaseOrder tmp = new BizPurchaseOrder();
 		tmp.setId(id);
-		if(PurchaseUtil.STATUS_1 == status){
-			tmp.setStatus(PurchaseUtil.STATUS_2);
-			tmp.setCostDepartApproval(auditResults);
-			tmp.setCostDepartDate(date);
-			tmp.setCostDepartOpinion(auditOpinion);
-			tmp.setProjectDepartUser(applyUser);
-		}else if (PurchaseUtil.STATUS_2 == status){
-			tmp.setStatus(PurchaseUtil.STATUS_3);
-			tmp.setProjectDepartApproval(auditResults);
-			tmp.setProjectDepartDate(date);
-			tmp.setProjectDepartOpinion(auditOpinion);
-			tmp.setManagerDepartUser(applyUser);
-		}else if (PurchaseUtil.STATUS_3 == status){
-			tmp.setStatus(PurchaseUtil.STATUS_4);
-			tmp.setManagerDepartApproval(auditResults);
-			tmp.setManagerDepartDate(date);
-			tmp.setManagerDepartOpinion(auditOpinion);
-		}else if (PurchaseUtil.STATUS_4 == status){
-			tmp.setStatus(PurchaseUtil.STATUS_5);
-		}
 		//审核不通过
-		if(!auditResults){
+		if(auditResults){
+			if(PurchaseUtil.STATUS_1 == status){
+				tmp.setStatus(PurchaseUtil.STATUS_2);
+				tmp.setCostDepartApproval(auditResults);
+				tmp.setCostDepartDate(date);
+				tmp.setCostDepartOpinion(auditOpinion);
+				tmp.setProjectDepartUser(applyUser);
+			}else if (PurchaseUtil.STATUS_2 == status){
+				tmp.setStatus(PurchaseUtil.STATUS_3);
+				tmp.setProjectDepartApproval(auditResults);
+				tmp.setProjectDepartDate(date);
+				tmp.setProjectDepartOpinion(auditOpinion);
+				tmp.setManagerDepartUser(applyUser);
+			}else if (PurchaseUtil.STATUS_3 == status){
+				tmp.setStatus(PurchaseUtil.STATUS_4);
+				tmp.setManagerDepartApproval(auditResults);
+				tmp.setManagerDepartDate(date);
+				tmp.setManagerDepartOpinion(auditOpinion);
+			}else if (PurchaseUtil.STATUS_4 == status){
+				tmp.setStatus(PurchaseUtil.STATUS_5);
+			}
+		}else {
+
+			tmp.setProjectDepartUser(null);
+			tmp.setCostDepartUser(null);
+			tmp.setManagerDepartUser(null);
+
+			tmp.setProjectDepartDate(null);
+			tmp.setCostDepartDate(null);
+			tmp.setManagerDepartDate(null);
+
+			tmp.setProjectDepartApproval(null);
+			tmp.setCostDepartApproval(null);
+			tmp.setManagerDepartApproval(null);
+
+			tmp.setProjectDepartOpinion(null);
+			tmp.setCostDepartOpinion(null);
+
 			tmp.setStatus(0);
 		}
 		tmp.setUpdateDate(date);
