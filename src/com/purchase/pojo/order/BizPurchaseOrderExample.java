@@ -566,6 +566,66 @@ public class BizPurchaseOrderExample {
             return (Criteria) this;
         }
 
+        public Criteria andApplyDateIsNull() {
+            addCriterion("apply_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyDateIsNotNull() {
+            addCriterion("apply_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyDateEqualTo(Date value) {
+            addCriterion("apply_date =", value, "applyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyDateNotEqualTo(Date value) {
+            addCriterion("apply_date <>", value, "applyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyDateGreaterThan(Date value) {
+            addCriterion("apply_date >", value, "applyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("apply_date >=", value, "applyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyDateLessThan(Date value) {
+            addCriterion("apply_date <", value, "applyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyDateLessThanOrEqualTo(Date value) {
+            addCriterion("apply_date <=", value, "applyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyDateIn(List<Date> values) {
+            addCriterion("apply_date in", values, "applyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyDateNotIn(List<Date> values) {
+            addCriterion("apply_date not in", values, "applyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyDateBetween(Date value1, Date value2) {
+            addCriterion("apply_date between", value1, value2, "applyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyDateNotBetween(Date value1, Date value2) {
+            addCriterion("apply_date not between", value1, value2, "applyDate");
+            return (Criteria) this;
+        }
+
         public Criteria andSupplierIdIsNull() {
             addCriterion("supplier_id is null");
             return (Criteria) this;
@@ -1873,6 +1933,136 @@ public class BizPurchaseOrderExample {
 
         public Criteria andManagerDepartOpinionNotBetween(String value1, String value2) {
             addCriterion("manager_depart_opinion not between", value1, value2, "managerDepartOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewFailIsNull() {
+            addCriterion("review_fail is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewFailIsNotNull() {
+            addCriterion("review_fail is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewFailEqualTo(Boolean value) {
+            addCriterion("review_fail =", value, "reviewFail");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewFailNotEqualTo(Boolean value) {
+            addCriterion("review_fail <>", value, "reviewFail");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewFailGreaterThan(Boolean value) {
+            addCriterion("review_fail >", value, "reviewFail");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewFailGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("review_fail >=", value, "reviewFail");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewFailLessThan(Boolean value) {
+            addCriterion("review_fail <", value, "reviewFail");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewFailLessThanOrEqualTo(Boolean value) {
+            addCriterion("review_fail <=", value, "reviewFail");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewFailIn(List<Boolean> values) {
+            addCriterion("review_fail in", values, "reviewFail");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewFailNotIn(List<Boolean> values) {
+            addCriterion("review_fail not in", values, "reviewFail");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewFailBetween(Boolean value1, Boolean value2) {
+            addCriterion("review_fail between", value1, value2, "reviewFail");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewFailNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("review_fail not between", value1, value2, "reviewFail");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionIsNull() {
+            addCriterion("review_opinion is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionIsNotNull() {
+            addCriterion("review_opinion is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionEqualTo(String value) {
+            addCriterion("review_opinion =", value, "reviewOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionNotEqualTo(String value) {
+            addCriterion("review_opinion <>", value, "reviewOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionGreaterThan(String value) {
+            addCriterion("review_opinion >", value, "reviewOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionGreaterThanOrEqualTo(String value) {
+            addCriterion("review_opinion >=", value, "reviewOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionLessThan(String value) {
+            addCriterion("review_opinion <", value, "reviewOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionLessThanOrEqualTo(String value) {
+            addCriterion("review_opinion <=", value, "reviewOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionLike(String value) {
+            addCriterion("review_opinion like", value, "reviewOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionNotLike(String value) {
+            addCriterion("review_opinion not like", value, "reviewOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionIn(List<String> values) {
+            addCriterion("review_opinion in", values, "reviewOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionNotIn(List<String> values) {
+            addCriterion("review_opinion not in", values, "reviewOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionBetween(String value1, String value2) {
+            addCriterion("review_opinion between", value1, value2, "reviewOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionNotBetween(String value1, String value2) {
+            addCriterion("review_opinion not between", value1, value2, "reviewOpinion");
             return (Criteria) this;
         }
     }

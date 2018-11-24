@@ -64,6 +64,10 @@ public class BizPurchaseOrder {
 
     private String managerDepartOpinion;
 
+    private Boolean reviewFail;
+
+    private String reviewOpinion;
+
     public String getId() {
         return id;
     }
@@ -119,6 +123,14 @@ public class BizPurchaseOrder {
 
     public void setApplyUser(Long applyUser) {
         this.applyUser = applyUser;
+    }
+
+    public Date getApplyDate() {
+        return applyDate;
+    }
+
+    public void setApplyDate(Date applyDate) {
+        this.applyDate = applyDate;
     }
 
     public Long getSupplierId() {
@@ -293,12 +305,19 @@ public class BizPurchaseOrder {
         this.managerDepartOpinion = managerDepartOpinion == null ? null : managerDepartOpinion.trim();
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    public Date getApplyDate() {
-        return applyDate;
+    public Boolean getReviewFail() {
+        return reviewFail;
     }
 
-    public void setApplyDate(Date applyDate) {
-        this.applyDate = applyDate;
+    public void setReviewFail(Boolean reviewFail) {
+        this.reviewFail = reviewFail;
+    }
+
+    public String getReviewOpinion() {
+        return reviewOpinion;
+    }
+
+    public void setReviewOpinion(String reviewOpinion) {
+        this.reviewOpinion = reviewOpinion == null ? null : reviewOpinion.trim();
     }
 }

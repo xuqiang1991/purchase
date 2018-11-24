@@ -60,6 +60,10 @@ public class BizProgrammeAcceptanceOrder {
 
     private String managerDepartOpinion;
 
+    private Boolean reviewFail;
+
+    private String reviewOpinion;
+
     public String getId() {
         return id;
     }
@@ -280,5 +284,21 @@ public class BizProgrammeAcceptanceOrder {
 
     public void setManagerDepartOpinion(String managerDepartOpinion) {
         this.managerDepartOpinion = managerDepartOpinion == null ? null : managerDepartOpinion.trim();
+    }
+
+    public Boolean getReviewFail() {
+        return reviewFail;
+    }
+
+    public void setReviewFail(Boolean reviewFail) {
+        this.reviewFail = reviewFail;
+    }
+
+    public String getReviewOpinion() {
+        return reviewOpinion;
+    }
+
+    public void setReviewOpinion(String reviewOpinion) {
+        this.reviewOpinion = reviewOpinion == null ? null : reviewOpinion.trim();
     }
 }

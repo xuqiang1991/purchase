@@ -62,6 +62,10 @@ public class BizContractApplyMoney implements Serializable {
 
     private String managerDepartOpinion;
 
+    private Boolean reviewFail;
+
+    private String reviewOpinion;
+
     public String getId() {
         return id;
     }
@@ -124,7 +128,7 @@ public class BizContractApplyMoney implements Serializable {
     }
 
     public void setProjectId(String projectId) {
-        this.projectId = projectId;
+        this.projectId = projectId == null ? null : projectId.trim();
     }
 
     public String getOrderType() {
@@ -275,6 +279,21 @@ public class BizContractApplyMoney implements Serializable {
         this.managerDepartOpinion = managerDepartOpinion == null ? null : managerDepartOpinion.trim();
     }
 
+    public Boolean getReviewFail() {
+        return reviewFail;
+    }
+
+    public void setReviewFail(Boolean reviewFail) {
+        this.reviewFail = reviewFail;
+    }
+
+    public String getReviewOpinion() {
+        return reviewOpinion;
+    }
+
+    public void setReviewOpinion(String reviewOpinion) {
+        this.reviewOpinion = reviewOpinion == null ? null : reviewOpinion.trim();
+    }
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getApplyDate() {
         return applyDate;

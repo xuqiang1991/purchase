@@ -29,6 +29,8 @@
     <result column="manager_depart_user" jdbcType="BIGINT" property="managerDepartUser" />
     <result column="manager_depart_date" jdbcType="TIMESTAMP" property="managerDepartDate" />
     <result column="manager_depart_opinion" jdbcType="VARCHAR" property="managerDepartOpinion" />
+    <result column="review_fail" jdbcType="BIT" property="reviewFail" />
+    <result column="review_opinion" jdbcType="VARCHAR" property="reviewOpinion" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -93,7 +95,8 @@
     supplier_id, project_id, order_type, status, apply_price, actual_price, update_date, 
     summary, cost_depart_approval, cost_depart_user, cost_depart_date, cost_depart_opinion, 
     project_depart_approval, project_depart_user, project_depart_date, project_depart_opinion, 
-    manager_depart_approval, manager_depart_user, manager_depart_date, manager_depart_opinion
+    manager_depart_approval, manager_depart_user, manager_depart_date, manager_depart_opinion, 
+    review_fail, review_opinion
   </sql>
   <select id="selectByExample" parameterType="com.purchase.pojo.order.BizContractApplyMoneyExample" resultMap="BaseResultMap">
     select
@@ -135,7 +138,8 @@
       cost_depart_opinion, project_depart_approval, project_depart_user, 
       project_depart_date, project_depart_opinion, 
       manager_depart_approval, manager_depart_user, manager_depart_date, 
-      manager_depart_opinion)
+      manager_depart_opinion, review_fail, review_opinion
+      )
     values (#{id,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{createUser,jdbcType=BIGINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{applyUser,jdbcType=BIGINT}, #{applyDate,jdbcType=TIMESTAMP}, 
       #{sourceOrderId,jdbcType=VARCHAR}, #{supplierId,jdbcType=BIGINT}, #{projectId,jdbcType=VARCHAR}, 
@@ -145,7 +149,8 @@
       #{costDepartOpinion,jdbcType=VARCHAR}, #{projectDepartApproval,jdbcType=BIT}, #{projectDepartUser,jdbcType=BIGINT}, 
       #{projectDepartDate,jdbcType=TIMESTAMP}, #{projectDepartOpinion,jdbcType=VARCHAR}, 
       #{managerDepartApproval,jdbcType=BIT}, #{managerDepartUser,jdbcType=BIGINT}, #{managerDepartDate,jdbcType=TIMESTAMP}, 
-      #{managerDepartOpinion,jdbcType=VARCHAR})
+      #{managerDepartOpinion,jdbcType=VARCHAR}, #{reviewFail,jdbcType=BIT}, #{reviewOpinion,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.purchase.pojo.order.BizContractApplyMoney">
     insert into biz_contract_apply_money
@@ -231,6 +236,12 @@
       <if test="managerDepartOpinion != null">
         manager_depart_opinion,
       </if>
+      <if test="reviewFail != null">
+        review_fail,
+      </if>
+      <if test="reviewOpinion != null">
+        review_opinion,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -313,6 +324,12 @@
       </if>
       <if test="managerDepartOpinion != null">
         #{managerDepartOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewFail != null">
+        #{reviewFail,jdbcType=BIT},
+      </if>
+      <if test="reviewOpinion != null">
+        #{reviewOpinion,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -406,6 +423,12 @@
       <if test="record.managerDepartOpinion != null">
         manager_depart_opinion = #{record.managerDepartOpinion,jdbcType=VARCHAR},
       </if>
+      <if test="record.reviewFail != null">
+        review_fail = #{record.reviewFail,jdbcType=BIT},
+      </if>
+      <if test="record.reviewOpinion != null">
+        review_opinion = #{record.reviewOpinion,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -439,7 +462,9 @@
       manager_depart_approval = #{record.managerDepartApproval,jdbcType=BIT},
       manager_depart_user = #{record.managerDepartUser,jdbcType=BIGINT},
       manager_depart_date = #{record.managerDepartDate,jdbcType=TIMESTAMP},
-      manager_depart_opinion = #{record.managerDepartOpinion,jdbcType=VARCHAR}
+      manager_depart_opinion = #{record.managerDepartOpinion,jdbcType=VARCHAR},
+      review_fail = #{record.reviewFail,jdbcType=BIT},
+      review_opinion = #{record.reviewOpinion,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -525,6 +550,12 @@
       <if test="managerDepartOpinion != null">
         manager_depart_opinion = #{managerDepartOpinion,jdbcType=VARCHAR},
       </if>
+      <if test="reviewFail != null">
+        review_fail = #{reviewFail,jdbcType=BIT},
+      </if>
+      <if test="reviewOpinion != null">
+        review_opinion = #{reviewOpinion,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -555,7 +586,9 @@
       manager_depart_approval = #{managerDepartApproval,jdbcType=BIT},
       manager_depart_user = #{managerDepartUser,jdbcType=BIGINT},
       manager_depart_date = #{managerDepartDate,jdbcType=TIMESTAMP},
-      manager_depart_opinion = #{managerDepartOpinion,jdbcType=VARCHAR}
+      manager_depart_opinion = #{managerDepartOpinion,jdbcType=VARCHAR},
+      review_fail = #{reviewFail,jdbcType=BIT},
+      review_opinion = #{reviewOpinion,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

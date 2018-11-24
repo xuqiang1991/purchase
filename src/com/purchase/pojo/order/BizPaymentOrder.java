@@ -98,6 +98,10 @@ public class BizPaymentOrder {
 
     private String financePaymentOpinion;
 
+    private Boolean reviewFail;
+
+    private String reviewOpinion;
+
     public String getId() {
         return id;
     }
@@ -465,5 +469,21 @@ public class BizPaymentOrder {
 
     public void setFinancePaymentOpinion(String financePaymentOpinion) {
         this.financePaymentOpinion = financePaymentOpinion == null ? null : financePaymentOpinion.trim();
+    }
+
+    public Boolean getReviewFail() {
+        return reviewFail;
+    }
+
+    public void setReviewFail(Boolean reviewFail) {
+        this.reviewFail = reviewFail;
+    }
+
+    public String getReviewOpinion() {
+        return reviewOpinion;
+    }
+
+    public void setReviewOpinion(String reviewOpinion) {
+        this.reviewOpinion = reviewOpinion == null ? null : reviewOpinion.trim();
     }
 }

@@ -48,6 +48,8 @@
     <result column="finance_payment_user" jdbcType="BIGINT" property="financePaymentUser" />
     <result column="finance_payment_date" jdbcType="TIMESTAMP" property="financePaymentDate" />
     <result column="finance_payment_opinion" jdbcType="VARCHAR" property="financePaymentOpinion" />
+    <result column="review_fail" jdbcType="BIT" property="reviewFail" />
+    <result column="review_opinion" jdbcType="VARCHAR" property="reviewOpinion" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -116,7 +118,7 @@
     payment_proportion, invoice_type, special_tax_rate, quality_grade, quality_assessor, 
     status, summary, manager_depart_approval, manager_depart_user, manager_depart_date, 
     manager_depart_opinion, finance_payment_approval, finance_payment_user, finance_payment_date, 
-    finance_payment_opinion
+    finance_payment_opinion, review_fail, review_opinion
   </sql>
   <select id="selectByExample" parameterType="com.purchase.pojo.order.BizPaymentOrderExample" resultMap="BaseResultMap">
     select
@@ -165,7 +167,8 @@
       manager_depart_user, manager_depart_date, 
       manager_depart_opinion, finance_payment_approval, 
       finance_payment_user, finance_payment_date, 
-      finance_payment_opinion)
+      finance_payment_opinion, review_fail, review_opinion
+      )
     values (#{id,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{purchaseNo,jdbcType=VARCHAR}, 
       #{contractOrderNo,jdbcType=VARCHAR}, #{applyType,jdbcType=INTEGER}, #{applyNature,jdbcType=INTEGER}, 
       #{createUser,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{supplierId,jdbcType=BIGINT}, 
@@ -182,7 +185,8 @@
       #{managerDepartUser,jdbcType=BIGINT}, #{managerDepartDate,jdbcType=TIMESTAMP}, 
       #{managerDepartOpinion,jdbcType=VARCHAR}, #{financePaymentApproval,jdbcType=BIT}, 
       #{financePaymentUser,jdbcType=BIGINT}, #{financePaymentDate,jdbcType=TIMESTAMP}, 
-      #{financePaymentOpinion,jdbcType=VARCHAR})
+      #{financePaymentOpinion,jdbcType=VARCHAR}, #{reviewFail,jdbcType=BIT}, #{reviewOpinion,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.purchase.pojo.order.BizPaymentOrder">
     insert into biz_payment_order
@@ -325,6 +329,12 @@
       <if test="financePaymentOpinion != null">
         finance_payment_opinion,
       </if>
+      <if test="reviewFail != null">
+        review_fail,
+      </if>
+      <if test="reviewOpinion != null">
+        review_opinion,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -464,6 +474,12 @@
       </if>
       <if test="financePaymentOpinion != null">
         #{financePaymentOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewFail != null">
+        #{reviewFail,jdbcType=BIT},
+      </if>
+      <if test="reviewOpinion != null">
+        #{reviewOpinion,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -614,6 +630,12 @@
       <if test="record.financePaymentOpinion != null">
         finance_payment_opinion = #{record.financePaymentOpinion,jdbcType=VARCHAR},
       </if>
+      <if test="record.reviewFail != null">
+        review_fail = #{record.reviewFail,jdbcType=BIT},
+      </if>
+      <if test="record.reviewOpinion != null">
+        review_opinion = #{record.reviewOpinion,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -666,7 +688,9 @@
       finance_payment_approval = #{record.financePaymentApproval,jdbcType=BIT},
       finance_payment_user = #{record.financePaymentUser,jdbcType=BIGINT},
       finance_payment_date = #{record.financePaymentDate,jdbcType=TIMESTAMP},
-      finance_payment_opinion = #{record.financePaymentOpinion,jdbcType=VARCHAR}
+      finance_payment_opinion = #{record.financePaymentOpinion,jdbcType=VARCHAR},
+      review_fail = #{record.reviewFail,jdbcType=BIT},
+      review_opinion = #{record.reviewOpinion,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -809,6 +833,12 @@
       <if test="financePaymentOpinion != null">
         finance_payment_opinion = #{financePaymentOpinion,jdbcType=VARCHAR},
       </if>
+      <if test="reviewFail != null">
+        review_fail = #{reviewFail,jdbcType=BIT},
+      </if>
+      <if test="reviewOpinion != null">
+        review_opinion = #{reviewOpinion,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -858,7 +888,9 @@
       finance_payment_approval = #{financePaymentApproval,jdbcType=BIT},
       finance_payment_user = #{financePaymentUser,jdbcType=BIGINT},
       finance_payment_date = #{financePaymentDate,jdbcType=TIMESTAMP},
-      finance_payment_opinion = #{financePaymentOpinion,jdbcType=VARCHAR}
+      finance_payment_opinion = #{financePaymentOpinion,jdbcType=VARCHAR},
+      review_fail = #{reviewFail,jdbcType=BIT},
+      review_opinion = #{reviewOpinion,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

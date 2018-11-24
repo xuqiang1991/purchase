@@ -2975,6 +2975,136 @@ public class BizPaymentOrderExample {
             addCriterion("finance_payment_opinion not between", value1, value2, "financePaymentOpinion");
             return (Criteria) this;
         }
+
+        public Criteria andReviewFailIsNull() {
+            addCriterion("review_fail is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewFailIsNotNull() {
+            addCriterion("review_fail is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewFailEqualTo(Boolean value) {
+            addCriterion("review_fail =", value, "reviewFail");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewFailNotEqualTo(Boolean value) {
+            addCriterion("review_fail <>", value, "reviewFail");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewFailGreaterThan(Boolean value) {
+            addCriterion("review_fail >", value, "reviewFail");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewFailGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("review_fail >=", value, "reviewFail");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewFailLessThan(Boolean value) {
+            addCriterion("review_fail <", value, "reviewFail");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewFailLessThanOrEqualTo(Boolean value) {
+            addCriterion("review_fail <=", value, "reviewFail");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewFailIn(List<Boolean> values) {
+            addCriterion("review_fail in", values, "reviewFail");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewFailNotIn(List<Boolean> values) {
+            addCriterion("review_fail not in", values, "reviewFail");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewFailBetween(Boolean value1, Boolean value2) {
+            addCriterion("review_fail between", value1, value2, "reviewFail");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewFailNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("review_fail not between", value1, value2, "reviewFail");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionIsNull() {
+            addCriterion("review_opinion is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionIsNotNull() {
+            addCriterion("review_opinion is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionEqualTo(String value) {
+            addCriterion("review_opinion =", value, "reviewOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionNotEqualTo(String value) {
+            addCriterion("review_opinion <>", value, "reviewOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionGreaterThan(String value) {
+            addCriterion("review_opinion >", value, "reviewOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionGreaterThanOrEqualTo(String value) {
+            addCriterion("review_opinion >=", value, "reviewOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionLessThan(String value) {
+            addCriterion("review_opinion <", value, "reviewOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionLessThanOrEqualTo(String value) {
+            addCriterion("review_opinion <=", value, "reviewOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionLike(String value) {
+            addCriterion("review_opinion like", value, "reviewOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionNotLike(String value) {
+            addCriterion("review_opinion not like", value, "reviewOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionIn(List<String> values) {
+            addCriterion("review_opinion in", values, "reviewOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionNotIn(List<String> values) {
+            addCriterion("review_opinion not in", values, "reviewOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionBetween(String value1, String value2) {
+            addCriterion("review_opinion between", value1, value2, "reviewOpinion");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewOpinionNotBetween(String value1, String value2) {
+            addCriterion("review_opinion not between", value1, value2, "reviewOpinion");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
