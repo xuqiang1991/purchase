@@ -252,7 +252,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		purchaseOrderMapper.deleteByPrimaryKey(id);
 
 		BizPurchaseOrderDetailExample example = new BizPurchaseOrderDetailExample();
-		example.createCriteria().andPurchaseNoEqualTo(id);
+		example.createCriteria().andPurchaseNoEqualTo(order.getPurchaseNo());
 		purchaseOrderDetailMapper.deleteByExample(example);
 		return ResultUtil.ok();
 	}

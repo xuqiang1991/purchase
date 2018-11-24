@@ -393,16 +393,29 @@ public class CAMServiceImpl implements CAMService {
         }
         camMapper.deleteByPrimaryKey(id);
 
+
+        //删除请款单详情
         BizContractApplyMoneyDetailExample example = new BizContractApplyMoneyDetailExample();
-        example.createCriteria().andOrderNoEqualTo(id);
-        contractApplyMoneyDetailMapper.deleteByExample(example);
+        example.createCriteria().andOrderNoEqualTo(order.getOrderNo());
+        List<BizContractApplyMoneyDetail> details = contractApplyMoneyDetailMapper.selectByExample(example);
+        if(CollectionUtils.isEmpty(details)){
+            for (BizContractApplyMoneyDetail detail : details){
+                delCAMItem(detail);
+            }
+
+        }
+
         return ResultUtil.ok();
     }
 
     @Override
     public ResultUtil delCAMItem(String id) {
         BizContractApplyMoneyDetail order = contractApplyMoneyDetailMapper.selectByPrimaryKey(id);
+        return delCAMItem(order);
+    }
 
+    private ResultUtil delCAMItem(BizContractApplyMoneyDetail order) {
+        String id = order.getId();
         BigDecimal price = order.getSettlePrice();
 
         //如有金额更新采购单
