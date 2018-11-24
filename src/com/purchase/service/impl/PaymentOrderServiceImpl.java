@@ -235,6 +235,8 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
             tmp.setFinancePaymentOpinion(null);
             tmp.setFinancePaymentOpinion(null);
 
+            tmp.setReviewFail(true);
+            tmp.setReviewOpinion(auditOpinion);
             tmp.setStatus(0);
         }
 

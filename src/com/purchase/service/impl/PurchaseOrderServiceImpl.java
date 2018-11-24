@@ -275,6 +275,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		tmp.setId(order.getId());
 		tmp.setStatus(PurchaseUtil.STATUS_1);
 		tmp.setApplyDate(new Date());
+		tmp.setReviewFail(false);
+		tmp.setReviewOpinion("");
+
 		purchaseOrderMapper.updateByPrimaryKeySelective(tmp);
 		return ResultUtil.ok();
 	}
@@ -339,6 +342,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			tmp.setProjectDepartOpinion(null);
 			tmp.setCostDepartOpinion(null);
 
+
+			tmp.setReviewFail(true);
+			tmp.setReviewOpinion(auditOpinion);
 			tmp.setStatus(0);
 		}
 		tmp.setUpdateDate(date);

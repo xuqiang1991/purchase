@@ -216,6 +216,9 @@ public class UCAMServiceImpl implements UCAMService {
         tmp.setId(order.getId());
         tmp.setStatus(STATUS_1);
         tmp.setApplyDate(new Date());
+        tmp.setReviewFail(false);
+        tmp.setReviewOpinion("");
+
         ucamMapper.updateByPrimaryKeySelective(tmp);
         return ResultUtil.ok();
     }
@@ -413,6 +416,9 @@ public class UCAMServiceImpl implements UCAMService {
         //审核不通过
         if(!auditResults){
             order.setStatus(STATUS_0);
+            order.setReviewFail(true);
+            order.setReviewOpinion(auditOpinion);
+
             order.setProjectDepartUser(null);
             order.setCostDepartUser(null);
             order.setManagerDepartUser(null);

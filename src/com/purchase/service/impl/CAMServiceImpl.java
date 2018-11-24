@@ -476,6 +476,8 @@ public class CAMServiceImpl implements CAMService {
         tmp.setId(order.getId());
         tmp.setCostDepartUser(userId);
         tmp.setUpdateDate(date);
+        tmp.setReviewFail(false);
+        tmp.setReviewOpinion("");
 
         camMapper.updateByPrimaryKeySelective(tmp);
         return ResultUtil.ok();
@@ -548,7 +550,10 @@ public class CAMServiceImpl implements CAMService {
                 }
             }
         }else {
+            tmp.setReviewFail(true);
+            tmp.setReviewOpinion(auditOpinion);
             tmp.setStatus(0);
+
             tmp.setProjectDepartUser(null);
             tmp.setCostDepartUser(null);
             tmp.setManagerDepartUser(null);
