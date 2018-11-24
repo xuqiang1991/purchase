@@ -36,13 +36,18 @@
     <collection property="roleId" column="role_id" ofType="java.lang.Long">
       <id column="role_id" property="roleId" jdbcType="BIGINT"></id>
     </collection>
+    <collection property="roleNames" column="role_name" ofType="java.lang.String">
+      <id column="role_name" property="roleName" jdbcType="BIGINT"></id>
+    </collection>
   </resultMap>
   <select id="selectByExampleExt" resultMap="BaseResultMapExt">
     select
     a.*,
-    b.role_id
+    b.role_id,
+    c.role_name
     from tb_admin a
     LEFT JOIN tb_admin_role b ON (a.id = b.user_id)
+    LEFT JOIN tb_roles c ON (b.role_id = c.role_id)
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause_Ext" />
     </if>

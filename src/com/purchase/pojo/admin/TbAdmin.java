@@ -50,6 +50,8 @@ public class TbAdmin implements Serializable {
 
     private List<Long> roleId;
 
+    private List<String> roleNames;
+
     public Long getId() {
         return id;
     }
@@ -232,6 +234,14 @@ public class TbAdmin implements Serializable {
 
     public void setUserType(Integer userType) {
         this.userType = userType;
+    }
+
+    public List<String> getRoleNames() {
+        return roleNames;
+    }
+
+    public void setRoleNames(List<String> roleNames) {
+        this.roleNames = roleNames;
     }
 
     @Override

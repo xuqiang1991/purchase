@@ -16,11 +16,13 @@
 </header>
 
 <div class="mui-content">
-    <div class="mui-card" style="margin: 0px; margin-top: 5px; margin-bottom: 5px; padding-bottom: 5px; text-align: center;">
-        <div class="mui-button-row">
-            <button type="button" id="add-btn" class="mui-btn mui-btn-primary">新建合同内请款单</button>
+    <c:if test="${!empty admin.supplierId}">
+        <div class="mui-card" style="margin: 0px; margin-top: 5px; margin-bottom: 5px; padding-bottom: 5px; text-align: center;">
+            <div class="mui-button-row">
+                <button type="button" id="add-btn" class="mui-btn mui-btn-primary">新建合同内请款单</button>
+            </div>
         </div>
-    </div>
+    </c:if>
     <!-- 单号、订单类型、来源订单、供应商、所属项目、请款人、开单人、开单日期、单据状态 -->
     <ul class="mui-table-view" style="z-index: 100">
         <li class="mui-table-view-cell mui-collapse">
@@ -80,6 +82,7 @@
                         <div class="mui-button-row">
                             <button class="mui-btn mui-btn-primary" type="button" id="search-btn">确认</button>&nbsp;&nbsp;
                             <button class="mui-btn mui-btn-danger" type="button" id="reset-btn">重置</button>
+                        </div>
                     </form>
                 </div>
             </div>

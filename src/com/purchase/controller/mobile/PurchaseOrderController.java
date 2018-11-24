@@ -62,11 +62,13 @@ public class PurchaseOrderController {
         List<ChoseSupplierVO> suppliers = supplierService.selectSupplier();
         List<ChoseDeptVO> depts = adminService.selectDeptAdmin();
         List<ChoseProjectVO> projects = projectMangerService.selectProjectManger();
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         logger.info("------:{}", JSON.toJSONString(depts));
         req.setAttribute("admins", JSON.toJSONString(admins));
         req.setAttribute("suppliers", JSON.toJSONString(suppliers));
         req.setAttribute("depts", JSON.toJSONString(depts));
         req.setAttribute("projects", JSON.toJSONString(projects));
+        req.setAttribute("admin", admin);
         return "page/mobile/purchaseOrder/list";
     }
 

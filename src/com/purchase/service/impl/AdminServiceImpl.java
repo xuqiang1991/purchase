@@ -775,4 +775,14 @@ public class AdminServiceImpl implements AdminService {
         }
         return retMap;
     }
-}
+
+	@Override
+	public List<TbRoles> selRolesById(List<Long> roleIds) {
+		TbRolesExample example = new TbRolesExample();
+		example.setOrderByClause(" role_id asc");
+		com.purchase.pojo.admin.TbRolesExample.Criteria criteria = example.createCriteria();
+		criteria.andRoleIdIn(roleIds);
+		List<TbRoles> list = tbRolesMapper.selectByExample(example);
+		return list;
+	}
+};

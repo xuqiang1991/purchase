@@ -129,4 +129,10 @@ public interface AdminService {
 	 * @return
 	 */
 	List<ChoseAreaVO> selectArea();
+
+	/**
+	 * 查询角色列表
+	 * @return
+	 */
+	List<TbRoles> selRolesById(List<Long> roleIds);
 }
