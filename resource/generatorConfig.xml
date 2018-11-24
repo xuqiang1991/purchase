@@ -67,6 +67,6 @@
         <!--<table schema="" tableName="biz_uncontract_apply_money"></table>-->
         <!--<table schema="" tableName="biz_programme_acceptance_order"></table>-->
         <!--<table schema="" tableName="biz_programme_acceptance_order_detail"></table>-->
-		<table schema="" tableName="biz_bidding_management"></table>
+		<table schema="" tableName="biz_payment_order"></table>
 	</context>
 </generatorConfiguration>

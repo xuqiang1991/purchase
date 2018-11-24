@@ -70,6 +70,13 @@
     tFinance.id as financeId, tFinance.fullname as financeFullname,
     tbProjectManger.id as projectMangerId, tbProjectManger.name as projectMangerName
     from biz_payment_order a
+    inner join  (
+        SELECT a.id
+          FROM tb_admin a,tb_admin_role b,tb_roles c
+         WHERE a.id = b.user_id
+           and b.role_id = c.role_id
+           and c.role_name IN('财务部','总经理')
+    ) tmp on(tmp.id = #{search.loginId})
     LEFT JOIN tb_admin c ON (a.create_user = c.id)
     LEFT JOIN tb_supplier b ON (a.supplier_id = b.id)
     LEFT JOIN tb_admin d ON (a.apply_user = c.id)

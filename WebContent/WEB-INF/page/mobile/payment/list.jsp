@@ -361,15 +361,14 @@
         </div>
         <div class="mui-card-footer">
             <div class="mui-pull-left">
-                <label>实付金额：{{actualPrice}}</label>&nbsp;&nbsp;
+                <label>实付金额：{{actualPrice}}</label>&nbsp;&nbsp;&nbsp;&nbsp;
                 <label>审定金额：{{approvalPrice}}</label>
             </div>
-            <div>
-                {{#unless status}}
-                 <button type="button" class="mui-btn mui-btn-primary toUpdate" value="{{id}}">修改</button>
-                {{/unless}}
-                <%--<button type="button" class="mui-btn mui-btn-primary toDetails"  value="{{id}}">详情</button>--%>
-            </div>
+            <%--<div>--%>
+                <%--{{#unless status}}--%>
+                 <%--<button type="button" class="mui-btn mui-btn-primary toUpdate" value="{{id}}">编辑</button>--%>
+                <%--{{/unless}}--%>
+            <%--</div>--%>
         </div>
     </div>
     {{/each}}

@@ -16,6 +16,16 @@
         .mui-popover .mui-popover-arrow:after {
             width: 0px;
         }
+        .mui-input-row label{
+            width: 40%;
+        }
+        .mui-input-row label~input{
+            width: 60%;
+        }
+        .mui-input-row label~label{
+            width: 60%;
+            padding: 11px 0px;
+        }
     </style>
 </head>
 <body class="mui-fullscreen">
@@ -66,7 +76,7 @@
                     <label style="width: 50%;padding-left: 0px;">${order.supplier.name}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
-                    <label>申请人</label>
+                    <label>请款人</label>
                     <label style="width: 50%;padding-left: 0px;">${order.applyAdmin.fullname}</label>
                 </div>
                 <div class="mui-input-row mui-input-range">
@@ -248,6 +258,10 @@
                 <form class="mui-input-group" id="editPaymentOrder">
                     <input type="hidden" id="id" name="id" value="${order.id}">
                     <div class="mui-input-row">
+                        <label>订单号</label>
+                        <label>${order.orderNo}</label>
+                    </div>
+                    <div class="mui-input-row">
                         <label>请款类型</label>
                         <input type="text" id="applyTypeName" class="mui-input-clear" placeholder="请选择请款类型" mui-verify="required">
                         <input type="hidden" id="applyType" name="applyType" value="${order.applyType}">
@@ -256,6 +270,42 @@
                         <label>请款性质</label>
                         <input type="text" id="applyNatureName" class="mui-input-clear" placeholder="请选择请款性质" mui-verify="required">
                         <input type="hidden" id="applyNature" name="applyNature" value="${order.applyNature}">
+                    </div>
+                    <div class="mui-input-row">
+                        <label>开单人</label>
+                        <label>${order.admin.fullname}</label>
+                    </div>
+                    <div class="mui-input-row">
+                        <label>开单日期</label>
+                        <label><fmt:formatDate value="${order.createTime}" pattern="yyyy-MM-dd"/></label>
+                    </div>
+                    <div class="mui-input-row">
+                        <label>供应商</label>
+                        <label>${order.supplier.name}</label>
+                    </div>
+                    <div class="mui-input-row mui-input-range">
+                        <label>请款人</label>
+                        <label>${order.applyAdmin.fullname}</label>
+                    </div>
+                    <div class="mui-input-row mui-input-range">
+                        <label>请款人电话</label>
+                        <label>${order.applyUserPhone}</label>
+                    </div>
+                    <div class="mui-input-row mui-input-range">
+                        <label>所属项目</label>
+                        <label>${order.projectManger.name}</label>
+                    </div>
+                    <div class="mui-input-row mui-input-range">
+                        <label>所属合同</label>
+                        <label>${order.contractId}</label>
+                    </div>
+                    <div class="mui-input-row mui-input-range">
+                        <label>申请金额</label>
+                        <label>${order.applyPrice}</label>
+                    </div>
+                    <div class="mui-input-row mui-input-range">
+                        <label>审定金额</label>
+                        <label>${order.approvalPrice}</label>
                     </div>
                     <div class="mui-input-row">
                         <label>扣质保金</label>
@@ -268,6 +318,10 @@
                     <div class="mui-input-row">
                         <label>其它扣款</label>
                         <input type="number" id="otherPrice" name="otherPrice" value="${order.otherPrice}" placeholder="请输入其它扣款">
+                    </div>
+                    <div class="mui-input-row mui-input-range">
+                        <label>实付金额</label>
+                        <input type="number" id="actualPrice" name="actualPrice" value="${order.actualPrice}" readonly>
                     </div>
                     <div class="mui-input-row">
                         <label>付款方式</label>
@@ -314,6 +368,14 @@
                         <label>已付金额</label>
                         <input type="number" id="amountPaid" name="amountPaid" value="${order.amountPaid}" placeholder="请输入已付金额">
                     </div>
+                    <div class="mui-input-row mui-input-range">
+                        <label>已付比例</label>
+                        <label>${order.paidProportion}%</label>
+                    </div>
+                    <div class="mui-input-row mui-input-range">
+                        <label>支付比例</label>
+                        <label>${order.paymentProportion}</label>
+                    </div>
                     <div class="mui-input-row">
                         <label>发票类型</label>
                         <input type="text" id="invoiceTypeName" class="mui-input-clear" placeholder="请选择发票类型" mui-verify="required" >
@@ -331,6 +393,10 @@
                     <div class="mui-input-row">
                         <label>质量评定人</label>
                         <input type="number" id="qualityAssessor" name="qualityAssessor" value="${order.qualityAssessor}" placeholder="请输入质量评定人">
+                    </div>
+                    <div class="mui-input-row mui-input-range">
+                        <label>单据状态</label>
+                        <label>${order.statusName}</label>
                     </div>
                     <div>
                         <textarea name="summary" id="summary" rows="5" class="mui-input-clear" placeholder="摘要">${order.summary}</textarea>
