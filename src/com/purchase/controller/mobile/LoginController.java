@@ -35,4 +35,18 @@ public class LoginController {
         return "page/mobile/details";
     }
 
+    @RequestMapping(value = "/mobileLogin")
+    public String mobileLogin(HttpServletRequest req) {
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        req.setAttribute("admin",admin);
+        return "page/mobile/user/mobile_login";
+    }
+
+    @RequestMapping(value = "/forgetPassword")
+    public String forgetPassword(HttpServletRequest req) {
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        req.setAttribute("admin",admin);
+        return "page/mobile/user/forget_password";
+    }
+
 }
