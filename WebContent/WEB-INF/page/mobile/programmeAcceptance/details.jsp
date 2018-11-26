@@ -36,9 +36,9 @@
 
 <div id="setting" class="mui-content mui-page">
     <div class="mui-navbar-inner mui-bar mui-bar-nav">
-        <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+        <%--<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>
-        </button>
+        </button>--%>
         <h1 class="mui-center mui-title">工程验收单详情</h1>
     </div>
 
