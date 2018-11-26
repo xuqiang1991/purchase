@@ -475,6 +475,7 @@
                                 $("#addFromPurchaseOrderItem").find("input[name='unit']").val(data.unit);
                                 $("#addFromPurchaseOrderItem").find("input[name='price']").val(data.price);
                                 $("#addFromPurchaseOrderItem").find("input[name='amount']").val(data.amount);
+                                $("#addFromPurchaseOrderItem").find("input[name='totalPrice']").val(data.totalPrice);
                                 $("#remark").val(data.remark);
 
                                /* $("#model").val(data.model);
