@@ -313,8 +313,12 @@
         }
     }
 
-
+    var isSubmit = false;
     function submitPurchaseOrder(){
+        if(isSubmit){
+            return false;
+        }
+
         var check = true;
         mui("input").each(function() {
             //若当前input为空，则alert提醒
@@ -330,6 +334,7 @@
         });
         //校验通过，继续执行业务逻辑
         if(check){
+            isSubmit = true
             var url = '${ctx}/mobile/CAM/addCAMOrder'
             $.ajax({
                 url: url,
@@ -340,6 +345,7 @@
                 timeout: 10000,
                 success: function(result) {
                     if(result.code!=0){
+                        isSubmit = false;
                         mui.alert(data.msg);
                     }else {
                         mui.alert("保存成功！");

@@ -330,7 +330,12 @@
     mui('.mui-scroll-wrapper').scroll();
 
     /** 提交项 **/
+    var isSubmit = false;
     mui(document.body).on('tap', '#submitFromPurchaseOrderItem', function(e) {
+        if(isSubmit){
+            return false;
+        }
+
         var check = true;
         mui("#addFromPurchaseOrderItem input").each(function() {
             //若当前input为空，则alert提醒
@@ -348,6 +353,7 @@
 
         //校验通过，继续执行业务逻辑
         if(check){
+            isSubmit = true
 
             //检查是否有多条请款单
             var checkCAMItemData = {};
@@ -413,6 +419,7 @@
             timeout: 10000,
             success: function(result) {
                 if(result.code!=0){
+                    isSubmit = false;
                     mui.alert(result.msg);
                 }else {
                     mui.alert('保存成功！', function() {

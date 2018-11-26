@@ -386,7 +386,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 		String id = MyUtil.getStrUUID();
 		order.setId(id);
-		purchaseOrderDetailMapper.insert(order);
+		purchaseOrderDetailMapper.insertSelective(order);
 
 		BigDecimal price = order.getPrice();
 		Double amount = order.getAmount();

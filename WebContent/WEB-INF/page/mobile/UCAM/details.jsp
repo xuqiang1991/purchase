@@ -426,7 +426,11 @@
 
 
     /** 提交项 **/
+    var isSubmit = false;
     mui(document.body).on('tap', '#submitFromUCAMItem', function(e) {
+        if(isSubmit){
+            return false;
+        }
         var check = true;
         mui("#addFromUCAMItem input").each(function() {
             //若当前input为空，则alert提醒
@@ -443,6 +447,7 @@
 
         //校验通过，继续执行业务逻辑
         if(check){
+            isSubmit = true
             var orderNo = $('#orderNo').val();
             var itemId = $('#addFromUCAMItem').find('#id').val();
             var url = '${ctx}/mobile/UCAM/addUCAMItem/'+ orderNo;
@@ -458,6 +463,7 @@
                 timeout: 10000,
                 success: function(result) {
                     if(result.code!=0){
+                        isSubmit = false
                         mui.alert(result.msg);
                     }else {
                         mui.alert('保存成功！', function() {

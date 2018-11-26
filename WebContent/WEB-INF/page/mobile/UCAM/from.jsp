@@ -402,7 +402,12 @@
         }
     }
 
+    var isSubmit = false;
     function ucamSave(){
+        if(isSubmit){
+            return false;
+        }
+
         var check = true;
         mui("input").each(function() {
             //若当前input为空，则alert提醒
@@ -416,7 +421,9 @@
                 }
             }
         });
+
         if(check){
+            isSubmit = true
             var url = '${ctx}/mobile/UCAM/addUCAMOrder';
             if($('#ucamForm').find('#id').val() != null){
                 url = '${ctx}/mobile/UCAM/editUCAMOrder';
@@ -430,6 +437,7 @@
                 timeout: 10000,
                 success: function(result) {
                     if(result.code!=0){
+                        isSubmit = false;
                         mui.alert(result.msg);
                     }else {
                         mui.alert("保存成功！");

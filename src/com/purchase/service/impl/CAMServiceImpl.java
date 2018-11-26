@@ -329,7 +329,7 @@ public class CAMServiceImpl implements CAMService {
     public ResultUtil addCAMItem(BizContractApplyMoneyDetail order) {
         String id = MyUtil.getStrUUID();
         order.setId(id);
-        contractApplyMoneyDetailMapper.insert(order);
+        contractApplyMoneyDetailMapper.insertSelective(order);
 
         BigDecimal price = order.getSettlePrice();
 
@@ -541,6 +541,9 @@ public class CAMServiceImpl implements CAMService {
                         String purchaseDetailId = detail.getPurchaseDetailId();
                         BizPurchaseOrderDetail detail1 = purchaseOrderDetailMapper.selectByPrimaryKey(purchaseDetailId);
                         Double oldSettleAmout = detail1.getSettleAmout();
+                        if(oldSettleAmout == null){
+                            oldSettleAmout = 0D;
+                        }
 
                         BizPurchaseOrderDetail record = new BizPurchaseOrderDetail();
                         record.setId(purchaseDetailId);

@@ -342,8 +342,12 @@
         }
     }
 
-
+    var isSubmit = false;
     function submitPurchaseOrder(){
+        if(isSubmit){
+            return false;
+        }
+
         var check = true;
         mui("input").each(function() {
             //若当前input为空，则alert提醒
@@ -359,6 +363,7 @@
         });
         //校验通过，继续执行业务逻辑
         if(check){
+            isSubmit = true
             var url = '${ctx}/mobile/purchase/addPurchaseOrder'
             $.ajax({
                 url: url,
@@ -370,6 +375,7 @@
                 success: function(result) {
                     if(result.code!=0){
                         mui.alert(result.msg);
+                        isSubmit = false;
                     }else {
                         mui.alert("保存成功！");
                         document.location.href='${ctx }/mobile/purchase/toDetails/' + result.msg;
