@@ -36,6 +36,8 @@
             margin-top: 1px;
         }
     </style>
+    <script src="${ctx }/js/jquery-1.11.1.js"></script>
+    <script src="${ctx}/mui/js/mui.min.js"></script>
 </head>
 <body>
 <header class="mui-bar mui-bar-nav">
@@ -65,8 +67,6 @@
         <button id='sendMail' class="mui-btn mui-btn-block mui-btn-primary">确认修改</button>
     </div>
 </div>
-<script src="${ctx }/js/jquery-1.11.1.js"></script>
-<script src="${ctx}/mui/js/mui.min.js"></script>
 
 <script type="text/javascript" charset="utf-8">
 

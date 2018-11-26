@@ -12,6 +12,12 @@
     <link href="${ctx }/mui/css/mui.picker.min.css" rel="stylesheet" />
     <link href="${ctx }/mui/css/feedback-page.css" rel="stylesheet" />
     <link href="${ctx }/mui/css/mui-page.css" rel="stylesheet" />
+    <script type="text/javascript" src="${ctx}/js/jquery.min.js"></script>
+    <script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
+    <script src="${ctx }/mui/js/mui.picker.min.js"></script>
+    <script src="${ctx }/mui/js/mui.view.js"></script>
+    <script type="text/javascript" src="${ctx}/js/handlebars.min.js"></script>
+    <script type="text/javascript" src="${ctx}/js/handlebarsHelps.js"></script>
 </head>
 <body class="mui-fullscreen">
 <div id="app" class="mui-views">
@@ -143,12 +149,7 @@
     </div>
 </div>
 
-<script type="text/javascript" src="${ctx}/js/jquery.min.js"></script>
-<script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
-<script src="${ctx }/mui/js/mui.picker.min.js"></script>
-<script src="${ctx }/mui/js/mui.view.js"></script>
-<script type="text/javascript" src="${ctx}/js/handlebars.min.js"></script>
-<script type="text/javascript" src="${ctx}/js/handlebarsHelps.js"></script>
+
 <script type="text/javascript" charset="utf-8">
     mui.init();
     //初始化单页view

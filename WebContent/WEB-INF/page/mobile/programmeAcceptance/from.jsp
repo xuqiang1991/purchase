@@ -16,6 +16,11 @@
     <link href="${ctx }/mui/css/mui.picker.min.css" rel="stylesheet" />
     <link href="${ctx }/mui/css/feedback-page.css" rel="stylesheet" />
     <link href="${ctx }/mui/css/mui-page.css" rel="stylesheet" />
+    <script src="${ctx }/mui/js/mui.min.js"></script>
+    <script src="${ctx }/js/jquery-1.11.1.js"></script>
+    <script src="${ctx }/mui/js/mui.picker.min.js"></script>
+    <script src="${ctx }/mui/js/mui.view.js"></script>
+    <script type="text/javascript" src="${ctx }/js/handlebars.min.js"></script>
 </head>
 <body class="mui-fullscreen">
 <div id="app" class="mui-views">
@@ -161,13 +166,6 @@
 </div>
 
 
-
-
-<script src="${ctx }/mui/js/mui.min.js"></script>
-<script src="${ctx }/js/jquery-1.11.1.js"></script>
-<script src="${ctx }/mui/js/mui.picker.min.js"></script>
-<script src="${ctx }/mui/js/mui.view.js"></script>
-<script type="text/javascript" src="http://apps.bdimg.com/libs/handlebars.js/2.0.0-alpha.4/handlebars.js"></script>
 <script type="text/javascript" charset="utf-8">
     mui.init();
     //初始化单页view

@@ -8,6 +8,11 @@
 	<title></title>
 	<link href="${ctx }/mui/css/mui.min.css" rel="stylesheet"/>
     <link href="${ctx }/mui/css/mui.picker.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="${ctx}/js/jquery.min.js"></script>
+    <script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
+    <script type="text/javascript" src="${ctx}/js/handlebars.min.js"></script>
+    <script type="text/javascript" src="${ctx}/js/handlebarsHelps.js"></script>
+    <script src="${ctx }/mui/js/mui.picker.min.js"></script>
 </head>
 <body>
 <header class="mui-bar mui-bar-nav">
@@ -98,11 +103,7 @@
     </div>
     <!-- 合同内请款单 end -->
 </div>
-<script type="text/javascript" src="${ctx}/js/jquery.min.js"></script>
-<script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
-<script type="text/javascript" src="${ctx}/js/handlebars.min.js"></script>
-<script type="text/javascript" src="${ctx}/js/handlebarsHelps.js"></script>
-<script src="${ctx }/mui/js/mui.picker.min.js"></script>
+
 <script type="text/javascript" charset="utf-8">
     var page = 1; //当前页
     var limit = 6; //每页显示条数
