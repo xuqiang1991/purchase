@@ -29,6 +29,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
 			<value>
 				/css/**=anon
 				/js/**=anon
+				/favicon.ico=anon
 				/layui/**=anon
 				/mui/**=anon
 				/sys/vcode=anon
@@ -38,6 +39,8 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
 				/sys/wx/**=anon
 				/druid/**=anon
 				/account/active=anon
+				/mainLogin=anon
+				/mobile/mobileLogin=anon
 				/json/**=anon
 				/loginOut=logout
 				/**=authc
