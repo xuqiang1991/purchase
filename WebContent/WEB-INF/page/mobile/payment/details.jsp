@@ -137,15 +137,27 @@
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>成本率</label>
-                    <label style="width: 50%;padding-left: 0px;">${detailsVo.costRate}%</label>
+                    <label style="width: 50%;padding-left: 0px;">
+                    <c:if test="${!empty detailsVo.costRate}">
+                       ${detailsVo.costRate}%
+                    </c:if>
+                    </label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>收支比</label>
-                    <label style="width: 50%;padding-left: 0px;">${detailsVo.financialRate}%</label>
+                    <label style="width: 50%;padding-left: 0px;">
+                    <c:if test="${!empty detailsVo.financialRate}">
+                        ${detailsVo.financialRate}%
+                    </c:if>
+                    </label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>税率</label>
-                    <label style="width: 50%;padding-left: 0px;">${detailsVo.taxRate}%</label>
+                    <label style="width: 50%;padding-left: 0px;">
+                    <c:if test="${!empty detailsVo.taxRate}">
+                        ${detailsVo.taxRate}%
+                    </c:if>
+                    </label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>合同量</label>
@@ -161,7 +173,11 @@
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>已付比例</label>
-                    <label style="width: 50%;padding-left: 0px;">${detailsVo.paidProportion}%</label>
+                    <label style="width: 50%;padding-left: 0px;">
+                    <c:if test="${!empty detailsVo.paidProportion}">
+                        ${detailsVo.paidProportion}%
+                    </c:if>
+                    </label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>支付比例</label>
@@ -173,7 +189,11 @@
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>专票税率</label>
-                    <label style="width: 50%;padding-left: 0px;">${detailsVo.specialTaxRate}%</label>
+                    <label style="width: 50%;padding-left: 0px;">
+                    <c:if test="${!empty detailsVo.specialTaxRate}">
+                        ${detailsVo.specialTaxRate}%
+                    </c:if>
+                    </label>
                 </div>
                 <div class="mui-input-row mui-input-range">
                     <label>质量验收</label>
@@ -306,6 +326,7 @@
                     <div class="mui-input-row mui-input-range">
                         <label>审定金额</label>
                         <label>${detailsVo.approvalPrice}</label>
+                        <input type="number" id="approvalPrice" name="approvalPrice" value="${detailsVo.approvalPrice}" placeholder="请输入审定金额">
                     </div>
                     <div class="mui-input-row">
                         <label>扣质保金</label>
@@ -571,6 +592,23 @@
                 qualityGrade.value = items[0].value;
             });
         });
+
+
+        //计算金额
+        document.getElementById("approvalPrice").addEventListener("change", totalActualPrice, false);
+        document.getElementById("guaranteePrice").addEventListener("change", totalActualPrice, false);
+        document.getElementById("advancePrice").addEventListener("change", totalActualPrice, false);
+        document.getElementById("otherPrice").addEventListener("change", totalActualPrice, false);
+        function totalActualPrice(){
+            var approvalPrice = document.getElementById("approvalPrice");
+            var guaranteePrice = document.getElementById("guaranteePrice");
+            var advancePrice = document.getElementById("advancePrice");
+            var otherPrice = document.getElementById("otherPrice");
+            if(approvalPrice.value != "" && guaranteePrice.value != "" && advancePrice.value != "" && otherPrice.value != ""){
+                var actualPrice = approvalPrice - guaranteePrice - advancePrice - otherPrice;
+                document.getElementById("actualPrice").value = actualPrice;
+            }
+        }
     });
 
 </script>
