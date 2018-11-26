@@ -65,4 +65,12 @@ public interface TbAdminMapper {
             @Result(property = "value", column = "id")
     })
     List<ChoseAdminVO> selectByRoleName(String roleName);
+
+    @Select("SELECT * FROM tb_admin a WHERE a.is_on_job = #{0} and a.supplier_id = #{1}")
+    List<TbAdmin> selectAdminBySupplierId(Integer isOnJob, Long supplierId);
+
+    @Select("SELECT * FROM tb_admin a WHERE a.is_on_job = #{0} and a.supplier_id IS NOT NULL")
+    List<TbAdmin> selectAdminSupplierIdNotNull(Integer isOnJob);
+
+    List<TbAdmin> getAdminSupplierIdNotNullExt();
 }

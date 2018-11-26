@@ -77,14 +77,19 @@ public class UCAMController {
     @RequiresPermissions("mobile:UCAM:list")
     public String ucamDetails(HttpServletRequest req){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        if(admin.getSupplierId() != null){
+        /*if(admin.getSupplierId() != null){
             TbSupplier supplier = supplierService.selSupplierById(admin.getSupplierId());
             admin.setSupplierName(supplier.getName());
-        }
-        List<ChoseAdminVO> admins = adminService.selectAdmin();
-        logger.info("------:{}", JSON.toJSONString(admins));
+            //登录账户为供应商，获取当前供应商的用户为创建人
+            List<ChoseAdminVO> admins = adminService.selectAdminBySupplierId(admin.getSupplierId());
+            req.setAttribute("admins", JSON.toJSONString(admins));
+        }else{
+            List<ChoseSupplierVO> admins = adminService.selectAdminSupplierIdNotNull();
+            req.setAttribute("admins", JSON.toJSONString(admins));
+        }*/
+
+
         List<TbProjectManger> projectMangerList = projectMangerService.selectProjectMangerExample();
-        req.setAttribute("admins", JSON.toJSONString(admins));
         req.setAttribute("admin", admin);
         req.setAttribute("pmItem",JSON.toJSONString(projectMangerList));
         String id = req.getParameter("id");
@@ -132,18 +137,26 @@ public class UCAMController {
         String id = req.getParameter("id");
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         Long adminId = admin.getId();
-        List<ChoseAdminVO> admins = adminService.selectAdmin();
+        /*List<ChoseAdminVO> admins = adminService.selectAdmin();*/
         UCAMOrderDetialVo detailsVo = new UCAMOrderDetialVo();
         if(!StringUtils.isEmpty(id)){
             detailsVo = ucamService.selUCAMDetail(id,adminId);
         }
-        if(admin.getSupplierId() != null){
+
+        if(admin.getUserType() == 1){
             TbSupplier supplier = supplierService.selSupplierById(admin.getSupplierId());
             admin.setSupplierName(supplier.getName());
+            //登录账户为供应商，获取当前供应商的用户为创建人
+            List<ChoseAdminVO> admins = adminService.selectAdminBySupplierId(admin.getSupplierId());
+            req.setAttribute("admins", JSON.toJSONString(admins));
+        }else{
+            List<ChoseSupplierVO> admins = adminService.selectAdminSupplierIdNotNull();
+            req.setAttribute("admins", JSON.toJSONString(admins));
         }
+
         model.addAttribute("detailsVo",detailsVo);
         model.addAttribute("admin",admin);
-        model.addAttribute("admins", JSON.toJSONString(admins));
+        /*model.addAttribute("admins", JSON.toJSONString(admins));*/
         return "page/mobile/UCAM/details";
     }
 
@@ -208,7 +221,7 @@ public class UCAMController {
         order.setUpdateDate(date);
         order.setCreateTime(date);
         order.setOrderNo(orderNo);
-        return ucamService.addUCAMOrderDetail(order);
+        return ucamService.editUCAMOrderDetail(order);
     }
 
     @SysLog(value="更新合同外请款单单项")

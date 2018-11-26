@@ -690,6 +690,43 @@ public class AdminServiceImpl implements AdminService {
     }
 
 	@Override
+	public List<ChoseAdminVO> selectAdminBySupplierId(Long supplierId) {
+		List<TbAdmin> admis = tbAdminMapper.selectAdminBySupplierId(1,supplierId);
+		List<ChoseAdminVO> item = new ArrayList();
+		if(!CollectionUtils.isEmpty(admis)){
+			for (TbAdmin a: admis) {
+				item.add(new ChoseAdminVO(a.getId().toString(),a.getFullname()));
+			}
+		}
+		return item;
+	}
+
+	@Override
+	public List<ChoseSupplierVO> selectAdminSupplierIdNotNull() {
+		//List<TbAdmin> admis = tbAdminMapper.selectAdminSupplierIdNotNull(1);
+		List<TbAdmin> admis = tbAdminMapper.getAdminSupplierIdNotNullExt();
+		List<ChoseSupplierVO> item = new ArrayList();
+		if(!CollectionUtils.isEmpty(admis)){
+			List<TbSupplier> suppliers = supplierMapper.selectByExample(new TbSupplierExample());
+			for (TbSupplier s : suppliers) {
+				Long value = s.getId();
+				List<ChoseAdminVO> adminItem = new ArrayList();
+				//System.out.println("value:" + value);
+				for (TbAdmin a: admis) {
+					//System.out.println("a.getSupplierId():" + a.getSupplierId());
+					if(value.equals(a.getSupplierId())){
+						adminItem.add(new ChoseAdminVO(a.getId().toString(),a.getFullname()));
+					}
+				}
+				if(!CollectionUtils.isEmpty(adminItem)){
+					item.add(new ChoseSupplierVO(value.toString(),s.getName(),adminItem));
+				}
+			}
+		}
+		return item;
+	}
+
+	@Override
 	public List<ChoseDeptVO> selectDeptAdmin() {
 		List<ChoseDeptVO> item = new ArrayList<>();
 		TbDepartmentExample example=new TbDepartmentExample();
@@ -785,4 +822,5 @@ public class AdminServiceImpl implements AdminService {
 		List<TbRoles> list = tbRolesMapper.selectByExample(example);
 		return list;
 	}
-};
+
+}

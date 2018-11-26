@@ -88,4 +88,8 @@
       order by ${example.orderByClause}
     </if>
   </select>
+  <select id="getAdminSupplierIdNotNullExt" resultMap="BaseResultMap">
+    select a.* from tb_admin a where a.is_on_job = 1 and a.supplier_id IS NOT NULL
+  </select>
+
 </mapper>

@@ -119,6 +119,18 @@ public interface AdminService {
     List<ChoseAdminVO> selectAdmin();
 
 	/**
+	 * 根据供应商构建用户下拉框数据
+	 * @return
+	 */
+	List<ChoseAdminVO> selectAdminBySupplierId(Long supplierId);
+
+	/**
+	 * 构建所有供应商用户下拉框数据
+	 * @return
+	 */
+	List<ChoseSupplierVO> selectAdminSupplierIdNotNull();
+
+	/**
 	 * 构建部门用户下拉框数据
 	 * @return
 	 */
@@ -135,4 +147,6 @@ public interface AdminService {
 	 * @return
 	 */
 	List<TbRoles> selRolesById(List<Long> roleIds);
+
+
 }

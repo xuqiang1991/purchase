@@ -25,6 +25,11 @@
             width: 0px;
         }
     </style>
+    <script src="${ctx }/mui/js/mui.min.js"></script>
+    <script src="${ctx }/js/jquery-1.11.1.js"></script>
+    <script src="${ctx }/mui/js/mui.picker.min.js"></script>
+    <script src="${ctx }/mui/js/mui.view.js"></script>
+    <script type="text/javascript" src="${ctx }/js/handlebars.min.js"></script>
 </head>
 <body class="mui-fullscreen">
 <div id="app" class="mui-views">
@@ -66,7 +71,7 @@
                                 <input type="hidden" name="id" id="id" value="${detailsVo.ucamVo.id}">
                                 <div class="mui-input-row">
                                     <label>请款单号</label>
-                                    <input type="text" name="orderNo" id="orderNo" readonly disabled="disabled" value="${detailsVo.ucamVo.orderNo}">
+                                    <input type="text" name="orderNo" id="orderNo" readonly disabled="disabled" value="${detailsVo.ucamVo.orderNo}" placeholder="请款单号由系统自动生成">
                                 </div>
                                 <div class="mui-input-row">
                                     <label>请款人</label>
@@ -85,8 +90,17 @@
                                     <label>供应商</label>
                                     <c:choose>
                                         <c:when test="${detailsVo.ucamVo.id == null}">
-                                            <input type="text" id="supplierName" readonly value="${admin.supplierName}">
-                                            <input type="hidden" id="supplierId" name="supplierId" value="${admin.supplierId}" mui-verify="required">
+                                            <c:choose>
+                                                <c:when test="${admin.supplierId == null}">
+                                                    <input type="text" id="supplierName" readonly value="">
+                                                    <input type="hidden" id="supplierId" name="supplierId" value="" mui-verify="required">
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <input type="text" id="supplierName" readonly value="${admin.supplierName}">
+                                                    <input type="hidden" id="supplierId" name="supplierId" value="${admin.supplierId}" mui-verify="required">
+                                                </c:otherwise>
+                                            </c:choose>
+
                                         </c:when>
                                         <c:otherwise>
                                             <input type="text" id="supplierName" readonly value="${detailsVo.ucamVo.supplier.name}">
@@ -135,7 +149,7 @@
                                     <textarea name="summary" id="summary" rows="5" class="mui-input-clear">${detailsVo.ucamVo.summary}</textarea>
                                 </div>
                                 <div class="mui-button-row" style="padding-bottom: 20px;">
-                                    <c:if test="${detailsVo.ucamVo.status == 0}">
+                                    <c:if test="${detailsVo.ucamVo.status == 0 || detailsVo.ucamVo.status == null}">
                                         <button type="button" class="mui-btn mui-btn-primary" id="ucamSave">保存</button>
                                     </c:if>
                                 </div>
@@ -253,7 +267,7 @@
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="submitReviewUCAM">选择审核人</button>
                     </c:when>--%>
                     <c:when test="${detailsVo.reviewUserId == admin.id}">
-                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewUCAM">审核</button>
+                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">审核</button>
                     </c:when>
                 </c:choose>
                 <c:if test="${detailsVo.ucamVo.id != null && detailsVo.ucamVo.status != 0}">
@@ -414,32 +428,52 @@
             }
         //}
 
+        var userType = '${admin.userType}';
+        console.log(userType);
         var adminsJson = '${admins}';
         console.log(adminsJson);
-        var userPicker = new mui.PopPicker();
-        userPicker.setData(JSON.parse(adminsJson));
-        var selectApplyUserEdit = document.getElementById('selectApplyUserEdit');
-        var applyUserEdit = document.getElementById('applyUserEdit');
-        selectApplyUserEdit.addEventListener('tap', function(event) {
-            userPicker.show(function(items) {
-                selectApplyUserEdit.value = items[0].text;
-                applyUserEdit.value = items[0].value;
-                //返回 false 可以阻止选择框的关闭
-                //return false;
-                var url = '${ctx}/sys/getAdmin?id=' + items[0].value;
-                $.ajax({
-                    url: url,
-                    type: 'get',
-                    timeout: 10000,
-                    success: function(result) {
-                        if(result.code == 0){
-                            $("#supplierId").val(result.data.supplierId);
-                            $("#supplierName").val(result.data.supplierName);
+
+        if(userType == 1){
+            var userPicker = new mui.PopPicker();
+            userPicker.setData(JSON.parse(adminsJson));
+            var selectApplyUserEdit = document.getElementById('selectApplyUserEdit');
+            var applyUserEdit = document.getElementById('applyUserEdit');
+            selectApplyUserEdit.addEventListener('tap', function(event) {
+                userPicker.show(function(items) {
+                    selectApplyUserEdit.value = items[0].text;
+                    applyUserEdit.value = items[0].value;
+                    //返回 false 可以阻止选择框的关闭
+                    //return false;
+                    var url = '${ctx}/sys/getAdmin?id=' + items[0].value;
+                    $.ajax({
+                        url: url,
+                        type: 'get',
+                        timeout: 10000,
+                        success: function(result) {
+                            if(result.code == 0){
+                                $("#supplierId").val(result.data.supplierId);
+                                $("#supplierName").val(result.data.supplierName);
+                            }
                         }
-                    }
+                    });
                 });
+            }, false);
+        }else{
+            var userPicker = new mui.PopPicker({
+                layer: 2
             });
-        }, false);
+            userPicker.setData(JSON.parse(adminsJson));
+            var selectApplyUserEdit = document.getElementById('selectApplyUserEdit');
+            var applyUserEdit = document.getElementById('applyUserEdit');
+            selectApplyUserEdit.addEventListener('tap', function(event) {
+                userPicker.show(function(items) {
+                    selectApplyUserEdit.value = items[0].text;
+                    applyUserEdit.value = items[0].value;
+                });
+            }, false);
+        }
+
+
 
 
 
@@ -544,8 +578,10 @@
                     if(result.code!=0){
                         mui.alert(result.msg);
                     }else {
-                        mui.alert("保存成功！");
-                        document.location.href = '${ctx }/mobile/UCAM/toDetails/?id=' + result.msg;
+                        mui.alert('保存成功！', function() {
+                            document.location.href = '${ctx }/mobile/UCAM/toDetails/?id=' + result.msg;
+                        });
+
                     }
                 }
             });
@@ -589,7 +625,7 @@
                         mui.alert(result.msg);
                     }else {
                         mui.alert('保存成功！', function() {
-                            document.location.href='${ctx }/mobile/UCAM/toDetails/${detailsVo.ucamVo.id}';
+                            document.location.href='${ctx }/mobile/UCAM/toDetails/?id=${detailsVo.ucamVo.id}';
                         });
                     }
                 }
@@ -617,7 +653,7 @@
                             mui.alert(result.msg);
                         }else {
                             mui.alert('删除成功！', function() {
-                                document.location.href='${ctx }/mobile/UCAM/toDetails/${detailsVo.ucamVo.id}';
+                                document.location.href='${ctx }/mobile/UCAM/toDetails/?id=${detailsVo.ucamVo.id}';
                             });
                         }
                     }
@@ -644,7 +680,7 @@
                             mui.alert(result.msg);
                         }else {
                             mui.alert('删除成功！', function() {
-                                document.location.href='${ctx }/mobile/UCAM/toDetails/${detailsVo.ucamVo.id}';
+                                document.location.href='${ctx }/mobile/UCAM/toDetails/?id=${detailsVo.ucamVo.id}';
                             });
                         }
                     }
@@ -676,7 +712,7 @@
                                 mui.alert(result.msg);
                             }else {
                                 mui.alert('保存成功！', function() {
-                                    document.location.href='${ctx }/mobile/UCAM/toDetails/${detailsVo.ucamVo.id}';
+                                    document.location.href='${ctx }/mobile/UCAM/toDetails/?id=${detailsVo.ucamVo.id}';
                                 });
                             }
                         }
@@ -743,7 +779,7 @@
                             mui.alert(result.msg);
                         }else {
                             mui.alert('提交审核成功！', function() {
-                                document.location.href='${ctx }/mobile/UCAM/toDetails/${detailsVo.ucamVo.id}';
+                                document.location.href='${ctx }/mobile/UCAM/toDetails/?id=${detailsVo.ucamVo.id}';
                             });
                         }
                     }
@@ -790,9 +826,14 @@
     }else{
         $("#ul_mui_table_view").find("li").eq(0).addClass("mui-active");
     }*/
+    var dcLength = $("#detailDiv").find("div.mui-card").length;
+    if(dcLength > 0){
+        $("#ul_mui_table_view").find("li").removeClass("mui-active");
+        $("#ul_mui_table_view").find("li").eq(2).addClass("mui-active");
+    }
 </script>
 <!-- 审核 -->
-<c:set value="${ctx }/mobile/UCAM/toDetails/${detailsVo.ucamVo.id}" var="reviewRefreshUrl"/>
+<c:set value="${ctx }/mobile/UCAM/toDetails/?id=${detailsVo.ucamVo.id}" var="reviewRefreshUrl"/>
 <c:set value="${ctx}/mobile/UCAM/reviewUCAMOrder/${detailsVo.ucamVo.id}" var="reviewSaveUrl"/>
 <c:set value="${detailsVo.ucamVo.status}" var="reviewStatus"/>
 <%@ include file="/WEB-INF/page/mobile/common/review.jsp"%>

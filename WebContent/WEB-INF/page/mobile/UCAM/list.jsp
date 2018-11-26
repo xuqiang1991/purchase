@@ -16,7 +16,7 @@
     <script type="text/javascript" src="${ctx}/js/jquery.min.js"></script>
     <script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
     <script type="text/javascript" src="${ctx}/js/handlebars.min.js"></script>
-    <script type="text/javascript" src="${ctx}/js/handlebarsHelps.js"></script>
+    <script type="text/javascript" src="${ctx}/js/pb-handlebarsHelps.js"></script>
     <script src="${ctx }/mui/js/mui.picker.min.js"></script>
 </head>
 <body>

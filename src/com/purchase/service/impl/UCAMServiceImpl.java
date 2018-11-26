@@ -280,16 +280,21 @@ public class UCAMServiceImpl implements UCAMService {
             //选择审核人
             String roleName = "工程部";
             Long reviewUserId = null;
-            if(STATUS_1 == vo.getStatus()){
-                reviewUserId = vo.getProjectDepartUser();
-                roleName = "成本部";
-            }else if(STATUS_2 == vo.getStatus()){
-                roleName = "总经理";
-                reviewUserId = vo.getCostDepartUser();
-            }else if(STATUS_3 == vo.getStatus()){
-                //depart = "总经理";
-                reviewUserId = vo.getManagerDepartUser();
+            switch (vo.getStatus()){
+                case STATUS_1:
+                    reviewUserId = vo.getProjectDepartUser(); roleName = "成本部";
+                    break;
+                case STATUS_2:
+                    reviewUserId = vo.getCostDepartUser(); roleName = "总经理";
+                    break;
+                case STATUS_3:
+                    reviewUserId = vo.getManagerDepartUser();
+                    break;
+                default:
+                    logger.info("不在处理流程内，不做修改");
+                    break;
             }
+            ucamOrderDetialVo.setReviewUserId(reviewUserId);
             if(roleName != null){
                 List<ChoseAdminVO> data = adminMapper.selectByRoleName(roleName);
                 if(!CollectionUtils.isEmpty(data)){
@@ -297,13 +302,9 @@ public class UCAMServiceImpl implements UCAMService {
                     String json = gson.toJson(data);
                     ucamOrderDetialVo.setDeparts(json);
                 }
-                TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-                long loginId = admin.getId();
-                if(reviewUserId != null && reviewUserId == loginId){
-                    ucamOrderDetialVo.setReviewUserId(vo.getCreateUser());
-
-                }
             }
+
+
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -313,7 +314,7 @@ public class UCAMServiceImpl implements UCAMService {
 
     @Override
     public ResultUtil addUCAMOrderDetail(BizUncontractApplyMoneyDetail order) {
-        if(StringUtils.isEmpty(order.getId())){
+        /*if(StringUtils.isEmpty(order.getId())){
             String id = MyUtil.getStrUUID();
             order.setId(id);
         }else{
@@ -343,42 +344,70 @@ public class UCAMServiceImpl implements UCAMService {
                 tmp.setUpdateDate(order.getUpdateDate());
                 ucamMapper.updateByPrimaryKeySelective(tmp);
             }
-        }
+        }*/
 
         return ResultUtil.ok();
     }
 
     @Override
-    public ResultUtil editUCAMOrderDetail(BizUncontractApplyMoneyDetail ucamDetail) {
-        ucamDetailMapper.updateByPrimaryKeySelective(ucamDetail);
+    public ResultUtil editUCAMOrderDetail(BizUncontractApplyMoneyDetail order) {
+        if(StringUtils.isEmpty(order.getId())){
+            String id = MyUtil.getStrUUID();
+            order.setId(id);
+            ucamDetailMapper.insert(order);
+        }else{
+            ucamDetailMapper.updateByPrimaryKeySelective(order);
+        }
+
+
+        //如有金额更新采购单
+        if(order.getApplyPrice() != null){
+            String orderNo = order.getOrderNo();
+            BizUncontractApplyMoneyDetailExample example = new BizUncontractApplyMoneyDetailExample();
+            BizUncontractApplyMoneyDetailExample.Criteria criteria = example.createCriteria();
+            criteria.andOrderNoEqualTo(orderNo);
+            List<BizUncontractApplyMoneyDetail> details = ucamDetailMapper.selectByExample(example);
+
+
+            if(!CollectionUtils.isEmpty(details)){
+                BigDecimal applyPrice = new BigDecimal(0.00);
+                for (BizUncontractApplyMoneyDetail detail : details) {
+                    applyPrice = applyPrice.add(detail.getApplyPrice());
+                }
+
+                BizUncontractApplyMoney tmp = ucamMapper.selectByOrderNo(orderNo);
+                tmp.setApplyPrice(applyPrice);
+                tmp.setUpdateDate(new Date());
+                ucamMapper.updateByPrimaryKeySelective(tmp);
+            }
+        }
+
         return ResultUtil.ok();
     }
 
     @Override
     public ResultUtil deleteUCAMItem(String id) {
         BizUncontractApplyMoneyDetail ucamDetail = ucamDetailMapper.selectByPrimaryKey(id);
-        if(ucamDetail.getApplyPrice() != null){
-            String orderNo = ucamDetail.getOrderNo();
-            BizUncontractApplyMoneyExample example = new BizUncontractApplyMoneyExample();
-            BizUncontractApplyMoneyExample.Criteria criteria = example.createCriteria();
-            criteria.andOrderNoEqualTo(orderNo);
-            List<BizUncontractApplyMoney> ucamList = ucamMapper.selectByExample(example);
-            if(!CollectionUtils.isEmpty(ucamList)) {
-                BizUncontractApplyMoney ucamOrder = ucamList.get(0);
-                BigDecimal applyPrice = ucamDetail.getApplyPrice();
-                if(applyPrice == null){
-                    applyPrice = BigDecimal.valueOf(0);
-                }else {
-                    applyPrice = applyPrice.subtract(ucamDetail.getApplyPrice());
-                }
-                BizUncontractApplyMoney tmp = new BizUncontractApplyMoney();
-                tmp.setId(ucamOrder.getId());
-                tmp.setApplyPrice(applyPrice);
-                tmp.setUpdateDate(new Date());
-                ucamMapper.updateByPrimaryKeySelective(tmp);
-            }
-        }
         ucamDetailMapper.deleteByPrimaryKey(id);
+        String orderNo = ucamDetail.getOrderNo();
+        BizUncontractApplyMoneyDetailExample example = new BizUncontractApplyMoneyDetailExample();
+        BizUncontractApplyMoneyDetailExample.Criteria criteria = example.createCriteria();
+        criteria.andOrderNoEqualTo(orderNo);
+        List<BizUncontractApplyMoneyDetail> details = ucamDetailMapper.selectByExample(example);
+
+
+        if(!CollectionUtils.isEmpty(details)){
+            BigDecimal applyPrice = new BigDecimal(0.00);
+            for (BizUncontractApplyMoneyDetail detail : details) {
+                applyPrice = applyPrice.add(detail.getApplyPrice());
+            }
+
+            BizUncontractApplyMoney tmp = ucamMapper.selectByOrderNo(orderNo);
+            tmp.setApplyPrice(applyPrice);
+            tmp.setUpdateDate(new Date());
+            ucamMapper.updateByPrimaryKeySelective(tmp);
+        }
+
         return ResultUtil.ok();
     }
 
