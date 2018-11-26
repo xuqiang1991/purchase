@@ -126,14 +126,24 @@ public class UCAMController {
         return ucamService.saveUCAMOrder(order);
     }
 
-    @RequestMapping("/toDetails/{id}")
+    @RequestMapping("/toDetails")
     @RequiresPermissions("mobile:UCAM:details")
-    public String toDetails(@PathVariable("id") String id, Model model){
+    public String toDetails(HttpServletRequest req, Model model){
+        String id = req.getParameter("id");
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         Long adminId = admin.getId();
-        UCAMOrderDetialVo detailsVo = ucamService.selUCAMDetail(id,adminId);
+        List<ChoseAdminVO> admins = adminService.selectAdmin();
+        UCAMOrderDetialVo detailsVo = new UCAMOrderDetialVo();
+        if(!StringUtils.isEmpty(id)){
+            detailsVo = ucamService.selUCAMDetail(id,adminId);
+        }
+        if(admin.getSupplierId() != null){
+            TbSupplier supplier = supplierService.selSupplierById(admin.getSupplierId());
+            admin.setSupplierName(supplier.getName());
+        }
         model.addAttribute("detailsVo",detailsVo);
         model.addAttribute("admin",admin);
+        model.addAttribute("admins", JSON.toJSONString(admins));
         return "page/mobile/UCAM/details";
     }
 

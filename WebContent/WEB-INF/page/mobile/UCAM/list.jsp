@@ -138,12 +138,13 @@
     });
 
     mui(document.body).on('tap', '#add-btn', function(e) {
-        document.location.href = ctx + '/mobile/UCAM/toEdit';
+        //document.location.href = ctx + '/mobile/UCAM/toEdit';
+        document.location.href = ctx + '/mobile/UCAM/toDetails/';
     });
 
     mui(document.body).on('tap', '.detail-card', function(e) {
         var id = $(this).attr("data-id");
-        document.location.href = ctx + '/mobile/UCAM/toDetails/' + id;
+        document.location.href = ctx + '/mobile/UCAM/toDetails/?id=' + id;
     });
     mui(document.body).on('tap', '.details-edit', function(e) {
         var id = $(this).attr("data-id");
