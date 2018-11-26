@@ -12,6 +12,12 @@
     <link href="${ctx }/mui/css/mui.picker.min.css" rel="stylesheet" />
     <link href="${ctx }/mui/css/feedback-page.css" rel="stylesheet" />
     <link href="${ctx }/mui/css/mui-page.css" rel="stylesheet" />
+    <script type="text/javascript" src="${ctx}/js/jquery.min.js"></script>
+    <script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
+    <script src="${ctx }/mui/js/mui.picker.min.js"></script>
+    <script src="${ctx }/mui/js/mui.view.js"></script>
+    <script type="text/javascript" src="${ctx}/js/handlebars.min.js"></script>
+    <script type="text/javascript" src="${ctx}/js/handlebarsHelps.js"></script>
 </head>
 <body class="mui-fullscreen">
 <div id="app" class="mui-views">
@@ -143,12 +149,7 @@
     </div>
 </div>
 
-<script type="text/javascript" src="${ctx}/js/jquery.min.js"></script>
-<script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
-<script src="${ctx }/mui/js/mui.picker.min.js"></script>
-<script src="${ctx }/mui/js/mui.view.js"></script>
-<script type="text/javascript" src="${ctx}/js/handlebars.min.js"></script>
-<script type="text/javascript" src="${ctx}/js/handlebarsHelps.js"></script>
+
 <script type="text/javascript" charset="utf-8">
     mui.init();
     //初始化单页view
@@ -313,8 +314,12 @@
         }
     }
 
-
+    var isSubmit = false;
     function submitPurchaseOrder(){
+        if(isSubmit){
+            return false;
+        }
+
         var check = true;
         mui("input").each(function() {
             //若当前input为空，则alert提醒
@@ -330,6 +335,7 @@
         });
         //校验通过，继续执行业务逻辑
         if(check){
+            isSubmit = true
             var url = '${ctx}/mobile/CAM/addCAMOrder'
             $.ajax({
                 url: url,
@@ -340,6 +346,7 @@
                 timeout: 10000,
                 success: function(result) {
                     if(result.code!=0){
+                        isSubmit = false;
                         mui.alert(data.msg);
                     }else {
                         mui.alert("保存成功！");

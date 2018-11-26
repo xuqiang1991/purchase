@@ -8,6 +8,12 @@
 	<title>工程验收单</title>
 	<link href="${ctx }/mui/css/mui.min.css" rel="stylesheet"/>
     <link href="${ctx }/mui/css/mui.picker.min.css" rel="stylesheet" />
+    <script src="${ctx }/mui/js/mui.min.js"></script>
+    <script src="${ctx }/js/jquery-1.11.1.js"></script>
+    <script src="${ctx }/mui/js/mui.picker.min.js"></script>
+    <script src="${ctx }/mui/js/mui.view.js"></script>
+    <script type="text/javascript" src="${ctx }/js/handlebars.min.js"></script>
+    <script type="text/javascript" src="${ctx}/js/pb-handlebarsHelps.js"></script>
 </head>
 <body>
 <header class="mui-bar mui-bar-nav">
@@ -80,12 +86,7 @@
         </div>
     </div>
 </div>
-<script src="${ctx }/js/jquery-1.11.1.js"></script>
-<script src="${ctx}/mui/js/mui.min.js"></script>
-<script type="text/javascript" src="http://apps.bdimg.com/libs/handlebars.js/2.0.0-alpha.4/handlebars.js"></script>
-<script type="text/javascript" src="${ctx}/js/pb-handlebarsHelps.js"></script>
-<%--<script type="text/javascript" src="${ctx}/js/mobile/ucam/ucamUtils.js"></script>--%>
-<script src="${ctx }/mui/js/mui.picker.min.js"></script>
+
 <script type="text/javascript" charset="utf-8">
     var ctx = '${ctx }';
     var page = 1; //当前页

@@ -86,6 +86,8 @@
             background-color: #ddd;
         }
     </style>
+    <script src="${ctx }/js/jquery-1.11.1.js"></script>
+    <script src="${ctx}/mui/js/mui.min.js"></script>
 </head>
 <body>
 <header class="mui-bar mui-bar-nav">
@@ -96,26 +98,55 @@
     <form id='login-form' class="mui-input-group">
         <div class="mui-input-row">
             <label>账号</label>
-            <input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+            <input id='username' name="username" type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
         </div>
         <div class="mui-input-row">
             <label>密码</label>
-            <input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
+            <input id='password'  name="password" type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
         </div>
     </form>
     <div class="mui-content-padded">
         <button id='login' type="button" class="mui-btn mui-btn-block mui-btn-primary">登录</button>
-        <div class="link-area"><a id='forgetPassword' href="${ctx }/mobile/forgetPassword">忘记密码</a>
-        </div>
+        <%--<div class="link-area"><a id='forgetPassword' href="${ctx }/mobile/forgetPassword">忘记密码</a>--%>
+        <%--</div>--%>
     </div>
     <div class="mui-content-padded oauth-area">
 
     </div>
 </div>
-<script src="${ctx }/js/jquery-1.11.1.js"></script>
-<script src="${ctx}/mui/js/mui.min.js"></script>
+
 
 <script type="text/javascript" charset="utf-8">
+    /** start 选择所属项目 **/
+    mui(document.body).on('tap', '#login', function(e) {
+
+        var account = $('username').val()
+        var password = $('password').val()
+        if(account == ""){
+            mui.alert("请输入账号");
+            return false;
+        }
+        if(password == ""){
+            mui.alert("请输入密码");
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "${ctx}/mobile/mobileLogin",
+            data:$("#login-form").serialize(),
+            success: function (result) {
+                if (result.code == 0) {//登录成功
+                    var url = result.msg
+                    parent.location.href = "${ctx}" + url;
+                } else{
+                    mui.alert(result.msg);
+                }
+            }
+        });
+    });
+
+
 
 </script>
 

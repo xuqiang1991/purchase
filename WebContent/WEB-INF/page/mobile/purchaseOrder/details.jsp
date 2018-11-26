@@ -27,6 +27,12 @@
             padding: 11px 0px;
         }
     </style>
+    <script type="text/javascript" src="${ctx}/js/jquery.min.js"></script>
+    <script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
+    <script src="${ctx }/mui/js/mui.picker.min.js"></script>
+    <script src="${ctx }/mui/js/mui.view.js"></script>
+    <script type="text/javascript" src="${ctx}/js/handlebars.min.js"></script>
+    <script type="text/javascript" src="${ctx}/js/handlebarsHelps.js"></script>
 </head>
 <body class="mui-fullscreen">
 <div id="app" class="mui-views">
@@ -253,11 +259,6 @@
     </div>
 </div>
 
-<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-<script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
-<script src="${ctx }/mui/js/mui.picker.min.js"></script>
-<script src="${ctx }/mui/js/mui.view.js"></script>
-<script type="text/javascript" src="http://apps.bdimg.com/libs/handlebars.js/2.0.0-alpha.4/handlebars.js"></script>
 <script type="text/javascript" charset="utf-8">
     mui.init();
     //初始化单页view
@@ -268,7 +269,12 @@
     mui('.mui-scroll-wrapper').scroll();
 
     /** 提交项 **/
+    var isSubmit = false;
     mui(document.body).on('tap', '#submitFromPurchaseOrderItem', function(e) {
+        if(isSubmit){
+            return false;
+        }
+
         var check = true;
         mui("#addFromPurchaseOrderItem input").each(function() {
             //若当前input为空，则alert提醒
@@ -285,6 +291,7 @@
 
         //校验通过，继续执行业务逻辑
         if(check){
+            isSubmit = true
             var purchaseNo = $('#purchaseNo').val();
             var itemId = $('#addFromPurchaseOrderItem').find('#id').val();
             var url = '${ctx}/mobile/purchase/addPurchaseOrderItem/'+ purchaseNo;
@@ -300,6 +307,7 @@
                 timeout: 10000,
                 success: function(result) {
                     if(result.code!=0){
+                        isSubmit = false;
                         mui.alert(result.msg);
                     }else {
                         mui.alert('保存成功！', function() {
@@ -475,6 +483,7 @@
                                 $("#addFromPurchaseOrderItem").find("input[name='unit']").val(data.unit);
                                 $("#addFromPurchaseOrderItem").find("input[name='price']").val(data.price);
                                 $("#addFromPurchaseOrderItem").find("input[name='amount']").val(data.amount);
+                                $("#addFromPurchaseOrderItem").find("input[name='totalPrice']").val(data.totalPrice);
                                 $("#remark").val(data.remark);
 
                                /* $("#model").val(data.model);

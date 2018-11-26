@@ -27,6 +27,11 @@
             padding: 11px 0px;
         }
     </style>
+    <script src="${ctx }/mui/js/mui.min.js"></script>
+    <script src="${ctx }/js/jquery-1.11.1.js"></script>
+    <script src="${ctx }/mui/js/mui.picker.min.js"></script>
+    <script src="${ctx }/mui/js/mui.view.js"></script>
+    <script type="text/javascript" src="${ctx }/js/handlebars.min.js"></script>
 </head>
 <body class="mui-fullscreen">
 <div id="app" class="mui-views">
@@ -325,7 +330,6 @@
                     </div>
                     <div class="mui-input-row mui-input-range">
                         <label>审定金额</label>
-                        <label>${detailsVo.approvalPrice}</label>
                         <input type="number" id="approvalPrice" name="approvalPrice" value="${detailsVo.approvalPrice}" placeholder="请输入审定金额">
                     </div>
                     <div class="mui-input-row">
@@ -431,11 +435,6 @@
     </div>
 </div>
 
-<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-<script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
-<script src="${ctx }/mui/js/mui.picker.min.js"></script>
-<script src="${ctx }/mui/js/mui.view.js"></script>
-<script type="text/javascript" src="http://apps.bdimg.com/libs/handlebars.js/2.0.0-alpha.4/handlebars.js"></script>
 <script type="text/javascript" charset="utf-8">
     mui.init();
     //初始化单页view
@@ -605,7 +604,7 @@
             var advancePrice = document.getElementById("advancePrice");
             var otherPrice = document.getElementById("otherPrice");
             if(approvalPrice.value != "" && guaranteePrice.value != "" && advancePrice.value != "" && otherPrice.value != ""){
-                var actualPrice = approvalPrice - guaranteePrice - advancePrice - otherPrice;
+                var actualPrice = approvalPrice.value - guaranteePrice.value - advancePrice.value - otherPrice.value;
                 document.getElementById("actualPrice").value = actualPrice;
             }
         }
