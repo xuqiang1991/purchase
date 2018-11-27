@@ -81,7 +81,7 @@
                                             <input type="hidden" id="applyUserEdit" name="applyUser" value="${admin.id}" mui-verify="required">
                                         </c:when>
                                         <c:otherwise>
-                                            <input type="text" id="selectApplyUserEdit" placeholder="请选择开单人" value="${detailsVo.ucamVo.admin.fullname}">
+                                            <input type="text" id="selectApplyUserEdit" placeholder="请选择开单人" value="${detailsVo.ucamVo.admin.fullname}" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> >
                                             <input type="hidden" id="applyUserEdit" name="applyUser" value="${detailsVo.ucamVo.admin.id}" mui-verify="required">
                                         </c:otherwise>
                                     </c:choose>
@@ -103,15 +103,14 @@
 
                                         </c:when>
                                         <c:otherwise>
-                                            <input type="text" id="supplierName" readonly value="${detailsVo.ucamVo.supplier.name}">
+                                            <input type="text" id="supplierName" readonly value="${detailsVo.ucamVo.supplier.name}" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if>>
                                             <input type="hidden" id="supplierId" name="supplierId" value="${detailsVo.ucamVo.supplier.id}" mui-verify="required">
                                         </c:otherwise>
                                     </c:choose>
                                 </div>
                                 <div class="mui-input-row">
                                     <label>所属项目</label>
-                                    <%--<label style="width: 65%;padding-left: 0px;">${detailsVo.ucamVo.tpm.name}</label>--%>
-                                    <a href="#selectProject" id="app-selectProject">
+                                    <a <c:if test="${detailsVo.ucamVo.id == null || detailsVo.ucamVo.status == 0}">href="#selectProject" id="app-selectProject"</c:if>>
                                         <label id="selectProjectText" style="width: 65%;padding-left: 0px;">
                                             <c:choose>
                                                 <c:when test="${detailsVo.ucamVo.id == null}">
@@ -127,13 +126,22 @@
                                 </div>
                                 <div class="mui-input-row">
                                     <label>单据类型</label>
-                                    <input type="text" id="orderTypeName" readonly class="mui-input-clear" placeholder="请选择单据类型" value="" >
+                                    <input type="text" id="orderTypeName" readonly class="mui-input-clear" placeholder="请选择单据类型" value="" <c:if test="${detailsVo.ucamVo.id != null && detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if>>
                                     <input type="hidden" id="orderTypeId" name="orderType" value="${detailsVo.ucamVo.orderType}"  mui-verify="required">
                                 </div>
                                 <div class="mui-input-row">
                                     <label>指令单号</label>
-                                    <input type="text" name="instructOrderNo" value="${detailsVo.ucamVo.instructOrderNo}" placeholder="请输入指令单号">
+                                    <c:choose>
+                                        <c:when test="${detailsVo.ucamVo.id == null || detailsVo.ucamVo.status == 0}">
+                                            <input type="text" name="instructOrderNo" value="${detailsVo.ucamVo.instructOrderNo}" placeholder="请输入指令单号" >
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="text" name="instructOrderNo" value="${detailsVo.ucamVo.instructOrderNo}" placeholder="请通过功能设置指令单号" readonly>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
+
+
                                 <div class="mui-input-row">
                                     <label>请款总金额</label>
                                     <c:choose>
@@ -258,7 +266,7 @@
                 <c:choose>
                     <c:when test="${detailsVo.ucamVo.status == 0 && detailsVo.ucamVo.createUser == admin.id}">
                         <a href="#fromUCAMItem">
-                            <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加请款单项</button>
+                            <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加明细</button>
                         </a>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="UCAMDetails">提交</button>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="deleteUCAMOrder" value="${detailsVo.ucamVo.id}">删除</button>
@@ -465,10 +473,14 @@
             userPicker.setData(JSON.parse(adminsJson));
             var selectApplyUserEdit = document.getElementById('selectApplyUserEdit');
             var applyUserEdit = document.getElementById('applyUserEdit');
+            var supplierId = document.getElementById('supplierId');
+            var supplierName = document.getElementById('supplierName');
             selectApplyUserEdit.addEventListener('tap', function(event) {
                 userPicker.show(function(items) {
-                    selectApplyUserEdit.value = items[0].text;
-                    applyUserEdit.value = items[0].value;
+                    supplierName.value = items[0].text;
+                    supplierId.value = items[0].value;
+                    selectApplyUserEdit.value = items[1].text;
+                    applyUserEdit.value = items[1].value;
                 });
             }, false);
         }
