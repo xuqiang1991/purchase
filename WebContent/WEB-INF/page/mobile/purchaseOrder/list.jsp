@@ -216,7 +216,7 @@
 
 
     function toDetails(id) {
-        document.location.href='${ctx }/mobile/purchase/toDetails/' + id;
+        document.location.href='${ctx }/mobile/purchase/toDetails/?id=' + id;
     }
 
     var btns =  mui('#createTime');

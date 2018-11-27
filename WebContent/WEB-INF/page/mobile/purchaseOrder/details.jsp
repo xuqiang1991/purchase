@@ -259,6 +259,8 @@
     </div>
 </div>
 
+<%@ include file="/WEB-INF/page/mobile/common/selectProject.jsp"%>
+
 <script type="text/javascript" charset="utf-8">
     mui.init();
     //初始化单页view
