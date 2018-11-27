@@ -378,7 +378,7 @@
                         isSubmit = false;
                     }else {
                         mui.alert("保存成功！");
-                        document.location.href='${ctx }/mobile/purchase/toDetails/' + result.msg;
+                        document.location.href='${ctx }/mobile/purchase/toDetails?id=' + result.msg;
                     }
                 }
             });
