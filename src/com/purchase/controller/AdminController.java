@@ -21,6 +21,7 @@ import org.apache.shiro.config.IniSecurityManagerFactory;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.Factory;
+import org.apache.shiro.web.util.SavedRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -63,15 +64,18 @@ public class AdminController {
 		boolean isMobile = WebUtils.isMobileDevice(requestHeader);
 
 		if(isMobile){
-			if(requestHeader.indexOf("MicroMessenger")>-1){
-				if(admin == null){
-					return "redirect:/sys/wx/auth";
-				}else {
-					login(admin);
-					return "redirect:/mobile/login";
-				}
+			if(admin == null){
+				return "redirect:/sys/wx/auth";
 			}else {
-				return "mobile/index";
+				login(admin);
+				SavedRequest request = (SavedRequest)req.getSession().getAttribute("shiroSavedRequest");
+				if(request != null){
+					String uri = request.getRequestURI();
+					return "redirect:" + uri;
+				}else {
+					return "redirect:/mobile/purchase/list";
+				}
+				//return "redirect:/mobile/login";
 			}
 		}else {
 			return "redirect:/index.jsp";

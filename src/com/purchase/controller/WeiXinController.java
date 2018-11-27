@@ -14,6 +14,7 @@ import org.apache.shiro.config.IniSecurityManagerFactory;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.Factory;
+import org.apache.shiro.web.util.SavedRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ public class WeiXinController {
         String host = request.getHeader("host");
         String url = "http://"+host+"/sys/wx/auth/jump";
         try {
-            String scope = "snsapi_base";
+            String scope = "snsapi_userinfo";
             url = wxMpService.oauth2buildAuthorizationUrl(url, scope, "ceshi");
             response.sendRedirect(url);
         } catch (IOException e) {
@@ -58,7 +59,7 @@ public class WeiXinController {
     }
 
     @RequestMapping("/auth/jump")
-    public String jump(Model model,@RequestParam("code") String code){
+    public String jump(HttpServletRequest req,Model model,@RequestParam("code") String code){
         Gson gson = new Gson();
         WxMpOAuth2AccessToken wxMpOAuth2AccessToken;
         String openId = null;
@@ -81,7 +82,14 @@ public class WeiXinController {
             String json = gson.toJson(user);
             logger.info("user:" + json);
 
-            return "redirect:/mobile/login";
+            SavedRequest request = (SavedRequest)req.getSession().getAttribute("shiroSavedRequest");
+            if(request != null){
+                String uri = request.getRequestURI();
+                return "redirect:" + uri;
+            }else {
+                return "redirect:/mobile/purchase/list";
+            }
+            //return "redirect:/mobile/login";
         } catch (WxErrorException e) {
             logger.error("gotoPreAuthUrl", e);
             throw new RuntimeException(e);
