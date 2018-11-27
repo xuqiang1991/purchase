@@ -38,7 +38,7 @@
         <c:otherwise>
             <div class="mui-collapse-content">
                 <div class="mui-input-row">
-                    <label>无请款单单项</label>
+                    <label>暂无审核状态</label>
                 </div>
             </div>
         </c:otherwise>
