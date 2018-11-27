@@ -167,7 +167,7 @@
                 <c:choose>
                     <c:when test="${detailsVo.paoVo.status == 0 && detailsVo.paoVo.createUser == admin.id}">
                         <a href="#fromPAOItem">
-                            <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加工程验收单项</button>
+                            <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加明细</button>
                         </a>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="PAODetails">提交</button>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="deletePAOOrder" value="${detailsVo.paoVo.id}">删除</button>

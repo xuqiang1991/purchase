@@ -176,7 +176,7 @@
                 <c:choose>
                     <c:when test="${detailsVo.purchaseOrder.status == 0 && detailsVo.purchaseOrder.createUser == admin.id}">
                         <a href="#fromPurchaseOrderItem">
-                            <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加采购明细</button>
+                            <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加明细</button>
                         </a>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="purchaseOrderDetails">提交</button>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="deletePurchaseOrder" value="${detailsVo.purchaseOrder.id}">删除</button>

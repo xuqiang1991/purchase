@@ -266,7 +266,7 @@
                 <c:choose>
                     <c:when test="${detailsVo.ucamVo.status == 0 && detailsVo.ucamVo.createUser == admin.id}">
                         <a href="#fromUCAMItem">
-                            <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加请款单项</button>
+                            <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加明细</button>
                         </a>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="UCAMDetails">提交</button>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="deleteUCAMOrder" value="${detailsVo.ucamVo.id}">删除</button>
