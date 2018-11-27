@@ -12,19 +12,17 @@
     <link href="${ctx }/mui/css/feedback-page.css" rel="stylesheet" />
     <link href="${ctx }/mui/css/mui-page.css" rel="stylesheet" />
     <style type="text/css">
+        #div {
+            width: 0px;
+            height: 0px;
+            background: red;
+            position: fixed;
+            top: 70%;
+            left: 50%;
+        }
         /*移除底部或顶部三角,需要在删除此代码*/
         .mui-popover .mui-popover-arrow:after {
             width: 0px;
-        }
-        .mui-input-row label{
-            width: 40%;
-        }
-        .mui-input-row label~input{
-            width: 60%;
-        }
-        .mui-input-row label~label{
-            width: 60%;
-            padding: 11px 0px;
         }
     </style>
     <script type="text/javascript" src="${ctx}/js/jquery.min.js"></script>
@@ -53,36 +51,108 @@
     <!-- 采购明细 start -->
     <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 0px;width: 100%;">
         <div class="mui-scroll">
+
+            <!-- 主界面具体展示内容 -->
             <div class="mui-content" style="margin-left: 5px; margin-right: 5px; font-size: 14px;">
-                <ul class="mui-table-view">
-                    <li class="mui-table-view-cell mui-collapse">
-                        <a class="mui-navigate-right" href="#">采购单详情:${detailsVo.purchaseOrder.purchaseNo}</a>
+                <ul id="ul_mui_table_view" class="mui-table-view">
+                    <li class="mui-table-view-cell mui-collapse mui-active">
+                        <a class="mui-navigate-right" href="#">采购单详情:
+                            <c:choose>
+                                <c:when test="${detailsVo.purchaseOrder.id == null}">
+                                    请先添加采购单
+                                </c:when>
+                                <c:otherwise>
+                                    ${detailsVo.purchaseOrder.purchaseNo}
+                                </c:otherwise>
+                            </c:choose>
+                        </a>
                         <div class="mui-collapse-content">
-                            <!-- 主界面具体展示内容 -->
-                                <input type="hidden" name="purchaseNo" id="purchaseNo" value="${detailsVo.purchaseOrder.purchaseNo}">
+                            <form class="mui-input-group" id="ucamForm">
+                                <input type="hidden" name="id" id="id" value="${detailsVo.purchaseOrder.id}">
                                 <div class="mui-input-row">
-                                    <label>合同编号</label>
-                                    <label>${detailsVo.purchaseOrder.purchaseNo}</label>
+                                    <label>采购单号</label>
+                                    <input type="text" name="purchaseNo" id="purchaseNo" readonly disabled="disabled" value="${detailsVo.purchaseOrder.purchaseNo}" placeholder="采购单号由系统自动生成">
                                 </div>
                                 <div class="mui-input-row">
                                     <label>订单类型</label>
-                                    <label>${detailsVo.type}</label>
+                                    <c:choose>
+                                        <c:when test="${detailsVo.purchaseOrder.id == null}">
+                                            <input type="text" id="typeName" readonly class="mui-input-clear" placeholder="请选择单据类型" value="" >
+                                            <input type="hidden" id="type" name="type" value="" >
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="text" id="typeName" class="mui-input-clear" placeholder="请选择订单类型" mui-verify="required" <c:if test="${detailsVo.purchaseOrder.status != 0}">disabled="disabled"</c:if> >
+                                            <input type="hidden" id="type" name="type" value="${detailsVo.purchaseOrder.type}">
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                                 <div class="mui-input-row">
+                                    <label>申请人</label>
+                                    <c:choose>
+                                        <c:when test="${detailsVo.purchaseOrder.id == null}">
+                                            <input type="text" id="selectApplyUserEdit" placeholder="请选择开单人" value="${admin.fullname}">
+                                            <input type="hidden" id="applyUserEdit" name="applyUser" value="${admin.id}" mui-verify="required">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="text" id="selectApplyUserEdit" placeholder="请选择开单人" value="${detailsVo.purchaseOrder.admin.fullname}" <c:if test="${detailsVo.purchaseOrder.status != 0}">disabled="disabled"</c:if> >
+                                            <input type="hidden" id="applyUserEdit" name="applyUser" value="${detailsVo.purchaseOrder.admin.id}" mui-verify="required">
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+                                <c:if test="${detailsVo.purchaseOrder.applyDate != null}">
+                                    <div class="mui-input-row">
+                                        <label>申请时间</label>
+                                        <label>${detailsVo.purchaseOrder.applyDate}</label>
+                                    </div>
+                                </c:if>
+                                <div class="mui-input-row">
                                     <label>供应商</label>
-                                    <label>${detailsVo.purchaseOrder.supplier.name}</label>
+                                    <c:choose>
+                                        <c:when test="${detailsVo.purchaseOrder.id == null}">
+                                            <c:choose>
+                                                <c:when test="${admin.supplierId == null}">
+                                                    <input type="text" id="supplierName" readonly value="">
+                                                    <input type="hidden" id="supplierId" name="supplierId" value="" mui-verify="required">
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <input type="text" id="supplierName" readonly value="${admin.supplierName}">
+                                                    <input type="hidden" id="supplierId" name="supplierId" value="${admin.supplierId}" mui-verify="required">
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="text" id="supplierName" readonly value="${detailsVo.purchaseOrder.supplier.name}" <c:if test="${detailsVo.purchaseOrder.status != 0}">disabled="disabled"</c:if>>
+                                            <input type="hidden" id="supplierId" name="supplierId" value="${detailsVo.purchaseOrder.supplier.id}" mui-verify="required">
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                                 <div class="mui-input-row">
                                     <label>所属项目</label>
-                                    <label>${detailsVo.purchaseOrder.projectManger.name}</label>
+                                    <a <c:if test="${detailsVo.purchaseOrder.id == null || detailsVo.purchaseOrder.status == 0}">href="#selectProject" id="app-selectProject"</c:if>>
+                                        <label id="selectProjectText" style="width: 65%;padding-left: 0px;">
+                                            <c:choose>
+                                                <c:when test="${detailsVo.purchaseOrder.id == null}">
+                                                    请选择所属项目
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${detailsVo.purchaseOrder.tpm.name}
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </label>
+                                        <input type="hidden" id="selectProjectHidden" name="projectId" value="${detailsVo.purchaseOrder.tpm.id}" mui-verify="required">
+                                    </a>
                                 </div>
-                                <div class="mui-input-row">
-                                    <label>合同号</label>
-                                    <label>${detailsVo.purchaseOrder.contractNo}</label>
-                                </div>
+                                <c:if test="${detailsVo.purchaseOrder.contractNo != null}">
+                                    <div class="mui-input-row">
+                                        <label>合同号</label>
+                                        <label>${detailsVo.purchaseOrder.contractNo}</label>
+                                    </div>
+                                </c:if>
+                               <c:if test="${detailsVo.purchaseOrder.id == null}">
                                 <div class="mui-input-row">
                                     <label>合同总金额</label>
-                                    <label>${detailsVo.purchaseOrder.contractMoney}</label>
+                                    <input type="text" name="contractMoney" value="${detailsVo.purchaseOrder.contractMoney}" class="mui-input-clear" readonly="readonly" disabled="disabled">
+                                </c:if>
                                 </div>
                                 <div class="mui-input-row">
                                     <label>已请款金额</label>
@@ -94,11 +164,24 @@
                                 </div>
                                 <div class="mui-input-row mui-input-range">
                                     <label>付款比例(%)</label>
-                                    <label>${detailsVo.purchaseOrder.paymentRatio}%</label>
+                                    <c:choose>
+                                        <c:when test="${detailsVo.purchaseOrder.id == null}">
+                                            <input type="number" name="paymentRatio" class="mui-input-clear" mui-verify="required" placeholder="请输入付款比例" value="100" min="1" max="100">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="number" name="paymentRatio" class="mui-input-clear" mui-verify="required" placeholder="请输入付款比例" value="${order.paymentRatio}" <c:if test="${detailsVo.purchaseOrder.status != 0}">disabled="disabled"</c:if>>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                                 <div>
                                     <textarea name="summary" id="summary" rows="5" class="mui-input-clear" readonly="readonly">${detailsVo.purchaseOrder.summary}</textarea>
                                 </div>
+                                <c:if test="${detailsVo.purchaseOrder.status == 0 || detailsVo.purchaseOrder.status == null}">
+                                    <div class="mui-button-row" style="padding-bottom: 20px;">
+                                        <button type="button" class="mui-btn mui-btn-primary" id="ucamSave">保存</button>
+                                    </div>
+                                </c:if>
+                            </form>
                         </div>
                     </li>
 
@@ -106,9 +189,9 @@
                     <c:set value="${detailsVo.purchaseOrder.historyList}" var="historyList"/>
                     <%@ include file="/WEB-INF/page/mobile/common/reviewHistory.jsp"%>
 
-                    <li class="mui-table-view-cell mui-collapse mui-active">
+                    <li class="mui-table-view-cell mui-collapse">
                         <a class="mui-navigate-right" href="#">采购单明细</a>
-                        <div class="mui-collapse-content">
+                        <div class="mui-collapse-content" id="detailDiv">
                             <c:choose>
                                 <c:when test="${fn:length(detailsVo.details) > 0}">
                                     <c:forEach items="${detailsVo.details}" var="item">
@@ -447,6 +530,51 @@
         })
     });
 
+    /** 保存主表 **/
+    var isSubmit = false;
+    mui(document.body).on('tap', '#ucamSave', function(e) {
+        if(isSubmit){
+            return false;
+        }
+
+        var check = true;
+        mui("input").each(function() {
+            //若当前input为空，则alert提醒
+            var verify = $(this).attr("mui-verify")
+            if(verify == 'required'){
+                if(!this.value || this.value.trim() == "") {
+                    var label = this.previousElementSibling;
+                    mui.alert(label.innerText + "不允许为空");
+                    check = false;
+                    return false;
+                }
+            }
+        });
+        //校验通过，继续执行业务逻辑
+        if(check){
+            isSubmit = true
+            var url = '${ctx}/mobile/purchase/addPurchaseOrder'
+            $.ajax({
+                url: url,
+                data: $('#submitFrom').serialize(),
+                dataType: 'json',
+                contentType : "application/x-www-form-urlencoded",
+                type: 'post',
+                timeout: 10000,
+                success: function(result) {
+                    if(result.code!=0){
+                        mui.alert(result.msg);
+                        isSubmit = false;
+                    }else {
+                        mui.alert("保存成功！");
+                        document.location.href='${ctx }/mobile/purchase/toDetails?id=' + result.msg;
+                    }
+                }
+            });
+        }
+    })
+    /** 保存主表 **/
+
 
     //初始化数据
     mui.ready(function() {
@@ -570,6 +698,12 @@
             //				console.log(e.detail.page.id + ' back');
         });
     })(mui);
+
+    var dcLength = $("#detailDiv").find("div.mui-card").length;
+    if(dcLength > 0){
+        $("#ul_mui_table_view").find("li").removeClass("mui-active");
+        $("#ul_mui_table_view").find("li").eq(2).addClass("mui-active");
+    }
 </script>
 
 <!-- 审核 -->

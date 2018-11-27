@@ -134,7 +134,8 @@
     });
 
     mui(document.body).on('tap', '#add-btn', function(e) {
-        document.location.href='${ctx }/mobile/purchase/toSave';
+        //document.location.href='${ctx }/mobile/purchase/toSave';
+        document.location.href='${ctx }/mobile/purchase/toDetails/';
     });
 
     mui(document.body).on('tap', '.toDetails', function(e) {
