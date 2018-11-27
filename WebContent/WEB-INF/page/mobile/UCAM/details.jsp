@@ -133,10 +133,10 @@
                                     <label>指令单号</label>
                                     <c:choose>
                                         <c:when test="${detailsVo.ucamVo.id == null || detailsVo.ucamVo.status == 0}">
-                                            <input type="text" name="instructOrderNo" value="${detailsVo.ucamVo.instructOrderNo}" placeholder="请输入指令单号" >
+                                            <input type="text" id="instructOrderNo" name="instructOrderNo" value="${detailsVo.ucamVo.instructOrderNo}" placeholder="请输入指令单号" >
                                         </c:when>
                                         <c:otherwise>
-                                            <input type="text" name="instructOrderNo" value="${detailsVo.ucamVo.instructOrderNo}" placeholder="请通过功能设置指令单号" readonly>
+                                            <input type="text" id="instructOrderNo" name="instructOrderNo" value="${detailsVo.ucamVo.instructOrderNo}" placeholder="请通过功能设置指令单号" readonly>
                                         </c:otherwise>
                                     </c:choose>
                                 </div>
@@ -236,7 +236,7 @@
                                                         <button type="button" class="mui-btn mui-btn-primary deleteItem" value="${item.id}">刪除</button>
                                                     </div>
                                                 </c:if>
-                                                <c:if test="${detailsVo.ucamVo.status != 0 && detailsVo.ucamVo.status != 4}">
+                                                <c:if test="${detailsVo.ucamVo.status == 2 && detailsVo.reviewUserId == admin.id}">
                                                     <div>
                                                         <a href="#fromUCAMItem" name="app-a" data-id="${item.id}">
                                                             <button type="button" class="mui-btn mui-btn-primary" value="${item.id}">审核</button>
@@ -305,22 +305,22 @@
                     <input type="hidden" id="id" name="id" value="">
                     <div class="mui-input-row">
                         <label>材料/项目内容</label>
-                        <input type="text" id="projectContent" name="projectContent" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入材料/项目内容">
+                        <input type="text" id="projectContent" name="projectContent" minlength="1" maxlength="100" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入材料/项目内容">
                     </div>
                     <div class="mui-input-row">
                         <label>工程量</label>
                         <input type="number" id="quantities" name="quantities" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入工程量">
                     </div>
                     <div class="mui-input-row">
-                        <label>申报完成率</label>
-                        <input type="number" min="0" max="100" value="" id="applyCompletionRate" name="applyCompletionRate" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入申报完成率">
+                        <label>申报完成率(%)</label>
+                        <input type="number" value="" id="applyCompletionRate" name="applyCompletionRate" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入申报完成率">
                     </div>
                     <div class="mui-input-row">
                         <label>单位</label>
                         <input type="text" id="unit" name="unit" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入单位">
                     </div>
                     <div class="mui-input-row">
-                        <label>单价</label>
+                        <label>单价(元)</label>
                         <input type="number" id="price" name="price" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入单价">
                     </div>
                     <div class="mui-input-row">
@@ -494,11 +494,6 @@
         },false);
     });
 
-    /*var applyCompletionRate = document.getElementById("applyCompletionRate");*/
-   /* applyCompletionRate.addEventListener("change", function () {
-        console.log(this.value);
-        applyPriceReckon();
-    }, false);*/
     if(status == 0) {
         document.getElementById("applyCompletionRate").addEventListener("change", applyPriceReckon, false);
         document.getElementById("price").addEventListener("change", applyPriceReckon, false);
@@ -566,14 +561,26 @@
             //若当前input为空，则alert提醒
             var verify = $(this).attr("mui-verify");
             if(verify == 'required'){
+                console.log($(this).attr("name"));
                 if(!this.value || this.value.trim() == "") {
                     var label = this.previousElementSibling;
-                    mui.alert(label.innerText + "不允许为空");
+                    var tipText = "";
+                    if(label.innerText == ""){
+                        tipText = $(this).parent().find("label").html();
+                    }else{
+                        tipText = label.innerText;
+                    }
+                    mui.alert(tipText + "不允许为空");
                     check = false;
                     return false;
                 }
             }
         });
+        if($('#instructOrderNo').val().length > 20){
+            mui.alert("指令单号长度不能超过20");
+            check = false;
+            return false;
+        }
         if(check){
             var url = '${ctx}/mobile/UCAM/addUCAMOrder';
             if($('#ucamForm').find('#id').val() != null){
@@ -601,7 +608,7 @@
     });
 
 
-    /** 提交项 **/
+    /** 提交明细 **/
     mui(document.body).on('tap', '#submitFromUCAMItem', function(e) {
         var check = true;
         mui("#addFromUCAMItem input").each(function() {
@@ -616,6 +623,14 @@
                 }
             }
         });
+
+        var regx =/^(([1-9][0-9]{0,9}[.][0-9]{1,2})|([1-9][0-9]{0,9})|([0][.][0-9]{1}[1-9]{1}))$/;
+        var quantities = $('#quantities').val().trim();
+        if(check && !regx.test(quantities)){
+            mui.alert("工程量格式错误，最多输入2位小数,且不能超过10位数！");
+            check = false;
+            return false;
+        }
 
         //校验通过，继续执行业务逻辑
         if(check){
