@@ -77,11 +77,11 @@
                                     <label>请款人</label>
                                     <c:choose>
                                         <c:when test="${detailsVo.ucamVo.id == null}">
-                                            <input type="text" id="selectApplyUserEdit" placeholder="请选择开单人" value="${admin.fullname}">
+                                            <input type="text" id="selectApplyUserEdit" placeholder="请选择请款人" value="${admin.fullname}">
                                             <input type="hidden" id="applyUserEdit" name="applyUser" value="${admin.id}" mui-verify="required">
                                         </c:when>
                                         <c:otherwise>
-                                            <input type="text" id="selectApplyUserEdit" placeholder="请选择开单人" value="${detailsVo.ucamVo.admin.fullname}" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> >
+                                            <input type="text" id="selectApplyUserEdit" placeholder="请选择请款人" value="${detailsVo.ucamVo.admin.fullname}" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> >
                                             <input type="hidden" id="applyUserEdit" name="applyUser" value="${detailsVo.ucamVo.admin.id}" mui-verify="required">
                                         </c:otherwise>
                                     </c:choose>
@@ -92,15 +92,14 @@
                                         <c:when test="${detailsVo.ucamVo.id == null}">
                                             <c:choose>
                                                 <c:when test="${admin.supplierId == null}">
-                                                    <input type="text" id="supplierName" readonly value="">
+                                                    <input type="text" id="supplierName" readonly value="" placeholder="请选择请款人">
                                                     <input type="hidden" id="supplierId" name="supplierId" value="" mui-verify="required">
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <input type="text" id="supplierName" readonly value="${admin.supplierName}">
+                                                    <input type="text" id="supplierName" readonly value="${admin.supplierName}" placeholder="请选择请款人">
                                                     <input type="hidden" id="supplierId" name="supplierId" value="${admin.supplierId}" mui-verify="required">
                                                 </c:otherwise>
                                             </c:choose>
-
                                         </c:when>
                                         <c:otherwise>
                                             <input type="text" id="supplierName" readonly value="${detailsVo.ucamVo.supplier.name}" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if>>
@@ -236,7 +235,7 @@
                                                         <button type="button" class="mui-btn mui-btn-primary deleteItem" value="${item.id}">刪除</button>
                                                     </div>
                                                 </c:if>
-                                                <c:if test="${detailsVo.ucamVo.status == 2 && detailsVo.reviewUserId == admin.id}">
+                                                <c:if test="${detailsVo.ucamVo.status == 1 && detailsVo.reviewUserId == admin.id}">
                                                     <div>
                                                         <a href="#fromUCAMItem" name="app-a" data-id="${item.id}">
                                                             <button type="button" class="mui-btn mui-btn-primary" value="${item.id}">审核</button>
@@ -340,7 +339,7 @@
                             <input type="text" id="date" name="date" class="mui-input-clear" mui-verify="required" readonly  <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> data-options='{"type":"date","beginYear":2018,"endYear":2028}' placeholder="请选择日期">
                         </div>
                     </c:if>
-                    <c:if test="${detailsVo.ucamVo.status != 0}">
+                    <c:if test="${detailsVo.ucamVo.status == 1 && detailsVo.reviewUserId == admin.id}">
                         <div class="mui-input-row">
                             <label>审核完成率</label>
                             <input type="text" min="0" max="100"  id="approvalCompletionRate" name="approvalCompletionRate" mui-verify="required" placeholder="请输入审核完成率">
@@ -395,48 +394,46 @@
             }
         }
 
-        //if(status != 0) {
-            var appA = document.getElementsByName('app-a');
-            if(appA.length > 0){
-                for(var i = 0; i < appA.length; i++){
-                    appA[i].addEventListener('tap', function(event) {
-                        var itemId = $(this).attr("data-id");
-                        console.log(itemId);
-                        var url = '${ctx}/mobile/UCAM/getUCAMItem/' + itemId;
-                        $.ajax({
-                            url: url,
-                            contentType : "application/x-www-form-urlencoded",
-                            type: 'post',
-                            timeout: 10000,
-                            success: function(result) {
-                                if(result.code!=0){
-                                    alert(result.msg);
-                                }else {
-                                    var data = result.data;
-                                    $("#addFromUCAMItem").find("#id").val(data.id);
-                                    $("#orderNo").val(data.orderNo);
-                                    $("#projectContent").val(data.projectContent);
-                                    $("#quantities").val(data.quantities);
-                                    $("#applyCompletionRate").val(data.applyCompletionRate);
-                                    $("#unit").val(data.unit);
-                                    $("#price").val(data.price);
-                                    $("#applyPrice").val(data.applyPrice);
-                                    $("#remark").val(data.remark);
-                                    if(ucamVoOrderType == 1){
-                                        $("#warrantyDate").val(data.warrantyDate);
-                                    }
-                                    if(ucamVoOrderType == 2){
-                                        $("#date").val(data.date);
-                                    }
-                                    $("#approvalCompletionRate").val(data.approvalCompletionRate);
-                                    $("#approvalPrice").val(data.approvalPrice);
+        var appA = document.getElementsByName('app-a');
+        if(appA.length > 0){
+            for(var i = 0; i < appA.length; i++){
+                appA[i].addEventListener('tap', function(event) {
+                    var itemId = $(this).attr("data-id");
+                    console.log(itemId);
+                    var url = '${ctx}/mobile/UCAM/getUCAMItem/' + itemId;
+                    $.ajax({
+                        url: url,
+                        contentType : "application/x-www-form-urlencoded",
+                        type: 'post',
+                        timeout: 10000,
+                        success: function(result) {
+                            if(result.code!=0){
+                                alert(result.msg);
+                            }else {
+                                var data = result.data;
+                                $("#addFromUCAMItem").find("#id").val(data.id);
+                                $("#orderNo").val(data.orderNo);
+                                $("#projectContent").val(data.projectContent);
+                                $("#quantities").val(data.quantities);
+                                $("#applyCompletionRate").val(data.applyCompletionRate);
+                                $("#unit").val(data.unit);
+                                $("#price").val(data.price);
+                                $("#applyPrice").val(data.applyPrice);
+                                $("#remark").val(data.remark);
+                                if(ucamVoOrderType == 1){
+                                    $("#warrantyDate").val(data.warrantyDate);
                                 }
+                                if(ucamVoOrderType == 2){
+                                    $("#date").val(data.date);
+                                }
+                                $("#approvalCompletionRate").val(data.approvalCompletionRate);
+                                $("#approvalPrice").val(data.approvalPrice);
                             }
-                        });
-                    },false);
-                }
+                        }
+                    });
+                },false);
             }
-        //}
+        }
 
         var userType = '${admin.userType}';
         console.log(userType);
@@ -491,9 +488,11 @@
 
 
 
-        document.getElementById('app-selectProject').addEventListener('tap', function(event) {
-            $project.projectList();
-        },false);
+        if(status == null || status == 0) {
+            document.getElementById('app-selectProject').addEventListener('tap', function (event) {
+                $project.projectList();
+            }, false);
+        }
     });
 
     if(status == 0) {
@@ -644,7 +643,7 @@
 
         var applyCompletionRate = $('#applyCompletionRate').val().trim();
         if(check && !regxLv.test(applyCompletionRate)){
-            mui.alert("工程量格式错误，最多输入2位小数,且不能超过10位数！");
+            mui.alert("申报完成率格式错误，最多输入2位小数,且不能超过10位数！");
             check = false;
             return false;
         };
@@ -659,6 +658,21 @@
         var price = $('#price').val().trim();
         if(check && !regxPrice.test(price)){
             mui.alert("金额格式错误，最多输入2位小数,且不能超过10位数！");
+            check = false;
+            return false;
+        }
+
+        if(status == 2){
+            var approvalCompletionRate = $('#approvalCompletionRate').val().trim();
+            if(check && !regxLv.test(approvalCompletionRate)){
+                mui.alert("审核完成率格式错误，最多输入2位小数,且不能超过10位数！");
+                check = false;
+                return false;
+            };
+        }
+        var remark = $('#remark').val().trim();
+        if(check && remark.length > 200){
+            mui.alert("备注格式错误，长度不能超过200！");
             check = false;
             return false;
         }
@@ -694,7 +708,7 @@
         }
     });
 
-    /** 删除项 **/
+    /** 删除明细 **/
     mui(document.body).on('tap', '.deleteItem', function(e) {
         var itemId = this.value;
         var btnArray = ['是', '否'];

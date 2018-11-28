@@ -52,33 +52,91 @@
         <div class="mui-scroll">
             <!-- 主界面具体展示内容 -->
 
-
             <div class="mui-content" style="margin-left: 5px; margin-right: 5px; font-size: 14px;">
-                <ul class="mui-table-view">
+                <ul id="ul_mui_table_view" class="mui-table-view">
                     <li class="mui-table-view-cell mui-collapse">
-                        <a class="mui-navigate-right" href="#">工程验收单详情:${detailsVo.paoVo.orderNo}</a>
+                        <a class="mui-navigate-right" href="#">
+                            工程验收单详情:
+                            <c:choose>
+                                <c:when test="${detailsVo.paoVo.id == null}">
+                                    请先添加工程验收单
+                                </c:when>
+                                <c:otherwise>
+                                    ${detailsVo.paoVo.orderNo}
+                                </c:otherwise>
+                            </c:choose>
+
+                        </a>
                         <div class="mui-collapse-content">
-                            <input type="hidden" name="orderNo" id="orderNo" value="${detailsVo.paoVo.orderNo}">
-                            <input type="hidden" name="id" id="id" value="${detailsVo.paoVo.id}">
-                            <div class="mui-input-row">
-                                <label>请款单号</label>
-                                <label style="width: 65%;padding-left: 0px;">${detailsVo.paoVo.orderNo}</label>
-                            </div>
-                            <div class="mui-input-row">
-                                <label>请款人</label>
-                                <label style="width: 65%;padding-left: 0px;">${detailsVo.paoVo.admin.fullname}</label>
-                            </div>
-                            <div class="mui-input-row">
-                                <label>供应商</label>
-                                <label style="width: 65%;padding-left: 0px;">${detailsVo.paoVo.supplier.name}</label>
-                            </div>
-                            <div class="mui-input-row">
-                                <label>所属项目</label>
-                                <label style="width: 65%;padding-left: 0px;">${detailsVo.paoVo.tpm.name}</label>
-                            </div>
-                            <div>
-                                <textarea name="summary" id="summary" rows="5" class="mui-input-clear" readonly="readonly">${detailsVo.paoVo.summary}</textarea>
-                            </div>
+                            <form class="mui-input-group" id="programmeAcceptanceForm">
+                                <input type="hidden" name="id" id="id" value="${detailsVo.paoVo.id}">
+                                <div class="mui-input-row">
+                                    <label>工程验收单号</label>
+                                    <%--<label style="width: 65%;padding-left: 0px;">${detailsVo.paoVo.orderNo}</label>--%>
+                                    <input type="text" name="orderNo" id="orderNo" readonly disabled="disabled" value="${detailsVo.paoVo.orderNo}" placeholder="工程验收单号由系统自动生成">
+                                </div>
+                                <div class="mui-input-row">
+                                    <label>申请人</label>
+                                    <%--<label style="width: 65%;padding-left: 0px;">${detailsVo.paoVo.admin.fullname}</label>--%>
+                                    <c:choose>
+                                        <c:when test="${detailsVo.paoVo.id == null}">
+                                            <input type="text" id="selectApplyUserEdit" placeholder="请选择申请人" value="${admin.fullname}">
+                                            <input type="hidden" id="applyUserEdit" name="applyUser" value="${admin.id}" mui-verify="required">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="text" id="selectApplyUserEdit" placeholder="请选择申请人" value="${detailsVo.paoVo.admin.fullname}" <c:if test="${detailsVo.paoVo.status != 0}">disabled="disabled"</c:if> >
+                                            <input type="hidden" id="applyUserEdit" name="applyUser" value="${detailsVo.paoVo.admin.id}" mui-verify="required">
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+                                <div class="mui-input-row">
+                                    <label>供应商</label>
+                                    <%--<label style="width: 65%;padding-left: 0px;">${detailsVo.paoVo.supplier.name}</label>--%>
+                                    <c:choose>
+                                        <c:when test="${detailsVo.paoVo.id == null}">
+                                            <c:choose>
+                                                <c:when test="${admin.supplierId == null}">
+                                                    <input type="text" id="supplierName" readonly value="" placeholder="请选择请款人">
+                                                    <input type="hidden" id="supplierId" name="supplierId" value="" mui-verify="required">
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <input type="text" id="supplierName" readonly value="${admin.supplierName}" placeholder="请选择请款人">
+                                                    <input type="hidden" id="supplierId" name="supplierId" value="${admin.supplierId}" mui-verify="required">
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="text" id="supplierName" readonly value="${detailsVo.paoVo.supplier.name}" <c:if test="${detailsVo.paoVo.status != 0}">disabled="disabled"</c:if>>
+                                            <input type="hidden" id="supplierId" name="supplierId" value="${detailsVo.paoVo.supplier.id}" mui-verify="required">
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+                                <div class="mui-input-row">
+                                    <label>所属项目</label>
+                                    <%--<label style="width: 65%;padding-left: 0px;">${detailsVo.paoVo.tpm.name}</label>--%>
+                                    <a <c:if test="${detailsVo.paoVo.id == null || detailsVo.paoVo.status == 0}">href="#selectProject" id="app-selectProject"</c:if>>
+                                        <label id="selectProjectText" style="width: 65%;padding-left: 0px;">
+                                            <c:choose>
+                                                <c:when test="${detailsVo.paoVo.id == null}">
+                                                    请选择所属项目
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${detailsVo.paoVo.tpm.name}
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </label>
+                                        <input type="hidden" id="selectProjectHidden" name="projectId" value="${detailsVo.paoVo.tpm.id}" mui-verify="required">
+                                    </a>
+                                </div>
+                                <div>
+                                    <textarea name="summary" id="summary" rows="5" class="mui-input-clear" readonly="readonly">${detailsVo.paoVo.summary}</textarea>
+                                </div>
+                                <div class="mui-button-row" style="padding-bottom: 20px;">
+                                    <c:if test="${detailsVo.paoVo.status == 0 || detailsVo.paoVo.status == null}">
+                                        <button type="button" class="mui-btn mui-btn-primary" id="programmeAcceptanceSave">保存</button>
+                                    </c:if>
+                                </div>
+                            </form>
                         </div>
                     </li>
 
@@ -108,7 +166,6 @@
                                                                 <span class="mui-badge mui-badge-danger mui-pull-right" style="color: white;">未整改</span>
                                                             </c:otherwise>
                                                         </c:choose>
-
                                                     </p>
                                                 </div>
                                             </div>
@@ -139,7 +196,7 @@
                                                         <button type="button" class="mui-btn mui-btn-primary deleteItem" value="${item.id}">刪除</button>
                                                     </div>
                                                 </c:if>
-                                                <c:if test="${detailsVo.paoVo.status != 0 && detailsVo.paoVo.status != 4 && detailsVo.reviewUserId == admin.id}">
+                                                <c:if test="${detailsVo.paoVo.status == 1 && detailsVo.reviewUserId == admin.id}">
                                                     <div>
                                                         <a href="#fromPAOItem" name="app-a" data-id="${item.id}">
                                                             <button type="button" class="mui-btn mui-btn-primary" value="${item.id}">审核</button>
@@ -152,7 +209,7 @@
                                 </c:when>
                                 <c:otherwise>
                                     <div class="mui-input-row">
-                                        <label>工程验收单明细</label>
+                                        <label>暂无明细</label>
                                     </div>
                                 </c:otherwise>
                             </c:choose>
@@ -175,7 +232,7 @@
                     <%--<c:when test="${detailsVo.paoVo.status == 1 && empty detailsVo.paoVo.costDepartUser && empty detailsVo.reviewUserId}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="submitReviewPAO">选择审核人</button>
                     </c:when>--%>
-                    <c:when test="${detailsVo.reviewUserId == admin.id}">
+                    <c:when test="${detailsVo.paoVo.id != null && detailsVo.reviewUserId == admin.id}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">审核</button>
                     </c:when>
                 </c:choose>
@@ -212,7 +269,7 @@
                         <label>计划完成日期</label>
                         <input type="text" id="playOverDate" name="playOverDate" readonly data-options='{"type":"date","beginYear":2018,"endYear":2028}' <c:if test="${detailsVo.paoVo.status != 0}">disabled="disabled"</c:if> placeholder="请选择计划完成日期" mui-verify="required">
                     </div>
-                    <c:if test="${detailsVo.paoVo.status != 0}">
+                    <c:if test="${detailsVo.paoVo.status == 1 && detailsVo.reviewUserId == admin.id}">
                         <div class="mui-input-row">
                             <label>是否已整改</label>
                             <input type="text" id="rectifyFlagName" name="rectifyFlagName" readonly value="已整改">
@@ -235,8 +292,9 @@
     </div>
 </div>
 
+<%@ include file="/WEB-INF/page/mobile/common/selectProject.jsp"%>
+
 <script type="text/javascript" charset="utf-8">
-    mui.init();
     //初始化单页view
     var viewApi = mui('#app').view({
         defaultPage: '#setting'
@@ -244,54 +302,108 @@
 
     mui('.mui-scroll-wrapper').scroll();
     var status = '${detailsVo.paoVo.status}';
-
     var rectifyFlagJson = '[{"value":0,"text":"未整改"},{"value":1,"text":"已整改"}]';
     //初始化数据
     mui.ready(function() {
         initplayOverDate();
 
-        if(status != 0) {
+        if(status == 1) {
             initactualOverDate();
 
             inirectifyFlagName();
         }
-            var appA = document.getElementsByName('app-a');
-            if(appA.length > 0){
-                for(var i = 0; i < appA.length; i++){
-                    appA[i].addEventListener('tap', function(event) {
-                        var itemId = $(this).attr("data-id");
-                        var url = '${ctx}/mobile/programmeAcceptance/getProgrammeAcceptanceItem/' + itemId;
-                        $.ajax({
-                            url: url,
-                            contentType : "application/x-www-form-urlencoded",
-                            type: 'post',
-                            timeout: 10000,
-                            success: function(result) {
-                                if(result.code!=0){
-                                    alert(result.msg);
-                                }else {
-                                    var data = result.data;
-                                    $("#rectifyContent").val(data.rectifyContent);
-                                    $("#orderNo").val(data.orderNo);
-                                    $("#addFromPAOItem").find("#id").val(data.id);
-                                    $("#playOverDate").val(data.playOverDate);
-                                    $("#remark").val(data.remark);
-                                    $("#rectifyMeasure").val(data.rectifyMeasure);
-                                    $("#actualOverDate").val(data.actualOverDate);
-                                    var rectifyFlagName = "未整改";
-                                    if(data.rectifyFlag == 1){
-                                        rectifyFlagName = "已整改";
-                                    }
-                                    $("#rectifyFlag").val(data.rectifyFlag == 1 ? 1:0);
-                                    $("#rectifyFlagName").val(rectifyFlagName);
+        var appA = document.getElementsByName('app-a');
+        if(appA.length > 0){
+            for(var i = 0; i < appA.length; i++){
+                appA[i].addEventListener('tap', function(event) {
+                    var itemId = $(this).attr("data-id");
+                    var url = '${ctx}/mobile/programmeAcceptance/getProgrammeAcceptanceItem/' + itemId;
+                    $.ajax({
+                        url: url,
+                        contentType : "application/x-www-form-urlencoded",
+                        type: 'post',
+                        timeout: 10000,
+                        success: function(result) {
+                            if(result.code!=0){
+                                alert(result.msg);
+                            }else {
+                                var data = result.data;
+                                $("#rectifyContent").val(data.rectifyContent);
+                                $("#orderNo").val(data.orderNo);
+                                $("#addFromPAOItem").find("#id").val(data.id);
+                                $("#playOverDate").val(data.playOverDate);
+                                $("#remark").val(data.remark);
+                                $("#rectifyMeasure").val(data.rectifyMeasure);
+                                $("#actualOverDate").val(data.actualOverDate);
+                                var rectifyFlagName = "未整改";
+                                if(data.rectifyFlag == 1){
+                                    rectifyFlagName = "已整改";
                                 }
+                                $("#rectifyFlag").val(data.rectifyFlag == 1 ? 1:0);
+                                $("#rectifyFlagName").val(rectifyFlagName);
                             }
-                        });
-                    },false);
-                }
+                        }
+                    });
+                },false);
             }
+        }
 
-        //}
+        var userType = '${admin.userType}';
+        console.log(userType);
+        var adminsJson = '${admins}';
+        console.log(adminsJson);
+
+        if(userType == 1){
+            var userPicker = new mui.PopPicker();
+            userPicker.setData(JSON.parse(adminsJson));
+            var selectApplyUserEdit = document.getElementById('selectApplyUserEdit');
+            var applyUserEdit = document.getElementById('applyUserEdit');
+            selectApplyUserEdit.addEventListener('tap', function(event) {
+                userPicker.show(function(items) {
+                    selectApplyUserEdit.value = items[0].text;
+                    applyUserEdit.value = items[0].value;
+                    //返回 false 可以阻止选择框的关闭
+                    //return false;
+                    var url = '${ctx}/sys/getAdmin?id=' + items[0].value;
+                    $.ajax({
+                        url: url,
+                        type: 'get',
+                        timeout: 10000,
+                        success: function(result) {
+                            if(result.code == 0){
+                                $("#supplierId").val(result.data.supplierId);
+                                $("#supplierName").val(result.data.supplierName);
+                            }
+                        }
+                    });
+                });
+            }, false);
+        }else{
+            var userPicker = new mui.PopPicker({
+                layer: 2
+            });
+            userPicker.setData(JSON.parse(adminsJson));
+            var selectApplyUserEdit = document.getElementById('selectApplyUserEdit');
+            var applyUserEdit = document.getElementById('applyUserEdit');
+            var supplierId = document.getElementById('supplierId');
+            var supplierName = document.getElementById('supplierName');
+            selectApplyUserEdit.addEventListener('tap', function(event) {
+                userPicker.show(function(items) {
+                    supplierName.value = items[0].text;
+                    supplierId.value = items[0].value;
+                    selectApplyUserEdit.value = items[1].text;
+                    applyUserEdit.value = items[1].value;
+                });
+            }, false);
+        }
+
+
+
+        if(status == null || status == 0) {
+            document.getElementById('app-selectProject').addEventListener('tap', function (event) {
+                $project.projectList();
+            }, false);
+        }
     });
 
     function initplayOverDate(){
@@ -340,9 +452,55 @@
         }, false);
     }
 
+    /** 保存主表 **/
+    mui(document.body).on('tap', '#programmeAcceptanceSave', function(e) {
+        var check = true;
+        mui("#programmeAcceptanceForm input").each(function() {
+            //若当前input为空，则alert提醒
+            var verify = $(this).attr("mui-verify");
+            if(verify == 'required'){
+                console.log($(this).attr("name"));
+                if(!this.value || this.value.trim() == "") {
+                    var label = this.previousElementSibling;
+                    var tipText = "";
+                    if(label.innerText == ""){
+                        tipText = $(this).parent().find("label").html();
+                    }else{
+                        tipText = label.innerText;
+                    }
+                    mui.alert(tipText + "不允许为空");
+                    check = false;
+                    return false;
+                }
+            }
+        });
+
+        if(check){
+            var url = '${ctx}/mobile/programmeAcceptance/addProgrammeAcceptanceOrder';
+            $.ajax({
+                url: url,
+                data: $('#programmeAcceptanceForm').serialize(),
+                dataType: 'json',
+                contentType : "application/x-www-form-urlencoded",
+                type: 'post',
+                timeout: 10000,
+                success: function(result) {
+                    if(result.code!=0){
+                        mui.alert(result.msg);
+                    }else {
+                        mui.alert('保存成功！', function() {
+                            document.location.href='${ctx }/mobile/programmeAcceptance/toDetails/?id=' + result.msg;
+                        });
+
+                    }
+                }
+            });
+        }
+    });
 
 
-    /** 提交项 **/
+
+    /** 提交明细 **/
     mui(document.body).on('tap', '#submitFromPAOItem', function(e) {
         var check = true;
         mui("#addFromPAOItem input").each(function() {
@@ -358,6 +516,25 @@
                 }
             }
         });
+        var rectifyContent = $('#rectifyContent').val().trim();
+        if(check && rectifyContent.length > 200){
+            mui.alert("整改内容格式错误，长度不能超过200！");
+            check = false;
+            return false;
+        }
+        var rectifyMeasure = $('#rectifyMeasure').val().trim();
+        if(check && rectifyMeasure.length > 200){
+            mui.alert("整改措施格式错误，长度不能超过200！");
+            check = false;
+            return false;
+        }
+
+        var remark = $('#remark').val().trim();
+        if(check && remark.length > 200){
+            mui.alert("备注格式错误，长度不能超过200！");
+            check = false;
+            return false;
+        }
 
         //校验通过，继续执行业务逻辑
         if(check){
@@ -378,7 +555,7 @@
                         mui.alert(result.msg);
                     }else {
                         mui.alert('保存成功！', function() {
-                            document.location.href='${ctx }/mobile/programmeAcceptance/toDetails/${detailsVo.paoVo.id}';
+                            document.location.href='${ctx }/mobile/programmeAcceptance/toDetails/?id=${detailsVo.paoVo.id}';
                         });
                     }
                 }
@@ -388,7 +565,7 @@
         }
     });
 
-    /** 删除项 **/
+    /** 删除明细 **/
     mui(document.body).on('tap', '.deleteItem', function(e) {
         var itemId = this.value;
         var btnArray = ['是', '否'];
@@ -406,7 +583,7 @@
                             mui.alert(result.msg);
                         }else {
                             mui.alert('删除成功！', function() {
-                                document.location.href='${ctx }/mobile/programmeAcceptance/toDetails/${detailsVo.paoVo.id}';
+                                document.location.href='${ctx }/mobile/programmeAcceptance/toDetails/?id=${detailsVo.paoVo.id}';
                             });
                         }
                     }
@@ -471,8 +648,7 @@
                             mui.alert(result.msg);
                         }else {
                             mui.alert('提交审核成功！', function() {
-                                //document.location.href='${ctx }/mobile/programmeAcceptance/toDetails/${detailsVo.paoVo.id}';
-                                history.go(-1);
+                                document.location.href='${ctx }/mobile/programmeAcceptance/toDetails/?id=${detailsVo.paoVo.id}';
                             });
                         }
                     }
@@ -511,9 +687,15 @@
             //				console.log(e.detail.page.id + ' back');
         });
     })(mui);
+
+    var dcLength = $("#detailDiv").find("div.mui-card").length;
+    if(dcLength > 0){
+        $("#ul_mui_table_view").find("li").removeClass("mui-active");
+        $("#ul_mui_table_view").find("li").eq(2).addClass("mui-active");
+    }
 </script>
 <!-- 审核 -->
-<c:set value="${ctx }/mobile/programmeAcceptance/toDetails/${detailsVo.paoVo.id}" var="reviewRefreshUrl"/>
+<c:set value="${ctx }/mobile/programmeAcceptance/toDetails/?id=${detailsVo.paoVo.id}" var="reviewRefreshUrl"/>
 <c:set value="${ctx}/mobile/programmeAcceptance/reviewProgrammeAcceptanceOrder/${detailsVo.paoVo.id}" var="reviewSaveUrl"/>
 <c:set value="${detailsVo.paoVo.status}" var="reviewStatus"/>
 <%@ include file="/WEB-INF/page/mobile/common/review.jsp"%>

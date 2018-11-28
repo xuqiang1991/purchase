@@ -28,10 +28,9 @@
           </trim>
         </if>
       </foreach>
-      and (a.create_user = #{search.loginId} or a.bid_user = #{search.loginId})
     </where>
   </sql>
-
+  <!-- /*and (a.create_user = #{search.loginId} or a.bid_user = #{search.loginId})*/ -->
   <resultMap id="BaseResultMapExt" type="com.purchase.vo.order.BiddingManagementVo" extends="BaseResultMap">
     <association property="createAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
       <result column="createId" jdbcType="BIGINT" property="id"></result>

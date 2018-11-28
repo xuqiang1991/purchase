@@ -121,12 +121,12 @@
     });
 
     mui(document.body).on('tap', '#add-btn', function(e) {
-        document.location.href = ctx + '/mobile/programmeAcceptance/toEdit';
+        document.location.href = ctx + '/mobile/programmeAcceptance/toDetails';
     });
 
     mui(document.body).on('tap', '.detail-card', function(e) {
         var id = $(this).attr("data-id");
-        document.location.href = ctx + '/mobile/programmeAcceptance/toDetails/' + id;
+        document.location.href = ctx + '/mobile/programmeAcceptance/toDetails/?id=' + id;
     });
     mui(document.body).on('tap', '.details-edit', function(e) {
         var id = $(this).attr("data-id");

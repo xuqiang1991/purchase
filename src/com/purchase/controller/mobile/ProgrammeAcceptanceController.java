@@ -131,12 +131,27 @@ public class ProgrammeAcceptanceController {
         return paService.savePAOOrder(order);
     }
 
-    @RequestMapping("/toDetails/{id}")
+    @RequestMapping("/toDetails")
     @RequiresPermissions("mobile:programmeAcceptance:details")
-    public String toDetails(@PathVariable("id") String id, Model model){
+    public String toDetails(HttpServletRequest req, Model model){
+        String id = req.getParameter("id");
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         Long adminId = admin.getId();
-        ProgrammeAcceptanceDetialVo detailsVo = paService.selPAODetail(id,adminId);
+
+        ProgrammeAcceptanceDetialVo detailsVo = new ProgrammeAcceptanceDetialVo();
+        if(!StringUtils.isEmpty(id)){
+            detailsVo = paService.selPAODetail(id,adminId);
+        }
+        if(admin.getUserType() == 1){
+            TbSupplier supplier = supplierService.selSupplierById(admin.getSupplierId());
+            admin.setSupplierName(supplier.getName());
+            //登录账户为供应商，获取当前供应商的用户为创建人
+            List<ChoseAdminVO> admins = adminService.selectAdminBySupplierId(admin.getSupplierId());
+            req.setAttribute("admins", JSON.toJSONString(admins));
+        }else{
+            List<ChoseSupplierVO> admins = adminService.selectAdminSupplierIdNotNull();
+            req.setAttribute("admins", JSON.toJSONString(admins));
+        }
         model.addAttribute("detailsVo",detailsVo);
         model.addAttribute("admin",admin);
         return "page/mobile/programmeAcceptance/details";
