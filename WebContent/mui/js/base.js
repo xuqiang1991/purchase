@@ -52,7 +52,7 @@ function inputVerify(obj)
                 }
             }else if(key == 'length'){
                 if(v.length > parseInt(value)){
-                    mui.alert(tipText + "不能大于" + value);
+                    mui.alert(tipText + "长度不能大于" + value);
                     check = false;
                     return check;
                 }
