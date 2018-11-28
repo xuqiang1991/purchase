@@ -135,11 +135,11 @@
                                                     请选择所属项目
                                                 </c:when>
                                                 <c:otherwise>
-                                                    ${detailsVo.purchaseOrder.tpm.name}
+                                                    ${detailsVo.purchaseOrder.projectManger.name}
                                                 </c:otherwise>
                                             </c:choose>
                                         </label>
-                                        <input type="hidden" id="selectProjectHidden" name="projectId" value="${detailsVo.purchaseOrder.tpm.id}" mui-verify="required">
+                                        <input type="hidden" id="selectProjectHidden" name="projectId" value="${detailsVo.purchaseOrder.projectManger.id}" mui-verify="required">
                                     </a>
                                 </div>
                                 <c:if test="${detailsVo.purchaseOrder.contractNo != null}">
@@ -148,19 +148,17 @@
                                         <label>${detailsVo.purchaseOrder.contractNo}</label>
                                     </div>
                                 </c:if>
-                               <c:if test="${detailsVo.purchaseOrder.id == null}">
                                 <div class="mui-input-row">
                                     <label>合同总金额</label>
-                                    <input type="text" name="contractMoney" value="${detailsVo.purchaseOrder.contractMoney}" class="mui-input-clear" readonly="readonly" disabled="disabled">
-                                </c:if>
+                                    <input type="text" name="contractMoney" value="${detailsVo.purchaseOrder.contractMoney}" class="mui-input-clear" readonly disabled="disabled" placeholder="合同总金额由详情系统自动生成">
                                 </div>
                                 <div class="mui-input-row">
                                     <label>已请款金额</label>
-                                    <label>${detailsVo.purchaseOrder.requestAmount}</label>
+                                    <input type="text" name="requestAmount" value="${detailsVo.purchaseOrder.requestAmount}" readonly disabled="disabled" placeholder="已请款金额由请款单回写">
                                 </div>
                                 <div class="mui-input-row">
                                     <label>已付款金额</label>
-                                    <label>${detailsVo.purchaseOrder.paymentAmount}</label>
+                                    <input type="text" name="paymentAmount" value="${detailsVo.purchaseOrder.paymentAmount}" readonly disabled="disabled" placeholder="已付款金额由付款单回写">
                                 </div>
                                 <div class="mui-input-row mui-input-range">
                                     <label>付款比例(%)</label>
@@ -169,12 +167,12 @@
                                             <input type="number" name="paymentRatio" class="mui-input-clear" mui-verify="required" placeholder="请输入付款比例" value="100" min="1" max="100">
                                         </c:when>
                                         <c:otherwise>
-                                            <input type="number" name="paymentRatio" class="mui-input-clear" mui-verify="required" placeholder="请输入付款比例" value="${order.paymentRatio}" <c:if test="${detailsVo.purchaseOrder.status != 0}">disabled="disabled"</c:if>>
+                                            <input type="number" name="paymentRatio" class="mui-input-clear" mui-verify="required" placeholder="请输入付款比例" value="${detailsVo.purchaseOrder.paymentRatio}" <c:if test="${detailsVo.purchaseOrder.status != 0}">disabled="disabled"</c:if>>
                                         </c:otherwise>
                                     </c:choose>
                                 </div>
                                 <div>
-                                    <textarea name="summary" id="summary" rows="5" class="mui-input-clear" readonly="readonly">${detailsVo.purchaseOrder.summary}</textarea>
+                                    <textarea name="summary" id="summary" rows="5" class="mui-input-clear">${detailsVo.purchaseOrder.summary}</textarea>
                                 </div>
                                 <c:if test="${detailsVo.purchaseOrder.status == 0 || detailsVo.purchaseOrder.status == null}">
                                     <div class="mui-button-row" style="padding-bottom: 20px;">
@@ -352,6 +350,32 @@
     });
 
     mui('.mui-scroll-wrapper').scroll();
+
+    /** 订单类型 **/
+    function initOrderType(){
+        var orderType = '[{"text":"绿化苗木","value":"0"},{"text":"园建水电","value":"1"},{"text":"机械租赁","value":"2"},{"text":"工程分包","value":"3"}]';
+        var json = JSON.parse(orderType);
+        var userPicker = new mui.PopPicker();
+        userPicker.setData(json);
+        var typeName = document.getElementById('typeName');
+        var type = document.getElementById('type');
+        var typeValue = type.value;
+        if(typeValue){
+            $.each(json,function (idx,obj) {
+                if(obj.value == typeValue){
+                    typeName.value = obj.text;
+                }
+            })
+        }
+        typeName.addEventListener('tap', function(event) {
+            userPicker.show(function(items) {
+                typeName.value = items[0].text;
+                type.value = items[0].value;
+                //返回 false 可以阻止选择框的关闭
+                //return false;
+            });
+        }, false);
+    }
 
     /** 提交项 **/
     var isSubmit = false;
@@ -533,18 +557,25 @@
     /** 保存主表 **/
     var isSubmit = false;
     mui(document.body).on('tap', '#ucamSave', function(e) {
+        debugger
         if(isSubmit){
             return false;
         }
 
         var check = true;
-        mui("input").each(function() {
+        mui("#ucamForm input").each(function() {
             //若当前input为空，则alert提醒
             var verify = $(this).attr("mui-verify")
             if(verify == 'required'){
                 if(!this.value || this.value.trim() == "") {
                     var label = this.previousElementSibling;
-                    mui.alert(label.innerText + "不允许为空");
+                    var tipText = "";
+                    if(label.innerText == ""){
+                        tipText = $(this).parent().find("label").html();
+                    }else{
+                        tipText = label.innerText;
+                    }
+                    mui.alert(tipText + "不允许为空");
                     check = false;
                     return false;
                 }
@@ -554,9 +585,13 @@
         if(check){
             isSubmit = true
             var url = '${ctx}/mobile/purchase/addPurchaseOrder'
+            var purchaseId = $('#ucamForm').find('#id').val();
+            if(purchaseId != null && purchaseId != ""){
+                url = '${ctx}/mobile/purchase/editPurchaseOrder';
+            }
             $.ajax({
                 url: url,
-                data: $('#submitFrom').serialize(),
+                data: $('#ucamForm').serialize(),
                 dataType: 'json',
                 contentType : "application/x-www-form-urlencoded",
                 type: 'post',
@@ -566,8 +601,11 @@
                         mui.alert(result.msg);
                         isSubmit = false;
                     }else {
-                        mui.alert("保存成功！");
-                        document.location.href='${ctx }/mobile/purchase/toDetails?id=' + result.msg;
+                        var btnArray = ['确认'];
+                        mui.confirm('保存成功！', btnArray, function(e) {
+                            document.location.href='${ctx }/mobile/purchase/toDetails?id=' + result.msg;
+                        })
+
                     }
                 }
             });
@@ -578,6 +616,10 @@
 
     //初始化数据
     mui.ready(function() {
+
+        //订单类型
+        initOrderType();
+
         //供应商
         var url = '${ctx}/supplier/findSuppliersAll';
         $.ajax({
@@ -588,7 +630,6 @@
                 }
             }
         });
-
 
         var appA = document.getElementsByName('app-a');
         if(appA.length > 0){
@@ -615,21 +656,6 @@
                                 $("#addFromPurchaseOrderItem").find("input[name='amount']").val(data.amount);
                                 $("#addFromPurchaseOrderItem").find("input[name='totalPrice']").val(data.totalPrice);
                                 $("#remark").val(data.remark);
-
-                               /* $("#model").val(data.model);
-                                $("#applyCompletionRate").val(data.applyCompletionRate);
-                                $("#unit").val(data.unit);
-                                $("#price").val(data.price);
-                                $("#applyPrice").val(data.applyPrice);
-                                $("#remark").val(data.remark);
-                                if(ucamVoOrderType == 1){
-                                    $("#warrantyDate").val(data.warrantyDate);
-                                }
-                                if(ucamVoOrderType == 2){
-                                    $("#date").val(data.date);
-                                }
-                                $("#approvalCompletionRate").val(data.approvalCompletionRate);
-                                $("#approvalPrice").val(data.approvalPrice);*/
                             }
                         }
                     });
@@ -637,6 +663,10 @@
             }
         }
 
+        //选择项目
+        document.getElementById('app-selectProject').addEventListener('tap', function(event) {
+            $project.projectList();
+        },false);
 
         //计算金额
         document.getElementById("amount").addEventListener("change", totalPriceReckon, false);

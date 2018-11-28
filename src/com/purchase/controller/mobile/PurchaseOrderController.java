@@ -156,7 +156,7 @@ public class PurchaseOrderController {
 
     @SysLog(value="编辑采购单")
     @RequestMapping("editPurchaseOrder")
-    @RequiresPermissions("mobile:purchase:edit")
+    @RequiresPermissions("mobile:purchase:save")
     @ResponseBody
     public ResultUtil editPurchaseOrder(BizPurchaseOrder order){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
