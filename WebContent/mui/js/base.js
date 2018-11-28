@@ -56,6 +56,13 @@ function inputVerify(obj)
                     check = false;
                     return check;
                 }
+            }else if(key == 'digits'){
+                var tel = /^\d+$/;  //正整数
+                check = tel.test(v)
+                if(!check){
+                    mui.alert(tipText + "必须为正整数");
+                }
+                return check;
             }
         });
 

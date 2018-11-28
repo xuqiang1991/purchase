@@ -307,11 +307,11 @@
                     </div>
                     <div class="mui-input-row">
                         <label>单价</label>
-                        <input type="number" id="price" name="price" class="mui-input-clear" mui-verify="required|min=0|max=1000000" placeholder="请输入单价">
+                        <input type="number" id="price" name="price" class="mui-input-clear" mui-verify="required|min=0|max=1000000" onkeyup="checknum(this);" placeholder="请输入单价">
                     </div>
                     <div class="mui-input-row">
                         <label>数量</label>
-                        <input type="number" id="amount" name="amount" class="mui-input-clear" mui-verify="required|min=0|max=1000000" placeholder="请输入数量">
+                        <input type="number" id="amount" name="amount" class="mui-input-clear" mui-verify="required|digits|min=0|max=1000000" placeholder="请输入数量">
                     </div>
                     <div class="mui-input-row">
                         <label>金额</label>
@@ -320,7 +320,7 @@
                     <c:if test="${detailsVo.purchaseOrder.type == 1}">
                         <div class="mui-input-row">
                             <label>质保期（月）</label>
-                            <input type="number" name="warrantyDate" class="mui-input-clear" mui-verify="required|min=0|max=100" placeholder="请输入质保期（月）">
+                            <input type="number" name="warrantyDate" class="mui-input-clear" mui-verify="required|digits|min=0|max=100" placeholder="请输入质保期（月）">
                         </div>
                     </c:if>
                     <c:if test="${detailsVo.purchaseOrder.type == 2}">
