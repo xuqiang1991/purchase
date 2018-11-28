@@ -249,7 +249,7 @@
                                 </c:when>
                                 <c:otherwise>
                                     <div class="mui-input-row">
-                                        <label>无请款单单项</label>
+                                        <label>暂无明细</label>
                                     </div>
                                 </c:otherwise>
                             </c:choose>
@@ -313,7 +313,7 @@
                     </div>
                     <div class="mui-input-row">
                         <label>申报完成率(%)</label>
-                        <input type="number" value="" id="applyCompletionRate" name="applyCompletionRate" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入申报完成率">
+                        <input type="text" value="" id="applyCompletionRate" name="applyCompletionRate" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入申报完成率">
                     </div>
                     <div class="mui-input-row">
                         <label>单位</label>
@@ -321,11 +321,11 @@
                     </div>
                     <div class="mui-input-row">
                         <label>单价(元)</label>
-                        <input type="number" id="price" name="price" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入单价">
+                        <input type="text" id="price" name="price" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入单价">
                     </div>
                     <div class="mui-input-row">
                         <label>申报金额</label>
-                        <input type="number" id="applyPrice" name="applyPrice" class="mui-input-clear" mui-verify="required" readonly value="0" placeholder="请输入申报金额">
+                        <input type="text" id="applyPrice" name="applyPrice" class="mui-input-clear" mui-verify="required" readonly value="0" placeholder="请输入申报金额">
                     </div>
 
                     <c:if test="${detailsVo.ucamVo.orderType == 1}">
@@ -343,11 +343,11 @@
                     <c:if test="${detailsVo.ucamVo.status != 0}">
                         <div class="mui-input-row">
                             <label>审核完成率</label>
-                            <input type="number" min="0" max="100"  id="approvalCompletionRate" name="approvalCompletionRate" mui-verify="required" placeholder="请输入审核完成率">
+                            <input type="text" min="0" max="100"  id="approvalCompletionRate" name="approvalCompletionRate" mui-verify="required" placeholder="请输入审核完成率">
                         </div>
                         <div class="mui-input-row">
                             <label>审批金额</label>
-                            <input type="number" id="approvalPrice" name="approvalPrice"  mui-verify="required" readonly value="0" placeholder="请输入审批金额" >
+                            <input type="text" id="approvalPrice" name="approvalPrice"  mui-verify="required" readonly value="0" placeholder="请输入审批金额" >
                         </div>
                     </c:if>
                     <%--<div class="mui-input-row">
@@ -378,6 +378,8 @@
     var orderTypeJosn = '[{"text":"绿化苗木","value":"0"},{"text":"园建水电","value":"1"},{"text":"机械租赁","value":"2"},{"text":"工程分包","value":"3"}]';
     var ucamVoOrderType = '${detailsVo.ucamVo.orderType}';
     var status = '${detailsVo.ucamVo.status}';
+    var regxPrice =/^(([1-9][0-9]{0,9}[.][0-9]{1,2})|([1-9][0-9]{0,9})|([0][.][0-9]{1}[1-9]{1}))$/;
+    var regxLv = /^(\d|[1-9]\d|100)(\.\d{1,2})?$/;
 
     mui.ready(function() {
         if(ucamVoOrderType != null){
@@ -501,7 +503,7 @@
             var applyCompletionRate = document.getElementById("applyCompletionRate");
             var price = document.getElementById("price");
             console.log(applyCompletionRate + " " + price);
-            if(applyCompletionRate.value != "" && price.value != ""){
+            if(regxLv.test(applyCompletionRate.value) && regxPrice.test(price.value)){
                 var applyPrice = applyCompletionRate.value * price.value;
                 console.log(applyPrice);
                 document.getElementById("applyPrice").value = applyPrice;
@@ -513,7 +515,7 @@
             var approvalCompletionRate = document.getElementById("approvalCompletionRate");
             var price = document.getElementById("price");
             console.log(approvalCompletionRate + " " + price);
-            if(approvalCompletionRate.value != "" && price.value != ""){
+            if(regxLv.test(approvalCompletionRate.value) && regxPrice.test(price.value)){
                 var applyPrice = approvalCompletionRate.value * price.value;
                 console.log(applyPrice);
                 document.getElementById("approvalPrice").value = applyPrice;
@@ -613,7 +615,7 @@
         var check = true;
         mui("#addFromUCAMItem input").each(function() {
             //若当前input为空，则alert提醒
-            var verify = $(this).attr("mui-verify")
+            var verify = $(this).attr("mui-verify");
             if(verify == 'required'){
                 if(!this.value || this.value.trim() == "") {
                     var label = this.previousElementSibling;
@@ -624,13 +626,43 @@
             }
         });
 
-        var regx =/^(([1-9][0-9]{0,9}[.][0-9]{1,2})|([1-9][0-9]{0,9})|([0][.][0-9]{1}[1-9]{1}))$/;
+        var projectContent = $('#projectContent').val().trim();
+        if(check && projectContent.length > 100){
+            mui.alert("材料/项目内容格式错误，长度不能超过100！");
+            check = false;
+            return false;
+        }
+
+
         var quantities = $('#quantities').val().trim();
-        if(check && !regx.test(quantities)){
+        if(check && !regxPrice.test(quantities)){
             mui.alert("工程量格式错误，最多输入2位小数,且不能超过10位数！");
             check = false;
             return false;
         }
+
+
+        var applyCompletionRate = $('#applyCompletionRate').val().trim();
+        if(check && !regxLv.test(applyCompletionRate)){
+            mui.alert("工程量格式错误，最多输入2位小数,且不能超过10位数！");
+            check = false;
+            return false;
+        };
+
+        var unit = $('#unit').val().trim();
+        if(check && unit.length > 10){
+            mui.alert("单位格式错误，长度不能超过10！");
+            check = false;
+            return false;
+        }
+
+        var price = $('#price').val().trim();
+        if(check && !regxPrice.test(price)){
+            mui.alert("金额格式错误，最多输入2位小数,且不能超过10位数！");
+            check = false;
+            return false;
+        }
+
 
         //校验通过，继续执行业务逻辑
         if(check){

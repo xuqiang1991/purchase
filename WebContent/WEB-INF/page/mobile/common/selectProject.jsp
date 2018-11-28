@@ -21,7 +21,9 @@
             <div class="mui-input-row mui-search">
                 <ul class="mui-table-view" style="margin: 5px 15px 10px;z-index: 100">
                     <li class="mui-table-view-cell mui-collapse" id="searchCollapse">
-                        <a class="mui-navigate-right" href="#">搜索</a>
+                        <a class="" href="#">
+                            搜索 <span style="float: right;" class="mui-icon mui-icon mui-icon-search"></span>
+                        </a>
                         <div class="mui-collapse-content">
                             <div class="mui-collapse-content">
                                 <form class="mui-input-group" id="searchForm">
