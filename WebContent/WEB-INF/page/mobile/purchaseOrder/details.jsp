@@ -31,6 +31,7 @@
     <script src="${ctx }/mui/js/mui.view.js"></script>
     <script type="text/javascript" src="${ctx}/js/handlebars.min.js"></script>
     <script type="text/javascript" src="${ctx}/js/handlebarsHelps.js"></script>
+    <script type="text/javascript" src="${ctx}/mui/js/base.js"></script>
 </head>
 <body class="mui-fullscreen">
 <div id="app" class="mui-views">
@@ -164,10 +165,10 @@
                                     <label>付款比例(%)</label>
                                     <c:choose>
                                         <c:when test="${detailsVo.purchaseOrder.id == null}">
-                                            <input type="number" name="paymentRatio" class="mui-input-clear" mui-verify="required" placeholder="请输入付款比例" value="100" min="1" max="100">
+                                            <input type="number" name="paymentRatio" class="mui-input-clear" mui-verify="required|min=0|max=100" placeholder="请输入付款比例" value="100" onkeyup="checknum(this);">
                                         </c:when>
                                         <c:otherwise>
-                                            <input type="number" name="paymentRatio" class="mui-input-clear" mui-verify="required" placeholder="请输入付款比例" value="${detailsVo.purchaseOrder.paymentRatio}" <c:if test="${detailsVo.purchaseOrder.status != 0}">disabled="disabled"</c:if>>
+                                            <input type="number" name="paymentRatio" class="mui-input-clear" mui-verify="required|min=0|max=100" placeholder="请输入付款比例" value="${detailsVo.purchaseOrder.paymentRatio}" onkeyup="checknum(this);" <c:if test="${detailsVo.purchaseOrder.status != 0}">disabled="disabled"</c:if>>
                                         </c:otherwise>
                                     </c:choose>
                                 </div>
@@ -294,32 +295,32 @@
                     <input type="hidden" id="id" name="id" value="">
                     <div class="mui-input-row">
                         <label>材料/项目内容</label>
-                        <input type="text" name="content" class="mui-input-clear" mui-verify="required" placeholder="请输入材料/项目内容">
+                        <input type="text" name="content" class="mui-input-clear" mui-verify="required|length=100" placeholder="请输入材料/项目内容">
                     </div>
                     <div class="mui-input-row">
                         <label>规格型号</label>
-                        <input type="text" name="model" class="mui-input-clear" mui-verify="required" placeholder="请输入规格型号">
+                        <input type="text" name="model" class="mui-input-clear" mui-verify="required|length=100" placeholder="请输入规格型号">
                     </div>
                     <div class="mui-input-row">
                         <label>单位</label>
-                        <input type="text" name="unit" class="mui-input-clear" mui-verify="required" placeholder="请输入单位">
+                        <input type="text" name="unit" class="mui-input-clear" mui-verify="required|length=10" placeholder="请输入单位">
                     </div>
                     <div class="mui-input-row">
                         <label>单价</label>
-                        <input type="number" id="price" name="price" class="mui-input-clear" mui-verify="required" placeholder="请输入单价">
+                        <input type="number" id="price" name="price" class="mui-input-clear" mui-verify="required|min=0|max=1000000" onkeyup="checknum(this);" placeholder="请输入单价">
                     </div>
                     <div class="mui-input-row">
                         <label>数量</label>
-                        <input type="number" id="amount" name="amount" class="mui-input-clear" mui-verify="required" placeholder="请输入数量">
+                        <input type="number" id="amount" name="amount" class="mui-input-clear" mui-verify="required|digits|min=0|max=1000000" placeholder="请输入数量">
                     </div>
                     <div class="mui-input-row">
                         <label>金额</label>
-                        <input type="number" id="totalPrice" name="totalPrice" class="mui-input-clear" mui-verify="required" readonly value="0">
+                        <input type="number" id="totalPrice" name="totalPrice" class="mui-input-clear" mui-verify="required|min=0|max=1000000" readonly value="0">
                     </div>
                     <c:if test="${detailsVo.purchaseOrder.type == 1}">
                         <div class="mui-input-row">
                             <label>质保期（月）</label>
-                            <input type="number" name="warrantyDate" class="mui-input-clear" mui-verify="required" placeholder="请输入质保期（月）">
+                            <input type="number" name="warrantyDate" class="mui-input-clear" mui-verify="required|digits|min=0|max=100" placeholder="请输入质保期（月）">
                         </div>
                     </c:if>
                     <c:if test="${detailsVo.purchaseOrder.type == 2}">
@@ -387,14 +388,9 @@
         var check = true;
         mui("#addFromPurchaseOrderItem input").each(function() {
             //若当前input为空，则alert提醒
-            var verify = $(this).attr("mui-verify")
-            if(verify == 'required'){
-                if(!this.value || this.value.trim() == "") {
-                    var label = this.previousElementSibling;
-                    mui.alert(label.innerText + "不允许为空");
-                    check = false;
-                    return false;
-                }
+            check = inputVerify(this);
+            if(!check){
+                return check;
             }
         });
 
@@ -420,7 +416,7 @@
                         mui.alert(result.msg);
                     }else {
                         mui.alert('保存成功！', function() {
-                            document.location.href='${ctx }/mobile/purchase/toDetails/${detailsVo.purchaseOrder.id}';
+                            document.location.href='${ctx }/mobile/purchase/toDetails?id=${detailsVo.purchaseOrder.id}';
                         });
                     }
                 }
@@ -484,7 +480,7 @@
                             mui.alert(result.msg);
                         }else {
                             mui.alert('提交审核成功！', function() {
-                                document.location.href='${ctx }/mobile/purchase/toDetails/${detailsVo.purchaseOrder.id}';
+                                document.location.href='${ctx }/mobile/purchase/toDetails?id=${detailsVo.purchaseOrder.id}';
                             });
                         }
                     }
@@ -517,7 +513,7 @@
                                 mui.alert(result.msg);
                             }else {
                                 mui.alert('添加成功！', function() {
-                                    document.location.href='${ctx }/mobile/purchase/toDetails/${detailsVo.purchaseOrder.id}';
+                                    document.location.href='${ctx }/mobile/purchase/toDetails?id=${detailsVo.purchaseOrder.id}';
                                 });
                             }
                         }
@@ -545,7 +541,7 @@
                             mui.alert(result.msg);
                         }else {
                             mui.alert('删除成功！', function() {
-                                document.location.href='${ctx }/mobile/purchase/toDetails/${detailsVo.purchaseOrder.id}';
+                                document.location.href='${ctx }/mobile/purchase/toDetails?id=${detailsVo.purchaseOrder.id}';
                             });
                         }
                     }
@@ -557,7 +553,6 @@
     /** 保存主表 **/
     var isSubmit = false;
     mui(document.body).on('tap', '#ucamSave', function(e) {
-        debugger
         if(isSubmit){
             return false;
         }
@@ -565,20 +560,9 @@
         var check = true;
         mui("#ucamForm input").each(function() {
             //若当前input为空，则alert提醒
-            var verify = $(this).attr("mui-verify")
-            if(verify == 'required'){
-                if(!this.value || this.value.trim() == "") {
-                    var label = this.previousElementSibling;
-                    var tipText = "";
-                    if(label.innerText == ""){
-                        tipText = $(this).parent().find("label").html();
-                    }else{
-                        tipText = label.innerText;
-                    }
-                    mui.alert(tipText + "不允许为空");
-                    check = false;
-                    return false;
-                }
+            check = inputVerify(this);
+            if(!check){
+                return check;
             }
         });
         //校验通过，继续执行业务逻辑
@@ -663,6 +647,55 @@
             }
         }
 
+        var userType = '${admin.userType}';
+        console.log(userType);
+        var adminsJson = '${admins}';
+        console.log(adminsJson);
+
+        if(userType == 1){
+            var userPicker = new mui.PopPicker();
+            userPicker.setData(JSON.parse(adminsJson));
+            var selectApplyUserEdit = document.getElementById('selectApplyUserEdit');
+            var applyUserEdit = document.getElementById('applyUserEdit');
+            selectApplyUserEdit.addEventListener('tap', function(event) {
+                userPicker.show(function(items) {
+                    selectApplyUserEdit.value = items[0].text;
+                    applyUserEdit.value = items[0].value;
+                    //返回 false 可以阻止选择框的关闭
+                    //return false;
+                    var url = '${ctx}/sys/getAdmin?id=' + items[0].value;
+                    $.ajax({
+                        url: url,
+                        type: 'get',
+                        timeout: 10000,
+                        success: function(result) {
+                            if(result.code == 0){
+                                $("#supplierId").val(result.data.supplierId);
+                                $("#supplierName").val(result.data.supplierName);
+                            }
+                        }
+                    });
+                });
+            }, false);
+        }else{
+            var userPicker = new mui.PopPicker({
+                layer: 2
+            });
+            userPicker.setData(JSON.parse(adminsJson));
+            var selectApplyUserEdit = document.getElementById('selectApplyUserEdit');
+            var applyUserEdit = document.getElementById('applyUserEdit');
+            var supplierId = document.getElementById('supplierId');
+            var supplierName = document.getElementById('supplierName');
+            selectApplyUserEdit.addEventListener('tap', function(event) {
+                userPicker.show(function(items) {
+                    supplierName.value = items[0].text;
+                    supplierId.value = items[0].value;
+                    selectApplyUserEdit.value = items[1].text;
+                    applyUserEdit.value = items[1].value;
+                });
+            }, false);
+        }
+
         //选择项目
         document.getElementById('app-selectProject').addEventListener('tap', function(event) {
             $project.projectList();
@@ -737,7 +770,7 @@
 </script>
 
 <!-- 审核 -->
-<c:set value="${ctx}/mobile/purchase/toDetails/${detailsVo.purchaseOrder.id}" var="reviewRefreshUrl"/>
+<c:set value="${ctx}/mobile/purchase/toDetails?id=${detailsVo.purchaseOrder.id}" var="reviewRefreshUrl"/>
 <c:set value="${ctx}/mobile/purchase/reviewPurchaseOrder/${detailsVo.purchaseOrder.id}" var="reviewSaveUrl"/>
 <c:set value="${detailsVo.purchaseOrder.status}" var="reviewStatus"/>
 <%@ include file="/WEB-INF/page/mobile/common/review.jsp"%>

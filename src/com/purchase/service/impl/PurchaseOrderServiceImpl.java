@@ -157,7 +157,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		Date date = new Date();
 		order.setUpdateDate(date);
 		purchaseOrderMapper.updateByPrimaryKeySelective(order);
-		return null;
+		return ResultUtil.ok(order.getId());
 	}
 
 	/**
