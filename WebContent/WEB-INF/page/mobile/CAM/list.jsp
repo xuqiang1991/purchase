@@ -141,7 +141,7 @@
     });
 
     mui(document.body).on('tap', '#add-btn', function(e) {
-        document.location.href='${ctx }/mobile/CAM/toSave';
+        document.location.href='${ctx }/mobile/CAM/toDetails';
     });
 
     mui(document.body).on('tap', '.toUpdate', function(e) {
@@ -215,7 +215,7 @@
 
 
     function toDetails(id) {
-        document.location.href='${ctx }/mobile/CAM/toDetails/' + id;
+        document.location.href='${ctx }/mobile/CAM/toDetails?id=' + id;
     }
 
     var btns =  mui('#createTime');

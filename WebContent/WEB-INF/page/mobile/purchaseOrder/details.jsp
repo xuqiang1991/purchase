@@ -551,7 +551,6 @@
     });
 
     /** 保存主表 **/
-    var isSubmit = false;
     mui(document.body).on('tap', '#ucamSave', function(e) {
         if(isSubmit){
             return false;

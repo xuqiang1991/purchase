@@ -12,6 +12,7 @@ import com.purchase.vo.admin.*;
 import com.purchase.vo.order.CAMDetailsVo;
 import com.purchase.vo.order.CAMSearch;
 import com.purchase.vo.order.CAMVo;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -133,11 +134,26 @@ public class CAMController {
 
 
     @SysLog(value="进入合同内请款单详情")
-    @RequestMapping("/toDetails/{id}")
+    @RequestMapping("/toDetails")
     @RequiresPermissions("mobile:CAM:list")
-    public String toDetails(@PathVariable("id") String id, Model model){
-        CAMDetailsVo detailsVo = camService.selCAMOrder(id);
+    public String toDetails(HttpServletRequest req, Model model){
+        String id = req.getParameter("id");
+        CAMDetailsVo detailsVo = new CAMDetailsVo();
+        if(StringUtils.isNotEmpty(id)){
+            detailsVo = camService.selCAMOrder(id);
+        }
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        if(admin.getUserType() == 1){
+            TbSupplier supplier = supplierService.selSupplierById(admin.getSupplierId());
+            admin.setSupplierName(supplier.getName());
+            //登录账户为供应商，获取当前供应商的用户为创建人
+            List<ChoseAdminVO> admins = adminService.selectAdminBySupplierId(admin.getSupplierId());
+            model.addAttribute("admins", JSON.toJSONString(admins));
+        }else{
+            List<ChoseSupplierVO> admins = adminService.selectAdminSupplierIdNotNull();
+            model.addAttribute("admins", JSON.toJSONString(admins));
+        }
+
         model.addAttribute("detailsVo",detailsVo);
         model.addAttribute("admin",admin);
         return "page/mobile/CAM/camDetails";
