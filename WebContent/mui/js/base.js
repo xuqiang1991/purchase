@@ -39,30 +39,32 @@ function inputVerify(obj)
                     return check;
                 }
             }else if(key == 'min'){
-                if(Number(value) > Number(v)){
+                if(v && Number(value) > Number(v)){
                     mui.alert(tipText + "不能小于" + value);
                     check = false;
                     return check;
                 }
             }else if(key == 'max'){
-                if(Number(value) < Number(v)){
+                if(v && Number(value) < Number(v)){
                     mui.alert(tipText + "不能大于" + value);
                     check = false;
                     return check;
                 }
             }else if(key == 'length'){
-                if(v.length > parseInt(value)){
+                if(v && v.length > parseInt(value)){
                     mui.alert(tipText + "长度不能大于" + value);
                     check = false;
                     return check;
                 }
             }else if(key == 'digits'){
-                var tel = /^\d+$/;  //正整数
-                check = tel.test(v)
-                if(!check){
-                    mui.alert(tipText + "必须为正整数");
+                if(v){
+                    var tel = /^\d+$/;  //正整数
+                    check = tel.test(v)
+                    if(!check){
+                        mui.alert(tipText + "必须为正整数");
+                    }
+                    return check;
                 }
-                return check;
             }
         });
 

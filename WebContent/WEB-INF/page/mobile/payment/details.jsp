@@ -32,6 +32,7 @@
     <script src="${ctx }/mui/js/mui.picker.min.js"></script>
     <script src="${ctx }/mui/js/mui.view.js"></script>
     <script type="text/javascript" src="${ctx }/js/handlebars.min.js"></script>
+    <script type="text/javascript" src="${ctx}/mui/js/base.js"></script>
 </head>
 <body class="mui-fullscreen">
 <div id="app" class="mui-views">
@@ -330,19 +331,19 @@
                     </div>
                     <div class="mui-input-row mui-input-range">
                         <label>审定金额</label>
-                        <input type="number" id="approvalPrice" name="approvalPrice" value="${detailsVo.approvalPrice}" placeholder="请输入审定金额">
+                        <input type="number" id="approvalPrice" name="approvalPrice" value="${detailsVo.approvalPrice}" mui-verify="required|min=0|max=10000000" onkeyup="checknum(this);" placeholder="请输入审定金额">
                     </div>
                     <div class="mui-input-row">
                         <label>扣质保金</label>
-                        <input type="number" id="guaranteePrice" name="guaranteePrice" value="${detailsVo.guaranteePrice}" placeholder="请输入扣质保金">
+                        <input type="number" id="guaranteePrice" name="guaranteePrice" value="${detailsVo.guaranteePrice}" mui-verify="required|min=0|max=10000000" onkeyup="checknum(this);" placeholder="请输入扣质保金">
                     </div>
                     <div class="mui-input-row">
                         <label>扣预付款</label>
-                        <input type="number" id="advancePrice" name="advancePrice" value="${detailsVo.advancePrice}" placeholder="请输入扣预付款">
+                        <input type="number" id="advancePrice" name="advancePrice" value="${detailsVo.advancePrice}" mui-verify="required|min=0|max=10000000" onkeyup="checknum(this);" placeholder="请输入扣预付款">
                     </div>
                     <div class="mui-input-row">
                         <label>其它扣款</label>
-                        <input type="number" id="otherPrice" name="otherPrice" value="${detailsVo.otherPrice}" placeholder="请输入其它扣款">
+                        <input type="number" id="otherPrice" name="otherPrice" value="${detailsVo.otherPrice}" mui-verify="required|min=0|max=10000000" onkeyup="checknum(this);" placeholder="请输入其它扣款">
                     </div>
                     <div class="mui-input-row mui-input-range">
                         <label>实付金额</label>
@@ -355,43 +356,43 @@
                     </div>
                     <div class="mui-input-row">
                         <label>商票期限(月)</label>
-                        <input type="number" id="spqxTerm" name="spqxTerm" value="${detailsVo.spqxTerm}" placeholder="请输入商票期限(月)">
+                        <input type="number" id="spqxTerm" name="spqxTerm" value="${detailsVo.spqxTerm}" mui-verify="digits|min=0|max=1000" placeholder="请输入商票期限(月)">
                     </div>
                     <div class="mui-input-row">
                         <label>保理期限(月)</label>
-                        <input type="number" id="blqxTerm" name="blqxTerm" value="${detailsVo.blqxTerm}" placeholder="请输入保理期限(月)">
+                        <input type="number" id="blqxTerm" name="blqxTerm" value="${detailsVo.blqxTerm}" mui-verify="digits|min=0|max=1000" placeholder="请输入保理期限(月)">
                     </div>
                     <div class="mui-input-row">
                         <label>付款凭证号</label>
-                        <input type="number" id="paymentVoucherNo" name="paymentVoucherNo" value="${detailsVo.paymentVoucherNo}" placeholder="请输入付款凭证号">
+                        <input type="number" id="paymentVoucherNo" name="paymentVoucherNo" value="${detailsVo.paymentVoucherNo}" mui-verify="length=20" placeholder="请输入付款凭证号">
                     </div>
                     <div class="mui-input-row">
                         <label>垫付比</label>
-                        <input type="number" id="advanceRate" name="advanceRate" value="${detailsVo.advanceRate}" placeholder="请输入垫付比">
+                        <input type="number" id="advanceRate" name="advanceRate" value="${detailsVo.advanceRate}" mui-verify="min=0|max=100" onkeyup="checknum(this);" placeholder="请输入垫付比">
                     </div>
                     <div class="mui-input-row">
                         <label>成本率</label>
-                        <input type="number" id="costRate" name="costRate" value="${detailsVo.costRate}" placeholder="请输入成本率">
+                        <input type="number" id="costRate" name="costRate" value="${detailsVo.costRate}" mui-verify="min=0|max=100" onkeyup="checknum(this);" placeholder="请输入成本率">
                     </div>
                     <div class="mui-input-row">
                         <label>收支比</label>
-                        <input type="number" id="financialRate" name="financialRate" value="${detailsVo.financialRate}" placeholder="请输入收支比">
+                        <input type="number" id="financialRate" name="financialRate" value="${detailsVo.financialRate}"  mui-verify="min=0|max=100" onkeyup="checknum(this);" placeholder="请输入收支比">
                     </div>
                     <div class="mui-input-row">
                         <label>税率</label>
-                        <input type="number" id="taxRate" name="taxRate" value="${detailsVo.taxRate}" placeholder="请输入税率">
+                        <input type="number" id="taxRate" name="taxRate" value="${detailsVo.taxRate}" placeholder="请输入税率"  mui-verify="min=0|max=10000" onkeyup="checknum(this);">
                     </div>
                     <div class="mui-input-row">
                         <label>合同量</label>
-                        <input type="number" id="contractVolume" name="contractVolume" value="${detailsVo.contractVolume}" placeholder="请输入合同量">
+                        <input type="number" id="contractVolume" name="contractVolume" value="${detailsVo.contractVolume}" mui-verify="min=0|max=10000000" onkeyup="checknum(this);" placeholder="请输入合同量">
                     </div>
                     <div class="mui-input-row">
                         <label>完成量(供货量)</label>
-                        <input type="number" id="finishMeasure" name="finishMeasure" value="${detailsVo.finishMeasure}" placeholder="请输入完成量(供货量)">
+                        <input type="number" id="finishMeasure" name="finishMeasure" value="${detailsVo.finishMeasure}" mui-verify="min=0|max=10000000" onkeyup="checknum(this);" placeholder="请输入完成量(供货量)">
                     </div>
                     <div class="mui-input-row">
                         <label>已付金额</label>
-                        <input type="number" id="amountPaid" name="amountPaid" value="${detailsVo.amountPaid}" placeholder="请输入已付金额">
+                        <input type="number" id="amountPaid" name="amountPaid" value="${detailsVo.amountPaid}"  mui-verify="min=0|max=10000000" onkeyup="checknum(this);" placeholder="请输入已付金额">
                     </div>
                     <div class="mui-input-row mui-input-range">
                         <label>已付比例</label>
@@ -408,7 +409,7 @@
                     </div>
                     <div class="mui-input-row">
                         <label>专票税率</label>
-                        <input type="number" id="specialTaxRate" name="specialTaxRate" value="${detailsVo.specialTaxRate}" placeholder="请输入专票税率">
+                        <input type="number" id="specialTaxRate" name="specialTaxRate" value="${detailsVo.specialTaxRate}"  mui-verify="min=0|max=10000000" onkeyup="checknum(this);" placeholder="请输入专票税率">
                     </div>
                     <div class="mui-input-row">
                         <label>质量验收</label>
@@ -417,7 +418,7 @@
                     </div>
                     <div class="mui-input-row">
                         <label>质量评定人</label>
-                        <input type="number" id="qualityAssessor" name="qualityAssessor" value="${detailsVo.qualityAssessor}" placeholder="请输入质量评定人">
+                        <input type="number" id="qualityAssessor" name="qualityAssessor" value="${detailsVo.qualityAssessor}"  mui-verify="length=10" placeholder="请输入质量评定人">
                     </div>
                     <div class="mui-input-row mui-input-range">
                         <label>单据状态</label>
