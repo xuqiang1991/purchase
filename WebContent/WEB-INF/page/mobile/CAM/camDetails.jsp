@@ -258,19 +258,19 @@
                 <form class="mui-input-group" id="addFromPurchaseOrderItem">
                     <div class="mui-input-row">
                         <label>施工部位</label>
-                        <input type="text" name="constructionSite" class="mui-input-clear" mui-verify="required" placeholder="请施工部位">
+                        <input type="text" name="constructionSite" class="mui-input-clear" mui-verify="required|max=100" placeholder="请施工部位">
                     </div>
                     <div class="mui-input-row">
                         <label>项目内容</label>
-                        <input type="text" name="projectContent" class="mui-input-clear" mui-verify="required" placeholder="请输入项目内容">
+                        <input type="text" name="projectContent" class="mui-input-clear" mui-verify="required|max=100" placeholder="请输入项目内容">
                     </div>
                     <div class="mui-input-row">
                         <label>规格型号</label>
-                        <input type="text" name="model" class="mui-input-clear" mui-verify="required" placeholder="请输入规格型号">
+                        <input type="text" name="model" class="mui-input-clear" mui-verify="required|max=50" placeholder="请输入规格型号">
                     </div>
                     <div class="mui-input-row">
                         <label>单位</label>
-                        <input type="text" name="unit" class="mui-input-clear" mui-verify="required" placeholder="请输入单位">
+                        <input type="text" name="unit" class="mui-input-clear" mui-verify="required|max=10" placeholder="请输入单位">
                     </div>
                     <div class="mui-input-row">
                         <label>单价</label>
@@ -282,7 +282,7 @@
                     </div>
                     <div class="mui-input-row">
                         <label>结算数量</label>
-                        <input type="number" id="settleAmout" name="settleAmout" class="mui-input-clear" mui-verify="required" placeholder="请输入结算数量">
+                        <input type="number" id="settleAmout" name="settleAmout" class="mui-input-clear" mui-verify="required|digits|min=0|max=10000000" placeholder="请输入结算数量">
                     </div>
                     <div class="mui-input-row">
                         <label>结算金额</label>
@@ -291,7 +291,7 @@
                     <c:if test="${detailsVo.order.orderType == 1}">
                         <div class="mui-input-row">
                             <label>质保期（月）</label>
-                            <input type="number" name="warrantyDate" class="mui-input-clear" mui-verify="required" placeholder="请输入质保期（月）">
+                            <input type="number" name="warrantyDate" class="mui-input-clear" mui-verify="required"  mui-verify="required|digits|min=0|max=100" placeholder="请输入质保期（月）">
                         </div>
                     </c:if>
                     <c:if test="${detailsVo.order.orderType == 2}">
