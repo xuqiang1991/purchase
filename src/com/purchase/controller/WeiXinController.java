@@ -74,6 +74,13 @@ public class WeiXinController {
                 logger.info("没有绑定账号   openId：" + openId + ", nick:" + user.getNickname());
                 model.addAttribute("msg","请找管理员绑定微信！");
                 return "active";
+            }else {
+                Integer isOnjob = admin.getIsOnJob();
+                if(isOnjob != 1){
+                    logger.info("账号已失效：" + openId + ", nick:" + user.getNickname());
+                    model.addAttribute("msg","账号已失效！");
+                    return "active";
+                }
             }
 
             login(admin);

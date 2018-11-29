@@ -22,6 +22,8 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.Factory;
 import org.apache.shiro.web.util.SavedRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -43,6 +45,8 @@ import java.util.List;
 @Controller
 @RequestMapping("sys")
 public class AdminController {
+
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	private AdminService adminServiceImpl;
@@ -67,6 +71,14 @@ public class AdminController {
 			if(admin == null){
 				return "redirect:/sys/wx/auth";
 			}else {
+				//判断用户是否失效
+				Integer isOnjob = admin.getIsOnJob();
+				if(isOnjob != 1){
+					logger.info("账号已失效：" +admin.getOpenId() + ", nick:" + admin.getUsername());
+					req.setAttribute("msg","账号已失效！");
+					return "active";
+				}
+
 				login(admin);
 				SavedRequest request = (SavedRequest)req.getSession().getAttribute("shiroSavedRequest");
 				if(request != null){
@@ -126,7 +138,7 @@ public class AdminController {
 		if(!vcode.toLowerCase().equals(kaptcha)){
 			return ResultUtil.error("验证码不正确");
 		}
-		
+
 		try{
 			Subject subject = ShiroUtils.getSubject();
 			//md5加密

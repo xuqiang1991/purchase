@@ -112,6 +112,11 @@ public class CustomRealm extends AuthorizingRealm {
 			throw new UnknownAccountException("账号未分配角色!");
 		}
 
+		// 账号已失效
+		if (admin.getIsOnJob() != 1) {
+			throw new UnknownAccountException("账号已失效!");
+		}
+
 		SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(admin, password, getName());
 		return info;
 	}
