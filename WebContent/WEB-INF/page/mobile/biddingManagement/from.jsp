@@ -20,6 +20,7 @@
     <script src="${ctx }/js/jquery-1.11.1.js"></script>
     <script src="${ctx }/mui/js/mui.picker.min.js"></script>
     <script src="${ctx }/mui/js/mui.view.js"></script>
+    <script type="text/javascript" src="${ctx}/mui/js/base.js"></script>
 </head>
 <body class="mui-fullscreen">
 <div id="app" class="mui-views">
@@ -87,32 +88,32 @@
                 <label>发展商</label>
                 <c:choose>
                     <c:when test="${bmVo.id == null}">
-                        <input type="text" id="supplierName" readonly value="${admin.supplierName}">
+                        <input type="text" id="supplierName" readonly value="${admin.supplierName}" placeholder="请输入发展商">
                         <input type="hidden" id="customersId" name="customersId" value="${admin.supplierId}" mui-verify="required">
                     </c:when>
                     <c:otherwise>
-                        <input type="text" id="supplierName" readonly value="${bmVo.supplier.name}">
+                        <input type="text" id="supplierName" readonly value="${bmVo.supplier.name}" placeholder="请输入发展商">
                         <input type="hidden" id="customersId" name="customersId" value="${bmVo.supplier.id}" mui-verify="required">
                     </c:otherwise>
                 </c:choose>
             </div>
 
             <div class="mui-input-row">
-                <label>项目面积</label>
+                <label>项目面积(平米)</label>
                 <c:choose>
                     <c:when test="${bmVo.projectAcreage == null}">
-                        <input type="number" id="projectAcreage" name="projectAcreage" value="" placeholder="请输入项目面积" mui-verify="required">
+                        <input type="text" id="projectAcreage" name="projectAcreage" value="" placeholder="请输入项目面积" mui-verify="required">
                     </c:when>
                     <c:otherwise>
-                        <input type="number" id="projectAcreage" name="projectAcreage" value="${bmVo.projectAcreage}" mui-verify="required">
+                        <input type="text" id="projectAcreage" name="projectAcreage" value="${bmVo.projectAcreage}" mui-verify="required">
                     </c:otherwise>
                 </c:choose>
             </div>
             <div class="mui-input-row">
-                <label>预算工程价款</label>
+                <label>工程价款预算(元)</label>
                 <c:choose>
                     <c:when test="${bmVo.projectPriceBudge == null}">
-                        <input type="number" id="projectPriceBudge" name="projectPriceBudge" value="" placeholder="请输入工程价款（预算）" mui-verify="required">
+                        <input type="number" id="projectPriceBudge" name="projectPriceBudge" value="" placeholder="请输入工程价款预算" mui-verify="required">
                     </c:when>
                     <c:otherwise>
                         <input type="number" id="projectPriceBudge" name="projectPriceBudge" value="${bmVo.projectPriceBudge}" mui-verify="required">
@@ -121,7 +122,7 @@
             </div>
 
             <div class="mui-input-row">
-                <label>最终投标价</label>
+                <label>最终投标价(元)</label>
                 <c:choose>
                     <c:when test="${bmVo.finalBid == null}">
                         <input type="number" id="finalBid" name="finalBid" value="" placeholder="请输入最终投标价" mui-verify="required">
@@ -185,7 +186,7 @@
             </div>
 
             <div>
-                <textarea id="textarea" name="remark" rows="5" class="mui-input-clear" placeholder="备注">${bmVo.remark}</textarea>
+                <textarea id="remark" name="remark" rows="5" class="mui-input-clear" placeholder="备注">${bmVo.remark}</textarea>
             </div>
         </form>
         <div class="mui-button-row" style="padding-bottom: 20px;">
@@ -355,6 +356,43 @@
                 }
             }
         });
+        var regxPrice =/^(([1-9][0-9]{0,9}[.][0-9]{1,2})|([1-9][0-9]{0,9})|([0][.][0-9]{1}[1-9]{1}))$/;
+        var regxLv = /^(\d|[1-9]\d|100)(\.\d{1,2})?$/;
+
+        var projectName = $('#projectName').val().trim();
+        if(check && projectName.length > 100){
+            mui.alert("项目名称格式错误，长度不能超过100！");
+            check = false;
+            return false;
+        }
+
+        var projectAcreage = $('#projectAcreage').val().trim();
+        if(check && !regxPrice.test(projectAcreage)){
+            mui.alert("项目面积格式错误，最多输入2位小数,且不能超过10位数！");
+            check = false;
+            return false;
+        }
+
+        var projectPriceBudge = $('#projectPriceBudge').val().trim();
+        if(check && !regxPrice.test(projectPriceBudge)){
+            mui.alert("工程价款预算格式错误，最多输入2位小数,且不能超过10位数！");
+            check = false;
+            return false;
+        }
+        var finalBid = $('#finalBid').val().trim();
+        if(check && !regxPrice.test(finalBid)){
+            mui.alert("最终投标价格式错误，最多输入2位小数,且不能超过10位数！");
+            check = false;
+            return false;
+        }
+        var remark = $('#remark').val().trim();
+        if(check && remark.length > 200){
+            mui.alert("备注格式错误，长度不能超过200！");
+            check = false;
+            return false;
+        }
+
+
         if(check){
             var url = '${ctx}/mobile/biddingManagement/addBMOrder';
             if($('#bmForm').find('#id').val() != null){

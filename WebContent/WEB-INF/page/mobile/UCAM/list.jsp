@@ -9,9 +9,9 @@
 	<link href="${ctx }/mui/css/mui.min.css" rel="stylesheet"/>
     <link href="${ctx }/mui/css/mui.picker.min.css" rel="stylesheet" />
     <style>
-        /*.mui-navigate-right:after, .mui-push-right:after{
-            !*color: white;*!
-        }*/
+        .mui-content>.mui-table-view:first-child{
+            margin-top: 10px;
+        }
     </style>
     <script type="text/javascript" src="${ctx}/js/jquery.min.js"></script>
     <script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
@@ -26,13 +26,17 @@
 </header>
 
 <div class="mui-content">
-    <div class="mui-card" style="margin: 0px; margin-top: 5px; margin-bottom: 5px; padding-bottom: 5px; text-align: center;">
-        <div class="mui-button-row">
-            <button type="button" id="add-btn" class="mui-btn mui-btn-primary">新建合同外请款单</button>
+    <c:set value="0" var="addPermission"/>
+    <shiro:hasPermission name="mobile:UCAM:save">
+        <c:set value="1" var="addPermission"/>
+        <div class="mui-card" style="margin: 0px; margin-top: 5px; margin-bottom: 5px; padding-bottom: 5px; text-align: center;">
+            <div class="mui-button-row">
+                <button type="button" id="add-btn" class="mui-btn mui-btn-primary">新建合同外请款单</button>
+            </div>
         </div>
-    </div>
+    </shiro:hasPermission>
 
-    <ul class="mui-table-view" style="z-index: 100">
+    <ul id="searchUl" class="mui-table-view" style="z-index: 100">
         <li class="mui-table-view-cell mui-collapse" id="searchLi">
             <a class="" href="#">
                 搜索 <span style="float: right;" class="mui-icon mui-icon mui-icon-search"></span>
@@ -95,11 +99,10 @@
     </ul>
 
     <!--下拉刷新容器-->
-    <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 135px;width: 100%;">
+    <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 100px;width: 100%;">
         <div class="mui-scroll">
             <!--数据列表-->
-            <ul class="mui-table-view mui-table-view-chevron">
-            </ul>
+            <div id="datascrollDiv" class="mui-content"></div>
         </div>
     </div>
 </div>
@@ -108,6 +111,14 @@
     var page = 1; //当前页
     var limit = 6; //每页显示条数
     var enablePullUp = true; //是否加载
+    var addPermission = '${addPermission}';
+    if(addPermission == 1){
+        $('#refreshContainer').css("margin-top","142px");
+    }else{
+        $('#searchUl').css("margin-top","10px");
+        $('#refreshContainer').css("margin-top","100px");
+    }
+
     mui.init({
         swipeBack: true, //启用右滑关闭功能
         pullRefresh : {
@@ -197,7 +208,7 @@
                 if(result.data != null && result.data.length != 0){
                     var data = result.data;
                     // 请求成功
-                    var listTargt = $('.mui-table-view-chevron')
+                    var listTargt = $('#datascrollDiv');
 
                     var tpl = $("#listTpl").html();
                     //预编译模板
@@ -343,7 +354,6 @@
                 //return false;
             });
         }, false);
-
     });
 
 

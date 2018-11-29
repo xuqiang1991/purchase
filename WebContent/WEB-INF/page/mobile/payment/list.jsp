@@ -92,8 +92,7 @@
     <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 135px;width: 100%;">
         <div class="mui-scroll">
             <!--数据列表-->
-            <ul class="mui-table-view mui-table-view-chevron">
-            </ul>
+            <div id="datascrollDiv" class="mui-content"></div>
         </div>
     </div>
 </div>
@@ -180,7 +179,7 @@
                 if(result.data != null && result.data.length != 0){
                     var data = result.data;
                     // 请求成功
-                    var listTargt = $('.mui-table-view-chevron')
+                    var listTargt = $('#datascrollDiv');
 
                     var tpl = $("#listTpl").html();
                     //预编译模板

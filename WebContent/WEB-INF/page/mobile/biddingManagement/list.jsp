@@ -22,11 +22,16 @@
 </header>
 
 <div class="mui-content">
-    <div class="mui-card" style="margin: 0px; margin-top: 5px; margin-bottom: 5px; padding-bottom: 5px; text-align: center;">
-        <div class="mui-button-row">
-            <button type="button" id="add-btn" class="mui-btn mui-btn-primary">新建投标</button>
+
+    <c:set value="0" var="addPermission"/>
+    <shiro:hasPermission name="mobile:biddingManagement:save">
+        <c:set value="1" var="addPermission"/>
+        <div class="mui-card" style="margin: 0px; margin-top: 5px; margin-bottom: 5px; padding-bottom: 5px; text-align: center;">
+            <div class="mui-button-row">
+                <button type="button" id="add-btn" class="mui-btn mui-btn-primary">新建投标</button>
+            </div>
         </div>
-    </div>
+    </shiro:hasPermission>
 
     <ul class="mui-table-view" style="z-index: 100">
         <li class="mui-table-view-cell mui-collapse" id="searchLi">
@@ -86,11 +91,12 @@
     </ul>
 
     <!--下拉刷新容器-->
-    <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 135px;width: 100%;">
+    <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 100px;width: 100%;">
         <div class="mui-scroll">
             <!--数据列表-->
-            <ul class="mui-table-view mui-table-view-chevron">
-            </ul>
+            <%--<ul class="mui-table-view mui-table-view-chevron">
+            </ul>--%>
+            <div id="datascrollDiv" class="mui-content"></div>
         </div>
     </div>
 </div>
@@ -117,6 +123,13 @@
             }
         }
     });
+    var addPermission = '${addPermission}';
+    if(addPermission == 1){
+        $('#refreshContainer').css("margin-top","142px");
+    }else{
+        $('#searchUl').css("margin-top","10px");
+        $('#refreshContainer').css("margin-top","100px");
+    }
 
     mui(document.body).on('tap', '#search-btn', function(e) {
         $('#searchCollapse').removeClass('mui-active')
@@ -130,6 +143,11 @@
 
     mui(document.body).on('tap', '#add-btn', function(e) {
         document.location.href = ctx + '/mobile/biddingManagement/toEdit';
+    });
+
+    mui(document.body).on('tap', '.detail-card', function(e) {
+        var id = $(this).attr("data-id");
+        document.location.href = ctx + '/mobile/biddingManagement/toEdit?id=' + id;
     });
 
     mui(document.body).on('tap', '.details-edit', function(e) {
@@ -179,7 +197,7 @@
                 if(result.data != null && result.data.length != 0){
                     var data = result.data;
                     // 请求成功
-                    var listTargt = $('.mui-table-view-chevron')
+                    var listTargt = $('#datascrollDiv');
 
                     var tpl = $("#listTpl").html();
                     //预编译模板
@@ -356,18 +374,6 @@
                     <label>开工时间：{{estimateStartTime}}</label>
                     <label>交标时间：{{bidMarkTime}}</label>
                  </p>
-            </div>
-        </div>
-        <div class="mui-card-footer">
-            <div class="mui-pull-left">
-                <%--<label>{{purchaseOrder_departUser status}}</label>
-                <label>{{purchaseOrder_departDate status}}</label>--%>
-            </div>
-            <div>
-                <shiro:hasPermission name="mobile:biddingManagement:update">
-                    <button type="button" class="mui-btn mui-btn-primary details-edit"  data-id="{{id}}" >修改</button>
-                </shiro:hasPermission>
-                <%--<button type="button" class="mui-btn mui-btn-primary">审核</button>--%>
             </div>
         </div>
     </div>

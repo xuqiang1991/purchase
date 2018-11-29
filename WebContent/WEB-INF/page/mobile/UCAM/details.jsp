@@ -503,7 +503,7 @@
             var price = document.getElementById("price");
             console.log(applyCompletionRate + " " + price);
             if(regxLv.test(applyCompletionRate.value) && regxPrice.test(price.value)){
-                var applyPrice = applyCompletionRate.value * price.value;
+                var applyPrice = (applyCompletionRate.value/100) * price.value;
                 console.log(applyPrice);
                 document.getElementById("applyPrice").value = applyPrice;
             }
@@ -515,7 +515,7 @@
             var price = document.getElementById("price");
             console.log(approvalCompletionRate + " " + price);
             if(regxLv.test(approvalCompletionRate.value) && regxPrice.test(price.value)){
-                var applyPrice = approvalCompletionRate.value * price.value;
+                var applyPrice = (approvalCompletionRate.value/100) * price.value;
                 console.log(applyPrice);
                 document.getElementById("approvalPrice").value = applyPrice;
             }

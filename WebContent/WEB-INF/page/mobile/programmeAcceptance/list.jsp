@@ -22,11 +22,15 @@
 </header>
 
 <div class="mui-content">
-    <div class="mui-card" style="margin: 0px; margin-top: 5px; margin-bottom: 5px; padding-bottom: 5px; text-align: center;">
-        <div class="mui-button-row">
-            <button type="button" id="add-btn" class="mui-btn mui-btn-primary">新建工程验收单</button>
+    <c:set value="0" var="addPermission"/>
+    <shiro:hasPermission name="mobile:programmeAcceptance:save">
+        <c:set value="1" var="addPermission"/>
+        <div class="mui-card" style="margin: 0px; margin-top: 5px; margin-bottom: 5px; padding-bottom: 5px; text-align: center;">
+            <div class="mui-button-row">
+                <button type="button" id="add-btn" class="mui-btn mui-btn-primary">新建工程验收单</button>
+            </div>
         </div>
-    </div>
+    </shiro:hasPermission>
 
     <!-- 单号、供应商、所属项目、合同号、开单人、开单日期、单据状态 -->
     <ul class="mui-table-view" style="z-index: 100">
@@ -109,6 +113,13 @@
             }
         }
     });
+    var addPermission = '${addPermission}';
+    if(addPermission == 1){
+        $('#refreshContainer').css("margin-top","142px");
+    }else{
+        $('#searchUl').css("margin-top","10px");
+        $('#refreshContainer').css("margin-top","100px");
+    }
 
     mui(document.body).on('tap', '#search-btn', function(e) {
         $('#searchCollapse').removeClass('mui-active')

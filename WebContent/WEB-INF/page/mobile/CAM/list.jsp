@@ -21,13 +21,22 @@
 </header>
 
 <div class="mui-content">
-    <c:if test="${!empty admin.supplierId}">
+    <%--<c:if test="${!empty admin.supplierId}">
         <div class="mui-card" style="margin: 0px; margin-top: 5px; margin-bottom: 5px; padding-bottom: 5px; text-align: center;">
             <div class="mui-button-row">
                 <button type="button" id="add-btn" class="mui-btn mui-btn-primary">新建合同内请款单</button>
             </div>
         </div>
-    </c:if>
+    </c:if>--%>
+    <c:set value="0" var="addPermission"/>
+    <shiro:hasPermission name="mobile:CAM:save">
+        <c:set value="1" var="addPermission"/>
+        <div class="mui-card" style="margin: 0px; margin-top: 5px; margin-bottom: 5px; padding-bottom: 5px; text-align: center;">
+            <div class="mui-button-row">
+                <button type="button" id="add-btn" class="mui-btn mui-btn-primary">新建合同内请款单</button>
+            </div>
+        </div>
+    </shiro:hasPermission>
     <!-- 单号、订单类型、来源订单、供应商、所属项目、请款人、开单人、开单日期、单据状态 -->
     <ul class="mui-table-view" style="z-index: 100">
         <li class="mui-table-view-cell mui-collapse">
@@ -97,8 +106,7 @@
     <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 135px;width: 100%;">
         <div class="mui-scroll">
             <!--数据列表-->
-            <ul class="mui-table-view mui-table-view-chevron">
-            </ul>
+            <div id="datascrollDiv" class="mui-content"></div>
         </div>
     </div>
     <!-- 合同内请款单 end -->
@@ -125,7 +133,13 @@
             }
         }
     });
-
+    var addPermission = '${addPermission}';
+    if(addPermission == 1){
+        $('#refreshContainer').css("margin-top","142px");
+    }else{
+        $('#searchUl').css("margin-top","10px");
+        $('#refreshContainer').css("margin-top","100px");
+    }
     mui(document.body).on('tap', '.toDetails', function(e) {
         var id = $(this).attr('value');
         toDetails(id)
@@ -183,7 +197,7 @@
                 if(result.data != null && result.data.length != 0){
                     var data = result.data;
                     // 请求成功
-                    var listTargt = $('.mui-table-view-chevron')
+                    var listTargt = $('#datascrollDiv');
 
                     var tpl = $("#listTpl").html();
                     //预编译模板
