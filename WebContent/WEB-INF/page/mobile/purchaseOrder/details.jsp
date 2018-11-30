@@ -75,19 +75,6 @@
                                     <input type="text" name="purchaseNo" id="purchaseNo" readonly disabled="disabled" value="${detailsVo.purchaseOrder.purchaseNo}" placeholder="采购单号由系统自动生成">
                                 </div>
                                 <div class="mui-input-row">
-                                    <label>订单类型</label>
-                                    <c:choose>
-                                        <c:when test="${detailsVo.purchaseOrder.id == null}">
-                                            <input type="text" id="typeName" readonly class="mui-input-clear" placeholder="请选择单据类型" value="" >
-                                            <input type="hidden" id="type" name="type" value="" >
-                                        </c:when>
-                                        <c:otherwise>
-                                            <input type="text" id="typeName" class="mui-input-clear" placeholder="请选择订单类型" mui-verify="required" <c:if test="${detailsVo.purchaseOrder.status != 0}">disabled="disabled"</c:if> >
-                                            <input type="hidden" id="type" name="type" value="${detailsVo.purchaseOrder.type}">
-                                        </c:otherwise>
-                                    </c:choose>
-                                </div>
-                                <div class="mui-input-row">
                                     <label>申请人</label>
                                     <c:choose>
                                         <c:when test="${detailsVo.purchaseOrder.id == null}">
@@ -103,7 +90,7 @@
                                 <c:if test="${detailsVo.purchaseOrder.applyDate != null}">
                                     <div class="mui-input-row">
                                         <label>申请时间</label>
-                                        <label>${detailsVo.purchaseOrder.applyDate}</label>
+                                        <input type="text" value="<fmt:formatDate value="${detailsVo.purchaseOrder.applyDate}" pattern="yyyy-MM-dd"/>" disabled="disabled">
                                     </div>
                                 </c:if>
                                 <div class="mui-input-row">
@@ -142,6 +129,19 @@
                                         </label>
                                         <input type="hidden" id="selectProjectHidden" name="projectId" value="${detailsVo.purchaseOrder.projectManger.id}" mui-verify="required">
                                     </a>
+                                </div>
+                                <div class="mui-input-row">
+                                    <label>单据类型</label>
+                                    <c:choose>
+                                        <c:when test="${detailsVo.purchaseOrder.id == null}">
+                                            <input type="text" id="typeName" readonly class="mui-input-clear" placeholder="请选择单据类型" value="" >
+                                            <input type="hidden" id="type" name="type" value="" >
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="text" id="typeName" class="mui-input-clear" placeholder="请选择订单类型" mui-verify="required" <c:if test="${detailsVo.purchaseOrder.status != 0}">disabled="disabled"</c:if> >
+                                            <input type="hidden" id="type" name="type" value="${detailsVo.purchaseOrder.type}">
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                                 <c:if test="${detailsVo.purchaseOrder.contractNo != null}">
                                     <div class="mui-input-row">

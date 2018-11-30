@@ -157,7 +157,7 @@
     }
 
     function billRefresh() {
-        $('.mui-table-view-chevron').empty();
+        $('#datascrollDiv').empty();
         enablePullUp = true;
         page = 1;
         getBill();
