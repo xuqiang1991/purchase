@@ -120,7 +120,7 @@ layuiXtree.prototype.dataBind = function (d) {
             if (d[i].data.length > 0)
                 _this._domStr += '<i class="layui-icon layui-xtree-icon" data-xtree="' + (_this._isopen ? '1' : '0') + '">' + (_this._isopen ? _this._iconOpen : _this._iconClose) + '</i>';
             else {
-                _this._domStr += '<i class="layui-icon layui-xtree-icon-null">' + _this._iconEnd + '</i>';
+                //_this._domStr += '<i class="layui-icon layui-xtree-icon-null">' + _this._iconEnd + '</i>';
                 xtree_isend = 'data-xend="1"';
                 xtree_ischecked = d[i].checked ? ' checked ' : '';
                 xtree_isdisabled = d[i].disabled ? ' disabled="disabled" ' : '';
@@ -156,7 +156,7 @@ layuiXtree.prototype.Rendering = function () {
         if (xtree_items[i].parentNode == _this._container)
             xtree_items[i].style.margin = '5px 0 0 10px';
         else {
-            xtree_items[i].style.margin = '5px 0 0 45px';
+            xtree_items[i].style.margin = '5px 0 0 40px';
             if (!_this._isopen) xtree_items[i].style.display = 'none';
         }
     }
