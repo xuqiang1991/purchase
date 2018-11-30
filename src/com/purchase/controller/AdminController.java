@@ -225,9 +225,9 @@ public class AdminController {
 				int size = menus.size() - 1;
 				for (int i = size; i >= 0; i--){
 					Menu menu = menus.get(i);
-					String href = menu.getHref();
+					String title = menu.getTitle();
 					//过滤mobile开头的菜单
-					if("订单管理".equals(menu.getTitle())){
+					if("订单管理".equals(title) || "系统日志".equals(title) || "SQL监控".equals(title)){
 						menus.remove(i);
 					}
 				}
@@ -630,6 +630,22 @@ public class AdminController {
 	@ResponseBody
 	public ResultUtil menuData(){
 		List<TbMenus> list=adminServiceImpl.selMenusByParentId();
+
+
+		//过滤mobile类型的菜单
+		if(!CollectionUtils.isEmpty(list)){
+			int size = list.size() - 1;
+			for (int i = size; i >= 0; i--){
+				TbMenus menu = list.get(i);
+				String title =menu.getTitle();
+				//过滤mobile开头的菜单
+				if("系统日志".equals(title) || "SQL监控".equals(title)){
+					list.remove(i);
+				}
+			}
+		}
+
+
 		return ResultUtil.ok(list);
 	}
 	
