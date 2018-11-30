@@ -34,16 +34,24 @@ public interface TbAdminMapper {
 
     int updateByPrimaryKey(TbAdmin record);
 
-    @Select("SELECT * FROM tb_admin WHERE open_id = #{0}")
+    @Select("SELECT id,username,password,salt,fullname,e_mail as eMail,sex,birthday,address,phone,quarters,dept_id as deptId,entry_date as entryDate," +
+            " is_on_job as isOnJob, open_id as openId,wx_nick as wxNick, remark, supplier_id as supplierId, user_type as userType" +
+            " FROM tb_admin WHERE open_id = #{0}")
     TbAdmin selAdminByOpenId(String openId);
 
-    @Select("SELECT * FROM tb_admin WHERE wx_nick = #{0} and (open_id is null or open_id = '')")
+    @Select("SELECT id,username,password,salt,fullname,e_mail as eMail,sex,birthday,address,phone,quarters,dept_id as deptId,entry_date as entryDate," +
+            " is_on_job as isOnJob, open_id as openId,wx_nick as wxNick, remark, supplier_id as supplierId, user_type as userType" +
+            " FROM tb_admin WHERE wx_nick = #{0} and (open_id is null or open_id = '')")
     TbAdmin selAdminByWxNick(String wx_nick);
 
-    @Select("SELECT * FROM tb_admin a WHERE a.is_on_job = #{0}")
+    @Select("SELECT id,username,password,salt,fullname,e_mail as eMail,sex,birthday,address,phone,quarters,dept_id as deptId,entry_date as entryDate," +
+            " is_on_job as isOnJob, open_id as openId,wx_nick as wxNick, remark, supplier_id as supplierId, user_type as userType" +
+            " FROM tb_admin a WHERE a.is_on_job = #{0}")
     List<TbAdmin> getAdmins(Integer isOnJob);
 
-    @Select("SELECT * FROM tb_admin a WHERE a.dept_id = #{0}")
+    @Select("SELECT  id,username,password,salt,fullname,e_mail as eMail,sex,birthday,address,phone,quarters,dept_id as deptId,entry_date as entryDate," +
+            " is_on_job as isOnJob, open_id as openId,wx_nick as wxNick, remark, supplier_id as supplierId, user_type as userType" +
+            " FROM tb_admin a WHERE a.dept_id = #{0}")
     List<TbAdmin> getAdminsByDeptId(String deptId);
 
     @Select("SELECT a.fullname, a.id FROM tb_admin a ,tb_department b WHERE a.dept_id = b.id and b.name = #{0}")
@@ -66,10 +74,14 @@ public interface TbAdminMapper {
     })
     List<ChoseAdminVO> selectByRoleName(String roleName);
 
-    @Select("SELECT * FROM tb_admin a WHERE a.is_on_job = #{0} and a.supplier_id = #{1}")
+    @Select("SELECT id,username,password,salt,fullname,e_mail as eMail,sex,birthday,address,phone,quarters,dept_id as deptId,entry_date as entryDate," +
+            " is_on_job as isOnJob, open_id as openId,wx_nick as wxNick, remark, supplier_id as supplierId, user_type as userType" +
+            " FROM tb_admin a WHERE a.is_on_job = #{0} and a.supplier_id = #{1}")
     List<TbAdmin> selectAdminBySupplierId(Integer isOnJob, Long supplierId);
 
-    @Select("SELECT * FROM tb_admin a WHERE a.is_on_job = #{0} and a.supplier_id IS NOT NULL")
+    @Select("SELECT id,username,password,salt,fullname,e_mail as eMail,sex,birthday,address,phone,quarters,dept_id as deptId,entry_date as entryDate," +
+            " is_on_job as isOnJob, open_id as openId,wx_nick as wxNick, remark, supplier_id as supplierId, user_type as userType" +
+            " FROM tb_admin a WHERE a.is_on_job = #{0} and a.supplier_id IS NOT NULL")
     List<TbAdmin> selectAdminSupplierIdNotNull(Integer isOnJob);
 
     List<TbAdmin> getAdminSupplierIdNotNullExt();
