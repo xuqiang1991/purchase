@@ -109,12 +109,14 @@ layuiXtree.prototype.CreateCkAll = function () {
 //生产结构
 layuiXtree.prototype.dataBind = function (d) {
     var _this = this;
+    d=d||[];
     if (d.length > 0) {
-        for (i in d) {
+        for (var i=0;i< d.length;i++) {
             var xtree_isend = '';
             var xtree_ischecked = '';
             var xtree_isdisabled = d[i].disabled ? ' disabled="disabled" ' : '';
             _this._domStr += '<div class="layui-xtree-item">';
+            d[i].data=d[i].data||[];
             if (d[i].data.length > 0)
                 _this._domStr += '<i class="layui-icon layui-xtree-icon" data-xtree="' + (_this._isopen ? '1' : '0') + '">' + (_this._isopen ? _this._iconOpen : _this._iconClose) + '</i>';
             else {
