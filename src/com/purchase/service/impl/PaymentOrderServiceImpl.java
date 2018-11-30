@@ -284,6 +284,35 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         paymentOrder.setApplyPrice(order.getApplyPrice());
         paymentOrder.setApprovalPrice(order.getActualPrice());
 
+        if(purchaseOrder.getPaymentAmount() != null){
+            paymentOrder.setAmountPaid(purchaseOrder.getPaymentAmount().doubleValue());
+        }else {
+            paymentOrder.setAmountPaid(0D);
+        }
+
+        //已支付金额
+        if(purchaseOrder.getPaymentAmount() != null){
+            paymentOrder.setAmountPaid(purchaseOrder.getPaymentAmount().doubleValue());
+        }else {
+            paymentOrder.setAmountPaid(0D);
+        }
+
+        //已支付比例
+        BigDecimal contractMoney = purchaseOrder.getContractMoney();
+        if(paymentOrder.getAmountPaid() > 0){
+            BigDecimal amountPaid = new BigDecimal(paymentOrder.getAmountPaid());
+            BigDecimal  paidProportion = amountPaid.divide(contractMoney,BigDecimal.ROUND_UP);
+            paymentOrder.setPaidProportion(paidProportion.doubleValue());
+        }else {
+            paymentOrder.setPaidProportion(0D);
+        }
+
+        //支付比例
+        BigDecimal actualPrice = paymentOrder.getActualPrice();
+        BigDecimal amountPaid = new BigDecimal(paymentOrder.getAmountPaid());
+        BigDecimal paymentProportion = actualPrice.add(amountPaid).divide(contractMoney,BigDecimal.ROUND_UP);
+        paymentOrder.setPaymentProportion(paymentProportion.doubleValue());
+
         //初始化总经理审核
         paymentOrder.setManagerDepartUser(getManagerAdminByDeptId());
 
