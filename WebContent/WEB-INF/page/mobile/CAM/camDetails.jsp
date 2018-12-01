@@ -301,7 +301,7 @@
                         </div>
                     </c:if>
                     <div>
-                        <textarea name="remark" id="remark" rows="5" class="mui-input-clear" placeholder="备注"></textarea>
+                        <textarea name="remark" id="remark" rows="3" class="mui-input-clear" placeholder="备注"></textarea>
                     </div>
                     <div class="mui-button-row" style="padding-bottom: 20px;">
                         <input type="hidden" name="orderNo" id="orderNo" value="${detailsVo.order.orderNo}">
