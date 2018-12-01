@@ -34,7 +34,7 @@
 
     <!-- 单号、供应商、所属项目、合同号、开单人、开单日期、单据状态 -->
     <ul class="mui-table-view" style="z-index: 100">
-        <li class="mui-table-view-cell mui-collapse" id="searchLi">
+        <li class="mui-table-view-cell mui-collapse" id="searchCollapse">
             <a class="" href="#">
                 搜索 <span style="float: right;" class="mui-icon mui-icon mui-icon-search"></span>
             </a>
@@ -127,7 +127,7 @@
 
     mui(document.body).on('tap', '#cancel-btn', function(e) {
         $('#searchCollapse').removeClass('mui-active');
-        $('#searchLi').removeClass('mui-active');
+        //$('#searchLi').removeClass('mui-active');
     });
 
     mui(document.body).on('tap', '#add-btn', function(e) {

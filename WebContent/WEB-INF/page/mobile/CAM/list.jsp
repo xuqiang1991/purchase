@@ -39,7 +39,7 @@
     </shiro:hasPermission>
     <!-- 单号、订单类型、来源订单、供应商、所属项目、请款人、开单人、开单日期、单据状态 -->
     <ul class="mui-table-view" style="z-index: 100">
-        <li class="mui-table-view-cell mui-collapse">
+        <li class="mui-table-view-cell mui-collapse" id="searchCollapse">
             <a class="" href="#">
                 搜索 <span style="float: right;" class="mui-icon mui-icon mui-icon-search"></span>
             </a>
