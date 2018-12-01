@@ -213,7 +213,7 @@
                     var html = template({data});//data
                     //输入模板
                     listTargt.append(html);
-
+                    $(".mui-toast-container").remove();
                     if (data.length < limit) {
                         enablePullUp = false;
                     }
