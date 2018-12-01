@@ -13,7 +13,10 @@ import com.purchase.mapper.order.BizUncontractApplyMoneyMapper;
 import com.purchase.pojo.admin.*;
 import com.purchase.pojo.order.*;
 import com.purchase.service.PaymentOrderService;
-import com.purchase.util.*;
+import com.purchase.util.DateUtil;
+import com.purchase.util.PaymentOrderUtil;
+import com.purchase.util.ResultUtil;
+import com.purchase.util.WebUtils;
 import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.order.BizPaymentOrderSearch;
 import com.purchase.vo.order.BizPaymentOrderVo;
@@ -260,7 +263,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         String yyddmm = DateUtil.formatDate(date, DateUtil.DateFormat3);
         String prefix = PaymentOrderUtil.prefix + yyddmm;
         String pn = bizPaymentOrderMapper.selMaxOrderNo(prefix);
-        String purchaseNo = CAMUtil.generateOrderNo(pn);
+        String purchaseNo = PaymentOrderUtil.generateOrderNo(pn);
         paymentOrder.setOrderNo(purchaseNo);
 
 
@@ -337,7 +340,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         String yyddmm = DateUtil.formatDate(date, DateUtil.DateFormat3);
         String prefix = PaymentOrderUtil.prefix + yyddmm;
         String pn = bizPaymentOrderMapper.selMaxOrderNo(prefix);
-        String purchaseNo = CAMUtil.generateOrderNo(pn);
+        String purchaseNo = PaymentOrderUtil.generateOrderNo(pn);
         paymentOrder.setOrderNo(purchaseNo);
 
 

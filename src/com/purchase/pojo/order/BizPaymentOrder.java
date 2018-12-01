@@ -150,7 +150,6 @@ public class BizPaymentOrder {
         this.applyNature = applyNature;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Long getCreateUser() {
         return createUser;
     }
@@ -159,6 +158,7 @@ public class BizPaymentOrder {
         this.createUser = createUser;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getCreateTime() {
         return createTime;
     }
