@@ -23,7 +23,7 @@ layui.define('layer', function(exports){
           /[\S]+/
           ,'必填项不能为空'
         ]
-        , phone: [/^1[34578]\d{9}$/
+        , phone: [/^1[3456789]\d{9}$/
             , '请输入正确的手机号'
         ]
         ,email: [
