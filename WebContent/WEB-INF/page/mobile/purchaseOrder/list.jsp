@@ -77,7 +77,7 @@
                         </div>
                         <div class="mui-input-row">
                             <label>开单日期</label>
-                            <input id="createTime" name="createTime" type="text" data-options='{"type":"date","beginYear":2014,"endYear":2016}' placeholder="请选择日期">
+                            <input id="createTime" name="createTime" type="text" data-options='{"type":"date","beginYear":2014}' placeholder="请选择日期">
                         </div>
                         <div class="mui-input-row">
                             <label>审核人</label>
@@ -86,7 +86,7 @@
                         </div>
                         <div class="mui-input-row">
                             <label>审核日期</label>
-                            <input id="departDate" name="departDate" type="text" data-options='{"type":"date","beginYear":2014,"endYear":2016}' placeholder="请选择日期">
+                            <input id="departDate" name="departDate" type="text" data-options='{"type":"date","beginYear":2014}' placeholder="请选择日期">
                         </div>
                         <div class="mui-input-row">
                             <label>单号状态</label>

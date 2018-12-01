@@ -80,7 +80,7 @@
                 </div>
                 <div class="mui-input-row">
                     <label>日期</label>
-                    <input id="dateText" type="text" data-options='{"type":"date","beginYear":2014,"endYear":2016}' placeholder="请选择日期">
+                    <input id="dateText" type="text" data-options='{"type":"date","beginYear":2014}' placeholder="请选择日期">
                 </div>
                 <div class="mui-input-row">
                     <label>时间</label>

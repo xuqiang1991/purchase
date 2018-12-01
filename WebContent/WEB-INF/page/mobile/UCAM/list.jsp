@@ -82,7 +82,7 @@
                     </div>
                     <div class="mui-input-row">
                         <label>开单日期</label>
-                        <input id="createTime" name="createTime" type="text" data-options='{"type":"date","beginYear":2014,"endYear":2016}' placeholder="请选择日期">
+                        <input id="createTime" name="createTime" type="text" data-options='{"type":"date","beginYear":2014}' placeholder="请选择日期">
                     </div>
                     <div class="mui-input-row">
                         <label>单据状态</label>
