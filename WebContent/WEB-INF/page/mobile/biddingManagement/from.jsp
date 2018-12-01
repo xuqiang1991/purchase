@@ -337,8 +337,11 @@
         }
 
     });
-
+    var isSubmit = false;
     function bmSave(){
+        if(isSubmit){
+            return false;
+        }
         var check = true;
         mui("input").each(function() {
             //若当前input为空，则alert提醒
@@ -394,6 +397,7 @@
 
 
         if(check){
+            isSubmit = true;
             var url = '${ctx}/mobile/biddingManagement/addBMOrder';
             if($('#bmForm').find('#id').val() != null){
                 url = '${ctx}/mobile/biddingManagement/editBMOrder';
@@ -407,6 +411,7 @@
                 timeout: 10000,
                 success: function(result) {
                     if(result.code!=0){
+                        isSubmit = false;
                         mui.alert(data.msg);
                     }else {
                         mui.alert("保存成功！");

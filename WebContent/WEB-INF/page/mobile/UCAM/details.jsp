@@ -24,6 +24,20 @@
         .mui-popover .mui-popover-arrow:after {
             width: 0px;
         }
+        #loading {
+            position: absolute;
+            top:0;
+            left:0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,.2);
+            display: none;
+        }
+        #loading span {
+            position: absolute;
+            top: 48%;
+            left: 48%;
+        }
     </style>
     <script src="${ctx }/mui/js/mui.min.js"></script>
     <script src="${ctx }/js/jquery-1.11.1.js"></script>
@@ -38,7 +52,7 @@
         <div class="mui-pages"></div>
     </div>
 </div>
-
+<div id="loading"><span>loading...</span></div>
 <div id="setting" class="mui-content mui-page">
     <div class="mui-navbar-inner mui-bar mui-bar-nav">
         <%--<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
@@ -372,7 +386,11 @@
     var viewApi = mui('#app').view({
         defaultPage: '#setting'
     });
-
+    $(document).ajaxStart(function(){
+        $("#loading").show();
+    }).ajaxStop(function(){
+        $("#loading").hide();
+    })
     mui('.mui-scroll-wrapper').scroll();
     var orderTypeJosn = '[{"text":"绿化苗木","value":"0"},{"text":"园建水电","value":"1"},{"text":"机械租赁","value":"2"},{"text":"工程分包","value":"3"}]';
     var ucamVoOrderType = '${detailsVo.ucamVo.orderType}';
@@ -554,9 +572,13 @@
     }
 
 
-
+    var isSubmit = false;
     /** 保存主表 **/
     mui(document.body).on('tap', '#ucamSave', function(e) {
+        if(isSubmit){
+            return false;
+        }
+
         var check = true;
         mui("#ucamForm input").each(function() {
             //若当前input为空，则alert提醒
@@ -583,10 +605,12 @@
             return false;
         }
         if(check){
+            isSubmit = true;
             var url = '${ctx}/mobile/UCAM/addUCAMOrder';
             if($('#ucamForm').find('#id').val() != null){
                 url = '${ctx}/mobile/UCAM/editUCAMOrder';
             }
+           // mui.alert("保存中...");
             $.ajax({
                 url: url,
                 data: $('#ucamForm').serialize(),
@@ -595,9 +619,12 @@
                 type: 'post',
                 timeout: 10000,
                 success: function(result) {
+
                     if(result.code!=0){
+                        isSubmit = false;
                         mui.alert(result.msg);
                     }else {
+                        console.log(result);
                         mui.alert('保存成功！', function() {
                             document.location.href = '${ctx }/mobile/UCAM/toDetails/?id=' + result.msg;
                         });
@@ -611,6 +638,9 @@
 
     /** 提交明细 **/
     mui(document.body).on('tap', '#submitFromUCAMItem', function(e) {
+        if(isSubmit){
+            return false;
+        }
         var check = true;
         mui("#addFromUCAMItem input").each(function() {
             //若当前input为空，则alert提醒
@@ -680,6 +710,7 @@
 
         //校验通过，继续执行业务逻辑
         if(check){
+            isSubmit = true;
             var orderNo = $('#orderNo').val();
             var itemId = $('#addFromUCAMItem').find('#id').val();
             var url = '${ctx}/mobile/UCAM/addUCAMItem/'+ orderNo;
@@ -695,6 +726,7 @@
                 timeout: 10000,
                 success: function(result) {
                     if(result.code!=0){
+                        isSubmit = false;
                         mui.alert(result.msg);
                     }else {
                         mui.alert('保存成功！', function() {
@@ -733,32 +765,6 @@
         })
     });
 
-    /** 编辑项 **/
-    mui(document.body).on('tap', '.editItem', function(e) {
-        var itemId = this.value;
-        var btnArray = ['是', '否'];
-        mui.confirm('确认删除此项？', '删除项', btnArray, function(e) {
-            if (e.index == 0) {
-                var url = '${ctx}/mobile/UCAM/deleteUCAMItem/'+ itemId
-                $.ajax({
-                    url: url,
-                    dataType: 'json',
-                    contentType : "application/x-www-form-urlencoded",
-                    type: 'post',
-                    timeout: 10000,
-                    success: function(result) {
-                        if(result.code!=0){
-                            mui.alert(result.msg);
-                        }else {
-                            mui.alert('删除成功！', function() {
-                                document.location.href='${ctx }/mobile/UCAM/toDetails/?id=${detailsVo.ucamVo.id}';
-                            });
-                        }
-                    }
-                });
-            }
-        })
-    });
 
     /** 设置指令单号 **/
     mui(document.body).on('tap', '#UCAMInstructOrderNo', function(e) {
