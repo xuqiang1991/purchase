@@ -24,6 +24,17 @@
         .mui-popover .mui-popover-arrow:after {
             width: 0px;
         }
+
+        .mui-input-row label{
+            width: 40%;
+        }
+        .mui-input-row label~input{
+            width: 60%;
+        }
+        .mui-input-row label~label{
+            width: 60%;
+            padding: 11px 0px;
+        }
     </style>
     <script type="text/javascript" src="${ctx}/js/jquery.min.js"></script>
     <script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
@@ -117,7 +128,7 @@
                                 <div class="mui-input-row">
                                     <label>所属项目</label>
                                     <a <c:if test="${detailsVo.purchaseOrder.id == null || detailsVo.purchaseOrder.status == 0}">href="#selectProject" id="app-selectProject"</c:if>>
-                                        <label id="selectProjectText" style="width: 65%;padding-left: 0px;">
+                                        <label id="selectProjectText" style="margin-left: -14px;">
                                             <c:choose>
                                                 <c:when test="${detailsVo.purchaseOrder.id == null}">
                                                     请选择所属项目
