@@ -49,7 +49,7 @@
                         <c:if test="${detailsVo.status == 0}">
                             <div class="mui-input-row" id="applyUserReviewDiv">
                                 <label style="width: 120px;">财务付款人</label>
-                                <input type="text" id="selectApplyUser" placeholder="请选择付款的财务人员" style="float: left;width: 150px;">
+                                <input type="text" id="selectApplyUser" readonly placeholder="请选择付款的财务人员" style="float: left;width: 150px;">
                                 <input type="hidden" id="applyUser" name="applyUser">
                             </div>
                         </c:if>
@@ -58,7 +58,7 @@
                         <c:if test="${reviewStatus != 3}">
                             <div class="mui-input-row" id="applyUserReviewDiv">
                                 <label style="width: 120px;">上级审核人</label>
-                                <input type="text" id="selectApplyUser" placeholder="请选择请款人" style="float: left;width: 150px;">
+                                <input type="text" id="selectApplyUser" readonly placeholder="请选择请款人" style="float: left;width: 150px;">
                                 <input type="hidden" id="applyUser" name="applyUser">
                             </div>
                         </c:if>
