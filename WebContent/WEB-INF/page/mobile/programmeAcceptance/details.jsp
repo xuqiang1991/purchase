@@ -54,7 +54,7 @@
 
             <div class="mui-content" style="margin-left: 5px; margin-right: 5px; font-size: 14px;">
                 <ul id="ul_mui_table_view" class="mui-table-view">
-                    <li class="mui-table-view-cell mui-collapse">
+                    <li class="mui-table-view-cell mui-collapse mui-active">
                         <a class="mui-navigate-right" href="#">
                             工程验收单详情:
                             <c:choose>
@@ -259,15 +259,15 @@
                     <input type="hidden" id="id" name="id" value="">
                     <div class="mui-input-row">
                         <label>整改内容</label>
-                        <input type="text" id="rectifyContent" name="rectifyContent" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.paoVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入整改内容">
+                        <input type="text" id="rectifyContent" name="rectifyContent" mui-verify="required" <c:if test="${detailsVo.paoVo.status == 0}">class="mui-input-clear"</c:if> <c:if test="${detailsVo.paoVo.status != 0}">readonly</c:if> placeholder="请输入整改内容">
                     </div>
                     <div class="mui-input-row">
                         <label>整改措施</label>
-                        <input type="text" id="rectifyMeasure" name="rectifyMeasure" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.paoVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入整改措施">
+                        <input type="text" id="rectifyMeasure" name="rectifyMeasure" mui-verify="required" <c:if test="${detailsVo.paoVo.status == 0}">class="mui-input-clear"</c:if> <c:if test="${detailsVo.paoVo.status != 0}">readonly</c:if> placeholder="请输入整改措施">
                     </div>
                     <div class="mui-input-row">
                         <label>计划完成日期</label>
-                        <input type="text" id="playOverDate" name="playOverDate" readonly data-options='{"type":"date","beginYear":2018,"endYear":2028}' <c:if test="${detailsVo.paoVo.status != 0}">disabled="disabled"</c:if> placeholder="请选择计划完成日期" mui-verify="required">
+                        <input type="text" id="playOverDate" name="playOverDate" readonly data-options='{"type":"date","beginYear":2018,"endYear":2028}' <c:if test="${detailsVo.paoVo.status != 0}">readonly</c:if> placeholder="请选择计划完成日期" mui-verify="required">
                     </div>
                     <c:if test="${detailsVo.paoVo.status == 1 && detailsVo.reviewUserId == admin.id}">
                         <div class="mui-input-row">
@@ -281,7 +281,7 @@
                         </div>
                     </c:if>
                     <div>
-                        <textarea name="remark" id="remark" rows="5" class="mui-input-clear"　<c:if test="${detailsVo.paoVo.status != 0}">disabled="disabled"</c:if> placeholder="备注"></textarea>
+                        <textarea name="remark" id="remark" rows="5" <c:if test="${detailsVo.paoVo.status == 0}">class="mui-input-clear"</c:if> <c:if test="${detailsVo.paoVo.status != 0}">readonly</c:if> placeholder="备注"></textarea>
                     </div>
                     <div class="mui-button-row" style="padding-bottom: 20px;">
                         <button type="button" class="mui-btn mui-btn-primary" id="submitFromPAOItem">保存</button>
