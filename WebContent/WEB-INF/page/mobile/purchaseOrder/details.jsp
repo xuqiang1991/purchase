@@ -128,7 +128,7 @@
                                 <div class="mui-input-row">
                                     <label>所属项目</label>
                                     <a <c:if test="${detailsVo.purchaseOrder.id == null || detailsVo.purchaseOrder.status == 0}">href="#selectProject" id="app-selectProject"</c:if>>
-                                        <label id="selectProjectText" style="margin-left: -14px;">
+                                        <label id="selectProjectText" style="margin-left: -14px;width: 60%;">
                                             <c:choose>
                                                 <c:when test="${detailsVo.purchaseOrder.id == null}">
                                                     请选择所属项目
