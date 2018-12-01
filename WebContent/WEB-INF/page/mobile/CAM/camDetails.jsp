@@ -326,50 +326,58 @@
         <div class="mui-scroll-wrapper">
             <div class="mui-scroll"  style="height: 100%;">
                 <form class="mui-input-group" id="addFromPurchaseOrderDetailsItem">
-                    <ul class="mui-table-view mui-table-view-radio">
-                        <c:forEach items="${detailsVo.order.details}" var="item">
-                            <li class="mui-table-view-cell" style="position: static;" v="${item.id}">
-                                <a class="mui-navigate-right">
-                                    <div class="mui-card" style="margin: 0px;">
-                                        <div class="mui-card-header mui-card-media">
-                                            <!-- 订单类型 用图标展示 -->
-                                            <img src="${ctx }/images/icon/contract_apply_money.png">
-                                            <div class="mui-media-body">
-                                                <label>材料/项目内容</label>
-                                                <p name="purchaseOrderContent" v="${item.content}">
-                                                    ${item.content}
-                                                </p>
+                    <c:choose>
+                        <c:when test="${fn:length(detailsVo.order.details) > 0}">
+                            <ul class="mui-table-view mui-table-view-radio">
+                                <c:forEach items="${detailsVo.order.details}" var="item">
+                                    <li class="mui-table-view-cell" style="position: static;" v="${item.id}">
+                                        <a class="mui-navigate-right">
+                                            <div class="mui-card" style="margin: 0px;">
+                                                <div class="mui-card-header mui-card-media">
+                                                    <!-- 订单类型 用图标展示 -->
+                                                    <img src="${ctx }/images/icon/contract_apply_money.png">
+                                                    <div class="mui-media-body">
+                                                        <label>材料/项目内容</label>
+                                                        <p name="purchaseOrderContent" v="${item.content}">
+                                                                ${item.content}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="mui-card-content">
+                                                    <div class="mui-card-content-inner">
+                                                        <p>
+                                                            <label name="purchaseOrderModel" v="${item.model}">规格：${item.model}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <label name="purchaseOrderUnit" v="${item.unit}">单位：${item.unit}</label>
+                                                        </p>
+                                                        <p>
+                                                            <label name="purchaseOrderPrice" v="${item.price}">单价:${item.price}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <label name="purchaseOrderAmount" v="${item.amount}">数量：${item.amount}</label>
+                                                        </p>
+                                                        <p>
+                                                            <c:if test="${detailsVo.order.purchaseOrderVo.type == 1}">
+                                                                <label name="purchaseOrderWarrantyDate" v="${item.warrantyDate}">质保期（月）：${item.warrantyDate}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            </c:if>
+                                                            <c:if test="${detailsVo.order.purchaseOrderVo.type == 2}">
+                                                                <label name="purchaseOrderDate"  v="${item.date}">日期：<fmt:formatDate value="${item.date}" pattern="yyyy-MM-dd"/></label>
+                                                            </c:if>
+                                                        </p>
+                                                        <p>
+                                                            <label>金额：${item.totalPrice}</label>&nbsp;&nbsp;
+                                                            <label  name="purchaseOrderSettleAmout"  v="${item.settleAmout}">已結算数量：${item.settleAmout}</label>
+                                                        </p>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="mui-card-content">
-                                            <div class="mui-card-content-inner">
-                                                <p>
-                                                    <label name="purchaseOrderModel" v="${item.model}">规格：${item.model}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <label name="purchaseOrderUnit" v="${item.unit}">单位：${item.unit}</label>
-                                                </p>
-                                                <p>
-                                                    <label name="purchaseOrderPrice" v="${item.price}">单价:${item.price}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <label name="purchaseOrderAmount" v="${item.amount}">数量：${item.amount}</label>
-                                                </p>
-                                                <p>
-                                                    <c:if test="${detailsVo.order.purchaseOrderVo.type == 1}">
-                                                        <label name="purchaseOrderWarrantyDate" v="${item.warrantyDate}">质保期（月）：${item.warrantyDate}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                    </c:if>
-                                                    <c:if test="${detailsVo.order.purchaseOrderVo.type == 2}">
-                                                        <label name="purchaseOrderDate"  v="${item.date}">日期：<fmt:formatDate value="${item.date}" pattern="yyyy-MM-dd"/></label>
-                                                    </c:if>
-                                                </p>
-                                                <p>
-                                                    <label>金额：${item.totalPrice}</label>&nbsp;&nbsp;
-                                                    <label  name="purchaseOrderSettleAmout"  v="${item.settleAmout}">已結算数量：${item.settleAmout}</label>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                        </c:forEach>
-                    </ul>
+                                        </a>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                        </c:when>
+                        <c:otherwise>
+                            <ul class="mui-table-view mui-table-view-radio" style="text-align:center;">没有数据</ul>
+                        </c:otherwise>
+                    </c:choose>
+
                     <div class="mui-button-row" style="padding-bottom: 20px;">
                         <button type="button" class="mui-btn mui-btn-primary account-cancel" onclick="cancel();">取消</button>&nbsp;&nbsp;
                         <button type="button" class="mui-btn mui-btn-danger account-ensure" onclick="projectEnsure();">确定</button>
