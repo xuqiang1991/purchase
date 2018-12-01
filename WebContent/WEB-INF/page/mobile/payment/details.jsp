@@ -614,7 +614,7 @@
 </script>
 
 <!-- 审核 -->
-<c:set value="${ctx}/mobile/purchase/toDetails/${detailsVo.id}" var="reviewRefreshUrl"/>
+<c:set value="${ctx}/mobile/paymentOrder/toDetails/${detailsVo.id}" var="reviewRefreshUrl"/>
 <c:set value="${ctx}/mobile/paymentOrder/reviewOrder/${detailsVo.id}" var="reviewSaveUrl"/>
 <c:set value="${detailsVo.status}" var="reviewStatus"/>
 <c:set value="3" var="reviewType"/>
