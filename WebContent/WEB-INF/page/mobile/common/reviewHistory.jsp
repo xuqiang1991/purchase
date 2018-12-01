@@ -6,10 +6,10 @@
     <a class="mui-navigate-right" href="#">审核状态</a>
     <c:choose>
         <c:when test="${fn:length(historyList) > 0}">
-            <c:forEach items="${historyList}" var="history">
+            <c:forEach items="${historyList}" var="history" varStatus="status">
                 <div class="mui-collapse-content">
                     <p>
-                        <strong>
+                        <strong>${ fn:length(historyList) - (status.index )}.
                             <c:choose>
                                 <c:when test="${history.sort == 0}">创建</c:when>
                                 <c:when test="${history.sort == 1}">提交</c:when>
