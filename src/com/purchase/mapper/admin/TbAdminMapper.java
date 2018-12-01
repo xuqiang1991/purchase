@@ -85,4 +85,7 @@ public interface TbAdminMapper {
     List<TbAdmin> selectAdminSupplierIdNotNull(Integer isOnJob);
 
     List<TbAdmin> getAdminSupplierIdNotNullExt();
+
+    @Select("SELECT COUNT(1) from tb_admin a where a.dept_id = #{0}")
+    long seladminByDepartment(Long id);
 }

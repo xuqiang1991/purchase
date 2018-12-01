@@ -823,4 +823,8 @@ public class AdminServiceImpl implements AdminService {
 		return list;
 	}
 
+	@Override
+	public long seladminByDepartment(Long id) {
+		return adminMapper.seladminByDepartment(id);
+	}
 }

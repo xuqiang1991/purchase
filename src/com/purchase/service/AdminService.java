@@ -149,4 +149,5 @@ public interface AdminService {
 	List<TbRoles> selRolesById(List<Long> roleIds);
 
 
+	long seladminByDepartment(Long id);
 }
