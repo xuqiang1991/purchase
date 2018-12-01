@@ -186,14 +186,13 @@
             </div>
 
             <div>
-                <textarea id="remark" name="remark" rows="5" class="mui-input-clear" placeholder="备注">${bmVo.remark}</textarea>
+                <textarea id="remark" name="remark" rows="3" class="mui-input-clear" placeholder="备注">${bmVo.remark}</textarea>
             </div>
         </form>
         <div class="mui-button-row" style="padding-bottom: 20px;">
             <button type="button" class="mui-btn mui-btn-primary" onclick="bmSave();">保存</button>
             <%--<button type="button" class="mui-btn mui-btn-danger" onclick="return false;">取消</button>--%>
         </div>
-        <div></div>
     </div>
 </div>
 
@@ -203,7 +202,7 @@
     var viewApi = mui('#app').view({
         defaultPage: '#setting'
     });
-    var view = viewApi.view;
+    mui('.mui-scroll-wrapper').scroll();
 
     var btns_estimateStartTime =  mui('#estimateStartTime');
     btns_estimateStartTime.each(function(i, btn) {
