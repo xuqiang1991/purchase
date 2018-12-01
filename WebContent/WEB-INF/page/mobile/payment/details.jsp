@@ -481,8 +481,6 @@
                     }
                 }
             });
-        }else{
-            mui.toast('检验不通过，请重新填写！',{ duration:'long', type:'div' })
         }
     });
 
