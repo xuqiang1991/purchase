@@ -82,7 +82,7 @@
         <div class="layui-form-item" id="userDeptsDiv">
             <label class="layui-form-label css-required">部门</label>
             <div class="layui-input-block">
-                <select name="deptId">
+                <select name="deptId"  lay-verify="deptId">
                     <option value="">请选择</option>
                     <c:forEach items="${depts }" var="d">
                         <option value="${d.id }">${d.name }</option>
@@ -93,7 +93,7 @@
         <div class="layui-form-item" id="userSuppliersDiv">
             <label class="layui-form-label css-required">供应商</label>
             <div class="layui-input-block">
-                <select name="supplierId">
+                <select name="supplierId"  lay-verify="supplierId">
                     <option value="">请选择</option>
                     <c:forEach items="${suppliers }" var="s">
                         <option value="${s.id }">${s.name }</option>
