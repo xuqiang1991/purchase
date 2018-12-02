@@ -50,4 +50,11 @@ public interface ProjectMangerService {
     List<ChoseProjectVO> selectProjectManger();
 
     void delProject(String id);
+
+    /**
+     * 检查项目是否被引用
+     * @param id
+     * @return
+     */
+    ResultUtil checkProject(String id);
 }

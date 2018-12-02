@@ -5,8 +5,10 @@ import com.github.pagehelper.PageInfo;
 import com.purchase.mapper.admin.TbAdminMapper;
 import com.purchase.mapper.admin.TbCustomersMapper;
 import com.purchase.mapper.admin.TbProjectMangerMapper;
+import com.purchase.mapper.order.*;
 import com.purchase.pojo.admin.*;
 import com.purchase.service.ProjectMangerService;
+import com.purchase.service.PurchaseOrderService;
 import com.purchase.util.MyUtil;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.ChoseAdminVO;
@@ -156,5 +158,17 @@ public class ProjectMangerServiceImpl implements ProjectMangerService {
     @Override
     public void delProject(String id) {
         projectMangerMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public ResultUtil checkProject(String id) {
+        Long count = projectMangerMapper.selectByprojectIdExtCOUNT(id);
+        //Long count = camMapper.selectByprojectIdExtCOUNT(id);
+
+        if(count > 0){
+            return ResultUtil.error();
+        }else{
+            return ResultUtil.ok();
+        }
     }
 }

@@ -132,6 +132,32 @@ public class ProjectMangerController {
         logger.info("请求项目数据");
         ResultUtil result = new ResultUtil();
         try {
+            result = projectMangerService.checkProject(id);
+            if(result.getCode() == 0){
+                projectMangerService.delProject(id);
+                result.setCode(0);
+                result.setMsg("此项目删除成功");
+            }else{
+                result.setCode(-1);
+                result.setMsg("此项目已经被引用不能删除");
+            }
+        }catch (Exception e){
+            result.setCode(500);
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * 检查项目是否被引用
+     * @return
+     */
+   /* @RequestMapping("/checkProject/{id}")
+    @ResponseBody
+    public ResultUtil checkProject(@PathVariable("id")String id) {
+        logger.info("检查项目是否被引用，id:{}",id);
+        ResultUtil result = new ResultUtil();
+        try {
             projectMangerService.delProject(id);
             result.setCode(0);
         }catch (Exception e){
@@ -139,6 +165,6 @@ public class ProjectMangerController {
             e.printStackTrace();
         }
         return result;
-    }
+    }*/
 
 }

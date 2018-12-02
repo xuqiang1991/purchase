@@ -38,4 +38,6 @@ public interface BizContractApplyMoneyMapper {
 
     @Select("select max(order_no) purchase_no from biz_contract_apply_money where order_no like '${prefix}%'")
     String selMaxOrderNo(@Param("prefix") String prefix);
+
+    Long selectByprojectIdExtCOUNT(String projectId);
 }

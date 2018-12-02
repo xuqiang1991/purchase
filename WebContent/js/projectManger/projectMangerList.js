@@ -71,7 +71,7 @@ layui.config({
             });
     }
 
-	//添加角色
+	//添加项目
 	$(".projectMangerAdd_btn").click(function(){
 		var index = layui.layer.open({
 			title : "添加项目",

@@ -28,4 +28,6 @@ public interface TbProjectMangerMapper {
     int updateByPrimaryKeySelective(TbProjectManger record);
 
     int updateByPrimaryKey(TbProjectManger record);
+
+    Long selectByprojectIdExtCOUNT(String projectId);
 }

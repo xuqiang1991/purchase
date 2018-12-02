@@ -478,4 +478,18 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
+  <select id="selectByprojectIdExtCOUNT" parameterType="java.lang.String" resultType="Long">
+    SELECT COUNT(biz_count.id) FROM (
+    select id from biz_uncontract_apply_money WHERE project_id = #{projectId,jdbcType=VARCHAR}
+    union
+    SELECT id FROM biz_contract_apply_money WHERE project_id = #{projectId,jdbcType=VARCHAR}
+    union
+    SELECT id FROM biz_payment_order WHERE project_id = #{projectId,jdbcType=VARCHAR}
+    union
+    SELECT id FROM biz_programme_acceptance_order WHERE project_id = #{projectId,jdbcType=VARCHAR}
+    union
+    SELECT id FROM biz_purchase_order WHERE project_id = #{projectId,jdbcType=VARCHAR}
+    ) as biz_count
+  </select>
 </mapper>
