@@ -954,6 +954,20 @@ public class AdminController {
 	@ResponseBody
 	public ResultUtil getSelectArea() {
 		List<TbArea> list = adminServiceImpl.selAreaByParentId(null);
+
+		//过滤无效的地区
+		if(!CollectionUtils.isEmpty(list)){
+			int size = list.size() - 1;
+			for (int i = size; i >= 0; i--){
+				TbArea area = list.get(i);
+				Boolean valid = area.getValid();
+				//过滤mobile开头的菜单
+				if(!valid){
+					list.remove(i);
+				}
+			}
+		}
+
 		return ResultUtil.ok(list);
 	}
 
@@ -971,6 +985,19 @@ public class AdminController {
 	@ResponseBody
 	public ResultUtil getSelectDepartment() {
 		List<TbDepartment> list = adminServiceImpl.selDepartmentByParentId(null);
+		//过滤无效的部门
+		if(!CollectionUtils.isEmpty(list)){
+			int size = list.size() - 1;
+			for (int i = size; i >= 0; i--){
+				TbDepartment department = list.get(i);
+				Boolean valid = department.getValid();
+				//过滤mobile开头的菜单
+				if(!valid){
+					list.remove(i);
+				}
+			}
+		}
+
 		return ResultUtil.ok(list);
 	}
 
