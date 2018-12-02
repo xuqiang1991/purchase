@@ -25,10 +25,11 @@ layui.config({
 			}
 			,enphone: function () {
                 var phoneValue = $('#phone').val();
-                var regPhone = /^1(3|4|5|7|8)\d{9}$/;
-                if(!regPhone.test(phoneValue)){
+                var regPhone = /^1(2|3|4|5|6|7|8|9)\d{9}$/;
+                if (!regPhone.test(phoneValue)) {
                     return '手机号码错误!';
                 }
+            }
 		});
 		
 		$("#username").blur(function(){
