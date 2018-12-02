@@ -83,7 +83,29 @@ layui.config({
 		      })
 		    }
 		  });
-		  
+
+
+    //查询
+    $(".adminQuery_btn").click(function() {
+        search()
+    })
+
+    function search() {
+        var username = $('#username'), fullname = $('#fullname'),isOnJob = $('#isOnJob option:selected');
+        //执行重载
+        table.reload('adminList',
+            {
+                page : {
+                    curr : 1 //重新从第 1 页开始
+                },
+                where : {
+                    username : username .val(),
+                    fullname : fullname.val(),
+                    isOnJob : isOnJob.val()
+                }
+            });
+    }
+
 
 	//添加角色
 	$(".adminAdd_btn").click(function(){
@@ -92,7 +114,7 @@ layui.config({
 			type : 2,
 			content : ctx+"/sys/addAdmin",
 			success : function(layero, index){
-				layui.layer.tips('点击此处返回角色列表', '.layui-layer-setwin .layui-layer-close', {
+				layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
 					tips: 3
 				});
 			}
@@ -108,7 +130,7 @@ layui.config({
         var adminId=$("#adminId").val();
         var id = $(":radio[name='adminId']:checked").val();
         if(id==undefined || id == null || id == ''){
-            layer.msg("请选择要操作的客户！",{icon: 5});
+            layer.msg("请选择要操作的用户！",{icon: 5});
             return;
         }
         if(id=='1'){
@@ -141,8 +163,37 @@ layui.config({
         })
         layui.layer.full(index);
     });
-	
-	//批量删除角色
+
+
+    /**
+     * 密码重置
+     */
+    $(".passwordReset").click(function(){
+        var id = $(":radio[name='adminId']:checked").val();
+        if(id == null || id == ""){
+            layer.msg("请选择一条用户数据！",{icon: 5});
+            return;
+		}
+        var index = layui.layer.open({
+            title : "密码重置",
+            type : 2,
+            content : ctx+"/sys/pwdReset?id=" + id,
+            success : function(layero, index){
+                layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
+                    tips: 3
+                });
+            }
+        })
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function(){
+            layui.layer.full(index);
+        })
+        layui.layer.full(index);
+    });
+
+
+
+    //批量删除角色
 	$(".batchDel").click(function(){
 		var checkStatus = table.checkStatus('adminList')
 	      ,data = checkStatus.data,adminStr='',flag=false,adminId=$("#adminId").val();

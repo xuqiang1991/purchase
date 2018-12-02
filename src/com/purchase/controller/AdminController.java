@@ -10,6 +10,7 @@ import com.purchase.util.RRException;
 import com.purchase.util.ResultUtil;
 import com.purchase.util.ShiroUtils;
 import com.purchase.util.WebUtils;
+import com.purchase.vo.admin.AdminSearch;
 import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.admin.Menu;
 import com.purchase.vo.admin.XtreeData;
@@ -266,8 +267,8 @@ public class AdminController {
 	@RequestMapping("/getAdminList")
 	@RequiresPermissions("sys:admin:list")
 	@ResponseBody
-	public ResultUtil getAdminList(Integer page,Integer limit) {
-		ResultUtil admins = adminServiceImpl.selAdmins(page, limit);
+	public ResultUtil getAdminList(Integer page, Integer limit, AdminSearch search) {
+		ResultUtil admins = adminServiceImpl.selAdmins(page, limit, search);
 		return admins;
 	}
 	
@@ -583,7 +584,8 @@ public class AdminController {
 	public String changePwd() {
 		return "page/admin/changePwd";
 	}
-	
+
+
 	/**
 	 * 修改密码
 	 * @param req
@@ -613,6 +615,40 @@ public class AdminController {
 			}
 		}
 		return new ResultUtil(500,"请求错误！");
+	}
+
+	/**
+	 * 重置密码跳转
+	 * @return
+	 */
+	@RequestMapping("/pwdReset")
+	public String passwordReset(HttpServletRequest req,Long id) {
+		TbAdmin admin = adminServiceImpl.selAdminById(id);
+		req.setAttribute("admin",admin);
+		return "page/admin/pwdReset";
+	}
+
+	/**
+	 * 重置密码提交
+	 * @param req
+	 * @param id
+	 * @param newPwd
+	 * @return
+	 */
+	@SysLog(value="重置密码提交")
+	@RequestMapping("/pwdResetSubmit")
+	@ResponseBody
+	public ResultUtil pwdResetSubmit(HttpServletRequest req,Long id,String newPwd) {
+		TbAdmin admin = adminServiceImpl.selAdminById(id);
+		if(admin != null){
+			admin.setPassword(newPwd);
+			adminServiceImpl.updAdmin1(admin);
+			//修改密码后移除作用域，重新登陆
+			//SecurityUtils.getSubject().logout();
+			return ResultUtil.ok();
+		}else{
+			return new ResultUtil(500,"用户id错误！");
+		}
 	}
 	
 	@RequestMapping("/druid")

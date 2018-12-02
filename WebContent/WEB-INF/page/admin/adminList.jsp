@@ -26,24 +26,56 @@
 <body class="childrenBody">
 	<input type="hidden" id="adminId" value="<shiro:principal property="id"/>" />
 	<blockquote class="layui-elem-quote list_search">
-		<shiro:hasPermission name="sys:admin:save">
-			<div class="layui-inline">
-				<a class="layui-btn adminAdd_btn"><i class="layui-icon">&#xe608;</i> 添加</a>
+		<!-- 登录名、用户名、状态 -->
+		<form class="layui-form">
+			<div>
+				<div class="layui-input-inline">
+					<input type="text" id="username" value="" placeholder="请输入登录名" class="layui-input search_input">
+				</div>
+				<div class="layui-input-inline">
+					<input type="text" id="fullname" value="" placeholder="请输入用户名" class="layui-input search_input">
+				</div>
+				<div class="layui-input-inline layui-form">
+					<select id="isOnJob" name="isOnJob">
+						<option value="">请选择状态</option>
+						<option value="1">有效</option>
+						<option value="0">失效</option>
+					</select>
+				</div>
 			</div>
-		</shiro:hasPermission>
-		<shiro:hasPermission name="sys:admin:update">
-			<div class="layui-inline">
-				<a class="layui-btn adminUpdate_btn"><i class="layui-icon">&#xe642;</i> 编辑</a>
-			</div>
-		</shiro:hasPermission>
-		<shiro:hasPermission name="sys:admin:delete">
-			<div class="layui-inline">
-				<a class="layui-btn layui-btn-danger batchDel"><i class="layui-icon">&#xe640;</i>删除</a>
-			</div>
-		</shiro:hasPermission>
+
+
+
+
+			<shiro:hasPermission name="sys:admin:list">
+				<div class="layui-inline">
+					<a class="layui-btn adminQuery_btn"><i class="layui-icon">&#xe615;</i>查询</a>
+				</div>
+			</shiro:hasPermission>
+			<shiro:hasPermission name="sys:admin:save">
+				<div class="layui-inline">
+					<a class="layui-btn adminAdd_btn"><i class="layui-icon">&#xe608;</i> 添加</a>
+				</div>
+			</shiro:hasPermission>
+			<shiro:hasPermission name="sys:admin:update">
+				<div class="layui-inline">
+					<a class="layui-btn adminUpdate_btn"><i class="layui-icon">&#xe642;</i> 编辑</a>
+				</div>
+			</shiro:hasPermission>
+			<%--<shiro:hasPermission name="sys:admin:delete">
+				<div class="layui-inline">
+					<a class="layui-btn layui-btn-danger batchDel"><i class="layui-icon">&#xe640;</i>删除</a>
+				</div>
+			</shiro:hasPermission>--%>
+			<shiro:hasPermission name="sys:admin:updatePwd">
+				<div class="layui-inline">
+					<a class="layui-btn layui-btn-danger passwordReset"><i class="layui-icon">&#xe674;</i>密码重置</a>
+				</div>
+			</shiro:hasPermission>
 		<!-- <div class="layui-inline">
 			<div class="layui-form-mid layui-word-aux"></div>
 		</div> -->
+		</form>
 	</blockquote>
 	<!-- 数据表格 -->
 	<table id="adminList" lay-filter="test"></table>

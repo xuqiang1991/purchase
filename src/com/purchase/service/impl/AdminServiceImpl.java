@@ -87,10 +87,21 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public ResultUtil selAdmins(Integer page, Integer limit) {
+	public ResultUtil selAdmins(Integer page, Integer limit, AdminSearch search) {
 		//PageHelper.startPage(page, limit);
 		TbAdminExample example = new TbAdminExample();
         example.setOrderByClause(" a.id asc");
+		TbAdminExample.Criteria criteria = example.createCriteria();
+		if(!StringUtils.isEmpty(search.getUsername())){
+			criteria.andUsernameLike("%"+search.getUsername()+"%");
+		}
+		if(!StringUtils.isEmpty(search.getFullname())){
+			criteria.andFullnameLike("%"+search.getFullname()+"%");
+		}
+		if(search.getIsOnJob() != null){
+			criteria.andIsOnJobEqualTo(search.getIsOnJob());
+		}
+
 		List<TbAdmin> list = tbAdminMapper.selectByExampleExt(example);
 		Long count = tbAdminMapper.selectByExampleExt_COUNT(example);
 		// 将roleName写进TbAdmin

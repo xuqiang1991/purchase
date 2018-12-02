@@ -67,14 +67,11 @@
                 </div>
             </div>
             <!-- 查询条件块 end -->
-            <div class="layui-inline">
-                <a class="layui-btn projectMangerQuery_btn"><i class="layui-icon">&#xe615;</i>查询</a>
-            </div>
-           <%-- <shiro:hasPermission name="sys:projectManger:query">
-                <div class="layui-inline">
-                    <a class="layui-btn projectMangerQuery_btn"><i class="layui-icon">&#xe615;</i>查询</a>
-                </div>
-            </shiro:hasPermission>--%>
+           <shiro:hasPermission name="sys:projectManger:query">
+               <div class="layui-inline">
+                   <a class="layui-btn projectMangerQuery_btn"><i class="layui-icon">&#xe615;</i>查询</a>
+               </div>
+            </shiro:hasPermission>
             <shiro:hasPermission name="sys:projectManger:save">
                 <div class="layui-inline">
                     <a class="layui-btn projectMangerAdd_btn"><i class="layui-icon">&#xe608;</i>添加</a>

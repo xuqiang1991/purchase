@@ -19,7 +19,7 @@ public interface AdminService {
 	public List<TbRoles> selRoles();
 	
 	//获取所有管理员
-	public ResultUtil selAdmins(Integer page,Integer limit);
+	public ResultUtil selAdmins(Integer page,Integer limit,AdminSearch search);
 	
 	//获取角色菜单
 	public List<Menu> selMenus(TbAdmin admin);

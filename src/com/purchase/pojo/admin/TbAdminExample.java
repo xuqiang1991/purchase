@@ -811,6 +811,11 @@ public class TbAdminExample {
             addCriterion("phone not between", value1, value2, "phone");
             return (Criteria) this;
         }
+
+        public Criteria andIsOnJobEqualTo(Integer value) {
+            addCriterion("is_on_job =", value, "isOnJob");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
