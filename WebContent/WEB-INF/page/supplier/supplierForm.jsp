@@ -71,7 +71,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label css-required">地区</label>
             <div class="layui-input-block">
-                <input type="text" id="areaName" class="layui-input" lay-verify="required" placeholder="请选择地区" name="areaName" value="${!empty area ? area.name : ''}">
+                <input type="text" id="areaName" class="layui-input" lay-verify="required" placeholder="请选择地区" name="areaName" readonly value="${!empty area ? area.name : ''}">
                 <input type="hidden" id="areaId" name="areaId" value="${supplier.areaId }">
             </div>
         </div>
