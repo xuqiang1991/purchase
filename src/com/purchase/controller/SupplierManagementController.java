@@ -2,6 +2,7 @@ package com.purchase.controller;
 
 import com.purchase.annotation.SysLog;
 import com.purchase.pojo.admin.TbArea;
+import com.purchase.pojo.admin.TbMenus;
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.service.AdminService;
 import com.purchase.service.SupplierService;
@@ -109,12 +110,19 @@ public class SupplierManagementController {
      * @param id
      * @return
      */
-    @SysLog(value="删除指定地区")
+    @SysLog(value="删除供应商")
     @RequestMapping("/delSupplierById/{id}")
     @RequiresPermissions("sys:supplier:delete")
     @ResponseBody
     public ResultUtil delSupplierById(@PathVariable("id")Long id) {
         try {
+
+            //查询是否有子菜单，不允许删除
+            long count = adminService.seladminBySupplier(id);
+            if(count>0){
+                return ResultUtil.error("供应商已使用，不允许删除！");
+            }
+
             supplierService.delSupplierById(id);
             return ResultUtil.ok("删除成功");
         } catch (Exception e) {

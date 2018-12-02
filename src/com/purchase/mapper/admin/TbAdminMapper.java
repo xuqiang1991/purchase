@@ -94,4 +94,7 @@ public interface TbAdminMapper {
 
     @Select("SELECT COUNT(1) from tb_customers a where a.area = #{0}")
     long selcustomersByArea(Long id);
+
+    @Select("SELECT COUNT(1) from tb_customers a where a.supplier_id = #{0}")
+    long seladminBySupplier(Long id);
 }
