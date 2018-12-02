@@ -16,8 +16,13 @@ layui.config({
 		
 		//自定义验证规则
 		form.verify({ 
-			pass: [/(.+){6,16}$/, '密码必须6到16位']
+			pass: [/(.+){6,20}$/, '密码必须6到20位']
 			,repass: function(value){
+
+				if(value == ''){
+                    return '请输入确认密码！';
+				}
+
 				var repassvalue = $('#password').val();
 				if(value != repassvalue){
 					return '两次输入的密码不一致!';
@@ -25,10 +30,27 @@ layui.config({
 			}
 			,enphone: function () {
                 var phoneValue = $('#phone').val();
-                var regPhone = /^1(3|4|5|7|8)\d{9}$/;
-                if(!regPhone.test(phoneValue)){
+                var regPhone = /^1(2|3|4|5|6|7|8|9)\d{9}$/;
+                if (!regPhone.test(phoneValue)) {
                     return '手机号码错误!';
                 }
+            }
+            ,deptId: function (value) {
+                var userType = $('input[name="userType"]:checked').val();
+                if(userType == 0){
+                    if (value == '') {
+                        return '请选择部门!';
+                    }
+				}
+            }
+            ,supplierId: function (value) {
+                var userType = $('input[name="userType"]:checked').val();
+                if(userType != 0) {
+                    if (value == '') {
+                        return '请选择供应商!';
+                    }
+                }
+            }
 		});
 		
 		$("#username").blur(function(){

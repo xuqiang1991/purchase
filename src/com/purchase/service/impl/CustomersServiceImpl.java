@@ -59,7 +59,10 @@ public class CustomersServiceImpl implements CustomersService {
 
     @Override
     public List<TbCustomers> getCustomersList() {
-        List<TbCustomers> list = customersMapper.selectByExample(null);
+        TbCustomersExample example = new TbCustomersExample();
+        com.purchase.pojo.admin.TbCustomersExample.Criteria criteria = example.createCriteria();
+        criteria.andIsForceEqualTo(1);
+        List<TbCustomers> list = customersMapper.selectByExample(example);
         return list;
         // return customersMapper.getCustomersList();
     }

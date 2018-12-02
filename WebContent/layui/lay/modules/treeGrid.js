@@ -509,6 +509,8 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
         var treeList=[];
         var tableList=[];
 
+        data.reverse();//反转数组排序，不然不能显示最顶层
+
         console.log(data,field_Id,field_upId);
 
         //设置默认参数
@@ -529,8 +531,8 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
             }
             return _array;
         }
-        treeList=fa(data[0][field_upId],"");//递归
 
+        treeList=fa(data[0][field_upId],"");//递归
 
         //处理表格结构
         var fa2=function (l,level,upids) {

@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -120,5 +121,24 @@ public class ProjectMangerController {
         return result;
     }
 
+
+    /**
+     * 删除项目
+     * @return
+     */
+    @RequestMapping("/delProject/{id}")
+    @ResponseBody
+    public ResultUtil delProject(@PathVariable("id")String id) {
+        logger.info("请求项目数据");
+        ResultUtil result = new ResultUtil();
+        try {
+            projectMangerService.delProject(id);
+            result.setCode(0);
+        }catch (Exception e){
+            result.setCode(500);
+            e.printStackTrace();
+        }
+        return result;
+    }
 
 }

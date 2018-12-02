@@ -30,7 +30,7 @@
                     <input type="text" id="name" value="" placeholder="请输入客户名称" class="layui-input search_input">
                 </div>
                 <div class="layui-input-inline layui-form">
-                    <input type="text" id="areaName" class="layui-input search_input" placeholder="请选择地区" name="areaName" >
+                    <input type="text" id="areaName" class="layui-input search_input" placeholder="请选择地区" name="areaName" readonly>
                     <input type="hidden" id="areaId" name="areaId">
                     <%--<select id="areaId" name="areaId" >
                         <option value="1">请选择地区</option>

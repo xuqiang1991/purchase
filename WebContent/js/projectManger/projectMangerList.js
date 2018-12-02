@@ -117,38 +117,28 @@ layui.config({
 	
 	//删除角色
 	$(".projectMangerDel_btn").click(function(){
-		var checkStatus = table.checkStatus('roleList')
-	      ,data = checkStatus.data,roleStr='',flag=false;
-//	      layer.alert(JSON.stringify(data));
-		
-		if(data.length>0){
-			$.each(data, function (n, value) {
-	              roleStr+=value.roleId+',';
-	          });
-			//包含不允许操作角色，结束方法
-			  if(flag){
-				  return;
-			  }
-			  roleStr=roleStr.substring(0,roleStr.length-1);
-			  layer.confirm('真的要删除<strong>'+data.length+'</strong>条数据吗？', function(index){
-				//调用删除接口
-				  $.ajax({
-			    		  url:ctx+'/sys/delRoles/'+roleStr,//接口地址
-			    		  type : "get",
-			    		  success : function(d){
-			    			  if(d.code==0){
-			    				  //删除成功，刷新父页面
-			    				  parent.location.reload();
-			    			  }else{
-			    				  layer.msg("权限不足，联系超管！",{icon: 5});
-			    			  }
-			    		  }
-			    	  })
-			  });
-		}else{
-			layer.msg("请选择要操作的数据！");
-		}
-		
+        var id = $(":radio[name='projectMangerId']:checked").val();
+        if(id==undefined || id == null || id == ''){
+            layer.msg("请选择要操作的数据！",{icon: 5});
+            return;
+        }
+
+		  layer.confirm('真的要删除吗？', function(index){
+			//调用删除接口
+			  $.ajax({
+					  url:ctx+'/projectManger/delProject/'+id,//接口地址
+					  type : "get",
+					  success : function(d){
+						  if(d.code==0){
+							  //删除成功，刷新父页面
+							  parent.location.reload();
+						  }else{
+							  layer.msg(d.msg,{icon: 5});
+						  }
+					  }
+				  })
+		  });
+
 	})
 	
 })

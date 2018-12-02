@@ -61,7 +61,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label css-required">供应商类别</label>
             <div class="layui-input-block">
-                <select name="type" class="" id="type" lay-filter="required|aihao">
+                <select name="type" class="" id="type" lay-verify="required">
                     <option value="">请选择供应商类别</option>
                     <option value="0" <c:if test="${supplier.type == 0}">selected</c:if> >材料供应商</option>
                     <option value="1" <c:if test="${supplier.type == 1}">selected</c:if> >工程分包商</option>
@@ -71,7 +71,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label css-required">地区</label>
             <div class="layui-input-block">
-                <input type="text" id="areaName" class="layui-input" lay-verify="required" placeholder="请选择地区" name="areaName" value="${!empty area ? area.name : ''}">
+                <input type="text" id="areaName" class="layui-input" lay-verify="required" placeholder="请选择地区" name="areaName" readonly value="${!empty area ? area.name : ''}">
                 <input type="hidden" id="areaId" name="areaId" value="${supplier.areaId }">
             </div>
         </div>
@@ -84,7 +84,7 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">负责人电话</label>
+            <label class="layui-form-label css-required">负责人电话</label>
             <div class="layui-input-block">
                 <input type="text" name="principalPhone" class="layui-input principalPhone" lay-verify="phone" maxlength="50"
                        placeholder="请输入负责人电话" value="${supplier.principalPhone }">
@@ -98,7 +98,7 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">联系人电话</label>
+            <label class="layui-form-label css-required">联系人电话</label>
             <div class="layui-input-block">
                 <input type="text" name="contactPhone" class="layui-input contactPhone" lay-verify="phone" maxlength="50"
                        placeholder="请输入联系人电话" value="${supplier.contactPhone }">

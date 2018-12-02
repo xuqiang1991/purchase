@@ -150,4 +150,10 @@ public interface AdminService {
 
 
 	long seladminByDepartment(Long id);
+
+	long selsupplierByArea(Long id);
+
+	long selcustomersByArea(Long id);
+
+	long seladminBySupplier(Long id);
 }
