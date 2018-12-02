@@ -104,7 +104,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label css-required">联系电话</label>
             <div class="layui-input-block">
-                <input type="text" name="phone" class="layui-input userName" lay-verify="phone" placeholder="请输入手机号" value="">
+                <input type="text" id="phone" name="phone" class="layui-input userName" lay-verify="enphone" placeholder="请输入手机号" value="">
             </div>
         </div>
         <div class="layui-form-item">
