@@ -152,4 +152,9 @@ public class ProjectMangerServiceImpl implements ProjectMangerService {
 
         return item;
     }
+
+    @Override
+    public void delProject(String id) {
+        projectMangerMapper.deleteByPrimaryKey(id);
+    }
 }

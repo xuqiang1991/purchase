@@ -48,4 +48,6 @@ public interface ProjectMangerService {
     List<TbProjectManger> selectProjectMangerExample();
 
     List<ChoseProjectVO> selectProjectManger();
+
+    void delProject(String id);
 }

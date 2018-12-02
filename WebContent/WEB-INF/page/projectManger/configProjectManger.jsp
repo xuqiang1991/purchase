@@ -194,7 +194,7 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">合同金额</label>
+        <label class="layui-form-label css-required">合同金额</label>
         <div class="layui-input-block">
             <input type="number" id="contractPrice" class="layui-input " maxlength="13" name="contractPrice" lay-verify="price" placeholder="请输入项目合同编号" value="${projectManger.contractPrice}">
         </div>
