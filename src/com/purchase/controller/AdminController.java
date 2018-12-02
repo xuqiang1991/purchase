@@ -918,6 +918,18 @@ public class AdminController {
 			if(data!=null&&data.size()>0){
 				return ResultUtil.error("包含下级地区，不允许删除！");
 			}
+
+			//查询是否有子菜单，不允许删除
+			long count = adminServiceImpl.selsupplierByArea(id);
+			if(count>0){
+				return ResultUtil.error("地区已使用，不允许删除！");
+			}
+
+			count = adminServiceImpl.selcustomersByArea(id);
+			if(count>0){
+				return ResultUtil.error("地区已使用，不允许删除！");
+			}
+
 			adminServiceImpl.delAreaById(id);
 			return ResultUtil.ok("删除成功");
 		} catch (Exception e) {

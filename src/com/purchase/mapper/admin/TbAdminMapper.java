@@ -88,4 +88,10 @@ public interface TbAdminMapper {
 
     @Select("SELECT COUNT(1) from tb_admin a where a.dept_id = #{0}")
     long seladminByDepartment(Long id);
+
+    @Select("SELECT COUNT(1) from tb_supplier a where a.area_id = #{0}")
+    long selsupplierByArea(Long id);
+
+    @Select("SELECT COUNT(1) from tb_customers a where a.area = #{0}")
+    long selcustomersByArea(Long id);
 }

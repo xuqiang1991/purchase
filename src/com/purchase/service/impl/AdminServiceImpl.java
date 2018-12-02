@@ -827,4 +827,14 @@ public class AdminServiceImpl implements AdminService {
 	public long seladminByDepartment(Long id) {
 		return adminMapper.seladminByDepartment(id);
 	}
+
+	@Override
+	public long selsupplierByArea(Long id) {
+		return adminMapper.selsupplierByArea(id);
+	}
+
+	@Override
+	public long selcustomersByArea(Long id) {
+		return adminMapper.selcustomersByArea(id);
+	}
 }
