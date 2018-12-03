@@ -384,7 +384,7 @@ public class CAMServiceImpl implements CAMService {
             if(settleAmout < 0){
                 settleAmout = 0D;
             }
-            settlePrice = settlePrice.multiply(detail.getPrice());
+            settlePrice = new BigDecimal(settleAmout).multiply(detail.getPrice());
 
             order.setSettleAmout(settleAmout);
             order.setSettlePrice(settlePrice);

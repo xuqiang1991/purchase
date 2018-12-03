@@ -749,7 +749,7 @@
             });
             ids.substring(0,ids.length-1);
 
-            var url = '${ctx}/mobile/CAM/addCAMItems/${detailsVo.order.id}'
+            var url = '${ctx}/mobile/CAM/addCAMItems/${detailsVo.order.orderNo}'
             $.ajax({
                 url: url,
                 data: {ids:ids},

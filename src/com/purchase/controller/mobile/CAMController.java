@@ -191,10 +191,11 @@ public class CAMController {
 
 
     @SysLog(value="新增合同内请款单项")
-    @RequestMapping("addCAMItems/{ids}")
+    @RequestMapping("addCAMItems/{orderNo}")
     @RequiresPermissions("mobile:CAM:save")
     @ResponseBody
-    public ResultUtil addCAMItems(@PathVariable("orderNo") String orderNo,String ids){
+    public ResultUtil addCAMItems(HttpServletRequest req,@PathVariable("orderNo") String orderNo){
+        String ids = req.getParameter("ids");
         return camService.addCAMItems(orderNo,ids);
     }
 
