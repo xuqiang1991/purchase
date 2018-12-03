@@ -44,4 +44,6 @@ public interface CAMService {
     ResultUtil checkCAMItem(String purchaseDetailId);
 
     ResultUtil checkCAM(String id);
+
+    ResultUtil addCAMItems(String orderNo, String ids);
 }

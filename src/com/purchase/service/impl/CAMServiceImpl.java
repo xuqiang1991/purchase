@@ -354,6 +354,69 @@ public class CAMServiceImpl implements CAMService {
         return ResultUtil.ok();
     }
 
+
+    @Override
+    @Transactional
+    public ResultUtil addCAMItems(String orderNo, String ids) {
+
+        List<String> list = Arrays.asList(ids.trim().split(","));
+
+        Date curTime = new Date();
+        for (String purchaseDid : list){
+            BizPurchaseOrderDetail detail = purchaseOrderDetailMapper.selectByPrimaryKey(purchaseDid);
+            BizContractApplyMoneyDetail order = new BizContractApplyMoneyDetail();
+            String id = MyUtil.getStrUUID();
+            order.setId(id);
+            order.setOrderNo(orderNo);
+            order.setPurchaseDetailId(purchaseDid);
+            order.setProjectContent(detail.getContent());
+            order.setModel(detail.getModel());
+            order.setUnit(detail.getUnit());
+            order.setPrice(detail.getPrice());
+            order.setContractCount(detail.getAmount());
+            Double settleAmout;
+            BigDecimal settlePrice = new BigDecimal(0);
+            if(detail.getSettleAmout() == null){
+                detail.setSettleAmout(0D);
+            }
+
+            settleAmout = detail.getAmount() - detail.getSettleAmout();
+            if(settleAmout < 0){
+                settleAmout = 0D;
+            }
+            settlePrice = settlePrice.multiply(detail.getPrice());
+
+            order.setSettleAmout(settleAmout);
+            order.setSettlePrice(settlePrice);
+            order.setWarrantyDate(detail.getWarrantyDate());
+            order.setDate(detail.getDate());
+            order.setCreateTime(curTime);
+            order.setUpdateDate(curTime);
+            contractApplyMoneyDetailMapper.insertSelective(order);
+
+            BigDecimal price = order.getSettlePrice();
+
+            //如有金额更新采购单
+            if (price != null) {
+                BizContractApplyMoney camOrder = camMapper.selectByOrderNo(orderNo);
+                BigDecimal contractMoney = camOrder.getApplyPrice();
+                if (contractMoney == null) {
+                    contractMoney = price;
+                } else {
+                    contractMoney = contractMoney.add(price);
+                }
+
+                BizContractApplyMoney tmp = new BizContractApplyMoney();
+                tmp.setId(camOrder.getId());
+                tmp.setApplyPrice(contractMoney);
+                tmp.setUpdateDate(order.getUpdateDate());
+                camMapper.updateByPrimaryKeySelective(tmp);
+            }
+
+        }
+        return ResultUtil.ok();
+    }
+
     @Override
     public ResultUtil editCAMItem(BizContractApplyMoneyDetail order) {
 

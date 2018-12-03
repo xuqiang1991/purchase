@@ -332,7 +332,7 @@
                         <c:when test="${fn:length(detailsVo.order.details) > 0}">
                             <ul class="mui-table-view mui-table-view-radio">
                                 <c:forEach items="${detailsVo.order.details}" var="item">
-                                    <li class="mui-table-view-cell" style="position: static;" v="${item.id}">
+                                    <li class="mui-table-view-cell li-checkbox" style="position: static;" v="${item.id}">
                                         <a class="mui-navigate-right">
                                             <div class="mui-card" style="margin: 0px;">
                                                 <div class="mui-card-header mui-card-media">
@@ -740,43 +740,70 @@
         var accountSelected = $("#fromPurchaseOrderDetailsItem").find("li").hasClass("mui-selected");
         if(accountSelected){
             //获取采购单参数
-            var li = $("#fromPurchaseOrderDetailsItem").find("li.mui-selected");
+            var lis = $("#fromPurchaseOrderDetailsItem").find("li.mui-selected");
 
-            var purchaseOrderDetailsId = $(li).attr("v");
-            var purchaseOrderContent = $(li).find('p[name="purchaseOrderContent"]').attr("v");
-            var purchaseOrderModel = $(li).find('label[name="purchaseOrderModel"]').attr("v");
-            var purchaseOrderUnit = $(li).find('label[name="purchaseOrderUnit"]').attr("v");
-            var purchaseOrderPrice = $(li).find('label[name="purchaseOrderPrice"]').attr("v");
-            var purchaseOrderAmount = $(li).find('label[name="purchaseOrderAmount"]').attr("v");
-            var purchaseOrderWarrantyDate = $(li).find('label[name="purchaseOrderWarrantyDate"]').attr("v");
-            var purchaseOrderDate = $(li).find('label[name="purchaseOrderDate"]').attr("v");
-            var purchaseOrderSettleAmout = $(li).find('label[name="purchaseOrderSettleAmout"]').attr("v");
+            //引用ID
+            var ids = "";
+            $(lis).each(function(index,obj){
+                ids += $(obj).attr("v") + ",";
+            });
+            ids.substring(0,ids.length-1);
 
-
-            //请款数量
-            var settleAmount = (purchaseOrderAmount - purchaseOrderSettleAmout);
-            if(settleAmount < 0){//请款数量小于0的时候，设置为0
-                settleAmount = 0;
-            }
-            //请款金额
-            var settlePrice = purchaseOrderPrice * settleAmount;
-
-            //赋值到请款单
-            $("#addFromPurchaseOrderItem").find("input[name='purchaseDetailId']").val(purchaseOrderDetailsId);
-            $("#addFromPurchaseOrderItem").find("input[name='projectContent']").val(purchaseOrderContent);
-            $("#addFromPurchaseOrderItem").find("input[name='model']").val(purchaseOrderModel);
-            $("#addFromPurchaseOrderItem").find("input[name='unit']").val(purchaseOrderUnit);
-            $("#addFromPurchaseOrderItem").find("input[name='price']").val(purchaseOrderPrice);
-            $("#addFromPurchaseOrderItem").find("input[name='settleAmout']").val(settleAmount);
-            $("#addFromPurchaseOrderItem").find("input[name='settlePrice']").val(settlePrice);
-            $("#addFromPurchaseOrderItem").find("input[name='contractCount']").val(purchaseOrderAmount);
-            if(purchaseOrderWarrantyDate != undefined){
-                $("#addFromPurchaseOrderItem").find("input[name='warrantyDate']").val(purchaseOrderWarrantyDate);
-            }
-            if(purchaseOrderDate != undefined){
-                $("#addFromPurchaseOrderItem").find("input[name='date']").val(purchaseOrderDate);
-            }
-            viewApi.go("#fromPurchaseOrderItem");
+            var url = '${ctx}/mobile/CAM/addCAMItems/${detailsVo.order.id}'
+            $.ajax({
+                url: url,
+                data: {ids:ids},
+                dataType: 'json',
+                contentType : "application/x-www-form-urlencoded",
+                type: 'post',
+                timeout: 10000,
+                success: function(result) {
+                    if(result.code!=0){
+                        isSubmit = false;
+                        mui.alert(result.msg);
+                    }else {
+                        mui.alert('保存成功！', function() {
+                            document.location.href='${ctx }/mobile/CAM/toDetails?id=${detailsVo.order.id}';
+                        });
+                    }
+                }
+            });
+//            以前的逻辑，跳转到编辑页面
+//            var purchaseOrderDetailsId = $(li).attr("v");
+//            var purchaseOrderContent = $(li).find('p[name="purchaseOrderContent"]').attr("v");
+//            var purchaseOrderModel = $(li).find('label[name="purchaseOrderModel"]').attr("v");
+//            var purchaseOrderUnit = $(li).find('label[name="purchaseOrderUnit"]').attr("v");
+//            var purchaseOrderPrice = $(li).find('label[name="purchaseOrderPrice"]').attr("v");
+//            var purchaseOrderAmount = $(li).find('label[name="purchaseOrderAmount"]').attr("v");
+//            var purchaseOrderWarrantyDate = $(li).find('label[name="purchaseOrderWarrantyDate"]').attr("v");
+//            var purchaseOrderDate = $(li).find('label[name="purchaseOrderDate"]').attr("v");
+//            var purchaseOrderSettleAmout = $(li).find('label[name="purchaseOrderSettleAmout"]').attr("v");
+//
+//
+//            //请款数量
+//            var settleAmount = (purchaseOrderAmount - purchaseOrderSettleAmout);
+//            if(settleAmount < 0){//请款数量小于0的时候，设置为0
+//                settleAmount = 0;
+//            }
+//            //请款金额
+//            var settlePrice = purchaseOrderPrice * settleAmount;
+//
+//            //赋值到请款单
+//            $("#addFromPurchaseOrderItem").find("input[name='purchaseDetailId']").val(purchaseOrderDetailsId);
+//            $("#addFromPurchaseOrderItem").find("input[name='projectContent']").val(purchaseOrderContent);
+//            $("#addFromPurchaseOrderItem").find("input[name='model']").val(purchaseOrderModel);
+//            $("#addFromPurchaseOrderItem").find("input[name='unit']").val(purchaseOrderUnit);
+//            $("#addFromPurchaseOrderItem").find("input[name='price']").val(purchaseOrderPrice);
+//            $("#addFromPurchaseOrderItem").find("input[name='settleAmout']").val(settleAmount);
+//            $("#addFromPurchaseOrderItem").find("input[name='settlePrice']").val(settlePrice);
+//            $("#addFromPurchaseOrderItem").find("input[name='contractCount']").val(purchaseOrderAmount);
+//            if(purchaseOrderWarrantyDate != undefined){
+//                $("#addFromPurchaseOrderItem").find("input[name='warrantyDate']").val(purchaseOrderWarrantyDate);
+//            }
+//            if(purchaseOrderDate != undefined){
+//                $("#addFromPurchaseOrderItem").find("input[name='date']").val(purchaseOrderDate);
+//            }
+//            viewApi.go("#fromPurchaseOrderItem");
         }else{
             mui.toast('您尚未选择，请选择后确定',{ duration:'long', type:'div' })
         }

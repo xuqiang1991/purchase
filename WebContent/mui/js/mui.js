@@ -7187,17 +7187,30 @@ Function.prototype.bind = Function.prototype.bind || function(to) {
 		var classList = cell.classList;
 		var ul = cell.parentNode;
 		if (ul && ul.classList.contains(CLASS_RADIO_VIEW)) {
-			if (classList.contains(CLASS_SELECTED)) {
-				return;
+			debugger
+            var isCheckbox = classList.contains("li-checkbox")
+			if(isCheckbox){
+                if (classList.contains(CLASS_SELECTED)) {
+                    classList.remove(CLASS_SELECTED)
+                }else {
+                    classList.add(CLASS_SELECTED);
+                    $.trigger(cell, 'selected', {
+                        el: cell
+                    });
+				}
+			}else {
+                if (classList.contains(CLASS_SELECTED)) {
+                    return;
+                }
+                var selected = ul.querySelector('li' + SELECTOR_SELECTED);
+                if (selected) {
+                    selected.classList.remove(CLASS_SELECTED);
+                }
+                classList.add(CLASS_SELECTED);
+                $.trigger(cell, 'selected', {
+                    el: cell
+                });
 			}
-			var selected = ul.querySelector('li' + SELECTOR_SELECTED);
-			if (selected) {
-				selected.classList.remove(CLASS_SELECTED);
-			}
-			classList.add(CLASS_SELECTED);
-			$.trigger(cell, 'selected', {
-				el: cell
-			});
 			return;
 		}
 		if (classList.contains('mui-collapse') && !cell.parentNode.classList.contains('mui-unfold')) {

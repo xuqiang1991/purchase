@@ -189,6 +189,15 @@ public class CAMController {
         return camService.addCAMItem(order);
     }
 
+
+    @SysLog(value="新增合同内请款单项")
+    @RequestMapping("addCAMItems/{ids}")
+    @RequiresPermissions("mobile:CAM:save")
+    @ResponseBody
+    public ResultUtil addCAMItems(@PathVariable("orderNo") String orderNo,String ids){
+        return camService.addCAMItems(orderNo,ids);
+    }
+
     @SysLog(value="查询合同内请款单详情")
     @RequestMapping("getCAMItem/{itemId}")
     @RequiresPermissions("mobile:CAM:list")
