@@ -256,10 +256,12 @@
         <div class="mui-scroll-wrapper">
             <div class="mui-scroll"  style="height: 100%;">
                 <form class="mui-input-group" id="addFromPurchaseOrderItem">
-                    <div class="mui-input-row">
-                        <label>施工部位</label>
-                        <input type="text" name="constructionSite" class="mui-input-clear" mui-verify="required|max=100" placeholder="请施工部位">
-                    </div>
+                    <c:if test="${detailsVo.order.purchaseOrderVo.type == 3}">
+                        <div class="mui-input-row">
+                            <label>施工部位</label>
+                            <input type="text" name="constructionSite" class="mui-input-clear" mui-verify="required|max=100" placeholder="请施工部位">
+                        </div>
+                    </c:if>
                     <div class="mui-input-row">
                         <label>项目内容</label>
                         <input type="text" name="projectContent" class="mui-input-clear" mui-verify="required|max=100" placeholder="请输入项目内容">
@@ -549,7 +551,7 @@
                     msg = "采购单明细有多条，且结算数量超过采购单未到货数量，是否提交？"
                 }else if(checkCAMItemData.amount < 0){
                     msg = "采购单明细结算数量超过采购单未到货数量，是否提交？"
-                }else if(checkCAMItemData.count < 0){
+                }else if(checkCAMItemData.count > 0){
                     msg = "采购单明细有多条，是否提交？"
                 }
 
@@ -557,13 +559,13 @@
                 mui.confirm(msg,"提示",btnArray, function(e) {
                     if (e.index == 0) {
                         submitItem();
+                    }else {
+                        isSubmit = false;
                     }
                 })
             }else {
                 submitItem()
             }
-        }else{
-            mui.toast('检验不通过，请重新填写！',{ duration:'long', type:'div' })
         }
     });
 
