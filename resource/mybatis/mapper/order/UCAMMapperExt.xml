@@ -66,6 +66,8 @@
         a.*,
         b.id as supplier_id, b.name as supplierName,
         c.id as admin_id, c.fullname as adminFullname,
+        nr.id as nrId, nr.fullname as nrFullname,
+        lr.id as lrId, lr.fullname as lrFullname,
         tpm.id as tpmId,tpm.name as tpmName,
         auAdmin.id as auId,auAdmin.fullname as auName
     from biz_uncontract_apply_money a
