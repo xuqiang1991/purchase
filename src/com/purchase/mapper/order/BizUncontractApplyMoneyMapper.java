@@ -1,14 +1,13 @@
 package com.purchase.mapper.order;
 
-import com.purchase.pojo.order.BizContractApplyMoney;
 import com.purchase.pojo.order.BizUncontractApplyMoney;
 import com.purchase.pojo.order.BizUncontractApplyMoneyExample;
+import java.util.List;
+
 import com.purchase.vo.order.UCAMSearch;
 import com.purchase.vo.order.UCAMVo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-
-import java.util.List;
 
 public interface BizUncontractApplyMoneyMapper {
     int countByExample(BizUncontractApplyMoneyExample example);

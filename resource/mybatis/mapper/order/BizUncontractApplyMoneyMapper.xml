@@ -17,21 +17,12 @@
     <result column="actual_price" jdbcType="DECIMAL" property="actualPrice" />
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
     <result column="summary" jdbcType="VARCHAR" property="summary" />
-    <result column="cost_depart_approval" jdbcType="BIT" property="costDepartApproval" />
-    <result column="cost_depart_user" jdbcType="BIGINT" property="costDepartUser" />
-    <result column="cost_depart_date" jdbcType="TIMESTAMP" property="costDepartDate" />
-    <result column="cost_depart_opinion" jdbcType="VARCHAR" property="costDepartOpinion" />
-    <result column="project_depart_approval" jdbcType="BIT" property="projectDepartApproval" />
-    <result column="project_depart_user" jdbcType="BIGINT" property="projectDepartUser" />
-    <result column="project_depart_date" jdbcType="TIMESTAMP" property="projectDepartDate" />
-    <result column="project_depart_opinion" jdbcType="VARCHAR" property="projectDepartOpinion" />
-    <result column="manager_depart_approval" jdbcType="BIT" property="managerDepartApproval" />
-    <result column="manager_depart_user" jdbcType="BIGINT" property="managerDepartUser" />
-    <result column="manager_depart_date" jdbcType="TIMESTAMP" property="managerDepartDate" />
-    <result column="manager_depart_opinion" jdbcType="VARCHAR" property="managerDepartOpinion" />
     <result column="supplier_id" jdbcType="BIGINT" property="supplierId" />
-    <result column="review_fail" jdbcType="BIT" property="reviewFail" />
-    <result column="review_opinion" jdbcType="VARCHAR" property="reviewOpinion" />
+    <result column="next_review_user" jdbcType="BIGINT" property="nextReviewUser" />
+    <result column="next_review_role" jdbcType="BIGINT" property="nextReviewRole" />
+    <result column="next_review_role_name" jdbcType="VARCHAR" property="nextReviewRoleName" />
+    <result column="last_review_user" jdbcType="BIGINT" property="lastReviewUser" />
+    <result column="last_review_date" jdbcType="TIMESTAMP" property="lastReviewDate" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -94,10 +85,8 @@
   <sql id="Base_Column_List">
     id, order_no, create_user, create_time, apply_user, apply_date, project_id, order_type, 
     instruct_order_flag, instruct_order_no, status, apply_price, actual_price, update_date, 
-    summary, cost_depart_approval, cost_depart_user, cost_depart_date, cost_depart_opinion, 
-    project_depart_approval, project_depart_user, project_depart_date, project_depart_opinion, 
-    manager_depart_approval, manager_depart_user, manager_depart_date, manager_depart_opinion, 
-    supplier_id, review_fail, review_opinion
+    summary, supplier_id, next_review_user, next_review_role, next_review_role_name, 
+    last_review_user, last_review_date
   </sql>
   <select id="selectByExample" parameterType="com.purchase.pojo.order.BizUncontractApplyMoneyExample" resultMap="BaseResultMap">
     select
@@ -135,23 +124,17 @@
       project_id, order_type, instruct_order_flag, 
       instruct_order_no, status, apply_price, 
       actual_price, update_date, summary, 
-      cost_depart_approval, cost_depart_user, cost_depart_date, 
-      cost_depart_opinion, project_depart_approval, project_depart_user, 
-      project_depart_date, project_depart_opinion, 
-      manager_depart_approval, manager_depart_user, manager_depart_date, 
-      manager_depart_opinion, supplier_id, review_fail, 
-      review_opinion)
+      supplier_id, next_review_user, next_review_role, 
+      next_review_role_name, last_review_user, last_review_date
+      )
     values (#{id,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{createUser,jdbcType=BIGINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{applyUser,jdbcType=BIGINT}, #{applyDate,jdbcType=TIMESTAMP}, 
       #{projectId,jdbcType=VARCHAR}, #{orderType,jdbcType=VARCHAR}, #{instructOrderFlag,jdbcType=INTEGER}, 
       #{instructOrderNo,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{applyPrice,jdbcType=DECIMAL}, 
       #{actualPrice,jdbcType=DECIMAL}, #{updateDate,jdbcType=TIMESTAMP}, #{summary,jdbcType=VARCHAR}, 
-      #{costDepartApproval,jdbcType=BIT}, #{costDepartUser,jdbcType=BIGINT}, #{costDepartDate,jdbcType=TIMESTAMP}, 
-      #{costDepartOpinion,jdbcType=VARCHAR}, #{projectDepartApproval,jdbcType=BIT}, #{projectDepartUser,jdbcType=BIGINT}, 
-      #{projectDepartDate,jdbcType=TIMESTAMP}, #{projectDepartOpinion,jdbcType=VARCHAR}, 
-      #{managerDepartApproval,jdbcType=BIT}, #{managerDepartUser,jdbcType=BIGINT}, #{managerDepartDate,jdbcType=TIMESTAMP}, 
-      #{managerDepartOpinion,jdbcType=VARCHAR}, #{supplierId,jdbcType=BIGINT}, #{reviewFail,jdbcType=BIT}, 
-      #{reviewOpinion,jdbcType=VARCHAR})
+      #{supplierId,jdbcType=BIGINT}, #{nextReviewUser,jdbcType=BIGINT}, #{nextReviewRole,jdbcType=BIGINT}, 
+      #{nextReviewRoleName,jdbcType=VARCHAR}, #{lastReviewUser,jdbcType=BIGINT}, #{lastReviewDate,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.purchase.pojo.order.BizUncontractApplyMoney">
     insert into biz_uncontract_apply_money
@@ -201,50 +184,23 @@
       <if test="summary != null">
         summary,
       </if>
-      <if test="costDepartApproval != null">
-        cost_depart_approval,
-      </if>
-      <if test="costDepartUser != null">
-        cost_depart_user,
-      </if>
-      <if test="costDepartDate != null">
-        cost_depart_date,
-      </if>
-      <if test="costDepartOpinion != null">
-        cost_depart_opinion,
-      </if>
-      <if test="projectDepartApproval != null">
-        project_depart_approval,
-      </if>
-      <if test="projectDepartUser != null">
-        project_depart_user,
-      </if>
-      <if test="projectDepartDate != null">
-        project_depart_date,
-      </if>
-      <if test="projectDepartOpinion != null">
-        project_depart_opinion,
-      </if>
-      <if test="managerDepartApproval != null">
-        manager_depart_approval,
-      </if>
-      <if test="managerDepartUser != null">
-        manager_depart_user,
-      </if>
-      <if test="managerDepartDate != null">
-        manager_depart_date,
-      </if>
-      <if test="managerDepartOpinion != null">
-        manager_depart_opinion,
-      </if>
       <if test="supplierId != null">
         supplier_id,
       </if>
-      <if test="reviewFail != null">
-        review_fail,
+      <if test="nextReviewUser != null">
+        next_review_user,
       </if>
-      <if test="reviewOpinion != null">
-        review_opinion,
+      <if test="nextReviewRole != null">
+        next_review_role,
+      </if>
+      <if test="nextReviewRoleName != null">
+        next_review_role_name,
+      </if>
+      <if test="lastReviewUser != null">
+        last_review_user,
+      </if>
+      <if test="lastReviewDate != null">
+        last_review_date,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -293,50 +249,23 @@
       <if test="summary != null">
         #{summary,jdbcType=VARCHAR},
       </if>
-      <if test="costDepartApproval != null">
-        #{costDepartApproval,jdbcType=BIT},
-      </if>
-      <if test="costDepartUser != null">
-        #{costDepartUser,jdbcType=BIGINT},
-      </if>
-      <if test="costDepartDate != null">
-        #{costDepartDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="costDepartOpinion != null">
-        #{costDepartOpinion,jdbcType=VARCHAR},
-      </if>
-      <if test="projectDepartApproval != null">
-        #{projectDepartApproval,jdbcType=BIT},
-      </if>
-      <if test="projectDepartUser != null">
-        #{projectDepartUser,jdbcType=BIGINT},
-      </if>
-      <if test="projectDepartDate != null">
-        #{projectDepartDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="projectDepartOpinion != null">
-        #{projectDepartOpinion,jdbcType=VARCHAR},
-      </if>
-      <if test="managerDepartApproval != null">
-        #{managerDepartApproval,jdbcType=BIT},
-      </if>
-      <if test="managerDepartUser != null">
-        #{managerDepartUser,jdbcType=BIGINT},
-      </if>
-      <if test="managerDepartDate != null">
-        #{managerDepartDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="managerDepartOpinion != null">
-        #{managerDepartOpinion,jdbcType=VARCHAR},
-      </if>
       <if test="supplierId != null">
         #{supplierId,jdbcType=BIGINT},
       </if>
-      <if test="reviewFail != null">
-        #{reviewFail,jdbcType=BIT},
+      <if test="nextReviewUser != null">
+        #{nextReviewUser,jdbcType=BIGINT},
       </if>
-      <if test="reviewOpinion != null">
-        #{reviewOpinion,jdbcType=VARCHAR},
+      <if test="nextReviewRole != null">
+        #{nextReviewRole,jdbcType=BIGINT},
+      </if>
+      <if test="nextReviewRoleName != null">
+        #{nextReviewRoleName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastReviewUser != null">
+        #{lastReviewUser,jdbcType=BIGINT},
+      </if>
+      <if test="lastReviewDate != null">
+        #{lastReviewDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -394,50 +323,23 @@
       <if test="record.summary != null">
         summary = #{record.summary,jdbcType=VARCHAR},
       </if>
-      <if test="record.costDepartApproval != null">
-        cost_depart_approval = #{record.costDepartApproval,jdbcType=BIT},
-      </if>
-      <if test="record.costDepartUser != null">
-        cost_depart_user = #{record.costDepartUser,jdbcType=BIGINT},
-      </if>
-      <if test="record.costDepartDate != null">
-        cost_depart_date = #{record.costDepartDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.costDepartOpinion != null">
-        cost_depart_opinion = #{record.costDepartOpinion,jdbcType=VARCHAR},
-      </if>
-      <if test="record.projectDepartApproval != null">
-        project_depart_approval = #{record.projectDepartApproval,jdbcType=BIT},
-      </if>
-      <if test="record.projectDepartUser != null">
-        project_depart_user = #{record.projectDepartUser,jdbcType=BIGINT},
-      </if>
-      <if test="record.projectDepartDate != null">
-        project_depart_date = #{record.projectDepartDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.projectDepartOpinion != null">
-        project_depart_opinion = #{record.projectDepartOpinion,jdbcType=VARCHAR},
-      </if>
-      <if test="record.managerDepartApproval != null">
-        manager_depart_approval = #{record.managerDepartApproval,jdbcType=BIT},
-      </if>
-      <if test="record.managerDepartUser != null">
-        manager_depart_user = #{record.managerDepartUser,jdbcType=BIGINT},
-      </if>
-      <if test="record.managerDepartDate != null">
-        manager_depart_date = #{record.managerDepartDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.managerDepartOpinion != null">
-        manager_depart_opinion = #{record.managerDepartOpinion,jdbcType=VARCHAR},
-      </if>
       <if test="record.supplierId != null">
         supplier_id = #{record.supplierId,jdbcType=BIGINT},
       </if>
-      <if test="record.reviewFail != null">
-        review_fail = #{record.reviewFail,jdbcType=BIT},
+      <if test="record.nextReviewUser != null">
+        next_review_user = #{record.nextReviewUser,jdbcType=BIGINT},
       </if>
-      <if test="record.reviewOpinion != null">
-        review_opinion = #{record.reviewOpinion,jdbcType=VARCHAR},
+      <if test="record.nextReviewRole != null">
+        next_review_role = #{record.nextReviewRole,jdbcType=BIGINT},
+      </if>
+      <if test="record.nextReviewRoleName != null">
+        next_review_role_name = #{record.nextReviewRoleName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastReviewUser != null">
+        last_review_user = #{record.lastReviewUser,jdbcType=BIGINT},
+      </if>
+      <if test="record.lastReviewDate != null">
+        last_review_date = #{record.lastReviewDate,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null">
@@ -461,21 +363,12 @@
       actual_price = #{record.actualPrice,jdbcType=DECIMAL},
       update_date = #{record.updateDate,jdbcType=TIMESTAMP},
       summary = #{record.summary,jdbcType=VARCHAR},
-      cost_depart_approval = #{record.costDepartApproval,jdbcType=BIT},
-      cost_depart_user = #{record.costDepartUser,jdbcType=BIGINT},
-      cost_depart_date = #{record.costDepartDate,jdbcType=TIMESTAMP},
-      cost_depart_opinion = #{record.costDepartOpinion,jdbcType=VARCHAR},
-      project_depart_approval = #{record.projectDepartApproval,jdbcType=BIT},
-      project_depart_user = #{record.projectDepartUser,jdbcType=BIGINT},
-      project_depart_date = #{record.projectDepartDate,jdbcType=TIMESTAMP},
-      project_depart_opinion = #{record.projectDepartOpinion,jdbcType=VARCHAR},
-      manager_depart_approval = #{record.managerDepartApproval,jdbcType=BIT},
-      manager_depart_user = #{record.managerDepartUser,jdbcType=BIGINT},
-      manager_depart_date = #{record.managerDepartDate,jdbcType=TIMESTAMP},
-      manager_depart_opinion = #{record.managerDepartOpinion,jdbcType=VARCHAR},
       supplier_id = #{record.supplierId,jdbcType=BIGINT},
-      review_fail = #{record.reviewFail,jdbcType=BIT},
-      review_opinion = #{record.reviewOpinion,jdbcType=VARCHAR}
+      next_review_user = #{record.nextReviewUser,jdbcType=BIGINT},
+      next_review_role = #{record.nextReviewRole,jdbcType=BIGINT},
+      next_review_role_name = #{record.nextReviewRoleName,jdbcType=VARCHAR},
+      last_review_user = #{record.lastReviewUser,jdbcType=BIGINT},
+      last_review_date = #{record.lastReviewDate,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -525,50 +418,23 @@
       <if test="summary != null">
         summary = #{summary,jdbcType=VARCHAR},
       </if>
-      <if test="costDepartApproval != null">
-        cost_depart_approval = #{costDepartApproval,jdbcType=BIT},
-      </if>
-      <if test="costDepartUser != null">
-        cost_depart_user = #{costDepartUser,jdbcType=BIGINT},
-      </if>
-      <if test="costDepartDate != null">
-        cost_depart_date = #{costDepartDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="costDepartOpinion != null">
-        cost_depart_opinion = #{costDepartOpinion,jdbcType=VARCHAR},
-      </if>
-      <if test="projectDepartApproval != null">
-        project_depart_approval = #{projectDepartApproval,jdbcType=BIT},
-      </if>
-      <if test="projectDepartUser != null">
-        project_depart_user = #{projectDepartUser,jdbcType=BIGINT},
-      </if>
-      <if test="projectDepartDate != null">
-        project_depart_date = #{projectDepartDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="projectDepartOpinion != null">
-        project_depart_opinion = #{projectDepartOpinion,jdbcType=VARCHAR},
-      </if>
-      <if test="managerDepartApproval != null">
-        manager_depart_approval = #{managerDepartApproval,jdbcType=BIT},
-      </if>
-      <if test="managerDepartUser != null">
-        manager_depart_user = #{managerDepartUser,jdbcType=BIGINT},
-      </if>
-      <if test="managerDepartDate != null">
-        manager_depart_date = #{managerDepartDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="managerDepartOpinion != null">
-        manager_depart_opinion = #{managerDepartOpinion,jdbcType=VARCHAR},
-      </if>
       <if test="supplierId != null">
         supplier_id = #{supplierId,jdbcType=BIGINT},
       </if>
-      <if test="reviewFail != null">
-        review_fail = #{reviewFail,jdbcType=BIT},
+      <if test="nextReviewUser != null">
+        next_review_user = #{nextReviewUser,jdbcType=BIGINT},
       </if>
-      <if test="reviewOpinion != null">
-        review_opinion = #{reviewOpinion,jdbcType=VARCHAR},
+      <if test="nextReviewRole != null">
+        next_review_role = #{nextReviewRole,jdbcType=BIGINT},
+      </if>
+      <if test="nextReviewRoleName != null">
+        next_review_role_name = #{nextReviewRoleName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastReviewUser != null">
+        last_review_user = #{lastReviewUser,jdbcType=BIGINT},
+      </if>
+      <if test="lastReviewDate != null">
+        last_review_date = #{lastReviewDate,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -589,21 +455,12 @@
       actual_price = #{actualPrice,jdbcType=DECIMAL},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       summary = #{summary,jdbcType=VARCHAR},
-      cost_depart_approval = #{costDepartApproval,jdbcType=BIT},
-      cost_depart_user = #{costDepartUser,jdbcType=BIGINT},
-      cost_depart_date = #{costDepartDate,jdbcType=TIMESTAMP},
-      cost_depart_opinion = #{costDepartOpinion,jdbcType=VARCHAR},
-      project_depart_approval = #{projectDepartApproval,jdbcType=BIT},
-      project_depart_user = #{projectDepartUser,jdbcType=BIGINT},
-      project_depart_date = #{projectDepartDate,jdbcType=TIMESTAMP},
-      project_depart_opinion = #{projectDepartOpinion,jdbcType=VARCHAR},
-      manager_depart_approval = #{managerDepartApproval,jdbcType=BIT},
-      manager_depart_user = #{managerDepartUser,jdbcType=BIGINT},
-      manager_depart_date = #{managerDepartDate,jdbcType=TIMESTAMP},
-      manager_depart_opinion = #{managerDepartOpinion,jdbcType=VARCHAR},
       supplier_id = #{supplierId,jdbcType=BIGINT},
-      review_fail = #{reviewFail,jdbcType=BIT},
-      review_opinion = #{reviewOpinion,jdbcType=VARCHAR}
+      next_review_user = #{nextReviewUser,jdbcType=BIGINT},
+      next_review_role = #{nextReviewRole,jdbcType=BIGINT},
+      next_review_role_name = #{nextReviewRoleName,jdbcType=VARCHAR},
+      last_review_user = #{lastReviewUser,jdbcType=BIGINT},
+      last_review_date = #{lastReviewDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

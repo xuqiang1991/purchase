@@ -16,7 +16,6 @@ import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.order.UCAMOrderDetialVo;
 import com.purchase.vo.order.UCAMSearch;
 import com.purchase.vo.order.UCAMVo;
-import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -216,8 +215,8 @@ public class UCAMServiceImpl implements UCAMService {
         tmp.setId(order.getId());
         tmp.setStatus(STATUS_1);
         tmp.setApplyDate(new Date());
-        tmp.setReviewFail(false);
-        tmp.setReviewOpinion("");
+        /*tmp.setReviewFail(false);
+        tmp.setReviewOpinion("");*/
 
         ucamMapper.updateByPrimaryKeySelective(tmp);
         return ResultUtil.ok();
@@ -245,7 +244,7 @@ public class UCAMServiceImpl implements UCAMService {
             }
             List<OrderHistory> historyList = new ArrayList<OrderHistory>();
             int status = vo.getStatus();
-            if(STATUS_0 == status){
+            /*if(STATUS_0 == status){
                 historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,STATUS_0));
             }else if(STATUS_1 == status){
                 historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,STATUS_0));
@@ -265,7 +264,7 @@ public class UCAMServiceImpl implements UCAMService {
                 historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),STATUS_2));
                 historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),STATUS_3));
                 historyList.add(new OrderHistory(vo.getManagerAdmin().getFullname(),vo.getManagerDepartDate(),vo.getManagerDepartOpinion(),vo.getManagerDepartApproval(),STATUS_4));
-            }
+            }*/
             Collections.reverse(historyList);
             vo.setHistoryList(historyList);
             ucamOrderDetialVo.setUcamVo(vo);
@@ -280,7 +279,7 @@ public class UCAMServiceImpl implements UCAMService {
             //选择审核人
             String roleName = "工程部";
             Long reviewUserId = null;
-            switch (vo.getStatus()){
+            /*switch (vo.getStatus()){
                 case STATUS_1:
                     reviewUserId = vo.getProjectDepartUser(); roleName = "成本部";
                     break;
@@ -293,7 +292,7 @@ public class UCAMServiceImpl implements UCAMService {
                 default:
                     logger.info("不在处理流程内，不做修改");
                     break;
-            }
+            }*/
             ucamOrderDetialVo.setReviewUserId(reviewUserId);
             if(roleName != null){
                 List<ChoseAdminVO> data = adminMapper.selectByRoleName(roleName);
@@ -431,7 +430,7 @@ public class UCAMServiceImpl implements UCAMService {
         Date date = new Date();
         BizUncontractApplyMoney tmp = new BizUncontractApplyMoney();
         tmp.setId(order.getId());
-        tmp.setProjectDepartUser(userId);
+        /*tmp.setProjectDepartUser(userId);*/
         tmp.setUpdateDate(date);
 
         ucamMapper.updateByPrimaryKeySelective(tmp);
@@ -443,7 +442,7 @@ public class UCAMServiceImpl implements UCAMService {
         Date date = new Date();
         BizUncontractApplyMoney order = ucamMapper.selectByPrimaryKey(id);
         //审核不通过
-        if(!auditResults){
+        /*if(!auditResults){
             order.setStatus(STATUS_0);
             order.setReviewFail(true);
             order.setReviewOpinion(auditOpinion);
@@ -483,7 +482,7 @@ public class UCAMServiceImpl implements UCAMService {
                 order.setManagerDepartDate(date);
                 order.setManagerDepartOpinion(auditOpinion);
             }
-        }
+        }*/
         order.setUpdateDate(date);
 
         ucamMapper.updateByPrimaryKey(order);

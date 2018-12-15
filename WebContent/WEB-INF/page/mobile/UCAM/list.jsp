@@ -401,8 +401,8 @@
         </div>
         <div class="mui-card-footer">
             <div class="mui-pull-left">
-                <label>{{prorammeAcceptanceOrder_departUser status}}</label>
-                <label>{{prorammeAcceptanceOrder_departUser status}}</label>
+                <%--<label>{{prorammeAcceptanceOrder_departUser status}}</label>
+                <label>{{prorammeAcceptanceOrder_departUser status}}</label>--%>
             </div>
             <%--<div>
                 <shiro:hasPermission name="mobile:UCAM:update">

@@ -1,7 +1,5 @@
 package com.purchase.pojo.order;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -36,35 +34,17 @@ public class BizUncontractApplyMoney {
 
     private String summary;
 
-    private Boolean costDepartApproval;
-
-    private Long costDepartUser;
-
-    private Date costDepartDate;
-
-    private String costDepartOpinion;
-
-    private Boolean projectDepartApproval;
-
-    private Long projectDepartUser;
-
-    private Date projectDepartDate;
-
-    private String projectDepartOpinion;
-
-    private Boolean managerDepartApproval;
-
-    private Long managerDepartUser;
-
-    private Date managerDepartDate;
-
-    private String managerDepartOpinion;
-
     private Long supplierId;
 
-    private Boolean reviewFail;
+    private Long nextReviewUser;
 
-    private String reviewOpinion;
+    private Long nextReviewRole;
+
+    private String nextReviewRoleName;
+
+    private Long lastReviewUser;
+
+    private Date lastReviewDate;
 
     public String getId() {
         return id;
@@ -90,7 +70,6 @@ public class BizUncontractApplyMoney {
         this.createUser = createUser;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getCreateTime() {
         return createTime;
     }
@@ -107,7 +86,6 @@ public class BizUncontractApplyMoney {
         this.applyUser = applyUser;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getApplyDate() {
         return applyDate;
     }
@@ -172,7 +150,6 @@ public class BizUncontractApplyMoney {
         this.actualPrice = actualPrice;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getUpdateDate() {
         return updateDate;
     }
@@ -189,105 +166,6 @@ public class BizUncontractApplyMoney {
         this.summary = summary == null ? null : summary.trim();
     }
 
-    public Boolean getCostDepartApproval() {
-        return costDepartApproval;
-    }
-
-    public void setCostDepartApproval(Boolean costDepartApproval) {
-        this.costDepartApproval = costDepartApproval;
-    }
-
-    public Long getCostDepartUser() {
-        return costDepartUser;
-    }
-
-    public void setCostDepartUser(Long costDepartUser) {
-        this.costDepartUser = costDepartUser;
-    }
-
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    public Date getCostDepartDate() {
-        return costDepartDate;
-    }
-
-    public void setCostDepartDate(Date costDepartDate) {
-        this.costDepartDate = costDepartDate;
-    }
-
-    public String getCostDepartOpinion() {
-        return costDepartOpinion;
-    }
-
-    public void setCostDepartOpinion(String costDepartOpinion) {
-        this.costDepartOpinion = costDepartOpinion == null ? null : costDepartOpinion.trim();
-    }
-
-    public Boolean getProjectDepartApproval() {
-        return projectDepartApproval;
-    }
-
-    public void setProjectDepartApproval(Boolean projectDepartApproval) {
-        this.projectDepartApproval = projectDepartApproval;
-    }
-
-    public Long getProjectDepartUser() {
-        return projectDepartUser;
-    }
-
-    public void setProjectDepartUser(Long projectDepartUser) {
-        this.projectDepartUser = projectDepartUser;
-    }
-
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    public Date getProjectDepartDate() {
-        return projectDepartDate;
-    }
-
-    public void setProjectDepartDate(Date projectDepartDate) {
-        this.projectDepartDate = projectDepartDate;
-    }
-
-    public String getProjectDepartOpinion() {
-        return projectDepartOpinion;
-    }
-
-    public void setProjectDepartOpinion(String projectDepartOpinion) {
-        this.projectDepartOpinion = projectDepartOpinion == null ? null : projectDepartOpinion.trim();
-    }
-
-    public Boolean getManagerDepartApproval() {
-        return managerDepartApproval;
-    }
-
-    public void setManagerDepartApproval(Boolean managerDepartApproval) {
-        this.managerDepartApproval = managerDepartApproval;
-    }
-
-    public Long getManagerDepartUser() {
-        return managerDepartUser;
-    }
-
-    public void setManagerDepartUser(Long managerDepartUser) {
-        this.managerDepartUser = managerDepartUser;
-    }
-
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    public Date getManagerDepartDate() {
-        return managerDepartDate;
-    }
-
-    public void setManagerDepartDate(Date managerDepartDate) {
-        this.managerDepartDate = managerDepartDate;
-    }
-
-    public String getManagerDepartOpinion() {
-        return managerDepartOpinion;
-    }
-
-    public void setManagerDepartOpinion(String managerDepartOpinion) {
-        this.managerDepartOpinion = managerDepartOpinion == null ? null : managerDepartOpinion.trim();
-    }
-
     public Long getSupplierId() {
         return supplierId;
     }
@@ -296,19 +174,43 @@ public class BizUncontractApplyMoney {
         this.supplierId = supplierId;
     }
 
-    public Boolean getReviewFail() {
-        return reviewFail;
+    public Long getNextReviewUser() {
+        return nextReviewUser;
     }
 
-    public void setReviewFail(Boolean reviewFail) {
-        this.reviewFail = reviewFail;
+    public void setNextReviewUser(Long nextReviewUser) {
+        this.nextReviewUser = nextReviewUser;
     }
 
-    public String getReviewOpinion() {
-        return reviewOpinion;
+    public Long getNextReviewRole() {
+        return nextReviewRole;
     }
 
-    public void setReviewOpinion(String reviewOpinion) {
-        this.reviewOpinion = reviewOpinion == null ? null : reviewOpinion.trim();
+    public void setNextReviewRole(Long nextReviewRole) {
+        this.nextReviewRole = nextReviewRole;
+    }
+
+    public String getNextReviewRoleName() {
+        return nextReviewRoleName;
+    }
+
+    public void setNextReviewRoleName(String nextReviewRoleName) {
+        this.nextReviewRoleName = nextReviewRoleName == null ? null : nextReviewRoleName.trim();
+    }
+
+    public Long getLastReviewUser() {
+        return lastReviewUser;
+    }
+
+    public void setLastReviewUser(Long lastReviewUser) {
+        this.lastReviewUser = lastReviewUser;
+    }
+
+    public Date getLastReviewDate() {
+        return lastReviewDate;
+    }
+
+    public void setLastReviewDate(Date lastReviewDate) {
+        this.lastReviewDate = lastReviewDate;
     }
 }

@@ -28,8 +28,6 @@
           </trim>
         </if>
       </foreach>
-        and (a.create_user = #{search.loginId} or a.apply_user = #{search.loginId}
-        or a.cost_depart_user = #{search.loginId} or a.project_depart_user = #{search.loginId} or a.manager_depart_user = #{search.loginId})
     </where>
   </sql>
 
@@ -42,18 +40,18 @@
       <result column="admin_id" jdbcType="BIGINT" property="id"></result>
       <result column="adminFullname" jdbcType="VARCHAR" property="fullname"></result>
     </association>
-    <association property="costAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
-      <result column="costId" jdbcType="BIGINT" property="id"></result>
-      <result column="costFullname" jdbcType="VARCHAR" property="fullname"></result>
+    <association property="nrAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
+      <result column="nrId" jdbcType="BIGINT" property="id"></result>
+      <result column="nrFullname" jdbcType="VARCHAR" property="fullname"></result>
     </association>
-    <association property="projectAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
-      <result column="projectId" jdbcType="BIGINT" property="id"></result>
-      <result column="projectFullname" jdbcType="VARCHAR" property="fullname"></result>
+    <association property="lrAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
+      <result column="lrId" jdbcType="BIGINT" property="id"></result>
+      <result column="lrFullname" jdbcType="VARCHAR" property="fullname"></result>
     </association>
-    <association property="managerAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
+    <!--<association property="managerAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
       <result column="managerId" jdbcType="BIGINT" property="id"></result>
       <result column="managerFullname" jdbcType="VARCHAR" property="fullname"></result>
-    </association>
+    </association>-->
     <association property="tpm" javaType="com.purchase.pojo.admin.TbProjectManger">
       <result column="tpmId" jdbcType="BIGINT" property="id"></result>
       <result column="tpmName" jdbcType="VARCHAR" property="name"></result>
@@ -68,17 +66,13 @@
         a.*,
         b.id as supplier_id, b.name as supplierName,
         c.id as admin_id, c.fullname as adminFullname,
-        tCost.id as costId, tCost.fullname as costFullname,
-        tProject.id as projectId, tProject.fullname as projectFullname,
-        tManager.id as managerId, tManager.fullname as managerFullname,
         tpm.id as tpmId,tpm.name as tpmName,
         auAdmin.id as auId,auAdmin.fullname as auName
     from biz_uncontract_apply_money a
       LEFT JOIN tb_supplier b ON (a.supplier_id = b.id)
       LEFT JOIN tb_admin c ON (a.create_user = c.id)
-     LEFT JOIN tb_admin tCost ON (a.cost_depart_user = tCost.id)
-     LEFT JOIN tb_admin tProject ON (a.project_depart_user = tProject.id)
-     LEFT JOIN tb_admin tManager ON (a.manager_depart_user = tManager.id)
+    LEFT JOIN tb_admin nr ON (a.next_review_user = nr.id)
+    LEFT JOIN tb_admin lr ON (a.last_review_user = lr.id)
      LEFT JOIN tb_project_manger tpm ON (a.project_id = tpm.id)
       LEFT JOIN tb_admin auAdmin ON (a.apply_user = auAdmin.id)
     <if test="_parameter != null" >

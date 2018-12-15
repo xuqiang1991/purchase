@@ -15,11 +15,10 @@ public class UCAMVo extends BizUncontractApplyMoney {
 
     private TbSupplier supplier;
     private TbAdmin admin;
-    private TbAdmin costAdmin;
-    private TbAdmin projectAdmin;
-    private TbAdmin managerAdmin;
     private TbProjectManger tpm;
     private TbAdmin auAdmin;
+    private TbAdmin nrAdmin;
+    private TbAdmin lrAdmin;
     private List<OrderHistory> historyList;
 
     public TbSupplier getSupplier() {
@@ -38,29 +37,7 @@ public class UCAMVo extends BizUncontractApplyMoney {
         this.admin = admin;
     }
 
-    public TbAdmin getCostAdmin() {
-        return costAdmin;
-    }
 
-    public void setCostAdmin(TbAdmin costAdmin) {
-        this.costAdmin = costAdmin;
-    }
-
-    public TbAdmin getProjectAdmin() {
-        return projectAdmin;
-    }
-
-    public void setProjectAdmin(TbAdmin projectAdmin) {
-        this.projectAdmin = projectAdmin;
-    }
-
-    public TbAdmin getManagerAdmin() {
-        return managerAdmin;
-    }
-
-    public void setManagerAdmin(TbAdmin managerAdmin) {
-        this.managerAdmin = managerAdmin;
-    }
 
     public TbProjectManger getTpm() {
         return tpm;
@@ -76,6 +53,22 @@ public class UCAMVo extends BizUncontractApplyMoney {
 
     public void setAuAdmin(TbAdmin auAdmin) {
         this.auAdmin = auAdmin;
+    }
+
+    public TbAdmin getNrAdmin() {
+        return nrAdmin;
+    }
+
+    public void setNrAdmin(TbAdmin nrAdmin) {
+        this.nrAdmin = nrAdmin;
+    }
+
+    public TbAdmin getLrAdmin() {
+        return lrAdmin;
+    }
+
+    public void setLrAdmin(TbAdmin lrAdmin) {
+        this.lrAdmin = lrAdmin;
     }
 
     public List<OrderHistory> getHistoryList() {
