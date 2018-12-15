@@ -143,6 +143,12 @@ public interface AdminService {
 	List<ChoseAreaVO> selectArea();
 
 	/**
+	 * 构建角色用户下拉框数据
+	 * @return
+	 */
+	List<ChoseAdminForRoleVO> selectRoleAdmin();
+
+	/**
 	 * 查询角色列表
 	 * @return
 	 */

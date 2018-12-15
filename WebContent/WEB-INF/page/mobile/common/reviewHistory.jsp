@@ -11,8 +11,8 @@
                     <p>
                         <strong>${ fn:length(historyList) - (status.index )}.
                             <c:choose>
-                                <c:when test="${history.sort == 0}">创建</c:when>
-                                <c:when test="${history.sort == 1}">提交</c:when>
+                                <c:when test="${status.index == fn:length(historyList)}">创建</c:when>
+                                <c:when test="${status.index == fn:length(historyList) - 1}">提交</c:when>
                                 <c:otherwise>
                                     <c:choose>
                                         <c:when test="${history.approval == true}">审核通过</c:when>
@@ -21,8 +21,8 @@
                                 </c:otherwise>
                             </c:choose>
                         </strong>
-                        <label>操作人:${history.name}</label>
-                        <label>操作时间:<fmt:formatDate value="${history.date}" pattern="yyyy-MM-dd"/></label>
+                        <label>操作人:${history.approvalUserName}</label>
+                        <label>操作时间:<fmt:formatDate value="${history.approvalDate}" pattern="yyyy-MM-dd"/></label>
                     </p>
                     <p>
                         <label>意见:

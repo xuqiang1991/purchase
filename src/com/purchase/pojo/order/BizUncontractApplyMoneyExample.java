@@ -756,66 +756,6 @@ public class BizUncontractApplyMoneyExample {
             return (Criteria) this;
         }
 
-        public Criteria andStatusIsNull() {
-            addCriterion("status is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusIsNotNull() {
-            addCriterion("status is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusEqualTo(Integer value) {
-            addCriterion("status =", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusNotEqualTo(Integer value) {
-            addCriterion("status <>", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusGreaterThan(Integer value) {
-            addCriterion("status >", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusGreaterThanOrEqualTo(Integer value) {
-            addCriterion("status >=", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusLessThan(Integer value) {
-            addCriterion("status <", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusLessThanOrEqualTo(Integer value) {
-            addCriterion("status <=", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusIn(List<Integer> values) {
-            addCriterion("status in", values, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusNotIn(List<Integer> values) {
-            addCriterion("status not in", values, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusBetween(Integer value1, Integer value2) {
-            addCriterion("status between", value1, value2, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusNotBetween(Integer value1, Integer value2) {
-            addCriterion("status not between", value1, value2, "status");
-            return (Criteria) this;
-        }
-
         public Criteria andApplyPriceIsNull() {
             addCriterion("apply_price is null");
             return (Criteria) this;
@@ -1246,76 +1186,6 @@ public class BizUncontractApplyMoneyExample {
             return (Criteria) this;
         }
 
-        public Criteria andNextReviewRoleNameIsNull() {
-            addCriterion("next_review_role_name is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNextReviewRoleNameIsNotNull() {
-            addCriterion("next_review_role_name is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNextReviewRoleNameEqualTo(String value) {
-            addCriterion("next_review_role_name =", value, "nextReviewRoleName");
-            return (Criteria) this;
-        }
-
-        public Criteria andNextReviewRoleNameNotEqualTo(String value) {
-            addCriterion("next_review_role_name <>", value, "nextReviewRoleName");
-            return (Criteria) this;
-        }
-
-        public Criteria andNextReviewRoleNameGreaterThan(String value) {
-            addCriterion("next_review_role_name >", value, "nextReviewRoleName");
-            return (Criteria) this;
-        }
-
-        public Criteria andNextReviewRoleNameGreaterThanOrEqualTo(String value) {
-            addCriterion("next_review_role_name >=", value, "nextReviewRoleName");
-            return (Criteria) this;
-        }
-
-        public Criteria andNextReviewRoleNameLessThan(String value) {
-            addCriterion("next_review_role_name <", value, "nextReviewRoleName");
-            return (Criteria) this;
-        }
-
-        public Criteria andNextReviewRoleNameLessThanOrEqualTo(String value) {
-            addCriterion("next_review_role_name <=", value, "nextReviewRoleName");
-            return (Criteria) this;
-        }
-
-        public Criteria andNextReviewRoleNameLike(String value) {
-            addCriterion("next_review_role_name like", value, "nextReviewRoleName");
-            return (Criteria) this;
-        }
-
-        public Criteria andNextReviewRoleNameNotLike(String value) {
-            addCriterion("next_review_role_name not like", value, "nextReviewRoleName");
-            return (Criteria) this;
-        }
-
-        public Criteria andNextReviewRoleNameIn(List<String> values) {
-            addCriterion("next_review_role_name in", values, "nextReviewRoleName");
-            return (Criteria) this;
-        }
-
-        public Criteria andNextReviewRoleNameNotIn(List<String> values) {
-            addCriterion("next_review_role_name not in", values, "nextReviewRoleName");
-            return (Criteria) this;
-        }
-
-        public Criteria andNextReviewRoleNameBetween(String value1, String value2) {
-            addCriterion("next_review_role_name between", value1, value2, "nextReviewRoleName");
-            return (Criteria) this;
-        }
-
-        public Criteria andNextReviewRoleNameNotBetween(String value1, String value2) {
-            addCriterion("next_review_role_name not between", value1, value2, "nextReviewRoleName");
-            return (Criteria) this;
-        }
-
         public Criteria andLastReviewUserIsNull() {
             addCriterion("last_review_user is null");
             return (Criteria) this;
@@ -1433,6 +1303,126 @@ public class BizUncontractApplyMoneyExample {
 
         public Criteria andLastReviewDateNotBetween(Date value1, Date value2) {
             addCriterion("last_review_date not between", value1, value2, "lastReviewDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastReviewRoleIsNull() {
+            addCriterion("last_review_role is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastReviewRoleIsNotNull() {
+            addCriterion("last_review_role is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastReviewRoleEqualTo(Long value) {
+            addCriterion("last_review_role =", value, "lastReviewRole");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastReviewRoleNotEqualTo(Long value) {
+            addCriterion("last_review_role <>", value, "lastReviewRole");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastReviewRoleGreaterThan(Long value) {
+            addCriterion("last_review_role >", value, "lastReviewRole");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastReviewRoleGreaterThanOrEqualTo(Long value) {
+            addCriterion("last_review_role >=", value, "lastReviewRole");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastReviewRoleLessThan(Long value) {
+            addCriterion("last_review_role <", value, "lastReviewRole");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastReviewRoleLessThanOrEqualTo(Long value) {
+            addCriterion("last_review_role <=", value, "lastReviewRole");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastReviewRoleIn(List<Long> values) {
+            addCriterion("last_review_role in", values, "lastReviewRole");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastReviewRoleNotIn(List<Long> values) {
+            addCriterion("last_review_role not in", values, "lastReviewRole");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastReviewRoleBetween(Long value1, Long value2) {
+            addCriterion("last_review_role between", value1, value2, "lastReviewRole");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastReviewRoleNotBetween(Long value1, Long value2) {
+            addCriterion("last_review_role not between", value1, value2, "lastReviewRole");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsApprovalIsNull() {
+            addCriterion("is_approval is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsApprovalIsNotNull() {
+            addCriterion("is_approval is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsApprovalEqualTo(Integer value) {
+            addCriterion("is_approval =", value, "isApproval");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsApprovalNotEqualTo(Integer value) {
+            addCriterion("is_approval <>", value, "isApproval");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsApprovalGreaterThan(Integer value) {
+            addCriterion("is_approval >", value, "isApproval");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsApprovalGreaterThanOrEqualTo(Integer value) {
+            addCriterion("is_approval >=", value, "isApproval");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsApprovalLessThan(Integer value) {
+            addCriterion("is_approval <", value, "isApproval");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsApprovalLessThanOrEqualTo(Integer value) {
+            addCriterion("is_approval <=", value, "isApproval");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsApprovalIn(List<Integer> values) {
+            addCriterion("is_approval in", values, "isApproval");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsApprovalNotIn(List<Integer> values) {
+            addCriterion("is_approval not in", values, "isApproval");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsApprovalBetween(Integer value1, Integer value2) {
+            addCriterion("is_approval between", value1, value2, "isApproval");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsApprovalNotBetween(Integer value1, Integer value2) {
+            addCriterion("is_approval not between", value1, value2, "isApproval");
             return (Criteria) this;
         }
     }

@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class BizUncontractApplyMoneyHistoryExample {
+public class BizHistoryExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public BizUncontractApplyMoneyHistoryExample() {
+    public BizHistoryExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -175,133 +175,73 @@ public class BizUncontractApplyMoneyHistoryExample {
             return (Criteria) this;
         }
 
-        public Criteria andUncontractApplyMoneyIdIsNull() {
-            addCriterion("uncontract_apply_money_id is null");
+        public Criteria andOrderIdIsNull() {
+            addCriterion("order_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andUncontractApplyMoneyIdIsNotNull() {
-            addCriterion("uncontract_apply_money_id is not null");
+        public Criteria andOrderIdIsNotNull() {
+            addCriterion("order_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUncontractApplyMoneyIdEqualTo(String value) {
-            addCriterion("uncontract_apply_money_id =", value, "uncontractApplyMoneyId");
+        public Criteria andOrderIdEqualTo(String value) {
+            addCriterion("order_id =", value, "orderId");
             return (Criteria) this;
         }
 
-        public Criteria andUncontractApplyMoneyIdNotEqualTo(String value) {
-            addCriterion("uncontract_apply_money_id <>", value, "uncontractApplyMoneyId");
+        public Criteria andOrderIdNotEqualTo(String value) {
+            addCriterion("order_id <>", value, "orderId");
             return (Criteria) this;
         }
 
-        public Criteria andUncontractApplyMoneyIdGreaterThan(String value) {
-            addCriterion("uncontract_apply_money_id >", value, "uncontractApplyMoneyId");
+        public Criteria andOrderIdGreaterThan(String value) {
+            addCriterion("order_id >", value, "orderId");
             return (Criteria) this;
         }
 
-        public Criteria andUncontractApplyMoneyIdGreaterThanOrEqualTo(String value) {
-            addCriterion("uncontract_apply_money_id >=", value, "uncontractApplyMoneyId");
+        public Criteria andOrderIdGreaterThanOrEqualTo(String value) {
+            addCriterion("order_id >=", value, "orderId");
             return (Criteria) this;
         }
 
-        public Criteria andUncontractApplyMoneyIdLessThan(String value) {
-            addCriterion("uncontract_apply_money_id <", value, "uncontractApplyMoneyId");
+        public Criteria andOrderIdLessThan(String value) {
+            addCriterion("order_id <", value, "orderId");
             return (Criteria) this;
         }
 
-        public Criteria andUncontractApplyMoneyIdLessThanOrEqualTo(String value) {
-            addCriterion("uncontract_apply_money_id <=", value, "uncontractApplyMoneyId");
+        public Criteria andOrderIdLessThanOrEqualTo(String value) {
+            addCriterion("order_id <=", value, "orderId");
             return (Criteria) this;
         }
 
-        public Criteria andUncontractApplyMoneyIdLike(String value) {
-            addCriterion("uncontract_apply_money_id like", value, "uncontractApplyMoneyId");
+        public Criteria andOrderIdLike(String value) {
+            addCriterion("order_id like", value, "orderId");
             return (Criteria) this;
         }
 
-        public Criteria andUncontractApplyMoneyIdNotLike(String value) {
-            addCriterion("uncontract_apply_money_id not like", value, "uncontractApplyMoneyId");
+        public Criteria andOrderIdNotLike(String value) {
+            addCriterion("order_id not like", value, "orderId");
             return (Criteria) this;
         }
 
-        public Criteria andUncontractApplyMoneyIdIn(List<String> values) {
-            addCriterion("uncontract_apply_money_id in", values, "uncontractApplyMoneyId");
+        public Criteria andOrderIdIn(List<String> values) {
+            addCriterion("order_id in", values, "orderId");
             return (Criteria) this;
         }
 
-        public Criteria andUncontractApplyMoneyIdNotIn(List<String> values) {
-            addCriterion("uncontract_apply_money_id not in", values, "uncontractApplyMoneyId");
+        public Criteria andOrderIdNotIn(List<String> values) {
+            addCriterion("order_id not in", values, "orderId");
             return (Criteria) this;
         }
 
-        public Criteria andUncontractApplyMoneyIdBetween(String value1, String value2) {
-            addCriterion("uncontract_apply_money_id between", value1, value2, "uncontractApplyMoneyId");
+        public Criteria andOrderIdBetween(String value1, String value2) {
+            addCriterion("order_id between", value1, value2, "orderId");
             return (Criteria) this;
         }
 
-        public Criteria andUncontractApplyMoneyIdNotBetween(String value1, String value2) {
-            addCriterion("uncontract_apply_money_id not between", value1, value2, "uncontractApplyMoneyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusIsNull() {
-            addCriterion("status is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusIsNotNull() {
-            addCriterion("status is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusEqualTo(Integer value) {
-            addCriterion("status =", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusNotEqualTo(Integer value) {
-            addCriterion("status <>", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusGreaterThan(Integer value) {
-            addCriterion("status >", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusGreaterThanOrEqualTo(Integer value) {
-            addCriterion("status >=", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusLessThan(Integer value) {
-            addCriterion("status <", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusLessThanOrEqualTo(Integer value) {
-            addCriterion("status <=", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusIn(List<Integer> values) {
-            addCriterion("status in", values, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusNotIn(List<Integer> values) {
-            addCriterion("status not in", values, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusBetween(Integer value1, Integer value2) {
-            addCriterion("status between", value1, value2, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusNotBetween(Integer value1, Integer value2) {
-            addCriterion("status not between", value1, value2, "status");
+        public Criteria andOrderIdNotBetween(String value1, String value2) {
+            addCriterion("order_id not between", value1, value2, "orderId");
             return (Criteria) this;
         }
 
@@ -505,62 +445,52 @@ public class BizUncontractApplyMoneyHistoryExample {
             return (Criteria) this;
         }
 
-        public Criteria andApprovalUserEqualTo(String value) {
+        public Criteria andApprovalUserEqualTo(Long value) {
             addCriterion("approval_user =", value, "approvalUser");
             return (Criteria) this;
         }
 
-        public Criteria andApprovalUserNotEqualTo(String value) {
+        public Criteria andApprovalUserNotEqualTo(Long value) {
             addCriterion("approval_user <>", value, "approvalUser");
             return (Criteria) this;
         }
 
-        public Criteria andApprovalUserGreaterThan(String value) {
+        public Criteria andApprovalUserGreaterThan(Long value) {
             addCriterion("approval_user >", value, "approvalUser");
             return (Criteria) this;
         }
 
-        public Criteria andApprovalUserGreaterThanOrEqualTo(String value) {
+        public Criteria andApprovalUserGreaterThanOrEqualTo(Long value) {
             addCriterion("approval_user >=", value, "approvalUser");
             return (Criteria) this;
         }
 
-        public Criteria andApprovalUserLessThan(String value) {
+        public Criteria andApprovalUserLessThan(Long value) {
             addCriterion("approval_user <", value, "approvalUser");
             return (Criteria) this;
         }
 
-        public Criteria andApprovalUserLessThanOrEqualTo(String value) {
+        public Criteria andApprovalUserLessThanOrEqualTo(Long value) {
             addCriterion("approval_user <=", value, "approvalUser");
             return (Criteria) this;
         }
 
-        public Criteria andApprovalUserLike(String value) {
-            addCriterion("approval_user like", value, "approvalUser");
-            return (Criteria) this;
-        }
-
-        public Criteria andApprovalUserNotLike(String value) {
-            addCriterion("approval_user not like", value, "approvalUser");
-            return (Criteria) this;
-        }
-
-        public Criteria andApprovalUserIn(List<String> values) {
+        public Criteria andApprovalUserIn(List<Long> values) {
             addCriterion("approval_user in", values, "approvalUser");
             return (Criteria) this;
         }
 
-        public Criteria andApprovalUserNotIn(List<String> values) {
+        public Criteria andApprovalUserNotIn(List<Long> values) {
             addCriterion("approval_user not in", values, "approvalUser");
             return (Criteria) this;
         }
 
-        public Criteria andApprovalUserBetween(String value1, String value2) {
+        public Criteria andApprovalUserBetween(Long value1, Long value2) {
             addCriterion("approval_user between", value1, value2, "approvalUser");
             return (Criteria) this;
         }
 
-        public Criteria andApprovalUserNotBetween(String value1, String value2) {
+        public Criteria andApprovalUserNotBetween(Long value1, Long value2) {
             addCriterion("approval_user not between", value1, value2, "approvalUser");
             return (Criteria) this;
         }
@@ -632,6 +562,76 @@ public class BizUncontractApplyMoneyHistoryExample {
 
         public Criteria andApprovalUserNameNotBetween(String value1, String value2) {
             addCriterion("approval_user_name not between", value1, value2, "approvalUserName");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRoleNameIsNull() {
+            addCriterion("approval_role_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRoleNameIsNotNull() {
+            addCriterion("approval_role_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRoleNameEqualTo(String value) {
+            addCriterion("approval_role_name =", value, "approvalRoleName");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRoleNameNotEqualTo(String value) {
+            addCriterion("approval_role_name <>", value, "approvalRoleName");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRoleNameGreaterThan(String value) {
+            addCriterion("approval_role_name >", value, "approvalRoleName");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRoleNameGreaterThanOrEqualTo(String value) {
+            addCriterion("approval_role_name >=", value, "approvalRoleName");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRoleNameLessThan(String value) {
+            addCriterion("approval_role_name <", value, "approvalRoleName");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRoleNameLessThanOrEqualTo(String value) {
+            addCriterion("approval_role_name <=", value, "approvalRoleName");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRoleNameLike(String value) {
+            addCriterion("approval_role_name like", value, "approvalRoleName");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRoleNameNotLike(String value) {
+            addCriterion("approval_role_name not like", value, "approvalRoleName");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRoleNameIn(List<String> values) {
+            addCriterion("approval_role_name in", values, "approvalRoleName");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRoleNameNotIn(List<String> values) {
+            addCriterion("approval_role_name not in", values, "approvalRoleName");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRoleNameBetween(String value1, String value2) {
+            addCriterion("approval_role_name between", value1, value2, "approvalRoleName");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRoleNameNotBetween(String value1, String value2) {
+            addCriterion("approval_role_name not between", value1, value2, "approvalRoleName");
             return (Criteria) this;
         }
     }

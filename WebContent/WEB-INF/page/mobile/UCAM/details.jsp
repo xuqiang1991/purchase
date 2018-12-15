@@ -38,6 +38,10 @@
             top: 48%;
             left: 48%;
         }
+        .appClassForA{
+            color: #0C0C0C;
+            font-size: 17px;
+        }
     </style>
     <script src="${ctx }/mui/js/mui.min.js"></script>
     <script src="${ctx }/js/jquery-1.11.1.js"></script>
@@ -83,6 +87,7 @@
                         <div class="mui-collapse-content">
                             <form class="mui-input-group" id="ucamForm">
                                 <input type="hidden" name="id" id="id" value="${detailsVo.ucamVo.id}">
+                                <input type="hidden" name="isApproval" id="isApproval" value="${detailsVo.ucamVo.isApproval}">
                                 <div class="mui-input-row">
                                     <label>请款单号</label>
                                     <input type="text" name="orderNo" id="orderNo" readonly disabled="disabled" value="${detailsVo.ucamVo.orderNo}" placeholder="请款单号由系统自动生成">
@@ -95,7 +100,7 @@
                                             <input type="hidden" id="applyUserEdit" name="applyUser" value="${admin.id}" mui-verify="required">
                                         </c:when>
                                         <c:otherwise>
-                                            <input type="text" id="selectApplyUserEdit" placeholder="请选择请款人" value="${detailsVo.ucamVo.admin.fullname}" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> >
+                                            <input type="text" id="selectApplyUserEdit" placeholder="请选择请款人" value="${detailsVo.ucamVo.admin.fullname}" >
                                             <input type="hidden" id="applyUserEdit" name="applyUser" value="${detailsVo.ucamVo.admin.id}" mui-verify="required">
                                         </c:otherwise>
                                     </c:choose>
@@ -116,36 +121,44 @@
                                             </c:choose>
                                         </c:when>
                                         <c:otherwise>
-                                            <input type="text" id="supplierName" readonly value="${detailsVo.ucamVo.supplier.name}" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if>>
+                                            <input type="text" id="supplierName" readonly value="${detailsVo.ucamVo.supplier.name}" >
                                             <input type="hidden" id="supplierId" name="supplierId" value="${detailsVo.ucamVo.supplier.id}" mui-verify="required">
                                         </c:otherwise>
                                     </c:choose>
                                 </div>
                                 <div class="mui-input-row">
                                     <label>所属项目</label>
-                                    <a <c:if test="${detailsVo.ucamVo.id == null || detailsVo.ucamVo.status == 0}">href="#selectProject" id="app-selectProject"</c:if>>
-                                        <label id="selectProjectText" style="width: 65%;padding-left: 0px;">
-                                            <c:choose>
-                                                <c:when test="${detailsVo.ucamVo.id == null}">
-                                                    请选择所属项目
-                                                </c:when>
-                                                <c:otherwise>
-                                                    ${detailsVo.ucamVo.tpm.name}
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </label>
-                                        <input type="hidden" id="selectProjectHidden" name="projectId" value="${detailsVo.ucamVo.tpm.id}" mui-verify="required">
-                                    </a>
+                                    <c:choose>
+                                        <c:when test="${detailsVo.ucamVo.id == null || (detailsVo.ucamVo.id != null && detailsVo.ucamVo.admin.id == admin.id && detailsVo.ucamVo.isApproval == 0)}">
+                                            <a href="#selectProject" id="app-selectProject" class="appClassForA">
+                                                <label id="selectProjectText" style="width: 65%;padding-left: 0px;">
+                                                    <c:choose>
+                                                        <c:when test="${detailsVo.ucamVo.id == null}">
+                                                            请选择所属项目
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            ${detailsVo.ucamVo.tpm.name}
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </label>
+                                                <input type="hidden" id="selectProjectHidden" name="projectId" value="${detailsVo.ucamVo.tpm.id}" mui-verify="required">
+                                            </a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="text" readonly value="${detailsVo.ucamVo.tpm.name}">
+                                            <input type="hidden" id="selectProjectHidden" name="projectId" value="${detailsVo.ucamVo.tpm.id}" mui-verify="required">
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                                 <div class="mui-input-row">
                                     <label>单据类型</label>
-                                    <input type="text" id="orderTypeName" readonly class="mui-input-clear" placeholder="请选择单据类型" value="" <c:if test="${detailsVo.ucamVo.id != null && detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if>>
+                                    <input type="text" id="orderTypeName" readonly class="mui-input-clear" placeholder="请选择单据类型" value="">
                                     <input type="hidden" id="orderTypeId" name="orderType" value="${detailsVo.ucamVo.orderType}"  mui-verify="required">
                                 </div>
                                 <div class="mui-input-row">
                                     <label>指令单号</label>
                                     <c:choose>
-                                        <c:when test="${detailsVo.ucamVo.id == null || detailsVo.ucamVo.status == 0}">
+                                        <c:when test="${detailsVo.ucamVo.id == null || detailsVo.ucamVo.isApproval == 0}">
                                             <input type="text" id="instructOrderNo" name="instructOrderNo" value="${detailsVo.ucamVo.instructOrderNo}" placeholder="请输入指令单号" >
                                         </c:when>
                                         <c:otherwise>
@@ -170,7 +183,7 @@
                                     <textarea name="summary" id="summary" rows="5" class="mui-input-clear">${detailsVo.ucamVo.summary}</textarea>
                                 </div>
                                 <div class="mui-button-row" style="padding-bottom: 20px;">
-                                    <c:if test="${detailsVo.ucamVo.status == 0 || detailsVo.ucamVo.status == null}">
+                                    <c:if test="${detailsVo.ucamVo.isApproval == 0 || detailsVo.ucamVo.isApproval == null}">
                                         <button type="button" class="mui-btn mui-btn-primary" id="ucamSave">保存</button>
                                     </c:if>
                                 </div>
@@ -239,7 +252,7 @@
                                                         <label>总金额：${item.totalPrice}</label>&nbsp;&nbsp;
                                                         <label>已結算数量：${item.settleAmout}</label>
                                                     </div>--%>
-                                                <c:if test="${detailsVo.ucamVo.status == 0 && detailsVo.ucamVo.createUser == admin.id}">
+                                                <c:if test="${detailsVo.ucamVo.isApproval == 0 && detailsVo.ucamVo.createUser == admin.id}">
                                                     <div>
                                                         <a href="#fromUCAMItem" name="app-a" data-id="${item.id}">
                                                             <button type="button" class="mui-btn mui-btn-primary" value="${item.id}">修改</button>
@@ -249,7 +262,7 @@
                                                         <button type="button" class="mui-btn mui-btn-primary deleteItem" value="${item.id}">刪除</button>
                                                     </div>
                                                 </c:if>
-                                                <c:if test="${detailsVo.ucamVo.status == 1 && detailsVo.reviewUserId == admin.id}">
+                                                <c:if test="${detailsVo.ucamVo.isApproval == 1 && detailsVo.reviewUserId == admin.id}">
                                                     <div>
                                                         <a href="#fromUCAMItem" name="app-a" data-id="${item.id}">
                                                             <button type="button" class="mui-btn mui-btn-primary" value="${item.id}">审核</button>
@@ -277,26 +290,21 @@
 
             <div class="mui-content-padded">
                 <c:choose>
-                    <c:when test="${detailsVo.ucamVo.status == 0 && detailsVo.ucamVo.createUser == admin.id}">
+                    <c:when test="${detailsVo.ucamVo.isApproval == 0 && detailsVo.ucamVo.createUser == admin.id}">
                         <a href="#fromUCAMItem">
                             <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加明细</button>
                         </a>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="UCAMDetails">提交</button>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="deleteUCAMOrder" value="${detailsVo.ucamVo.id}">删除</button>
                     </c:when>
-                    <%--<c:when test="${detailsVo.ucamVo.status == 1 && empty detailsVo.ucamVo.costDepartUser && empty detailsVo.reviewUserId}">
-                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="submitReviewUCAM">选择审核人</button>
-                    </c:when>--%>
                     <c:when test="${detailsVo.reviewUserId == admin.id}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">审核</button>
                     </c:when>
                 </c:choose>
-                <c:if test="${detailsVo.ucamVo.id != null && detailsVo.ucamVo.status != 0}">
+                <c:if test="${detailsVo.ucamVo.id != null}">
                     <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="UCAMInstructOrderNo" value="${detailsVo.ucamVo.id}">填写指令单号</button>
                 </c:if>
-
             </div>
-
         </div>
     </div>
     <!-- 采购单项 end -->
@@ -308,7 +316,7 @@
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>返回
         </button>
-        <h1 class="mui-center mui-title"><c:if test="${detailsVo.ucamVo.status != 0}">审批</c:if><c:if test="${detailsVo.ucamVo.status == 0}">增加</c:if>请款单项</h1>
+        <h1 class="mui-center mui-title">请款单明细</h1>
     </div>
     <div class="mui-page-content">
         <div class="mui-scroll-wrapper">
@@ -318,23 +326,23 @@
                     <input type="hidden" id="id" name="id" value="">
                     <div class="mui-input-row">
                         <label>材料/项目内容</label>
-                        <input type="text" id="projectContent" name="projectContent" minlength="1" maxlength="100" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入材料/项目内容">
+                        <input type="text" id="projectContent" name="projectContent" minlength="1" maxlength="100" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.createUser != admin.id}">disabled="disabled"</c:if> placeholder="请输入材料/项目内容">
                     </div>
                     <div class="mui-input-row">
                         <label>工程量</label>
-                        <input type="number" id="quantities" name="quantities" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入工程量">
+                        <input type="number" id="quantities" name="quantities" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.createUser != admin.id}">disabled="disabled"</c:if> placeholder="请输入工程量">
                     </div>
                     <div class="mui-input-row">
                         <label>申报完成率(%)</label>
-                        <input type="text" value="" id="applyCompletionRate" name="applyCompletionRate" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入申报完成率">
+                        <input type="text" value="" id="applyCompletionRate" name="applyCompletionRate" mui-verify="required" <c:if test="${detailsVo.ucamVo.createUser != admin.id}">disabled="disabled"</c:if> placeholder="请输入申报完成率">
                     </div>
                     <div class="mui-input-row">
                         <label>单位</label>
-                        <input type="text" id="unit" name="unit" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入单位">
+                        <input type="text" id="unit" name="unit" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.createUser != admin.id}">disabled="disabled"</c:if> placeholder="请输入单位">
                     </div>
                     <div class="mui-input-row">
                         <label>单价(元)</label>
-                        <input type="text" id="price" name="price" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入单价">
+                        <input type="text" id="price" name="price" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.createUser != admin.id}">disabled="disabled"</c:if> placeholder="请输入单价">
                     </div>
                     <div class="mui-input-row">
                         <label>申报金额</label>
@@ -344,16 +352,16 @@
                     <c:if test="${detailsVo.ucamVo.orderType == 1}">
                         <div class="mui-input-row">
                             <label>质保期（月）</label>
-                            <input type="number" id="warrantyDate" name="warrantyDate" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="请输入质保期（月）">
+                            <input type="number" id="warrantyDate" name="warrantyDate" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.createUser != admin.id}">disabled="disabled"</c:if> placeholder="请输入质保期（月）">
                         </div>
                     </c:if>
                     <c:if test="${detailsVo.ucamVo.orderType == 2}">
                         <div class="mui-input-row">
                             <label>日期</label>
-                            <input type="text" id="date" name="date" class="mui-input-clear" mui-verify="required" readonly  <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> data-options='{"type":"date","beginYear":2018,"endYear":2028}' placeholder="请选择日期">
+                            <input type="text" id="date" name="date" class="mui-input-clear" mui-verify="required" readonly  <c:if test="${detailsVo.ucamVo.createUser != admin.id}">disabled="disabled"</c:if> data-options='{"type":"date","beginYear":2018,"endYear":2028}' placeholder="请选择日期">
                         </div>
                     </c:if>
-                    <c:if test="${detailsVo.ucamVo.status == 1 && detailsVo.reviewUserId == admin.id}">
+                    <c:if test="${detailsVo.reviewUserId == admin.id}">
                         <div class="mui-input-row">
                             <label>审核完成率</label>
                             <input type="text" min="0" max="100"  id="approvalCompletionRate" name="approvalCompletionRate" mui-verify="required" placeholder="请输入审核完成率">
@@ -368,7 +376,7 @@
                         <input type="text" name="amount" class="mui-input-clear" mui-verify="required">
                     </div>--%>
                     <div>
-                        <textarea name="remark" id="remark" rows="5" class="mui-input-clear"  <c:if test="${detailsVo.ucamVo.status != 0}">disabled="disabled"</c:if> placeholder="备注"></textarea>
+                        <textarea name="remark" id="remark" rows="5" class="mui-input-clear"  <c:if test="${detailsVo.ucamVo.createUser != admin.id}">disabled="disabled"</c:if> placeholder="备注"></textarea>
                     </div>
                     <div class="mui-button-row" style="padding-bottom: 20px;">
                         <button type="button" class="mui-btn mui-btn-primary" id="submitFromUCAMItem">保存</button>
@@ -394,9 +402,12 @@
     mui('.mui-scroll-wrapper').scroll();
     var orderTypeJosn = '[{"text":"绿化苗木","value":"0"},{"text":"园建水电","value":"1"},{"text":"机械租赁","value":"2"},{"text":"工程分包","value":"3"}]';
     var ucamVoOrderType = '${detailsVo.ucamVo.orderType}';
-    var status = '${detailsVo.ucamVo.status}';
+    var isApproval = '${detailsVo.ucamVo.isApproval}';
     var regxPrice =/^(([1-9][0-9]{0,9}[.][0-9]{1,2})|([1-9][0-9]{0,9})|([0][.][0-9]{1}[1-9]{1}))$/;
     var regxLv = /^(\d|[1-9]\d|100)(\.\d{1,2})?$/;
+    var orderId = '${detailsVo.ucamVo.id}';
+    var adminId = '${detailsVo.ucamVo.admin.id}';
+    var createId = '${admin.id}';
 
     mui.ready(function() {
         if(ucamVoOrderType != null){
@@ -407,11 +418,12 @@
                     $("#orderTypeName").val(ot[i].text);
                 }
             }
-            if(ucamVoOrderType == 2){
+            /*if(ucamVoOrderType == 2){
                 initDate();
-            }
+            }*/
         }
-
+        initDate();
+        initOrderType();
         var appA = document.getElementsByName('app-a');
         if(appA.length > 0){
             for(var i = 0; i < appA.length; i++){
@@ -506,69 +518,85 @@
 
 
 
-        if(status == null || status == 0) {
+        if(document.getElementById('app-selectProject')){
             document.getElementById('app-selectProject').addEventListener('tap', function (event) {
                 $project.projectList();
             }, false);
         }
-    });
 
-    if(status == 0) {
-        document.getElementById("applyCompletionRate").addEventListener("change", applyPriceReckon, false);
-        document.getElementById("price").addEventListener("change", applyPriceReckon, false);
-        function applyPriceReckon(){
-            var applyCompletionRate = document.getElementById("applyCompletionRate");
-            var price = document.getElementById("price");
-            console.log(applyCompletionRate + " " + price);
-            if(regxLv.test(applyCompletionRate.value) && regxPrice.test(price.value)){
-                var applyPrice = (applyCompletionRate.value/100) * price.value;
-                console.log(applyPrice);
-                document.getElementById("applyPrice").value = applyPrice;
-            }
+        console.log("isApproval:" + isApproval);
+        //可编辑条件1：订单不存在；2：订单存在、用户等于创建用户、操作状态未未提交
+        if(!orderId || (orderId && createId == adminId && isApproval == 0)){
+            $("#ucamForm").find("input[type='text']").attr("disabled",false);
+        }else{
+            $("#ucamForm").find("input[type='text']").attr("disabled",true);
         }
-    }else{
+
+    });
+    if(document.getElementById("applyCompletionRate")){
+        document.getElementById("applyCompletionRate").addEventListener("change", applyPriceReckon, false);
+    }
+    if(document.getElementById("price")){
+        document.getElementById("price").addEventListener("change", applyPriceReckon, false);
+    }
+    function applyPriceReckon(){
+        var applyCompletionRate = document.getElementById("applyCompletionRate");
+        var price = document.getElementById("price");
+        console.log(applyCompletionRate.value + " " + price.value);
+        if(regxLv.test(applyCompletionRate.value) && regxPrice.test(price.value)){
+            var applyPrice = (applyCompletionRate.value/100) * price.value;
+            console.log(applyPrice);
+            document.getElementById("applyPrice").value = applyPrice;
+        }
+    }
+    if(document.getElementById("approvalCompletionRate")){
         document.getElementById("approvalCompletionRate").addEventListener("change", approvalPriceReckon, false);
-        function approvalPriceReckon(){
-            var approvalCompletionRate = document.getElementById("approvalCompletionRate");
-            var price = document.getElementById("price");
-            console.log(approvalCompletionRate + " " + price);
-            if(regxLv.test(approvalCompletionRate.value) && regxPrice.test(price.value)){
-                var applyPrice = (approvalCompletionRate.value/100) * price.value;
-                console.log(applyPrice);
-                document.getElementById("approvalPrice").value = applyPrice;
-            }
+    }
+    function approvalPriceReckon(){
+        var approvalCompletionRate = document.getElementById("approvalCompletionRate");
+        var price = document.getElementById("price");
+        console.log(approvalCompletionRate.value + " " + price.value);
+        if(regxLv.test(approvalCompletionRate.value) && regxPrice.test(price.value)){
+            var applyPrice = (approvalCompletionRate.value/100) * price.value;
+            console.log(applyPrice);
+            document.getElementById("approvalPrice").value = applyPrice;
         }
     }
 
-    var orderTypeNamePicker = new mui.PopPicker();
-    orderTypeNamePicker.setData(JSON.parse(orderTypeJosn));
-    var orderTypeName = document.getElementById('orderTypeName');
-    var orderTypeId = document.getElementById('orderTypeId');
-    orderTypeName.addEventListener('tap', function(event) {
-        orderTypeNamePicker.show(function(items) {
-            orderTypeName.value = items[0].text;
-            orderTypeId.value = items[0].value;
-            //返回 false 可以阻止选择框的关闭
-            //return false;
-        });
-    }, false);
+    function initOrderType(){
+        var orderTypeNamePicker = new mui.PopPicker();
+        orderTypeNamePicker.setData(JSON.parse(orderTypeJosn));
+        var orderTypeName = document.getElementById('orderTypeName');
+        var orderTypeId = document.getElementById('orderTypeId');
+        orderTypeName.addEventListener('tap', function(event) {
+            orderTypeNamePicker.show(function(items) {
+                orderTypeName.value = items[0].text;
+                orderTypeId.value = items[0].value;
+                //返回 false 可以阻止选择框的关闭
+                //return false;
+            });
+        }, false);
+    }
+
 
 
 
 
     function initDate(){
-        var btns_date =  mui('#date');
-        btns_date.each(function(i, btn) {
-            btn.addEventListener('tap', function() {
-                var optionsJson = this.getAttribute('data-options') || '{}';
-                var options = JSON.parse(optionsJson);
-                var picker = new mui.DtPicker(options);
-                picker.show(function(rs) {
-                    date.value = rs.text;
-                    picker.dispose();
-                });
-            }, false);
-        });
+        if(document.getElementById("date")){
+            var btns_date = mui('#date');
+            btns_date.each(function(i, btn) {
+                btn.addEventListener('tap', function() {
+                    var optionsJson = this.getAttribute('data-options') || '{}';
+                    var options = JSON.parse(optionsJson);
+                    var picker = new mui.DtPicker(options);
+                    picker.show(function(rs) {
+                        date.value = rs.text;
+                        picker.dispose();
+                    });
+                }, false);
+            });
+        }
     }
 
 
@@ -692,7 +720,7 @@
             return false;
         }
 
-        if(status == 2){
+        if(isApproval == 2){
             var approvalCompletionRate = $('#approvalCompletionRate').val().trim();
             if(check && !regxLv.test(approvalCompletionRate)){
                 mui.alert("审核完成率格式错误，最多输入2位小数,且不能超过10位数！");
@@ -835,16 +863,19 @@
             mui.alert("请先添加明细");
             return false;
         }
-        var adminsJson = '${detailsVo.departs}';
+        var adminsJson = '${reviewAdmins}';
         console.log(adminsJson);
         var json =JSON.parse(adminsJson)
-        var userPickerReview = new mui.PopPicker();
+        var userPickerReview = new mui.PopPicker({
+            layer: 2
+        });
         userPickerReview.setData(json);
         userPickerReview.show(function (selectItems) {
-            var text = selectItems[0].text;
+            var text = selectItems[1].text;
             mui.alert('确定提审核人为：' + text + "？" , function() {
-                var userId = selectItems[0].value;
-                var url = '${ctx}/mobile/UCAM/submitReviewUCAMOrder?id=${detailsVo.ucamVo.id}&userId=' + userId;
+                var roleId = selectItems[0].value;
+                var userId = selectItems[1].value;
+                var url = '${ctx}/mobile/UCAM/submitReviewUCAMOrder?id=${detailsVo.ucamVo.id}&userId=' + userId + '&roleId=' + roleId;
                 $.ajax({
                     url: url,
                     dataType: 'json',
@@ -862,7 +893,6 @@
                     }
                 });
             });
-
         });
     });
 
@@ -912,7 +942,7 @@
 <!-- 审核 -->
 <c:set value="${ctx }/mobile/UCAM/toDetails/?id=${detailsVo.ucamVo.id}" var="reviewRefreshUrl"/>
 <c:set value="${ctx}/mobile/UCAM/reviewUCAMOrder/${detailsVo.ucamVo.id}" var="reviewSaveUrl"/>
-<c:set value="${detailsVo.ucamVo.status}" var="reviewStatus"/>
+<c:set value="${detailsVo.ucamVo.isApproval}" var="reviewStatus"/>
 <%@ include file="/WEB-INF/page/mobile/common/review.jsp"%>
 <!-- 审核 -->
 

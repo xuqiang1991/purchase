@@ -4,9 +4,12 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.purchase.mapper.admin.TbAdminMapper;
+import com.purchase.mapper.admin.TbRolesMapper;
+import com.purchase.mapper.order.BizHistoryMapper;
 import com.purchase.mapper.order.BizUncontractApplyMoneyDetailMapper;
 import com.purchase.mapper.order.BizUncontractApplyMoneyMapper;
 import com.purchase.pojo.admin.TbAdmin;
+import com.purchase.pojo.admin.TbRoles;
 import com.purchase.pojo.order.*;
 import com.purchase.service.PaymentOrderService;
 import com.purchase.service.UCAMService;
@@ -16,6 +19,7 @@ import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.order.UCAMOrderDetialVo;
 import com.purchase.vo.order.UCAMSearch;
 import com.purchase.vo.order.UCAMVo;
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +61,13 @@ public class UCAMServiceImpl implements UCAMService {
     private TbAdminMapper adminMapper;
 
     @Autowired
+    private TbRolesMapper rolesMapper;
+
+    @Autowired
     private PaymentOrderService paymentOrderService;
+
+    @Autowired
+    private BizHistoryMapper historyMapper;
 
     /**
      * 合同外请款单单号前缀
@@ -113,9 +123,9 @@ public class UCAMServiceImpl implements UCAMService {
             }
 
         }
-        if(search.getStatus() != null){
+        /*if(search.getStatus() != null){
             criteria.andStatusEqualTo(search.getStatus());
-        }
+        }*/
 
         List<UCAMVo> ucamList = ucamMapper.selectByExampleExt(example,search);
         PageInfo<UCAMVo> pageInfo = new PageInfo<>(ucamList);
@@ -143,7 +153,7 @@ public class UCAMServiceImpl implements UCAMService {
             maxNo = String.format("%03d", Integer.parseInt(maxNo) + 1);
             order.setOrderNo(UCAM_PREFIX + yyddmm + "-" + maxNo);
             //参数补充
-            order.setStatus(STATUS_0);
+            /*order.setStatus(STATUS_0);*/
             order.setUpdateDate(date);
             order.setCreateTime(date);
             ucamMapper.insertSelective(order);
@@ -191,9 +201,9 @@ public class UCAMServiceImpl implements UCAMService {
     @Override
     public ResultUtil delUCAMOrder(String id) {
         BizUncontractApplyMoney order = ucamMapper.selectByPrimaryKey(id);
-        if(!(STATUS_0 == order.getStatus())){
+        /*if(!(STATUS_0 == order.getStatus())){
             return ResultUtil.error("非未提交状态的合同外请款单不能删除！");
-        }
+        }*/
         ucamMapper.deleteByPrimaryKey(id);
 
         BizUncontractApplyMoneyDetailExample example = new BizUncontractApplyMoneyDetailExample();
@@ -203,22 +213,42 @@ public class UCAMServiceImpl implements UCAMService {
     }
 
     @Override
-    public ResultUtil submitUCAMOrder(String id) {
+    public ResultUtil submitUCAMOrder(String id,Long userId, Long roleId) {
         BizUncontractApplyMoney order = ucamMapper.selectByPrimaryKey(id);
 
-        int status = order.getStatus();
+        /*int status = order.getStatus();
         if(!(STATUS_0 == status)){
             return ResultUtil.error("非未提交状态的合同外请款单不能提交！");
-        }
+        }*/
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
 
         BizUncontractApplyMoney tmp = new BizUncontractApplyMoney();
         tmp.setId(order.getId());
-        tmp.setStatus(STATUS_1);
+        tmp.setIsApproval(OrderUtils.IS_APPROVAL_YES);
+        tmp.setLastReviewDate(new Date());
+        tmp.setLastReviewRole(order.getLastReviewRole());
+        tmp.setLastReviewUser(order.getLastReviewUser());
+        tmp.setNextReviewRole(roleId);
+        tmp.setNextReviewUser(userId);
+        tmp.setUpdateDate(new Date());
         tmp.setApplyDate(new Date());
-        /*tmp.setReviewFail(false);
-        tmp.setReviewOpinion("");*/
-
         ucamMapper.updateByPrimaryKeySelective(tmp);
+
+        BizHistory history = new BizHistory();
+        history.setId(WebUtils.generateUUID());
+        history.setIsApproval(OrderUtils.IS_APPROVAL_YES);
+        history.setOrderId(order.getId());
+        history.setApprovalDate(new Date());
+        history.setApprovalUser(admin.getId());
+        history.setApprovalUserName(admin.getFullname());
+        TbRoles roles = rolesMapper.selectByPrimaryKey(order.getLastReviewRole());
+        if(roles != null){
+            history.setApprovalRoleName(roles.getRoleName());
+        }
+        history.setOpinion("提交审核");
+        historyMapper.insert(history);
+
+
         return ResultUtil.ok();
     }
 
@@ -242,31 +272,12 @@ public class UCAMServiceImpl implements UCAMService {
             if(!CollectionUtils.isEmpty(ucamList)){
                 vo = ucamList.get(0);
             }
-            List<OrderHistory> historyList = new ArrayList<OrderHistory>();
-            int status = vo.getStatus();
-            /*if(STATUS_0 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,STATUS_0));
-            }else if(STATUS_1 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,STATUS_0));
-                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,STATUS_1));
-            }else if(STATUS_2 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,STATUS_0));
-                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,STATUS_1));
-                historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),STATUS_2));
-            }else if(STATUS_3 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,STATUS_0));
-                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,STATUS_1));
-                historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),STATUS_2));
-                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),STATUS_3));
-            }else if(STATUS_4 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,STATUS_0));
-                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,STATUS_1));
-                historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),STATUS_2));
-                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),STATUS_3));
-                historyList.add(new OrderHistory(vo.getManagerAdmin().getFullname(),vo.getManagerDepartDate(),vo.getManagerDepartOpinion(),vo.getManagerDepartApproval(),STATUS_4));
-            }*/
-            Collections.reverse(historyList);
-            vo.setHistoryList(historyList);
+            BizHistoryExample example1 = new BizHistoryExample();
+            BizHistoryExample.Criteria criteria1 = example1.createCriteria();
+            example1.setOrderByClause("approval_date DESC");
+            criteria1.andOrderIdEqualTo(vo.getId());
+            List<BizHistory> histories = historyMapper.selectByExample(example1);
+            vo.setHistoryList(histories);
             ucamOrderDetialVo.setUcamVo(vo);
 
             //获取合同外请款单详情
@@ -423,10 +434,10 @@ public class UCAMServiceImpl implements UCAMService {
     public ResultUtil submitReviewUCAMOrder(TbAdmin admin, String id, Long userId) {
         BizUncontractApplyMoney order = ucamMapper.selectByPrimaryKey(id);
 
-        int status = order.getStatus();
+        /*int status = order.getStatus();
         if(STATUS_1 != status){
             return ResultUtil.error("非未提交状态的合同外请款单不能选择成本部审核！");
-        }
+        }*/
         Date date = new Date();
         BizUncontractApplyMoney tmp = new BizUncontractApplyMoney();
         tmp.setId(order.getId());
@@ -487,10 +498,10 @@ public class UCAMServiceImpl implements UCAMService {
 
         ucamMapper.updateByPrimaryKey(order);
 
-        //总经理审核写入付款单
+        /*//总经理审核写入付款单
         if(auditResults && STATUS_4 == order.getStatus()){
             paymentOrderService.generatePaymenyOrder(order);
-        }
+        }*/
 
         return ResultUtil.ok();
     }

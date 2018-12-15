@@ -16,7 +16,7 @@
     <script type="text/javascript" src="${ctx}/js/jquery.min.js"></script>
     <script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
     <script type="text/javascript" src="${ctx}/js/handlebars.min.js"></script>
-    <script type="text/javascript" src="${ctx}/js/pb-handlebarsHelps.js"></script>
+    <script type="text/javascript" src="${ctx}/js/handlebarsHelps1.js"></script>
     <script src="${ctx }/mui/js/mui.picker.min.js"></script>
 </head>
 <body>
@@ -215,9 +215,9 @@
                     var template = Handlebars.compile(tpl);
 
                     //数据转换
-                    prorammeAcceptanceOrder.statusConversion(Handlebars)
-                    prorammeAcceptanceOrder.departUser(Handlebars)
-                    prorammeAcceptanceOrder.departDate(Handlebars)
+                    utilsOrder.approvalConversion(Handlebars);
+                    /*prorammeAcceptanceOrder.departUser(Handlebars)
+                    prorammeAcceptanceOrder.departDate(Handlebars)*/
                     /*ucamOrder.instructOrder(Handlebars);*/
                     //匹配json内容
                     var html = template({data});//data
@@ -376,7 +376,7 @@
                 <p>
                     <label>开单人:{{admin.fullname}}</label>&nbsp;
                     <label>开单日期：{{createTime}}</label>
-                    <span class="mui-badge mui-badge-primary mui-pull-right">{{prorammeAcceptanceOrder_statusConversion status}}</span>
+                    <span class="mui-badge mui-badge-primary mui-pull-right">{{lastRole.roleName}} {{isApproval_Conversion isApproval}}</span>
                 </p>
             </div>
         </div>
@@ -401,8 +401,8 @@
         </div>
         <div class="mui-card-footer">
             <div class="mui-pull-left">
-                <label>{{status}}</label>
-                <label>{{lrAdmin.fullname}}</label>
+                <label>操作人:{{lastUser.fullname}}</label>
+                <label>时间:{{lastReviewDate}}</label>
             </div>
             <%--<div>
                 <shiro:hasPermission name="mobile:UCAM:update">

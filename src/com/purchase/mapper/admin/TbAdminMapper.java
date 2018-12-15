@@ -97,4 +97,8 @@ public interface TbAdminMapper {
 
     @Select("SELECT COUNT(1) from tb_customers a where a.supplier_id = #{0}")
     long seladminBySupplier(Long id);
+
+    @Select("SELECT a.* FROM tb_admin a LEFT JOIN tb_admin_role ar ON a.id = ar.user_id WHERE ar.role_id = #{0}")
+    List<TbAdmin> selectByRolesId(Long id);
+
 }

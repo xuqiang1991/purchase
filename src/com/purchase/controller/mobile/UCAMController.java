@@ -9,10 +9,7 @@ import com.purchase.pojo.order.BizUncontractApplyMoney;
 import com.purchase.pojo.order.BizUncontractApplyMoneyDetail;
 import com.purchase.service.*;
 import com.purchase.util.ResultUtil;
-import com.purchase.vo.admin.ChoseAdminVO;
-import com.purchase.vo.admin.ChoseDeptVO;
-import com.purchase.vo.admin.ChoseProjectVO;
-import com.purchase.vo.admin.ChoseSupplierVO;
+import com.purchase.vo.admin.*;
 import com.purchase.vo.order.UCAMOrderDetialVo;
 import com.purchase.vo.order.UCAMSearch;
 import com.purchase.vo.order.UCAMVo;
@@ -137,7 +134,7 @@ public class UCAMController {
         String id = req.getParameter("id");
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         Long adminId = admin.getId();
-        /*List<ChoseAdminVO> admins = adminService.selectAdmin();*/
+        List<ChoseAdminForRoleVO> reviewAdmins = adminService.selectRoleAdmin();
         UCAMOrderDetialVo detailsVo = new UCAMOrderDetialVo();
         if(!StringUtils.isEmpty(id)){
             detailsVo = ucamService.selUCAMDetail(id,adminId);
@@ -156,7 +153,7 @@ public class UCAMController {
 
         model.addAttribute("detailsVo",detailsVo);
         model.addAttribute("admin",admin);
-        /*model.addAttribute("admins", JSON.toJSONString(admins));*/
+        model.addAttribute("reviewAdmins", JSON.toJSONString(reviewAdmins));
         return "page/mobile/UCAM/details";
     }
 
@@ -184,17 +181,17 @@ public class UCAMController {
     @RequestMapping("submitUCAMOrder")
     @RequiresPermissions("mobile:UCAM:save")
     @ResponseBody
-    public ResultUtil submitUCAMOrder(String id){
-        return ucamService.submitUCAMOrder(id);
+    public ResultUtil submitUCAMOrder(String id, Long userId, Long roleId){
+        return ucamService.submitUCAMOrder(id,userId,roleId);
     }
 
     @SysLog(value="提交审核")
     @RequestMapping("submitReviewUCAMOrder")
     @RequiresPermissions("mobile:UCAM:save")
     @ResponseBody
-    public ResultUtil submitReviewUCAMOrder(String id, Long userId){
+    public ResultUtil submitReviewUCAMOrder(String id, Long userId, Long roleId){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        ResultUtil resultUtil = ucamService.submitUCAMOrder(id);
+        ResultUtil resultUtil = ucamService.submitUCAMOrder(id,userId,roleId);
         if(resultUtil.getCode() == 0){
             return ucamService.submitReviewUCAMOrder(admin, id, userId);
         }else {

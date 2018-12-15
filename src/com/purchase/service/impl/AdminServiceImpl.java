@@ -804,8 +804,6 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 
-
-
 	private Map<String,Object> fristArea(List<TbArea> areas){
         Map<String,Object> retMap = new HashMap<>();
         List<ChoseAreaVO> fristArea = new ArrayList<>();
@@ -823,6 +821,33 @@ public class AdminServiceImpl implements AdminService {
         }
         return retMap;
     }
+
+
+	@Override
+	public List<ChoseAdminForRoleVO> selectRoleAdmin() {
+		List<ChoseAdminForRoleVO> item = new ArrayList<>();
+		TbRolesExample example = new TbRolesExample();
+		example.setOrderByClause("role_id DESC");
+		example.createCriteria().andRoleIdNotEqualTo(1L);
+		//查询非管理员角色
+		List<TbRoles> rolesList = tbRolesMapper.selectByExample(example);
+		if(!CollectionUtils.isEmpty(rolesList)){
+			for (TbRoles r: rolesList) {
+				ChoseAdminForRoleVO afrVos = new ChoseAdminForRoleVO(r.getRoleId().toString(),r.getRoleName());
+				List<TbAdmin> admins = tbAdminMapper.selectByRolesId(r.getRoleId());
+				List<ChoseAdminVO> adminItem = new ArrayList();
+				if(!CollectionUtils.isEmpty(admins)){
+					for (TbAdmin a: admins) {
+						adminItem.add(new ChoseAdminVO(a.getId().toString(),a.getFullname()));
+					}
+					afrVos.setChildren(adminItem);
+				}
+				item.add(afrVos);
+				//item.add(new ChoseDeptVO(d.getId().toString(),d.getName(),adminMap.get(d.getId())));
+			}
+		}
+		return item;
+	}
 
 	@Override
 	public List<TbRoles> selRolesById(List<Long> roleIds) {

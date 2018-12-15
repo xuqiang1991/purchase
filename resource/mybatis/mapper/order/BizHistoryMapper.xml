@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.purchase.mapper.order.BizHistoryMapper" >
+  <resultMap id="BaseResultMap" type="com.purchase.pojo.order.BizHistory" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="is_approval" property="isApproval" jdbcType="INTEGER" />
+    <result column="opinion" property="opinion" jdbcType="VARCHAR" />
+    <result column="approval_date" property="approvalDate" jdbcType="TIMESTAMP" />
+    <result column="approval_user" property="approvalUser" jdbcType="BIGINT" />
+    <result column="approval_user_name" property="approvalUserName" jdbcType="VARCHAR" />
+    <result column="approval_role_name" property="approvalRoleName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, order_id, is_approval, opinion, approval_date, approval_user, approval_user_name, 
+    approval_role_name
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.purchase.pojo.order.BizHistoryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_history
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from biz_history
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from biz_history
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.purchase.pojo.order.BizHistoryExample" >
+    delete from biz_history
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.purchase.pojo.order.BizHistory" >
+    insert into biz_history (id, order_id, is_approval, 
+      opinion, approval_date, approval_user, 
+      approval_user_name, approval_role_name)
+    values (#{id,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{isApproval,jdbcType=INTEGER}, 
+      #{opinion,jdbcType=VARCHAR}, #{approvalDate,jdbcType=TIMESTAMP}, #{approvalUser,jdbcType=BIGINT}, 
+      #{approvalUserName,jdbcType=VARCHAR}, #{approvalRoleName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.purchase.pojo.order.BizHistory" >
+    insert into biz_history
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="isApproval != null" >
+        is_approval,
+      </if>
+      <if test="opinion != null" >
+        opinion,
+      </if>
+      <if test="approvalDate != null" >
+        approval_date,
+      </if>
+      <if test="approvalUser != null" >
+        approval_user,
+      </if>
+      <if test="approvalUserName != null" >
+        approval_user_name,
+      </if>
+      <if test="approvalRoleName != null" >
+        approval_role_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="isApproval != null" >
+        #{isApproval,jdbcType=INTEGER},
+      </if>
+      <if test="opinion != null" >
+        #{opinion,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalDate != null" >
+        #{approvalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approvalUser != null" >
+        #{approvalUser,jdbcType=BIGINT},
+      </if>
+      <if test="approvalUserName != null" >
+        #{approvalUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalRoleName != null" >
+        #{approvalRoleName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.purchase.pojo.order.BizHistoryExample" resultType="java.lang.Integer" >
+    select count(*) from biz_history
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update biz_history
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null" >
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isApproval != null" >
+        is_approval = #{record.isApproval,jdbcType=INTEGER},
+      </if>
+      <if test="record.opinion != null" >
+        opinion = #{record.opinion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.approvalDate != null" >
+        approval_date = #{record.approvalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.approvalUser != null" >
+        approval_user = #{record.approvalUser,jdbcType=BIGINT},
+      </if>
+      <if test="record.approvalUserName != null" >
+        approval_user_name = #{record.approvalUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.approvalRoleName != null" >
+        approval_role_name = #{record.approvalRoleName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update biz_history
+    set id = #{record.id,jdbcType=VARCHAR},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      is_approval = #{record.isApproval,jdbcType=INTEGER},
+      opinion = #{record.opinion,jdbcType=VARCHAR},
+      approval_date = #{record.approvalDate,jdbcType=TIMESTAMP},
+      approval_user = #{record.approvalUser,jdbcType=BIGINT},
+      approval_user_name = #{record.approvalUserName,jdbcType=VARCHAR},
+      approval_role_name = #{record.approvalRoleName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.purchase.pojo.order.BizHistory" >
+    update biz_history
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="isApproval != null" >
+        is_approval = #{isApproval,jdbcType=INTEGER},
+      </if>
+      <if test="opinion != null" >
+        opinion = #{opinion,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalDate != null" >
+        approval_date = #{approvalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approvalUser != null" >
+        approval_user = #{approvalUser,jdbcType=BIGINT},
+      </if>
+      <if test="approvalUserName != null" >
+        approval_user_name = #{approvalUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalRoleName != null" >
+        approval_role_name = #{approvalRoleName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.purchase.pojo.order.BizHistory" >
+    update biz_history
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      is_approval = #{isApproval,jdbcType=INTEGER},
+      opinion = #{opinion,jdbcType=VARCHAR},
+      approval_date = #{approvalDate,jdbcType=TIMESTAMP},
+      approval_user = #{approvalUser,jdbcType=BIGINT},
+      approval_user_name = #{approvalUserName,jdbcType=VARCHAR},
+      approval_role_name = #{approvalRoleName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

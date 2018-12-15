@@ -25,7 +25,7 @@ public interface UCAMService {
 
     ResultUtil delUCAMOrder(String id);
 
-    ResultUtil submitUCAMOrder(String id);
+    ResultUtil submitUCAMOrder(String id,Long userId, Long roleId);
 
     /*ResultUtil reviewUCAMOrder(TbAdmin admin, String id);*/
 

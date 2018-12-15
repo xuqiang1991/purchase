@@ -1,5 +1,7 @@
 package com.purchase.pojo.order;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -24,8 +26,6 @@ public class BizUncontractApplyMoney {
 
     private String instructOrderNo;
 
-    private Integer status;
-
     private BigDecimal applyPrice;
 
     private BigDecimal actualPrice;
@@ -40,11 +40,13 @@ public class BizUncontractApplyMoney {
 
     private Long nextReviewRole;
 
-    private String nextReviewRoleName;
-
     private Long lastReviewUser;
 
     private Date lastReviewDate;
+
+    private Long lastReviewRole;
+
+    private Integer isApproval;
 
     public String getId() {
         return id;
@@ -70,6 +72,7 @@ public class BizUncontractApplyMoney {
         this.createUser = createUser;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getCreateTime() {
         return createTime;
     }
@@ -86,6 +89,7 @@ public class BizUncontractApplyMoney {
         this.applyUser = applyUser;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getApplyDate() {
         return applyDate;
     }
@@ -126,14 +130,6 @@ public class BizUncontractApplyMoney {
         this.instructOrderNo = instructOrderNo == null ? null : instructOrderNo.trim();
     }
 
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
     public BigDecimal getApplyPrice() {
         return applyPrice;
     }
@@ -150,6 +146,7 @@ public class BizUncontractApplyMoney {
         this.actualPrice = actualPrice;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getUpdateDate() {
         return updateDate;
     }
@@ -190,14 +187,6 @@ public class BizUncontractApplyMoney {
         this.nextReviewRole = nextReviewRole;
     }
 
-    public String getNextReviewRoleName() {
-        return nextReviewRoleName;
-    }
-
-    public void setNextReviewRoleName(String nextReviewRoleName) {
-        this.nextReviewRoleName = nextReviewRoleName == null ? null : nextReviewRoleName.trim();
-    }
-
     public Long getLastReviewUser() {
         return lastReviewUser;
     }
@@ -206,11 +195,28 @@ public class BizUncontractApplyMoney {
         this.lastReviewUser = lastReviewUser;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getLastReviewDate() {
         return lastReviewDate;
     }
 
     public void setLastReviewDate(Date lastReviewDate) {
         this.lastReviewDate = lastReviewDate;
+    }
+
+    public Long getLastReviewRole() {
+        return lastReviewRole;
+    }
+
+    public void setLastReviewRole(Long lastReviewRole) {
+        this.lastReviewRole = lastReviewRole;
+    }
+
+    public Integer getIsApproval() {
+        return isApproval;
+    }
+
+    public void setIsApproval(Integer isApproval) {
+        this.isApproval = isApproval;
     }
 }

@@ -2,12 +2,10 @@ package com.purchase.pojo.order;
 
 import java.util.Date;
 
-public class BizUncontractApplyMoneyHistory {
+public class BizHistory {
     private String id;
 
-    private String uncontractApplyMoneyId;
-
-    private Integer status;
+    private String orderId;
 
     private Integer isApproval;
 
@@ -15,9 +13,11 @@ public class BizUncontractApplyMoneyHistory {
 
     private Date approvalDate;
 
-    private String approvalUser;
+    private Long approvalUser;
 
     private String approvalUserName;
+
+    private String approvalRoleName;
 
     public String getId() {
         return id;
@@ -27,20 +27,12 @@ public class BizUncontractApplyMoneyHistory {
         this.id = id == null ? null : id.trim();
     }
 
-    public String getUncontractApplyMoneyId() {
-        return uncontractApplyMoneyId;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setUncontractApplyMoneyId(String uncontractApplyMoneyId) {
-        this.uncontractApplyMoneyId = uncontractApplyMoneyId == null ? null : uncontractApplyMoneyId.trim();
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId == null ? null : orderId.trim();
     }
 
     public Integer getIsApproval() {
@@ -67,12 +59,12 @@ public class BizUncontractApplyMoneyHistory {
         this.approvalDate = approvalDate;
     }
 
-    public String getApprovalUser() {
+    public Long getApprovalUser() {
         return approvalUser;
     }
 
-    public void setApprovalUser(String approvalUser) {
-        this.approvalUser = approvalUser == null ? null : approvalUser.trim();
+    public void setApprovalUser(Long approvalUser) {
+        this.approvalUser = approvalUser;
     }
 
     public String getApprovalUserName() {
@@ -81,5 +73,13 @@ public class BizUncontractApplyMoneyHistory {
 
     public void setApprovalUserName(String approvalUserName) {
         this.approvalUserName = approvalUserName == null ? null : approvalUserName.trim();
+    }
+
+    public String getApprovalRoleName() {
+        return approvalRoleName;
+    }
+
+    public void setApprovalRoleName(String approvalRoleName) {
+        this.approvalRoleName = approvalRoleName == null ? null : approvalRoleName.trim();
     }
 }
