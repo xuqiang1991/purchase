@@ -192,20 +192,21 @@ public class UCAMController {
     public ResultUtil submitReviewUCAMOrder(String id, Long userId, Long roleId){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         ResultUtil resultUtil = ucamService.submitUCAMOrder(id,userId,roleId);
-        if(resultUtil.getCode() == 0){
+        /*if(resultUtil.getCode() == 0){
             return ucamService.submitReviewUCAMOrder(admin, id, userId);
         }else {
             return resultUtil;
-        }
+        }*/
+        return resultUtil;
     }
 
     @SysLog(value="审核合同外请款单")
     @RequestMapping("reviewUCAMOrder/{id}")
     @RequiresPermissions("mobile:UCAM:review")
     @ResponseBody
-    public ResultUtil reviewUCAMOrder(@PathVariable("id") String id, Boolean auditResults, Long applyUser, String auditOpinion){
+    public ResultUtil reviewUCAMOrder(@PathVariable("id") String id, Boolean auditResults, Long applyUser, String auditOpinion,Long applyRole){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        return ucamService.reviewUCAMOrder(admin, id, auditResults,applyUser,auditOpinion);
+        return ucamService.reviewUCAMOrder(admin, id, auditResults,applyUser,auditOpinion,applyRole);
     }
 
 

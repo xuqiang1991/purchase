@@ -15,7 +15,7 @@
                                 <c:when test="${status.index == fn:length(historyList) - 1}">提交</c:when>
                                 <c:otherwise>
                                     <c:choose>
-                                        <c:when test="${history.approval == true}">审核通过</c:when>
+                                        <c:when test="${history.isApproval == 1}">审核通过</c:when>
                                         <c:otherwise>审核未通过</c:otherwise>
                                     </c:choose>
                                 </c:otherwise>

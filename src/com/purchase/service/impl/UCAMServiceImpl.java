@@ -19,6 +19,7 @@ import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.order.UCAMOrderDetialVo;
 import com.purchase.vo.order.UCAMSearch;
 import com.purchase.vo.order.UCAMVo;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -215,23 +216,19 @@ public class UCAMServiceImpl implements UCAMService {
     @Override
     public ResultUtil submitUCAMOrder(String id,Long userId, Long roleId) {
         BizUncontractApplyMoney order = ucamMapper.selectByPrimaryKey(id);
-
-        /*int status = order.getStatus();
-        if(!(STATUS_0 == status)){
-            return ResultUtil.error("非未提交状态的合同外请款单不能提交！");
-        }*/
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-
         BizUncontractApplyMoney tmp = new BizUncontractApplyMoney();
         tmp.setId(order.getId());
         tmp.setIsApproval(OrderUtils.IS_APPROVAL_YES);
         tmp.setLastReviewDate(new Date());
-        tmp.setLastReviewRole(order.getLastReviewRole());
-        tmp.setLastReviewUser(order.getLastReviewUser());
+        //tmp.setLastReviewRole(order.getLastReviewRole());
+        tmp.setLastReviewUser(admin.getId());
         tmp.setNextReviewRole(roleId);
         tmp.setNextReviewUser(userId);
         tmp.setUpdateDate(new Date());
         tmp.setApplyDate(new Date());
+        tmp.setUserItem(OrderUtils.getUserItem(order.getUserItem(),String.valueOf(userId)));
+        tmp.setIsSaveSubmit(1);
         ucamMapper.updateByPrimaryKeySelective(tmp);
 
         BizHistory history = new BizHistory();
@@ -449,54 +446,44 @@ public class UCAMServiceImpl implements UCAMService {
     }
 
     @Override
-    public ResultUtil reviewUCAMOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion) {
+    public ResultUtil reviewUCAMOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion, Long applyRole) {
         Date date = new Date();
         BizUncontractApplyMoney order = ucamMapper.selectByPrimaryKey(id);
+        BizHistory history = new BizHistory();
+        history.setId(WebUtils.generateUUID());
         //审核不通过
-        /*if(!auditResults){
-            order.setStatus(STATUS_0);
-            order.setReviewFail(true);
-            order.setReviewOpinion(auditOpinion);
-
-            order.setProjectDepartUser(null);
-            order.setCostDepartUser(null);
-            order.setManagerDepartUser(null);
-
-            order.setProjectDepartApproval(null);
-            order.setCostDepartApproval(null);
-            order.setManagerDepartApproval(null);
-
-            order.setProjectDepartDate(null);
-            order.setCostDepartDate(null);
-            order.setManagerDepartDate(null);
-
-            order.setProjectDepartOpinion(null);
-            order.setCostDepartOpinion(null);
-            order.setManagerDepartOpinion(null);
+        if(!auditResults){
+            order.setIsSaveSubmit(OrderUtils.IS_APPROVAL_NO);
+            order.setIsApproval(OrderUtils.IS_APPROVAL_NO);
+            order.setLastReviewRole(order.getNextReviewRole());
+            order.setLastReviewUser(admin.getId());
+            order.setNextReviewUser(order.getCreateUser());//驳回则还原到创建人
+            history.setIsApproval(OrderUtils.IS_APPROVAL_NO);
         }else{
-            //审核状态
-            if(STATUS_1 ==  order.getStatus()){
-                order.setStatus(STATUS_2);
-                order.setProjectDepartDate(date);
-                order.setProjectDepartApproval(auditResults);
-                order.setProjectDepartOpinion(auditOpinion);
-                order.setCostDepartUser(applyUser);
-            }else if (STATUS_2 ==  order.getStatus()){
-                order.setStatus(STATUS_3);
-                order.setCostDepartApproval(auditResults);
-                order.setCostDepartDate(date);
-                order.setCostDepartOpinion(auditOpinion);
-                order.setManagerDepartUser(applyUser);
-            }else if (STATUS_3 ==  order.getStatus()){
-                order.setStatus(STATUS_4);
-                order.setManagerDepartApproval(auditResults);
-                order.setManagerDepartDate(date);
-                order.setManagerDepartOpinion(auditOpinion);
-            }
-        }*/
+            order.setIsSaveSubmit(OrderUtils.IS_APPROVAL_YES);
+            order.setIsApproval(OrderUtils.IS_APPROVAL_YES);
+            order.setLastReviewRole(order.getNextReviewRole());
+            order.setLastReviewUser(admin.getId());
+            order.setNextReviewUser(order.getCreateUser());
+            order.setNextReviewRole(applyRole);
+            history.setIsApproval(OrderUtils.IS_APPROVAL_YES);
+        }
+        order.setLastReviewDate(date);
+        order.setUserItem(OrderUtils.getUserItem(order.getUserItem(),String.valueOf(applyUser)));
         order.setUpdateDate(date);
 
+        history.setOrderId(order.getId());
+        history.setApprovalDate(new Date());
+        history.setApprovalUser(admin.getId());
+        history.setApprovalUserName(admin.getFullname());
+        TbRoles roles = rolesMapper.selectByPrimaryKey(order.getLastReviewRole());
+        if(roles != null){
+            history.setApprovalRoleName(roles.getRoleName());
+        }
+        history.setOpinion(auditOpinion);
+
         ucamMapper.updateByPrimaryKey(order);
+        historyMapper.insert(history);
 
         /*//总经理审核写入付款单
         if(auditResults && STATUS_4 == order.getStatus()){

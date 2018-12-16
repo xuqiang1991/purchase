@@ -64,6 +64,7 @@
                         </c:if>
                     </c:otherwise>
                 </c:choose>
+                   <input type="hidden" id="applyRole" name="applyRole">
                 <div class="mui-input-row" style="height: auto">
                     <textarea name="auditOpinion" id="auditOpinion" rows="5" class="mui-input-clear" placeholder="审核意见"></textarea>
                 </div>
@@ -93,15 +94,18 @@
     });
 
     mui(document.body).on('tap', '#selectApplyUser', function(e) {
-        var adminsJson = '${detailsVo.departs}'
+        var adminsJson = '${reviewAdmins}'
         var json =JSON.parse(adminsJson)
-        var userPicker = new mui.PopPicker();
+        var userPicker = new mui.PopPicker({
+            layer: 2
+        });
         userPicker.setData(json);
         var selectApplyUser = document.getElementById('selectApplyUser');
         var applyUser = document.getElementById('applyUser');
         userPicker.show(function (items) {
-            selectApplyUser.value = items[0].text;
-            applyUser.value = items[0].value;
+            selectApplyUser.value = items[1].text;
+            applyUser.value = items[1].value;
+            document.getElementById('applyRole').value = items[0].value;
         });
     });
     /*mui(document.body).on('tap', '#selectAuditResults', function(e) {
@@ -170,12 +174,12 @@
         var auditOpinion = document.getElementById('auditOpinion');
 
         auditOpinion = auditOpinion.value;
-
+        var applyRole = document.getElementById('applyRole').value;
         mui.alert('确定提交审核？' , function() {
             var url = '${reviewSaveUrl}';
             $.ajax({
                 url: url,
-                data:{'auditResults':auditResults,'applyUser':applyUser,'auditOpinion': auditOpinion},
+                data:{'auditResults':auditResults,'applyUser':applyUser,'auditOpinion': auditOpinion,'applyRole':applyRole},
                 dataType: 'json',
                 contentType : "application/x-www-form-urlencoded",
                 type: 'post',

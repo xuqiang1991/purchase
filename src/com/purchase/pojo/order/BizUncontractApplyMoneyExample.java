@@ -876,66 +876,6 @@ public class BizUncontractApplyMoneyExample {
             return (Criteria) this;
         }
 
-        public Criteria andUpdateDateIsNull() {
-            addCriterion("update_date is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateDateIsNotNull() {
-            addCriterion("update_date is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateDateEqualTo(Date value) {
-            addCriterion("update_date =", value, "updateDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateDateNotEqualTo(Date value) {
-            addCriterion("update_date <>", value, "updateDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateDateGreaterThan(Date value) {
-            addCriterion("update_date >", value, "updateDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateDateGreaterThanOrEqualTo(Date value) {
-            addCriterion("update_date >=", value, "updateDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateDateLessThan(Date value) {
-            addCriterion("update_date <", value, "updateDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateDateLessThanOrEqualTo(Date value) {
-            addCriterion("update_date <=", value, "updateDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateDateIn(List<Date> values) {
-            addCriterion("update_date in", values, "updateDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateDateNotIn(List<Date> values) {
-            addCriterion("update_date not in", values, "updateDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateDateBetween(Date value1, Date value2) {
-            addCriterion("update_date between", value1, value2, "updateDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateDateNotBetween(Date value1, Date value2) {
-            addCriterion("update_date not between", value1, value2, "updateDate");
-            return (Criteria) this;
-        }
-
         public Criteria andSummaryIsNull() {
             addCriterion("summary is null");
             return (Criteria) this;
@@ -1246,66 +1186,6 @@ public class BizUncontractApplyMoneyExample {
             return (Criteria) this;
         }
 
-        public Criteria andLastReviewDateIsNull() {
-            addCriterion("last_review_date is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andLastReviewDateIsNotNull() {
-            addCriterion("last_review_date is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andLastReviewDateEqualTo(Date value) {
-            addCriterion("last_review_date =", value, "lastReviewDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andLastReviewDateNotEqualTo(Date value) {
-            addCriterion("last_review_date <>", value, "lastReviewDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andLastReviewDateGreaterThan(Date value) {
-            addCriterion("last_review_date >", value, "lastReviewDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andLastReviewDateGreaterThanOrEqualTo(Date value) {
-            addCriterion("last_review_date >=", value, "lastReviewDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andLastReviewDateLessThan(Date value) {
-            addCriterion("last_review_date <", value, "lastReviewDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andLastReviewDateLessThanOrEqualTo(Date value) {
-            addCriterion("last_review_date <=", value, "lastReviewDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andLastReviewDateIn(List<Date> values) {
-            addCriterion("last_review_date in", values, "lastReviewDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andLastReviewDateNotIn(List<Date> values) {
-            addCriterion("last_review_date not in", values, "lastReviewDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andLastReviewDateBetween(Date value1, Date value2) {
-            addCriterion("last_review_date between", value1, value2, "lastReviewDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andLastReviewDateNotBetween(Date value1, Date value2) {
-            addCriterion("last_review_date not between", value1, value2, "lastReviewDate");
-            return (Criteria) this;
-        }
-
         public Criteria andLastReviewRoleIsNull() {
             addCriterion("last_review_role is null");
             return (Criteria) this;
@@ -1366,6 +1246,66 @@ public class BizUncontractApplyMoneyExample {
             return (Criteria) this;
         }
 
+        public Criteria andLastReviewDateIsNull() {
+            addCriterion("last_review_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastReviewDateIsNotNull() {
+            addCriterion("last_review_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastReviewDateEqualTo(Date value) {
+            addCriterion("last_review_date =", value, "lastReviewDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastReviewDateNotEqualTo(Date value) {
+            addCriterion("last_review_date <>", value, "lastReviewDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastReviewDateGreaterThan(Date value) {
+            addCriterion("last_review_date >", value, "lastReviewDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastReviewDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("last_review_date >=", value, "lastReviewDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastReviewDateLessThan(Date value) {
+            addCriterion("last_review_date <", value, "lastReviewDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastReviewDateLessThanOrEqualTo(Date value) {
+            addCriterion("last_review_date <=", value, "lastReviewDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastReviewDateIn(List<Date> values) {
+            addCriterion("last_review_date in", values, "lastReviewDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastReviewDateNotIn(List<Date> values) {
+            addCriterion("last_review_date not in", values, "lastReviewDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastReviewDateBetween(Date value1, Date value2) {
+            addCriterion("last_review_date between", value1, value2, "lastReviewDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastReviewDateNotBetween(Date value1, Date value2) {
+            addCriterion("last_review_date not between", value1, value2, "lastReviewDate");
+            return (Criteria) this;
+        }
+
         public Criteria andIsApprovalIsNull() {
             addCriterion("is_approval is null");
             return (Criteria) this;
@@ -1423,6 +1363,196 @@ public class BizUncontractApplyMoneyExample {
 
         public Criteria andIsApprovalNotBetween(Integer value1, Integer value2) {
             addCriterion("is_approval not between", value1, value2, "isApproval");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSaveSubmitIsNull() {
+            addCriterion("is_save_submit is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSaveSubmitIsNotNull() {
+            addCriterion("is_save_submit is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSaveSubmitEqualTo(Integer value) {
+            addCriterion("is_save_submit =", value, "isSaveSubmit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSaveSubmitNotEqualTo(Integer value) {
+            addCriterion("is_save_submit <>", value, "isSaveSubmit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSaveSubmitGreaterThan(Integer value) {
+            addCriterion("is_save_submit >", value, "isSaveSubmit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSaveSubmitGreaterThanOrEqualTo(Integer value) {
+            addCriterion("is_save_submit >=", value, "isSaveSubmit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSaveSubmitLessThan(Integer value) {
+            addCriterion("is_save_submit <", value, "isSaveSubmit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSaveSubmitLessThanOrEqualTo(Integer value) {
+            addCriterion("is_save_submit <=", value, "isSaveSubmit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSaveSubmitIn(List<Integer> values) {
+            addCriterion("is_save_submit in", values, "isSaveSubmit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSaveSubmitNotIn(List<Integer> values) {
+            addCriterion("is_save_submit not in", values, "isSaveSubmit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSaveSubmitBetween(Integer value1, Integer value2) {
+            addCriterion("is_save_submit between", value1, value2, "isSaveSubmit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSaveSubmitNotBetween(Integer value1, Integer value2) {
+            addCriterion("is_save_submit not between", value1, value2, "isSaveSubmit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserItemIsNull() {
+            addCriterion("user_item is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserItemIsNotNull() {
+            addCriterion("user_item is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserItemEqualTo(String value) {
+            addCriterion("user_item =", value, "userItem");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserItemNotEqualTo(String value) {
+            addCriterion("user_item <>", value, "userItem");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserItemGreaterThan(String value) {
+            addCriterion("user_item >", value, "userItem");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserItemGreaterThanOrEqualTo(String value) {
+            addCriterion("user_item >=", value, "userItem");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserItemLessThan(String value) {
+            addCriterion("user_item <", value, "userItem");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserItemLessThanOrEqualTo(String value) {
+            addCriterion("user_item <=", value, "userItem");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserItemLike(String value) {
+            addCriterion("user_item like", value, "userItem");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserItemNotLike(String value) {
+            addCriterion("user_item not like", value, "userItem");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserItemIn(List<String> values) {
+            addCriterion("user_item in", values, "userItem");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserItemNotIn(List<String> values) {
+            addCriterion("user_item not in", values, "userItem");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserItemBetween(String value1, String value2) {
+            addCriterion("user_item between", value1, value2, "userItem");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserItemNotBetween(String value1, String value2) {
+            addCriterion("user_item not between", value1, value2, "userItem");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateIsNull() {
+            addCriterion("update_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateIsNotNull() {
+            addCriterion("update_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateEqualTo(Date value) {
+            addCriterion("update_date =", value, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateNotEqualTo(Date value) {
+            addCriterion("update_date <>", value, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateGreaterThan(Date value) {
+            addCriterion("update_date >", value, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("update_date >=", value, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateLessThan(Date value) {
+            addCriterion("update_date <", value, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateLessThanOrEqualTo(Date value) {
+            addCriterion("update_date <=", value, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateIn(List<Date> values) {
+            addCriterion("update_date in", values, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateNotIn(List<Date> values) {
+            addCriterion("update_date not in", values, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateBetween(Date value1, Date value2) {
+            addCriterion("update_date between", value1, value2, "updateDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateDateNotBetween(Date value1, Date value2) {
+            addCriterion("update_date not between", value1, value2, "updateDate");
             return (Criteria) this;
         }
     }

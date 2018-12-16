@@ -1,7 +1,5 @@
 package com.purchase.pojo.order;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -30,8 +28,6 @@ public class BizUncontractApplyMoney {
 
     private BigDecimal actualPrice;
 
-    private Date updateDate;
-
     private String summary;
 
     private Long supplierId;
@@ -42,11 +38,17 @@ public class BizUncontractApplyMoney {
 
     private Long lastReviewUser;
 
-    private Date lastReviewDate;
-
     private Long lastReviewRole;
 
+    private Date lastReviewDate;
+
     private Integer isApproval;
+
+    private Integer isSaveSubmit;
+
+    private String userItem;
+
+    private Date updateDate;
 
     public String getId() {
         return id;
@@ -72,7 +74,6 @@ public class BizUncontractApplyMoney {
         this.createUser = createUser;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getCreateTime() {
         return createTime;
     }
@@ -89,7 +90,6 @@ public class BizUncontractApplyMoney {
         this.applyUser = applyUser;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getApplyDate() {
         return applyDate;
     }
@@ -146,15 +146,6 @@ public class BizUncontractApplyMoney {
         this.actualPrice = actualPrice;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
-
     public String getSummary() {
         return summary;
     }
@@ -195,15 +186,6 @@ public class BizUncontractApplyMoney {
         this.lastReviewUser = lastReviewUser;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-    public Date getLastReviewDate() {
-        return lastReviewDate;
-    }
-
-    public void setLastReviewDate(Date lastReviewDate) {
-        this.lastReviewDate = lastReviewDate;
-    }
-
     public Long getLastReviewRole() {
         return lastReviewRole;
     }
@@ -212,11 +194,43 @@ public class BizUncontractApplyMoney {
         this.lastReviewRole = lastReviewRole;
     }
 
+    public Date getLastReviewDate() {
+        return lastReviewDate;
+    }
+
+    public void setLastReviewDate(Date lastReviewDate) {
+        this.lastReviewDate = lastReviewDate;
+    }
+
     public Integer getIsApproval() {
         return isApproval;
     }
 
     public void setIsApproval(Integer isApproval) {
         this.isApproval = isApproval;
+    }
+
+    public Integer getIsSaveSubmit() {
+        return isSaveSubmit;
+    }
+
+    public void setIsSaveSubmit(Integer isSaveSubmit) {
+        this.isSaveSubmit = isSaveSubmit;
+    }
+
+    public String getUserItem() {
+        return userItem;
+    }
+
+    public void setUserItem(String userItem) {
+        this.userItem = userItem == null ? null : userItem.trim();
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 }

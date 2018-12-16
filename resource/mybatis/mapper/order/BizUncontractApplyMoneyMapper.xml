@@ -14,15 +14,17 @@
     <result column="instruct_order_no" property="instructOrderNo" jdbcType="VARCHAR" />
     <result column="apply_price" property="applyPrice" jdbcType="DECIMAL" />
     <result column="actual_price" property="actualPrice" jdbcType="DECIMAL" />
-    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="summary" property="summary" jdbcType="VARCHAR" />
     <result column="supplier_id" property="supplierId" jdbcType="BIGINT" />
     <result column="next_review_user" property="nextReviewUser" jdbcType="BIGINT" />
     <result column="next_review_role" property="nextReviewRole" jdbcType="BIGINT" />
     <result column="last_review_user" property="lastReviewUser" jdbcType="BIGINT" />
-    <result column="last_review_date" property="lastReviewDate" jdbcType="TIMESTAMP" />
     <result column="last_review_role" property="lastReviewRole" jdbcType="BIGINT" />
+    <result column="last_review_date" property="lastReviewDate" jdbcType="TIMESTAMP" />
     <result column="is_approval" property="isApproval" jdbcType="INTEGER" />
+    <result column="is_save_submit" property="isSaveSubmit" jdbcType="INTEGER" />
+    <result column="user_item" property="userItem" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -84,9 +86,9 @@
   </sql>
   <sql id="Base_Column_List" >
     id, order_no, create_user, create_time, apply_user, apply_date, project_id, order_type, 
-    instruct_order_flag, instruct_order_no, apply_price, actual_price, update_date, summary, 
-    supplier_id, next_review_user, next_review_role, last_review_user, last_review_date, 
-    last_review_role, is_approval
+    instruct_order_flag, instruct_order_no, apply_price, actual_price, summary, supplier_id, 
+    next_review_user, next_review_role, last_review_user, last_review_role, last_review_date, 
+    is_approval, is_save_submit, user_item, update_date
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.purchase.pojo.order.BizUncontractApplyMoneyExample" >
     select
@@ -123,18 +125,18 @@
       create_time, apply_user, apply_date, 
       project_id, order_type, instruct_order_flag, 
       instruct_order_no, apply_price, actual_price, 
-      update_date, summary, supplier_id, 
-      next_review_user, next_review_role, last_review_user, 
-      last_review_date, last_review_role, is_approval
-      )
+      summary, supplier_id, next_review_user, 
+      next_review_role, last_review_user, last_review_role, 
+      last_review_date, is_approval, is_save_submit, 
+      user_item, update_date)
     values (#{id,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{createUser,jdbcType=BIGINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{applyUser,jdbcType=BIGINT}, #{applyDate,jdbcType=TIMESTAMP}, 
       #{projectId,jdbcType=VARCHAR}, #{orderType,jdbcType=VARCHAR}, #{instructOrderFlag,jdbcType=INTEGER}, 
       #{instructOrderNo,jdbcType=VARCHAR}, #{applyPrice,jdbcType=DECIMAL}, #{actualPrice,jdbcType=DECIMAL}, 
-      #{updateDate,jdbcType=TIMESTAMP}, #{summary,jdbcType=VARCHAR}, #{supplierId,jdbcType=BIGINT}, 
-      #{nextReviewUser,jdbcType=BIGINT}, #{nextReviewRole,jdbcType=BIGINT}, #{lastReviewUser,jdbcType=BIGINT}, 
-      #{lastReviewDate,jdbcType=TIMESTAMP}, #{lastReviewRole,jdbcType=BIGINT}, #{isApproval,jdbcType=INTEGER}
-      )
+      #{summary,jdbcType=VARCHAR}, #{supplierId,jdbcType=BIGINT}, #{nextReviewUser,jdbcType=BIGINT}, 
+      #{nextReviewRole,jdbcType=BIGINT}, #{lastReviewUser,jdbcType=BIGINT}, #{lastReviewRole,jdbcType=BIGINT}, 
+      #{lastReviewDate,jdbcType=TIMESTAMP}, #{isApproval,jdbcType=INTEGER}, #{isSaveSubmit,jdbcType=INTEGER}, 
+      #{userItem,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.purchase.pojo.order.BizUncontractApplyMoney" >
     insert into biz_uncontract_apply_money
@@ -175,9 +177,6 @@
       <if test="actualPrice != null" >
         actual_price,
       </if>
-      <if test="updateDate != null" >
-        update_date,
-      </if>
       <if test="summary != null" >
         summary,
       </if>
@@ -193,14 +192,23 @@
       <if test="lastReviewUser != null" >
         last_review_user,
       </if>
-      <if test="lastReviewDate != null" >
-        last_review_date,
-      </if>
       <if test="lastReviewRole != null" >
         last_review_role,
       </if>
+      <if test="lastReviewDate != null" >
+        last_review_date,
+      </if>
       <if test="isApproval != null" >
         is_approval,
+      </if>
+      <if test="isSaveSubmit != null" >
+        is_save_submit,
+      </if>
+      <if test="userItem != null" >
+        user_item,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -240,9 +248,6 @@
       <if test="actualPrice != null" >
         #{actualPrice,jdbcType=DECIMAL},
       </if>
-      <if test="updateDate != null" >
-        #{updateDate,jdbcType=TIMESTAMP},
-      </if>
       <if test="summary != null" >
         #{summary,jdbcType=VARCHAR},
       </if>
@@ -258,14 +263,23 @@
       <if test="lastReviewUser != null" >
         #{lastReviewUser,jdbcType=BIGINT},
       </if>
-      <if test="lastReviewDate != null" >
-        #{lastReviewDate,jdbcType=TIMESTAMP},
-      </if>
       <if test="lastReviewRole != null" >
         #{lastReviewRole,jdbcType=BIGINT},
       </if>
+      <if test="lastReviewDate != null" >
+        #{lastReviewDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="isApproval != null" >
         #{isApproval,jdbcType=INTEGER},
+      </if>
+      <if test="isSaveSubmit != null" >
+        #{isSaveSubmit,jdbcType=INTEGER},
+      </if>
+      <if test="userItem != null" >
+        #{userItem,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -314,9 +328,6 @@
       <if test="record.actualPrice != null" >
         actual_price = #{record.actualPrice,jdbcType=DECIMAL},
       </if>
-      <if test="record.updateDate != null" >
-        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
-      </if>
       <if test="record.summary != null" >
         summary = #{record.summary,jdbcType=VARCHAR},
       </if>
@@ -332,14 +343,23 @@
       <if test="record.lastReviewUser != null" >
         last_review_user = #{record.lastReviewUser,jdbcType=BIGINT},
       </if>
-      <if test="record.lastReviewDate != null" >
-        last_review_date = #{record.lastReviewDate,jdbcType=TIMESTAMP},
-      </if>
       <if test="record.lastReviewRole != null" >
         last_review_role = #{record.lastReviewRole,jdbcType=BIGINT},
       </if>
+      <if test="record.lastReviewDate != null" >
+        last_review_date = #{record.lastReviewDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.isApproval != null" >
         is_approval = #{record.isApproval,jdbcType=INTEGER},
+      </if>
+      <if test="record.isSaveSubmit != null" >
+        is_save_submit = #{record.isSaveSubmit,jdbcType=INTEGER},
+      </if>
+      <if test="record.userItem != null" >
+        user_item = #{record.userItem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -360,15 +380,17 @@
       instruct_order_no = #{record.instructOrderNo,jdbcType=VARCHAR},
       apply_price = #{record.applyPrice,jdbcType=DECIMAL},
       actual_price = #{record.actualPrice,jdbcType=DECIMAL},
-      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
       summary = #{record.summary,jdbcType=VARCHAR},
       supplier_id = #{record.supplierId,jdbcType=BIGINT},
       next_review_user = #{record.nextReviewUser,jdbcType=BIGINT},
       next_review_role = #{record.nextReviewRole,jdbcType=BIGINT},
       last_review_user = #{record.lastReviewUser,jdbcType=BIGINT},
-      last_review_date = #{record.lastReviewDate,jdbcType=TIMESTAMP},
       last_review_role = #{record.lastReviewRole,jdbcType=BIGINT},
-      is_approval = #{record.isApproval,jdbcType=INTEGER}
+      last_review_date = #{record.lastReviewDate,jdbcType=TIMESTAMP},
+      is_approval = #{record.isApproval,jdbcType=INTEGER},
+      is_save_submit = #{record.isSaveSubmit,jdbcType=INTEGER},
+      user_item = #{record.userItem,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -409,9 +431,6 @@
       <if test="actualPrice != null" >
         actual_price = #{actualPrice,jdbcType=DECIMAL},
       </if>
-      <if test="updateDate != null" >
-        update_date = #{updateDate,jdbcType=TIMESTAMP},
-      </if>
       <if test="summary != null" >
         summary = #{summary,jdbcType=VARCHAR},
       </if>
@@ -427,14 +446,23 @@
       <if test="lastReviewUser != null" >
         last_review_user = #{lastReviewUser,jdbcType=BIGINT},
       </if>
-      <if test="lastReviewDate != null" >
-        last_review_date = #{lastReviewDate,jdbcType=TIMESTAMP},
-      </if>
       <if test="lastReviewRole != null" >
         last_review_role = #{lastReviewRole,jdbcType=BIGINT},
       </if>
+      <if test="lastReviewDate != null" >
+        last_review_date = #{lastReviewDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="isApproval != null" >
         is_approval = #{isApproval,jdbcType=INTEGER},
+      </if>
+      <if test="isSaveSubmit != null" >
+        is_save_submit = #{isSaveSubmit,jdbcType=INTEGER},
+      </if>
+      <if test="userItem != null" >
+        user_item = #{userItem,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -452,15 +480,17 @@
       instruct_order_no = #{instructOrderNo,jdbcType=VARCHAR},
       apply_price = #{applyPrice,jdbcType=DECIMAL},
       actual_price = #{actualPrice,jdbcType=DECIMAL},
-      update_date = #{updateDate,jdbcType=TIMESTAMP},
       summary = #{summary,jdbcType=VARCHAR},
       supplier_id = #{supplierId,jdbcType=BIGINT},
       next_review_user = #{nextReviewUser,jdbcType=BIGINT},
       next_review_role = #{nextReviewRole,jdbcType=BIGINT},
       last_review_user = #{lastReviewUser,jdbcType=BIGINT},
-      last_review_date = #{lastReviewDate,jdbcType=TIMESTAMP},
       last_review_role = #{lastReviewRole,jdbcType=BIGINT},
-      is_approval = #{isApproval,jdbcType=INTEGER}
+      last_review_date = #{lastReviewDate,jdbcType=TIMESTAMP},
+      is_approval = #{isApproval,jdbcType=INTEGER},
+      is_save_submit = #{isSaveSubmit,jdbcType=INTEGER},
+      user_item = #{userItem,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>
