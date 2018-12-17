@@ -162,4 +162,8 @@ public interface AdminService {
 	long selcustomersByArea(Long id);
 
 	long seladminBySupplier(Long id);
+
+	TbRoles getRoleList(Long roleId);
+
+	boolean checkRoleIsOverRole(Long roleId);
 }

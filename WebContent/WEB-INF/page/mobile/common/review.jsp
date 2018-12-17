@@ -44,26 +44,29 @@
                     <label>radio</label>
                     <input name="radio1" type="radio">
                 </div>--%>
-                <c:choose>
-                    <c:when test="${reviewType == 3}">
-                        <c:if test="${detailsVo.status == 0}">
-                            <div class="mui-input-row" id="applyUserReviewDiv">
-                                <label style="width: 120px;">财务付款人</label>
-                                <input type="text" id="selectApplyUser" readonly placeholder="请选择付款的财务人员" style="float: left;width: 150px;">
-                                <input type="hidden" id="applyUser" name="applyUser">
-                            </div>
-                        </c:if>
-                    </c:when>
-                    <c:otherwise>
-                        <c:if test="${reviewStatus != 3}">
-                            <div class="mui-input-row" id="applyUserReviewDiv">
-                                <label style="width: 120px;">上级审核人</label>
-                                <input type="text" id="selectApplyUser" readonly placeholder="请选择请款人" style="float: left;width: 150px;">
-                                <input type="hidden" id="applyUser" name="applyUser">
-                            </div>
-                        </c:if>
-                    </c:otherwise>
-                </c:choose>
+                   <c:if test="${!isOverRole}">
+                       <c:choose>
+                           <c:when test="${reviewType == 3}">
+                               <c:if test="${detailsVo.status == 0}">
+                                   <div class="mui-input-row" id="applyUserReviewDiv">
+                                       <label style="width: 120px;">财务付款人</label>
+                                       <input type="text" id="selectApplyUser" readonly placeholder="请选择付款的财务人员" style="float: left;width: 150px;">
+                                       <input type="hidden" id="applyUser" name="applyUser">
+                                   </div>
+                               </c:if>
+                           </c:when>
+                           <c:otherwise>
+                               <c:if test="${reviewStatus != 3}">
+                                   <div class="mui-input-row" id="applyUserReviewDiv">
+                                       <label style="width: 120px;">上级审核人</label>
+                                       <input type="text" id="selectApplyUser" readonly placeholder="请选择请款人" style="float: left;width: 150px;">
+                                       <input type="hidden" id="applyUser" name="applyUser">
+                                   </div>
+                               </c:if>
+                           </c:otherwise>
+                       </c:choose>
+                   </c:if>
+
                    <input type="hidden" id="applyRole" name="applyRole">
                 <div class="mui-input-row" style="height: auto">
                     <textarea name="auditOpinion" id="auditOpinion" rows="5" class="mui-input-clear" placeholder="审核意见"></textarea>
@@ -78,7 +81,7 @@
 </div>
 
 <script type="text/javascript" charset="utf-8">
-
+    var isOverRole = '${isOverRole}';
     /** 审核 **/
     mui(document.body).on('tap', '#reviewPurchaseOrder', function(e) {
         var reviewCheckCAM = '${reviewCheckCAM}';
@@ -94,6 +97,23 @@
     });
 
     mui(document.body).on('tap', '#selectApplyUser', function(e) {
+
+        /*var url = '${ctx}/sys/getRoleByRoleId?roleId=${nextReviewRole}';
+        $.ajax({
+            url: url,
+            contentType : "application/x-www-form-urlencoded",
+            type: 'post',
+            timeout: 10000,
+            success: function(result) {
+                console.log();
+                if(result.code!=0){
+                    mui.alert(result.msg);
+                }else {
+                    console.log(result.data);
+                }
+            }
+        });*/
+
         var adminsJson = '${reviewAdmins}'
         var json =JSON.parse(adminsJson)
         var userPicker = new mui.PopPicker({
@@ -137,6 +157,10 @@
         }else{
             console.log("你关闭了开关");
             document.getElementById('auditResults').value = 0;
+            $("#applyUserReviewDiv").hide();
+            $("#popover").css("height","230px");
+        }
+        if(isOverRole){
             $("#applyUserReviewDiv").hide();
             $("#popover").css("height","230px");
         }

@@ -7,6 +7,8 @@ public class TbRoles {
 
     private String roleRemark;
 
+    private Integer isOverRole = 0;
+
     public Long getRoleId() {
         return roleId;
     }
@@ -31,9 +33,17 @@ public class TbRoles {
         this.roleRemark = roleRemark == null ? null : roleRemark.trim();
     }
 
-	@Override
+    public Integer getIsOverRole() {
+        return isOverRole;
+    }
+
+    public void setIsOverRole(Integer isOverRole) {
+        this.isOverRole = isOverRole;
+    }
+
+    @Override
 	public String toString() {
-		return "TbRoles [roleId=" + roleId + ", roleName=" + roleName + ", roleRemark=" + roleRemark + "]";
+		return "TbRoles [roleId=" + roleId + ", roleName=" + roleName + ", roleRemark=" + roleRemark + ", isOverRole=" + isOverRole + "]";
 	}
     
 }

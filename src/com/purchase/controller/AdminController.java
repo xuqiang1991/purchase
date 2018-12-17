@@ -299,15 +299,16 @@ public class AdminController {
 	 */
 	@RequestMapping("/editRole")
 	@RequiresPermissions("sys:role:update")
-	public String editRole(String roleId,String roleName,String roleRemark,HttpServletRequest req) {
+	public String editRole(String roleId,String roleName,String roleRemark,Integer isOverRole,HttpServletRequest req) {
 		TbRoles role=new TbRoles();
 		role.setRoleId(Long.parseLong(roleId));
 		role.setRoleName(roleName);
 		role.setRoleRemark(roleRemark);
+		role.setIsOverRole(isOverRole);
 		req.setAttribute("role", role);
 		return "page/admin/editRole";
 	}
-	
+
 	/**
 	 * 得到指定角色权限树
 	 * @param roleId
@@ -1053,4 +1054,11 @@ public class AdminController {
         TbAdmin ad = adminServiceImpl.selAdminById(Long.parseLong(id));
         return ResultUtil.ok(ad);
     }
+
+	@RequestMapping("/getRoleByRoleId")
+	@ResponseBody
+	public ResultUtil getRoleByRoleId(Long roleId) {
+		TbRoles roles = adminServiceImpl.getRoleList(roleId);
+		return ResultUtil.ok(roles);
+	}
 }

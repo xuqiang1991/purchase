@@ -28,7 +28,7 @@
           </trim>
         </if>
       </foreach>
-        and (a.create_user = #{search.loginId} or a.apply_user = #{search.loginId}) or FIND_IN_SET(#{search.loginId}, a.user_item)
+        and (a.create_user = #{search.loginId} or a.apply_user = #{search.loginId} or FIND_IN_SET(#{search.loginId}, a.user_item))
     </where>
   </sql>
 

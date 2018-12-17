@@ -4,17 +4,25 @@
 utilsOrder = {
     //状态转换
     approvalConversion : function (helper) {
-        helper.registerHelper("isApproval_Conversion",function(obj){
-            var approval;
-            switch (obj){
+        helper.registerHelper("isApproval_Conversion",function(){
+            var str,approval = this.isApproval, isSaveSubmit = this.isSaveSubmit;
+            switch (approval){
                 case 0:
-                    approval = '未提交';
+                    if(isSaveSubmit == 0){
+                        str = '未提交';
+                    }else{
+                        str = '未审核';
+                    }
                     break;
                 case 1:
-                    approval = '已提交';
+                    if(isSaveSubmit == 0){
+                        str = '未提交';
+                    }else{
+                        str = '已审核';
+                    }
                     break;
             }
-            return approval;
+            return str;
         });
     },
     //获取最后状态的人

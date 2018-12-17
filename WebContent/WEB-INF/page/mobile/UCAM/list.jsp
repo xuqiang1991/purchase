@@ -84,11 +84,11 @@
                         <label>开单日期</label>
                         <input id="createTime" name="createTime" type="text" data-options='{"type":"date","beginYear":2014}' placeholder="请选择日期">
                     </div>
-                    <div class="mui-input-row">
+                    <%--<div class="mui-input-row">
                         <label>单据状态</label>
                         <input type="text" id="statusName" readonly class="mui-input-clear" placeholder="请选择单据状态"  value="">
                         <input type="hidden" id="status" name="status" value="">
-                    </div>
+                    </div>--%>
                     <div class="mui-button-row">
                         <button class="mui-btn mui-btn-primary" type="button" id="search-btn">确认</button>&nbsp;&nbsp;
                         <button class="mui-btn mui-btn-danger" type="button" id="reset-btn">重置</button>
@@ -327,7 +327,7 @@
             });
         }, false);
 
-        var statusJson = '[{"value": "", "text": "全部"},{"value": "0", "text": "未提交"}, {"value": "1", "text": "已提交"}, {"value": "2", "text": "成本部已审核"}, {"value": "3", "text": "工程部已审核"},{"value": "4", "text": "总经理已审核"}]';
+        /*var statusJson = '[{"value": "", "text": "全部"},{"value": "0", "text": "未提交"}, {"value": "1", "text": "已提交"}, {"value": "2", "text": "成本部已审核"}, {"value": "3", "text": "工程部已审核"},{"value": "4", "text": "总经理已审核"}]';
         var statusNamePicker = new mui.PopPicker();
         statusNamePicker.setData(JSON.parse(statusJson));
         var statusName = document.getElementById('statusName');
@@ -339,7 +339,7 @@
                 //返回 false 可以阻止选择框的关闭
                 //return false;
             });
-        }, false);
+        }, false);*/
 
         var instrutOrderJson = '[{"value": "", "text": "全部"},{"value":0,"text":"未到"},{"value":1,"text":"已到"}]';
         var instructOrderFlagPicker = new mui.PopPicker();

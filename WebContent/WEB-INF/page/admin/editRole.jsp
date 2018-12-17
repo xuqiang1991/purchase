@@ -45,6 +45,21 @@
 			</div>
 		</div>
 		<div class="layui-form-item">
+			<label class="layui-form-label css-required">是否完结角色</label>
+			<div class="layui-input-block">
+				<c:choose>
+					<c:when test="${role.isOverRole == 0 || role.isOverRole == null}">
+						<input type="radio" class="layui-input userName" name="isOverRole" value="0" title="否" checked>
+						<input type="radio" class="layui-input userName" name="isOverRole" value="1" title="是">
+					</c:when>
+					<c:otherwise>
+						<input type="radio" class="layui-input userName" name="isOverRole" value="0" title="否">
+						<input type="radio" class="layui-input userName" name="isOverRole" value="1" title="是" checked>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</div>
+		<div class="layui-form-item">
 			<label class="layui-form-label css-required">角色描述</label>
 			<div class="layui-input-block">
 				<textarea placeholder="请输入角色描述" class="layui-textarea linksDesc" lay-verify="required" name="roleRemark" >${role.roleRemark }</textarea>

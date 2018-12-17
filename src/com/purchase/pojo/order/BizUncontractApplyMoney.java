@@ -1,5 +1,7 @@
 package com.purchase.pojo.order;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -74,6 +76,7 @@ public class BizUncontractApplyMoney {
         this.createUser = createUser;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getCreateTime() {
         return createTime;
     }
@@ -90,6 +93,7 @@ public class BizUncontractApplyMoney {
         this.applyUser = applyUser;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getApplyDate() {
         return applyDate;
     }
@@ -194,6 +198,7 @@ public class BizUncontractApplyMoney {
         this.lastReviewRole = lastReviewRole;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getLastReviewDate() {
         return lastReviewDate;
     }
@@ -226,6 +231,7 @@ public class BizUncontractApplyMoney {
         this.userItem = userItem == null ? null : userItem.trim();
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getUpdateDate() {
         return updateDate;
     }

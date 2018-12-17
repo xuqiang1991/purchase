@@ -4,10 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.purchase.annotation.SysLog;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbProjectManger;
+import com.purchase.pojo.admin.TbRoles;
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.BizUncontractApplyMoney;
 import com.purchase.pojo.order.BizUncontractApplyMoneyDetail;
 import com.purchase.service.*;
+import com.purchase.util.OrderUtils;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.*;
 import com.purchase.vo.order.UCAMOrderDetialVo;
@@ -134,7 +136,6 @@ public class UCAMController {
         String id = req.getParameter("id");
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         Long adminId = admin.getId();
-        List<ChoseAdminForRoleVO> reviewAdmins = adminService.selectRoleAdmin();
         UCAMOrderDetialVo detailsVo = new UCAMOrderDetialVo();
         if(!StringUtils.isEmpty(id)){
             detailsVo = ucamService.selUCAMDetail(id,adminId);
@@ -153,7 +154,12 @@ public class UCAMController {
 
         model.addAttribute("detailsVo",detailsVo);
         model.addAttribute("admin",admin);
-        model.addAttribute("reviewAdmins", JSON.toJSONString(reviewAdmins));
+        Boolean isOverRole = adminService.checkRoleIsOverRole(detailsVo.getUcamVo().getNextReviewRole());
+        if(!isOverRole){
+            List<ChoseAdminForRoleVO> reviewAdmins = adminService.selectRoleAdmin();
+            model.addAttribute("reviewAdmins", JSON.toJSONString(reviewAdmins));
+        }
+        model.addAttribute("isOverRole",isOverRole);
         return "page/mobile/UCAM/details";
     }
 

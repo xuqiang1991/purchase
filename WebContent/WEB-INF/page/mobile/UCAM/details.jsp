@@ -945,7 +945,6 @@
 <!-- 审核 -->
 <c:set value="${ctx }/mobile/UCAM/toDetails/?id=${detailsVo.ucamVo.id}" var="reviewRefreshUrl"/>
 <c:set value="${ctx}/mobile/UCAM/reviewUCAMOrder/${detailsVo.ucamVo.id}" var="reviewSaveUrl"/>
-<c:set value="${detailsVo.ucamVo.isApproval}" var="reviewStatus"/>
 <%@ include file="/WEB-INF/page/mobile/common/review.jsp"%>
 <!-- 审核 -->
 

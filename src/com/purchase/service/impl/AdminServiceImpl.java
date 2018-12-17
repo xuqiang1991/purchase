@@ -878,4 +878,22 @@ public class AdminServiceImpl implements AdminService {
 	public long seladminBySupplier(Long id) {
 		return adminMapper.seladminBySupplier(id);
 	}
+
+	@Override
+	public TbRoles getRoleList(Long roleId) {
+		return tbRolesMapper.selectByPrimaryKey(roleId);
+	}
+
+	@Override
+	public boolean checkRoleIsOverRole(Long roleId) {
+		if(roleId == null){
+			return false;
+		}
+		TbRoles role = tbRolesMapper.selectByPrimaryKey(roleId);
+		if(role != null && role.getIsOverRole() == 1){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }
