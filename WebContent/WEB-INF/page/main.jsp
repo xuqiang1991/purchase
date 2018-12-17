@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>普邦园林后台管理系统-首页</title>
+	<title>后台管理系统-首页</title>
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -23,7 +23,7 @@
 </head>
 <body class="childrenBody" style="margin:1%">
 	<blockquote class="layui-elem-quote">
-		<p>欢迎普邦园林后台管理系统。</p>
+		<p>欢迎后台管理系统。</p>
 	</blockquote>
 	<%--<fieldset class="layui-elem-field layui-field-title">
 	  <legend>信息统计</legend>
