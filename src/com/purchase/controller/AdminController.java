@@ -86,7 +86,7 @@ public class AdminController {
 					String uri = request.getRequestURI();
 					return "redirect:" + uri;
 				}else {
-					return "redirect:/mobile/purchase/list";
+				    return "redirect:/mobile/login";
 				}
 				//return "redirect:/mobile/login";
 			}

@@ -4,14 +4,14 @@
     <%@ include file="/WEB-INF/page/include/taglib.jsp"%>
 <%
 
-    String requestHeader = request.getHeader("user-agent");
-    boolean isMobile = WebUtils.isMobileDevice(requestHeader);
+//    String requestHeader = request.getHeader("user-agent");
+//    boolean isMobile = WebUtils.isMobileDevice(requestHeader);
 
 //    String path = request.getContextPath();
 //    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-    if(isMobile){
-        response.sendRedirect("/sys/index");
-    }
+//    if(isMobile){
+//        response.sendRedirect("/sys/index");
+//    }
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>

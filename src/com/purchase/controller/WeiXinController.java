@@ -47,7 +47,8 @@ public class WeiXinController {
     @RequestMapping("/auth")
     public void auth(HttpServletRequest request, HttpServletResponse response){
         String host = request.getHeader("host");
-        String url = "http://"+host+"/sys/wx/auth/jump";
+        String path = request.getContextPath();
+        String url = "http://"+host+ path + "/sys/wx/auth/jump";
         try {
             String scope = "snsapi_userinfo";
             url = wxMpService.oauth2buildAuthorizationUrl(url, scope, "ceshi");
@@ -94,7 +95,7 @@ public class WeiXinController {
                 String uri = request.getRequestURI();
                 return "redirect:" + uri;
             }else {
-                return "redirect:/mobile/purchase/list";
+                return "redirect:/mobile/login";
             }
             //return "redirect:/mobile/login";
         } catch (WxErrorException e) {
