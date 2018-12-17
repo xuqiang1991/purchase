@@ -8,12 +8,12 @@ public class WeiXinConfig {
     /**
      * 设置微信三方平台的appid
      */
-    public static String APPID = "wxb8319442cf374e48";
+    public static String APPID = "wx99a2129c5f75e297";
 
     /**
      * 设置微信三方平台的app secret
      */
-    public static String SECRET = "247b3cb48900f5319c875c0d2a5e8cc8";
+    public static String SECRET = "c79d7eee172b6bab41894d7da7153380";
 
     /**
      * 设置微信三方平台的token
