@@ -3,8 +3,8 @@ package com.purchase.vo.order;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbProjectManger;
 import com.purchase.pojo.admin.TbSupplier;
+import com.purchase.pojo.order.BizHistory;
 import com.purchase.pojo.order.BizProgrammeAcceptanceOrder;
-import com.purchase.vo.OrderHistory;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class ProgrammeAcceptanceVo extends BizProgrammeAcceptanceOrder {
     private TbAdmin managerAdmin;
     private TbProjectManger tpm;
     private TbAdmin auAdmin;
-    private List<OrderHistory> historyList;
+    private List<BizHistory> historyList;
 
     public TbSupplier getSupplier() {
         return supplier;
@@ -78,11 +78,11 @@ public class ProgrammeAcceptanceVo extends BizProgrammeAcceptanceOrder {
         this.auAdmin = auAdmin;
     }
 
-    public List<OrderHistory> getHistoryList() {
+    public List<BizHistory> getHistoryList() {
         return historyList;
     }
 
-    public void setHistoryList(List<OrderHistory> historyList) {
+    public void setHistoryList(List<BizHistory> historyList) {
         this.historyList = historyList;
     }
 }

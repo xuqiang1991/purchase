@@ -2,25 +2,20 @@ package com.purchase.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.google.gson.Gson;
 import com.purchase.mapper.admin.TbAdminMapper;
+import com.purchase.mapper.admin.TbRolesMapper;
+import com.purchase.mapper.order.BizHistoryMapper;
 import com.purchase.mapper.order.BizProgrammeAcceptanceOrderDetailMapper;
 import com.purchase.mapper.order.BizProgrammeAcceptanceOrderMapper;
 import com.purchase.pojo.admin.TbAdmin;
-import com.purchase.pojo.order.BizProgrammeAcceptanceOrder;
-import com.purchase.pojo.order.BizProgrammeAcceptanceOrderDetail;
-import com.purchase.pojo.order.BizProgrammeAcceptanceOrderDetailExample;
-import com.purchase.pojo.order.BizProgrammeAcceptanceOrderExample;
+import com.purchase.pojo.admin.TbRoles;
+import com.purchase.pojo.order.*;
 import com.purchase.service.ProgrammeAcceptanceService;
-import com.purchase.util.DateUtil;
-import com.purchase.util.MyUtil;
-import com.purchase.util.ResultUtil;
-import com.purchase.util.WebUtils;
-import com.purchase.vo.OrderHistory;
-import com.purchase.vo.admin.ChoseAdminVO;
+import com.purchase.util.*;
 import com.purchase.vo.order.ProgrammeAcceptanceDetialVo;
 import com.purchase.vo.order.ProgrammeAcceptanceSearch;
 import com.purchase.vo.order.ProgrammeAcceptanceVo;
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +25,6 @@ import org.springframework.util.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -58,7 +51,10 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
 
     @Autowired
     private TbAdminMapper adminMapper;
-
+    @Autowired
+    private TbRolesMapper rolesMapper;
+    @Autowired
+    private BizHistoryMapper historyMapper;
     /**
      * 工程验收单号前缀
      */
@@ -103,9 +99,6 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
             }
 
         }
-        if(search.getStatus() != null){
-            criteria.andStatusEqualTo(search.getStatus());
-        }
 
         List<ProgrammeAcceptanceVo> paList = paoMapper.selectByExampleExt(example,search);// ucamMapper.selectByExampleExt(example,search);
         PageInfo<ProgrammeAcceptanceVo> pageInfo = new PageInfo<>(paList);
@@ -140,7 +133,6 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
 
             order.setOrderNo(orderNo);
             //参数补充
-            order.setStatus(STATUS_0);
             order.setUpdateDate(date);
             order.setCreateTime(date);
             paoMapper.insertSelective(order);
@@ -183,9 +175,9 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
     @Override
     public ResultUtil delPAOOrder(String id) {
         BizProgrammeAcceptanceOrder order = paoMapper.selectByPrimaryKey(id);
-        if(!(STATUS_0 == order.getStatus())){
+        /*if(!(STATUS_0 == order.getStatus())){
             return ResultUtil.error("非未提交状态的工程验收单不能删除！");
-        }
+        }*/
         paoMapper.deleteByPrimaryKey(id);
 
         BizProgrammeAcceptanceOrderExample example = new BizProgrammeAcceptanceOrderExample();
@@ -195,22 +187,37 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
     }
 
     @Override
-    public ResultUtil submitPAOOrder(String id) {
+    public ResultUtil submitPAOOrder(String id,Long userId, Long roleId) {
         BizProgrammeAcceptanceOrder order = paoMapper.selectByPrimaryKey(id);
-
-        int status = order.getStatus();
-        if(!(STATUS_0 == status)){
-            return ResultUtil.error("非未提交状态的工程验收单不能提交！");
-        }
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
 
         BizProgrammeAcceptanceOrder tmp = new BizProgrammeAcceptanceOrder();
         tmp.setId(order.getId());
-        tmp.setStatus(STATUS_1);
+        tmp.setIsApproval(OrderUtils.IS_APPROVAL_YES);
+        tmp.setLastReviewDate(new Date());
+        //tmp.setLastReviewRole(order.getLastReviewRole());
+        tmp.setLastReviewUser(admin.getId());
+        tmp.setNextReviewRole(roleId);
+        tmp.setNextReviewUser(userId);
+        tmp.setUpdateDate(new Date());
         tmp.setApplyDate(new Date());
-        tmp.setReviewFail(false);
-        tmp.setReviewOpinion("");
-
+        tmp.setUserItem(OrderUtils.getUserItem(order.getUserItem(),String.valueOf(userId)));
+        tmp.setIsSaveSubmit(OrderUtils.IS_APPROVAL_YES);
         paoMapper.updateByPrimaryKeySelective(tmp);
+
+        BizHistory history = new BizHistory();
+        history.setId(WebUtils.generateUUID());
+        history.setIsApproval(OrderUtils.IS_APPROVAL_YES);
+        history.setOrderId(order.getId());
+        history.setApprovalDate(new Date());
+        history.setApprovalUser(admin.getId());
+        history.setApprovalUserName(admin.getFullname());
+        TbRoles roles = rolesMapper.selectByPrimaryKey(order.getLastReviewRole());
+        if(roles != null){
+            history.setApprovalRoleName(roles.getRoleName());
+        }
+        history.setOpinion("提交审核");
+        historyMapper.insert(history);
         return ResultUtil.ok();
     }
 
@@ -229,31 +236,12 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
             if(!CollectionUtils.isEmpty(pavList)){
                 vo = pavList.get(0);
             }
-            List<OrderHistory> historyList = new ArrayList<OrderHistory>();
-            int status = vo.getStatus();
-            if(STATUS_0 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,STATUS_0));
-            }else if(STATUS_1 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,STATUS_0));
-                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,STATUS_1));
-            }else if(STATUS_2 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,STATUS_0));
-                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,STATUS_1));
-                historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),STATUS_2));
-            }else if(STATUS_3 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,STATUS_0));
-                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,STATUS_1));
-                historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),STATUS_2));
-                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),STATUS_3));
-            }else if(STATUS_4 == status){
-                historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,STATUS_0));
-                historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,STATUS_1));
-                historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),STATUS_2));
-                historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),STATUS_3));
-                historyList.add(new OrderHistory(vo.getManagerAdmin().getFullname(),vo.getManagerDepartDate(),vo.getManagerDepartOpinion(),vo.getManagerDepartApproval(),STATUS_4));
-            }
-            Collections.reverse(historyList);
-            vo.setHistoryList(historyList);
+            BizHistoryExample example1 = new BizHistoryExample();
+            BizHistoryExample.Criteria criteria1 = example1.createCriteria();
+            example1.setOrderByClause("approval_date DESC");
+            criteria1.andOrderIdEqualTo(vo.getId());
+            List<BizHistory> histories = historyMapper.selectByExample(example1);
+            vo.setHistoryList(histories);
             paOrderDetialVo.setPaoVo(vo);
 
             //获取工程验收单详情
@@ -263,32 +251,6 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
             List<BizProgrammeAcceptanceOrderDetail> detailList = paoDetailMapper.selectByExample(detailExample);
             paOrderDetialVo.setPaoDetail(detailList);
 
-            //选择审核人
-            String roleName = "工程部";
-            Long reviewUserId = null;
-            switch (vo.getStatus()){
-                case STATUS_1:
-                    reviewUserId = vo.getProjectDepartUser(); roleName = "成本部";
-                    break;
-                case STATUS_2:
-                    reviewUserId = vo.getCostDepartUser(); roleName = "总经理";
-                    break;
-                case STATUS_3:
-                    reviewUserId = vo.getManagerDepartUser();
-                    break;
-                default:
-                    logger.info("不在处理流程内，不做修改");
-                    break;
-            }
-            paOrderDetialVo.setReviewUserId(reviewUserId);
-            if(roleName != null){
-                List<ChoseAdminVO> data = adminMapper.selectByRoleName(roleName);
-                if(!CollectionUtils.isEmpty(data)){
-                    Gson gson = new Gson();
-                    String json = gson.toJson(data);
-                    paOrderDetialVo.setDeparts(json);
-                }
-            }
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -334,14 +296,14 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
     public ResultUtil submitReviewPAOOrder(TbAdmin admin, String id, Long userId) {
         BizProgrammeAcceptanceOrder order = paoMapper.selectByPrimaryKey(id);
 
-        int status = order.getStatus();
+        /*int status = order.getStatus();
         if(STATUS_1 != status){
             return ResultUtil.error("非未提交状态的工程验收单不能选择工程部审核！");
-        }
+        }*/
         Date date = new Date();
         BizProgrammeAcceptanceOrder tmp = new BizProgrammeAcceptanceOrder();
         tmp.setId(order.getId());
-        tmp.setProjectDepartUser(userId);
+        //tmp.setProjectDepartUser(userId);
         tmp.setUpdateDate(date);
 
         paoMapper.updateByPrimaryKeySelective(tmp);
@@ -349,56 +311,46 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
     }
 
     @Override
-    public ResultUtil reviewPAOOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion) {
+    public ResultUtil reviewPAOOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion, Long applyRole) {
         logger.info("审核工程验收单。id:{}, 是否通过:{}, 上级审批人:{}, 审批意见:{}", id,auditOpinion,applyUser,auditOpinion);
 
         Date date = new Date();
         BizProgrammeAcceptanceOrder order = paoMapper.selectByPrimaryKey(id);
-
+        BizHistory history = new BizHistory();
+        history.setId(WebUtils.generateUUID());
         //审核不通过
         if(!auditResults){
-            order.setStatus(STATUS_0);
-            order.setReviewFail(true);
-            order.setReviewOpinion(auditOpinion);
-
-            order.setProjectDepartUser(null);
-            order.setCostDepartUser(null);
-            order.setManagerDepartUser(null);
-
-            order.setProjectDepartDate(null);
-            order.setCostDepartDate(null);
-            order.setManagerDepartDate(null);
-
-            order.setProjectDepartApproval(null);
-            order.setCostDepartApproval(null);
-            order.setManagerDepartApproval(null);
-
-            order.setProjectDepartOpinion(null);
-            order.setCostDepartOpinion(null);
-            order.setManagerDepartOpinion(null);
+            order.setIsSaveSubmit(OrderUtils.IS_APPROVAL_NO);
+            order.setIsApproval(OrderUtils.IS_APPROVAL_NO);
+            order.setLastReviewRole(order.getNextReviewRole());
+            order.setLastReviewUser(admin.getId());
+            order.setNextReviewUser(order.getCreateUser());//驳回则还原到创建人
+            history.setIsApproval(OrderUtils.IS_APPROVAL_NO);
         }else{
-            //审核状态
-            if(STATUS_1 ==  order.getStatus()){
-                order.setProjectDepartDate(date);
-                order.setStatus(STATUS_2);
-                order.setProjectDepartApproval(auditResults);
-                order.setProjectDepartOpinion(auditOpinion);
-                order.setCostDepartUser(applyUser);
-            }else if (STATUS_2 ==  order.getStatus()){
-                order.setStatus(STATUS_3);
-                order.setCostDepartDate(date);
-                order.setCostDepartApproval(auditResults);
-                order.setCostDepartOpinion(auditOpinion);
-                order.setManagerDepartUser(applyUser);
-            }else if (STATUS_3 ==  order.getStatus()){
-                order.setStatus(STATUS_4);
-                order.setManagerDepartDate(date);
-                order.setManagerDepartApproval(auditResults);
-                order.setManagerDepartOpinion(auditOpinion);
-            }
+            order.setIsSaveSubmit(OrderUtils.IS_APPROVAL_YES);
+            order.setIsApproval(OrderUtils.IS_APPROVAL_YES);
+            order.setLastReviewRole(order.getNextReviewRole());
+            order.setLastReviewUser(admin.getId());
+            order.setNextReviewUser(order.getCreateUser());
+            order.setNextReviewRole(applyRole);
+            history.setIsApproval(OrderUtils.IS_APPROVAL_YES);
         }
+        order.setLastReviewDate(date);
+        order.setUserItem(OrderUtils.getUserItem(order.getUserItem(),String.valueOf(applyUser)));
         order.setUpdateDate(date);
+
+        history.setOrderId(order.getId());
+        history.setApprovalDate(new Date());
+        history.setApprovalUser(admin.getId());
+        history.setApprovalUserName(admin.getFullname());
+        TbRoles roles = rolesMapper.selectByPrimaryKey(order.getLastReviewRole());
+        if(roles != null){
+            history.setApprovalRoleName(roles.getRoleName());
+        }
+        history.setOpinion(auditOpinion);
+
         paoMapper.updateByPrimaryKey(order);
+        historyMapper.insert(history);
         return ResultUtil.ok();
     }
 }

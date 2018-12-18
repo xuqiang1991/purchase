@@ -2,7 +2,6 @@ package com.purchase.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.google.gson.Gson;
 import com.purchase.mapper.admin.TbAdminMapper;
 import com.purchase.mapper.admin.TbRolesMapper;
 import com.purchase.mapper.order.BizHistoryMapper;
@@ -14,12 +13,9 @@ import com.purchase.pojo.order.*;
 import com.purchase.service.PaymentOrderService;
 import com.purchase.service.UCAMService;
 import com.purchase.util.*;
-import com.purchase.vo.OrderHistory;
-import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.order.UCAMOrderDetialVo;
 import com.purchase.vo.order.UCAMSearch;
 import com.purchase.vo.order.UCAMVo;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +27,6 @@ import org.springframework.util.StringUtils;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -228,7 +222,7 @@ public class UCAMServiceImpl implements UCAMService {
         tmp.setUpdateDate(new Date());
         tmp.setApplyDate(new Date());
         tmp.setUserItem(OrderUtils.getUserItem(order.getUserItem(),String.valueOf(userId)));
-        tmp.setIsSaveSubmit(1);
+        tmp.setIsSaveSubmit(OrderUtils.IS_APPROVAL_YES);
         ucamMapper.updateByPrimaryKeySelective(tmp);
 
         BizHistory history = new BizHistory();
@@ -283,34 +277,6 @@ public class UCAMServiceImpl implements UCAMService {
             detailCriteria.andOrderNoEqualTo(vo.getOrderNo());
             List<BizUncontractApplyMoneyDetail> detailList = ucamDetailMapper.selectByExample(detailExample);
             ucamOrderDetialVo.setUcamDetail(detailList);
-
-            //选择审核人
-            String roleName = "工程部";
-            Long reviewUserId = null;
-            /*switch (vo.getStatus()){
-                case STATUS_1:
-                    reviewUserId = vo.getProjectDepartUser(); roleName = "成本部";
-                    break;
-                case STATUS_2:
-                    reviewUserId = vo.getCostDepartUser(); roleName = "总经理";
-                    break;
-                case STATUS_3:
-                    reviewUserId = vo.getManagerDepartUser();
-                    break;
-                default:
-                    logger.info("不在处理流程内，不做修改");
-                    break;
-            }*/
-            ucamOrderDetialVo.setReviewUserId(reviewUserId);
-            if(roleName != null){
-                List<ChoseAdminVO> data = adminMapper.selectByRoleName(roleName);
-                if(!CollectionUtils.isEmpty(data)){
-                    Gson gson = new Gson();
-                    String json = gson.toJson(data);
-                    ucamOrderDetialVo.setDeparts(json);
-                }
-            }
-
 
         }catch (Exception e){
             e.printStackTrace();

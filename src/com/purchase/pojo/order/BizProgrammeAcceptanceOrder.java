@@ -1,7 +1,5 @@
 package com.purchase.pojo.order;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -30,39 +28,25 @@ public class BizProgrammeAcceptanceOrder {
 
     private BigDecimal paymentTotalPrice;
 
-    private Integer status;
-
-    private Date updateDate;
-
     private String summary;
 
-    private Boolean costDepartApproval;
+    private Long nextReviewUser;
 
-    private Long costDepartUser;
+    private Long nextReviewRole;
 
-    private Date costDepartDate;
+    private Long lastReviewUser;
 
-    private String costDepartOpinion;
+    private Long lastReviewRole;
 
-    private Boolean projectDepartApproval;
+    private Date lastReviewDate;
 
-    private Long projectDepartUser;
+    private Integer isApproval;
 
-    private Date projectDepartDate;
+    private Integer isSaveSubmit;
 
-    private String projectDepartOpinion;
+    private String userItem;
 
-    private Boolean managerDepartApproval;
-
-    private Long managerDepartUser;
-
-    private Date managerDepartDate;
-
-    private String managerDepartOpinion;
-
-    private Boolean reviewFail;
-
-    private String reviewOpinion;
+    private Date updateDate;
 
     public String getId() {
         return id;
@@ -88,7 +72,6 @@ public class BizProgrammeAcceptanceOrder {
         this.createUser = createUser;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getCreateTime() {
         return createTime;
     }
@@ -105,7 +88,6 @@ public class BizProgrammeAcceptanceOrder {
         this.applyUser = applyUser;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getApplyDate() {
         return applyDate;
     }
@@ -162,23 +144,6 @@ public class BizProgrammeAcceptanceOrder {
         this.paymentTotalPrice = paymentTotalPrice;
     }
 
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
-
     public String getSummary() {
         return summary;
     }
@@ -187,118 +152,75 @@ public class BizProgrammeAcceptanceOrder {
         this.summary = summary == null ? null : summary.trim();
     }
 
-    public Boolean getCostDepartApproval() {
-        return costDepartApproval;
+    public Long getNextReviewUser() {
+        return nextReviewUser;
     }
 
-    public void setCostDepartApproval(Boolean costDepartApproval) {
-        this.costDepartApproval = costDepartApproval;
+    public void setNextReviewUser(Long nextReviewUser) {
+        this.nextReviewUser = nextReviewUser;
     }
 
-    public Long getCostDepartUser() {
-        return costDepartUser;
+    public Long getNextReviewRole() {
+        return nextReviewRole;
     }
 
-    public void setCostDepartUser(Long costDepartUser) {
-        this.costDepartUser = costDepartUser;
+    public void setNextReviewRole(Long nextReviewRole) {
+        this.nextReviewRole = nextReviewRole;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    public Date getCostDepartDate() {
-        return costDepartDate;
+    public Long getLastReviewUser() {
+        return lastReviewUser;
     }
 
-    public void setCostDepartDate(Date costDepartDate) {
-        this.costDepartDate = costDepartDate;
+    public void setLastReviewUser(Long lastReviewUser) {
+        this.lastReviewUser = lastReviewUser;
     }
 
-    public String getCostDepartOpinion() {
-        return costDepartOpinion;
+    public Long getLastReviewRole() {
+        return lastReviewRole;
     }
 
-    public void setCostDepartOpinion(String costDepartOpinion) {
-        this.costDepartOpinion = costDepartOpinion == null ? null : costDepartOpinion.trim();
+    public void setLastReviewRole(Long lastReviewRole) {
+        this.lastReviewRole = lastReviewRole;
     }
 
-    public Boolean getProjectDepartApproval() {
-        return projectDepartApproval;
+    public Date getLastReviewDate() {
+        return lastReviewDate;
     }
 
-    public void setProjectDepartApproval(Boolean projectDepartApproval) {
-        this.projectDepartApproval = projectDepartApproval;
+    public void setLastReviewDate(Date lastReviewDate) {
+        this.lastReviewDate = lastReviewDate;
     }
 
-    public Long getProjectDepartUser() {
-        return projectDepartUser;
+    public Integer getIsApproval() {
+        return isApproval;
     }
 
-    public void setProjectDepartUser(Long projectDepartUser) {
-        this.projectDepartUser = projectDepartUser;
+    public void setIsApproval(Integer isApproval) {
+        this.isApproval = isApproval;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    public Date getProjectDepartDate() {
-        return projectDepartDate;
+    public Integer getIsSaveSubmit() {
+        return isSaveSubmit;
     }
 
-    public void setProjectDepartDate(Date projectDepartDate) {
-        this.projectDepartDate = projectDepartDate;
+    public void setIsSaveSubmit(Integer isSaveSubmit) {
+        this.isSaveSubmit = isSaveSubmit;
     }
 
-    public String getProjectDepartOpinion() {
-        return projectDepartOpinion;
+    public String getUserItem() {
+        return userItem;
     }
 
-    public void setProjectDepartOpinion(String projectDepartOpinion) {
-        this.projectDepartOpinion = projectDepartOpinion == null ? null : projectDepartOpinion.trim();
+    public void setUserItem(String userItem) {
+        this.userItem = userItem == null ? null : userItem.trim();
     }
 
-    public Boolean getManagerDepartApproval() {
-        return managerDepartApproval;
+    public Date getUpdateDate() {
+        return updateDate;
     }
 
-    public void setManagerDepartApproval(Boolean managerDepartApproval) {
-        this.managerDepartApproval = managerDepartApproval;
-    }
-
-    public Long getManagerDepartUser() {
-        return managerDepartUser;
-    }
-
-    public void setManagerDepartUser(Long managerDepartUser) {
-        this.managerDepartUser = managerDepartUser;
-    }
-
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    public Date getManagerDepartDate() {
-        return managerDepartDate;
-    }
-
-    public void setManagerDepartDate(Date managerDepartDate) {
-        this.managerDepartDate = managerDepartDate;
-    }
-
-    public String getManagerDepartOpinion() {
-        return managerDepartOpinion;
-    }
-
-    public void setManagerDepartOpinion(String managerDepartOpinion) {
-        this.managerDepartOpinion = managerDepartOpinion == null ? null : managerDepartOpinion.trim();
-    }
-
-    public Boolean getReviewFail() {
-        return reviewFail;
-    }
-
-    public void setReviewFail(Boolean reviewFail) {
-        this.reviewFail = reviewFail;
-    }
-
-    public String getReviewOpinion() {
-        return reviewOpinion;
-    }
-
-    public void setReviewOpinion(String reviewOpinion) {
-        this.reviewOpinion = reviewOpinion == null ? null : reviewOpinion.trim();
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 }
