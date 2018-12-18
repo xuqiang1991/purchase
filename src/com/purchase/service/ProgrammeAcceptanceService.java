@@ -24,7 +24,7 @@ public interface ProgrammeAcceptanceService {
 
     ResultUtil delPAOOrder(String id);
 
-    ResultUtil submitPAOOrder(String id);
+    ResultUtil submitPAOOrder(String id,Long userId, Long roleId);
 
     ProgrammeAcceptanceDetialVo selPAODetail(String id,Long adminId);
 
@@ -38,5 +38,5 @@ public interface ProgrammeAcceptanceService {
 
     ResultUtil submitReviewPAOOrder(TbAdmin admin, String id, Long userId);
 
-    ResultUtil reviewPAOOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion);
+    ResultUtil reviewPAOOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion, Long applyRole);
 }

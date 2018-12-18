@@ -180,32 +180,33 @@ public class ProgrammeAcceptanceController {
     @RequestMapping("submitProgrammeAcceptanceOrder")
     @RequiresPermissions("mobile:programmeAcceptance:save")
     @ResponseBody
-    public ResultUtil submitProgrammeAcceptanceOrder(String id){
-        return paService.submitPAOOrder(id);
+    public ResultUtil submitProgrammeAcceptanceOrder(String id, Long userId, Long roleId){
+        return paService.submitPAOOrder(id,userId,roleId);
     }
 
     @SysLog(value="提交审核")
     @RequestMapping("submitReviewprogrammeAcceptanceOrder")
     @RequiresPermissions("mobile:programmeAcceptance:save")
     @ResponseBody
-    public ResultUtil submitReviewprogrammeAcceptanceOrder(String id, Long userId){
+    public ResultUtil submitReviewprogrammeAcceptanceOrder(String id, Long userId, Long roleId){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        ResultUtil resultUtil = paService.submitPAOOrder(id);
+        ResultUtil resultUtil = paService.submitPAOOrder(id,userId,roleId);
         //return paService.submitReviewPAOOrder(admin, id, userId);
-        if(resultUtil.getCode() == 0){
+        /*if(resultUtil.getCode() == 0){
             return paService.submitReviewPAOOrder(admin, id, userId);
         }else {
             return resultUtil;
-        }
+        }*/
+        return resultUtil;
     }
 
     @SysLog(value="审核工程验收")
     @RequestMapping("reviewProgrammeAcceptanceOrder/{id}")
     @RequiresPermissions("mobile:programmeAcceptance:review")
     @ResponseBody
-    public ResultUtil reviewProgrammeAcceptanceOrder(@PathVariable("id") String id, Boolean auditResults, Long applyUser, String auditOpinion){
+    public ResultUtil reviewProgrammeAcceptanceOrder(@PathVariable("id") String id, Boolean auditResults, Long applyUser, String auditOpinion,Long applyRole){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        return paService.reviewPAOOrder(admin, id, auditResults,applyUser,auditOpinion);
+        return paService.reviewPAOOrder(admin, id, auditResults,applyUser,auditOpinion,applyRole);
     }
 
 

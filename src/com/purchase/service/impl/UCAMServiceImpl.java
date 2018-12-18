@@ -141,11 +141,6 @@ public class UCAMServiceImpl implements UCAMService {
     public ResultUtil saveUCAMOrder(BizUncontractApplyMoney order) {
         Date date = new Date();
         String id = null;
-        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        order.setLastReviewUser(admin.getId());
-        order.setLastReviewDate(new Date());
-        order.setIsApproval(OrderUtils.IS_APPROVAL_NO);
-        order.setIsSaveSubmit(OrderUtils.IS_APPROVAL_NO);
         if(StringUtils.isEmpty(order.getId())){
             id = WebUtils.generateUUID();
             order.setId(id);
@@ -288,6 +283,35 @@ public class UCAMServiceImpl implements UCAMService {
             detailCriteria.andOrderNoEqualTo(vo.getOrderNo());
             List<BizUncontractApplyMoneyDetail> detailList = ucamDetailMapper.selectByExample(detailExample);
             ucamOrderDetialVo.setUcamDetail(detailList);
+
+            //选择审核人
+            String roleName = "工程部";
+            Long reviewUserId = null;
+            /*switch (vo.getStatus()){
+                case STATUS_1:
+                    reviewUserId = vo.getProjectDepartUser(); roleName = "成本部";
+                    break;
+                case STATUS_2:
+                    reviewUserId = vo.getCostDepartUser(); roleName = "总经理";
+                    break;
+                case STATUS_3:
+                    reviewUserId = vo.getManagerDepartUser();
+                    break;
+                default:
+                    logger.info("不在处理流程内，不做修改");
+                    break;
+            }*/
+            ucamOrderDetialVo.setReviewUserId(reviewUserId);
+            if(roleName != null){
+                List<ChoseAdminVO> data = adminMapper.selectByRoleName(roleName);
+                if(!CollectionUtils.isEmpty(data)){
+                    Gson gson = new Gson();
+                    String json = gson.toJson(data);
+                    ucamOrderDetialVo.setDeparts(json);
+                }
+            }
+
+
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -440,7 +464,7 @@ public class UCAMServiceImpl implements UCAMService {
             order.setIsApproval(OrderUtils.IS_APPROVAL_YES);
             order.setLastReviewRole(order.getNextReviewRole());
             order.setLastReviewUser(admin.getId());
-            order.setNextReviewUser(applyUser);
+            order.setNextReviewUser(order.getCreateUser());
             order.setNextReviewRole(applyRole);
             history.setIsApproval(OrderUtils.IS_APPROVAL_YES);
         }
@@ -460,11 +484,11 @@ public class UCAMServiceImpl implements UCAMService {
 
         ucamMapper.updateByPrimaryKey(order);
         historyMapper.insert(history);
-        TbRoles nextReviewRole = rolesMapper.selectByPrimaryKey(applyRole);
-        //总经理审核写入付款单
-        if(auditResults && nextReviewRole.getIsOverRole() == 1){
+
+        /*//总经理审核写入付款单
+        if(auditResults && STATUS_4 == order.getStatus()){
             paymentOrderService.generatePaymenyOrder(order);
-        }
+        }*/
 
         return ResultUtil.ok();
     }

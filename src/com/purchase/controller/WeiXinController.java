@@ -96,6 +96,7 @@ public class WeiXinController {
             }else {
                 return "redirect:/mobile/purchase/list";
             }
+
             //return "redirect:/mobile/login";
         } catch (WxErrorException e) {
             logger.error("gotoPreAuthUrl", e);
