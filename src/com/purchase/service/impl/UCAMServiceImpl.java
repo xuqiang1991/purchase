@@ -157,6 +157,8 @@ public class UCAMServiceImpl implements UCAMService {
             /*order.setStatus(STATUS_0);*/
             order.setUpdateDate(date);
             order.setCreateTime(date);
+            order.setLastReviewUser(order.getCreateUser());
+            order.setLastReviewDate(new Date());
             ucamMapper.insertSelective(order);
         }else{
             id = order.getId();
@@ -453,14 +455,14 @@ public class UCAMServiceImpl implements UCAMService {
         history.setId(WebUtils.generateUUID());
         //审核不通过
         if(!auditResults){
-            order.setIsSaveSubmit(OrderUtils.IS_APPROVAL_NO);
+            order.setIsSaveSubmit(OrderUtils.IS_SAVE_SUBMIT_0);
             order.setIsApproval(OrderUtils.IS_APPROVAL_NO);
             order.setLastReviewRole(order.getNextReviewRole());
             order.setLastReviewUser(admin.getId());
             order.setNextReviewUser(order.getCreateUser());//驳回则还原到创建人
             history.setIsApproval(OrderUtils.IS_APPROVAL_NO);
         }else{
-            order.setIsSaveSubmit(OrderUtils.IS_APPROVAL_YES);
+            order.setIsSaveSubmit(OrderUtils.IS_SAVE_SUBMIT_1);
             order.setIsApproval(OrderUtils.IS_APPROVAL_YES);
             order.setLastReviewRole(order.getNextReviewRole());
             order.setLastReviewUser(admin.getId());
@@ -482,13 +484,14 @@ public class UCAMServiceImpl implements UCAMService {
         }
         history.setOpinion(auditOpinion);
 
+        TbRoles nextReviewRole = rolesMapper.selectByPrimaryKey(applyRole);
+        //总经理审核写入付款单
+        if(auditResults && nextReviewRole.getIsOverRole() == 1){
+            order.setIsSaveSubmit(OrderUtils.IS_SAVE_SUBMIT_2);
+            paymentOrderService.generatePaymenyOrder(order);
+        }
         ucamMapper.updateByPrimaryKey(order);
         historyMapper.insert(history);
-
-        /*//总经理审核写入付款单
-        if(auditResults && STATUS_4 == order.getStatus()){
-            paymentOrderService.generatePaymenyOrder(order);
-        }*/
 
         return ResultUtil.ok();
     }

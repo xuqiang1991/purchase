@@ -135,6 +135,8 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
             //参数补充
             order.setUpdateDate(date);
             order.setCreateTime(date);
+            order.setLastReviewUser(order.getCreateUser());
+            order.setLastReviewDate(new Date());
             paoMapper.insertSelective(order);
         }
         return ResultUtil.ok(id);
@@ -202,7 +204,7 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
         tmp.setUpdateDate(new Date());
         tmp.setApplyDate(new Date());
         tmp.setUserItem(OrderUtils.getUserItem(order.getUserItem(),String.valueOf(userId)));
-        tmp.setIsSaveSubmit(OrderUtils.IS_APPROVAL_YES);
+        tmp.setIsSaveSubmit(OrderUtils.IS_SAVE_SUBMIT_1);
         paoMapper.updateByPrimaryKeySelective(tmp);
 
         BizHistory history = new BizHistory();
@@ -320,14 +322,14 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
         history.setId(WebUtils.generateUUID());
         //审核不通过
         if(!auditResults){
-            order.setIsSaveSubmit(OrderUtils.IS_APPROVAL_NO);
+            order.setIsSaveSubmit(OrderUtils.IS_SAVE_SUBMIT_0);
             order.setIsApproval(OrderUtils.IS_APPROVAL_NO);
             order.setLastReviewRole(order.getNextReviewRole());
             order.setLastReviewUser(admin.getId());
             order.setNextReviewUser(order.getCreateUser());//驳回则还原到创建人
             history.setIsApproval(OrderUtils.IS_APPROVAL_NO);
         }else{
-            order.setIsSaveSubmit(OrderUtils.IS_APPROVAL_YES);
+            order.setIsSaveSubmit(OrderUtils.IS_SAVE_SUBMIT_1);
             order.setIsApproval(OrderUtils.IS_APPROVAL_YES);
             order.setLastReviewRole(order.getNextReviewRole());
             order.setLastReviewUser(admin.getId());
@@ -348,7 +350,10 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
             history.setApprovalRoleName(roles.getRoleName());
         }
         history.setOpinion(auditOpinion);
-
+        TbRoles nextReviewRole = rolesMapper.selectByPrimaryKey(applyRole);
+        if(auditResults && nextReviewRole.getIsOverRole() == 1){
+            order.setIsSaveSubmit(OrderUtils.IS_SAVE_SUBMIT_2);
+        }
         paoMapper.updateByPrimaryKey(order);
         historyMapper.insert(history);
         return ResultUtil.ok();

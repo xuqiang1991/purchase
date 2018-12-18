@@ -545,8 +545,8 @@
         var price = document.getElementById("price");
         var quantities = document.getElementById("quantities");
         console.log(applyCompletionRate.value + " " + price.value);
-        if(regxLv.test(applyCompletionRate.value) && regxPrice.test(price.value) && regxLv.test(quantities.value)){
-            var applyPrice = (applyCompletionRate.value/100) * (quantities.value/100) * price.value;
+        if(regxLv.test(applyCompletionRate.value) && regxPrice.test(price.value)){
+            var applyPrice = ((applyCompletionRate.value/100) * quantities.value * price.value).toFixed(2);
             console.log(applyPrice);
             document.getElementById("applyPrice").value = applyPrice;
         }
@@ -559,8 +559,8 @@
         var price = document.getElementById("price");
         var quantities = document.getElementById("quantities");
         console.log(approvalCompletionRate.value + " " + price.value);
-        if(regxLv.test(approvalCompletionRate.value) && regxPrice.test(price.value) && regxPrice.test(price.value)){
-            var applyPrice = (approvalCompletionRate.value/100) * price.value;
+        if(regxLv.test(approvalCompletionRate.value) && regxPrice.test(price.value)){
+            var applyPrice = ((approvalCompletionRate.value/100) * quantities.value * price.value).toFixed(2);
             console.log(applyPrice);
             document.getElementById("approvalPrice").value = applyPrice;
         }
@@ -695,8 +695,8 @@
 
 
         var quantities = $('#quantities').val().trim();
-        if(check && !regxPrice.test(quantities)){
-            mui.alert("工程量格式错误，最多输入2位小数,且不能超过10位数！");
+        if(check && quantities.length > 5){
+            mui.alert("工程量格式错误,长度不能超过5！");
             check = false;
             return false;
         }

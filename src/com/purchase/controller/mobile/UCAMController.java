@@ -139,6 +139,12 @@ public class UCAMController {
         UCAMOrderDetialVo detailsVo = new UCAMOrderDetialVo();
         if(!StringUtils.isEmpty(id)){
             detailsVo = ucamService.selUCAMDetail(id,adminId);
+            Boolean isOverRole = adminService.checkRoleIsOverRole(detailsVo.getUcamVo().getNextReviewRole());
+            if(!isOverRole){
+                List<ChoseAdminForRoleVO> reviewAdmins = adminService.selectRoleAdmin();
+                model.addAttribute("reviewAdmins", JSON.toJSONString(reviewAdmins));
+            }
+            model.addAttribute("isOverRole",isOverRole);
         }
 
         if(admin.getUserType() == 1){
@@ -154,12 +160,6 @@ public class UCAMController {
 
         model.addAttribute("detailsVo",detailsVo);
         model.addAttribute("admin",admin);
-        Boolean isOverRole = adminService.checkRoleIsOverRole(detailsVo.getUcamVo().getNextReviewRole());
-        if(!isOverRole){
-            List<ChoseAdminForRoleVO> reviewAdmins = adminService.selectRoleAdmin();
-            model.addAttribute("reviewAdmins", JSON.toJSONString(reviewAdmins));
-        }
-        model.addAttribute("isOverRole",isOverRole);
         return "page/mobile/UCAM/details";
     }
 

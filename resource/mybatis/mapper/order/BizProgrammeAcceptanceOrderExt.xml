@@ -28,8 +28,7 @@
           </trim>
         </if>
       </foreach>
-      and (a.create_user = #{search.loginId} or a.apply_user = #{search.loginId}
-      or a.cost_depart_user = #{search.loginId} or a.project_depart_user = #{search.loginId} or a.manager_depart_user = #{search.loginId})
+      and (a.create_user = #{search.loginId} or a.apply_user = #{search.loginId} or FIND_IN_SET(#{search.loginId}, a.user_item))
     </where>
   </sql>
 
@@ -38,49 +37,56 @@
       <result column="supplier_id" jdbcType="BIGINT" property="id"></result>
       <result column="supplierName" jdbcType="VARCHAR" property="name"></result>
     </association>
-    <association property="admin" javaType="com.purchase.pojo.admin.TbAdmin">
-      <result column="admin_id" jdbcType="BIGINT" property="id"></result>
-      <result column="adminFullname" jdbcType="VARCHAR" property="fullname"></result>
-    </association>
-    <association property="costAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
-      <result column="costId" jdbcType="BIGINT" property="id"></result>
-      <result column="costFullname" jdbcType="VARCHAR" property="fullname"></result>
-    </association>
-    <association property="projectAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
-      <result column="projectId" jdbcType="BIGINT" property="id"></result>
-      <result column="projectFullname" jdbcType="VARCHAR" property="fullname"></result>
-    </association>
-    <association property="managerAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
-      <result column="managerId" jdbcType="BIGINT" property="id"></result>
-      <result column="managerFullname" jdbcType="VARCHAR" property="fullname"></result>
-    </association>
     <association property="tpm" javaType="com.purchase.pojo.admin.TbProjectManger">
       <result column="tpmId" jdbcType="BIGINT" property="id"></result>
       <result column="tpmName" jdbcType="VARCHAR" property="name"></result>
+    </association>
+    <association property="admin" javaType="com.purchase.pojo.admin.TbAdmin">
+      <result column="admin_id" jdbcType="BIGINT" property="id"></result>
+      <result column="adminFullname" jdbcType="VARCHAR" property="fullname"></result>
     </association>
     <association property="auAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
       <result column="auId" jdbcType="BIGINT" property="id"></result>
       <result column="auName" jdbcType="VARCHAR" property="fullname"></result>
     </association>
+    <association property="nextAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
+      <result column="nruId" jdbcType="BIGINT" property="id"></result>
+      <result column="nruFullname" jdbcType="VARCHAR" property="fullname"></result>
+    </association>
+    <association property="nextRole" javaType="com.purchase.pojo.admin.TbRoles">
+      <result column="nrrId" jdbcType="BIGINT" property="roleId"></result>
+      <result column="nrrRoleName" jdbcType="VARCHAR" property="roleName"></result>
+    </association>
+
+    <association property="lastUser" javaType="com.purchase.pojo.admin.TbAdmin">
+      <result column="lruId" jdbcType="BIGINT" property="id"></result>
+      <result column="lruFullname" jdbcType="VARCHAR" property="fullname"></result>
+    </association>
+    <association property="lastRole" javaType="com.purchase.pojo.admin.TbRoles">
+      <result column="lrrId" jdbcType="BIGINT" property="roleId"></result>
+      <result column="lrrRoleName" jdbcType="VARCHAR" property="roleName"></result>
+    </association>
   </resultMap>
   <select id="selectByExampleExt" resultMap="BaseResultMapExt">
     select
-        a.*,
-        b.id as supplier_id, b.name as supplierName,
-        c.id as costId, c.fullname as adminFullname,
-        tCost.id as costId, tCost.fullname as costFullname,
-        tProject.id as projectId, tProject.fullname as projectFullname,
-        tManager.id as managerId, tManager.fullname as managerFullname,
-        tpm.id as tpmId,tpm.name as tpmName,
-        auAdmin.id as auId,auAdmin.fullname as auName
+      a.*,
+      b.id as supplier_id, b.name as supplierName,
+      c.id as admin_id, c.fullname as adminFullname,
+      nru.id as nruId, nru.fullname as nruFullname,
+      nrr.role_id as nrrId, nrr.role_name as nrrRoleName,
+      lru.id as lruId, lru.fullname as lruFullname,
+      lrr.role_id as lrrId, lrr.role_name as lrrRoleName,
+      tpm.id as tpmId,tpm.name as tpmName,
+      auAdmin.id as auId,auAdmin.fullname as auName
     from biz_programme_acceptance_order a
-    LEFT JOIN tb_supplier b ON (a.supplier_id = b.id)
-    LEFT JOIN tb_admin c ON (a.create_user = c.id)
-     LEFT JOIN tb_admin tCost ON (a.cost_depart_user = tCost.id)
-     LEFT JOIN tb_admin tProject ON (a.project_depart_user = tProject.id)
-     LEFT JOIN tb_admin tManager ON (a.manager_depart_user = tManager.id)
-    LEFT JOIN tb_project_manger tpm ON (a.project_id = tpm.id)
-    LEFT JOIN tb_admin auAdmin ON (a.apply_user = auAdmin.id)
+      LEFT JOIN tb_supplier b ON (a.supplier_id = b.id)
+      LEFT JOIN tb_admin c ON (a.create_user = c.id)
+      LEFT JOIN tb_admin nru ON (a.next_review_user = nru.id)
+      LEFT JOIN tb_roles nrr ON (a.next_review_role = nrr.role_id)
+      LEFT JOIN tb_admin lru ON (a.last_review_user = lru.id)
+      LEFT JOIN tb_roles lrr ON (a.last_review_role = lrr.role_id)
+      LEFT JOIN tb_project_manger tpm ON (a.project_id = tpm.id)
+      LEFT JOIN tb_admin auAdmin ON (a.apply_user = auAdmin.id)
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause_Ext" />
     </if>

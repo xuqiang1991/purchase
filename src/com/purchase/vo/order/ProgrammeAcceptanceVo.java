@@ -2,6 +2,7 @@ package com.purchase.vo.order;
 
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbProjectManger;
+import com.purchase.pojo.admin.TbRoles;
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.BizHistory;
 import com.purchase.pojo.order.BizProgrammeAcceptanceOrder;
@@ -13,13 +14,18 @@ import java.util.List;
  */
 public class ProgrammeAcceptanceVo extends BizProgrammeAcceptanceOrder {
 
-    private TbSupplier supplier;
-    private TbAdmin admin;
-    private TbAdmin costAdmin;
-    private TbAdmin projectAdmin;
-    private TbAdmin managerAdmin;
-    private TbProjectManger tpm;
-    private TbAdmin auAdmin;
+    private TbSupplier supplier;//所属供应商
+    private TbProjectManger tpm;//所属项目
+
+    private TbAdmin admin;//创建人
+    private TbAdmin auAdmin;//申请人
+
+    private TbAdmin nextAdmin;//下一个审批人
+    private TbRoles nextRole;//下一个审批角色
+
+    private TbAdmin lastUser;//上一步审核人或操作人
+    private TbRoles lastRole;//上一步审核角色或操作角色
+
     private List<BizHistory> historyList;
 
     public TbSupplier getSupplier() {
@@ -30,38 +36,6 @@ public class ProgrammeAcceptanceVo extends BizProgrammeAcceptanceOrder {
         this.supplier = supplier;
     }
 
-    public TbAdmin getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(TbAdmin admin) {
-        this.admin = admin;
-    }
-
-    public TbAdmin getCostAdmin() {
-        return costAdmin;
-    }
-
-    public void setCostAdmin(TbAdmin costAdmin) {
-        this.costAdmin = costAdmin;
-    }
-
-    public TbAdmin getProjectAdmin() {
-        return projectAdmin;
-    }
-
-    public void setProjectAdmin(TbAdmin projectAdmin) {
-        this.projectAdmin = projectAdmin;
-    }
-
-    public TbAdmin getManagerAdmin() {
-        return managerAdmin;
-    }
-
-    public void setManagerAdmin(TbAdmin managerAdmin) {
-        this.managerAdmin = managerAdmin;
-    }
-
     public TbProjectManger getTpm() {
         return tpm;
     }
@@ -70,12 +44,52 @@ public class ProgrammeAcceptanceVo extends BizProgrammeAcceptanceOrder {
         this.tpm = tpm;
     }
 
+    public TbAdmin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(TbAdmin admin) {
+        this.admin = admin;
+    }
+
     public TbAdmin getAuAdmin() {
         return auAdmin;
     }
 
     public void setAuAdmin(TbAdmin auAdmin) {
         this.auAdmin = auAdmin;
+    }
+
+    public TbAdmin getNextAdmin() {
+        return nextAdmin;
+    }
+
+    public void setNextAdmin(TbAdmin nextAdmin) {
+        this.nextAdmin = nextAdmin;
+    }
+
+    public TbRoles getNextRole() {
+        return nextRole;
+    }
+
+    public void setNextRole(TbRoles nextRole) {
+        this.nextRole = nextRole;
+    }
+
+    public TbAdmin getLastUser() {
+        return lastUser;
+    }
+
+    public void setLastUser(TbAdmin lastUser) {
+        this.lastUser = lastUser;
+    }
+
+    public TbRoles getLastRole() {
+        return lastRole;
+    }
+
+    public void setLastRole(TbRoles lastRole) {
+        this.lastRole = lastRole;
     }
 
     public List<BizHistory> getHistoryList() {

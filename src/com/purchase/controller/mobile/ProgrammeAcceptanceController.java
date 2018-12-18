@@ -12,10 +12,7 @@ import com.purchase.service.ProgrammeAcceptanceService;
 import com.purchase.service.ProjectMangerService;
 import com.purchase.service.SupplierService;
 import com.purchase.util.ResultUtil;
-import com.purchase.vo.admin.ChoseAdminVO;
-import com.purchase.vo.admin.ChoseDeptVO;
-import com.purchase.vo.admin.ChoseProjectVO;
-import com.purchase.vo.admin.ChoseSupplierVO;
+import com.purchase.vo.admin.*;
 import com.purchase.vo.order.ProgrammeAcceptanceDetialVo;
 import com.purchase.vo.order.ProgrammeAcceptanceSearch;
 import com.purchase.vo.order.ProgrammeAcceptanceVo;
@@ -34,6 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -141,6 +139,12 @@ public class ProgrammeAcceptanceController {
         ProgrammeAcceptanceDetialVo detailsVo = new ProgrammeAcceptanceDetialVo();
         if(!StringUtils.isEmpty(id)){
             detailsVo = paService.selPAODetail(id,adminId);
+            Boolean isOverRole = adminService.checkRoleIsOverRole(detailsVo.getPaoVo().getNextReviewRole());
+            if(!isOverRole){
+                List<ChoseAdminForRoleVO> reviewAdmins = adminService.selectRoleAdmin();
+                model.addAttribute("reviewAdmins", JSON.toJSONString(reviewAdmins));
+            }
+            model.addAttribute("isOverRole",isOverRole);
         }
         if(admin.getUserType() == 1){
             TbSupplier supplier = supplierService.selSupplierById(admin.getSupplierId());
@@ -152,6 +156,7 @@ public class ProgrammeAcceptanceController {
             List<ChoseSupplierVO> admins = adminService.selectAdminSupplierIdNotNull();
             req.setAttribute("admins", JSON.toJSONString(admins));
         }
+
         model.addAttribute("detailsVo",detailsVo);
         model.addAttribute("admin",admin);
         return "page/mobile/programmeAcceptance/details";

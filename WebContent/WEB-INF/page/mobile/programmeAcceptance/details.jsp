@@ -70,6 +70,7 @@
                         <div class="mui-collapse-content">
                             <form class="mui-input-group" id="programmeAcceptanceForm">
                                 <input type="hidden" name="id" id="id" value="${detailsVo.paoVo.id}">
+                                <input type="hidden" name="isApproval" id="isApproval" value="${detailsVo.paoVo.isApproval}">
                                 <div class="mui-input-row">
                                     <label>工程验收单号</label>
                                     <%--<label style="width: 65%;padding-left: 0px;">${detailsVo.paoVo.orderNo}</label>--%>
@@ -84,7 +85,7 @@
                                             <input type="hidden" id="applyUserEdit" name="applyUser" value="${admin.id}" mui-verify="required">
                                         </c:when>
                                         <c:otherwise>
-                                            <input type="text" id="selectApplyUserEdit" placeholder="请选择申请人" value="${detailsVo.paoVo.admin.fullname}" <c:if test="${detailsVo.paoVo.status != 0}">disabled="disabled"</c:if> >
+                                            <input type="text" id="selectApplyUserEdit" placeholder="请选择申请人" value="${detailsVo.paoVo.admin.fullname}" >
                                             <input type="hidden" id="applyUserEdit" name="applyUser" value="${detailsVo.paoVo.admin.id}" mui-verify="required">
                                         </c:otherwise>
                                     </c:choose>
@@ -106,33 +107,40 @@
                                             </c:choose>
                                         </c:when>
                                         <c:otherwise>
-                                            <input type="text" id="supplierName" readonly value="${detailsVo.paoVo.supplier.name}" <c:if test="${detailsVo.paoVo.status != 0}">disabled="disabled"</c:if>>
+                                            <input type="text" id="supplierName" readonly value="${detailsVo.paoVo.supplier.name}" >
                                             <input type="hidden" id="supplierId" name="supplierId" value="${detailsVo.paoVo.supplier.id}" mui-verify="required">
                                         </c:otherwise>
                                     </c:choose>
                                 </div>
                                 <div class="mui-input-row">
                                     <label>所属项目</label>
-                                    <%--<label style="width: 65%;padding-left: 0px;">${detailsVo.paoVo.tpm.name}</label>--%>
-                                    <a <c:if test="${detailsVo.paoVo.id == null || detailsVo.paoVo.status == 0}">href="#selectProject" id="app-selectProject"</c:if>>
-                                        <label id="selectProjectText" style="width: 65%;padding-left: 0px;">
-                                            <c:choose>
-                                                <c:when test="${detailsVo.paoVo.id == null}">
-                                                    请选择所属项目
-                                                </c:when>
-                                                <c:otherwise>
-                                                    ${detailsVo.paoVo.tpm.name}
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </label>
-                                        <input type="hidden" id="selectProjectHidden" name="projectId" value="${detailsVo.paoVo.tpm.id}" mui-verify="required">
-                                    </a>
+                                    <c:choose>
+                                        <c:when test="${detailsVo.paoVo.id == null || (detailsVo.paoVo.id != null && detailsVo.paoVo.isSaveSubmit == 0)}">
+                                            <a href="#selectProject" id="app-selectProject" class="appClassForA">
+                                                <label id="selectProjectText" style="width: 65%;padding-left: 0px;">
+                                                    <c:choose>
+                                                        <c:when test="${detailsVo.paoVo.id == null}">
+                                                            请选择所属项目
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            ${detailsVo.paoVo.tpm.name}
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </label>
+                                                <input type="hidden" id="selectProjectHidden" name="projectId" value="${detailsVo.paoVo.tpm.id}" mui-verify="required">
+                                            </a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="text" readonly value="${detailsVo.paoVo.tpm.name}">
+                                            <input type="hidden" id="selectProjectHidden" name="projectId" value="${detailsVo.paoVo.tpm.id}" mui-verify="required">
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                                 <div>
-                                    <textarea name="summary" id="summary" rows="5" class="mui-input-clear" readonly="readonly">${detailsVo.paoVo.summary}</textarea>
+                                    <textarea name="summary" id="summary" rows="5" class="mui-input-clear">${detailsVo.paoVo.summary}</textarea>
                                 </div>
                                 <div class="mui-button-row" style="padding-bottom: 20px;">
-                                    <c:if test="${detailsVo.paoVo.status == 0 || detailsVo.paoVo.status == null}">
+                                    <c:if test="${detailsVo.paoVo.id == null || (detailsVo.paoVo.id != null && detailsVo.paoVo.isSaveSubmit == 0)}">
                                         <button type="button" class="mui-btn mui-btn-primary" id="programmeAcceptanceSave">保存</button>
                                     </c:if>
                                 </div>
@@ -181,12 +189,12 @@
                                                         <label>实际完成日期：<fmt:formatDate value="${item.actualOverDate}" pattern="yyyy-MM-dd"/></label>
                                                     </p>
                                                     <p>
-                                                        <label>备注：${item.remark}${detailsVo.paoVo.status}</label>
+                                                        <label>备注：${item.remark}</label>
                                                     </p>
                                                 </div>
                                             </div>
                                             <div class="mui-card-footer">
-                                                <c:if test="${detailsVo.paoVo.status == 0 && detailsVo.paoVo.createUser == admin.id}">
+                                                <c:if test="${detailsVo.paoVo.id == null || (detailsVo.paoVo.id != null && detailsVo.paoVo.isSaveSubmit == 0)}">
                                                     <div>
                                                         <a href="#fromPAOItem" name="app-a" data-id="${item.id}">
                                                             <button type="button" class="mui-btn mui-btn-primary" value="${item.id}">修改</button>
@@ -196,7 +204,7 @@
                                                         <button type="button" class="mui-btn mui-btn-primary deleteItem" value="${item.id}">刪除</button>
                                                     </div>
                                                 </c:if>
-                                                <c:if test="${detailsVo.paoVo.status == 1 && detailsVo.reviewUserId == admin.id}">
+                                                <c:if test="${detailsVo.paoVo.nextReviewUser == admin.id && detailsVo.paoVo.isSaveSubmit == 1}">
                                                     <div>
                                                         <a href="#fromPAOItem" name="app-a" data-id="${item.id}">
                                                             <button type="button" class="mui-btn mui-btn-primary" value="${item.id}">审核</button>
@@ -222,7 +230,7 @@
 
             <div class="mui-content-padded">
                 <c:choose>
-                    <c:when test="${detailsVo.paoVo.status == 0 && detailsVo.paoVo.createUser == admin.id}">
+                    <c:when test="${detailsVo.paoVo.isApproval == 0 && detailsVo.paoVo.createUser == admin.id}">
                         <a href="#fromPAOItem">
                             <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加明细</button>
                         </a>
@@ -232,7 +240,7 @@
                     <%--<c:when test="${detailsVo.paoVo.status == 1 && empty detailsVo.paoVo.costDepartUser && empty detailsVo.reviewUserId}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="submitReviewPAO">选择审核人</button>
                     </c:when>--%>
-                    <c:when test="${detailsVo.paoVo.id != null && detailsVo.reviewUserId == admin.id}">
+                    <c:when test="${detailsVo.paoVo.nextReviewUser == admin.id && detailsVo.paoVo.isSaveSubmit == 1}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">审核</button>
                     </c:when>
                 </c:choose>
@@ -249,7 +257,7 @@
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>返回
         </button>
-        <h1 class="mui-center mui-title"><c:if test="${detailsVo.paoVo.status != 0}">审批</c:if><c:if test="${detailsVo.paoVo.status == 0}">增加</c:if>工程验收单项</h1>
+        <h1 class="mui-center mui-title">工程验收明细</h1>
     </div>
     <div class="mui-page-content">
         <div class="mui-scroll-wrapper">
@@ -259,17 +267,17 @@
                     <input type="hidden" id="id" name="id" value="">
                     <div class="mui-input-row">
                         <label>整改内容</label>
-                        <input type="text" id="rectifyContent" name="rectifyContent" mui-verify="required" <c:if test="${detailsVo.paoVo.status == 0}">class="mui-input-clear"</c:if> <c:if test="${detailsVo.paoVo.status != 0}">readonly</c:if> placeholder="请输入整改内容">
+                        <input type="text" id="rectifyContent" name="rectifyContent" mui-verify="required" placeholder="请输入整改内容">
                     </div>
                     <div class="mui-input-row">
                         <label>整改措施</label>
-                        <input type="text" id="rectifyMeasure" name="rectifyMeasure" mui-verify="required" <c:if test="${detailsVo.paoVo.status == 0}">class="mui-input-clear"</c:if> <c:if test="${detailsVo.paoVo.status != 0}">readonly</c:if> placeholder="请输入整改措施">
+                        <input type="text" id="rectifyMeasure" name="rectifyMeasure" mui-verify="required" placeholder="请输入整改措施">
                     </div>
                     <div class="mui-input-row">
                         <label>计划完成日期</label>
-                        <input type="text" id="playOverDate" name="playOverDate" readonly data-options='{"type":"date","beginYear":2018,"endYear":2028}' <c:if test="${detailsVo.paoVo.status != 0}">readonly</c:if> placeholder="请选择计划完成日期" mui-verify="required">
+                        <input type="text" id="playOverDate" name="playOverDate" readonly data-options='{"type":"date","beginYear":2018,"endYear":2028}'  placeholder="请选择计划完成日期" mui-verify="required">
                     </div>
-                    <c:if test="${detailsVo.paoVo.status == 1 && detailsVo.reviewUserId == admin.id}">
+                    <c:if test="${detailsVo.paoVo.nextReviewUser == admin.id && detailsVo.paoVo.isSaveSubmit == 1}">
                         <div class="mui-input-row">
                             <label>是否已整改</label>
                             <input type="text" id="rectifyFlagName" name="rectifyFlagName" readonly value="已整改">
@@ -281,7 +289,7 @@
                         </div>
                     </c:if>
                     <div>
-                        <textarea name="remark" id="remark" rows="5" <c:if test="${detailsVo.paoVo.status == 0}">class="mui-input-clear"</c:if> <c:if test="${detailsVo.paoVo.status != 0}">readonly</c:if> placeholder="备注"></textarea>
+                        <textarea name="remark" id="remark" rows="5" <c:if test="${detailsVo.paoVo.isApproval == 0 && detailsVo.paoVo.createUser == admin.id}">disabled="disabled"</c:if> placeholder="备注"></textarea>
                     </div>
                     <div class="mui-button-row" style="padding-bottom: 20px;">
                         <button type="button" class="mui-btn mui-btn-primary" id="submitFromPAOItem">保存</button>
@@ -301,13 +309,14 @@
     });
 
     mui('.mui-scroll-wrapper').scroll();
-    var status = '${detailsVo.paoVo.status}';
+    var isApproval = '${detailsVo.paoVo.isApproval}';
+    var isSaveSubmit = '${detailsVo.paoVo.isSaveSubmit}';
     var rectifyFlagJson = '[{"value":0,"text":"未整改"},{"value":1,"text":"已整改"}]';
     //初始化数据
     mui.ready(function() {
         initplayOverDate();
 
-        if(status == 1) {
+        if(isApproval == 1) {
             initactualOverDate();
 
             inirectifyFlagName();
@@ -399,11 +408,20 @@
 
 
 
-        if(status == null || status == 0) {
+        if(document.getElementById('app-selectProject')){
             document.getElementById('app-selectProject').addEventListener('tap', function (event) {
                 $project.projectList();
             }, false);
         }
+
+        console.log("isApproval:" + isApproval);
+        //可编辑条件1：订单不存在；2：订单存在、用户等于创建用户、操作状态未未提交
+        if(!orderId || (orderId && isSaveSubmit == 0)){
+            $("#ucamForm").find("input[type='text']").attr("disabled",false);
+        }else{
+            $("#ucamForm").find("input[type='text']").attr("disabled",true);
+        }
+
     });
 
     function initplayOverDate(){
@@ -706,7 +724,6 @@
 <!-- 审核 -->
 <c:set value="${ctx }/mobile/programmeAcceptance/toDetails/?id=${detailsVo.paoVo.id}" var="reviewRefreshUrl"/>
 <c:set value="${ctx}/mobile/programmeAcceptance/reviewProgrammeAcceptanceOrder/${detailsVo.paoVo.id}" var="reviewSaveUrl"/>
-<c:set value="${detailsVo.paoVo.status}" var="reviewStatus"/>
 <%@ include file="/WEB-INF/page/mobile/common/review.jsp"%>
 <!-- 审核 -->
 
