@@ -60,8 +60,8 @@
                         <option value="">请选择项目状态</option>
                         <option value="0">未开工</option>
                         <option value="1">在建中</option>
-                        <option value="2">已完工</option>
-                        <option value="3">已验收</option>
+                        <option value="2">验收中</option>
+                        <option value="3">已完工</option>
                         <option value="4">已停工</option>
                     </select>
                 </div>
@@ -140,9 +140,9 @@
         {{# }else if(d.status == 1){ }}
         在建中
         {{# }else if(d.status == 2){ }}
-        已完工
+        验收中
         {{# }else if(d.status == 3){ }}
-        已验收
+        已完工
         {{#  } else{ }}
         已停工
         {{#  } }}

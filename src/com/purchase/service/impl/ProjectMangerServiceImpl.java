@@ -62,6 +62,9 @@ public class ProjectMangerServiceImpl implements ProjectMangerService {
         if(search.getStatus() != null){
             criteria.andStatusEqualTo(search.getStatus());
         }
+        if(!CollectionUtils.isEmpty(search.getStatusList())){
+            criteria.andStatusIn(search.getStatusList());
+        }
 
         List<TbProjectManger> list = projectMangerMapper.selectByExample(example);
         List<TbAdmin> admins = adminMapper.selectByExampleExt(new TbAdminExample());

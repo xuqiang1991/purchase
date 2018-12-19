@@ -1,5 +1,7 @@
 package com.purchase.vo.admin;
 
+import java.util.List;
+
 /**
  * @Auther: zhoujb
  * @Date: 2018/8/24 17:32
@@ -11,6 +13,7 @@ public class ProjectMangerSearch {
     private String developer;
     private String consignor;
     private Integer status;
+    private List<Integer> statusList;
 
     public String getName() {
         return name;
@@ -50,5 +53,13 @@ public class ProjectMangerSearch {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public List<Integer> getStatusList() {
+        return statusList;
+    }
+
+    public void setStatusList(List<Integer> statusList) {
+        this.statusList = statusList;
     }
 }

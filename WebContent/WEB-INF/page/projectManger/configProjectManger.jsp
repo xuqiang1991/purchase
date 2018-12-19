@@ -246,8 +246,8 @@
                 <option value="">请选择</option>
                 <option value="0" <c:if test="${projectManger.status == 0}">selected</c:if> >未开工</option>
                 <option value="1" <c:if test="${projectManger.status == 1}">selected</c:if> >在建中</option>
-                <option value="2" <c:if test="${projectManger.status == 2}">selected</c:if> >已完工</option>
-                <option value="3" <c:if test="${projectManger.status == 3}">selected</c:if> >已验收</option>
+                <option value="2" <c:if test="${projectManger.status == 2}">selected</c:if> >验收中</option>
+                <option value="3" <c:if test="${projectManger.status == 3}">selected</c:if> >已完工</option>
                 <option value="4" <c:if test="${projectManger.status == 4}">selected</c:if> >已停工</option>
             </select>
         </div>

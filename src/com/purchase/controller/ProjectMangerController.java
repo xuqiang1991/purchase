@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -114,6 +115,11 @@ public class ProjectMangerController {
         logger.info("请求项目数据");
         ResultUtil result = new ResultUtil();
         try {
+            List<Integer> statusList = new ArrayList<>();
+            statusList.add(0);//未开工
+            statusList.add(1);//在建中
+            statusList.add(2);//已验收
+            search.setStatusList(statusList);
             result = projectMangerService.selProjectManger(page,limit,search);
         }catch (Exception e){
             e.printStackTrace();
