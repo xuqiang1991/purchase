@@ -37,7 +37,7 @@
             </div>
         </div>
     </shiro:hasPermission>
-    <!-- 单号、订单类型、来源订单、供应商、所属项目、请款人、开单人、开单日期、单据状态 -->
+    <!-- 单号、订单类型、来源合同、供应商、所属项目、请款人、开单人、开单日期、单据状态 -->
     <ul class="mui-table-view" style="z-index: 100">
         <li class="mui-table-view-cell mui-collapse" id="searchCollapse">
             <a class="" href="#">
@@ -56,8 +56,8 @@
                             <input type="hidden" id="orderType" name="orderType" value="" >
                         </div>
                         <div class="mui-input-row">
-                            <label>来源订单</label>
-                            <input type="text" id="sourceOrderIdName" readonly class="mui-input-clear" placeholder="请选择来源订单" value="" >
+                            <label>来源合同</label>
+                            <input type="text" id="sourceOrderIdName" readonly class="mui-input-clear" placeholder="请选择来源合同" value="" >
                             <input type="hidden" id="sourceOrderId" name="sourceOrderId" value="" >
                         </div>
                         <div class="mui-input-row">
@@ -402,7 +402,7 @@
         <div class="mui-card-content toDetails" value="{{id}}">
             <div class="mui-card-content-inner">
                 <p>
-                    <label>来源订单：{{admin.fullname}}</label>
+                    <label>来源合同：{{admin.fullname}}</label>
                     <label>供应商：{{supplier.name}}</label>
                 </p>
                 <p>

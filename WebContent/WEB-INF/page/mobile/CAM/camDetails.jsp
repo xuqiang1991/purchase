@@ -82,12 +82,12 @@
                                     </c:choose>
                                 </div>
                                 <div class="mui-input-row">
-                                    <label>来源订单</label>
+                                    <label>来源合同</label>
                                     <a <c:if test="${detailsVo.order.id == null || detailsVo.order.status == 0}">href="#selectProject" id="app-b"</c:if>>
                                         <label id="selectProjectText" style="width: 65%;padding-left: 0px;">
                                             <c:choose>
                                                 <c:when test="${detailsVo.order.purchaseOrderVo.id == null}">
-                                                    请选择来源订单
+                                                    请选择来源合同
                                                 </c:when>
                                                 <c:otherwise>
                                                     ${detailsVo.order.purchaseOrderVo.purchaseNo}
@@ -395,7 +395,7 @@
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>返回
         </button>
-        <h1 class="mui-center mui-title">选择来源订单</h1>
+        <h1 class="mui-center mui-title">选择来源合同</h1>
     </div>
     <div class="mui-page-content">
         <div class="mui-scroll-wrapper">
@@ -979,7 +979,7 @@
     }
 
 
-    /** start 选择来源订单 **/
+    /** start 选择来源合同 **/
     mui(document.body).on('tap', '#search-btn', function(e) {
         $('#searchCollapse').removeClass('mui-active')
         $purchaseOrder.projectList();

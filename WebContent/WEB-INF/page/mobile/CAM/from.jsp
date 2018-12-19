@@ -58,9 +58,9 @@
                 </c:choose>
             </div>
             <div class="mui-input-row">
-                <label>来源订单</label>
+                <label>来源合同</label>
                 <a href="#selectProject" id="app-a">
-                    <label id="selectProjectText" style="width: 65%;padding-left: 0px;"><c:choose><c:when test="${empty order}">请选择来源订单</c:when><c:otherwise>${order.purchaseOrderVo.purchaseNo}</c:otherwise></c:choose></label>
+                    <label id="selectProjectText" style="width: 65%;padding-left: 0px;"><c:choose><c:when test="${empty order}">请选择来源合同</c:when><c:otherwise>${order.purchaseOrderVo.purchaseNo}</c:otherwise></c:choose></label>
                     <input type="hidden" id="selectProjectHidden" name="sourceOrderId" value="${order.sourceOrderId}">
                 </a>
             </div>
@@ -94,7 +94,7 @@
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>返回
         </button>
-        <h1 class="mui-center mui-title">选择来源订单</h1>
+        <h1 class="mui-center mui-title">选择来源合同</h1>
     </div>
     <div class="mui-page-content">
         <div class="mui-scroll-wrapper">
@@ -195,7 +195,7 @@
         }, false);
     }
 
-    /** start 选择来源订单 **/
+    /** start 选择来源合同 **/
     mui(document.body).on('tap', '#search-btn', function(e) {
         var selectProjectHidden = $('#selectProjectHidden').val();
         if(!(selectProjectHidden == '' && selectProjectHidden == null)){
