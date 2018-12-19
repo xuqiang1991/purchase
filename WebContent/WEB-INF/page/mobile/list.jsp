@@ -45,7 +45,7 @@
             </div>
         </li>
     </ul>
-    <!-- 采购订单 start -->
+    <!-- 合同订单 start -->
     <div class="mui-card" style="margin: 0px; margin-top: 5px;">
         <div class="mui-card-header mui-card-media">
             <!-- 订单类型 用图标展示 -->
@@ -81,7 +81,7 @@
             </div>
         </div>
     </div>
-    <!-- 采购订单 end -->
+    <!-- 合同订单 end -->
     <!-- 合同内请款单 start -->
     <div class="mui-card" style="margin: 0px; margin-top: 5px;">
         <div class="mui-card-header mui-card-media">

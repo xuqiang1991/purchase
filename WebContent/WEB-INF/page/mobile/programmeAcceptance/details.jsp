@@ -47,7 +47,7 @@
         <h1 class="mui-center mui-title">工程验收单详情</h1>
     </div>
 
-    <!-- 采购单项 start -->
+    <!-- 合同订单项 start -->
     <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 0px;width: 100%;">
         <div class="mui-scroll">
             <!-- 主界面具体展示内容 -->
@@ -248,7 +248,7 @@
 
         </div>
     </div>
-    <!-- 采购单项 end -->
+    <!-- 合同订单项 end -->
 </div>
 
 

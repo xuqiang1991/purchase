@@ -187,7 +187,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
                 int applyType = order.getApplyType();
                 String contractOrderNo = order.getContractOrderNo();
                 if(applyType == 0){
-                    //回写采购单
+                    //回写合同订单
                     String purchaseNo = order.getPurchaseNo();
                     BizPurchaseOrder purchaseOrder = purchaseOrderMapper.selectByPurchaseNo(purchaseNo);
                     BizPurchaseOrder pTmp = new BizPurchaseOrder();

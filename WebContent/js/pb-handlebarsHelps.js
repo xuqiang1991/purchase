@@ -1,5 +1,5 @@
 /*
-    采购订单
+ 合同订单
  */
 prorammeAcceptanceOrder = {
     //状态转换

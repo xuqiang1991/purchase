@@ -322,7 +322,7 @@
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>返回
         </button>
-        <h1 class="mui-center mui-title">选择采购单明细</h1>
+        <h1 class="mui-center mui-title">选择合同订单明细</h1>
     </div>
     <div class="mui-page-content">
         <div class="mui-scroll-wrapper">
@@ -548,11 +548,11 @@
             if(checkCAMItemData != null && (checkCAMItemData.amount < 0 || checkCAMItemData.count > 0)){
                 var msg;
                 if(checkCAMItemData.amount < 0 && checkCAMItemData.count > 0){
-                    msg = "采购单明细有多条，且结算数量超过采购单未到货数量，是否提交？"
+                    msg = "合同订单明细有多条，且结算数量超过合同订单未到货数量，是否提交？"
                 }else if(checkCAMItemData.amount < 0){
-                    msg = "采购单明细结算数量超过采购单未到货数量，是否提交？"
+                    msg = "合同订单明细结算数量超过合同订单未到货数量，是否提交？"
                 }else if(checkCAMItemData.count > 0){
-                    msg = "采购单明细有多条，是否提交？"
+                    msg = "合同订单明细有多条，是否提交？"
                 }
 
                 var btnArray = ['是', '否'];
@@ -727,7 +727,7 @@
     }
 
 
-    //选择采购单明细
+    //选择合同订单明细
     var oldBack = mui.back;
     function cancel(){
         if (viewApi.canBack()) { //如果view可以后退，则执行view的后退
@@ -739,7 +739,7 @@
     function projectEnsure(){
         var accountSelected = $("#fromPurchaseOrderDetailsItem").find("li").hasClass("mui-selected");
         if(accountSelected){
-            //获取采购单参数
+            //获取合同订单参数
             var lis = $("#fromPurchaseOrderDetailsItem").find("li.mui-selected");
 
             //引用ID
@@ -950,13 +950,13 @@
 
         //检查提示
         if(checkCAMItemData != null && (checkCAMItemData.amount < 0 || checkCAMItemData.count > 1)){
-            var msg = "采购单明细结算数量超过采购单未到货数量，是否"+type+"？"
+            var msg = "合同订单明细结算数量超过合同订单未到货数量，是否"+type+"？"
             if(checkCAMItemData.amount < 0 && checkCAMItemData.count > 1){
-                msg = "采购单明细有多条，且结算数量超过采购单未到货数量，是否"+type+"？"
+                msg = "合同订单明细有多条，且结算数量超过合同订单未到货数量，是否"+type+"？"
             }else if(checkCAMItemData.amount < 0){
-                msg = "采购单明细结算数量超过采购单未到货数量，是否"+type+"？"
+                msg = "合同订单明细结算数量超过合同订单未到货数量，是否"+type+"？"
             }else if(checkCAMItemData.count < 1){
-                msg = "采购单明细有多条，是否"+type+"？"
+                msg = "合同订单明细有多条，是否"+type+"？"
             }
 
             var btnArray = ['是', '否'];

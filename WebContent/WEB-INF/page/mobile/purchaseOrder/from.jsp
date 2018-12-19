@@ -34,8 +34,8 @@
         </button>--%>
         <h1 class="mui-center mui-title">
             <c:choose>
-                <c:when test="${empty order}">新建采购订单</c:when>
-                <c:otherwise>修改采购订单</c:otherwise>
+                <c:when test="${empty order}">新建合同订单</c:when>
+                <c:otherwise>修改合同订单</c:otherwise>
             </c:choose>
         </h1>
     </div>

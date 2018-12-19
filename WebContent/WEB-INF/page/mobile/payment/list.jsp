@@ -321,7 +321,7 @@
         }, false);
     })
 </script>
-<!-- 采购订单 start -->
+<!-- 合同订单 start -->
 <script type="text/template" id="listTpl">
     {{#each data}}
     <div class="mui-card" style="margin: 0px; margin-top: 5px;">
@@ -373,6 +373,6 @@
     </div>
     {{/each}}
 </script>
-<!-- 采购订单 end -->
+<!-- 合同订单 end -->
 </body>
 </html>

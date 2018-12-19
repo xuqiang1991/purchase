@@ -185,7 +185,7 @@ public class CAMServiceImpl implements CAMService {
         List<BizContractApplyMoneyDetail> detailList = contractApplyMoneyDetailMapper.selectByExample(example);
         detailsVo.setDetails(detailList);
 
-        //过滤已添加过详情的采购单详情
+        //过滤已添加过详情的合同订单详情
         List<BizPurchaseOrderDetail> details = vo.getDetails();
         if(!CollectionUtils.isEmpty(details) && !CollectionUtils.isEmpty(detailList)){
             for(int i = details.size() - 1; i >= 0; i--){
@@ -306,7 +306,7 @@ public class CAMServiceImpl implements CAMService {
             BizPurchaseOrderVo purchaseOrderVo = purchaseOrderService.selPurchaseOrderById(sourceOrderId);
             vo.setPurchaseOrderVo(purchaseOrderVo);
 
-            //获取采购单详情
+            //获取合同订单详情
             String purchaseNo = purchaseOrderVo.getPurchaseNo();
             BizPurchaseOrderDetailExample example1 = new BizPurchaseOrderDetailExample();
             BizPurchaseOrderDetailExample.Criteria criteria1 = example1.createCriteria();
@@ -333,7 +333,7 @@ public class CAMServiceImpl implements CAMService {
 
         BigDecimal price = order.getSettlePrice();
 
-        //如有金额更新采购单
+        //如有金额更新合同订单
         if (price != null) {
             String orderNo = order.getOrderNo();
             BizContractApplyMoney camOrder = camMapper.selectByOrderNo(orderNo);
@@ -396,7 +396,7 @@ public class CAMServiceImpl implements CAMService {
 
             BigDecimal price = order.getSettlePrice();
 
-            //如有金额更新采购单
+            //如有金额更新合同订单
             if (price != null) {
                 BizContractApplyMoney camOrder = camMapper.selectByOrderNo(orderNo);
                 BigDecimal contractMoney = camOrder.getApplyPrice();
@@ -428,7 +428,7 @@ public class CAMServiceImpl implements CAMService {
 
         BigDecimal price = oldPrice.subtract(order.getSettlePrice());
 
-        //如有金额更新采购单
+        //如有金额更新合同订单
         if (price != null) {
             String orderNo = order.getOrderNo();
             BizContractApplyMoney camOrder = camMapper.selectByOrderNo(orderNo);
@@ -482,7 +482,7 @@ public class CAMServiceImpl implements CAMService {
         String id = order.getId();
         BigDecimal price = order.getSettlePrice();
 
-        //如有金额更新采购单
+        //如有金额更新合同订单
         if (price != null) {
             String orderNo = order.getOrderNo();
             BizContractApplyMoney camOrder = camMapper.selectByOrderNo(orderNo);
@@ -515,7 +515,7 @@ public class CAMServiceImpl implements CAMService {
 
         int status = order.getStatus();
         if (!(CAMUtil.STATUS_0 == status)) {
-            return ResultUtil.error("非未提交状态的采购单不能提交！");
+            return ResultUtil.error("非未提交状态的合同订单不能提交！");
         }
 
         BizContractApplyMoney tmp = new BizContractApplyMoney();
@@ -532,7 +532,7 @@ public class CAMServiceImpl implements CAMService {
 
         int status = order.getStatus();
         if (CAMUtil.STATUS_1 != status) {
-            return ResultUtil.error("非未提交状态的采购单不能选择成本部审核！");
+            return ResultUtil.error("非未提交状态的合同订单不能选择成本部审核！");
         }
         Date date = new Date();
         BizContractApplyMoney tmp = new BizContractApplyMoney();
@@ -585,14 +585,14 @@ public class CAMServiceImpl implements CAMService {
             if(PurchaseUtil.STATUS_3 == status){
                 paymentOrderService.generatePaymenyOrder(order);
 
-                //回写主采购单
+                //回写主合同订单
                 String sourceOrderId = order.getSourceOrderId();
                 BizPurchaseOrder tmp1 = new BizPurchaseOrder();
                 tmp1.setId(sourceOrderId);
                 tmp1.setRequestAmount(order.getApplyPrice());
                 purchaseOrderMapper.updateByPrimaryKeySelective(tmp1);
 
-                //回写采购单详情(已结算数量)
+                //回写合同订单详情(已结算数量)
                 String orderNo = order.getOrderNo();
                 BizContractApplyMoneyDetailExample example = new BizContractApplyMoneyDetailExample();
                 BizContractApplyMoneyDetailExample.Criteria criteria = example.createCriteria();

@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class ProgrammeAcceptanceUtil {
 
-    /** 采购单状态 **/
+    /** 合同订单状态 **/
     public static final int STATUS_0 = 0;//未提交
     public static final int STATUS_1 = 1;//已提交
     public static final int STATUS_2 = 2;//工程部已审核

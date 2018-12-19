@@ -132,7 +132,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			id = WebUtils.generateUUID();
 			order.setId(id);
 
-			//生成采购单号
+			//生成合同订单号
 			String yyddmm = DateUtil.formatDate(date,DateUtil.DateFormat3);
 			String prefix = PurchaseUtil.prefix + yyddmm;
 			String pn = purchaseOrderMapper.selMaxPurchaseNo(prefix);
@@ -162,7 +162,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 	/**
 	 *
-	 * 查询采购单号详情
+	 * 查询合同订单号详情
 	 * @param id
 	 * @return
 	 */
@@ -170,12 +170,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	public BizPurchaseOrderDetailsVo selPurchaseOrder(String id) {
 		BizPurchaseOrderDetailsVo detailsVo = new BizPurchaseOrderDetailsVo();
 
-		//获取采购单
+		//获取合同订单
         BizPurchaseOrderVo vo =  getBizPurchaseOrderVo(id);
         Long userId = vo.getCreateUser();
 		detailsVo.setPurchaseOrder(vo);
 
-		//获取采购单详情
+		//获取合同订单详情
 		String purchaseNo = vo.getPurchaseNo();
 		BizPurchaseOrderDetailExample example = new BizPurchaseOrderDetailExample();
 		BizPurchaseOrderDetailExample.Criteria criteria = example.createCriteria();
@@ -247,7 +247,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	public ResultUtil delPurchaseOrder(String id) {
 		BizPurchaseOrder order = purchaseOrderMapper.selectByPrimaryKey(id);
 		if(!(PurchaseUtil.STATUS_0 == order.getStatus())){
-			return ResultUtil.error("非未提交状态的采购单不能删除！");
+			return ResultUtil.error("非未提交状态的合同订单不能删除！");
 		}
 		purchaseOrderMapper.deleteByPrimaryKey(id);
 
@@ -258,7 +258,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	}
 
 	/**
-	 * 采购单提交
+	 * 合同订单提交
 	 * @param id
 	 * @return
 	 */
@@ -268,7 +268,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 		int status = order.getStatus();
 		if(!(PurchaseUtil.STATUS_0 == status)){
-			return ResultUtil.error("非未提交状态的采购单不能提交！");
+			return ResultUtil.error("非未提交状态的合同订单不能提交！");
 		}
 
 		BizPurchaseOrder tmp = new BizPurchaseOrder();
@@ -284,7 +284,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 
 	/**
-	 * 采购单审核
+	 * 合同订单审核
 	 * @param admin
 	 * @param id
 	 * @param auditResults
@@ -396,7 +396,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			totalPrice = price.multiply(amountBig);
 		}
 
-		//如有金额更新采购单
+		//如有金额更新合同订单
 		if(totalPrice != null){
 			String purchaseNo = order.getPurchaseNo();
 			BizPurchaseOrder purchaseOrder = purchaseOrderMapper.selectByPurchaseNo(purchaseNo);
@@ -428,7 +428,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             totalPrice = price.multiply(amountBig);
         }
 
-        //如有金额更新采购单
+        //如有金额更新合同订单
         if(totalPrice != null){
             String purchaseNo = order.getPurchaseNo();
             BizPurchaseOrder purchaseOrder = purchaseOrderMapper.selectByPurchaseNo(purchaseNo);
@@ -459,7 +459,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			totalPrice = price.multiply(amountBig);
 		}
 
-		//如有金额更新采购单
+		//如有金额更新合同订单
 		if(totalPrice != null){
 			String purchaseNo = order.getPurchaseNo();
 			BizPurchaseOrder purchaseOrder = purchaseOrderMapper.selectByPurchaseNo(purchaseNo);
@@ -494,7 +494,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 		int status = order.getStatus();
 		if(PurchaseUtil.STATUS_1 != status){
-			return ResultUtil.error("非未提交状态的采购单不能选择成本部审核！");
+			return ResultUtil.error("非未提交状态的合同订单不能选择成本部审核！");
 		}
 		Date date = new Date();
 		BizPurchaseOrder tmp = new BizPurchaseOrder();
@@ -517,7 +517,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	}
 
 	private BizPurchaseOrderVo getBizPurchaseOrderVo(String id){
-        //获取采购单
+        //获取合同订单
         BizPurchaseOrder order = purchaseOrderMapper.selectByPrimaryKey(id);
         BizPurchaseOrderVo vo = new BizPurchaseOrderVo();
 

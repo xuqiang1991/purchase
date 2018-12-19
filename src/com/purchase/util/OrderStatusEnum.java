@@ -1,13 +1,13 @@
 package com.purchase.util;
 
 /**
- * 采购单状态
+ * 合同订单状态
  * Created by xuqiang
  * 2018/8/18.
  */
 public enum OrderStatusEnum {
 
-    /** 采购单状态 **/
+    /** 合同订单状态 **/
     STATUS_0(0,"未提交"),
     STATUS_1(1,"已提交"),
     STATUS_2(2,"成本部已审核"),

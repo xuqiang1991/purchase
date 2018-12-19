@@ -124,7 +124,7 @@ public class PurchaseOrderController {
         return "page/mobile/purchaseOrder/from";
     }
 
-    @SysLog(value="新增采购单")
+    @SysLog(value="新增合同订单")
     @RequestMapping("addPurchaseOrder")
     @RequiresPermissions("mobile:purchase:save")
     @ResponseBody
@@ -154,7 +154,7 @@ public class PurchaseOrderController {
         return "page/mobile/purchaseOrder/from";
     }
 
-    @SysLog(value="编辑采购单")
+    @SysLog(value="编辑合同订单")
     @RequestMapping("editPurchaseOrder")
     @RequiresPermissions("mobile:purchase:save")
     @ResponseBody
@@ -164,7 +164,7 @@ public class PurchaseOrderController {
         return purchaseOrderService.editPurchaseOrder(order);
     }
 
-    @SysLog(value="删除采购单")
+    @SysLog(value="删除合同订单")
     @RequestMapping("delPurchaseOrder")
     @RequiresPermissions("mobile:purchase:delete")
     @ResponseBody
@@ -173,7 +173,7 @@ public class PurchaseOrderController {
     }
 
 
-    @SysLog(value="提交采购单")
+    @SysLog(value="提交合同订单")
     @RequestMapping("submitPurchaseOrder")
     @RequiresPermissions("mobile:purchase:save")
     @ResponseBody
@@ -204,7 +204,7 @@ public class PurchaseOrderController {
         }
     }
 
-    @SysLog(value="审核采购单")
+    @SysLog(value="审核合同订单")
     @RequestMapping("reviewPurchaseOrder/{id}")
     @RequiresPermissions("mobile:purchase:review")
     @ResponseBody
@@ -213,7 +213,7 @@ public class PurchaseOrderController {
         return purchaseOrderService.reviewPurchaseOrder(admin, id, auditResults,applyUser,auditOpinion);
     }
 
-//    @SysLog(value="工程部审核采购单")
+//    @SysLog(value="工程部审核合同订单")
 //    @RequestMapping("projectReviewPurchaseOrder")
 //    @RequiresPermissions("mobile:purchase:projectReview")
 //    @ResponseBody
@@ -223,7 +223,7 @@ public class PurchaseOrderController {
 //    }
 //
 //
-//    @SysLog(value="总经理审核采购单")
+//    @SysLog(value="总经理审核合同订单")
 //    @RequestMapping("managerReviewPurchaseOrder")
 //    @RequiresPermissions("mobile:purchase:managerReview")
 //    @ResponseBody
@@ -232,7 +232,7 @@ public class PurchaseOrderController {
 //        return purchaseOrderService.reviewPurchaseOrder(admin, id);
 //    }
 
-    @SysLog(value="新增采购单项")
+    @SysLog(value="新增合同订单项")
     @RequestMapping("addPurchaseOrderItem/{purchaseNo}")
     @RequiresPermissions("mobile:purchase:save")
     @ResponseBody
@@ -244,7 +244,7 @@ public class PurchaseOrderController {
         return purchaseOrderService.addPurchaseOrderItem(order);
     }
 
-    @SysLog(value="更新采购单项")
+    @SysLog(value="更新合同订单项")
     @RequestMapping("editPurchaseOrderItem/{purchaseNo}")
     @RequiresPermissions("mobile:purchase:save")
     @ResponseBody
@@ -256,7 +256,7 @@ public class PurchaseOrderController {
         return purchaseOrderService.editPurchaseOrderItem(order);
     }
 
-    @SysLog(value="删除采购单项")
+    @SysLog(value="删除合同订单项")
     @RequestMapping("deletePurchaseOrderItem/{itemId}")
     @RequiresPermissions("mobile:purchase:save")
     @ResponseBody
@@ -264,7 +264,7 @@ public class PurchaseOrderController {
         return purchaseOrderService.deletePurchaseOrderItem(itemId);
     }
 
-    @SysLog(value="查询采购单项")
+    @SysLog(value="查询合同订单项")
     @RequestMapping("getPurchaseOrderItem/{itemId}")
     @RequiresPermissions("mobile:purchase:list")
     @ResponseBody
@@ -274,7 +274,7 @@ public class PurchaseOrderController {
 
 
     /**
-     * 不需要权限，查询采购单列表（合同内订单来源）
+     * 不需要权限，查询合同订单列表（合同内订单来源）
      * @param page
      * @param limit
      * @param search
@@ -285,7 +285,7 @@ public class PurchaseOrderController {
     public ResultUtil findPurchaseOrderList(Integer page, Integer limit, BizPurchaseOrderSearch search){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         search.setLoginId(admin.getId());
-        search.setStatus(4);//查询通过的采购单
+        search.setStatus(4);//查询通过的合同订单
         search.setSupplierId(admin.getSupplierId());
         return purchaseOrderService.getOrderList(page,limit,search);
     }

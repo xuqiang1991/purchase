@@ -5,13 +5,13 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Date;
 
 /**
- * 采购单工具类
+ * 合同订单工具类
  * Created by xuqiang
  * 2018/8/18.
  */
 public class PurchaseUtil {
 
-    /** 采购单状态 **/
+    /** 合同订单状态 **/
     public static final int STATUS_0 = 0;//未提交
     public static final int STATUS_1 = 1;//已提交
     public static final int STATUS_2 = 2;//成本部已审核
@@ -23,8 +23,8 @@ public class PurchaseUtil {
     public static final String prefix = "PO-";
 
     /**
-     * 生成采购单号
-     * @param purchaseNo 当天最大采购单号
+     * 生成合同订单号
+     * @param purchaseNo 当天最大合同订单号
      * @return
      */
     public static synchronized String generatePurchaseNo(String purchaseNo){

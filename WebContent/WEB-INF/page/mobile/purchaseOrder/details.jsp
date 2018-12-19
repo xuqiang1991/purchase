@@ -57,10 +57,10 @@
         <%--<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>
         </button>--%>
-        <h1 class="mui-center mui-title">采购订单详情</h1>
+        <h1 class="mui-center mui-title">合同订单详情</h1>
     </div>
 
-    <!-- 采购明细 start -->
+    <!-- 合同订单明细 start -->
     <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 0px;width: 100%;">
         <div class="mui-scroll">
 
@@ -68,10 +68,10 @@
             <div class="mui-content" style="margin-left: 5px; margin-right: 5px; font-size: 14px;">
                 <ul id="ul_mui_table_view" class="mui-table-view">
                     <li class="mui-table-view-cell mui-collapse mui-active">
-                        <a class="mui-navigate-right" href="#">采购单详情:
+                        <a class="mui-navigate-right" href="#">合同订单详情:
                             <c:choose>
                                 <c:when test="${detailsVo.purchaseOrder.id == null}">
-                                    请先添加采购单
+                                    请先添加合同订单
                                 </c:when>
                                 <c:otherwise>
                                     ${detailsVo.purchaseOrder.purchaseNo}
@@ -82,8 +82,8 @@
                             <form class="mui-input-group" id="ucamForm">
                                 <input type="hidden" name="id" id="id" value="${detailsVo.purchaseOrder.id}">
                                 <div class="mui-input-row">
-                                    <label>采购单号</label>
-                                    <input type="text" name="purchaseNo" id="purchaseNo" readonly disabled="disabled" value="${detailsVo.purchaseOrder.purchaseNo}" placeholder="采购单号由系统自动生成">
+                                    <label>合同订单号</label>
+                                    <input type="text" name="purchaseNo" id="purchaseNo" readonly disabled="disabled" value="${detailsVo.purchaseOrder.purchaseNo}" placeholder="合同订单号由系统自动生成">
                                 </div>
                                 <div class="mui-input-row">
                                     <label>申请人</label>
@@ -200,7 +200,7 @@
                     <%@ include file="/WEB-INF/page/mobile/common/reviewHistory.jsp"%>
 
                     <li class="mui-table-view-cell mui-collapse">
-                        <a class="mui-navigate-right" href="#">采购单明细</a>
+                        <a class="mui-navigate-right" href="#">合同订单明细</a>
                         <div class="mui-collapse-content" id="detailDiv">
                             <c:choose>
                                 <c:when test="${fn:length(detailsVo.details) > 0}">
@@ -257,7 +257,7 @@
                                  </c:when>
                                  <c:otherwise>
                                     <div class="mui-input-row">
-                                        <label>无采购单明细</label>
+                                        <label>无合同订单明细</label>
                                     </div>
                                 </c:otherwise>
                             </c:choose>
@@ -287,7 +287,7 @@
             </div>
         </div>
     </div>
-    <!-- 采购明细 end -->
+    <!-- 合同订单明细 end -->
 </div>
 
 
@@ -296,7 +296,7 @@
         <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
             <span class="mui-icon mui-icon-left-nav"></span>返回
         </button>
-        <h1 class="mui-center mui-title">增加采购明细</h1>
+        <h1 class="mui-center mui-title">增加合同订单明细</h1>
     </div>
     <div class="mui-page-content">
         <div class="mui-scroll-wrapper">
@@ -435,11 +435,11 @@
         }
     });
 
-    /** 删除采购单 **/
+    /** 删除合同订单 **/
     mui(document.body).on('tap', '#deletePurchaseOrder', function(e) {
         var id = this.value;
         var btnArray = ['是', '否'];
-        mui.confirm('确认删除此采购单？', '删除采购单', btnArray, function(e) {
+        mui.confirm('确认删除此合同订单？', '删除合同订单', btnArray, function(e) {
             if (e.index == 0) {
                 var url = '${ctx}/mobile/purchase/delPurchaseOrder?id='+ id
                 $.ajax({
@@ -503,7 +503,7 @@
     mui(document.body).on('tap', '#purchaseOrderContractNo', function(e) {
         var btnArray = ['取消', '确定'];
         var id = this.value;
-        mui.prompt('请输入采购单合同号', '请输入合同号', '采购单合同号', btnArray, function(e1) {
+        mui.prompt('请输入合同订单合同号', '请输入合同号', '合同订单合同号', btnArray, function(e1) {
             if (e1.index == 1) {
                 var contractNo = e1.value;
                 if(contractNo == '' || contractNo.trim() == ''){

@@ -18,14 +18,14 @@
 <body>
 <header class="mui-bar mui-bar-nav">
     <%--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>--%>
-    <h1 class="mui-title">采购订单列表</h1>
+    <h1 class="mui-title">合同订单列表</h1>
 </header>
 
 <div class="mui-content">
     <%--<c:if test="${!empty admin.supplierId}">
         <div class="mui-card" style="margin: 0px; margin-top: 5px; margin-bottom: 5px; padding-bottom: 5px; text-align: center;">
             <div class="mui-button-row">
-                <button type="button" id="add-btn" class="mui-btn mui-btn-primary">新建采购订单</button>
+                <button type="button" id="add-btn" class="mui-btn mui-btn-primary">新建合同订单</button>
             </div>
         </div>
     </c:if>--%>
@@ -34,7 +34,7 @@
         <c:set value="1" var="addPermission"/>
         <div class="mui-card" style="margin: 0px; margin-top: 5px; margin-bottom: 5px; padding-bottom: 5px; text-align: center;">
             <div class="mui-button-row">
-                <button type="button" id="add-btn" class="mui-btn mui-btn-primary">新建采购订单</button>
+                <button type="button" id="add-btn" class="mui-btn mui-btn-primary">新建合同订单</button>
             </div>
         </div>
     </shiro:hasPermission>
@@ -379,7 +379,7 @@
         }, false);
     })
 </script>
-<!-- 采购订单 start -->
+<!-- 合同订单 start -->
 <script type="text/template" id="listTpl">
     {{#each data}}
     <div class="mui-card" style="margin: 0px; margin-top: 5px;">
@@ -420,6 +420,6 @@
     </div>
     {{/each}}
 </script>
-<!-- 采购订单 end -->
+<!-- 合同订单 end -->
 </body>
 </html>

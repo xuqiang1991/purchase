@@ -1,13 +1,13 @@
 package com.purchase.util;
 
 /**
- * 采购类型
+ * 合同订单类型
  * Created by xuqiang
  * 2018/8/18.
  */
 public enum OrderTypeEnum {
 
-    /** 采购单状态 **/
+    /** 合同订单状态 **/
     STATUS_0("0","绿化苗木"),
     STATUS_1("1","园建水电"),
     STATUS_2("2","机械租赁"),

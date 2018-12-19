@@ -331,7 +331,7 @@ public class UCAMServiceImpl implements UCAMService {
         }
         ucamDetailMapper.insert(order);
 
-        //如有金额更新采购单
+        //如有金额更新合同订单
         if(order.getApplyPrice() != null){
             String orderNo = order.getOrderNo();
             BizUncontractApplyMoneyExample example = new BizUncontractApplyMoneyExample();
@@ -369,7 +369,7 @@ public class UCAMServiceImpl implements UCAMService {
         }
 
 
-        //如有金额更新采购单
+        //如有金额更新合同订单
         if(order.getApplyPrice() != null){
             String orderNo = order.getOrderNo();
             BizUncontractApplyMoneyDetailExample example = new BizUncontractApplyMoneyDetailExample();
