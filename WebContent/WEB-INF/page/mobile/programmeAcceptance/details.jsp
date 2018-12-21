@@ -237,9 +237,6 @@
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="PAODetails">提交</button>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="deletePAOOrder" value="${detailsVo.paoVo.id}">删除</button>
                     </c:when>
-                    <%--<c:when test="${detailsVo.paoVo.status == 1 && empty detailsVo.paoVo.costDepartUser && empty detailsVo.reviewUserId}">
-                        <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="submitReviewPAO">选择审核人</button>
-                    </c:when>--%>
                     <c:when test="${detailsVo.paoVo.nextReviewUser == admin.id && detailsVo.paoVo.isSaveSubmit == 1}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">审核</button>
                     </c:when>
@@ -311,6 +308,7 @@
     mui('.mui-scroll-wrapper').scroll();
     var isApproval = '${detailsVo.paoVo.isApproval}';
     var isSaveSubmit = '${detailsVo.paoVo.isSaveSubmit}';
+    var orderId = '${detailsVo.ucamVo.id}';
     var rectifyFlagJson = '[{"value":0,"text":"未整改"},{"value":1,"text":"已整改"}]';
     //初始化数据
     mui.ready(function() {

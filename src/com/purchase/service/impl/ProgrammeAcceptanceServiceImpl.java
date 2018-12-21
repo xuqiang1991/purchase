@@ -116,6 +116,8 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
         if(!StringUtils.isEmpty(order.getId())){
             id = order.getId();
             order.setUpdateDate(date);
+            order.setIsSaveSubmit(OrderUtils.IS_SAVE_SUBMIT_0);
+            order.setIsApproval(OrderUtils.IS_APPROVAL_NO);
             paoMapper.updateByPrimaryKeySelective(order);
         }else{
             id = WebUtils.generateUUID();
@@ -137,6 +139,8 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
             order.setCreateTime(date);
             order.setLastReviewUser(order.getCreateUser());
             order.setLastReviewDate(new Date());
+            order.setIsSaveSubmit(OrderUtils.IS_SAVE_SUBMIT_0);
+            order.setIsApproval(OrderUtils.IS_APPROVAL_NO);
             paoMapper.insertSelective(order);
         }
         return ResultUtil.ok(id);

@@ -269,23 +269,6 @@
                 //return false;
             });
         }, false);
-
-
-
-        var statusJson = '[{"value": "", "text": "全部"},{"value": "0", "text": "未提交"}, {"value": "1", "text": "已提交"}, {"value": "2", "text": "成本部已审核"}, {"value": "3", "text": "工程部已审核"},{"value": "4", "text": "总经理已审核"}]';
-        var statusNamePicker = new mui.PopPicker();
-        statusNamePicker.setData(JSON.parse(statusJson));
-        var statusName = document.getElementById('statusName');
-        var status = document.getElementById('status');
-        statusName.addEventListener('tap', function(event) {
-            statusNamePicker.show(function(items) {
-                statusName.value = items[0].text;
-                status.value = items[0].value;
-                //返回 false 可以阻止选择框的关闭
-                //return false;
-            });
-        }, false);
-
     });
 
 
@@ -321,15 +304,6 @@
                 <label>操作人:{{lastUser.fullname}}</label>
                 <label>时间:{{lastReviewDate}}</label>
             </div>
-            <%--<div>
-                <shiro:hasPermission name="mobile:programmeAcceptance:update">
-                    {{#compare status 0}}
-                        <button type="button" class="mui-btn mui-btn-primary details-edit"  data-id="{{id}}" >修改</button>
-                    {{/compare}}
-                </shiro:hasPermission>
-
-                &lt;%&ndash;<button type="button" class="mui-btn mui-btn-primary">审核</button>&ndash;%&gt;
-            </div>--%>
         </div>
     </div>
 

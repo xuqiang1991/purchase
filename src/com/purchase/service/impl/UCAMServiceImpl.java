@@ -14,12 +14,10 @@ import com.purchase.pojo.order.*;
 import com.purchase.service.PaymentOrderService;
 import com.purchase.service.UCAMService;
 import com.purchase.util.*;
-import com.purchase.vo.OrderHistory;
 import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.order.UCAMOrderDetialVo;
 import com.purchase.vo.order.UCAMSearch;
 import com.purchase.vo.order.UCAMVo;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +29,6 @@ import org.springframework.util.StringUtils;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -159,9 +155,13 @@ public class UCAMServiceImpl implements UCAMService {
             order.setCreateTime(date);
             order.setLastReviewUser(order.getCreateUser());
             order.setLastReviewDate(new Date());
+            order.setIsSaveSubmit(OrderUtils.IS_SAVE_SUBMIT_0);
+            order.setIsApproval(OrderUtils.IS_APPROVAL_NO);
             ucamMapper.insertSelective(order);
         }else{
             id = order.getId();
+            order.setIsSaveSubmit(OrderUtils.IS_SAVE_SUBMIT_0);
+            order.setIsApproval(OrderUtils.IS_APPROVAL_NO);
             order.setUpdateDate(date);
             ucamMapper.updateByPrimaryKeySelective(order);
         }
