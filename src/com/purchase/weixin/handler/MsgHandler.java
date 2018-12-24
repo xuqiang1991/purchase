@@ -19,7 +19,7 @@ import static me.chanjar.weixin.common.api.WxConsts.XmlMsgType;
 @Component
 public class MsgHandler extends AbstractHandler {
 
-  @Autowired
+ // @Autowired
   private WxMpService wxMpService;
 
   @Override
