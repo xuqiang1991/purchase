@@ -1,10 +1,15 @@
 package com.purchase.util;
 
+import com.purchase.pojo.admin.TbAdmin;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.subject.support.DefaultSubjectContext;
+import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 
-import com.purchase.pojo.admin.TbAdmin;
+import java.util.Collection;
 
 
 /**
@@ -56,5 +61,27 @@ public class ShiroUtils {
 		getSession().removeAttribute(key);
 		return kaptcha;
 	}
+
+	/**
+	 * 踢出用户
+	 * @param userName
+	 */
+	public static void logout(String userName) {
+		//处理session
+		DefaultWebSecurityManager securityManager = (DefaultWebSecurityManager) SecurityUtils.getSecurityManager();
+		DefaultWebSessionManager sessionManager = (DefaultWebSessionManager)securityManager.getSessionManager();
+		Collection<Session> sessions = sessionManager.getSessionDAO().getActiveSessions();//获取当前已登录的用户session列表
+		for(Session session:sessions){
+			//清除该用户以前登录时保存的session
+			SimplePrincipalCollection simplePrincipal = (SimplePrincipalCollection) session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
+			if(simplePrincipal != null) {
+			    TbAdmin admin = (TbAdmin) simplePrincipal.getPrimaryPrincipal();
+			    if(userName.equals(admin.getUsername())){
+					sessionManager.getSessionDAO().delete(session);
+				}
+			}
+		}
+	}
+
 
 }

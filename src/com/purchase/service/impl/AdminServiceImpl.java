@@ -896,4 +896,10 @@ public class AdminServiceImpl implements AdminService {
 			return false;
 		}
 	}
+
+	@Override
+	public TbAdmin selectByPrimaryKey(Long id) {
+		TbAdmin admin=tbAdminMapper.selectByPrimaryKey(id);
+		return admin;
+	};
 }

@@ -56,7 +56,7 @@ public class AdminController {
 
     @Autowired
     private SupplierService supplierService;
-	
+
 	@RequestMapping("/main")
 	public String main() {
 		return "page/main";
@@ -78,6 +78,12 @@ public class AdminController {
 					logger.info("账号已失效：" +admin.getOpenId() + ", nick:" + admin.getUsername());
 					req.setAttribute("msg","账号已失效！");
 					return "active";
+				}
+
+				//没有绑定openID，需要退出登陆重新授权
+				if(org.apache.commons.lang3.StringUtils.isBlank(admin.getOpenId())){
+					ShiroUtils.logout();
+					return "redirect:/sys/wx/auth";
 				}
 
 				login(admin);
@@ -573,6 +579,13 @@ public class AdminController {
 			return ResultUtil.error("不允许修改!");
 		}
 		try {
+
+			TbAdmin a = adminServiceImpl.selectByPrimaryKey(admin.getId());
+			//当用户修改登录名和绑定微信，踢出用户
+			if(!admin.getWxNick().equals(a.getWxNick()) || !admin.getUsername().equals(a.getUsername())){
+				ShiroUtils.logout(a.getUsername());
+			}
+
 			adminServiceImpl.updAdmin(admin);
 			return ResultUtil.ok();
 		} catch (Exception e) {
