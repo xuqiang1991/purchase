@@ -10,15 +10,19 @@ utilsOrder = {
                 case 0:
                     if(isSaveSubmit == 0){
                         str = '未提交';
-                    }else{
+                    }else if(isSaveSubmit == 1){
                         str = '未审核';
+                    }else{
+                        str = '驳回';
                     }
                     break;
                 case 1:
                     if(isSaveSubmit == 0){
                         str = '未提交';
-                    }else{
+                    }else if(isSaveSubmit == 1){
                         str = '已审核';
+                    }else{
+                        str = '审核完结';
                     }
                     break;
             }

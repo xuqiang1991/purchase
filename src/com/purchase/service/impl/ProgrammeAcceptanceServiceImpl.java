@@ -328,8 +328,8 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
         if(!auditResults){
             order.setIsSaveSubmit(OrderUtils.IS_SAVE_SUBMIT_0);
             order.setIsApproval(OrderUtils.IS_APPROVAL_NO);
-            order.setLastReviewRole(order.getNextReviewRole());
-            order.setLastReviewUser(admin.getId());
+            order.setLastReviewRole(null);
+            order.setLastReviewUser(null);
             order.setNextReviewUser(order.getCreateUser());//驳回则还原到创建人
             history.setIsApproval(OrderUtils.IS_APPROVAL_NO);
         }else{
@@ -337,7 +337,7 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
             order.setIsApproval(OrderUtils.IS_APPROVAL_YES);
             order.setLastReviewRole(order.getNextReviewRole());
             order.setLastReviewUser(admin.getId());
-            order.setNextReviewUser(order.getCreateUser());
+            order.setNextReviewUser(applyUser);
             order.setNextReviewRole(applyRole);
             history.setIsApproval(OrderUtils.IS_APPROVAL_YES);
         }
@@ -354,8 +354,10 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
             history.setApprovalRoleName(roles.getRoleName());
         }
         history.setOpinion(auditOpinion);
-        TbRoles nextReviewRole = rolesMapper.selectByPrimaryKey(applyRole);
-        if(auditResults && nextReviewRole.getIsOverRole() == 1){
+        //TbRoles nextReviewRole = rolesMapper.selectByPrimaryKey(applyRole);
+        if(auditResults && roles.getIsOverRole() == 1){
+            order.setNextReviewUser(null);
+            order.setNextReviewRole(null);
             order.setIsSaveSubmit(OrderUtils.IS_SAVE_SUBMIT_2);
         }
         paoMapper.updateByPrimaryKey(order);

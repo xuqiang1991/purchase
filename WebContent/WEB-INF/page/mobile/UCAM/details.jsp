@@ -372,7 +372,7 @@
                         </div>
                     </c:if>
                     <div>
-                        <textarea name="remark" id="remark" rows="5" class="mui-input-clear"  <c:if test="${detailsVo.ucamVo.isApproval == 0 && detailsVo.ucamVo.createUser == admin.id}">disabled="disabled"</c:if> placeholder="备注"></textarea>
+                        <textarea name="remark" id="remark" rows="5" class="mui-input-clear"  <c:if test="${detailsVo.ucamVo.nextReviewUser == admin.id && detailsVo.ucamVo.isSaveSubmit == 1}">disabled="disabled"</c:if> placeholder="备注"></textarea>
                     </div>
                     <div class="mui-button-row" style="padding-bottom: 20px;">
                         <button type="button" class="mui-btn mui-btn-primary" id="submitFromUCAMItem">保存</button>

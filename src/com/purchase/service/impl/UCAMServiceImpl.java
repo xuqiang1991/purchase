@@ -66,6 +66,7 @@ public class UCAMServiceImpl implements UCAMService {
     @Autowired
     private BizHistoryMapper historyMapper;
 
+
     /**
      * 合同外请款单单号前缀
      */
@@ -457,8 +458,8 @@ public class UCAMServiceImpl implements UCAMService {
         if(!auditResults){
             order.setIsSaveSubmit(OrderUtils.IS_SAVE_SUBMIT_0);
             order.setIsApproval(OrderUtils.IS_APPROVAL_NO);
-            order.setLastReviewRole(order.getNextReviewRole());
-            order.setLastReviewUser(admin.getId());
+            order.setLastReviewRole(null);
+            order.setLastReviewUser(null);
             order.setNextReviewUser(order.getCreateUser());//驳回则还原到创建人
             history.setIsApproval(OrderUtils.IS_APPROVAL_NO);
         }else{
@@ -466,7 +467,7 @@ public class UCAMServiceImpl implements UCAMService {
             order.setIsApproval(OrderUtils.IS_APPROVAL_YES);
             order.setLastReviewRole(order.getNextReviewRole());
             order.setLastReviewUser(admin.getId());
-            order.setNextReviewUser(order.getCreateUser());
+            order.setNextReviewUser(applyUser);
             order.setNextReviewRole(applyRole);
             history.setIsApproval(OrderUtils.IS_APPROVAL_YES);
         }
@@ -484,15 +485,16 @@ public class UCAMServiceImpl implements UCAMService {
         }
         history.setOpinion(auditOpinion);
 
-        TbRoles nextReviewRole = rolesMapper.selectByPrimaryKey(applyRole);
+        //TbRoles nextReviewRole = rolesMapper.selectByPrimaryKey(applyRole);
         //总经理审核写入付款单
-        if(auditResults && nextReviewRole.getIsOverRole() == 1){
+        if(auditResults && roles.getIsOverRole() == 1){
             order.setIsSaveSubmit(OrderUtils.IS_SAVE_SUBMIT_2);
+            order.setNextReviewUser(null);
+            order.setNextReviewRole(null);
             paymentOrderService.generatePaymenyOrder(order);
         }
         ucamMapper.updateByPrimaryKey(order);
         historyMapper.insert(history);
-
         return ResultUtil.ok();
     }
 
