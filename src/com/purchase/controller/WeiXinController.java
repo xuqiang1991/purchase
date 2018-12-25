@@ -114,7 +114,7 @@ public class WeiXinController {
         SecurityUtils.setSecurityManager(securityManager);
         Subject subject = SecurityUtils.getSubject();
         MockToken token = new MockToken();
-        token.setRememberMe(true);
+        token.setRememberMe(false);
         token.setUsername(user.getUsername());
         token.setPassword(user.getPassword().toCharArray());
         try{

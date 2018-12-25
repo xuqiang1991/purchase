@@ -218,7 +218,8 @@ public class UCAMController {
     @ResponseBody
     public ResultUtil reviewUCAMOrder(@PathVariable("id") String id, Boolean auditResults, Long applyUser, String auditOpinion,Long applyRole){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        BizUncontractApplyMoney order = ucamService.selUCAMOrder(id);
+        ResultUtil resultUtil = ucamService.reviewUCAMOrder(admin, id, auditResults,applyUser,auditOpinion,applyRole);
+        BizUncontractApplyMoney order = (BizUncontractApplyMoney) resultUtil.getData();
         TbAdmin tbAdmin = adminService.selAdminById(applyUser);
         String openId = tbAdmin.getOpenId();
         String url = OrderUtils.DOMAIN_NAME .concat("/mobile/UCAM/toDetails/?id=").concat(id);
@@ -245,7 +246,7 @@ public class UCAMController {
         }else{
             logger.info("审核人未绑定帐号，不能发送消息!");
         }
-        return ucamService.reviewUCAMOrder(admin, id, auditResults,applyUser,auditOpinion,applyRole);
+        return resultUtil;
     }
 
 

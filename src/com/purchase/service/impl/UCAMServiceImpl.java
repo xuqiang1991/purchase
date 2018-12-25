@@ -495,7 +495,7 @@ public class UCAMServiceImpl implements UCAMService {
         }
         ucamMapper.updateByPrimaryKey(order);
         historyMapper.insert(history);
-        return ResultUtil.ok();
+        return ResultUtil.ok(order);
     }
 
     @Override
