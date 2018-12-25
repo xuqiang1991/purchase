@@ -166,4 +166,6 @@ public interface AdminService {
 	TbRoles getRoleList(Long roleId);
 
 	boolean checkRoleIsOverRole(Long roleId);
+
+	TbAdmin selectByPrimaryKey(Long id);
 }
