@@ -276,7 +276,7 @@
                     </div>
                     <div class="mui-input-row">
                         <label>计划完成日期</label>
-                        <input type="text" id="playOverDate" name="playOverDate" readonly data-options='{"type":"date","beginYear":2018,"endYear":2028}'  placeholder="请选择计划完成日期" mui-verify="required">
+                        <input type="text" id="playOverDate" name="playOverDate" readonly placeholder="请选择计划完成日期" mui-verify="required">
                     </div>
                     <c:if test="${detailsVo.paoVo.nextReviewUser == admin.id && detailsVo.paoVo.isSaveSubmit == 1}">
                         <div class="mui-input-row">
@@ -430,9 +430,20 @@
         var btns =  mui('#playOverDate');
         btns.each(function(i, btn) {
             btn.addEventListener('tap', function() {
-                var optionsJson = this.getAttribute('data-options') || '{}';
-                var options = JSON.parse(optionsJson);
-                var picker = new mui.DtPicker(options);
+                //var optionsJson = this.getAttribute('data-options') || '{}';
+                var year=new Date().getFullYear(); //年
+                var month=new Date().getMonth()+1; //月
+                var day=new Date().getDate();//日
+                var optionsJson={};//{"type":"date","beginYear":year,"beginMonth":month,"beginDay":day};
+                optionsJson.type = "date";
+                optionsJson.beginYear = year;
+                optionsJson.beginMonth = month;
+                optionsJson.beginDay = day;
+                //optionsJson.beginDate = new Date();
+
+                console.log(JSON.stringify(optionsJson));
+                //var options = JSON.parse(optionsJson);
+                var picker = new mui.DtPicker(optionsJson);
                 picker.show(function(rs) {
                     playOverDate.value = rs.text;
                     picker.dispose();
@@ -657,15 +668,18 @@
             return false;
         }
 
-        var adminsJson = '${detailsVo.departs}'
+        var adminsJson = '${reviewAdmins}'
         var json =JSON.parse(adminsJson)
-        var userPicker = new mui.PopPicker();
+        var userPicker = new mui.PopPicker({
+            layer: 2
+        });
         userPicker.setData(json);
         userPicker.show(function (selectItems) {
-            var text = selectItems[0].text;
+            var text = selectItems[1].text;
             mui.alert('确定提审核人为：' + text + "？" , function() {
-                var userId = selectItems[0].value;
-                var url = '${ctx}/mobile/programmeAcceptance/submitReviewprogrammeAcceptanceOrder?id=${detailsVo.paoVo.id}&userId=' + userId;
+                var roleId = selectItems[0].value;
+                var userId = selectItems[1].value;
+                var url = '${ctx}/mobile/programmeAcceptance/submitReviewprogrammeAcceptanceOrder?id=${detailsVo.paoVo.id}&userId=' + userId + '&roleId=' + roleId;
                 $.ajax({
                     url: url,
                     dataType: 'json',

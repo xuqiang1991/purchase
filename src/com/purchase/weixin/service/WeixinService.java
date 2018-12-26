@@ -1,5 +1,7 @@
 package com.purchase.weixin.service;
 
+import com.purchase.pojo.admin.TbAdmin;
+import com.purchase.service.AdminService;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
@@ -22,6 +24,9 @@ public class WeixinService{
 
     @Autowired
     private WxMpService wxMpService;
+
+    @Autowired
+    private AdminService adminService;
 
     /**
      * 发送客服图文消息
@@ -68,6 +73,27 @@ public class WeixinService{
            }
         }
         return sendCount;
+    }
+
+    public boolean sendMSGUtils(TbAdmin tbAdmin,boolean isOverRole, String url, Boolean auditResults, String orderNo){
+        boolean isSend = false;
+        String title = "订单状态提醒";// 标题
+        String desc = "";//"您好，".concat(tbAdmin.getFullname()).concat("。您有订单需要审核");//详情
+        if(!auditResults){
+            desc = "您好，".concat(tbAdmin.getFullname()).concat("。您的订单：【").concat(orderNo).concat("】被驳回，请查询详细信息！");
+        }else{
+            if(isOverRole){
+                desc = "您好，".concat(tbAdmin.getFullname()).concat("。订单：【").concat(orderNo).concat("】审核通过，请查询详细信息！");
+            }else{
+                desc = "您好，".concat(tbAdmin.getFullname()).concat("。订单：【").concat(orderNo).concat("】需要您审核，请查询详细信息！");
+            }
+        }
+        if(!org.springframework.util.StringUtils.isEmpty(tbAdmin.getOpenId())){
+            isSend = sendKefuMessage(tbAdmin.getOpenId(),url,desc,title,null);
+        }else{
+            logger.info("审核人未绑定帐号，不能发送消息!");
+        }
+        return isSend;
     }
 
 }

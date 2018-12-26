@@ -204,11 +204,11 @@ public class UCAMController {
     public ResultUtil submitReviewUCAMOrder(String id, Long userId, Long roleId){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         ResultUtil resultUtil = ucamService.submitUCAMOrder(id,userId,roleId);
-        /*if(resultUtil.getCode() == 0){
-            return ucamService.submitReviewUCAMOrder(admin, id, userId);
-        }else {
-            return resultUtil;
-        }*/
+        BizUncontractApplyMoney order = (BizUncontractApplyMoney) resultUtil.getData();
+        TbAdmin tbAdmin = adminService.selAdminById(userId);;
+        boolean isOverRole = adminService.checkRoleIsOverRole(roleId);
+        String url = OrderUtils.DOMAIN_NAME .concat("/mobile/UCAM/toDetails/?id=").concat(id);
+        weixinService.sendMSGUtils(tbAdmin,isOverRole,url,true,order.getOrderNo());
         return resultUtil;
     }
 
@@ -221,31 +221,19 @@ public class UCAMController {
         ResultUtil resultUtil = ucamService.reviewUCAMOrder(admin, id, auditResults,applyUser,auditOpinion,applyRole);
         BizUncontractApplyMoney order = (BizUncontractApplyMoney) resultUtil.getData();
         TbAdmin tbAdmin = null;
-        String openId = "";
+        boolean isOverRole = false;
         String url = OrderUtils.DOMAIN_NAME .concat("/mobile/UCAM/toDetails/?id=").concat(id);
-        String title = "订单状态提醒";// 标题
-        String desc = "";//"您好，".concat(tbAdmin.getFullname()).concat("。您有订单需要审核");//详情
         if(!auditResults){
             tbAdmin = adminService.selAdminById(order.getCreateUser());
-            openId = tbAdmin.getOpenId();
-            desc = "您好，".concat(tbAdmin.getFullname()).concat("。您的订单：【").concat(order.getOrderNo()).concat("】被驳回，请查询详细信息！");
         }else{
-            boolean isOverRole = adminService.checkRoleIsOverRole(applyRole);
+            isOverRole = adminService.checkRoleIsOverRole(applyRole);
             if(isOverRole){
                 tbAdmin = adminService.selAdminById(order.getCreateUser());
-                openId = tbAdmin.getOpenId();
-                desc = "您好，".concat(tbAdmin.getFullname()).concat("。订单：【").concat(order.getOrderNo()).concat("】审核通过，请查询详细信息！");
             }else{
                 tbAdmin = adminService.selAdminById(applyUser);
-                openId = tbAdmin.getOpenId();
-                desc = "您好，".concat(tbAdmin.getFullname()).concat("。订单：【").concat(order.getOrderNo()).concat("】需要您审核，请查询详细信息！");
             }
         }
-        if(!StringUtils.isEmpty(openId)){
-           weixinService.sendKefuMessage(tbAdmin.getOpenId(),url,desc,title,null);
-        }else{
-            logger.info("审核人未绑定帐号，不能发送消息!");
-        }
+        weixinService.sendMSGUtils(tbAdmin,isOverRole,url,auditResults,order.getOrderNo());
         return resultUtil;
     }
 

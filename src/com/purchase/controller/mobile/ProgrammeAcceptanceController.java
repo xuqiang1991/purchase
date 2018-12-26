@@ -11,11 +11,13 @@ import com.purchase.service.AdminService;
 import com.purchase.service.ProgrammeAcceptanceService;
 import com.purchase.service.ProjectMangerService;
 import com.purchase.service.SupplierService;
+import com.purchase.util.OrderUtils;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.*;
 import com.purchase.vo.order.ProgrammeAcceptanceDetialVo;
 import com.purchase.vo.order.ProgrammeAcceptanceSearch;
 import com.purchase.vo.order.ProgrammeAcceptanceVo;
+import com.purchase.weixin.service.WeixinService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -31,7 +33,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -56,6 +57,9 @@ public class ProgrammeAcceptanceController {
 
     @Autowired
     private ProjectMangerService projectMangerService;
+
+    @Autowired
+    private WeixinService weixinService;
 
     @SysLog(value="进入工程验收")
     @RequestMapping("list")
@@ -196,12 +200,11 @@ public class ProgrammeAcceptanceController {
     public ResultUtil submitReviewprogrammeAcceptanceOrder(String id, Long userId, Long roleId){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         ResultUtil resultUtil = paService.submitPAOOrder(id,userId,roleId);
-        //return paService.submitReviewPAOOrder(admin, id, userId);
-        /*if(resultUtil.getCode() == 0){
-            return paService.submitReviewPAOOrder(admin, id, userId);
-        }else {
-            return resultUtil;
-        }*/
+        BizProgrammeAcceptanceOrder order = (BizProgrammeAcceptanceOrder) resultUtil.getData();
+        TbAdmin tbAdmin = adminService.selAdminById(userId);;
+        boolean isOverRole = adminService.checkRoleIsOverRole(roleId);
+        String url = OrderUtils.DOMAIN_NAME .concat("/mobile/UCAM/toDetails/?id=").concat(id);
+        weixinService.sendMSGUtils(tbAdmin,isOverRole,url,true,order.getOrderNo());
         return resultUtil;
     }
 
@@ -211,7 +214,23 @@ public class ProgrammeAcceptanceController {
     @ResponseBody
     public ResultUtil reviewProgrammeAcceptanceOrder(@PathVariable("id") String id, Boolean auditResults, Long applyUser, String auditOpinion,Long applyRole){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        return paService.reviewPAOOrder(admin, id, auditResults,applyUser,auditOpinion,applyRole);
+        ResultUtil resultUtil = paService.reviewPAOOrder(admin, id, auditResults,applyUser,auditOpinion,applyRole);
+        BizProgrammeAcceptanceOrder order = (BizProgrammeAcceptanceOrder) resultUtil.getData();
+        TbAdmin tbAdmin = null;
+        boolean isOverRole = false;
+        String url = OrderUtils.DOMAIN_NAME .concat("/mobile/programmeAcceptance/toDetails/?id=").concat(id);
+        if(!auditResults){
+            tbAdmin = adminService.selAdminById(order.getCreateUser());
+        }else{
+            isOverRole = adminService.checkRoleIsOverRole(applyRole);
+            if(isOverRole){
+                tbAdmin = adminService.selAdminById(order.getCreateUser());
+            }else{
+                tbAdmin = adminService.selAdminById(applyUser);
+            }
+        }
+        weixinService.sendMSGUtils(tbAdmin,isOverRole,url,auditResults,order.getOrderNo());
+        return resultUtil;
     }
 
 
