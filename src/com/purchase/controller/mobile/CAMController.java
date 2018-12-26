@@ -13,6 +13,7 @@ import com.purchase.vo.admin.*;
 import com.purchase.vo.order.CAMDetailsVo;
 import com.purchase.vo.order.CAMSearch;
 import com.purchase.vo.order.CAMVo;
+import com.purchase.weixin.service.WeixinService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -56,7 +57,8 @@ public class CAMController {
     private ProjectMangerService projectMangerService;
 
     @Autowired
-    private ReviewService reviewService;
+    private WeixinService weixinService;
+
 
     @SysLog(value="进入合同内请款单")
     @RequestMapping("list")
@@ -228,6 +230,12 @@ public class CAMController {
     @ResponseBody
     public ResultUtil submitReviewCAMOrder(String id, Long userId, Long roleId){
         ResultUtil resultUtil = camService.submitCAMOrder(id,userId,roleId);
+        BizContractApplyMoney order = (BizContractApplyMoney) resultUtil.getData();
+
+        TbAdmin tbAdmin = adminService.selAdminById(userId);;
+        boolean isOverRole = adminService.checkRoleIsOverRole(roleId);
+        String url = OrderUtils.DOMAIN_NAME .concat("/mobile/CAM/toDetails/?id=").concat(id);
+        weixinService.sendMSGUtils(tbAdmin,isOverRole,url,true,order.getOrderNo());
         return resultUtil;
     }
 
@@ -239,10 +247,21 @@ public class CAMController {
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         ResultUtil resultUtil = camService.reviewCAMOrder(admin, id, auditResults,applyUser,auditOpinion,applyRole);
         BizContractApplyMoney order = (BizContractApplyMoney) resultUtil.getData();
-        Long createUser = order.getCreateUser();
-        String orderNo = order.getOrderNo();
+
+        TbAdmin tbAdmin = null;
+        boolean isOverRole = false;
         String url = OrderUtils.DOMAIN_NAME .concat("/mobile/CAM/toDetails/?id=").concat(id);
-        reviewService.reviewOrderSendMessage(url,auditResults,createUser,applyUser,applyRole,orderNo);
+        if(!auditResults){
+            tbAdmin = adminService.selAdminById(order.getCreateUser());
+        }else{
+            isOverRole = adminService.checkRoleIsOverRole(applyRole);
+            if(isOverRole){
+                tbAdmin = adminService.selAdminById(order.getCreateUser());
+            }else{
+                tbAdmin = adminService.selAdminById(applyUser);
+            }
+        }
+        weixinService.sendMSGUtils(tbAdmin,isOverRole,url,auditResults,order.getOrderNo());
         return resultUtil;
     }
 

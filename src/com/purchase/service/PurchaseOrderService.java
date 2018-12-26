@@ -27,9 +27,9 @@ public interface PurchaseOrderService {
 
     ResultUtil delPurchaseOrder(String id);
 
-    ResultUtil submitPurchaseOrder(String id);
+    ResultUtil submitPurchaseOrder(String id, Long userId, Long roleId);
 
-    ResultUtil reviewPurchaseOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion);
+    ResultUtil reviewPurchaseOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion, Long applyRole);
 
     /**
      * 根据供应商和订单状态查询
@@ -48,8 +48,6 @@ public interface PurchaseOrderService {
     ResultUtil deletePurchaseOrderItem(String itemId);
 
     ResultUtil getPurchaseOrderItem(String itemId);
-
-    ResultUtil submitReviewPurchaseOrder(TbAdmin admin, String id, Long userId);
 
     ResultUtil purchaseOrderContractNo(String id, String contractNo);
 

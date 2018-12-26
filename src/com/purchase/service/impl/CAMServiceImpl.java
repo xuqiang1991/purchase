@@ -487,7 +487,7 @@ public class CAMServiceImpl implements CAMService {
         }
         history.setOpinion("提交审核");
         historyMapper.insert(history);
-        return ResultUtil.ok();
+        return ResultUtil.ok(order);
     }
 
 

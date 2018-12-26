@@ -27,6 +27,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
 			logout:注销过滤器，此拦截器设置的url可以不对应一个真实存在controller方法
 		 -->
 			<value>
+				/*.jsp=anon
 				/css/**=anon
 				/js/**=anon
 				/favicon.ico=anon

@@ -4,12 +4,14 @@ import com.alibaba.fastjson.JSON;
 import com.purchase.annotation.SysLog;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbSupplier;
+import com.purchase.pojo.order.BizContractApplyMoney;
 import com.purchase.pojo.order.BizPurchaseOrder;
 import com.purchase.pojo.order.BizPurchaseOrderDetail;
 import com.purchase.service.AdminService;
 import com.purchase.service.ProjectMangerService;
 import com.purchase.service.PurchaseOrderService;
 import com.purchase.service.SupplierService;
+import com.purchase.util.OrderUtils;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.admin.ChoseDeptVO;
@@ -18,6 +20,7 @@ import com.purchase.vo.admin.ChoseSupplierVO;
 import com.purchase.vo.order.BizPurchaseOrderDetailsVo;
 import com.purchase.vo.order.BizPurchaseOrderSearch;
 import com.purchase.vo.order.BizPurchaseOrderVo;
+import com.purchase.weixin.service.WeixinService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -55,6 +58,9 @@ public class PurchaseOrderController {
 
     @Autowired
     private ProjectMangerService projectMangerService;
+
+    @Autowired
+    private WeixinService weixinService;
 
     @RequestMapping("list")
     @RequiresPermissions("mobile:purchase:list")
@@ -173,14 +179,6 @@ public class PurchaseOrderController {
     }
 
 
-    @SysLog(value="提交合同订单")
-    @RequestMapping("submitPurchaseOrder")
-    @RequiresPermissions("mobile:purchase:save")
-    @ResponseBody
-    public ResultUtil submitPurchaseOrder(String id){
-        return purchaseOrderService.submitPurchaseOrder(id);
-    }
-
     @SysLog(value="填写合同")
     @RequestMapping("purchaseOrderContractNo/{id}")
     @RequiresPermissions("mobile:purchase:save")
@@ -193,24 +191,41 @@ public class PurchaseOrderController {
     @RequestMapping("submitReviewPurchaseOrder")
     @RequiresPermissions("mobile:purchase:save")
     @ResponseBody
-    public ResultUtil submitReviewPurchaseOrder(String id, Long userId){
-        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        ResultUtil resultUtil = purchaseOrderService.submitPurchaseOrder(id);
+    public ResultUtil submitReviewPurchaseOrder(String id, Long userId, Long roleId){
+        ResultUtil resultUtil = purchaseOrderService.submitPurchaseOrder(id,userId,roleId);
+        BizPurchaseOrder order = (BizPurchaseOrder) resultUtil.getData();
 
-        if(resultUtil.getCode() == 0){
-            return purchaseOrderService.submitReviewPurchaseOrder(admin, id, userId);
-        }else {
-            return resultUtil;
-        }
+        TbAdmin tbAdmin = adminService.selAdminById(userId);;
+        boolean isOverRole = adminService.checkRoleIsOverRole(roleId);
+        String url = OrderUtils.DOMAIN_NAME .concat("/mobile/purchase/toDetails/?id=").concat(id);
+        weixinService.sendMSGUtils(tbAdmin,isOverRole,url,true,order.getPurchaseNo());
+        return resultUtil;
     }
 
     @SysLog(value="审核合同订单")
     @RequestMapping("reviewPurchaseOrder/{id}")
     @RequiresPermissions("mobile:purchase:review")
     @ResponseBody
-    public ResultUtil reviewPurchaseOrder(@PathVariable("id") String id, Boolean auditResults, Long applyUser, String auditOpinion){
+    public ResultUtil reviewPurchaseOrder(@PathVariable("id") String id, Boolean auditResults, Long applyUser, String auditOpinion,Long applyRole){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        return purchaseOrderService.reviewPurchaseOrder(admin, id, auditResults,applyUser,auditOpinion);
+        ResultUtil resultUtil = purchaseOrderService.reviewPurchaseOrder(admin, id, auditResults,applyUser,auditOpinion,applyRole);
+        BizContractApplyMoney order = (BizContractApplyMoney) resultUtil.getData();
+
+        TbAdmin tbAdmin = null;
+        boolean isOverRole = false;
+        String url = OrderUtils.DOMAIN_NAME .concat("/mobile/purchase/toDetails/?id=").concat(id);
+        if(!auditResults){
+            tbAdmin = adminService.selAdminById(order.getCreateUser());
+        }else{
+            isOverRole = adminService.checkRoleIsOverRole(applyRole);
+            if(isOverRole){
+                tbAdmin = adminService.selAdminById(order.getCreateUser());
+            }else{
+                tbAdmin = adminService.selAdminById(applyUser);
+            }
+        }
+        weixinService.sendMSGUtils(tbAdmin,isOverRole,url,auditResults,order.getOrderNo());
+        return resultUtil;
     }
 
 //    @SysLog(value="工程部审核合同订单")
