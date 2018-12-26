@@ -246,10 +246,6 @@
                                                 </div>
                                             </div>
                                             <div class="mui-card-footer">
-                                                    <%--<div class="mui-pull-left">
-                                                        <label>总金额：${item.totalPrice}</label>&nbsp;&nbsp;
-                                                        <label>已結算数量：${item.settleAmout}</label>
-                                                    </div>--%>
                                                 <c:if test="${detailsVo.ucamVo.id == null || (detailsVo.ucamVo.id != null && detailsVo.ucamVo.isSaveSubmit == 0)}">
                                                     <div>
                                                         <a href="#fromUCAMItem" name="app-a" data-id="${item.id}">
@@ -391,11 +387,6 @@
     var viewApi = mui('#app').view({
         defaultPage: '#setting'
     });
-    $(document).ajaxStart(function(){
-        $("#loading").show();
-    }).ajaxStop(function(){
-        $("#loading").hide();
-    })
     mui('.mui-scroll-wrapper').scroll();
     var orderTypeJosn = '[{"text":"绿化苗木","value":"0"},{"text":"园建水电","value":"1"},{"text":"机械租赁","value":"2"},{"text":"工程分包","value":"3"}]';
     var ucamVoOrderType = '${detailsVo.ucamVo.orderType}';

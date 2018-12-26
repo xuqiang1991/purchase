@@ -27,7 +27,7 @@ public interface PurchaseOrderService {
 
     ResultUtil delPurchaseOrder(String id);
 
-    ResultUtil submitPurchaseOrder(String id);
+    ResultUtil submitPurchaseOrder(String id,Long userId, Long roleId);
 
     ResultUtil reviewPurchaseOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion, Long applyRole);
 

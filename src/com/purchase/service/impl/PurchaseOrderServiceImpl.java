@@ -41,31 +41,31 @@ import java.util.List;
 @Service
 public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
-	private static Logger logger = LoggerFactory.getLogger(PurchaseOrderServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(PurchaseOrderServiceImpl.class);
 
-	@Autowired
-	private BizPurchaseOrderDetailMapper purchaseOrderDetailMapper;
+    @Autowired
+    private BizPurchaseOrderDetailMapper purchaseOrderDetailMapper;
 
-	@Autowired
-	private BizPurchaseOrderMapper purchaseOrderMapper;
+    @Autowired
+    private BizPurchaseOrderMapper purchaseOrderMapper;
 
-	@Autowired
-	private TbSupplierMapper supplierMapper;
+    @Autowired
+    private TbSupplierMapper supplierMapper;
 
     @Autowired
     private TbProjectMangerMapper projectMangerMapper;
 
-	@Autowired
-	private TbAdminMapper adminMapper;
+    @Autowired
+    private TbAdminMapper adminMapper;
 
 	@Override
 	public ResultUtil getOrderList(Integer page, Integer limit, BizPurchaseOrderSearch search) {
 			PageHelper.startPage(page, limit);
 
-			BizPurchaseOrderExample example=new BizPurchaseOrderExample();
-			//设置按创建时间降序排序
-			example.setOrderByClause("update_date DESC");
-			BizPurchaseOrderExample.Criteria criteria = example.createCriteria();
+        BizPurchaseOrderExample example=new BizPurchaseOrderExample();
+        //设置按创建时间降序排序
+        example.setOrderByClause("update_date DESC");
+        BizPurchaseOrderExample.Criteria criteria = example.createCriteria();
 
 			if(StringUtils.isNotEmpty(search.getPurchaseNo())){
 				//注意：模糊查询需要进行拼接”%“  如下，不进行拼接是不能完成查询的哦。
@@ -114,62 +114,62 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 				example.or(criteria3);
 			}
 
-			List<BizPurchaseOrderVo> users = purchaseOrderMapper.selectByExampleExt(example, search);
-			PageInfo<BizPurchaseOrderVo> pageInfo = new PageInfo<>(users);
-			ResultUtil resultUtil = new ResultUtil();
-			resultUtil.setCode(0);
-			resultUtil.setCount(pageInfo.getTotal());
-			resultUtil.setData(pageInfo.getList());
-			return resultUtil;
-	}
+        List<BizPurchaseOrderVo> users = purchaseOrderMapper.selectByExampleExt(example, search);
+        PageInfo<BizPurchaseOrderVo> pageInfo = new PageInfo<>(users);
+        ResultUtil resultUtil = new ResultUtil();
+        resultUtil.setCode(0);
+        resultUtil.setCount(pageInfo.getTotal());
+        resultUtil.setData(pageInfo.getList());
+        return resultUtil;
+    }
 
-	@Override
-	public ResultUtil addPurchaseOrder(BizPurchaseOrder order) {
+    @Override
+    public ResultUtil addPurchaseOrder(BizPurchaseOrder order) {
 
-		Date date = new Date();
-		String id = null;
-		if(StringUtils.isBlank(order.getId())){
-			id = WebUtils.generateUUID();
-			order.setId(id);
+        Date date = new Date();
+        String id = null;
+        if(StringUtils.isBlank(order.getId())){
+            id = WebUtils.generateUUID();
+            order.setId(id);
 
-			//生成合同订单号
-			String yyddmm = DateUtil.formatDate(date,DateUtil.DateFormat3);
-			String prefix = PurchaseUtil.prefix + yyddmm;
-			String pn = purchaseOrderMapper.selMaxPurchaseNo(prefix);
-			String purchaseNo = PurchaseUtil.generatePurchaseNo(pn);
-			order.setPurchaseNo(purchaseNo);
+            //生成合同订单号
+            String yyddmm = DateUtil.formatDate(date,DateUtil.DateFormat3);
+            String prefix = PurchaseUtil.prefix + yyddmm;
+            String pn = purchaseOrderMapper.selMaxPurchaseNo(prefix);
+            String purchaseNo = PurchaseUtil.generatePurchaseNo(pn);
+            order.setPurchaseNo(purchaseNo);
 
-			//参数补充
-			order.setCreateTime(date);
-			order.setUpdateDate(date);
+            //参数补充
+            order.setCreateTime(date);
+            order.setUpdateDate(date);
 
-			purchaseOrderMapper.insertSelective(order);
-		}else {
-			id = order.getId();
-			order.setUpdateDate(date);
-			purchaseOrderMapper.updateByPrimaryKeySelective(order);
-		}
-		return ResultUtil.ok(id);
-	}
+            purchaseOrderMapper.insertSelective(order);
+        }else {
+            id = order.getId();
+            order.setUpdateDate(date);
+            purchaseOrderMapper.updateByPrimaryKeySelective(order);
+        }
+        return ResultUtil.ok(id);
+    }
 
-	@Override
-	public ResultUtil editPurchaseOrder(BizPurchaseOrder order) {
-		Date date = new Date();
-		order.setUpdateDate(date);
-		purchaseOrderMapper.updateByPrimaryKeySelective(order);
-		return ResultUtil.ok(order.getId());
-	}
+    @Override
+    public ResultUtil editPurchaseOrder(BizPurchaseOrder order) {
+        Date date = new Date();
+        order.setUpdateDate(date);
+        purchaseOrderMapper.updateByPrimaryKeySelective(order);
+        return ResultUtil.ok(order.getId());
+    }
 
-	/**
-	 *
-	 * 查询合同订单号详情
-	 * @param id
-	 * @return
-	 */
-	@Override
-	public BizPurchaseOrderDetailsVo selPurchaseOrder(String id,Long adminId) {
-		BizPurchaseOrderDetailsVo detailsVo = new BizPurchaseOrderDetailsVo();
-		try {
+    /**
+     *
+     * 查询合同订单号详情
+     * @param id
+     * @return
+     */
+    @Override
+    public BizPurchaseOrderDetailsVo selPurchaseOrder(String id,Long adminId) {
+        BizPurchaseOrderDetailsVo detailsVo = new BizPurchaseOrderDetailsVo();
+        try {
             BizPurchaseOrderExample example = new BizPurchaseOrderExample();
             BizPurchaseOrderExample.Criteria criteria = example.createCriteria();
             criteria.andIdEqualTo(id);
@@ -256,20 +256,20 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	}
 
 
-	@Override
-	@Transactional
-	public ResultUtil delPurchaseOrder(String id) {
-		BizPurchaseOrder order = purchaseOrderMapper.selectByPrimaryKey(id);
-		if(!(PurchaseUtil.STATUS_0 == order.getStatus())){
-			return ResultUtil.error("非未提交状态的合同订单不能删除！");
-		}
-		purchaseOrderMapper.deleteByPrimaryKey(id);
+    @Override
+    @Transactional
+    public ResultUtil delPurchaseOrder(String id) {
+        BizPurchaseOrder order = purchaseOrderMapper.selectByPrimaryKey(id);
+        if(!(PurchaseUtil.STATUS_0 == order.getStatus())){
+            return ResultUtil.error("非未提交状态的合同订单不能删除！");
+        }
+        purchaseOrderMapper.deleteByPrimaryKey(id);
 
-		BizPurchaseOrderDetailExample example = new BizPurchaseOrderDetailExample();
-		example.createCriteria().andPurchaseNoEqualTo(order.getPurchaseNo());
-		purchaseOrderDetailMapper.deleteByExample(example);
-		return ResultUtil.ok();
-	}
+        BizPurchaseOrderDetailExample example = new BizPurchaseOrderDetailExample();
+        example.createCriteria().andPurchaseNoEqualTo(order.getPurchaseNo());
+        purchaseOrderDetailMapper.deleteByExample(example);
+        return ResultUtil.ok();
+    }
 
 	/**
 	 * 合同订单提交
@@ -395,41 +395,41 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return povList;
     }
 
-	@Override
-	public ResultUtil addPurchaseOrderItem(BizPurchaseOrderDetail order) {
+    @Override
+    public ResultUtil addPurchaseOrderItem(BizPurchaseOrderDetail order) {
 
-		String id = MyUtil.getStrUUID();
-		order.setId(id);
-		purchaseOrderDetailMapper.insertSelective(order);
+        String id = MyUtil.getStrUUID();
+        order.setId(id);
+        purchaseOrderDetailMapper.insertSelective(order);
 
-		BigDecimal price = order.getPrice();
-		Double amount = order.getAmount();
-		BigDecimal totalPrice = null;
-		if(price != null && amount != null){
-			BigDecimal amountBig = new BigDecimal(amount);
-			totalPrice = price.multiply(amountBig);
-		}
+        BigDecimal price = order.getPrice();
+        Double amount = order.getAmount();
+        BigDecimal totalPrice = null;
+        if(price != null && amount != null){
+            BigDecimal amountBig = new BigDecimal(amount);
+            totalPrice = price.multiply(amountBig);
+        }
 
-		//如有金额更新合同订单
-		if(totalPrice != null){
-			String purchaseNo = order.getPurchaseNo();
-			BizPurchaseOrder purchaseOrder = purchaseOrderMapper.selectByPurchaseNo(purchaseNo);
-			BigDecimal contractMoney = purchaseOrder.getContractMoney();
-			if(contractMoney == null){
-				contractMoney = totalPrice;
-			}else {
-				contractMoney = contractMoney.add(totalPrice);
-			}
+        //如有金额更新合同订单
+        if(totalPrice != null){
+            String purchaseNo = order.getPurchaseNo();
+            BizPurchaseOrder purchaseOrder = purchaseOrderMapper.selectByPurchaseNo(purchaseNo);
+            BigDecimal contractMoney = purchaseOrder.getContractMoney();
+            if(contractMoney == null){
+                contractMoney = totalPrice;
+            }else {
+                contractMoney = contractMoney.add(totalPrice);
+            }
 
-			BizPurchaseOrder tmp = new BizPurchaseOrder();
-			tmp.setId(purchaseOrder.getId());
-			tmp.setContractMoney(contractMoney);
-			tmp.setUpdateDate(order.getUpdateDate());
-			purchaseOrderMapper.updateByPrimaryKeySelective(tmp);
-		}
+            BizPurchaseOrder tmp = new BizPurchaseOrder();
+            tmp.setId(purchaseOrder.getId());
+            tmp.setContractMoney(contractMoney);
+            tmp.setUpdateDate(order.getUpdateDate());
+            purchaseOrderMapper.updateByPrimaryKeySelective(tmp);
+        }
 
-		return ResultUtil.ok(id);
-	}
+        return ResultUtil.ok(id);
+    }
 
     @Override
     public ResultUtil editPurchaseOrderItem(BizPurchaseOrderDetail order) {
@@ -463,34 +463,34 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     @Override
-	public ResultUtil deletePurchaseOrderItem(String itemId) {
-		BizPurchaseOrderDetail order = purchaseOrderDetailMapper.selectByPrimaryKey(itemId);
-		BigDecimal price = order.getPrice();
-		Double amount = order.getAmount();
-		BigDecimal totalPrice = null;
-		if(price != null && amount != null){
-			BigDecimal amountBig = new BigDecimal(amount);
-			totalPrice = price.multiply(amountBig);
-		}
+    public ResultUtil deletePurchaseOrderItem(String itemId) {
+        BizPurchaseOrderDetail order = purchaseOrderDetailMapper.selectByPrimaryKey(itemId);
+        BigDecimal price = order.getPrice();
+        Double amount = order.getAmount();
+        BigDecimal totalPrice = null;
+        if(price != null && amount != null){
+            BigDecimal amountBig = new BigDecimal(amount);
+            totalPrice = price.multiply(amountBig);
+        }
 
-		//如有金额更新合同订单
-		if(totalPrice != null){
-			String purchaseNo = order.getPurchaseNo();
-			BizPurchaseOrder purchaseOrder = purchaseOrderMapper.selectByPurchaseNo(purchaseNo);
-			BigDecimal contractMoney = purchaseOrder.getContractMoney();
-			BigDecimal tmpMoney = contractMoney.subtract(totalPrice);
+        //如有金额更新合同订单
+        if(totalPrice != null){
+            String purchaseNo = order.getPurchaseNo();
+            BizPurchaseOrder purchaseOrder = purchaseOrderMapper.selectByPurchaseNo(purchaseNo);
+            BigDecimal contractMoney = purchaseOrder.getContractMoney();
+            BigDecimal tmpMoney = contractMoney.subtract(totalPrice);
 
-			BizPurchaseOrder tmp = new BizPurchaseOrder();
-			tmp.setId(purchaseOrder.getId());
-			tmp.setContractMoney(tmpMoney);
-			tmp.setUpdateDate(order.getUpdateDate());
-			purchaseOrderMapper.updateByPrimaryKeySelective(tmp);
-		}
+            BizPurchaseOrder tmp = new BizPurchaseOrder();
+            tmp.setId(purchaseOrder.getId());
+            tmp.setContractMoney(tmpMoney);
+            tmp.setUpdateDate(order.getUpdateDate());
+            purchaseOrderMapper.updateByPrimaryKeySelective(tmp);
+        }
 
 
-		purchaseOrderDetailMapper.deleteByPrimaryKey(itemId);
-		return ResultUtil.ok();
-	}
+        purchaseOrderDetailMapper.deleteByPrimaryKey(itemId);
+        return ResultUtil.ok();
+    }
 
     @Override
     public ResultUtil getPurchaseOrderItem(String itemId) {
@@ -502,9 +502,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     @Override
-	public ResultUtil submitReviewPurchaseOrder(TbAdmin admin, String id, Long userId) {
+    public ResultUtil submitReviewPurchaseOrder(TbAdmin admin, String id, Long userId) {
 
-		BizPurchaseOrder order = purchaseOrderMapper.selectByPrimaryKey(id);
+        BizPurchaseOrder order = purchaseOrderMapper.selectByPrimaryKey(id);
 
 		int status = order.getStatus();
 		if(PurchaseUtil.STATUS_1 != status){
@@ -516,21 +516,21 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		tmp.setCostDepartUser(userId);
 		tmp.setUpdateDate(date);
 
-		purchaseOrderMapper.updateByPrimaryKeySelective(tmp);
-		return ResultUtil.ok();
-	}
+        purchaseOrderMapper.updateByPrimaryKeySelective(tmp);
+        return ResultUtil.ok();
+    }
 
-	@Override
-	public ResultUtil purchaseOrderContractNo(String id, String contractNo) {
-		BizPurchaseOrder tmp = new BizPurchaseOrder();
-		tmp.setId(id);
-		tmp.setContractNo(contractNo);
-		tmp.setUpdateDate(new Date());
-		purchaseOrderMapper.updateByPrimaryKeySelective(tmp);
-		return ResultUtil.ok();
-	}
+    @Override
+    public ResultUtil purchaseOrderContractNo(String id, String contractNo) {
+        BizPurchaseOrder tmp = new BizPurchaseOrder();
+        tmp.setId(id);
+        tmp.setContractNo(contractNo);
+        tmp.setUpdateDate(new Date());
+        purchaseOrderMapper.updateByPrimaryKeySelective(tmp);
+        return ResultUtil.ok();
+    }
 
-	private BizPurchaseOrderVo getBizPurchaseOrderVo(String id){
+    private BizPurchaseOrderVo getBizPurchaseOrderVo(String id){
         BizPurchaseOrderExample example = new BizPurchaseOrderExample();
         BizPurchaseOrderExample.Criteria criteria = example.createCriteria();
         criteria.andIdEqualTo(id);
@@ -592,17 +592,17 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return getBizPurchaseOrderVo(id);
     }
 
-	@Override
-	public List<ChosePurchaseOrderVO> selectChosePurchaseOrder() {
-		List<ChosePurchaseOrderVO> item = new ArrayList<>();
-		BizPurchaseOrderExample example=new BizPurchaseOrderExample();
-		List<BizPurchaseOrder> depts = purchaseOrderMapper.selectByExample(example);
-		if(!CollectionUtils.isEmpty(depts)){
-			for (BizPurchaseOrder d: depts) {
-				ChosePurchaseOrderVO dept = new ChosePurchaseOrderVO(d.getId(),d.getPurchaseNo());
-				item.add(dept);
-			}
-		}
-		return item;
-	}
+    @Override
+    public List<ChosePurchaseOrderVO> selectChosePurchaseOrder() {
+        List<ChosePurchaseOrderVO> item = new ArrayList<>();
+        BizPurchaseOrderExample example=new BizPurchaseOrderExample();
+        List<BizPurchaseOrder> depts = purchaseOrderMapper.selectByExample(example);
+        if(!CollectionUtils.isEmpty(depts)){
+            for (BizPurchaseOrder d: depts) {
+                ChosePurchaseOrderVO dept = new ChosePurchaseOrderVO(d.getId(),d.getPurchaseNo());
+                item.add(dept);
+            }
+        }
+        return item;
+    }
 }
