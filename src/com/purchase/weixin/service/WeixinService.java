@@ -1,7 +1,6 @@
 package com.purchase.weixin.service;
 
 import com.purchase.pojo.admin.TbAdmin;
-import com.purchase.service.AdminService;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
@@ -25,8 +24,6 @@ public class WeixinService{
     @Autowired
     private WxMpService wxMpService;
 
-    @Autowired
-    private AdminService adminService;
 
     /**
      * 发送客服图文消息

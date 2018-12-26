@@ -7,11 +7,13 @@ import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.BizContractApplyMoney;
 import com.purchase.pojo.order.BizContractApplyMoneyDetail;
 import com.purchase.service.*;
+import com.purchase.util.OrderUtils;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.*;
 import com.purchase.vo.order.CAMDetailsVo;
 import com.purchase.vo.order.CAMSearch;
 import com.purchase.vo.order.CAMVo;
+import com.purchase.weixin.service.WeixinService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -53,6 +55,10 @@ public class CAMController {
 
     @Autowired
     private ProjectMangerService projectMangerService;
+
+    @Autowired
+    private WeixinService weixinService;
+
 
     @SysLog(value="进入合同内请款单")
     @RequestMapping("list")
@@ -218,36 +224,45 @@ public class CAMController {
     }
 
 
-    @SysLog(value="提交合同内请款单")
-    @RequestMapping("submitCAMOrder")
-    @RequiresPermissions("mobile:CAM:save")
-    @ResponseBody
-    public ResultUtil submitCAMOrder(String id){
-        return camService.submitCAMOrder(id);
-    }
-
-
     @SysLog(value="提交审核")
     @RequestMapping("submitReviewCAMOrder")
     @RequiresPermissions("mobile:CAM:save")
     @ResponseBody
-    public ResultUtil submitReviewCAMOrder(String id, Long userId){
-        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        ResultUtil resultUtil = camService.submitCAMOrder(id);
-        if(resultUtil.getCode() == 0){
-            return camService.submitReviewCAMOrder(admin, id, userId);
-        }else {
-            return resultUtil;
-        }
+    public ResultUtil submitReviewCAMOrder(String id, Long userId, Long roleId){
+        ResultUtil resultUtil = camService.submitCAMOrder(id,userId,roleId);
+        BizContractApplyMoney order = (BizContractApplyMoney) resultUtil.getData();
+
+        TbAdmin tbAdmin = adminService.selAdminById(userId);;
+        boolean isOverRole = adminService.checkRoleIsOverRole(roleId);
+        String url = OrderUtils.DOMAIN_NAME .concat("/mobile/CAM/toDetails/?id=").concat(id);
+        weixinService.sendMSGUtils(tbAdmin,isOverRole,url,true,order.getOrderNo());
+        return resultUtil;
     }
 
     @SysLog(value="审核合同内请款单详情")
     @RequestMapping("reviewCAMOrder/{id}")
     @RequiresPermissions("mobile:CAM:review")
     @ResponseBody
-    public ResultUtil reviewCAMOrder(@PathVariable("id") String id, Boolean auditResults, Long applyUser, String auditOpinion){
+    public ResultUtil reviewCAMOrder(@PathVariable("id") String id, Boolean auditResults, Long applyUser, String auditOpinion,Long applyRole){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        return camService.reviewCAMOrder(admin, id, auditResults,applyUser,auditOpinion);
+        ResultUtil resultUtil = camService.reviewCAMOrder(admin, id, auditResults,applyUser,auditOpinion,applyRole);
+        BizContractApplyMoney order = (BizContractApplyMoney) resultUtil.getData();
+
+        TbAdmin tbAdmin = null;
+        boolean isOverRole = false;
+        String url = OrderUtils.DOMAIN_NAME .concat("/mobile/CAM/toDetails/?id=").concat(id);
+        if(!auditResults){
+            tbAdmin = adminService.selAdminById(order.getCreateUser());
+        }else{
+            isOverRole = adminService.checkRoleIsOverRole(applyRole);
+            if(isOverRole){
+                tbAdmin = adminService.selAdminById(order.getCreateUser());
+            }else{
+                tbAdmin = adminService.selAdminById(applyUser);
+            }
+        }
+        weixinService.sendMSGUtils(tbAdmin,isOverRole,url,auditResults,order.getOrderNo());
+        return resultUtil;
     }
 
 

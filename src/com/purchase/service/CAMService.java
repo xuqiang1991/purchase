@@ -23,7 +23,7 @@ public interface CAMService {
 
     CAMDetailsVo selCAMOrder(String id);
 
-    ResultUtil submitCAMOrder(String id);
+    ResultUtil submitCAMOrder(String id, Long userId, Long roleId);
 
     ResultUtil addCAMItem(BizContractApplyMoneyDetail order);
 
@@ -35,9 +35,7 @@ public interface CAMService {
 
     ResultUtil delCAM(String id);
 
-    ResultUtil submitReviewCAMOrder(TbAdmin admin, String id, Long userId);
-
-    ResultUtil reviewCAMOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion);
+    ResultUtil reviewCAMOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion, Long applyRole);
 
     CAMVo getCAMOrder(String id);
 
