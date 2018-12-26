@@ -24,6 +24,10 @@
         .mui-popover .mui-popover-arrow:after {
             width: 0px;
         }
+        .appClassForA{
+            color: #0C0C0C;
+            font-size: 17px;
+        }
     </style>
     <script src="${ctx }/mui/js/mui.min.js"></script>
     <script src="${ctx }/js/jquery-1.11.1.js"></script>
@@ -308,7 +312,7 @@
     mui('.mui-scroll-wrapper').scroll();
     var isApproval = '${detailsVo.paoVo.isApproval}';
     var isSaveSubmit = '${detailsVo.paoVo.isSaveSubmit}';
-    var orderId = '${detailsVo.ucamVo.id}';
+    var orderId = '${detailsVo.paoVo.id}';
     var rectifyFlagJson = '[{"value":0,"text":"未整改"},{"value":1,"text":"已整改"}]';
     //初始化数据
     mui.ready(function() {

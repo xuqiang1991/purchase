@@ -213,11 +213,12 @@
                         mui.alert(result.msg);
                     }else {
                         mui.alert('审核成功！', function() {
-                            if(auditResults == "1"){
+                            document.location.href='${reviewRefreshUrl}';
+                            /*if(auditResults == "1"){
                                 document.location.href='${reviewRefreshUrl}';
                             }else{
                                 history.go(-1);
-                            }
+                            }*/
                         });
                     }
                 }

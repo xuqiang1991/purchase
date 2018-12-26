@@ -220,8 +220,8 @@ public class UCAMController {
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         ResultUtil resultUtil = ucamService.reviewUCAMOrder(admin, id, auditResults,applyUser,auditOpinion,applyRole);
         BizUncontractApplyMoney order = (BizUncontractApplyMoney) resultUtil.getData();
-        TbAdmin tbAdmin = adminService.selAdminById(applyUser);
-        String openId = tbAdmin.getOpenId();
+        TbAdmin tbAdmin = null;
+        String openId = "";
         String url = OrderUtils.DOMAIN_NAME .concat("/mobile/UCAM/toDetails/?id=").concat(id);
         String title = "订单状态提醒";// 标题
         String desc = "";//"您好，".concat(tbAdmin.getFullname()).concat("。您有订单需要审核");//详情

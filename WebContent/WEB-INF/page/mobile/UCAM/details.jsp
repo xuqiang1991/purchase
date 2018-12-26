@@ -929,13 +929,6 @@
         });
     })(mui);
 
-
-
-    /*if(ucamVoOrderType != null && ucamVoOrderType != 0){
-        $("#ul_mui_table_view").find("li").eq(2).addClass("mui-active");
-    }else{
-        $("#ul_mui_table_view").find("li").eq(0).addClass("mui-active");
-    }*/
     var dcLength = $("#detailDiv").find("div.mui-card").length;
     if(dcLength > 0){
         $("#ul_mui_table_view").find("li").removeClass("mui-active");
