@@ -5,7 +5,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-	<title>合同外请款单</title>
+	<title></title>
 	<link href="${ctx }/mui/css/mui.min.css" rel="stylesheet"/>
     <link href="${ctx }/mui/css/mui.picker.min.css" rel="stylesheet" />
     <style>

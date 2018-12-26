@@ -2,9 +2,10 @@ package com.purchase.vo.order;
 
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbProjectManger;
+import com.purchase.pojo.admin.TbRoles;
 import com.purchase.pojo.admin.TbSupplier;
+import com.purchase.pojo.order.BizHistory;
 import com.purchase.pojo.order.BizPurchaseOrder;
-import com.purchase.vo.OrderHistory;
 
 import java.util.List;
 
@@ -14,14 +15,19 @@ import java.util.List;
  */
 public class BizPurchaseOrderVo extends BizPurchaseOrder {
 
-    private TbSupplier supplier;
-    private TbAdmin admin;
-    private TbAdmin costAdmin;
-    private TbAdmin projectAdmin;
-    private TbAdmin managerAdmin;
-    private TbProjectManger projectManger;
-    private TbAdmin auAdmin;
-    private List<OrderHistory> historyList;
+    private TbSupplier supplier;//所属供应商
+    private TbProjectManger tpm;//所属项目
+
+    private TbAdmin admin;//创建人
+    private TbAdmin auAdmin;//申请人
+
+    private TbAdmin nextAdmin;//下一个审批人
+    private TbRoles nextRole;//下一个审批角色
+
+    private TbAdmin lastUser;//上一步审核人或操作人
+    private TbRoles lastRole;//上一步审核角色或操作角色
+
+    private List<BizHistory> historyList;
 
     public TbSupplier getSupplier() {
         return supplier;
@@ -29,6 +35,14 @@ public class BizPurchaseOrderVo extends BizPurchaseOrder {
 
     public void setSupplier(TbSupplier supplier) {
         this.supplier = supplier;
+    }
+
+    public TbProjectManger getTpm() {
+        return tpm;
+    }
+
+    public void setTpm(TbProjectManger tpm) {
+        this.tpm = tpm;
     }
 
     public TbAdmin getAdmin() {
@@ -39,51 +53,51 @@ public class BizPurchaseOrderVo extends BizPurchaseOrder {
         this.admin = admin;
     }
 
-    public TbAdmin getCostAdmin() {
-        return costAdmin;
-    }
-
-    public void setCostAdmin(TbAdmin costAdmin) {
-        this.costAdmin = costAdmin;
-    }
-
-    public TbAdmin getProjectAdmin() {
-        return projectAdmin;
-    }
-
-    public void setProjectAdmin(TbAdmin projectAdmin) {
-        this.projectAdmin = projectAdmin;
-    }
-
-    public TbAdmin getManagerAdmin() {
-        return managerAdmin;
-    }
-
-    public void setManagerAdmin(TbAdmin managerAdmin) {
-        this.managerAdmin = managerAdmin;
-    }
-
-    public TbProjectManger getProjectManger() {
-        return projectManger;
-    }
-
-    public void setProjectManger(TbProjectManger projectManger) {
-        this.projectManger = projectManger;
-    }
-
-    public List<OrderHistory> getHistoryList() {
-        return historyList;
-    }
-
-    public void setHistoryList(List<OrderHistory> historyList) {
-        this.historyList = historyList;
-    }
-
     public TbAdmin getAuAdmin() {
         return auAdmin;
     }
 
     public void setAuAdmin(TbAdmin auAdmin) {
         this.auAdmin = auAdmin;
+    }
+
+    public TbAdmin getNextAdmin() {
+        return nextAdmin;
+    }
+
+    public void setNextAdmin(TbAdmin nextAdmin) {
+        this.nextAdmin = nextAdmin;
+    }
+
+    public TbRoles getNextRole() {
+        return nextRole;
+    }
+
+    public void setNextRole(TbRoles nextRole) {
+        this.nextRole = nextRole;
+    }
+
+    public TbAdmin getLastUser() {
+        return lastUser;
+    }
+
+    public void setLastUser(TbAdmin lastUser) {
+        this.lastUser = lastUser;
+    }
+
+    public TbRoles getLastRole() {
+        return lastRole;
+    }
+
+    public void setLastRole(TbRoles lastRole) {
+        this.lastRole = lastRole;
+    }
+
+    public List<BizHistory> getHistoryList() {
+        return historyList;
+    }
+
+    public void setHistoryList(List<BizHistory> historyList) {
+        this.historyList = historyList;
     }
 }

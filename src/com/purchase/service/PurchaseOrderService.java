@@ -23,13 +23,13 @@ public interface PurchaseOrderService {
 
     ResultUtil editPurchaseOrder(BizPurchaseOrder order);
 
-    BizPurchaseOrderDetailsVo selPurchaseOrder(String purchaseNo);
+    BizPurchaseOrderDetailsVo selPurchaseOrder(String id,Long adminId);
 
     ResultUtil delPurchaseOrder(String id);
 
-    ResultUtil submitPurchaseOrder(String id);
+    ResultUtil submitPurchaseOrder(String id,Long userId, Long roleId);
 
-    ResultUtil reviewPurchaseOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion);
+    ResultUtil reviewPurchaseOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion, Long applyRole);
 
     /**
      * 根据供应商和订单状态查询

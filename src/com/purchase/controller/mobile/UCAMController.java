@@ -82,18 +82,6 @@ public class UCAMController {
     @RequiresPermissions("mobile:UCAM:list")
     public String ucamDetails(HttpServletRequest req){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        /*if(admin.getSupplierId() != null){
-            TbSupplier supplier = supplierService.selSupplierById(admin.getSupplierId());
-            admin.setSupplierName(supplier.getName());
-            //登录账户为供应商，获取当前供应商的用户为创建人
-            List<ChoseAdminVO> admins = adminService.selectAdminBySupplierId(admin.getSupplierId());
-            req.setAttribute("admins", JSON.toJSONString(admins));
-        }else{
-            List<ChoseSupplierVO> admins = adminService.selectAdminSupplierIdNotNull();
-            req.setAttribute("admins", JSON.toJSONString(admins));
-        }*/
-
-
         List<TbProjectManger> projectMangerList = projectMangerService.selectProjectMangerExample();
         req.setAttribute("admin", admin);
         req.setAttribute("pmItem",JSON.toJSONString(projectMangerList));
@@ -202,7 +190,6 @@ public class UCAMController {
     @RequiresPermissions("mobile:UCAM:save")
     @ResponseBody
     public ResultUtil submitReviewUCAMOrder(String id, Long userId, Long roleId){
-        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         ResultUtil resultUtil = ucamService.submitUCAMOrder(id,userId,roleId);
         BizUncontractApplyMoney order = (BizUncontractApplyMoney) resultUtil.getData();
         TbAdmin tbAdmin = adminService.selAdminById(userId);;

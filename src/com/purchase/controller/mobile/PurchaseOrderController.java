@@ -10,14 +10,13 @@ import com.purchase.service.AdminService;
 import com.purchase.service.ProjectMangerService;
 import com.purchase.service.PurchaseOrderService;
 import com.purchase.service.SupplierService;
+import com.purchase.util.OrderUtils;
 import com.purchase.util.ResultUtil;
-import com.purchase.vo.admin.ChoseAdminVO;
-import com.purchase.vo.admin.ChoseDeptVO;
-import com.purchase.vo.admin.ChoseProjectVO;
-import com.purchase.vo.admin.ChoseSupplierVO;
+import com.purchase.vo.admin.*;
 import com.purchase.vo.order.BizPurchaseOrderDetailsVo;
 import com.purchase.vo.order.BizPurchaseOrderSearch;
 import com.purchase.vo.order.BizPurchaseOrderVo;
+import com.purchase.weixin.service.WeixinService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -56,6 +55,9 @@ public class PurchaseOrderController {
     @Autowired
     private ProjectMangerService projectMangerService;
 
+    @Autowired
+    private WeixinService weixinService;
+
     @RequestMapping("list")
     @RequiresPermissions("mobile:purchase:list")
     public String list(HttpServletRequest req){
@@ -86,12 +88,19 @@ public class PurchaseOrderController {
     @RequiresPermissions("mobile:purchase:details")
     public String toDetails(HttpServletRequest req, Model model){
         String id = req.getParameter("id");
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        Long adminId = admin.getId();
         BizPurchaseOrderDetailsVo detailsVo = new BizPurchaseOrderDetailsVo();
         if(StringUtils.isNotEmpty(id)){
-            detailsVo = purchaseOrderService.selPurchaseOrder(id);
+            detailsVo = purchaseOrderService.selPurchaseOrder(id,adminId);
+            Boolean isOverRole = adminService.checkRoleIsOverRole(detailsVo.getPurchaseOrder().getNextReviewRole());
+            if(!isOverRole){
+                List<ChoseAdminForRoleVO> reviewAdmins = adminService.selectRoleAdmin();
+                model.addAttribute("reviewAdmins", JSON.toJSONString(reviewAdmins));
+            }
+            model.addAttribute("isOverRole",isOverRole);
         }
 
-        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         if(admin.getUserType() == 1){
             TbSupplier supplier = supplierService.selSupplierById(admin.getSupplierId());
             admin.setSupplierName(supplier.getName());
@@ -177,8 +186,8 @@ public class PurchaseOrderController {
     @RequestMapping("submitPurchaseOrder")
     @RequiresPermissions("mobile:purchase:save")
     @ResponseBody
-    public ResultUtil submitPurchaseOrder(String id){
-        return purchaseOrderService.submitPurchaseOrder(id);
+    public ResultUtil submitPurchaseOrder(String id,Long userId, Long roleId){
+        return purchaseOrderService.submitPurchaseOrder(id,userId,roleId);
     }
 
     @SysLog(value="填写合同")
@@ -193,24 +202,39 @@ public class PurchaseOrderController {
     @RequestMapping("submitReviewPurchaseOrder")
     @RequiresPermissions("mobile:purchase:save")
     @ResponseBody
-    public ResultUtil submitReviewPurchaseOrder(String id, Long userId){
-        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        ResultUtil resultUtil = purchaseOrderService.submitPurchaseOrder(id);
-
-        if(resultUtil.getCode() == 0){
-            return purchaseOrderService.submitReviewPurchaseOrder(admin, id, userId);
-        }else {
-            return resultUtil;
-        }
+    public ResultUtil submitReviewPurchaseOrder(String id, Long userId, Long roleId){
+        ResultUtil resultUtil = purchaseOrderService.submitPurchaseOrder(id,userId,roleId);
+        BizPurchaseOrder order = (BizPurchaseOrder) resultUtil.getData();
+        TbAdmin tbAdmin = adminService.selAdminById(userId);;
+        boolean isOverRole = adminService.checkRoleIsOverRole(roleId);
+        String url = OrderUtils.DOMAIN_NAME .concat("/mobile/UCAM/toDetails/?id=").concat(id);
+        weixinService.sendMSGUtils(tbAdmin,isOverRole,url,true,order.getPurchaseNo());
+        return resultUtil;
     }
 
     @SysLog(value="审核合同订单")
     @RequestMapping("reviewPurchaseOrder/{id}")
     @RequiresPermissions("mobile:purchase:review")
     @ResponseBody
-    public ResultUtil reviewPurchaseOrder(@PathVariable("id") String id, Boolean auditResults, Long applyUser, String auditOpinion){
+    public ResultUtil reviewPurchaseOrder(@PathVariable("id") String id, Boolean auditResults, Long applyUser, String auditOpinion,Long applyRole){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        return purchaseOrderService.reviewPurchaseOrder(admin, id, auditResults,applyUser,auditOpinion);
+        ResultUtil resultUtil = purchaseOrderService.reviewPurchaseOrder(admin, id, auditResults,applyUser,auditOpinion,applyRole);
+        BizPurchaseOrder order = (BizPurchaseOrder) resultUtil.getData();
+        TbAdmin tbAdmin = null;
+        boolean isOverRole = false;
+        String url = OrderUtils.DOMAIN_NAME .concat("/mobile/purchase/toDetails/?id=").concat(id);
+        if(!auditResults){
+            tbAdmin = adminService.selAdminById(order.getCreateUser());
+        }else{
+            isOverRole = adminService.checkRoleIsOverRole(applyRole);
+            if(isOverRole){
+                tbAdmin = adminService.selAdminById(order.getCreateUser());
+            }else{
+                tbAdmin = adminService.selAdminById(applyUser);
+            }
+        }
+        weixinService.sendMSGUtils(tbAdmin,isOverRole,url,auditResults,order.getPurchaseNo());
+        return resultUtil;
     }
 
 //    @SysLog(value="工程部审核合同订单")

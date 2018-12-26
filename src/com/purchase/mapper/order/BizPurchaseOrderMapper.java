@@ -32,7 +32,7 @@ public interface BizPurchaseOrderMapper {
 
     int updateByPrimaryKey(BizPurchaseOrder record);
 
-    List<BizPurchaseOrderVo> selectByExampleExt( @Param("example") BizPurchaseOrderExample example, @Param("search") BizPurchaseOrderSearch search);
+    List<BizPurchaseOrderVo> selectByExampleExt(@Param("example") BizPurchaseOrderExample example, @Param("search") BizPurchaseOrderSearch search);
 
     @Select("select max(purchase_no) purchase_no from biz_purchase_order where purchase_no like '${prefix}%'")
     String selMaxPurchaseNo(@Param("prefix") String prefix);

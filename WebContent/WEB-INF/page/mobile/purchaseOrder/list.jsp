@@ -12,7 +12,7 @@
     <script type="text/javascript" src="${ctx}/js/jquery.min.js"></script>
     <script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
     <script type="text/javascript" src="${ctx}/js/handlebars.min.js"></script>
-    <script type="text/javascript" src="${ctx}/js/handlebarsHelps.js"></script>
+    <script type="text/javascript" src="${ctx}/js/handlebarsHelps1.js"></script>
     <script src="${ctx }/mui/js/mui.picker.min.js"></script>
 </head>
 <body>
@@ -87,11 +87,6 @@
                         <div class="mui-input-row">
                             <label>审核日期</label>
                             <input id="departDate" name="departDate" type="text" data-options='{"type":"date","beginYear":2014}' placeholder="请选择日期">
-                        </div>
-                        <div class="mui-input-row">
-                            <label>单号状态</label>
-                            <input type="text" id="statusName" readonly class="mui-input-clear" placeholder="请选择单据状态"  value="">
-                            <input type="hidden" id="status" name="status" value="">
                         </div>
                         <div class="mui-button-row">
                             <button class="mui-btn mui-btn-primary" type="button" id="search-btn">确认</button>&nbsp;&nbsp;
@@ -208,9 +203,7 @@
                     var template = Handlebars.compile(tpl);
 
                     //数据转换
-                    purchaseOrder.statusConversion(Handlebars)
-                    purchaseOrder.departUser(Handlebars)
-                    purchaseOrder.departDate(Handlebars)
+                    utilsOrder.approvalConversion(Handlebars);
 
                     //匹配json内容
                     var html = template({data});//data
@@ -390,7 +383,7 @@
                 <p>
                     <label>开单人:{{admin.fullname}}</label>&nbsp;&nbsp;
                     <label>开单日期：{{createTime}}</label>
-                    <span class="mui-badge mui-badge-primary mui-pull-right">{{purchaseOrder_statusConversion status}}</span>
+                    <span class="mui-badge mui-badge-primary mui-pull-right">{{lastRole.roleName}} {{isApproval_Conversion isApproval}}</span>
                 </p>
             </div>
         </div>
@@ -407,8 +400,8 @@
         </div>
         <div class="mui-card-footer">
             <div class="mui-pull-left">
-                <label>{{purchaseOrder_departUser}}</label>&nbsp;&nbsp;
-                <label>{{purchaseOrder_departDate}}</label>
+                <label>操作人:{{lastUser.fullname}}</label>
+                <label>时间:{{lastReviewDate}}</label>
             </div>
             <%--<div>--%>
                 <%--{{#unless status}}--%>

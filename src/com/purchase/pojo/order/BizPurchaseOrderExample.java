@@ -1186,883 +1186,493 @@ public class BizPurchaseOrderExample {
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartApprovalIsNull() {
-            addCriterion("cost_depart_approval is null");
+        public Criteria andNextReviewUserIsNull() {
+            addCriterion("next_review_user is null");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartApprovalIsNotNull() {
-            addCriterion("cost_depart_approval is not null");
+        public Criteria andNextReviewUserIsNotNull() {
+            addCriterion("next_review_user is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartApprovalEqualTo(Boolean value) {
-            addCriterion("cost_depart_approval =", value, "costDepartApproval");
+        public Criteria andNextReviewUserEqualTo(Long value) {
+            addCriterion("next_review_user =", value, "nextReviewUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartApprovalNotEqualTo(Boolean value) {
-            addCriterion("cost_depart_approval <>", value, "costDepartApproval");
+        public Criteria andNextReviewUserNotEqualTo(Long value) {
+            addCriterion("next_review_user <>", value, "nextReviewUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartApprovalGreaterThan(Boolean value) {
-            addCriterion("cost_depart_approval >", value, "costDepartApproval");
+        public Criteria andNextReviewUserGreaterThan(Long value) {
+            addCriterion("next_review_user >", value, "nextReviewUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartApprovalGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("cost_depart_approval >=", value, "costDepartApproval");
+        public Criteria andNextReviewUserGreaterThanOrEqualTo(Long value) {
+            addCriterion("next_review_user >=", value, "nextReviewUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartApprovalLessThan(Boolean value) {
-            addCriterion("cost_depart_approval <", value, "costDepartApproval");
+        public Criteria andNextReviewUserLessThan(Long value) {
+            addCriterion("next_review_user <", value, "nextReviewUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartApprovalLessThanOrEqualTo(Boolean value) {
-            addCriterion("cost_depart_approval <=", value, "costDepartApproval");
+        public Criteria andNextReviewUserLessThanOrEqualTo(Long value) {
+            addCriterion("next_review_user <=", value, "nextReviewUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartApprovalIn(List<Boolean> values) {
-            addCriterion("cost_depart_approval in", values, "costDepartApproval");
+        public Criteria andNextReviewUserIn(List<Long> values) {
+            addCriterion("next_review_user in", values, "nextReviewUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartApprovalNotIn(List<Boolean> values) {
-            addCriterion("cost_depart_approval not in", values, "costDepartApproval");
+        public Criteria andNextReviewUserNotIn(List<Long> values) {
+            addCriterion("next_review_user not in", values, "nextReviewUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartApprovalBetween(Boolean value1, Boolean value2) {
-            addCriterion("cost_depart_approval between", value1, value2, "costDepartApproval");
+        public Criteria andNextReviewUserBetween(Long value1, Long value2) {
+            addCriterion("next_review_user between", value1, value2, "nextReviewUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartApprovalNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("cost_depart_approval not between", value1, value2, "costDepartApproval");
+        public Criteria andNextReviewUserNotBetween(Long value1, Long value2) {
+            addCriterion("next_review_user not between", value1, value2, "nextReviewUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartUserIsNull() {
-            addCriterion("cost_depart_user is null");
+        public Criteria andNextReviewRoleIsNull() {
+            addCriterion("next_review_role is null");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartUserIsNotNull() {
-            addCriterion("cost_depart_user is not null");
+        public Criteria andNextReviewRoleIsNotNull() {
+            addCriterion("next_review_role is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartUserEqualTo(Long value) {
-            addCriterion("cost_depart_user =", value, "costDepartUser");
+        public Criteria andNextReviewRoleEqualTo(Long value) {
+            addCriterion("next_review_role =", value, "nextReviewRole");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartUserNotEqualTo(Long value) {
-            addCriterion("cost_depart_user <>", value, "costDepartUser");
+        public Criteria andNextReviewRoleNotEqualTo(Long value) {
+            addCriterion("next_review_role <>", value, "nextReviewRole");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartUserGreaterThan(Long value) {
-            addCriterion("cost_depart_user >", value, "costDepartUser");
+        public Criteria andNextReviewRoleGreaterThan(Long value) {
+            addCriterion("next_review_role >", value, "nextReviewRole");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartUserGreaterThanOrEqualTo(Long value) {
-            addCriterion("cost_depart_user >=", value, "costDepartUser");
+        public Criteria andNextReviewRoleGreaterThanOrEqualTo(Long value) {
+            addCriterion("next_review_role >=", value, "nextReviewRole");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartUserLessThan(Long value) {
-            addCriterion("cost_depart_user <", value, "costDepartUser");
+        public Criteria andNextReviewRoleLessThan(Long value) {
+            addCriterion("next_review_role <", value, "nextReviewRole");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartUserLessThanOrEqualTo(Long value) {
-            addCriterion("cost_depart_user <=", value, "costDepartUser");
+        public Criteria andNextReviewRoleLessThanOrEqualTo(Long value) {
+            addCriterion("next_review_role <=", value, "nextReviewRole");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartUserIn(List<Long> values) {
-            addCriterion("cost_depart_user in", values, "costDepartUser");
+        public Criteria andNextReviewRoleIn(List<Long> values) {
+            addCriterion("next_review_role in", values, "nextReviewRole");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartUserNotIn(List<Long> values) {
-            addCriterion("cost_depart_user not in", values, "costDepartUser");
+        public Criteria andNextReviewRoleNotIn(List<Long> values) {
+            addCriterion("next_review_role not in", values, "nextReviewRole");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartUserBetween(Long value1, Long value2) {
-            addCriterion("cost_depart_user between", value1, value2, "costDepartUser");
+        public Criteria andNextReviewRoleBetween(Long value1, Long value2) {
+            addCriterion("next_review_role between", value1, value2, "nextReviewRole");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartUserNotBetween(Long value1, Long value2) {
-            addCriterion("cost_depart_user not between", value1, value2, "costDepartUser");
+        public Criteria andNextReviewRoleNotBetween(Long value1, Long value2) {
+            addCriterion("next_review_role not between", value1, value2, "nextReviewRole");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartDateIsNull() {
-            addCriterion("cost_depart_date is null");
+        public Criteria andLastReviewUserIsNull() {
+            addCriterion("last_review_user is null");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartDateIsNotNull() {
-            addCriterion("cost_depart_date is not null");
+        public Criteria andLastReviewUserIsNotNull() {
+            addCriterion("last_review_user is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartDateEqualTo(Date value) {
-            addCriterion("cost_depart_date =", value, "costDepartDate");
+        public Criteria andLastReviewUserEqualTo(Long value) {
+            addCriterion("last_review_user =", value, "lastReviewUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartDateNotEqualTo(Date value) {
-            addCriterion("cost_depart_date <>", value, "costDepartDate");
+        public Criteria andLastReviewUserNotEqualTo(Long value) {
+            addCriterion("last_review_user <>", value, "lastReviewUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartDateGreaterThan(Date value) {
-            addCriterion("cost_depart_date >", value, "costDepartDate");
+        public Criteria andLastReviewUserGreaterThan(Long value) {
+            addCriterion("last_review_user >", value, "lastReviewUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartDateGreaterThanOrEqualTo(Date value) {
-            addCriterion("cost_depart_date >=", value, "costDepartDate");
+        public Criteria andLastReviewUserGreaterThanOrEqualTo(Long value) {
+            addCriterion("last_review_user >=", value, "lastReviewUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartDateLessThan(Date value) {
-            addCriterion("cost_depart_date <", value, "costDepartDate");
+        public Criteria andLastReviewUserLessThan(Long value) {
+            addCriterion("last_review_user <", value, "lastReviewUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartDateLessThanOrEqualTo(Date value) {
-            addCriterion("cost_depart_date <=", value, "costDepartDate");
+        public Criteria andLastReviewUserLessThanOrEqualTo(Long value) {
+            addCriterion("last_review_user <=", value, "lastReviewUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartDateIn(List<Date> values) {
-            addCriterion("cost_depart_date in", values, "costDepartDate");
+        public Criteria andLastReviewUserIn(List<Long> values) {
+            addCriterion("last_review_user in", values, "lastReviewUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartDateNotIn(List<Date> values) {
-            addCriterion("cost_depart_date not in", values, "costDepartDate");
+        public Criteria andLastReviewUserNotIn(List<Long> values) {
+            addCriterion("last_review_user not in", values, "lastReviewUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartDateBetween(Date value1, Date value2) {
-            addCriterion("cost_depart_date between", value1, value2, "costDepartDate");
+        public Criteria andLastReviewUserBetween(Long value1, Long value2) {
+            addCriterion("last_review_user between", value1, value2, "lastReviewUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartDateNotBetween(Date value1, Date value2) {
-            addCriterion("cost_depart_date not between", value1, value2, "costDepartDate");
+        public Criteria andLastReviewUserNotBetween(Long value1, Long value2) {
+            addCriterion("last_review_user not between", value1, value2, "lastReviewUser");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartOpinionIsNull() {
-            addCriterion("cost_depart_opinion is null");
+        public Criteria andLastReviewRoleIsNull() {
+            addCriterion("last_review_role is null");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartOpinionIsNotNull() {
-            addCriterion("cost_depart_opinion is not null");
+        public Criteria andLastReviewRoleIsNotNull() {
+            addCriterion("last_review_role is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartOpinionEqualTo(String value) {
-            addCriterion("cost_depart_opinion =", value, "costDepartOpinion");
+        public Criteria andLastReviewRoleEqualTo(Long value) {
+            addCriterion("last_review_role =", value, "lastReviewRole");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartOpinionNotEqualTo(String value) {
-            addCriterion("cost_depart_opinion <>", value, "costDepartOpinion");
+        public Criteria andLastReviewRoleNotEqualTo(Long value) {
+            addCriterion("last_review_role <>", value, "lastReviewRole");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartOpinionGreaterThan(String value) {
-            addCriterion("cost_depart_opinion >", value, "costDepartOpinion");
+        public Criteria andLastReviewRoleGreaterThan(Long value) {
+            addCriterion("last_review_role >", value, "lastReviewRole");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartOpinionGreaterThanOrEqualTo(String value) {
-            addCriterion("cost_depart_opinion >=", value, "costDepartOpinion");
+        public Criteria andLastReviewRoleGreaterThanOrEqualTo(Long value) {
+            addCriterion("last_review_role >=", value, "lastReviewRole");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartOpinionLessThan(String value) {
-            addCriterion("cost_depart_opinion <", value, "costDepartOpinion");
+        public Criteria andLastReviewRoleLessThan(Long value) {
+            addCriterion("last_review_role <", value, "lastReviewRole");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartOpinionLessThanOrEqualTo(String value) {
-            addCriterion("cost_depart_opinion <=", value, "costDepartOpinion");
+        public Criteria andLastReviewRoleLessThanOrEqualTo(Long value) {
+            addCriterion("last_review_role <=", value, "lastReviewRole");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartOpinionLike(String value) {
-            addCriterion("cost_depart_opinion like", value, "costDepartOpinion");
+        public Criteria andLastReviewRoleIn(List<Long> values) {
+            addCriterion("last_review_role in", values, "lastReviewRole");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartOpinionNotLike(String value) {
-            addCriterion("cost_depart_opinion not like", value, "costDepartOpinion");
+        public Criteria andLastReviewRoleNotIn(List<Long> values) {
+            addCriterion("last_review_role not in", values, "lastReviewRole");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartOpinionIn(List<String> values) {
-            addCriterion("cost_depart_opinion in", values, "costDepartOpinion");
+        public Criteria andLastReviewRoleBetween(Long value1, Long value2) {
+            addCriterion("last_review_role between", value1, value2, "lastReviewRole");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartOpinionNotIn(List<String> values) {
-            addCriterion("cost_depart_opinion not in", values, "costDepartOpinion");
+        public Criteria andLastReviewRoleNotBetween(Long value1, Long value2) {
+            addCriterion("last_review_role not between", value1, value2, "lastReviewRole");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartOpinionBetween(String value1, String value2) {
-            addCriterion("cost_depart_opinion between", value1, value2, "costDepartOpinion");
+        public Criteria andLastReviewDateIsNull() {
+            addCriterion("last_review_date is null");
             return (Criteria) this;
         }
 
-        public Criteria andCostDepartOpinionNotBetween(String value1, String value2) {
-            addCriterion("cost_depart_opinion not between", value1, value2, "costDepartOpinion");
+        public Criteria andLastReviewDateIsNotNull() {
+            addCriterion("last_review_date is not null");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartApprovalIsNull() {
-            addCriterion("project_depart_approval is null");
+        public Criteria andLastReviewDateEqualTo(Date value) {
+            addCriterion("last_review_date =", value, "lastReviewDate");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartApprovalIsNotNull() {
-            addCriterion("project_depart_approval is not null");
+        public Criteria andLastReviewDateNotEqualTo(Date value) {
+            addCriterion("last_review_date <>", value, "lastReviewDate");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartApprovalEqualTo(Boolean value) {
-            addCriterion("project_depart_approval =", value, "projectDepartApproval");
+        public Criteria andLastReviewDateGreaterThan(Date value) {
+            addCriterion("last_review_date >", value, "lastReviewDate");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartApprovalNotEqualTo(Boolean value) {
-            addCriterion("project_depart_approval <>", value, "projectDepartApproval");
+        public Criteria andLastReviewDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("last_review_date >=", value, "lastReviewDate");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartApprovalGreaterThan(Boolean value) {
-            addCriterion("project_depart_approval >", value, "projectDepartApproval");
+        public Criteria andLastReviewDateLessThan(Date value) {
+            addCriterion("last_review_date <", value, "lastReviewDate");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartApprovalGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("project_depart_approval >=", value, "projectDepartApproval");
+        public Criteria andLastReviewDateLessThanOrEqualTo(Date value) {
+            addCriterion("last_review_date <=", value, "lastReviewDate");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartApprovalLessThan(Boolean value) {
-            addCriterion("project_depart_approval <", value, "projectDepartApproval");
+        public Criteria andLastReviewDateIn(List<Date> values) {
+            addCriterion("last_review_date in", values, "lastReviewDate");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartApprovalLessThanOrEqualTo(Boolean value) {
-            addCriterion("project_depart_approval <=", value, "projectDepartApproval");
+        public Criteria andLastReviewDateNotIn(List<Date> values) {
+            addCriterion("last_review_date not in", values, "lastReviewDate");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartApprovalIn(List<Boolean> values) {
-            addCriterion("project_depart_approval in", values, "projectDepartApproval");
+        public Criteria andLastReviewDateBetween(Date value1, Date value2) {
+            addCriterion("last_review_date between", value1, value2, "lastReviewDate");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartApprovalNotIn(List<Boolean> values) {
-            addCriterion("project_depart_approval not in", values, "projectDepartApproval");
+        public Criteria andLastReviewDateNotBetween(Date value1, Date value2) {
+            addCriterion("last_review_date not between", value1, value2, "lastReviewDate");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartApprovalBetween(Boolean value1, Boolean value2) {
-            addCriterion("project_depart_approval between", value1, value2, "projectDepartApproval");
+        public Criteria andIsApprovalIsNull() {
+            addCriterion("is_approval is null");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartApprovalNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("project_depart_approval not between", value1, value2, "projectDepartApproval");
+        public Criteria andIsApprovalIsNotNull() {
+            addCriterion("is_approval is not null");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartUserIsNull() {
-            addCriterion("project_depart_user is null");
+        public Criteria andIsApprovalEqualTo(Integer value) {
+            addCriterion("is_approval =", value, "isApproval");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartUserIsNotNull() {
-            addCriterion("project_depart_user is not null");
+        public Criteria andIsApprovalNotEqualTo(Integer value) {
+            addCriterion("is_approval <>", value, "isApproval");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartUserEqualTo(Long value) {
-            addCriterion("project_depart_user =", value, "projectDepartUser");
+        public Criteria andIsApprovalGreaterThan(Integer value) {
+            addCriterion("is_approval >", value, "isApproval");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartUserNotEqualTo(Long value) {
-            addCriterion("project_depart_user <>", value, "projectDepartUser");
+        public Criteria andIsApprovalGreaterThanOrEqualTo(Integer value) {
+            addCriterion("is_approval >=", value, "isApproval");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartUserGreaterThan(Long value) {
-            addCriterion("project_depart_user >", value, "projectDepartUser");
+        public Criteria andIsApprovalLessThan(Integer value) {
+            addCriterion("is_approval <", value, "isApproval");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartUserGreaterThanOrEqualTo(Long value) {
-            addCriterion("project_depart_user >=", value, "projectDepartUser");
+        public Criteria andIsApprovalLessThanOrEqualTo(Integer value) {
+            addCriterion("is_approval <=", value, "isApproval");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartUserLessThan(Long value) {
-            addCriterion("project_depart_user <", value, "projectDepartUser");
+        public Criteria andIsApprovalIn(List<Integer> values) {
+            addCriterion("is_approval in", values, "isApproval");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartUserLessThanOrEqualTo(Long value) {
-            addCriterion("project_depart_user <=", value, "projectDepartUser");
+        public Criteria andIsApprovalNotIn(List<Integer> values) {
+            addCriterion("is_approval not in", values, "isApproval");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartUserIn(List<Long> values) {
-            addCriterion("project_depart_user in", values, "projectDepartUser");
+        public Criteria andIsApprovalBetween(Integer value1, Integer value2) {
+            addCriterion("is_approval between", value1, value2, "isApproval");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartUserNotIn(List<Long> values) {
-            addCriterion("project_depart_user not in", values, "projectDepartUser");
+        public Criteria andIsApprovalNotBetween(Integer value1, Integer value2) {
+            addCriterion("is_approval not between", value1, value2, "isApproval");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartUserBetween(Long value1, Long value2) {
-            addCriterion("project_depart_user between", value1, value2, "projectDepartUser");
+        public Criteria andIsSaveSubmitIsNull() {
+            addCriterion("is_save_submit is null");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartUserNotBetween(Long value1, Long value2) {
-            addCriterion("project_depart_user not between", value1, value2, "projectDepartUser");
+        public Criteria andIsSaveSubmitIsNotNull() {
+            addCriterion("is_save_submit is not null");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartDateIsNull() {
-            addCriterion("project_depart_date is null");
+        public Criteria andIsSaveSubmitEqualTo(Integer value) {
+            addCriterion("is_save_submit =", value, "isSaveSubmit");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartDateIsNotNull() {
-            addCriterion("project_depart_date is not null");
+        public Criteria andIsSaveSubmitNotEqualTo(Integer value) {
+            addCriterion("is_save_submit <>", value, "isSaveSubmit");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartDateEqualTo(Date value) {
-            addCriterion("project_depart_date =", value, "projectDepartDate");
+        public Criteria andIsSaveSubmitGreaterThan(Integer value) {
+            addCriterion("is_save_submit >", value, "isSaveSubmit");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartDateNotEqualTo(Date value) {
-            addCriterion("project_depart_date <>", value, "projectDepartDate");
+        public Criteria andIsSaveSubmitGreaterThanOrEqualTo(Integer value) {
+            addCriterion("is_save_submit >=", value, "isSaveSubmit");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartDateGreaterThan(Date value) {
-            addCriterion("project_depart_date >", value, "projectDepartDate");
+        public Criteria andIsSaveSubmitLessThan(Integer value) {
+            addCriterion("is_save_submit <", value, "isSaveSubmit");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartDateGreaterThanOrEqualTo(Date value) {
-            addCriterion("project_depart_date >=", value, "projectDepartDate");
+        public Criteria andIsSaveSubmitLessThanOrEqualTo(Integer value) {
+            addCriterion("is_save_submit <=", value, "isSaveSubmit");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartDateLessThan(Date value) {
-            addCriterion("project_depart_date <", value, "projectDepartDate");
+        public Criteria andIsSaveSubmitIn(List<Integer> values) {
+            addCriterion("is_save_submit in", values, "isSaveSubmit");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartDateLessThanOrEqualTo(Date value) {
-            addCriterion("project_depart_date <=", value, "projectDepartDate");
+        public Criteria andIsSaveSubmitNotIn(List<Integer> values) {
+            addCriterion("is_save_submit not in", values, "isSaveSubmit");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartDateIn(List<Date> values) {
-            addCriterion("project_depart_date in", values, "projectDepartDate");
+        public Criteria andIsSaveSubmitBetween(Integer value1, Integer value2) {
+            addCriterion("is_save_submit between", value1, value2, "isSaveSubmit");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartDateNotIn(List<Date> values) {
-            addCriterion("project_depart_date not in", values, "projectDepartDate");
+        public Criteria andIsSaveSubmitNotBetween(Integer value1, Integer value2) {
+            addCriterion("is_save_submit not between", value1, value2, "isSaveSubmit");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartDateBetween(Date value1, Date value2) {
-            addCriterion("project_depart_date between", value1, value2, "projectDepartDate");
+        public Criteria andUserItemIsNull() {
+            addCriterion("user_item is null");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartDateNotBetween(Date value1, Date value2) {
-            addCriterion("project_depart_date not between", value1, value2, "projectDepartDate");
+        public Criteria andUserItemIsNotNull() {
+            addCriterion("user_item is not null");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartOpinionIsNull() {
-            addCriterion("project_depart_opinion is null");
+        public Criteria andUserItemEqualTo(String value) {
+            addCriterion("user_item =", value, "userItem");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartOpinionIsNotNull() {
-            addCriterion("project_depart_opinion is not null");
+        public Criteria andUserItemNotEqualTo(String value) {
+            addCriterion("user_item <>", value, "userItem");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartOpinionEqualTo(String value) {
-            addCriterion("project_depart_opinion =", value, "projectDepartOpinion");
+        public Criteria andUserItemGreaterThan(String value) {
+            addCriterion("user_item >", value, "userItem");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartOpinionNotEqualTo(String value) {
-            addCriterion("project_depart_opinion <>", value, "projectDepartOpinion");
+        public Criteria andUserItemGreaterThanOrEqualTo(String value) {
+            addCriterion("user_item >=", value, "userItem");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartOpinionGreaterThan(String value) {
-            addCriterion("project_depart_opinion >", value, "projectDepartOpinion");
+        public Criteria andUserItemLessThan(String value) {
+            addCriterion("user_item <", value, "userItem");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartOpinionGreaterThanOrEqualTo(String value) {
-            addCriterion("project_depart_opinion >=", value, "projectDepartOpinion");
+        public Criteria andUserItemLessThanOrEqualTo(String value) {
+            addCriterion("user_item <=", value, "userItem");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartOpinionLessThan(String value) {
-            addCriterion("project_depart_opinion <", value, "projectDepartOpinion");
+        public Criteria andUserItemLike(String value) {
+            addCriterion("user_item like", value, "userItem");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartOpinionLessThanOrEqualTo(String value) {
-            addCriterion("project_depart_opinion <=", value, "projectDepartOpinion");
+        public Criteria andUserItemNotLike(String value) {
+            addCriterion("user_item not like", value, "userItem");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartOpinionLike(String value) {
-            addCriterion("project_depart_opinion like", value, "projectDepartOpinion");
+        public Criteria andUserItemIn(List<String> values) {
+            addCriterion("user_item in", values, "userItem");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartOpinionNotLike(String value) {
-            addCriterion("project_depart_opinion not like", value, "projectDepartOpinion");
+        public Criteria andUserItemNotIn(List<String> values) {
+            addCriterion("user_item not in", values, "userItem");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartOpinionIn(List<String> values) {
-            addCriterion("project_depart_opinion in", values, "projectDepartOpinion");
+        public Criteria andUserItemBetween(String value1, String value2) {
+            addCriterion("user_item between", value1, value2, "userItem");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDepartOpinionNotIn(List<String> values) {
-            addCriterion("project_depart_opinion not in", values, "projectDepartOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectDepartOpinionBetween(String value1, String value2) {
-            addCriterion("project_depart_opinion between", value1, value2, "projectDepartOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectDepartOpinionNotBetween(String value1, String value2) {
-            addCriterion("project_depart_opinion not between", value1, value2, "projectDepartOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartApprovalIsNull() {
-            addCriterion("manager_depart_approval is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartApprovalIsNotNull() {
-            addCriterion("manager_depart_approval is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartApprovalEqualTo(Boolean value) {
-            addCriterion("manager_depart_approval =", value, "managerDepartApproval");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartApprovalNotEqualTo(Boolean value) {
-            addCriterion("manager_depart_approval <>", value, "managerDepartApproval");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartApprovalGreaterThan(Boolean value) {
-            addCriterion("manager_depart_approval >", value, "managerDepartApproval");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartApprovalGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("manager_depart_approval >=", value, "managerDepartApproval");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartApprovalLessThan(Boolean value) {
-            addCriterion("manager_depart_approval <", value, "managerDepartApproval");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartApprovalLessThanOrEqualTo(Boolean value) {
-            addCriterion("manager_depart_approval <=", value, "managerDepartApproval");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartApprovalIn(List<Boolean> values) {
-            addCriterion("manager_depart_approval in", values, "managerDepartApproval");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartApprovalNotIn(List<Boolean> values) {
-            addCriterion("manager_depart_approval not in", values, "managerDepartApproval");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartApprovalBetween(Boolean value1, Boolean value2) {
-            addCriterion("manager_depart_approval between", value1, value2, "managerDepartApproval");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartApprovalNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("manager_depart_approval not between", value1, value2, "managerDepartApproval");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartUserIsNull() {
-            addCriterion("manager_depart_user is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartUserIsNotNull() {
-            addCriterion("manager_depart_user is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartUserEqualTo(Long value) {
-            addCriterion("manager_depart_user =", value, "managerDepartUser");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartUserNotEqualTo(Long value) {
-            addCriterion("manager_depart_user <>", value, "managerDepartUser");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartUserGreaterThan(Long value) {
-            addCriterion("manager_depart_user >", value, "managerDepartUser");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartUserGreaterThanOrEqualTo(Long value) {
-            addCriterion("manager_depart_user >=", value, "managerDepartUser");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartUserLessThan(Long value) {
-            addCriterion("manager_depart_user <", value, "managerDepartUser");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartUserLessThanOrEqualTo(Long value) {
-            addCriterion("manager_depart_user <=", value, "managerDepartUser");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartUserIn(List<Long> values) {
-            addCriterion("manager_depart_user in", values, "managerDepartUser");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartUserNotIn(List<Long> values) {
-            addCriterion("manager_depart_user not in", values, "managerDepartUser");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartUserBetween(Long value1, Long value2) {
-            addCriterion("manager_depart_user between", value1, value2, "managerDepartUser");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartUserNotBetween(Long value1, Long value2) {
-            addCriterion("manager_depart_user not between", value1, value2, "managerDepartUser");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartDateIsNull() {
-            addCriterion("manager_depart_date is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartDateIsNotNull() {
-            addCriterion("manager_depart_date is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartDateEqualTo(Date value) {
-            addCriterion("manager_depart_date =", value, "managerDepartDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartDateNotEqualTo(Date value) {
-            addCriterion("manager_depart_date <>", value, "managerDepartDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartDateGreaterThan(Date value) {
-            addCriterion("manager_depart_date >", value, "managerDepartDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartDateGreaterThanOrEqualTo(Date value) {
-            addCriterion("manager_depart_date >=", value, "managerDepartDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartDateLessThan(Date value) {
-            addCriterion("manager_depart_date <", value, "managerDepartDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartDateLessThanOrEqualTo(Date value) {
-            addCriterion("manager_depart_date <=", value, "managerDepartDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartDateIn(List<Date> values) {
-            addCriterion("manager_depart_date in", values, "managerDepartDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartDateNotIn(List<Date> values) {
-            addCriterion("manager_depart_date not in", values, "managerDepartDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartDateBetween(Date value1, Date value2) {
-            addCriterion("manager_depart_date between", value1, value2, "managerDepartDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartDateNotBetween(Date value1, Date value2) {
-            addCriterion("manager_depart_date not between", value1, value2, "managerDepartDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartOpinionIsNull() {
-            addCriterion("manager_depart_opinion is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartOpinionIsNotNull() {
-            addCriterion("manager_depart_opinion is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartOpinionEqualTo(String value) {
-            addCriterion("manager_depart_opinion =", value, "managerDepartOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartOpinionNotEqualTo(String value) {
-            addCriterion("manager_depart_opinion <>", value, "managerDepartOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartOpinionGreaterThan(String value) {
-            addCriterion("manager_depart_opinion >", value, "managerDepartOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartOpinionGreaterThanOrEqualTo(String value) {
-            addCriterion("manager_depart_opinion >=", value, "managerDepartOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartOpinionLessThan(String value) {
-            addCriterion("manager_depart_opinion <", value, "managerDepartOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartOpinionLessThanOrEqualTo(String value) {
-            addCriterion("manager_depart_opinion <=", value, "managerDepartOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartOpinionLike(String value) {
-            addCriterion("manager_depart_opinion like", value, "managerDepartOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartOpinionNotLike(String value) {
-            addCriterion("manager_depart_opinion not like", value, "managerDepartOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartOpinionIn(List<String> values) {
-            addCriterion("manager_depart_opinion in", values, "managerDepartOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartOpinionNotIn(List<String> values) {
-            addCriterion("manager_depart_opinion not in", values, "managerDepartOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartOpinionBetween(String value1, String value2) {
-            addCriterion("manager_depart_opinion between", value1, value2, "managerDepartOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andManagerDepartOpinionNotBetween(String value1, String value2) {
-            addCriterion("manager_depart_opinion not between", value1, value2, "managerDepartOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewFailIsNull() {
-            addCriterion("review_fail is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewFailIsNotNull() {
-            addCriterion("review_fail is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewFailEqualTo(Boolean value) {
-            addCriterion("review_fail =", value, "reviewFail");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewFailNotEqualTo(Boolean value) {
-            addCriterion("review_fail <>", value, "reviewFail");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewFailGreaterThan(Boolean value) {
-            addCriterion("review_fail >", value, "reviewFail");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewFailGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("review_fail >=", value, "reviewFail");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewFailLessThan(Boolean value) {
-            addCriterion("review_fail <", value, "reviewFail");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewFailLessThanOrEqualTo(Boolean value) {
-            addCriterion("review_fail <=", value, "reviewFail");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewFailIn(List<Boolean> values) {
-            addCriterion("review_fail in", values, "reviewFail");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewFailNotIn(List<Boolean> values) {
-            addCriterion("review_fail not in", values, "reviewFail");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewFailBetween(Boolean value1, Boolean value2) {
-            addCriterion("review_fail between", value1, value2, "reviewFail");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewFailNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("review_fail not between", value1, value2, "reviewFail");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewOpinionIsNull() {
-            addCriterion("review_opinion is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewOpinionIsNotNull() {
-            addCriterion("review_opinion is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewOpinionEqualTo(String value) {
-            addCriterion("review_opinion =", value, "reviewOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewOpinionNotEqualTo(String value) {
-            addCriterion("review_opinion <>", value, "reviewOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewOpinionGreaterThan(String value) {
-            addCriterion("review_opinion >", value, "reviewOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewOpinionGreaterThanOrEqualTo(String value) {
-            addCriterion("review_opinion >=", value, "reviewOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewOpinionLessThan(String value) {
-            addCriterion("review_opinion <", value, "reviewOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewOpinionLessThanOrEqualTo(String value) {
-            addCriterion("review_opinion <=", value, "reviewOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewOpinionLike(String value) {
-            addCriterion("review_opinion like", value, "reviewOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewOpinionNotLike(String value) {
-            addCriterion("review_opinion not like", value, "reviewOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewOpinionIn(List<String> values) {
-            addCriterion("review_opinion in", values, "reviewOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewOpinionNotIn(List<String> values) {
-            addCriterion("review_opinion not in", values, "reviewOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewOpinionBetween(String value1, String value2) {
-            addCriterion("review_opinion between", value1, value2, "reviewOpinion");
-            return (Criteria) this;
-        }
-
-        public Criteria andReviewOpinionNotBetween(String value1, String value2) {
-            addCriterion("review_opinion not between", value1, value2, "reviewOpinion");
+        public Criteria andUserItemNotBetween(String value1, String value2) {
+            addCriterion("user_item not between", value1, value2, "userItem");
             return (Criteria) this;
         }
     }

@@ -10,6 +10,7 @@ import java.util.Date;
  */
 public class BizPurchaseOrderSearch{
 
+    private String id;
     private Long loginId;
     private String purchaseNo;
     private Integer type;
@@ -28,6 +29,14 @@ public class BizPurchaseOrderSearch{
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date departDate;
     private String contractNo;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Long getLoginId() {
         return loginId;
