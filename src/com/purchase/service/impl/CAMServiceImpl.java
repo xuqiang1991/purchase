@@ -4,12 +4,11 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.purchase.mapper.admin.TbAdminMapper;
+import com.purchase.mapper.admin.TbRolesMapper;
 import com.purchase.mapper.admin.TbSupplierMapper;
-import com.purchase.mapper.order.BizContractApplyMoneyDetailMapper;
-import com.purchase.mapper.order.BizContractApplyMoneyMapper;
-import com.purchase.mapper.order.BizPurchaseOrderDetailMapper;
-import com.purchase.mapper.order.BizPurchaseOrderMapper;
+import com.purchase.mapper.order.*;
 import com.purchase.pojo.admin.TbAdmin;
+import com.purchase.pojo.admin.TbRoles;
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.order.*;
 import com.purchase.service.CAMService;
@@ -23,6 +22,7 @@ import com.purchase.vo.order.CAMDetailsVo;
 import com.purchase.vo.order.CAMSearch;
 import com.purchase.vo.order.CAMVo;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -61,6 +61,12 @@ public class CAMServiceImpl implements CAMService {
 
     @Autowired
     private BizPurchaseOrderDetailMapper purchaseOrderDetailMapper;
+
+    @Autowired
+    private BizHistoryMapper historyMapper;
+
+    @Autowired
+    private TbRolesMapper rolesMapper;
 
     @Autowired
     private PurchaseOrderService purchaseOrderService;
@@ -201,55 +207,13 @@ public class CAMServiceImpl implements CAMService {
             }
         }
 
-        //审核历史
-        List<OrderHistory> historyList = new ArrayList<OrderHistory>();
-        int status = vo.getStatus();
-        if(PurchaseUtil.STATUS_0 == status){
-            historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
-        }else if(PurchaseUtil.STATUS_1 == status){
-            historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
-            historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
-        }else if(PurchaseUtil.STATUS_2 == status){
-            historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
-            historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
-            historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),PurchaseUtil.STATUS_2));
-        }else if(PurchaseUtil.STATUS_3 == status){
-            historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
-            historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
-            historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),PurchaseUtil.STATUS_2));
-            historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),PurchaseUtil.STATUS_3));
-        }else if(PurchaseUtil.STATUS_4 == status){
-            historyList.add(new OrderHistory(vo.getAdmin().getFullname(),vo.getCreateTime(),"",true,PurchaseUtil.STATUS_0));
-            historyList.add(new OrderHistory(vo.getAuAdmin().getFullname(),vo.getApplyDate(),"",true,PurchaseUtil.STATUS_1));
-            historyList.add(new OrderHistory(vo.getCostAdmin().getFullname(),vo.getCostDepartDate(),vo.getCostDepartOpinion(),vo.getCostDepartApproval(),PurchaseUtil.STATUS_2));
-            historyList.add(new OrderHistory(vo.getProjectAdmin().getFullname(),vo.getProjectDepartDate(),vo.getProjectDepartOpinion(),vo.getProjectDepartApproval(),PurchaseUtil.STATUS_3));
-            historyList.add(new OrderHistory(vo.getManagerAdmin().getFullname(),vo.getManagerDepartDate(),vo.getManagerDepartOpinion(),vo.getManagerDepartApproval(),PurchaseUtil.STATUS_4));
-        }
-        Collections.reverse(historyList);
-        vo.setHistoryList(historyList);
-
         //选择审核人
-        String roleName = "成本部";
+        String roleName = "工程部";
         Long reviewUserId = null;
-        switch (vo.getStatus()){
-            case PurchaseUtil.STATUS_1:
-                reviewUserId = vo.getCostDepartUser(); roleName = "工程部";
-                break;
-            case PurchaseUtil.STATUS_2:
-                reviewUserId = vo.getProjectDepartUser(); roleName = "总经理";
-                break;
-            case PurchaseUtil.STATUS_3:
-                reviewUserId = vo.getManagerDepartUser();
-                break;
-            default:
-                logger.info("不在处理流程内，不做修改");
-                break;
-        }
         detailsVo.setReviewUserId(reviewUserId);
-
-        if (roleName != null) {
+        if(roleName != null){
             List<ChoseAdminVO> data = adminMapper.selectByRoleName(roleName);
-            if (!CollectionUtils.isEmpty(data)) {
+            if(!CollectionUtils.isEmpty(data)){
                 Gson gson = new Gson();
                 String json = gson.toJson(data);
                 detailsVo.setDeparts(json);
@@ -274,24 +238,6 @@ public class CAMServiceImpl implements CAMService {
         if (applyuserId != null) {
             TbAdmin applyAdmin = adminMapper.selectByPrimaryKey(applyuserId);
             vo.setApplyAdmin(applyAdmin);
-        }
-
-        Long costUserId = order.getCostDepartUser();
-        if (costUserId != null) {
-            TbAdmin costAdmin = adminMapper.selectByPrimaryKey(costUserId);
-            vo.setCostAdmin(costAdmin);
-        }
-
-        Long projectUserId = order.getProjectDepartUser();
-        if (projectUserId != null) {
-            TbAdmin projectAdmin = adminMapper.selectByPrimaryKey(projectUserId);
-            vo.setProjectAdmin(projectAdmin);
-        }
-
-        Long managerUserId = order.getManagerDepartUser();
-        if (managerUserId != null) {
-            TbAdmin managerAdmin = adminMapper.selectByPrimaryKey(managerUserId);
-            vo.setManagerAdmin(managerAdmin);
         }
 
         Long supplierId = order.getSupplierId();
@@ -510,134 +456,117 @@ public class CAMServiceImpl implements CAMService {
     }
 
     @Override
-    public ResultUtil submitCAMOrder(String id) {
-        BizContractApplyMoney order = camMapper.selectByPrimaryKey(id);
+    public ResultUtil submitCAMOrder(String id, Long userId, Long roleId) {
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
 
-        int status = order.getStatus();
-        if (!(CAMUtil.STATUS_0 == status)) {
-            return ResultUtil.error("非未提交状态的合同订单不能提交！");
-        }
+        BizContractApplyMoney order = camMapper.selectByPrimaryKey(id);
 
         BizContractApplyMoney tmp = new BizContractApplyMoney();
         tmp.setId(order.getId());
-        tmp.setStatus(CAMUtil.STATUS_1);
+        tmp.setIsApproval(OrderUtils.IS_APPROVAL_YES);
+        tmp.setLastReviewDate(new Date());
+        tmp.setLastReviewUser(admin.getId());
+        tmp.setNextReviewRole(roleId);
+        tmp.setNextReviewUser(userId);
+        tmp.setUpdateDate(new Date());
         tmp.setApplyDate(new Date());
+        tmp.setUserItem(OrderUtils.getUserItem(order.getUserItem(),String.valueOf(userId)));
+        tmp.setIsSaveSubmit(1);
         camMapper.updateByPrimaryKeySelective(tmp);
-        return ResultUtil.ok();
-    }
 
-    @Override
-    public ResultUtil submitReviewCAMOrder(TbAdmin admin, String id, Long userId) {
-        BizContractApplyMoney order = camMapper.selectByPrimaryKey(id);
-
-        int status = order.getStatus();
-        if (CAMUtil.STATUS_1 != status) {
-            return ResultUtil.error("非未提交状态的合同订单不能选择成本部审核！");
+        BizHistory history = new BizHistory();
+        history.setId(WebUtils.generateUUID());
+        history.setIsApproval(OrderUtils.IS_APPROVAL_YES);
+        history.setOrderId(order.getId());
+        history.setApprovalDate(new Date());
+        history.setApprovalUser(admin.getId());
+        history.setApprovalUserName(admin.getFullname());
+        TbRoles roles = rolesMapper.selectByPrimaryKey(order.getLastReviewRole());
+        if(roles != null){
+            history.setApprovalRoleName(roles.getRoleName());
         }
-        Date date = new Date();
-        BizContractApplyMoney tmp = new BizContractApplyMoney();
-        tmp.setId(order.getId());
-        tmp.setCostDepartUser(userId);
-        tmp.setUpdateDate(date);
-        tmp.setReviewFail(false);
-        tmp.setReviewOpinion("");
-
-        camMapper.updateByPrimaryKeySelective(tmp);
+        history.setOpinion("提交审核");
+        historyMapper.insert(history);
         return ResultUtil.ok();
     }
 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResultUtil reviewCAMOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion) {
+    public ResultUtil reviewCAMOrder(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion, Long applyRole) {
         Date date = new Date();
         BizContractApplyMoney order = camMapper.selectByPrimaryKey(id);
-        int status = order.getStatus();
-
-        //审核状态
-        BizContractApplyMoney tmp = new BizContractApplyMoney();
-        tmp.setId(id);
+        BizHistory history = new BizHistory();
+        history.setId(WebUtils.generateUUID());
         //审核不通过
-        if(auditResults){
-            //审核状态
-            if (CAMUtil.STATUS_1 == status) {
-                tmp.setStatus(CAMUtil.STATUS_2);
-                tmp.setCostDepartApproval(auditResults);
-                tmp.setCostDepartDate(date);
-                tmp.setCostDepartOpinion(auditOpinion);
-                tmp.setProjectDepartUser(applyUser);
-            } else if (CAMUtil.STATUS_2 == status) {
-                tmp.setStatus(CAMUtil.STATUS_3);
-                tmp.setProjectDepartApproval(auditResults);
-                tmp.setProjectDepartDate(date);
-                tmp.setProjectDepartOpinion(auditOpinion);
-                tmp.setManagerDepartUser(applyUser);
-            } else if (CAMUtil.STATUS_3 == status) {
-                tmp.setStatus(CAMUtil.STATUS_4);
-                tmp.setManagerDepartApproval(auditResults);
-                tmp.setManagerDepartDate(date);
-                tmp.setManagerDepartOpinion(auditOpinion);
-            } else if (CAMUtil.STATUS_4 == status) {
-                tmp.setStatus(CAMUtil.STATUS_5);
-            }
+        if(!auditResults){
+            order.setIsSaveSubmit(OrderUtils.IS_SAVE_SUBMIT_0);
+            order.setIsApproval(OrderUtils.IS_APPROVAL_NO);
+            order.setLastReviewRole(null);
+            order.setLastReviewUser(null);
+            order.setNextReviewUser(order.getCreateUser());//驳回则还原到创建人
+            history.setIsApproval(OrderUtils.IS_APPROVAL_NO);
+        }else{
+            order.setIsSaveSubmit(OrderUtils.IS_SAVE_SUBMIT_1);
+            order.setIsApproval(OrderUtils.IS_APPROVAL_YES);
+            order.setLastReviewRole(order.getNextReviewRole());
+            order.setLastReviewUser(admin.getId());
+            order.setNextReviewUser(applyUser);
+            order.setNextReviewRole(applyRole);
+            history.setIsApproval(OrderUtils.IS_APPROVAL_YES);
+        }
+        order.setLastReviewDate(date);
+        order.setUserItem(OrderUtils.getUserItem(order.getUserItem(),String.valueOf(applyUser)));
+        order.setUpdateDate(date);
 
-            //总经理审核写入付款单
-            if(PurchaseUtil.STATUS_3 == status){
-                paymentOrderService.generatePaymenyOrder(order);
+        history.setOrderId(order.getId());
+        history.setApprovalDate(new Date());
+        history.setApprovalUser(admin.getId());
+        history.setApprovalUserName(admin.getFullname());
+        TbRoles roles = rolesMapper.selectByPrimaryKey(order.getLastReviewRole());
+        if(roles != null){
+            history.setApprovalRoleName(roles.getRoleName());
+        }
+        history.setOpinion(auditOpinion);
 
-                //回写主合同订单
-                String sourceOrderId = order.getSourceOrderId();
-                BizPurchaseOrder tmp1 = new BizPurchaseOrder();
-                tmp1.setId(sourceOrderId);
-                tmp1.setRequestAmount(order.getApplyPrice());
-                purchaseOrderMapper.updateByPrimaryKeySelective(tmp1);
+        //总经理审核写入付款单
+        if(auditResults && roles.getIsOverRole() == 1){
+            paymentOrderService.generatePaymenyOrder(order);
 
-                //回写合同订单详情(已结算数量)
-                String orderNo = order.getOrderNo();
-                BizContractApplyMoneyDetailExample example = new BizContractApplyMoneyDetailExample();
-                BizContractApplyMoneyDetailExample.Criteria criteria = example.createCriteria();
-                criteria.andOrderNoEqualTo(orderNo);
-                List<BizContractApplyMoneyDetail> detailList = contractApplyMoneyDetailMapper.selectByExample(example);
-                if(!CollectionUtils.isEmpty(detailList)){
-                    for (BizContractApplyMoneyDetail detail : detailList){
-                        Double settleAmout = detail.getSettleAmout();
-                        String purchaseDetailId = detail.getPurchaseDetailId();
-                        BizPurchaseOrderDetail detail1 = purchaseOrderDetailMapper.selectByPrimaryKey(purchaseDetailId);
-                        Double oldSettleAmout = detail1.getSettleAmout();
-                        if(oldSettleAmout == null){
-                            oldSettleAmout = 0D;
-                        }
+            //回写主合同订单
+            String sourceOrderId = order.getSourceOrderId();
+            BizPurchaseOrder tmp1 = new BizPurchaseOrder();
+            tmp1.setId(sourceOrderId);
+            tmp1.setRequestAmount(order.getApplyPrice());
+            purchaseOrderMapper.updateByPrimaryKeySelective(tmp1);
 
-                        BizPurchaseOrderDetail record = new BizPurchaseOrderDetail();
-                        record.setId(purchaseDetailId);
-                        record.setSettleAmout(oldSettleAmout + settleAmout);
-                        purchaseOrderDetailMapper.updateByPrimaryKeySelective(record);
+            //回写合同订单详情(已结算数量)
+            String orderNo = order.getOrderNo();
+            BizContractApplyMoneyDetailExample example = new BizContractApplyMoneyDetailExample();
+            BizContractApplyMoneyDetailExample.Criteria criteria = example.createCriteria();
+            criteria.andOrderNoEqualTo(orderNo);
+            List<BizContractApplyMoneyDetail> detailList = contractApplyMoneyDetailMapper.selectByExample(example);
+            if(!CollectionUtils.isEmpty(detailList)){
+                for (BizContractApplyMoneyDetail detail : detailList){
+                    Double settleAmout = detail.getSettleAmout();
+                    String purchaseDetailId = detail.getPurchaseDetailId();
+                    BizPurchaseOrderDetail detail1 = purchaseOrderDetailMapper.selectByPrimaryKey(purchaseDetailId);
+                    Double oldSettleAmout = detail1.getSettleAmout();
+                    if(oldSettleAmout == null){
+                        oldSettleAmout = 0D;
                     }
+
+                    BizPurchaseOrderDetail record = new BizPurchaseOrderDetail();
+                    record.setId(purchaseDetailId);
+                    record.setSettleAmout(oldSettleAmout + settleAmout);
+                    purchaseOrderDetailMapper.updateByPrimaryKeySelective(record);
                 }
             }
-        }else {
-            tmp.setReviewFail(true);
-            tmp.setReviewOpinion(auditOpinion);
-            tmp.setStatus(0);
-
-            tmp.setProjectDepartUser(null);
-            tmp.setCostDepartUser(null);
-            tmp.setManagerDepartUser(null);
-
-            tmp.setProjectDepartDate(null);
-            tmp.setCostDepartDate(null);
-            tmp.setManagerDepartDate(null);
-
-            tmp.setProjectDepartApproval(null);
-            tmp.setCostDepartApproval(null);
-            tmp.setManagerDepartApproval(null);
-
-            tmp.setProjectDepartOpinion(null);
-            tmp.setCostDepartOpinion(null);
         }
-        tmp.setUpdateDate(date);
-        camMapper.updateByPrimaryKeySelective(tmp);
-        return ResultUtil.ok();
+
+        camMapper.updateByPrimaryKeySelective(order);
+        historyMapper.insert(history);
+        return ResultUtil.ok(order);
     }
 
     @Override
