@@ -216,11 +216,11 @@
                                                     <p>
                                                         <label>工程量:${item.quantities}</label>&nbsp;&nbsp;&nbsp;&nbsp;
                                                         <label>单位:${item.unit}</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <label>单价：${item.price}</label>
+                                                        <c:if test="${admin.isAmountVisible == 0}"><label>单价：${item.price}</label></c:if>
                                                     </p>
                                                     <p>
                                                         <label>申报完成率:${item.applyCompletionRate}%</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <label>申报金额：${item.applyPrice}</label>
+                                                        <c:if test="${admin.isAmountVisible == 0}"><label>单价：${item.applyPrice}</label></c:if>
                                                     </p>
                                                     <p>
                                                         <label>审核完成率：
@@ -229,12 +229,14 @@
                                                                 <c:otherwise>${item.approvalCompletionRate}%</c:otherwise>
                                                             </c:choose>
                                                         </label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <label>审批金额：
-                                                            <c:choose>
-                                                                <c:when test="${item.approvalPrice == null}">未审核</c:when>
-                                                                <c:otherwise>${item.approvalPrice}</c:otherwise>
-                                                            </c:choose>
-                                                        </label>
+                                                        <c:if test="${admin.isAmountVisible == 0}">
+                                                            <label>审批金额：
+                                                                <c:choose>
+                                                                    <c:when test="${item.approvalPrice == null}">未审核</c:when>
+                                                                    <c:otherwise>${item.approvalPrice}</c:otherwise>
+                                                                </c:choose>
+                                                            </label>
+                                                        </c:if>
                                                     </p>
                                                     <p>
                                                         <c:if test="${detailsVo.ucamVo.orderType == 1}">
@@ -326,7 +328,7 @@
                     <input type="hidden" id="id" name="id" value="">
                     <div class="mui-input-row">
                         <label>材料/项目内容</label>
-                        <input type="text" id="projectContent" name="projectContent" minlength="1" maxlength="100" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.createUser != admin.id}">disabled="disabled"</c:if> placeholder="请输入材料/项目内容">
+                        <input type="text" id="projectContent" name="projectContent" minlength="1" maxlength="100" class="mui-input-clear" mui-verify="required" placeholder="请输入材料/项目内容">
                     </div>
                     <div class="mui-input-row">
                         <label>工程量</label>
@@ -340,15 +342,16 @@
                         <label>单位</label>
                         <input type="text" id="unit" name="unit" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.createUser != admin.id}">disabled="disabled"</c:if> placeholder="请输入单位">
                     </div>
-                    <div class="mui-input-row">
-                        <label>单价(元)</label>
-                        <input type="text" id="price" name="price" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.createUser != admin.id}">disabled="disabled"</c:if> placeholder="请输入单价">
-                    </div>
-                    <div class="mui-input-row">
-                        <label>申报金额</label>
-                        <input type="text" id="applyPrice" name="applyPrice" class="mui-input-clear" mui-verify="required" readonly value="0" placeholder="请输入申报金额">
-                    </div>
-
+                    <c:if test="${admin.isAmountVisible == 0}">
+                        <div class="mui-input-row">
+                            <label>单价(元)</label>
+                            <input type="text" id="price" name="price" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.createUser != admin.id}">disabled="disabled"</c:if> placeholder="请输入单价">
+                        </div>
+                        <div class="mui-input-row">
+                            <label>申报金额</label>
+                            <input type="text" id="applyPrice" name="applyPrice" class="mui-input-clear" mui-verify="required" readonly value="0" placeholder="请输入申报金额">
+                        </div>
+                    </c:if>
                     <c:if test="${detailsVo.ucamVo.orderType == 1}">
                         <div class="mui-input-row">
                             <label>质保期（月）</label>
@@ -358,7 +361,7 @@
                     <c:if test="${detailsVo.ucamVo.orderType == 2}">
                         <div class="mui-input-row">
                             <label>日期</label>
-                            <input type="text" id="date" name="date" class="mui-input-clear" mui-verify="required" readonly  <c:if test="${detailsVo.ucamVo.createUser != admin.id}">disabled="disabled"</c:if> data-options='{"type":"date","beginYear":2018,"endYear":2028}' placeholder="请选择日期">
+                            <input type="text" id="date" name="date" class="mui-input-clear" mui-verify="required" readonly  <c:if test="${detailsVo.ucamVo.createUser != admin.id}">disabled="disabled"</c:if> data-options='{"type":"date","beginYear":2018}' placeholder="请选择日期">
                         </div>
                     </c:if>
                     <c:if test="${detailsVo.ucamVo.nextReviewUser == admin.id && detailsVo.ucamVo.isSaveSubmit == 1}">
@@ -366,10 +369,12 @@
                             <label>审核完成率</label>
                             <input type="text" min="0" max="100"  id="approvalCompletionRate" name="approvalCompletionRate" mui-verify="required" placeholder="请输入审核完成率">
                         </div>
-                        <div class="mui-input-row">
-                            <label>审批金额</label>
-                            <input type="text" id="approvalPrice" name="approvalPrice"  mui-verify="required" readonly value="0" placeholder="请输入审批金额" >
-                        </div>
+                        <c:if test="${admin.isAmountVisible == 0}">
+                            <div class="mui-input-row">
+                                <label>审批金额</label>
+                                <input type="text" id="approvalPrice" name="approvalPrice"  mui-verify="required" readonly value="0" placeholder="请输入审批金额" >
+                            </div>
+                        </c:if>
                     </c:if>
                     <div>
                         <textarea name="remark" id="remark" rows="5" class="mui-input-clear"  <c:if test="${detailsVo.ucamVo.nextReviewUser == admin.id && detailsVo.ucamVo.isSaveSubmit == 1}">disabled="disabled"</c:if> placeholder="备注"></textarea>

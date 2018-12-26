@@ -101,6 +101,13 @@
                 </select>
             </div>
         </div>
+        <div class="layui-form-item" pane>
+            <label class="layui-form-label css-required">金额是否可见</label>
+            <div class="layui-input-block">
+                <input type="radio" lay-filter="isAmountVisible" name="isAmountVisible" value="0" title="可见" checked>
+                <input type="radio" lay-filter="isAmountVisible" name="isAmountVisible" value="1" title="不可见">
+            </div>
+        </div>
         <div class="layui-form-item">
             <label class="layui-form-label css-required">联系电话</label>
             <div class="layui-input-block">

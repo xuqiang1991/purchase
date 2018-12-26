@@ -118,6 +118,19 @@
                 </select>
             </div>
         </div>
+        <div class="layui-form-item" pane>
+            <label class="layui-form-label css-required">金额是否可见</label>
+            <div class="layui-input-block">
+                <c:if test="${ad.isAmountVisible == '0' }">
+                    <input type="radio" lay-filter="isAmountVisible" name="isAmountVisible" value="0" title="可见" checked>
+                    <input type="radio" lay-filter="isAmountVisible" name="isAmountVisible" value="1" title="不可见">
+                </c:if>
+                <c:if test="${ad.isAmountVisible == '1' }">
+                    <input type="radio" lay-filter="isAmountVisible" name="isAmountVisible" value="0" title="可见" >
+                    <input type="radio" lay-filter="isAmountVisible" name="isAmountVisible" value="1" title="不可见" checked>
+                </c:if>
+            </div>
+        </div>
         <div class="layui-form-item">
             <label class="layui-form-label css-required">联系电话</label>
             <div class="layui-input-block">

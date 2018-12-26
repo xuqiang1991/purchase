@@ -48,6 +48,8 @@ public class TbAdmin implements Serializable {
 
     private Integer userType;
 
+    private Integer isAmountVisible;
+
     private List<Long> roleId;
 
     private List<String> roleNames;
@@ -234,6 +236,14 @@ public class TbAdmin implements Serializable {
 
     public void setUserType(Integer userType) {
         this.userType = userType;
+    }
+
+    public Integer getIsAmountVisible() {
+        return isAmountVisible;
+    }
+
+    public void setIsAmountVisible(Integer isAmountVisible) {
+        this.isAmountVisible = isAmountVisible;
     }
 
     public List<String> getRoleNames() {

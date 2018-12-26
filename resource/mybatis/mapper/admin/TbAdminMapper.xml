@@ -21,8 +21,7 @@
     <result column="remark" property="remark" jdbcType="VARCHAR" />
       <result column="supplier_id" property="supplierId" jdbcType="BIGINT" />
       <result column="user_type" property="userType" jdbcType="INTEGER" />
-
-
+      <result column="is_amount_visible" property="isAmountVisible" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -83,7 +82,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, username, password, salt, fullname, e_mail, sex, birthday, address, phone, quarters,dept_id,entry_date,is_on_job,open_id,wx_nick,remark,supplier_id,user_type
+    id, username, password, salt, fullname, e_mail, sex, birthday, address, phone, quarters,dept_id,entry_date,is_on_job,open_id,wx_nick,remark,supplier_id,user_type,is_amount_visible
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.purchase.pojo.admin.TbAdminExample" >
     select
@@ -119,13 +118,13 @@
     insert into tb_admin (id, username, password, 
       salt, fullname, e_mail, 
       sex, birthday, address, 
-      phone, quarters,dept_id,entry_date,is_on_job,open_id,wx_nick,remark,supplier_id,user_type)
+      phone, quarters,dept_id,entry_date,is_on_job,open_id,wx_nick,remark,supplier_id,user_type,is_amount_visible)
     values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{salt,jdbcType=VARCHAR}, #{fullname,jdbcType=VARCHAR}, #{eMail,jdbcType=VARCHAR}, 
       #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{address,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{quarters,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR},
       #{entryDate,jdbcType=DATE}, #{isOnJob,jdbcType=INTEGER}, #{openId,jdbcType=VARCHAR}, #{wxNick,jdbcType=VARCHAR},
-      #{remark,jdbcType=VARCHAR},#{supplierId,jdbcType=BIGINT}, #{userType,jdbcType=INTEGER})
+      #{remark,jdbcType=VARCHAR},#{supplierId,jdbcType=BIGINT}, #{userType,jdbcType=INTEGER}, #{isAmountVisible,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.purchase.pojo.admin.TbAdmin" >
     insert into tb_admin
@@ -187,6 +186,9 @@
         <if test="userType != null" >
             user_type,
         </if>
+        <if test="isAmountVisible != null" >
+            is_amount_visible,
+        </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -245,6 +247,9 @@
         </if>
         <if test="userType != null" >
             #{userType,jdbcType=INTEGER},
+        </if>
+        <if test="isAmountVisible != null" >
+            #{isAmountVisible,jdbcType=INTEGER},
         </if>
     </trim>
   </insert>
@@ -314,6 +319,9 @@
         <if test="record.userType != null" >
             user_type = #{userType,jdbcType=INTEGER},
         </if>
+        <if test="isAmountVisible != null" >
+            is_amount_visible = #{isAmountVisible,jdbcType=INTEGER},
+        </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -339,7 +347,8 @@
       wx_nick = #{wxNick,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       supplier_id = #{supplierId,jdbcType=INTEGER},
-      user_type = #{userType,jdbcType=INTEGER}
+      user_type = #{userType,jdbcType=INTEGER},
+      is_amount_visible = #{isAmountVisible,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -401,6 +410,9 @@
         <if test="userType != null" >
             user_type = #{userType,jdbcType=INTEGER},
         </if>
+        <if test="isAmountVisible != null" >
+            is_amount_visible = #{isAmountVisible,jdbcType=INTEGER},
+        </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -423,7 +435,8 @@
       wx_nick = #{wxNick,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       supplier_id = #{supplierId,jdbcType=INTEGER},
-      user_type = #{userType,jdbcType=INTEGER}
+      user_type = #{userType,jdbcType=INTEGER},
+      is_amount_visible = #{isAmountVisible,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
