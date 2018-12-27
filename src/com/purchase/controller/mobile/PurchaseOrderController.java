@@ -140,7 +140,7 @@ public class PurchaseOrderController {
     public ResultUtil addPurchaseOrder(BizPurchaseOrder order){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         order.setCreateUser(admin.getId());
-        return purchaseOrderService.addPurchaseOrder(order);
+        return purchaseOrderService.savePurchaseOrder(order);
     }
 
 
@@ -168,9 +168,9 @@ public class PurchaseOrderController {
     @RequiresPermissions("mobile:purchase:save")
     @ResponseBody
     public ResultUtil editPurchaseOrder(BizPurchaseOrder order){
-        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        order.setCreateUser(admin.getId());
-        return purchaseOrderService.editPurchaseOrder(order);
+        //TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        //order.setCreateUser(admin.getId());
+        return purchaseOrderService.savePurchaseOrder(order);
     }
 
     @SysLog(value="删除合同订单")

@@ -184,7 +184,6 @@
                                     </c:if>
                                 </div>
                             </form>
-
                         </div>
                     </li>
 

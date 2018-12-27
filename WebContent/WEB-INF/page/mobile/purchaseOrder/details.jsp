@@ -99,29 +99,23 @@
                                         </c:otherwise>
                                     </c:choose>
                                 </div>
-                                <c:if test="${detailsVo.purchaseOrder.applyDate != null}">
-                                    <div class="mui-input-row">
-                                        <label>申请时间</label>
-                                        <input type="text" value="<fmt:formatDate value="${detailsVo.purchaseOrder.applyDate}" pattern="yyyy-MM-dd"/>" disabled="disabled">
-                                    </div>
-                                </c:if>
                                 <div class="mui-input-row">
                                     <label>供应商</label>
                                     <c:choose>
                                         <c:when test="${detailsVo.purchaseOrder.id == null}">
                                             <c:choose>
                                                 <c:when test="${admin.supplierId == null}">
-                                                    <input type="text" id="supplierName" readonly value="">
+                                                    <input type="text" id="supplierName" readonly value="" placeholder="请选择申请人">
                                                     <input type="hidden" id="supplierId" name="supplierId" value="" mui-verify="required">
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <input type="text" id="supplierName" readonly value="${admin.supplierName}">
+                                                    <input type="text" id="supplierName" readonly value="${admin.supplierName}" placeholder="请选择申请人">
                                                     <input type="hidden" id="supplierId" name="supplierId" value="${admin.supplierId}" mui-verify="required">
                                                 </c:otherwise>
                                             </c:choose>
                                         </c:when>
                                         <c:otherwise>
-                                            <input type="text" id="supplierName" readonly value="${detailsVo.purchaseOrder.supplier.name}">
+                                            <input type="text" id="supplierName" readonly value="${detailsVo.purchaseOrder.supplier.name}" placeholder="请选择申请人">
                                             <input type="hidden" id="supplierId" name="supplierId" value="${detailsVo.purchaseOrder.supplier.id}" mui-verify="required">
                                         </c:otherwise>
                                     </c:choose>
@@ -131,7 +125,7 @@
                                     <c:choose>
                                         <c:when test="${detailsVo.purchaseOrder.id == null || (detailsVo.purchaseOrder.id != null && detailsVo.purchaseOrder.isSaveSubmit == 0)}">
                                             <a href="#selectProject" id="app-selectProject" class="appClassForA">
-                                                <label id="selectProjectText" style="width: 65%;padding-left: 0px;">
+                                                <label id="selectProjectText" style="padding-left: 0px;">
                                                     <c:choose>
                                                         <c:when test="${detailsVo.purchaseOrder.id == null}">
                                                             请选择所属项目
@@ -161,6 +155,12 @@
                                         <label>${detailsVo.purchaseOrder.contractNo}</label>
                                     </div>
                                 </c:if>
+                                <c:if test="${detailsVo.purchaseOrder.applyDate != null}">
+                                    <div class="mui-input-row">
+                                        <label>申请时间</label>
+                                        <input type="text" value="<fmt:formatDate value="${detailsVo.purchaseOrder.applyDate}" pattern="yyyy-MM-dd"/>" disabled="disabled">
+                                    </div>
+                                </c:if>
                                 <div class="mui-input-row">
                                     <label>合同总金额</label>
                                     <input type="text" name="contractMoney" value="${detailsVo.purchaseOrder.contractMoney}" class="mui-input-clear" readonly disabled="disabled" placeholder="合同总金额由详情系统自动生成">
@@ -187,11 +187,11 @@
                                 <div>
                                     <textarea name="summary" id="summary" rows="5" class="mui-input-clear">${detailsVo.purchaseOrder.summary}</textarea>
                                 </div>
-                                <c:if test="${detailsVo.purchaseOrder.status == 0 || detailsVo.purchaseOrder.status == null}">
-                                    <div class="mui-button-row" style="padding-bottom: 20px;">
+                                <div class="mui-button-row" style="padding-bottom: 20px;">
+                                    <c:if test="${detailsVo.purchaseOrder.id == null || (detailsVo.purchaseOrder.id != null && detailsVo.purchaseOrder.isSaveSubmit == 0)}">
                                         <button type="button" class="mui-btn mui-btn-primary" id="ucamSave">保存</button>
-                                    </div>
-                                </c:if>
+                                    </c:if>
+                                </div>
                             </form>
                         </div>
                     </li>
@@ -476,15 +476,16 @@
             return false;
         </c:if>
 
-        var adminsJson = '${detailsVo.departs}'
+        var adminsJson = '${reviewAdmins}'
         var json =JSON.parse(adminsJson)
-        var userPicker = new mui.PopPicker();
+        var userPicker = new mui.PopPicker({ layer: 2 });
         userPicker.setData(json);
         userPicker.show(function (selectItems) {
-            var text = selectItems[0].text;
+            var text = selectItems[1].text;
             mui.alert('确定提审核人为：' + text + "？" , function() {
-                var userId = selectItems[0].value;
-                var url = '${ctx}/mobile/purchase/submitReviewPurchaseOrder?id=${detailsVo.purchaseOrder.id}&userId=' + userId;
+                var roleId = selectItems[0].value;
+                var userId = selectItems[1].value;
+                var url = '${ctx}/mobile/purchase/submitReviewPurchaseOrder?id=${detailsVo.purchaseOrder.id}&userId=' + userId + '&roleId=' + roleId;
                 $.ajax({
                     url: url,
                     dataType: 'json',

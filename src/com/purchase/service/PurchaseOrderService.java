@@ -23,6 +23,8 @@ public interface PurchaseOrderService {
 
     ResultUtil editPurchaseOrder(BizPurchaseOrder order);
 
+    ResultUtil savePurchaseOrder(BizPurchaseOrder order);
+
     BizPurchaseOrderDetailsVo selPurchaseOrder(String id,Long adminId);
 
     ResultUtil delPurchaseOrder(String id);

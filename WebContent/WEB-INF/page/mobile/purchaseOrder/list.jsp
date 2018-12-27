@@ -341,35 +341,6 @@
                 //return false;
             });
         }, false);
-
-
-        var statusNamePicker = new mui.PopPicker();
-        statusNamePicker.setData( [{
-            value: '0',
-            text: '未提交'
-        }, {
-            value: '1',
-            text: '已提交'
-        }, {
-            value: '2',
-            text: '成本部已审核'
-        }, {
-            value: '3',
-            text: '工程部已审核'
-        },{
-            value: '4',
-            text: '总经理已审核'
-        }]);
-        var statusName = document.getElementById('statusName');
-        var status = document.getElementById('status');
-        statusName.addEventListener('tap', function(event) {
-            statusNamePicker.show(function(items) {
-                statusName.value = items[0].text;
-                status.value = items[0].value;
-                //返回 false 可以阻止选择框的关闭
-                //return false;
-            });
-        }, false);
     })
 </script>
 <!-- 合同订单 start -->

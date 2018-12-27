@@ -160,6 +160,42 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return ResultUtil.ok(order.getId());
     }
 
+    @Override
+    public ResultUtil savePurchaseOrder(BizPurchaseOrder order){
+        Date date = new Date();
+        String id = null;
+        if(org.springframework.util.StringUtils.isEmpty(order.getId())){
+            id = WebUtils.generateUUID();
+            order.setId(id);
+            //生成合同订单号
+            String yyddmm = DateUtil.formatDate(date,DateUtil.DateFormat3);
+            String prefix = PurchaseUtil.prefix + yyddmm;
+            String pn = purchaseOrderMapper.selMaxPurchaseNo(prefix);
+            String purchaseNo = PurchaseUtil.generatePurchaseNo(pn);
+            order.setPurchaseNo(purchaseNo);
+
+            //参数补充
+            order.setCreateTime(date);
+            order.setUpdateDate(date);
+            //参数补充
+            /*order.setStatus(STATUS_0);*/
+            order.setUpdateDate(date);
+            order.setCreateTime(date);
+            order.setLastReviewUser(order.getCreateUser());
+            order.setLastReviewDate(new Date());
+            order.setIsSaveSubmit(OrderUtils.IS_SAVE_SUBMIT_0);
+            order.setIsApproval(OrderUtils.IS_APPROVAL_NO);
+            purchaseOrderMapper.insertSelective(order);
+        }else{
+            id = order.getId();
+            order.setIsSaveSubmit(OrderUtils.IS_SAVE_SUBMIT_0);
+            order.setIsApproval(OrderUtils.IS_APPROVAL_NO);
+            order.setUpdateDate(date);
+            purchaseOrderMapper.updateByPrimaryKeySelective(order);
+        }
+        return ResultUtil.ok(id);
+    }
+
     /**
      *
      * 查询合同订单号详情
