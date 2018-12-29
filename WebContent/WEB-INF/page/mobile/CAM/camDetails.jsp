@@ -284,7 +284,7 @@
                     </div>
                     <div class="mui-input-row">
                         <label>结算数量</label>
-                        <input type="number" id="settleAmout" name="settleAmout" class="mui-input-clear" mui-verify="required|digits|min=0|max=10000000" placeholder="请输入结算数量">
+                        <input type="number" id="settleAmout" name="settleAmout" class="mui-input-clear" mui-verify="required|digits|min=0" placeholder="请输入结算数量">
                     </div>
                     <div class="mui-input-row">
                         <label>结算金额</label>
@@ -522,50 +522,7 @@
         //校验通过，继续执行业务逻辑
         if(check){
             isSubmit = true
-
-            //检查是否有多条请款单
-            var checkCAMItemData = {};
-            var purchaseDetailId = $('#addFromPurchaseOrderItem').find('#purchaseDetailId').val();
-            var ajaxUrl = '${ctx}/mobile/CAM/checkCAMItem/'+ purchaseDetailId
-            $.ajax({
-                url: ajaxUrl,
-                dataType: 'json',
-                contentType : "application/x-www-form-urlencoded",
-                type: 'post',
-                timeout: 10000,
-                async: false,
-                success: function(result) {
-                    checkCAMItemData = result.data;
-                }
-            });
-
-            var settleAmount = $("#addFromPurchaseOrderItem").find("input[name='settleAmout']").val();
-            if(checkCAMItemData != null){
-                checkCAMItemData.amount =  checkCAMItemData.amount - settleAmount;
-            }
-
-            //检查提示
-            if(checkCAMItemData != null && (checkCAMItemData.amount < 0 || checkCAMItemData.count > 0)){
-                var msg;
-                if(checkCAMItemData.amount < 0 && checkCAMItemData.count > 0){
-                    msg = "合同订单明细有多条，且结算数量超过合同订单未到货数量，是否提交？"
-                }else if(checkCAMItemData.amount < 0){
-                    msg = "合同订单明细结算数量超过合同订单未到货数量，是否提交？"
-                }else if(checkCAMItemData.count > 0){
-                    msg = "合同订单明细有多条，是否提交？"
-                }
-
-                var btnArray = ['是', '否'];
-                mui.confirm(msg,"提示",btnArray, function(e) {
-                    if (e.index == 0) {
-                        submitItem();
-                    }else {
-                        isSubmit = false;
-                    }
-                })
-            }else {
-                submitItem()
-            }
+            submitItem()
         }
     });
 
@@ -693,7 +650,11 @@
             mui.alert("请先添加明细！");
             return false;
         </c:if>
-        checkCAM("提交");
+        if(type == "审核"){
+            mui("#popover").popover('toggle', document.getElementById("div"));
+        }else {
+            submitOrder();
+        }
     });
     
     function submitOrder() {
@@ -768,42 +729,6 @@
                     }
                 }
             });
-//            以前的逻辑，跳转到编辑页面
-//            var purchaseOrderDetailsId = $(li).attr("v");
-//            var purchaseOrderContent = $(li).find('p[name="purchaseOrderContent"]').attr("v");
-//            var purchaseOrderModel = $(li).find('label[name="purchaseOrderModel"]').attr("v");
-//            var purchaseOrderUnit = $(li).find('label[name="purchaseOrderUnit"]').attr("v");
-//            var purchaseOrderPrice = $(li).find('label[name="purchaseOrderPrice"]').attr("v");
-//            var purchaseOrderAmount = $(li).find('label[name="purchaseOrderAmount"]').attr("v");
-//            var purchaseOrderWarrantyDate = $(li).find('label[name="purchaseOrderWarrantyDate"]').attr("v");
-//            var purchaseOrderDate = $(li).find('label[name="purchaseOrderDate"]').attr("v");
-//            var purchaseOrderSettleAmout = $(li).find('label[name="purchaseOrderSettleAmout"]').attr("v");
-//
-//
-//            //请款数量
-//            var settleAmount = (purchaseOrderAmount - purchaseOrderSettleAmout);
-//            if(settleAmount < 0){//请款数量小于0的时候，设置为0
-//                settleAmount = 0;
-//            }
-//            //请款金额
-//            var settlePrice = purchaseOrderPrice * settleAmount;
-//
-//            //赋值到请款单
-//            $("#addFromPurchaseOrderItem").find("input[name='purchaseDetailId']").val(purchaseOrderDetailsId);
-//            $("#addFromPurchaseOrderItem").find("input[name='projectContent']").val(purchaseOrderContent);
-//            $("#addFromPurchaseOrderItem").find("input[name='model']").val(purchaseOrderModel);
-//            $("#addFromPurchaseOrderItem").find("input[name='unit']").val(purchaseOrderUnit);
-//            $("#addFromPurchaseOrderItem").find("input[name='price']").val(purchaseOrderPrice);
-//            $("#addFromPurchaseOrderItem").find("input[name='settleAmout']").val(settleAmount);
-//            $("#addFromPurchaseOrderItem").find("input[name='settlePrice']").val(settlePrice);
-//            $("#addFromPurchaseOrderItem").find("input[name='contractCount']").val(purchaseOrderAmount);
-//            if(purchaseOrderWarrantyDate != undefined){
-//                $("#addFromPurchaseOrderItem").find("input[name='warrantyDate']").val(purchaseOrderWarrantyDate);
-//            }
-//            if(purchaseOrderDate != undefined){
-//                $("#addFromPurchaseOrderItem").find("input[name='date']").val(purchaseOrderDate);
-//            }
-//            viewApi.go("#fromPurchaseOrderItem");
         }else{
             mui.toast('您尚未选择，请选择后确定',{ duration:'long', type:'div' })
         }
@@ -853,7 +778,13 @@
                                 $("#addFromPurchaseOrderItem").find("input[name='price']").val(data.price);
                                 $("#addFromPurchaseOrderItem").find("input[name='contractCount']").val(data.contractCount);
                                 $("#addFromPurchaseOrderItem").find("input[name='unit']").val(data.unit);
-                                $("#addFromPurchaseOrderItem").find("input[name='settleAmout']").val(data.settleAmout);
+
+                                //设置结算数量最大值
+                                var settleAmout =  $("#addFromPurchaseOrderItem").find("input[name='settleAmout']");
+                                var mui_verify = settleAmout.attr('mui-verify');
+                                settleAmout.attr('mui-verify',mui_verify + "|max=" + data.settleAmout);
+                                settleAmout.val(data.settleAmout);
+
                                 $("#addFromPurchaseOrderItem").find("input[name='settlePrice']").val(data.settlePrice);
                                 $("#remark").val(data.remark);
 
@@ -930,54 +861,6 @@
             }
         }
     });
-    
-    
-    function checkCAM(type) {
-        //检查是否有多条请款单
-        var checkCAMItemData = {};
-        var ajaxUrl = '${ctx}/mobile/CAM/checkCAM/${detailsVo.order.id}'
-        $.ajax({
-            url: ajaxUrl,
-            dataType: 'json',
-            contentType : "application/x-www-form-urlencoded",
-            type: 'post',
-            timeout: 10000,
-            async: false,
-            success: function(result) {
-                checkCAMItemData = result.data;
-            }
-        });
-
-        //检查提示
-        if(checkCAMItemData != null && (checkCAMItemData.amount < 0 || checkCAMItemData.count > 1)){
-            var msg = "合同订单明细结算数量超过合同订单未到货数量，是否"+type+"？"
-            if(checkCAMItemData.amount < 0 && checkCAMItemData.count > 1){
-                msg = "合同订单明细有多条，且结算数量超过合同订单未到货数量，是否"+type+"？"
-            }else if(checkCAMItemData.amount < 0){
-                msg = "合同订单明细结算数量超过合同订单未到货数量，是否"+type+"？"
-            }else if(checkCAMItemData.count < 1){
-                msg = "合同订单明细有多条，是否"+type+"？"
-            }
-
-            var btnArray = ['是', '否'];
-            mui.confirm(msg,"提示",btnArray, function(e) {
-                if (e.index == 0) {
-                    if(type == "审核"){
-                        mui("#popover").popover('toggle', document.getElementById("div"));
-                    }else {
-                        submitOrder();
-                    }
-                }
-            })
-        }else {
-            if(type == "审核"){
-                mui("#popover").popover('toggle', document.getElementById("div"));
-            }else {
-                submitOrder();
-            }
-        }
-    }
-
 
     /** start 选择来源合同 **/
     mui(document.body).on('tap', '#search-btn', function(e) {
@@ -1101,8 +984,6 @@
         }
     }
 
-
-
     (function($) {
         $.init();
         //var result = $('#dateText');
@@ -1169,7 +1050,6 @@
 <c:set value="${ctx}/mobile/CAM/toDetails?id=${detailsVo.order.id}" var="reviewRefreshUrl"/>
 <c:set value="${ctx}/mobile/CAM/reviewCAMOrder/${detailsVo.order.id}" var="reviewSaveUrl"/>
 <c:set value="${detailsVo.order.status}" var="reviewStatus"/>
-<c:set value="true" var="reviewCheckCAM"/>
 <%@ include file="/WEB-INF/page/mobile/common/review.jsp"%>
 <!-- 审核 -->
 

@@ -15,7 +15,6 @@ import com.purchase.service.CAMService;
 import com.purchase.service.PaymentOrderService;
 import com.purchase.service.PurchaseOrderService;
 import com.purchase.util.*;
-import com.purchase.vo.OrderHistory;
 import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.order.BizPurchaseOrderVo;
 import com.purchase.vo.order.CAMDetailsVo;
@@ -232,13 +231,6 @@ public class CAMServiceImpl implements CAMService {
         Long userId = order.getCreateUser();
         TbAdmin tbAdmin = adminMapper.selectByPrimaryKey(userId);
         vo.setAdmin(tbAdmin);
-
-
-        Long applyuserId = order.getApplyUser();
-        if (applyuserId != null) {
-            TbAdmin applyAdmin = adminMapper.selectByPrimaryKey(applyuserId);
-            vo.setApplyAdmin(applyAdmin);
-        }
 
         Long supplierId = order.getSupplierId();
         if (supplierId != null) {
@@ -532,7 +524,6 @@ public class CAMServiceImpl implements CAMService {
         //总经理审核写入付款单
         if(auditResults && roles.getIsOverRole() == 1){
             paymentOrderService.generatePaymenyOrder(order);
-
             //回写主合同订单
             String sourceOrderId = order.getSourceOrderId();
             BizPurchaseOrder tmp1 = new BizPurchaseOrder();
@@ -562,6 +553,12 @@ public class CAMServiceImpl implements CAMService {
                     purchaseOrderDetailMapper.updateByPrimaryKeySelective(record);
                 }
             }
+
+
+            //完结
+            order.setNextReviewUser(null);
+            order.setNextReviewRole(null);
+            order.setIsSaveSubmit(OrderUtils.IS_SAVE_SUBMIT_2);
         }
 
         camMapper.updateByPrimaryKeySelective(order);
