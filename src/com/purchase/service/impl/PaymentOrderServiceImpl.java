@@ -20,6 +20,7 @@ import com.purchase.util.WebUtils;
 import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.order.BizPaymentOrderSearch;
 import com.purchase.vo.order.BizPaymentOrderVo;
+import com.purchase.weixin.service.WeixinService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,6 +59,9 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
 
     @Autowired
     private BizUncontractApplyMoneyMapper uContractApplyMoneyMapper;
+
+    @Autowired
+    private WeixinService weixinService;
 
     @Override
     public ResultUtil getOrderList(Integer page, Integer limit, BizPaymentOrderSearch search) {

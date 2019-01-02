@@ -2,13 +2,13 @@ package com.purchase.controller.mobile;
 
 import com.alibaba.fastjson.JSON;
 import com.purchase.annotation.SysLog;
-import com.purchase.mapper.admin.TbDepartmentMapper;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.order.BizPaymentOrder;
 import com.purchase.service.AdminService;
 import com.purchase.service.PaymentOrderService;
 import com.purchase.service.ProjectMangerService;
 import com.purchase.service.SupplierService;
+import com.purchase.util.OrderUtils;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.admin.ChoseDeptVO;
@@ -16,8 +16,7 @@ import com.purchase.vo.admin.ChoseProjectVO;
 import com.purchase.vo.admin.ChoseSupplierVO;
 import com.purchase.vo.order.BizPaymentOrderSearch;
 import com.purchase.vo.order.BizPaymentOrderVo;
-import com.purchase.vo.order.BizPurchaseOrderDetailsVo;
-import com.purchase.vo.order.BizPurchaseOrderSearch;
+import com.purchase.weixin.service.WeixinService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -25,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -54,6 +54,9 @@ public class PaymentOrderController {
 
     @Autowired
     private ProjectMangerService projectMangerService;
+
+    @Autowired
+    private WeixinService weixinService;
 
     @RequestMapping("list")
     @RequiresPermissions("mobile:paymentOrder:list")
@@ -101,7 +104,32 @@ public class PaymentOrderController {
     @ResponseBody
     public ResultUtil reviewOrder(@PathVariable("id") String id, Boolean auditResults, Long applyUser, String auditOpinion){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
-        return paymentOrderService.reviewOrder(admin, id, auditResults,applyUser,auditOpinion);
+        ResultUtil resultUtil = paymentOrderService.reviewOrder(admin, id, auditResults,applyUser,auditOpinion);
+        BizPaymentOrder order = (BizPaymentOrder) resultUtil.getData();
+        TbAdmin tbAdmin = null;
+        String url = OrderUtils.DOMAIN_NAME .concat("/mobile/paymentOrder/toDetails/?id=").concat(id);
+        String title = "订单状态提醒";// 标题
+        String desc = "";//"您好，".concat(tbAdmin.getFullname()).concat("。您有订单需要审核");//详情
+        if(!auditResults){
+            tbAdmin = adminService.selAdminById(order.getCreateUser());
+            desc = "您好，".concat(tbAdmin.getFullname()).concat("。您的订单：【").concat(order.getOrderNo()).concat("】被退回，请查询详细信息！");
+        }else{
+            if(order.getStatus() == 1 || order.getStatus() == 2){
+                tbAdmin = adminService.selAdminById(applyUser);
+                if(order.getStatus() == 1){
+                    desc = "您好，".concat(tbAdmin.getFullname()).concat("。您的订单：【").concat(order.getOrderNo()).concat("】需要您放款，请查询详细信息！");
+                }else{
+                    desc = "您好，".concat(tbAdmin.getFullname()).concat("。您的订单：【").concat(order.getOrderNo()).concat("】已放款，请查询详细信息！");
+                }
+            }else{
+                tbAdmin = adminService.selAdminById(order.getCreateUser());
+                desc = "您好，".concat(tbAdmin.getFullname()).concat("。您的订单：【").concat(order.getOrderNo()).concat("】被退回，请查询详细信息！");
+            }
+        }
+        if(!StringUtils.isEmpty(tbAdmin.getOpenId())){
+            weixinService.sendKefuMessage(tbAdmin.getOpenId(),url,desc,title,null);
+        }
+        return resultUtil;
     }
 
 

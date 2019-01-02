@@ -205,7 +205,7 @@ public class PurchaseOrderController {
     public ResultUtil submitReviewPurchaseOrder(String id, Long userId, Long roleId){
         ResultUtil resultUtil = purchaseOrderService.submitPurchaseOrder(id,userId,roleId);
         BizPurchaseOrder order = (BizPurchaseOrder) resultUtil.getData();
-        TbAdmin tbAdmin = adminService.selAdminById(userId);;
+        TbAdmin tbAdmin = adminService.selAdminById(userId);
         boolean isOverRole = adminService.checkRoleIsOverRole(roleId);
         String url = OrderUtils.DOMAIN_NAME .concat("/mobile/purchase/toDetails/?id=").concat(id);
         weixinService.sendMSGUtils(tbAdmin,isOverRole,url,true,order.getPurchaseNo());
