@@ -82,6 +82,7 @@
                         <div class="mui-collapse-content">
                             <form class="mui-input-group" id="ucamForm">
                                 <input type="hidden" name="id" id="id" value="${detailsVo.purchaseOrder.id}">
+                                <input type="hidden" name="isApproval" id="isApproval" value="${detailsVo.purchaseOrder.isApproval}">
                                 <div class="mui-input-row">
                                     <label>合同订单号</label>
                                     <input type="text" name="purchaseNo" id="purchaseNo" readonly disabled="disabled" value="${detailsVo.purchaseOrder.purchaseNo}" placeholder="合同订单号由系统自动生成">
