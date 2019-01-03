@@ -6,21 +6,14 @@ import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.purchase.mapper.admin.TbAdminMapper;
 import com.purchase.mapper.admin.TbDepartmentMapper;
-import com.purchase.mapper.order.BizContractApplyMoneyMapper;
-import com.purchase.mapper.order.BizPaymentOrderMapper;
-import com.purchase.mapper.order.BizPurchaseOrderMapper;
-import com.purchase.mapper.order.BizUncontractApplyMoneyMapper;
+import com.purchase.mapper.order.*;
 import com.purchase.pojo.admin.*;
 import com.purchase.pojo.order.*;
 import com.purchase.service.PaymentOrderService;
-import com.purchase.util.DateUtil;
-import com.purchase.util.PaymentOrderUtil;
-import com.purchase.util.ResultUtil;
-import com.purchase.util.WebUtils;
+import com.purchase.util.*;
 import com.purchase.vo.admin.ChoseAdminVO;
 import com.purchase.vo.order.BizPaymentOrderSearch;
 import com.purchase.vo.order.BizPaymentOrderVo;
-import com.purchase.weixin.service.WeixinService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,7 +54,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
     private BizUncontractApplyMoneyMapper uContractApplyMoneyMapper;
 
     @Autowired
-    private WeixinService weixinService;
+    private BizHistoryMapper historyMapper;
 
     @Override
     public ResultUtil getOrderList(Integer page, Integer limit, BizPaymentOrderSearch search) {
@@ -147,6 +140,8 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         Long userId = admin.getId();
         int status = order.getStatus();
 
+        BizHistory history = new BizHistory();
+        history.setId(WebUtils.generateUUID());
 
         if(status == 0){//总经理审核
             TbAdminExample adminExample = new TbAdminExample();
@@ -169,6 +164,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         BizPaymentOrder tmp = new BizPaymentOrder();
         tmp.setId(order.getId());
 
+        String roleName = "";
         if(status == 0){
             tmp.setStatus(1);
             tmp.setManagerDepartApproval(auditResults);
@@ -176,12 +172,14 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
             tmp.setManagerDepartOpinion(auditOpinion);
             tmp.setManagerDepartUser(userId);
             tmp.setFinancePaymentUser(applyUser);
+            roleName = "总经理";
         }else if(status == 1){
             tmp.setStatus(2);
             tmp.setFinancePaymentApproval(auditResults);
             tmp.setFinancePaymentDate(date);
             tmp.setFinancePaymentOpinion(auditOpinion);
             tmp.setFinancePaymentUser(userId);
+            roleName = "财务部";
         }
 
         //审核通过
@@ -227,7 +225,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
                     uContractApplyMoneyMapper.updateByPrimaryKey(cTmp);
                 }
             }
-
+            history.setIsApproval(OrderUtils.IS_APPROVAL_NO);
         }else {
             //审核不通过
             tmp.setFinancePaymentUser(null);
@@ -245,11 +243,20 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
             tmp.setReviewFail(true);
             tmp.setReviewOpinion(auditOpinion);
             tmp.setStatus(0);
+            history.setIsApproval(OrderUtils.IS_APPROVAL_YES);
         }
+
+        history.setOrderId(order.getId());
+        history.setApprovalDate(new Date());
+        history.setApprovalUser(admin.getId());
+        history.setApprovalUserName(admin.getFullname());
+        history.setApprovalRoleName(roleName);
+        history.setOpinion(auditOpinion);
+        historyMapper.insert(history);
 
         bizPaymentOrderMapper.updateByPrimaryKeySelective(tmp);
 
-        return ResultUtil.ok();
+        return ResultUtil.ok(order);
     }
 
 
