@@ -18,11 +18,13 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -56,6 +58,9 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
     @Autowired
     private BizHistoryMapper historyMapper;
 
+    @Value("${review.roles}")
+    private String[] reviewRoles;
+
     @Override
     public ResultUtil getOrderList(Integer page, Integer limit, BizPaymentOrderSearch search) {
         PageHelper.startPage(page, limit);
@@ -82,6 +87,9 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
             criteria.andCreateTimeEqualTo(search.getCreateTime());
         }
 
+        //对于角色才能查询出来
+        search.setReviewRoles(Arrays.asList(reviewRoles));
+
         List<BizPaymentOrderVo> users = bizPaymentOrderMapper.selectByExampleExt(example, search);
         PageInfo<BizPaymentOrderVo> pageInfo = new PageInfo<>(users);
         ResultUtil resultUtil = new ResultUtil();
@@ -98,6 +106,8 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         criteria.andIdEqualTo(id);
         BizPaymentOrderSearch search = new BizPaymentOrderSearch();
         search.setLoginId(admin.getId());
+        //对于角色才能查询出来
+        search.setReviewRoles(Arrays.asList(reviewRoles));
         List<BizPaymentOrderVo> users = bizPaymentOrderMapper.selectByExampleExt(example, search);
         BizPaymentOrderVo vo = users.get(0);
 
@@ -109,9 +119,9 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
             List<TbRoles> roles = adminMapper.selectRoleByExample(adminExample);
             List<String> roleNames = Lists.transform(roles, entity -> entity.getRoleName());
 
-            if(roleNames.contains("总经理") && vo.getFinancePaymentUser() == null){
+            if(roleNames.contains(reviewRoles[0]) && vo.getFinancePaymentUser() == null){
                 vo.setReviewUserId(admin.getId());
-                String roleName = "财务部";
+                String roleName = reviewRoles[1];
                 List<ChoseAdminVO> data = adminMapper.selectByRoleName(roleName);
                 if(!CollectionUtils.isEmpty(data)){
                     Gson gson = new Gson();
@@ -149,7 +159,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
             adminCriteria.andIdEqualTo(admin.getId());
             List<TbRoles> roles = adminMapper.selectRoleByExample(adminExample);
             List<String> roleNames = Lists.transform(roles, entity -> entity.getRoleName());
-            if(!roleNames.contains("总经理")){
+            if(!roleNames.contains(reviewRoles[0])){
                 return ResultUtil.error("没有审核权限!");
             }
         }else if(status == 1){
@@ -172,14 +182,14 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
             tmp.setManagerDepartOpinion(auditOpinion);
             tmp.setManagerDepartUser(userId);
             tmp.setFinancePaymentUser(applyUser);
-            roleName = "总经理";
+            roleName = reviewRoles[0];
         }else if(status == 1){
             tmp.setStatus(2);
             tmp.setFinancePaymentApproval(auditResults);
             tmp.setFinancePaymentDate(date);
             tmp.setFinancePaymentOpinion(auditOpinion);
             tmp.setFinancePaymentUser(userId);
-            roleName = "财务部";
+            roleName = reviewRoles[0];
         }
 
         //审核通过
@@ -384,7 +394,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         Long id = null;
         TbDepartmentExample example=new TbDepartmentExample();
         TbDepartmentExample.Criteria criteria = example.createCriteria();
-        criteria.andNameEqualTo("总经理");
+        criteria.andNameEqualTo(reviewRoles[0]);
         List<TbDepartment> list = departmentMapper.selectByExample(example);
         if(!CollectionUtils.isEmpty(list)){
             TbDepartment department = list.get(0);

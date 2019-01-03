@@ -3,6 +3,7 @@ package com.purchase.vo.order;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by xuqiang
@@ -29,6 +30,7 @@ public class BizPaymentOrderSearch {
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date departDate;
     private String contractNo;
+    private List<String> reviewRoles;
 
     public Long getLoginId() {
         return loginId;
@@ -148,5 +150,13 @@ public class BizPaymentOrderSearch {
 
     public void setEndCreateTime(Date endCreateTime) {
         this.endCreateTime = endCreateTime;
+    }
+
+    public List<String> getReviewRoles() {
+        return reviewRoles;
+    }
+
+    public void setReviewRoles(List<String> reviewRoles) {
+        this.reviewRoles = reviewRoles;
     }
 }
