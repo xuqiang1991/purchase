@@ -510,7 +510,7 @@ public class AdminServiceImpl implements AdminService {
 	public void updAdmin(TbAdmin admin) {
 		TbAdmin a = tbAdminMapper.selectByPrimaryKey(admin.getId());
 		//如果昵称改变则清空openId
-		if(!a.getWxNick().equalsIgnoreCase(admin.getWxNick().trim())){
+		if(!StringUtils.isEmpty(a.getWxNick()) && !a.getWxNick().equalsIgnoreCase(admin.getWxNick().trim())){
 			admin.setOpenId("");
 		}
 		admin.setPassword(a.getPassword());
