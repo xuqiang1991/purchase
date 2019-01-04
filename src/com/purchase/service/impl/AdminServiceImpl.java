@@ -464,11 +464,15 @@ public class AdminServiceImpl implements AdminService {
 		TbAdmin admin=tbAdminMapper.selectByPrimaryKey(id);
 		if(!StringUtils.isEmpty(admin.getDeptId())){
 		    TbDepartment dept = tbDepartmentMapper.selectByPrimaryKey(Long.parseLong(admin.getDeptId()));
-		    admin.setDeptName(dept.getName());
+		    if(dept != null){
+                admin.setDeptName(dept.getName());
+            }
         }
         if(admin.getSupplierId() != null){
            TbSupplier supplier = supplierMapper.selectByPrimaryKey(admin.getSupplierId());
-            admin.setSupplierName(supplier.getName());
+           if(supplier != null){
+               admin.setSupplierName(supplier.getName());
+           }
         }
 		TbAdminRoleExample example = new TbAdminRoleExample();
 		TbAdminRoleExample.Criteria criteria = example.createCriteria();
