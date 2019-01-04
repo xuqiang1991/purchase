@@ -20,6 +20,7 @@ public class BizPurchaseOrderSearch{
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date createTime;
     private Integer status;
+    private Integer isSaveSubmit;
     private String createUserName;
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date startCreateTime;
@@ -148,5 +149,13 @@ public class BizPurchaseOrderSearch{
 
     public void setEndCreateTime(Date endCreateTime) {
         this.endCreateTime = endCreateTime;
+    }
+
+    public Integer getIsSaveSubmit() {
+        return isSaveSubmit;
+    }
+
+    public void setIsSaveSubmit(Integer isSaveSubmit) {
+        this.isSaveSubmit = isSaveSubmit;
     }
 }

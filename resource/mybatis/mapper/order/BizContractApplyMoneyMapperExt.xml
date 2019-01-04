@@ -43,25 +43,29 @@
       <result column="admin_id" jdbcType="BIGINT" property="id"></result>
       <result column="adminFullname" jdbcType="VARCHAR" property="fullname"></result>
     </association>
-    <association property="costAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
-      <result column="costId" jdbcType="BIGINT" property="id"></result>
-      <result column="costFullname" jdbcType="VARCHAR" property="fullname"></result>
+    <association property="nextAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
+      <result column="nruId" jdbcType="BIGINT" property="id"></result>
+      <result column="nruFullname" jdbcType="VARCHAR" property="fullname"></result>
     </association>
-    <association property="projectAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
-      <result column="projectId" jdbcType="BIGINT" property="id"></result>
-      <result column="projectFullname" jdbcType="VARCHAR" property="fullname"></result>
+    <association property="nextRole" javaType="com.purchase.pojo.admin.TbRoles">
+      <result column="nrrId" jdbcType="BIGINT" property="roleId"></result>
+      <result column="nrrRoleName" jdbcType="VARCHAR" property="roleName"></result>
     </association>
-    <association property="managerAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
-      <result column="managerId" jdbcType="BIGINT" property="id"></result>
-      <result column="managerFullname" jdbcType="VARCHAR" property="fullname"></result>
+    <association property="lastUser" javaType="com.purchase.pojo.admin.TbAdmin">
+      <result column="lruId" jdbcType="BIGINT" property="id"></result>
+      <result column="lruFullname" jdbcType="VARCHAR" property="fullname"></result>
     </association>
-    <association property="auAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
-      <result column="auId" jdbcType="BIGINT" property="id"></result>
-      <result column="auName" jdbcType="VARCHAR" property="fullname"></result>
+    <association property="lastRole" javaType="com.purchase.pojo.admin.TbRoles">
+      <result column="lrrId" jdbcType="BIGINT" property="roleId"></result>
+      <result column="lrrRoleName" jdbcType="VARCHAR" property="roleName"></result>
     </association>
     <association property="tpm" javaType="com.purchase.pojo.admin.TbProjectManger">
       <result column="tpmId" jdbcType="BIGINT" property="id"></result>
       <result column="tpmName" jdbcType="VARCHAR" property="name"></result>
+    </association>
+    <association property="auAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
+      <result column="auId" jdbcType="BIGINT" property="id"></result>
+      <result column="auName" jdbcType="VARCHAR" property="fullname"></result>
     </association>
     <association property="purchaseOrderVo" javaType="com.purchase.vo.order.BizPurchaseOrderVo">
       <result column="purchaseId" jdbcType="BIGINT" property="id"></result>
@@ -72,13 +76,14 @@
     select
     a.*,
     b.id as supplier_id, b.name as supplierName,
-    c.id as costId, c.fullname as adminFullname,
+    c.id as admin_id, c.fullname as adminFullname,
     nru.id as nruId, nru.fullname as nruFullname,
     nrr.role_id as nrrId, nrr.role_name as nrrRoleName,
     lru.id as lruId, lru.fullname as lruFullname,
     lrr.role_id as lrrId, lrr.role_name as lrrRoleName,
     tpm.id as tpmId,tpm.name as tpmName,
-    auAdmin.id as auId,auAdmin.fullname as auName
+    auAdmin.id as auId,auAdmin.fullname as auName,
+    purchase.id as purchaseId,purchase.type as purchaseType
     from biz_contract_apply_money a
     LEFT JOIN tb_supplier b ON (a.supplier_id = b.id)
     LEFT JOIN tb_admin c ON (a.create_user = c.id)
@@ -88,6 +93,7 @@
     LEFT JOIN tb_roles lrr ON (a.last_review_role = lrr.role_id)
     LEFT JOIN tb_project_manger tpm ON (a.project_id = tpm.id)
     LEFT JOIN tb_admin auAdmin ON (a.apply_user = auAdmin.id)
+    LEFT JOIN biz_purchase_order purchase ON (a.source_order_id = purchase.id)
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause_Ext" />
     </if>

@@ -74,6 +74,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         if(search.getStatus()!= null){
             criteria.andStatusEqualTo(search.getStatus());
         }
+        if(search.getIsSaveSubmit()!= null){
+            criteria.andIsSaveSubmitEqualTo(search.getIsSaveSubmit());
+        }
         if(search.getSupplierId()!= null){
             criteria.andSupplierIdEqualTo(search.getSupplierId());
         }
@@ -516,12 +519,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return ResultUtil.ok();
     }
 
-    private BizPurchaseOrderVo getBizPurchaseOrderVo(String id){
+    private BizPurchaseOrderVo getBizPurchaseOrderVo(String id,long loginId){
         BizPurchaseOrderExample example = new BizPurchaseOrderExample();
         BizPurchaseOrderExample.Criteria criteria = example.createCriteria();
         criteria.andIdEqualTo(id);
         BizPurchaseOrderSearch search = new BizPurchaseOrderSearch();
         search.setId(id);
+        search.setLoginId(loginId);
         List<BizPurchaseOrderVo> pavList = purchaseOrderMapper.selectByExampleExt(example,search);
         BizPurchaseOrderVo vo = new BizPurchaseOrderVo();
         if(!CollectionUtils.isEmpty(pavList)){
@@ -531,8 +535,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     @Override
-    public BizPurchaseOrderVo selPurchaseOrderById(String id) {
-        return getBizPurchaseOrderVo(id);
+    public BizPurchaseOrderVo selPurchaseOrderById(String id, Long userId) {
+        return getBizPurchaseOrderVo(id,userId);
     }
 
     @Override

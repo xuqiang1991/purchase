@@ -205,20 +205,6 @@ public class CAMServiceImpl implements CAMService {
                 }
             }
         }
-
-        //选择审核人
-        String roleName = "工程部";
-        Long reviewUserId = null;
-        detailsVo.setReviewUserId(reviewUserId);
-        if(roleName != null){
-            List<ChoseAdminVO> data = adminMapper.selectByRoleName(roleName);
-            if(!CollectionUtils.isEmpty(data)){
-                Gson gson = new Gson();
-                String json = gson.toJson(data);
-                detailsVo.setDeparts(json);
-            }
-        }
-
         return detailsVo;
     }
 
@@ -241,7 +227,7 @@ public class CAMServiceImpl implements CAMService {
         //来源订单
         String sourceOrderId = order.getSourceOrderId();
         if(sourceOrderId != null){
-            BizPurchaseOrderVo purchaseOrderVo = purchaseOrderService.selPurchaseOrderById(sourceOrderId);
+            BizPurchaseOrderVo purchaseOrderVo = purchaseOrderService.selPurchaseOrderById(sourceOrderId,userId);
             vo.setPurchaseOrderVo(purchaseOrderVo);
 
             //获取合同订单详情

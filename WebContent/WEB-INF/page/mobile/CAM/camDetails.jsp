@@ -125,11 +125,11 @@
                                     </div>
                                     <div class="mui-input-row">
                                         <label>所属项目</label>
-                                        <label style="width: 65%;padding-left: 0px;">${detailsVo.order.purchaseOrderVo.projectManger.name}</label>
+                                        <label style="width: 65%;padding-left: 0px;">${detailsVo.order.purchaseOrderVo.tpm.name}</label>
                                     </div>
                                     <div class="mui-input-row">
                                         <label>请款人</label>
-                                        <label style="width: 65%;padding-left: 0px;">${detailsVo.order.applyAdmin.fullname}</label>
+                                        <label style="width: 65%;padding-left: 0px;">${detailsVo.order.admin.fullname}</label>
                                     </div>
                                     <div class="mui-input-row mui-input-range">
                                         <label>开单日期</label>
@@ -507,17 +507,11 @@
         var check = true;
         mui("#addFromPurchaseOrderItem input").each(function() {
             //若当前input为空，则alert提醒
-            var verify = $(this).attr("mui-verify")
-            if(verify == 'required'){
-                if(!this.value || this.value.trim() == "") {
-                    var label = this.previousElementSibling;
-                    mui.alert(label.innerText + "不允许为空");
-                    check = false;
-                    return false;
-                }
+            check = inputVerify(this);
+            if(!check){
+                return check;
             }
         });
-
 
         //校验通过，继续执行业务逻辑
         if(check){

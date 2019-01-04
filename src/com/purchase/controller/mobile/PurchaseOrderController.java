@@ -148,6 +148,7 @@ public class PurchaseOrderController {
     @RequiresPermissions("mobile:purchase:save")
     public String toUpdate(String id, Model model){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        Long userId = admin.getId();
         if(admin.getSupplierId() != null){
             TbSupplier supplier = supplierService.selSupplierById(admin.getSupplierId());
             admin.setSupplierName(supplier.getName());
@@ -157,7 +158,7 @@ public class PurchaseOrderController {
         model.addAttribute("admins", JSON.toJSONString(admins));
         model.addAttribute("admin", admin);
 
-        BizPurchaseOrderVo order = purchaseOrderService.selPurchaseOrderById(id);
+        BizPurchaseOrderVo order = purchaseOrderService.selPurchaseOrderById(id,userId);
         model.addAttribute("order",order);
 
         return "page/mobile/purchaseOrder/from";
@@ -309,7 +310,7 @@ public class PurchaseOrderController {
     public ResultUtil findPurchaseOrderList(Integer page, Integer limit, BizPurchaseOrderSearch search){
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         search.setLoginId(admin.getId());
-        search.setStatus(4);//查询通过的合同订单
+        search.setIsSaveSubmit(2);//查询通过的合同订单
         search.setSupplierId(admin.getSupplierId());
         return purchaseOrderService.getOrderList(page,limit,search);
     }

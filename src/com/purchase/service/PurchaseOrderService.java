@@ -55,7 +55,7 @@ public interface PurchaseOrderService {
 
     ResultUtil purchaseOrderContractNo(String id, String contractNo);
 
-    BizPurchaseOrderVo selPurchaseOrderById(String id);
+    BizPurchaseOrderVo selPurchaseOrderById(String id,Long userId);
 
     List<ChosePurchaseOrderVO> selectChosePurchaseOrder();
 }
