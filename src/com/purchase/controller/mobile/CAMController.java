@@ -147,6 +147,12 @@ public class CAMController {
         CAMDetailsVo detailsVo = new CAMDetailsVo();
         if(StringUtils.isNotEmpty(id)){
             detailsVo = camService.selCAMOrder(id);
+            Boolean isOverRole = adminService.checkRoleIsOverRole(detailsVo.getOrder().getNextReviewRole());
+            if(!isOverRole){
+                List<ChoseAdminForRoleVO> reviewAdmins = adminService.selectRoleAdmin();
+                model.addAttribute("reviewAdmins", JSON.toJSONString(reviewAdmins));
+            }
+            model.addAttribute("isOverRole",isOverRole);
         }
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
         if(admin.getUserType() == 1){
@@ -154,10 +160,10 @@ public class CAMController {
             admin.setSupplierName(supplier.getName());
             //登录账户为供应商，获取当前供应商的用户为创建人
             List<ChoseAdminVO> admins = adminService.selectAdminBySupplierId(admin.getSupplierId());
-            model.addAttribute("admins", JSON.toJSONString(admins));
+            req.setAttribute("admins", JSON.toJSONString(admins));
         }else{
             List<ChoseSupplierVO> admins = adminService.selectAdminSupplierIdNotNull();
-            model.addAttribute("admins", JSON.toJSONString(admins));
+            req.setAttribute("admins", JSON.toJSONString(admins));
         }
 
         model.addAttribute("detailsVo",detailsVo);

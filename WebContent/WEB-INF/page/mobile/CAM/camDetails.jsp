@@ -639,28 +639,26 @@
 
     /** 选择审核人 **/
     mui(document.body).on('tap', '#orderDetails', function(e) {
-
         <c:if test="${fn:length(detailsVo.details) == 0}">
             mui.alert("请先添加明细！");
             return false;
         </c:if>
-        if(type == "审核"){
-            mui("#popover").popover('toggle', document.getElementById("div"));
-        }else {
-            submitOrder();
-        }
+        submitOrder();
     });
     
     function submitOrder() {
-        var adminsJson = '${detailsVo.departs}'
+        var adminsJson = '${reviewAdmins}'
         var json =JSON.parse(adminsJson)
-        var userPicker = new mui.PopPicker();
+        var userPicker = new mui.PopPicker({
+            layer: 2
+        });
         userPicker.setData(json);
         userPicker.show(function (selectItems) {
             var text = selectItems[0].text;
             mui.alert('确定提审核人为：' + text + "？" , function() {
-                var userId = selectItems[0].value;
-                var url = '${ctx}/mobile/CAM/submitReviewCAMOrder?id=${detailsVo.order.id}&userId=' + userId;
+                var roleId = selectItems[0].value;
+                var userId = selectItems[1].value;
+                var url = '${ctx}/mobile/CAM/submitReviewCAMOrder?id=${detailsVo.order.id}&userId=' + userId + '&roleId=' + roleId;
                 $.ajax({
                     url: url,
                     dataType: 'json',
