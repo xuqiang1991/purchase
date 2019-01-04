@@ -1,6 +1,7 @@
 package com.purchase.controller;
 
 import com.google.code.kaptcha.Producer;
+import com.google.common.collect.Lists;
 import com.purchase.annotation.SysLog;
 import com.purchase.pojo.admin.*;
 import com.purchase.service.AdminService;
@@ -696,7 +697,7 @@ public class AdminController {
 		}
 
 
-		return ResultUtil.ok(list);
+		return ResultUtil.ok(Lists.reverse(list));
 	}
 	
 	@RequestMapping("/toSaveMenu/{menuId}")
