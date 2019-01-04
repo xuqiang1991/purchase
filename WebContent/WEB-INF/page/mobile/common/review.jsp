@@ -155,7 +155,7 @@
             $("#applyUserReviewDiv").hide();
             $("#popover").css("height","230px");
         }
-        if(isOverRole){
+        if(isOverRole == 'true'){
             $("#applyUserReviewDiv").hide();
             $("#popover").css("height","230px");
         }
