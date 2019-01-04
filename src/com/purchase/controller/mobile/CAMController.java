@@ -149,6 +149,16 @@ public class CAMController {
             detailsVo = camService.selCAMOrder(id);
         }
         TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        if(admin.getUserType() == 1){
+            TbSupplier supplier = supplierService.selSupplierById(admin.getSupplierId());
+            admin.setSupplierName(supplier.getName());
+            //登录账户为供应商，获取当前供应商的用户为创建人
+            List<ChoseAdminVO> admins = adminService.selectAdminBySupplierId(admin.getSupplierId());
+            model.addAttribute("admins", JSON.toJSONString(admins));
+        }else{
+            List<ChoseSupplierVO> admins = adminService.selectAdminSupplierIdNotNull();
+            model.addAttribute("admins", JSON.toJSONString(admins));
+        }
 
         model.addAttribute("detailsVo",detailsVo);
         model.addAttribute("admin",admin);
