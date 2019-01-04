@@ -182,6 +182,14 @@ public class CAMServiceImpl implements CAMService {
         CAMVo vo = getCAMOrder(id);
         detailsVo.setOrder(vo);
 
+        //获取审核日志
+        BizHistoryExample example1 = new BizHistoryExample();
+        BizHistoryExample.Criteria criteria1 = example1.createCriteria();
+        example1.setOrderByClause("approval_date DESC");
+        criteria1.andOrderIdEqualTo(vo.getId());
+        List<BizHistory> histories = historyMapper.selectByExample(example1);
+        vo.setHistoryList(histories);
+
         //获取合同内单详情
         String orderNo = vo.getOrderNo();
         BizContractApplyMoneyDetailExample example = new BizContractApplyMoneyDetailExample();

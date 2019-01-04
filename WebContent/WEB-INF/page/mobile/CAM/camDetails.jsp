@@ -231,9 +231,6 @@
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="orderDetails">提交</button>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="deletePurchaseOrder" value="${detailsVo.order.id}">删除</button>
                     </c:when>
-                    <%--<c:when test="${detailsVo.order.status == 1 && empty detailsVo.order.costDepartUser && empty detailsVo.reviewUserId}">--%>
-                        <%--<button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="submitReviewPurchaseOrder">选择审核人</button>--%>
-                    <%--</c:when>--%>
                     <c:when test="${detailsVo.order.nextReviewUser == admin.id && detailsVo.order.isSaveSubmit == 1}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">审核</button>
                     </c:when>
