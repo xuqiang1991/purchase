@@ -224,7 +224,7 @@
             </div>
             <div class="mui-content-padded">
                 <c:choose>
-                    <c:when test="${detailsVo.order.status == 0 && detailsVo.order.createUser == admin.id}">
+                    <c:when test="${detailsVo.order.isApproval == 0 && detailsVo.order.createUser == admin.id}">
                         <a href="#fromPurchaseOrderDetailsItem">
                             <button type="button" class="mui-btn mui-btn-primary mui-btn-block">增加明细</button>
                         </a>
@@ -234,7 +234,7 @@
                     <%--<c:when test="${detailsVo.order.status == 1 && empty detailsVo.order.costDepartUser && empty detailsVo.reviewUserId}">--%>
                         <%--<button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="submitReviewPurchaseOrder">选择审核人</button>--%>
                     <%--</c:when>--%>
-                    <c:when test="${detailsVo.reviewUserId == admin.id}">
+                    <c:when test="${detailsVo.order.nextReviewUser == admin.id && detailsVo.order.isSaveSubmit == 1}">
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reviewPurchaseOrder">审核</button>
                     </c:when>
                 </c:choose>
