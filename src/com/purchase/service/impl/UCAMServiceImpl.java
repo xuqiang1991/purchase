@@ -460,6 +460,7 @@ public class UCAMServiceImpl implements UCAMService {
             order.setIsApproval(OrderUtils.IS_APPROVAL_NO);
             order.setLastReviewRole(null);
             order.setLastReviewUser(null);
+            order.setNextReviewRole(null);
             order.setNextReviewUser(order.getCreateUser());//驳回则还原到创建人
             history.setIsApproval(OrderUtils.IS_APPROVAL_NO);
         }else{

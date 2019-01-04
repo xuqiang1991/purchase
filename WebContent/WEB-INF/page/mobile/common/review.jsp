@@ -16,7 +16,7 @@
 <div id="div"></div>
 
     <c:choose>
-        <c:when test="${reviewStatus != 3}">
+        <c:when test="${!isOverRole}">
          <div id="popover" class="mui-popover" style="height: 270px;">
         </c:when>
         <c:otherwise>

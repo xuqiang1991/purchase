@@ -319,6 +319,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             order.setLastReviewRole(null);
             order.setLastReviewUser(null);
             order.setNextReviewUser(order.getCreateUser());//驳回则还原到创建人
+            order.setNextReviewRole(null);
             history.setIsApproval(OrderUtils.IS_APPROVAL_NO);
         }else{
             order.setIsSaveSubmit(OrderUtils.IS_SAVE_SUBMIT_1);
