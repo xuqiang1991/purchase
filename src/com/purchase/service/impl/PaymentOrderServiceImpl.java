@@ -339,7 +339,10 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         }
 
         BigDecimal amountPaid = new BigDecimal(paymentOrder.getAmountPaid());
-        BigDecimal paymentProportion = amountPaid.divide(contractMoney,BigDecimal.ROUND_UP).add(actualPrice);
+        BigDecimal paymentProportion = BigDecimal.ZERO;
+        if(amountPaid.compareTo(BigDecimal.ZERO) > 0){
+            paymentProportion = amountPaid.divide(contractMoney,BigDecimal.ROUND_UP).add(actualPrice);
+        }
         paymentOrder.setPaymentProportion(paymentProportion.doubleValue());
 
         //初始化总经理审核
