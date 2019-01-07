@@ -615,8 +615,7 @@
 <c:set value="${ctx}/mobile/paymentOrder/toDetails/${detailsVo.id}" var="reviewRefreshUrl"/>
 <c:set value="${ctx}/mobile/paymentOrder/reviewOrder/${detailsVo.id}" var="reviewSaveUrl"/>
 <c:set value="${detailsVo.status}" var="reviewStatus"/>
-<c:set value="3" var="reviewType"/>
-<%@ include file="/WEB-INF/page/mobile/common/review.jsp"%>
+<%@ include file="/WEB-INF/page/mobile/common/paymentReview.jsp"%>
 <!-- 审核 -->
 
 </body>
