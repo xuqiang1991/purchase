@@ -213,11 +213,15 @@ public class UCAMController {
         if(!auditResults){
             tbAdmin = adminService.selAdminById(order.getCreateUser());
         }else{
-            isOverRole = adminService.checkRoleIsOverRole(applyRole);
-            if(isOverRole){
-                tbAdmin = adminService.selAdminById(order.getCreateUser());
+            if(applyRole != null && applyUser != null && applyRole != 0 && applyUser != 0){
+                isOverRole = adminService.checkRoleIsOverRole(applyRole);
+                if(isOverRole){
+                    tbAdmin = adminService.selAdminById(order.getCreateUser());
+                }else{
+                    tbAdmin = adminService.selAdminById(applyUser);
+                }
             }else{
-                tbAdmin = adminService.selAdminById(applyUser);
+                tbAdmin = adminService.selAdminById(order.getCreateUser());
             }
         }
         weixinService.sendMSGUtils(tbAdmin,isOverRole,url,auditResults,order.getOrderNo());
