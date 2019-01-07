@@ -260,12 +260,17 @@ public class CAMController {
         if(!auditResults){
             tbAdmin = adminService.selAdminById(order.getCreateUser());
         }else{
-            isOverRole = adminService.checkRoleIsOverRole(applyRole);
-            if(isOverRole){
+            if(applyRole != null && applyUser != null && applyRole != 0 && applyUser != 0){
+                isOverRole = adminService.checkRoleIsOverRole(applyRole);
+                if(isOverRole){
+                    tbAdmin = adminService.selAdminById(order.getCreateUser());
+                }else{
+                    tbAdmin = adminService.selAdminById(applyUser);
+                }
+            }else {
                 tbAdmin = adminService.selAdminById(order.getCreateUser());
-            }else{
-                tbAdmin = adminService.selAdminById(applyUser);
             }
+
         }
         weixinService.sendMSGUtils(tbAdmin,isOverRole,url,auditResults,order.getOrderNo());
         return resultUtil;
