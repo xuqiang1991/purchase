@@ -57,12 +57,7 @@
 
     /** 审核 **/
     mui(document.body).on('tap', '#reviewPurchaseOrder', function(e) {
-        var reviewCheckCAM = '${reviewCheckCAM}';
-        if(reviewCheckCAM == 'true'){
-            checkCAM("审核");
-        }else {
-            mui("#popover").popover('toggle', document.getElementById("div"));
-        }
+        mui("#popover").popover('toggle', document.getElementById("div"));
     });
 
     mui(document.body).on('tap', '#review-cancel-btn', function(e) {
