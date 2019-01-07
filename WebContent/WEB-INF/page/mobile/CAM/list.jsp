@@ -11,6 +11,7 @@
     <script type="text/javascript" src="${ctx}/js/jquery.min.js"></script>
     <script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
     <script type="text/javascript" src="${ctx}/js/handlebars.min.js"></script>
+    <script type="text/javascript" src="${ctx}/js/handlebarsHelps1.js"></script>
     <script type="text/javascript" src="${ctx}/js/handlebarsHelps.js"></script>
     <script src="${ctx }/mui/js/mui.picker.min.js"></script>
 </head>
@@ -204,7 +205,7 @@
                     var template = Handlebars.compile(tpl);
 
                     //数据转换
-                    purchaseOrder.statusConversion(Handlebars)
+                    utilsOrder.approvalConversion(Handlebars);
                     purchaseOrder.typeConversion(Handlebars)
                     purchaseOrder.departUser(Handlebars)
                     purchaseOrder.departDate(Handlebars)
@@ -394,7 +395,7 @@
                 <p>
                     <label>开单人:{{admin.fullname}}</label>&nbsp;
                     <label>开单日期：{{createTime}}</label>
-                    <span class="mui-badge mui-badge-primary mui-pull-right">{{purchaseOrder_statusConversion status}}</span>
+                    <span class="mui-badge mui-badge-primary mui-pull-right">{{lastRole.roleName}} {{isApproval_Conversion isApproval}}</span>
                 </p>
                 </p>
             </div>

@@ -147,7 +147,7 @@
                                 <div>
                                     <textarea name="summary" id="summary" rows="5" class="mui-input-clear" <c:if test="${detailsVo.order.status > 0}">disabled="disabled"</c:if> placeholder="备注">${detailsVo.order.summary}</textarea>
                                 </div>
-                                <c:if test="${detailsVo.order.status == 0 || detailsVo.order.status == null}">
+                                <c:if test="${detailsVo.order.id == null || (detailsVo.order.id != null && detailsVo.order.isSaveSubmit == 0)}">
                                     <div class="mui-button-row" style="padding-bottom: 20px;">
                                         <button type="button" class="mui-btn mui-btn-primary" id="ucamSave">保存</button>
                                     </div>
