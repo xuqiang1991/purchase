@@ -258,7 +258,7 @@
                                                 <c:if test="${detailsVo.ucamVo.nextReviewUser == admin.id && detailsVo.ucamVo.isSaveSubmit == 1}">
                                                     <div>
                                                         <a href="#fromUCAMItem" name="app-a" data-id="${item.id}">
-                                                            <button type="button" class="mui-btn mui-btn-primary" value="${item.id}">审核</button>
+                                                            <button type="button" class="mui-btn mui-btn-primary" value="${item.id}">修改</button>
                                                         </a>
                                                     </div>
                                                 </c:if>

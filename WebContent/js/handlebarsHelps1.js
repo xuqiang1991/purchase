@@ -25,6 +25,8 @@ utilsOrder = {
                         str = '审核完结';
                     }
                     break;
+                default:
+                    str = '未提交';
             }
             return str;
         });
