@@ -127,10 +127,6 @@
                                         <label>所属项目</label>
                                         <label style="width: 65%;padding-left: 0px;">${detailsVo.order.purchaseOrderVo.tpm.name}</label>
                                     </div>
-                                    <div class="mui-input-row">
-                                        <label>请款人</label>
-                                        <label style="width: 65%;padding-left: 0px;">${detailsVo.order.admin.fullname}</label>
-                                    </div>
                                     <div class="mui-input-row mui-input-range">
                                         <label>开单日期</label>
                                         <label style="width: 65%;padding-left: 0px;"><fmt:formatDate value="${detailsVo.order.createTime}" pattern="yyyy-MM-dd"/></label>

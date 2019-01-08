@@ -666,6 +666,8 @@
                                 $("#addFromPurchaseOrderItem").find("input[name='price']").val(data.price);
                                 $("#addFromPurchaseOrderItem").find("input[name='amount']").val(data.amount);
                                 $("#addFromPurchaseOrderItem").find("input[name='totalPrice']").val(data.totalPrice);
+                                $("#addFromPurchaseOrderItem").find("input[name='date']").val(data.date);
+                                $("#addFromPurchaseOrderItem").find("input[name='warrantyDate']").val(data.warrantyDate);
                                 $("#remark").val(data.remark);
                             }
                         }

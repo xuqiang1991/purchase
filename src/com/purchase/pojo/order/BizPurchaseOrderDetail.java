@@ -1,5 +1,6 @@
 package com.purchase.pojo.order;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
@@ -99,6 +100,7 @@ public class BizPurchaseOrderDetail {
         this.warrantyDate = warrantyDate;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getDate() {
         return date;
     }
@@ -131,6 +133,7 @@ public class BizPurchaseOrderDetail {
         this.remark = remark == null ? null : remark.trim();
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getCreateTime() {
         return createTime;
     }
@@ -139,6 +142,7 @@ public class BizPurchaseOrderDetail {
         this.createTime = createTime;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getUpdateDate() {
         return updateDate;
     }

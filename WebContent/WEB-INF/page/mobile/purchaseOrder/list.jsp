@@ -365,7 +365,7 @@
                     <label>供应商：{{supplier.name}}</label>
                 </p>
                 <p>
-                    <label>所属项目：{{projectManger.name}}</label>
+                    <label>所属项目：{{tpm.name}}</label>
                 </p>
             </div>
         </div>

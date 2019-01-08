@@ -83,7 +83,10 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public List<ChoseSupplierVO> selectSupplier() {
-        List<TbSupplier> supplier = tbSupplierMapper.selectByExample(new TbSupplierExample());
+        TbSupplierExample example=new TbSupplierExample();
+        TbSupplierExample.Criteria criteria = example.createCriteria();
+        criteria.andValidEqualTo(true);
+        List<TbSupplier> supplier = tbSupplierMapper.selectByExample(example);
         List<ChoseSupplierVO> item = new ArrayList();
         if(!CollectionUtils.isEmpty(supplier)){
             for (TbSupplier s: supplier) {
