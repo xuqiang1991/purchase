@@ -36,4 +36,6 @@ public interface BizPaymentOrderMapper {
 
     @Select("select max(order_no) order_no from biz_payment_order where order_no like '${prefix}%'")
     String selMaxOrderNo(@Param("prefix") String prefix);
+
+    int updateAuditResultsFalse(BizPaymentOrder record);
 }

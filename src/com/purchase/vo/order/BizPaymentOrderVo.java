@@ -182,7 +182,7 @@ public class BizPaymentOrderVo extends BizPaymentOrder {
         Boolean managerDepartApproval = getManagerDepartApproval();
         if(managerDepartApproval != null && managerDepartApproval){
             str = "审批通过";
-        }else {
+        }else if(managerDepartApproval != null){
             str = "审批未通过";
         }
         return str;

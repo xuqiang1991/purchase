@@ -235,25 +235,25 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
                     uContractApplyMoneyMapper.updateByPrimaryKey(cTmp);
                 }
             }
-            history.setIsApproval(OrderUtils.IS_APPROVAL_NO);
+            history.setIsApproval(OrderUtils.IS_APPROVAL_YES);
         }else {
             //审核不通过
-            tmp.setFinancePaymentUser(null);
+
             tmp.setManagerDepartUser(null);
-
-            tmp.setFinancePaymentDate(null);
             tmp.setManagerDepartDate(null);
-
-            tmp.setFinancePaymentApproval(null);
             tmp.setManagerDepartApproval(null);
+            tmp.setManagerDepartOpinion(null);
 
-            tmp.setFinancePaymentOpinion(null);
+
+            tmp.setFinancePaymentUser(null);
+            tmp.setFinancePaymentDate(null);
+            tmp.setFinancePaymentApproval(null);
             tmp.setFinancePaymentOpinion(null);
 
             tmp.setReviewFail(true);
             tmp.setReviewOpinion(auditOpinion);
             tmp.setStatus(0);
-            history.setIsApproval(OrderUtils.IS_APPROVAL_YES);
+            history.setIsApproval(OrderUtils.IS_APPROVAL_NO);
         }
 
         history.setOrderId(order.getId());
@@ -264,7 +264,12 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         history.setOpinion(auditOpinion);
         historyMapper.insert(history);
 
-        bizPaymentOrderMapper.updateByPrimaryKeySelective(tmp);
+        if(auditResults){
+            bizPaymentOrderMapper.updateByPrimaryKeySelective(tmp);
+        }else {
+            bizPaymentOrderMapper.updateAuditResultsFalse(tmp);
+        }
+
 
         return ResultUtil.ok(order);
     }

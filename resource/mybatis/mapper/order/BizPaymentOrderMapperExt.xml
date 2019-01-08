@@ -93,4 +93,20 @@
       order by ${example.orderByClause}
     </if>
   </select>
+
+  <update id="updateAuditResultsFalse" parameterType="com.purchase.pojo.order.BizPaymentOrder">
+    update biz_payment_order
+    set manager_depart_approval = #{managerDepartApproval,jdbcType=BIT},
+    manager_depart_user = #{managerDepartUser,jdbcType=BIGINT},
+    manager_depart_date = #{managerDepartDate,jdbcType=TIMESTAMP},
+    manager_depart_opinion = #{managerDepartOpinion,jdbcType=VARCHAR},
+    finance_payment_approval = #{financePaymentApproval,jdbcType=BIT},
+    finance_payment_user = #{financePaymentUser,jdbcType=BIGINT},
+    finance_payment_date = #{financePaymentDate,jdbcType=TIMESTAMP},
+    finance_payment_opinion = #{financePaymentOpinion,jdbcType=VARCHAR},
+    status = #{status,jdbcType=INTEGER},
+    review_fail = #{reviewFail,jdbcType=BIT},
+    review_opinion = #{reviewOpinion,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
 </mapper>
