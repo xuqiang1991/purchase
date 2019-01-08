@@ -98,6 +98,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         if(search.getCreateTime() != null){
             criteria.andCreateTimeEqualTo(search.getCreateTime());
         }
+
+        if(search.getDepartDate() != null){
+            criteria.andLastReviewDateGreaterThanOrEqualTo(search.getDepartDate());
+        }
 			/*if(search.getDepartUser() != null){
 				BizPurchaseOrderExample.Criteria criteria1 = example.createCriteria();
 				criteria1.andCostDepartUserEqualTo(search.getDepartUser());
