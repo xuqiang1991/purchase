@@ -162,18 +162,20 @@
                                         <input type="text" value="<fmt:formatDate value="${detailsVo.purchaseOrder.applyDate}" pattern="yyyy-MM-dd"/>" disabled="disabled">
                                     </div>
                                 </c:if>
-                                <div class="mui-input-row">
-                                    <label>合同总金额</label>
-                                    <input type="text" name="contractMoney" value="${detailsVo.purchaseOrder.contractMoney}" class="mui-input-clear" readonly disabled="disabled" placeholder="合同总金额由详情系统自动生成">
-                                </div>
-                                <div class="mui-input-row">
-                                    <label>已请款金额</label>
-                                    <input type="text" name="requestAmount" value="${detailsVo.purchaseOrder.requestAmount}" readonly disabled="disabled" placeholder="已请款金额由请款单回写">
-                                </div>
-                                <div class="mui-input-row">
-                                    <label>已付款金额</label>
-                                    <input type="text" name="paymentAmount" value="${detailsVo.purchaseOrder.paymentAmount}" readonly disabled="disabled" placeholder="已付款金额由付款单回写">
-                                </div>
+                                <c:if test="${admin.isAmountVisible == 0}">
+                                    <div class="mui-input-row">
+                                        <label>合同总金额</label>
+                                        <input type="text" name="contractMoney" value="${detailsVo.purchaseOrder.contractMoney}" class="mui-input-clear" readonly disabled="disabled" placeholder="合同总金额由详情系统自动生成">
+                                    </div>
+                                    <div class="mui-input-row">
+                                        <label>已请款金额</label>
+                                        <input type="text" name="requestAmount" value="${detailsVo.purchaseOrder.requestAmount}" readonly disabled="disabled" placeholder="已请款金额由请款单回写">
+                                    </div>
+                                    <div class="mui-input-row">
+                                        <label>已付款金额</label>
+                                        <input type="text" name="paymentAmount" value="${detailsVo.purchaseOrder.paymentAmount}" readonly disabled="disabled" placeholder="已付款金额由付款单回写">
+                                    </div>
+                                </c:if>
                                 <div class="mui-input-row mui-input-range">
                                     <label>付款比例(%)</label>
                                     <c:choose>
@@ -225,7 +227,9 @@
                                                         <label>单位：${item.unit}</label>
                                                     </p>
                                                     <p>
-                                                        <label>单价:${item.price}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <c:if test="${admin.isAmountVisible == 0}">
+                                                            <label>单价:${item.price}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        </c:if>
                                                         <label>数量：${item.amount}</label>
                                                     </p>
                                                     <p>
@@ -236,10 +240,12 @@
                                                         <label>日期：<fmt:formatDate value="${item.date}" pattern="yyyy-MM-dd"/></label>
                                                         </c:if>
                                                     </p>
-                                                    <p>
-                                                        <label>金额：${item.totalPrice}</label>&nbsp;&nbsp;
-                                                        <label>已結算数量：${item.settleAmout}</label>
-                                                    </p>
+                                                    <c:if test="${admin.isAmountVisible == 0}">
+                                                        <p>
+                                                            <label>金额：${item.totalPrice}</label>&nbsp;&nbsp;
+                                                            <label>已結算数量：${item.settleAmout}</label>
+                                                        </p>
+                                                    </c:if>
                                                 </div>
                                             </div>
                                             <div class="mui-card-footer">
@@ -319,18 +325,22 @@
                         <label>单位</label>
                         <input type="text" name="unit" class="mui-input-clear" mui-verify="required|length=10" placeholder="请输入单位">
                     </div>
-                    <div class="mui-input-row">
-                        <label>单价</label>
-                        <input type="number" id="price" name="price" class="mui-input-clear" mui-verify="required|min=0|max=1000000" onkeyup="checknum(this);" placeholder="请输入单价">
-                    </div>
+                    <c:if test="${admin.isAmountVisible == 0}">
+                        <div class="mui-input-row">
+                            <label>单价</label>
+                            <input type="number" id="price" name="price" class="mui-input-clear" mui-verify="required|min=0|max=1000000" onkeyup="checknum(this);" placeholder="请输入单价">
+                        </div>
+                    </c:if>
                     <div class="mui-input-row">
                         <label>数量</label>
                         <input type="number" id="amount" name="amount" class="mui-input-clear" mui-verify="required|digits|min=0|max=1000000" placeholder="请输入数量">
                     </div>
-                    <div class="mui-input-row">
-                        <label>金额</label>
-                        <input type="number" id="totalPrice" name="totalPrice" class="mui-input-clear" mui-verify="required|min=0|max=1000000" readonly value="0">
-                    </div>
+                    <c:if test="${admin.isAmountVisible == 0}">
+                        <div class="mui-input-row">
+                            <label>金额</label>
+                            <input type="number" id="totalPrice" name="totalPrice" class="mui-input-clear" mui-verify="required|min=0|max=1000000" readonly value="0">
+                        </div>
+                    </c:if>
                     <c:if test="${detailsVo.purchaseOrder.type == 1}">
                         <div class="mui-input-row">
                             <label>质保期（月）</label>
