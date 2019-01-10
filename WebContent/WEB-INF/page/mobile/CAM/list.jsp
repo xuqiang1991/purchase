@@ -206,8 +206,8 @@
 
                     //数据转换
                     utilsOrder.approvalConversion(Handlebars);
-                    /*purchaseOrder.typeConversion(Handlebars)
-                    purchaseOrder.departUser(Handlebars)
+                    utilsOrder.typeConversion(Handlebars)
+                    /*purchaseOrder.departUser(Handlebars)
                     purchaseOrder.departDate(Handlebars)*/
 
                     //匹配json内容

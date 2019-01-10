@@ -198,7 +198,7 @@
                                                 </div>
                                             </div>
                                             <div class="mui-card-footer">
-                                                <c:if test="${detailsVo.order.status == 0 && detailsVo.order.createUser == admin.id}">
+                                                <c:if test="${detailsVo.order.isSaveSubmit == 0 && detailsVo.order.createUser == admin.id}">
                                                     <div>
                                                         <a href="#fromPurchaseOrderItem" name="app-a" data-id="${item.id}">
                                                             <button type="button" class="mui-btn mui-btn-primary" value="${item.id}">修改</button>

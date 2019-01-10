@@ -368,7 +368,7 @@ public class CAMServiceImpl implements CAMService {
             if (contractMoney == null) {
                 contractMoney = price;
             } else {
-                contractMoney = contractMoney.add(price);
+                contractMoney = contractMoney.subtract(price);
             }
 
             BizContractApplyMoney tmp = new BizContractApplyMoney();
