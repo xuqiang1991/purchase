@@ -2296,52 +2296,62 @@ public class BizPaymentOrderExample {
             return (Criteria) this;
         }
 
-        public Criteria andQualityAssessorEqualTo(Long value) {
+        public Criteria andQualityAssessorEqualTo(String value) {
             addCriterion("quality_assessor =", value, "qualityAssessor");
             return (Criteria) this;
         }
 
-        public Criteria andQualityAssessorNotEqualTo(Long value) {
+        public Criteria andQualityAssessorNotEqualTo(String value) {
             addCriterion("quality_assessor <>", value, "qualityAssessor");
             return (Criteria) this;
         }
 
-        public Criteria andQualityAssessorGreaterThan(Long value) {
+        public Criteria andQualityAssessorGreaterThan(String value) {
             addCriterion("quality_assessor >", value, "qualityAssessor");
             return (Criteria) this;
         }
 
-        public Criteria andQualityAssessorGreaterThanOrEqualTo(Long value) {
+        public Criteria andQualityAssessorGreaterThanOrEqualTo(String value) {
             addCriterion("quality_assessor >=", value, "qualityAssessor");
             return (Criteria) this;
         }
 
-        public Criteria andQualityAssessorLessThan(Long value) {
+        public Criteria andQualityAssessorLessThan(String value) {
             addCriterion("quality_assessor <", value, "qualityAssessor");
             return (Criteria) this;
         }
 
-        public Criteria andQualityAssessorLessThanOrEqualTo(Long value) {
+        public Criteria andQualityAssessorLessThanOrEqualTo(String value) {
             addCriterion("quality_assessor <=", value, "qualityAssessor");
             return (Criteria) this;
         }
 
-        public Criteria andQualityAssessorIn(List<Long> values) {
+        public Criteria andQualityAssessorLike(String value) {
+            addCriterion("quality_assessor like", value, "qualityAssessor");
+            return (Criteria) this;
+        }
+
+        public Criteria andQualityAssessorNotLike(String value) {
+            addCriterion("quality_assessor not like", value, "qualityAssessor");
+            return (Criteria) this;
+        }
+
+        public Criteria andQualityAssessorIn(List<String> values) {
             addCriterion("quality_assessor in", values, "qualityAssessor");
             return (Criteria) this;
         }
 
-        public Criteria andQualityAssessorNotIn(List<Long> values) {
+        public Criteria andQualityAssessorNotIn(List<String> values) {
             addCriterion("quality_assessor not in", values, "qualityAssessor");
             return (Criteria) this;
         }
 
-        public Criteria andQualityAssessorBetween(Long value1, Long value2) {
+        public Criteria andQualityAssessorBetween(String value1, String value2) {
             addCriterion("quality_assessor between", value1, value2, "qualityAssessor");
             return (Criteria) this;
         }
 
-        public Criteria andQualityAssessorNotBetween(Long value1, Long value2) {
+        public Criteria andQualityAssessorNotBetween(String value1, String value2) {
             addCriterion("quality_assessor not between", value1, value2, "qualityAssessor");
             return (Criteria) this;
         }

@@ -418,7 +418,7 @@
                     </div>
                     <div class="mui-input-row">
                         <label>质量评定人</label>
-                        <input type="number" id="qualityAssessor" name="qualityAssessor" value="${detailsVo.qualityAssessor}"  mui-verify="length=10" placeholder="请输入质量评定人">
+                        <input type="text" id="qualityAssessor" name="qualityAssessor" value="${detailsVo.qualityAssessor}"  mui-verify="length=10" placeholder="请输入质量评定人">
                     </div>
                     <div class="mui-input-row mui-input-range">
                         <label>单据状态</label>
