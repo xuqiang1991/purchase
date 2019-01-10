@@ -47,12 +47,12 @@
                 <div class="mui-media-body">工程验收</div>
             </a></li>
         </shiro:hasPermission>
-        <shiro:hasPermission name="mobile:biddingManagement:list">
+        <%--<shiro:hasPermission name="mobile:biddingManagement:list">
             <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="${ctx }/mobile/biddingManagement/list">
                 <span class="mui-icon iconfont icon-toubiaoguanli1 icon-color-F0AD4E"></span>
                 <div class="mui-media-body">投标管理</div>
             </a></li>
-        </shiro:hasPermission>
+        </shiro:hasPermission>--%>
         <%--<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-6"><a href="#">
             <span class="mui-icon mui-icon-more"></span>
             <div class="mui-media-body">more</div>

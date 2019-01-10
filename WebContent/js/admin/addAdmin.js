@@ -28,6 +28,13 @@ layui.config({
 					return '两次输入的密码不一致!';
 				}
 			}
+            ,usernameCheck: function(){
+                var usernameValue = $('#username').val();
+                var regUsername = /^[a-zA-Z0-9_-]{4,16}$/;
+                if (!regUsername.test(usernameValue)) {
+                    return '登录名格式错误，请输入4到16位（字母，数字，下划线，减号）!';
+                }
+            }
 			,enphone: function () {
                 var phoneValue = $('#phone').val();
                 var regPhone = /^1(2|3|4|5|6|7|8|9)\d{9}$/;
