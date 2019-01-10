@@ -589,7 +589,7 @@ public class AdminController {
 
 			//如果更改了金额控制，清空用户登录信息
 			if(a.getIsAmountVisible() == null || (a.getIsAmountVisible() != null && a.getIsAmountVisible() != admin.getIsAmountVisible())){
-				admin.setOpenId("");
+                ShiroUtils.logout(a.getUsername());
 			}
 
 			adminServiceImpl.updAdmin(admin);

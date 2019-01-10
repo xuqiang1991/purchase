@@ -409,7 +409,9 @@ public class UCAMServiceImpl implements UCAMService {
         if(!CollectionUtils.isEmpty(details)){
             BigDecimal applyPrice = new BigDecimal(0.00);
             for (BizUncontractApplyMoneyDetail detail : details) {
-                applyPrice = applyPrice.add(detail.getApplyPrice());
+                if(detail.getApplyPrice() != null){
+                    applyPrice = applyPrice.add(detail.getApplyPrice());
+                }
             }
 
             BizUncontractApplyMoney tmp = ucamMapper.selectByOrderNo(orderNo);
