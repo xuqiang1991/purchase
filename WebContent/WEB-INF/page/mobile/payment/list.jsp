@@ -89,7 +89,7 @@
         </li>
     </ul>
     <!--下拉刷新容器-->
-    <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 135px;width: 100%;">
+    <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="margin-top: 95px;width: 100%;">
         <div class="mui-scroll">
             <!--数据列表-->
             <div id="datascrollDiv" class="mui-content"></div>
