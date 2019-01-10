@@ -290,7 +290,7 @@
                         </div>
                     </c:if>
                     <div>
-                        <textarea name="remark" id="remark" rows="5" <c:if test="${detailsVo.paoVo.nextReviewUser == admin.id  && detailsVo.paoVo.isSaveSubmit == 1}">disabled="disabled"</c:if> placeholder="备注"></textarea>
+                        <textarea name="remark" id="remark" rows="5" <c:if test="${detailsVo.paoVo.nextReviewUser == admin.id  && detailsVo.paoVo.isSaveSubmit == 1}">readonly</c:if> placeholder="备注"></textarea>
                     </div>
                     <div class="mui-button-row" style="padding-bottom: 20px;">
                         <button type="button" class="mui-btn mui-btn-primary" id="submitFromPAOItem">保存</button>
