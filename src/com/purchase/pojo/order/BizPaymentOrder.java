@@ -76,7 +76,7 @@ public class BizPaymentOrder {
 
     private Integer qualityGrade;
 
-    private Long qualityAssessor;
+    private String qualityAssessor;
 
     private Integer status;
 
@@ -383,12 +383,12 @@ public class BizPaymentOrder {
         this.qualityGrade = qualityGrade;
     }
 
-    public Long getQualityAssessor() {
+    public String getQualityAssessor() {
         return qualityAssessor;
     }
 
-    public void setQualityAssessor(Long qualityAssessor) {
-        this.qualityAssessor = qualityAssessor;
+    public void setQualityAssessor(String qualityAssessor) {
+        this.qualityAssessor = qualityAssessor == null ? null : qualityAssessor.trim();
     }
 
     public Integer getStatus() {

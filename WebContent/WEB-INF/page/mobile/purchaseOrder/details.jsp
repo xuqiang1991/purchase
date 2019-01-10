@@ -612,11 +612,9 @@
                         mui.alert(result.msg);
                         isSubmit = false;
                     }else {
-                        var btnArray = ['确认'];
-                        mui.confirm('保存成功！', btnArray, function(e) {
+                        mui.alert('保存成功！', function() {
                             document.location.href='${ctx }/mobile/purchase/toDetails?id=' + result.msg;
-                        })
-
+                        });
                     }
                 }
             });

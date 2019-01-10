@@ -37,7 +37,7 @@
     <result column="invoice_type" jdbcType="INTEGER" property="invoiceType" />
     <result column="special_tax_rate" jdbcType="DOUBLE" property="specialTaxRate" />
     <result column="quality_grade" jdbcType="INTEGER" property="qualityGrade" />
-    <result column="quality_assessor" jdbcType="BIGINT" property="qualityAssessor" />
+    <result column="quality_assessor" jdbcType="VARCHAR" property="qualityAssessor" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="summary" jdbcType="VARCHAR" property="summary" />
     <result column="manager_depart_approval" jdbcType="BIT" property="managerDepartApproval" />
@@ -180,7 +180,7 @@
       #{costRate,jdbcType=DOUBLE}, #{financialRate,jdbcType=DOUBLE}, #{taxRate,jdbcType=DOUBLE}, 
       #{contractVolume,jdbcType=DOUBLE}, #{finishMeasure,jdbcType=DOUBLE}, #{amountPaid,jdbcType=DOUBLE}, 
       #{paidProportion,jdbcType=DOUBLE}, #{paymentProportion,jdbcType=DOUBLE}, #{invoiceType,jdbcType=INTEGER}, 
-      #{specialTaxRate,jdbcType=DOUBLE}, #{qualityGrade,jdbcType=INTEGER}, #{qualityAssessor,jdbcType=BIGINT}, 
+      #{specialTaxRate,jdbcType=DOUBLE}, #{qualityGrade,jdbcType=INTEGER}, #{qualityAssessor,jdbcType=VARCHAR}, 
       #{status,jdbcType=INTEGER}, #{summary,jdbcType=VARCHAR}, #{managerDepartApproval,jdbcType=BIT}, 
       #{managerDepartUser,jdbcType=BIGINT}, #{managerDepartDate,jdbcType=TIMESTAMP}, 
       #{managerDepartOpinion,jdbcType=VARCHAR}, #{financePaymentApproval,jdbcType=BIT}, 
@@ -443,7 +443,7 @@
         #{qualityGrade,jdbcType=INTEGER},
       </if>
       <if test="qualityAssessor != null">
-        #{qualityAssessor,jdbcType=BIGINT},
+        #{qualityAssessor,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -598,7 +598,7 @@
         quality_grade = #{record.qualityGrade,jdbcType=INTEGER},
       </if>
       <if test="record.qualityAssessor != null">
-        quality_assessor = #{record.qualityAssessor,jdbcType=BIGINT},
+        quality_assessor = #{record.qualityAssessor,jdbcType=VARCHAR},
       </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=INTEGER},
@@ -678,7 +678,7 @@
       invoice_type = #{record.invoiceType,jdbcType=INTEGER},
       special_tax_rate = #{record.specialTaxRate,jdbcType=DOUBLE},
       quality_grade = #{record.qualityGrade,jdbcType=INTEGER},
-      quality_assessor = #{record.qualityAssessor,jdbcType=BIGINT},
+      quality_assessor = #{record.qualityAssessor,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=INTEGER},
       summary = #{record.summary,jdbcType=VARCHAR},
       manager_depart_approval = #{record.managerDepartApproval,jdbcType=BIT},
@@ -801,7 +801,7 @@
         quality_grade = #{qualityGrade,jdbcType=INTEGER},
       </if>
       <if test="qualityAssessor != null">
-        quality_assessor = #{qualityAssessor,jdbcType=BIGINT},
+        quality_assessor = #{qualityAssessor,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
@@ -878,7 +878,7 @@
       invoice_type = #{invoiceType,jdbcType=INTEGER},
       special_tax_rate = #{specialTaxRate,jdbcType=DOUBLE},
       quality_grade = #{qualityGrade,jdbcType=INTEGER},
-      quality_assessor = #{qualityAssessor,jdbcType=BIGINT},
+      quality_assessor = #{qualityAssessor,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       summary = #{summary,jdbcType=VARCHAR},
       manager_depart_approval = #{managerDepartApproval,jdbcType=BIT},
