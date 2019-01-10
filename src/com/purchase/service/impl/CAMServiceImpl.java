@@ -556,7 +556,7 @@ public class CAMServiceImpl implements CAMService {
             order.setIsSaveSubmit(OrderUtils.IS_SAVE_SUBMIT_2);
         }
 
-        camMapper.updateByPrimaryKeySelective(order);
+        camMapper.updateByPrimaryKey(order);
         historyMapper.insert(history);
         return ResultUtil.ok(order);
     }
