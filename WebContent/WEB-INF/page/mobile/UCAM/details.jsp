@@ -738,10 +738,11 @@
             isSubmit = true;
             var orderNo = $('#orderNo').val();
             var itemId = $('#addFromUCAMItem').find('#id').val();
-            var url = '${ctx}/mobile/UCAM/addUCAMItem/'+ orderNo;
+           /* var url = '${ctx}/mobile/UCAM/addUCAMItem/'+ orderNo;
             if(itemId && itemId != '') {
                 url = '${ctx}/mobile/UCAM/editUCAMItem';
-            }
+            }*/
+            var url = url = '${ctx}/mobile/UCAM/editUCAMItem';
             $.ajax({
                 url: url,
                 data: $('#addFromUCAMItem').serialize(),

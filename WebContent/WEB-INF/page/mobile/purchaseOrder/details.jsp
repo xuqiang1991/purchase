@@ -165,7 +165,7 @@
                                 <c:if test="${admin.isAmountVisible == 0}">
                                     <div class="mui-input-row">
                                         <label>合同总金额</label>
-                                        <input type="text" name="contractMoney" value="${detailsVo.purchaseOrder.contractMoney}" class="mui-input-clear" readonly disabled="disabled" placeholder="合同总金额由详情系统自动生成">
+                                        <input type="text" name="contractMoney" value="${detailsVo.purchaseOrder.contractMoney}" class="mui-input-clear" readonly disabled="disabled" placeholder="系统自动生成">
                                     </div>
                                     <div class="mui-input-row">
                                         <label>已请款金额</label>
