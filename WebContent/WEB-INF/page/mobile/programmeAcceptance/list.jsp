@@ -287,7 +287,7 @@
                 <p>
                     <label>开单人:{{admin.fullname}}</label>&nbsp;
                     <label>开单日期：{{createTime}}</label>
-                    <span class="mui-badge mui-badge-primary mui-pull-right">{{lastRole.roleName}} {{isApproval_Conversion isApproval}}</span>
+                    <%--<span class="mui-badge mui-badge-primary mui-pull-right">1111111111111{{lastRole.roleName}} {{isApproval_Conversion isApproval}}</span>--%>
                 </p>
             </div>
         </div>
@@ -304,6 +304,7 @@
                 <label>操作人:{{lastUser.fullname}}</label>
                 <label>时间:{{lastReviewDate}}</label>
             </div>
+            <span class="mui-badge mui-badge-primary mui-pull-right">{{lastRole.roleName}} {{isApproval_Conversion isApproval}}</span>
         </div>
     </div>
 

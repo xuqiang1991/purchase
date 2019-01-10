@@ -336,7 +336,7 @@
                 <p>
                     <label>开单人:{{admin.fullname}}</label>&nbsp;&nbsp;
                     <label>开单日期：{{createTime}}</label>
-                    <span class="mui-badge mui-badge-primary mui-pull-right">{{statusName}}</span>
+                    <%--<span class="mui-badge mui-badge-primary mui-pull-right">{{statusName}}</span>--%>
                 </p>
             </div>
         </div>
@@ -364,6 +364,7 @@
                 <label>实付金额：{{actualPrice}}</label>&nbsp;&nbsp;&nbsp;&nbsp;
                 <label>审定金额：{{approvalPrice}}</label>
             </div>
+            <span class="mui-badge mui-badge-primary mui-pull-right">{{statusName}}</span>
             <%--<div>--%>
                 <%--{{#unless status}}--%>
                  <%--<button type="button" class="mui-btn mui-btn-primary toUpdate" value="{{id}}">编辑</button>--%>

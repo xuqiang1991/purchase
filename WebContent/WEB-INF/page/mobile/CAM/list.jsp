@@ -395,7 +395,6 @@
                 <p>
                     <label>开单人:{{admin.fullname}}</label>&nbsp;
                     <label>开单日期：{{createTime}}</label>
-                    <span class="mui-badge mui-badge-primary mui-pull-right">{{lastRole.roleName}} {{isApproval_Conversion isApproval}}</span>
                 </p>
                 </p>
             </div>
@@ -417,9 +416,10 @@
         </div>
         <div class="mui-card-footer">
             <div class="mui-pull-left">
-                <label>{{purchaseOrder_departUser}}</label>
-                <label>{{purchaseOrder_departDate}}</label>
+                <label>操作人:{{purchaseOrder_departUser}}</label>
+                <label>时间:{{purchaseOrder_departDate}}</label>
             </div>
+            <span class="mui-badge mui-badge-primary mui-pull-right">{{lastRole.roleName}} {{isApproval_Conversion isApproval}}</span>
             <%--<div>--%>
                 <%--{{#unless status}}--%>
                 <%--<button type="button" class="mui-btn mui-btn-primary toUpdate" value="{{id}}">修改</button>--%>

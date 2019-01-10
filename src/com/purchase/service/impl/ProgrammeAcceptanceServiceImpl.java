@@ -329,7 +329,7 @@ public class ProgrammeAcceptanceServiceImpl implements ProgrammeAcceptanceServic
             order.setIsSaveSubmit(OrderUtils.IS_SAVE_SUBMIT_0);
             order.setIsApproval(OrderUtils.IS_APPROVAL_NO);
             order.setLastReviewRole(null);
-            order.setLastReviewUser(null);
+            order.setLastReviewUser(admin.getId());
             order.setNextReviewRole(null);
             order.setNextReviewUser(order.getCreateUser());//驳回则还原到创建人
             history.setIsApproval(OrderUtils.IS_APPROVAL_NO);

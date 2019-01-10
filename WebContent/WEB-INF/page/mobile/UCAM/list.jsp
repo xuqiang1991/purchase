@@ -376,7 +376,6 @@
                 <p>
                     <label>开单人:{{admin.fullname}}</label>&nbsp;
                     <label>开单日期：{{createTime}}</label>
-                    <span class="mui-badge mui-badge-primary mui-pull-right">{{lastRole.roleName}} {{isApproval_Conversion isApproval}}</span>
                 </p>
             </div>
         </div>
@@ -404,6 +403,7 @@
                 <label>操作人:{{lastUser.fullname}}</label>
                 <label>时间:{{lastReviewDate}}</label>
             </div>
+            <span class="mui-badge mui-badge-primary mui-pull-right">{{lastRole.roleName}} {{isApproval_Conversion isApproval}}</span>
             <%--<div>
                 <shiro:hasPermission name="mobile:UCAM:update">
                     {{#compare status 0}}
