@@ -71,7 +71,7 @@
     tbProjectManger.id as projectMangerId, tbProjectManger.name as projectMangerName
     from biz_payment_order a
     inner join  (
-        SELECT a.id
+        SELECT DISTINCT a.id
           FROM tb_admin a,tb_admin_role b,tb_roles c
          WHERE a.id = b.user_id
            and b.role_id = c.role_id
@@ -82,7 +82,7 @@
     ) tmp on(tmp.id = #{search.loginId})
     LEFT JOIN tb_admin c ON (a.create_user = c.id)
     LEFT JOIN tb_supplier b ON (a.supplier_id = b.id)
-    LEFT JOIN tb_admin d ON (a.apply_user = c.id)
+    LEFT JOIN tb_admin d ON (a.apply_user = d.id)
     LEFT JOIN tb_admin tManager ON (a.manager_depart_user = tManager.id)
     LEFT JOIN tb_admin tFinance ON (a.finance_payment_user = tFinance.id)
     LEFT JOIN tb_project_manger tbProjectManger ON (tbProjectManger.id = a.project_id)
