@@ -24,7 +24,7 @@
 
 <div class="mui-content">
     <!-- 单号、订单类型、供应商、所属项目、合同号、开单人、开单日期、单据状态 -->
-    <ul class="mui-table-view" style="z-index: 100">
+    <ul class="mui-table-view" style="z-index: 100; margin: 0px; margin-top: 5px; margin-bottom: 5px; text-align: center;">
         <li class="mui-table-view-cell mui-collapse" id="searchCollapse">
             <a class="" href="#">
                 搜索 <span style="float: right;" class="mui-icon mui-icon mui-icon-search"></span>

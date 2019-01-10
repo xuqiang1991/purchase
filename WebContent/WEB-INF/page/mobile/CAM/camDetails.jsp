@@ -16,6 +16,10 @@
         .mui-popover .mui-popover-arrow:after {
             width: 0px;
         }
+        .appClassForA{
+            color: #0C0C0C;
+            font-size: 17px;
+        }
     </style>
     <script src="${ctx }/mui/js/mui.min.js"></script>
     <script src="${ctx }/js/jquery-1.11.1.js"></script>
@@ -84,7 +88,7 @@
                                 <div class="mui-input-row">
                                     <label>来源合同</label>
                                     <a <c:if test="${detailsVo.order.id == null || detailsVo.order.status == 0}">href="#selectProject" id="app-b"</c:if>>
-                                        <label id="selectProjectText" style="width: 65%;padding-left: 0px;">
+                                        <label id="selectProjectText" style="width: 65%;padding-left: 0px;" class="appClassForA">
                                             <c:choose>
                                                 <c:when test="${detailsVo.order.purchaseOrderVo.id == null}">
                                                     请选择来源合同

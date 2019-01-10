@@ -43,7 +43,7 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label css-required">登录名</label>
 			<div class="layui-input-block">
-				<input type="text" id="username" class="layui-input userName" lay-verify="required" placeholder="请输入登陆名" name="username" value="">
+				<input type="text" id="username" class="layui-input userName" lay-verify="usernameCheck" placeholder="请输入登陆名" name="username" value="">
 			</div>
 		</div>
         <div class="layui-form-item">
