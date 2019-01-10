@@ -1030,7 +1030,15 @@
 <script type="text/template" id="listTpl">
     {{#each data}}
     <li class="mui-table-view-cell" data-id="{{id}}" data-text="{{purchaseNo}}">
-        <a class="mui-navigate-right">{{purchaseNo}}</a>
+        <a class="mui-navigate-right">
+            <div class="mui-table">
+                <div class="mui-table-cell mui-col-xs-10">
+                    <h4 class="mui-ellipsis">{{purchaseNo}}</h4>
+                    <h5>申请人：{{auAdmin.fullname}}  供应商：{{supplier.name}}</h5>
+                    <h5>所属项目:{{tpm.name}}</h5>
+                </div>
+            </div>
+        </a>
     </li>
     {{/each}}
 </script>

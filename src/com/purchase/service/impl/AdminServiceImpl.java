@@ -513,6 +513,7 @@ public class AdminServiceImpl implements AdminService {
 		if(!StringUtils.isEmpty(a.getWxNick()) && !a.getWxNick().equalsIgnoreCase(admin.getWxNick().trim())){
 			admin.setOpenId("");
 		}
+
 		admin.setPassword(a.getPassword());
 		tbAdminMapper.updateByPrimaryKey(admin);
 

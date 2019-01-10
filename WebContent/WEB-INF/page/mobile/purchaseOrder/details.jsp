@@ -45,7 +45,7 @@
     <script src="${ctx }/mui/js/mui.picker.min.js"></script>
     <script src="${ctx }/mui/js/mui.view.js"></script>
     <script type="text/javascript" src="${ctx}/js/handlebars.min.js"></script>
-    <script type="text/javascript" src="${ctx}/js/handlebarsHelps.js"></script>
+    <script type="text/javascript" src="${ctx}/js/handlebarsHelps1.js"></script>
     <script type="text/javascript" src="${ctx}/mui/js/base.js"></script>
 </head>
 <body class="mui-fullscreen">

@@ -12,7 +12,7 @@
     <script type="text/javascript" src="${ctx}/mui/js/mui.min.js"></script>
     <script type="text/javascript" src="${ctx}/js/handlebars.min.js"></script>
     <script type="text/javascript" src="${ctx}/js/handlebarsHelps1.js"></script>
-    <script type="text/javascript" src="${ctx}/js/handlebarsHelps.js"></script>
+    <%--<script type="text/javascript" src="${ctx}/js/handlebarsHelps.js"></script>--%>
     <script src="${ctx }/mui/js/mui.picker.min.js"></script>
 </head>
 <body>
@@ -206,9 +206,9 @@
 
                     //数据转换
                     utilsOrder.approvalConversion(Handlebars);
-                    purchaseOrder.typeConversion(Handlebars)
+                    /*purchaseOrder.typeConversion(Handlebars)
                     purchaseOrder.departUser(Handlebars)
-                    purchaseOrder.departDate(Handlebars)
+                    purchaseOrder.departDate(Handlebars)*/
 
                     //匹配json内容
                     var html = template({data});//data
@@ -416,8 +416,10 @@
         </div>
         <div class="mui-card-footer">
             <div class="mui-pull-left">
-                <label>操作人:{{purchaseOrder_departUser}}</label>
-                <label>时间:{{purchaseOrder_departDate}}</label>
+                <%--<label>操作人:{{purchaseOrder_departUser}}</label>
+                <label>时间:{{purchaseOrder_departDate}}</label>--%>
+                <label>操作人:{{lastUser.fullname}}</label>
+                <label>时间:{{lastReviewDate}}</label>
             </div>
             <span class="mui-badge mui-badge-primary mui-pull-right">{{lastRole.roleName}} {{isApproval_Conversion isApproval}}</span>
             <%--<div>--%>

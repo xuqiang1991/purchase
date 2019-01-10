@@ -707,12 +707,15 @@
             return false;
         }
 
-        var price = $('#price').val().trim();
-        if(check && !regxPrice.test(price)){
-            mui.alert("金额格式错误，最多输入2位小数,且不能超过10位数！");
-            check = false;
-            return false;
+        if(document.getElementById('price')){
+            var price = $('#price').val().trim();
+            if(check && !regxPrice.test(price)){
+                mui.alert("金额格式错误，最多输入2位小数,且不能超过10位数！");
+                check = false;
+                return false;
+            }
         }
+
 
         if(isApproval == 2){
             var approvalCompletionRate = $('#approvalCompletionRate').val().trim();
