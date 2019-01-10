@@ -163,18 +163,19 @@
                                     </c:choose>
                                 </div>
 
-
-                                <div class="mui-input-row">
-                                    <label>请款总金额</label>
-                                    <c:choose>
-                                        <c:when test="${detailsVo.ucamVo.applyPrice == null || detailsVo.ucamVo.applyPrice == ''}">
-                                            <input type="text" name="applyPrice" readonly value="0.00"  mui-verify="required">
-                                        </c:when>
-                                        <c:otherwise>
-                                            <input type="text" name="applyPrice" readonly value="${detailsVo.ucamVo.applyPrice}"  mui-verify="required">
-                                        </c:otherwise>
-                                    </c:choose>
-                                </div>
+                                <c:if test="${admin.isAmountVisible == 0}">
+                                    <div class="mui-input-row">
+                                        <label>请款总金额</label>
+                                        <c:choose>
+                                            <c:when test="${detailsVo.ucamVo.applyPrice == null || detailsVo.ucamVo.applyPrice == ''}">
+                                                <input type="text" name="applyPrice" readonly value="0.00"  mui-verify="required">
+                                            </c:when>
+                                            <c:otherwise>
+                                                <input type="text" name="applyPrice" readonly value="${detailsVo.ucamVo.applyPrice}"  mui-verify="required">
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </div>
+                                </c:if>
                                 <div>
                                     <textarea name="summary" id="summary" rows="5" class="mui-input-clear">${detailsVo.ucamVo.summary}</textarea>
                                 </div>
