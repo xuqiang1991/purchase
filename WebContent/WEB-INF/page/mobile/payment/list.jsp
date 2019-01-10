@@ -343,18 +343,23 @@
         <div class="mui-card-content toDetails" value="{{id}}">
             <div class="mui-card-content-inner">
                 <p>
-                    <label>合同号：{{contractId}}</label>&nbsp;&nbsp;
+                    {{#if purchaseNo}}
+                    <label>合同号：{{purchaseNo}}</label>&nbsp;&nbsp;
+                    {{/if}}
                     <label>供应商：{{supplier.name}}</label>
                 </p>
                 <p>
                     <label>请款类型：{{applyTypeName}}</label>&nbsp;&nbsp;
+                    {{#if applyNatureName}}
                     <label>请款性质：{{applyNatureName}}</label>
+                    {{/if}}
                 </p>
                 <p>
                     <label>请款人：{{applyAdmin.fullname}}</label>&nbsp;&nbsp;
                     <label>请款金额：{{applyPrice}}</label>
                 </p>
                 <p>
+                    <label>请款单号：{{contractOrderNo}}</label>&nbsp;&nbsp;
                     <label>项目：{{projectManger.name}}</label>
                 </p>
             </div>
