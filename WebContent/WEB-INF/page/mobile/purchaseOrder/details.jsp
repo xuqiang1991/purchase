@@ -152,7 +152,7 @@
                                 </div>
                                 <c:if test="${detailsVo.purchaseOrder.contractNo != null}">
                                     <div class="mui-input-row">
-                                        <label>合同号</label>
+                                        <label>合同编号</label>
                                         <label>${detailsVo.purchaseOrder.contractNo}</label>
                                     </div>
                                 </c:if>
@@ -291,7 +291,7 @@
                 </c:choose>
                 <%--<c:if test="${!empty admin.roleNames && fn:contains(admin.roleNames,'资料员')}">--%>
                 <c:if test="${detailsVo.purchaseOrder.id != null}">
-                    <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="purchaseOrderContractNo" value="${detailsVo.purchaseOrder.id}">填写合同号</button>
+                    <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="purchaseOrderContractNo" value="${detailsVo.purchaseOrder.id}">填写合同编号</button>
                 </c:if>
             </div>
         </div>
@@ -522,11 +522,11 @@
     mui(document.body).on('tap', '#purchaseOrderContractNo', function(e) {
         var btnArray = ['取消', '确定'];
         var id = this.value;
-        mui.prompt('请输入合同订单合同号', '请输入合同号', '合同订单合同号', btnArray, function(e1) {
+        mui.prompt('请输入合同编号', '请输入合同编号', '合同编号', btnArray, function(e1) {
             if (e1.index == 1) {
                 var contractNo = e1.value;
                 if(contractNo == '' || contractNo.trim() == ''){
-                    mui.alert('请填写合同号！');
+                    mui.alert('请填写合同编号！');
                     return false
                 }else {
                     var url = '${ctx}/mobile/purchase/purchaseOrderContractNo/'+ id + '?contractNo=' + contractNo;

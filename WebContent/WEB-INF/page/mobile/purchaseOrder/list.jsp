@@ -48,8 +48,8 @@
                 <div class="mui-collapse-content">
                     <form class="mui-input-group" id="searchForm">
                         <div class="mui-input-row">
-                            <label>单号</label>
-                            <input type="text" name="purchaseNo" placeholder="请输入单号">
+                            <label>合同订单号</label>
+                            <input type="text" name="purchaseNo" placeholder="请输入合同订单号">
                         </div>
                         <div class="mui-input-row">
                             <label>订单类型</label>
@@ -350,7 +350,7 @@
         <div class="mui-card-header mui-card-media toDetails" value="{{id}}">
             <img src="${ctx}/images/icon/purchase_order.png">
             <div class="mui-media-body">
-                <label>单号:{{purchaseNo}}</label>
+                <label>合同订单号:{{purchaseNo}}</label>
                 <p>
                     <label>开单人:{{admin.fullname}}</label>&nbsp;&nbsp;
                     <label>开单日期：{{createTime}}</label>
@@ -362,7 +362,7 @@
             <div class="mui-card-content-inner">
                 <p>
                     {{#if contractNo}}
-                    <label>合同号：{{contractNo}}</label>
+                    <label>合同编号：{{contractNo}}</label>
                     {{/if}}
                     <label>供应商：{{supplier.name}}</label>
                 </p>
