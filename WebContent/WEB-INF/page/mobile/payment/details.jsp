@@ -93,10 +93,12 @@
                     <label>所属项目</label>
                     <label style="width: 50%;padding-left: 0px;">${detailsVo.projectManger.name}</label>
                 </div>
-                <div class="mui-input-row mui-input-range">
-                    <label>所属合同</label>
-                    <label style="width: 50%;padding-left: 0px;">${detailsVo.contractId}</label>
-                </div>
+                <c:if test="${!empty detailsVo.purchaseNo}">
+                    <div class="mui-input-row mui-input-range">
+                        <label>所属合同</label>
+                        <label style="width: 50%;padding-left: 0px;">${detailsVo.purchaseNo}</label>
+                    </div>
+                </c:if>
                 <div class="mui-input-row mui-input-range">
                     <label>申请金额</label>
                     <label style="width: 50%;padding-left: 0px;">${detailsVo.applyPrice}</label>
@@ -292,6 +294,10 @@
                         <input type="text" id="applyTypeName" class="mui-input-clear" placeholder="请选择请款类型" mui-verify="required">
                         <input type="hidden" id="applyType" name="applyType" value="${detailsVo.applyType}">
                     </div>
+                    <div class="mui-input-row mui-input-range">
+                        <label>请款单号</label>
+                        <label>${detailsVo.contractOrderNo}</label>
+                    </div>
                     <div class="mui-input-row">
                         <label>请款性质</label>
                         <input type="text" id="applyNatureName" class="mui-input-clear" placeholder="请选择请款性质" mui-verify="required">
@@ -321,10 +327,12 @@
                         <label>所属项目</label>
                         <label>${detailsVo.projectManger.name}</label>
                     </div>
-                    <div class="mui-input-row mui-input-range">
-                        <label>所属合同</label>
-                        <label>${detailsVo.contractId}</label>
-                    </div>
+                    <c:if test="${detailsVo.purchaseNo != null}">
+                        <div class="mui-input-row mui-input-range">
+                            <label>所属合同</label>
+                            <label>${detailsVo.purchaseNo}</label>
+                        </div>
+                    </c:if>
                     <div class="mui-input-row mui-input-range">
                         <label>申请金额</label>
                         <label>${detailsVo.applyPrice}</label>
