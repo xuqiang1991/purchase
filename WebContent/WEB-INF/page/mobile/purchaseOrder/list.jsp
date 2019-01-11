@@ -361,7 +361,9 @@
         <div class="mui-card-content toDetails" value="{{id}}">
             <div class="mui-card-content-inner">
                 <p>
-                    <label>合同号：{{admin.fullname}}</label>
+                    {{#if contractNo}}
+                    <label>合同号：{{contractNo}}</label>
+                    {{/if}}
                     <label>供应商：{{supplier.name}}</label>
                 </p>
                 <p>
