@@ -135,11 +135,11 @@
                                         <label>开单日期</label>
                                         <label style="width: 65%;padding-left: 0px;"><fmt:formatDate value="${detailsVo.order.createTime}" pattern="yyyy-MM-dd"/></label>
                                     </div>
-                                    <div class="mui-input-row mui-input-range">
+                                    <div class="mui-input-row mui-input-range" <c:if test="${admin.isAmountVisible == 1}">style="display: none"</c:if>>
                                         <label>请款金额</label>
                                         <label style="width: 65%;padding-left: 0px;">${detailsVo.order.applyPrice}</label>
                                     </div>
-                                    <div class="mui-input-row mui-input-range">
+                                    <div class="mui-input-row mui-input-range" <c:if test="${admin.isAmountVisible == 1}">style="display: none"</c:if>>
                                         <label>支付金额</label>
                                         <label style="width: 65%;padding-left: 0px;">${detailsVo.order.actualPrice}</label>
                                     </div>
@@ -191,7 +191,7 @@
                                                         <%--<label>质保期（月）：${item.warrantyDate}</label>&nbsp;&nbsp;&nbsp;&nbsp;--%>
                                                         <%--<label>日期：<fmt:formatDate value="${item.date}" pattern="yyyy-MM-dd"/></label>--%>
                                                         <%--</p>--%>
-                                                    <p>
+                                                    <p <c:if test="${admin.isAmountVisible == 1}">style="display: none"</c:if>>
                                                         <label>結算金额：${item.settlePrice}</label>&nbsp;&nbsp;
                                                         <label>結算数量：${item.settleAmout}</label>
                                                     </p>
@@ -271,7 +271,7 @@
                         <label>单位</label>
                         <input type="text" name="unit" class="mui-input-clear" mui-verify="required|max=10" placeholder="请输入单位">
                     </div>
-                    <div class="mui-input-row">
+                    <div class="mui-input-row" <c:if test="${admin.isAmountVisible == 1}">style="display: none"</c:if>>
                         <label>单价</label>
                         <input type="price" id="price" name="price" class="mui-input-clear" mui-verify="required" readonly unselectable="no">
                     </div>
@@ -283,7 +283,7 @@
                         <label>结算数量</label>
                         <input type="number" id="settleAmout" name="settleAmout" class="mui-input-clear" mui-verify="required|digits|min=0" placeholder="请输入结算数量">
                     </div>
-                    <div class="mui-input-row">
+                    <div class="mui-input-row" <c:if test="${admin.isAmountVisible == 1}">style="display: none"</c:if>>
                         <label>结算金额</label>
                         <input type="number" id="settlePrice" name="settlePrice" class="mui-input-clear" mui-verify="required" readonly  unselectable="no">
                     </div>
