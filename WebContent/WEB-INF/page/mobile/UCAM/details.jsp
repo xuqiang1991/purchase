@@ -163,19 +163,24 @@
                                     </c:choose>
                                 </div>
 
-                                <c:if test="${admin.isAmountVisible == 0}">
-                                    <div class="mui-input-row">
-                                        <label>请款总金额</label>
-                                        <c:choose>
-                                            <c:when test="${detailsVo.ucamVo.applyPrice == null || detailsVo.ucamVo.applyPrice == ''}">
-                                                <input type="text" name="applyPrice" readonly value="0.00"  mui-verify="required">
-                                            </c:when>
-                                            <c:otherwise>
-                                                <input type="text" name="applyPrice" readonly value="${detailsVo.ucamVo.applyPrice}"  mui-verify="required">
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </div>
-                                </c:if>
+                                <c:choose>
+                                    <c:when test="${admin.isAmountVisible == 1}">
+                                        <div class="mui-input-row" style="display: none">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="mui-input-row">
+                                    </c:otherwise>
+                                </c:choose>
+                                    <label>请款总金额</label>
+                                    <c:choose>
+                                        <c:when test="${detailsVo.ucamVo.applyPrice == null || detailsVo.ucamVo.applyPrice == ''}">
+                                            <input type="text" name="applyPrice" readonly value="0.00"  mui-verify="required">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="text" name="applyPrice" readonly value="${detailsVo.ucamVo.applyPrice}"  mui-verify="required">
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
                                 <div>
                                     <textarea name="summary" id="summary" rows="5" class="mui-input-clear">${detailsVo.ucamVo.summary}</textarea>
                                 </div>
@@ -334,16 +339,16 @@
                         <label>单位</label>
                         <input type="text" id="unit" name="unit" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.createUser != admin.id}">disabled="disabled"</c:if> placeholder="请输入单位">
                     </div>
-                    <c:if test="${admin.isAmountVisible == 0}">
-                        <div class="mui-input-row">
-                            <label>单价(元)</label>
-                            <input type="text" id="price" name="price" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.createUser != admin.id}">disabled="disabled"</c:if> placeholder="请输入单价">
-                        </div>
-                        <div class="mui-input-row">
-                            <label>申报金额</label>
-                            <input type="text" id="applyPrice" name="applyPrice" class="mui-input-clear" mui-verify="required" readonly value="0" placeholder="请输入申报金额">
-                        </div>
-                    </c:if>
+
+                    <div class="mui-input-row" <c:if test="${admin.isAmountVisible == 1}">style="display: none"</c:if>>
+                        <label>单价(元)</label>
+                        <input type="text" id="price" name="price" class="mui-input-clear" mui-verify="required" <c:if test="${detailsVo.ucamVo.createUser != admin.id}">disabled="disabled"</c:if> placeholder="请输入单价">
+                    </div>
+                    <div class="mui-input-row" <c:if test="${admin.isAmountVisible == 1}">style="display: none"</c:if>>
+                        <label>申报金额</label>
+                        <input type="text" id="applyPrice" name="applyPrice" class="mui-input-clear" mui-verify="required" readonly value="0" placeholder="请输入申报金额">
+                    </div>
+
                     <c:if test="${detailsVo.ucamVo.orderType == 1}">
                         <div class="mui-input-row">
                             <label>质保期（月）</label>
@@ -361,12 +366,10 @@
                             <label>审核完成率</label>
                             <input type="text" min="0" max="100"  id="approvalCompletionRate" name="approvalCompletionRate" mui-verify="required" placeholder="请输入审核完成率">
                         </div>
-                        <c:if test="${admin.isAmountVisible == 0}">
-                            <div class="mui-input-row">
-                                <label>审批金额</label>
-                                <input type="text" id="approvalPrice" name="approvalPrice"  mui-verify="required" readonly value="0" placeholder="请输入审批金额" >
-                            </div>
-                        </c:if>
+                        <div class="mui-input-row" <c:if test="${admin.isAmountVisible == 1}">style="display: none"</c:if>>
+                            <label>审批金额</label>
+                            <input type="text" id="approvalPrice" name="approvalPrice"  mui-verify="required" readonly value="0" placeholder="请输入审批金额" >
+                        </div>
                     </c:if>
                     <div>
                         <textarea name="remark" id="remark" rows="5" class="mui-input-clear"  <c:if test="${detailsVo.ucamVo.nextReviewUser == admin.id && detailsVo.ucamVo.isSaveSubmit == 1}">disabled="disabled"</c:if> placeholder="备注"></textarea>
