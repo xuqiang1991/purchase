@@ -31,55 +31,129 @@
 		float: none;
 	}
 }
-.css-required:after {
-    content: ' *';
+.css-required:before {
+    content: '*';
     color: red;
     font-size: 150%;
+    display:inline-block;
+    vertical-align:-webkit-baseline-middle;
 }
 </style>
 </head>
 <body class="childrenBody">
-	<form class="layui-form layui-form-pane" style="width: 80%;" id="aaf">
+	<form class="layui-form" style="width: 90%; padding: 20px 0px 0px 20px" id="aaf">
 		<div class="layui-form-item">
-			<label class="layui-form-label css-required">登录名</label>
-			<div class="layui-input-block">
-				<input type="text" id="username" class="layui-input userName" lay-verify="usernameCheck" placeholder="请输入登陆名" name="username" value="">
-			</div>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">登录名</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="username" class="layui-input userName" lay-verify="usernameCheck" placeholder="请输入登陆名" name="username" value="">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">密码</label>
+                <div class="layui-input-inline">
+                    <input type="password" id="password" class="layui-input userName" lay-verify="pass" placeholder="请输入密码" name="password" value="">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">确认密码</label>
+                <div class="layui-input-inline">
+                    <input type="password" class="layui-input userName" lay-verify="repass" placeholder="请输入确认密码" value="">
+                </div>
+            </div>
+		</div>
+
+		<div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">用户名</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="fullname" class="layui-input userName" lay-verify="required" placeholder="请输入姓名" value="">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">联系电话</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="phone" name="phone" class="layui-input userName" lay-verify="enphone" placeholder="请输入手机号" value="">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">电子邮箱</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="eMail" name="eMail" class="layui-input userName" lay-verify="email" placeholder="请输入邮箱" value="">
+                </div>
+            </div>
 		</div>
         <div class="layui-form-item">
-            <label class="layui-form-label css-required">用户名</label>
-            <div class="layui-input-block">
-                <input type="text" name="fullname" class="layui-input userName" lay-verify="required" placeholder="请输入姓名" value="">
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">性别</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="sex" value="1" title="男" checked>
+                    <input type="radio" name="sex" value="0" title="女">
+                    <%--<input type="radio" name="sex" value="2" title="保密">--%>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">金额权限</label>
+                <div class="layui-input-block">
+                    <input type="radio" lay-filter="isAmountVisible" name="isAmountVisible" value="0" title="开启" checked>
+                    <input type="radio" lay-filter="isAmountVisible" name="isAmountVisible" value="1" title="关闭">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">用户状态</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="isOnJob" value="1" title="有效" checked>
+                    <input type="radio" name="isOnJob" value="0" title="失效">
+                </div>
             </div>
         </div>
-		<div class="layui-form-item">
-			<label class="layui-form-label css-required">密码</label>
-			<div class="layui-input-block">
-				<input type="password" id="password" class="layui-input userName" lay-verify="pass" placeholder="请输入密码" name="password" value="">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label css-required">确认密码</label>
-			<div class="layui-input-block">
-				<input type="password" class="layui-input userName" lay-verify="repass" placeholder="请输入确认密码" value="">
-			</div>
-		</div>
-        <div class="layui-form-item" pane>
-            <label class="layui-form-label css-required">性别</label>
-            <div class="layui-input-block">
-                <input type="radio" name="sex" value="1" title="男" checked>
-                <input type="radio" name="sex" value="0" title="女">
-                <input type="radio" name="sex" value="2" title="保密">
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">入职日期</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="entryDate" name="entryDate" class="layui-input userName" lay-verify="required" readonly placeholder="请输入选择日期" value="">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">微信昵称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="wxNick" class="layui-input userName" placeholder="请输入微信昵称" value="">
+                </div>
             </div>
         </div>
-        <div class="layui-form-item" pane>
-            <label class="layui-form-label css-required">用户类型</label>
-            <div class="layui-input-block">
-                <input type="radio" lay-filter="userType" name="userType" value="0" title="内部用户" checked>
-                <input type="radio" lay-filter="userType" name="userType" value="1" title="外部用户">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">用户类型</label>
+                <div class="layui-input-inline">
+                    <input type="radio" lay-filter="userType" name="userType" value="0" title="内部" checked>
+                    <input type="radio" lay-filter="userType" name="userType" value="1" title="外部">
+                </div>
+            </div>
+            <div class="layui-inline" id="userDeptsDiv">
+                <label class="layui-form-label css-required">部门</label>
+                <div class="layui-input-inline">
+                    <select name="deptId"  lay-verify="deptId">
+                        <option value="">请选择</option>
+                        <c:forEach items="${depts }" var="d">
+                            <option value="${d.id }">${d.name }</option>
+                        </c:forEach>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline" id="userSuppliersDiv">
+                <label class="layui-form-label css-required">供应商</label>
+                <div class="layui-input-inline">
+                    <select name="supplierId"  lay-verify="supplierId">
+                        <option value="">请选择</option>
+                        <c:forEach items="${suppliers }" var="s">
+                            <option value="${s.id }">${s.name }</option>
+                        </c:forEach>
+                    </select>
+                </div>
             </div>
         </div>
-        <div class="layui-form-item" id="userDeptsDiv">
+        <%--<div class="layui-form-item" id="userDeptsDiv">
             <label class="layui-form-label css-required">部门</label>
             <div class="layui-input-block">
                 <select name="deptId"  lay-verify="deptId">
@@ -100,45 +174,7 @@
                     </c:forEach>
                 </select>
             </div>
-        </div>
-        <div class="layui-form-item" pane>
-            <label class="layui-form-label css-required">金额是否可见</label>
-            <div class="layui-input-block">
-                <input type="radio" lay-filter="isAmountVisible" name="isAmountVisible" value="0" title="可见" checked>
-                <input type="radio" lay-filter="isAmountVisible" name="isAmountVisible" value="1" title="不可见">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label css-required">联系电话</label>
-            <div class="layui-input-block">
-                <input type="text" id="phone" name="phone" class="layui-input userName" lay-verify="enphone" placeholder="请输入手机号" value="">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label css-required">电子邮箱</label>
-            <div class="layui-input-block">
-                <input type="text" id="eMail" name="eMail" class="layui-input userName" lay-verify="email" placeholder="请输入邮箱" value="">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label css-required">入职日期</label>
-            <div class="layui-input-block">
-                <input type="text" id="entryDate" name="entryDate" class="layui-input userName" lay-verify="required" readonly placeholder="请输入选择日期" value="">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label css-required">微信昵称</label>
-            <div class="layui-input-block">
-                <input type="text" name="wxNick" class="layui-input userName" placeholder="请输入微信昵称" value="">
-            </div>
-        </div>
-		<div class="layui-form-item" pane>
-			<label class="layui-form-label css-required">用户状态</label>
-			<div class="layui-input-block">
-				<input type="radio" name="isOnJob" value="1" title="有效" checked>
-				<input type="radio" name="isOnJob" value="0" title="失效">
-			</div>
-		</div>
+        </div>--%>
 		<div class="layui-form-item">
 			<label class="layui-form-label css-required">分配角色</label>
 			<div class="layui-input-block">

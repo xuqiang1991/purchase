@@ -235,7 +235,7 @@ public class AdminController {
 					Menu menu = menus.get(i);
 					String title = menu.getTitle();
 					//过滤mobile开头的菜单
-					if("订单管理".equals(title) || "系统日志".equals(title) || "SQL监控".equals(title)){
+					if("系统日志".equals(title) || "SQL监控".equals(title)){
 						menus.remove(i);
 					}
 				}

@@ -21,44 +21,44 @@
 		@media(max-width:1240px){
 			.layui-form-item .layui-inline{ width:100%; float:none; }
 		}
-        .css-required:after {
-            content: ' *';
+        .css-required:before {
+            content: '*';
             color: red;
             font-size: 150%;
+            display:inline-block;
+            vertical-align:-webkit-baseline-middle;
         }
 	</style>
 </head>
-<body class="childrenBody" style="margin-top: 5%">
-	<form class="layui-form layui-form-pane" style="width:80%;" id="erf">
+<body class="childrenBody">
+	<form class="layui-form" style="width: 90%; padding: 20px 0px 0px 20px" id="erf">
 		<!-- 权限提交隐藏域 -->
 		<input type="hidden" id="m" name="m"/>
+        <input type="hidden" id="roleId" name="roleId" value="${role.roleId }">
 		<div class="layui-form-item">
-			<label class="layui-form-label css-required">角色编号</label>
-			<div class="layui-input-block">
-				<input type="text" class="layui-input userName" id="roleId" name="roleId" readonly="readonly" value="${role.roleId }">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label css-required">角色名</label>
-			<div class="layui-input-block">
-				<input type="text" id="roleName" class="layui-input userName" lay-verify="required" placeholder="请输入角色名" name="roleName" value="${role.roleName }">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label css-required">是否完结角色</label>
-			<div class="layui-input-block">
-				<c:choose>
-					<c:when test="${role.isOverRole == 0 || role.isOverRole == null}">
-						<input type="radio" class="layui-input userName" name="isOverRole" value="0" title="否" checked>
-						<input type="radio" class="layui-input userName" name="isOverRole" value="1" title="是">
-					</c:when>
-					<c:otherwise>
-						<input type="radio" class="layui-input userName" name="isOverRole" value="0" title="否">
-						<input type="radio" class="layui-input userName" name="isOverRole" value="1" title="是" checked>
-					</c:otherwise>
-				</c:choose>
-			</div>
-		</div>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">角色名</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="roleName" class="layui-input userName" lay-verify="required" placeholder="请输入角色名" name="roleName" value="${role.roleName }">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required" style="width: 120px">是否完结角色</label>
+                <div class="layui-input-inline">
+                    <c:choose>
+                        <c:when test="${role.isOverRole == 0 || role.isOverRole == null}">
+                            <input type="radio" class="layui-input userName" name="isOverRole" value="0" title="否" checked>
+                            <input type="radio" class="layui-input userName" name="isOverRole" value="1" title="是">
+                        </c:when>
+                        <c:otherwise>
+                            <input type="radio" class="layui-input userName" name="isOverRole" value="0" title="否">
+                            <input type="radio" class="layui-input userName" name="isOverRole" value="1" title="是" checked>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </div>
+        </div>
+
 		<div class="layui-form-item">
 			<label class="layui-form-label css-required">角色描述</label>
 			<div class="layui-input-block">
@@ -67,9 +67,11 @@
 		</div>
 		<!--权限树xtree  -->
 		<div class="layui-form-item">
-		<label class="layui-form-label">修改权限：</label>
-	      	<div id="xtree" style="width:200px;margin-left: 100px">
+		    <label class="layui-form-label">修改权限：</label>
+            <div class="layui-input-block" style="border: 1px solid; border-color: #D2D2D2;">
+	      	<div id="xtree" style="width:200px;">
 	      	</div>
+            </div>
       	</div>
 		<div class="layui-form-item">
 			<div class="layui-input-block">

@@ -29,152 +29,174 @@
 		float: none;
 	}
 }
-.css-required:after {
-    content: ' *';
+.css-required:before {
+    content: '*';
     color: red;
     font-size: 150%;
+    display:inline-block;
+    vertical-align:-webkit-baseline-middle;
 }
 </style>
 </head>
 <body class="childrenBody">
-	<form class="layui-form layui-form-pane" style="width: 80%;">
+	<form class="layui-form" style="width: 90%; padding: 20px 0px 0px 20px">
 		<!-- 管理员id -->
 		<input type="hidden" name="id" value="${ad.id }"/>
-		<div class="layui-form-item">
-			<label class="layui-form-label css-required">登录名</label>
-			<div class="layui-input-block">
-				<input type="text" id="username" class="layui-input userName" lay-verify="required" readonly="readonly" name="username" value="${ad.username }">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label css-required">用户名</label>
-			<div class="layui-input-block">
-				<input type="text" name="fullname" class="layui-input userName" lay-verify="required" placeholder="请输入姓名" value="${ad.fullname }">
-			</div>
-		</div>
-        <div class="layui-form-item" pane>
-            <label class="layui-form-label css-required">性别</label>
-            <div class="layui-input-block">
-                <c:if test="${ad.sex=='0' }">
-                    <input type="radio" name="sex" value="1" title="男" >
-                    <input type="radio" name="sex" value="0" title="女" checked>
-                    <input type="radio" name="sex" value="2" title="保密">
-                </c:if>
-                <c:if test="${ad.sex=='1' }">
-                    <input type="radio" name="sex" value="1" title="男" checked>
-                    <input type="radio" name="sex" value="0" title="女" >
-                    <input type="radio" name="sex" value="2" title="保密">
-                </c:if>
-                <c:if test="${ad.sex=='2' }">
-                    <input type="radio" name="sex" value="1" title="男" >
-                    <input type="radio" name="sex" value="0" title="女">
-                    <input type="radio" name="sex" value="2" title="保密" checked>
-                </c:if>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">登录名</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="username" class="layui-input userName" readonly lay-verify="usernameCheck" placeholder="请输入登陆名" name="username" value="${ad.username }">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">密码</label>
+                <div class="layui-input-inline">
+                    <input type="password" id="password" class="layui-input userName" lay-verify="pass" disabled placeholder="请输入密码" value="*******************">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">确认密码</label>
+                <div class="layui-input-inline">
+                    <input type="password" class="layui-input userName" lay-verify="repass" readonly placeholder="请输入确认密码" value="*******************">
+                </div>
             </div>
         </div>
-        <div class="layui-form-item" pane>
-            <label class="layui-form-label css-required">用户类型</label>
-            <div class="layui-input-block">
-                <c:if test="${ad.userType == '0' }">
-                    <input type="radio" lay-filter="userType" name="userType" value="0" title="内部用户" checked>
-                    <input type="radio" lay-filter="userType" name="userType" value="1" title="外部用户">
-                </c:if>
-                <c:if test="${ad.userType == '1' }">
-                    <input type="radio" lay-filter="userType" name="userType" value="0" title="内部用户" >
-                    <input type="radio" lay-filter="userType" name="userType" value="1" title="外部用户" checked>
-                </c:if>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">用户名</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="fullname" class="layui-input userName" lay-verify="required" placeholder="请输入姓名" value="${ad.fullname }">
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item" id="userDeptsDiv">
-            <label class="layui-form-label css-required">部门</label>
-            <div class="layui-input-block">
-                <select name="deptId">
-                    <option value="">请选择</option>
-                    <c:forEach items="${depts }" var="d">
-                        <c:if test="${ad.deptId==d.id }">
-                            <option value="${d.id }" selected>${d.name }</option>
-                        </c:if>
-                        <c:if test="${ad.deptId!=d.id }">
-                            <option value="${d.id }">${d.name }</option>
-                        </c:if>
-                    </c:forEach>
-                </select>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">联系电话</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="phone" name="phone" class="layui-input userName" lay-verify="enphone" placeholder="请输入手机号" value="${ad.phone }">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">电子邮箱</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="eMail" name="eMail" class="layui-input userName" lay-verify="email" placeholder="请输入邮箱" value="${ad.eMail }">
+                </div>
             </div>
         </div>
 
-        <div class="layui-form-item" id="userSuppliersDiv">
-            <label class="layui-form-label css-required">供应商</label>
-            <div class="layui-input-block">
-                <select name="supplierId">
-                    <option value="">请选择</option>
-                    <c:forEach items="${suppliers }" var="s">
-                        <c:if test="${ad.supplierId==s.id }">
-                            <option value="${s.id }" selected>${s.name }</option>
-                        </c:if>
-                        <c:if test="${ad.supplierId!=s.id }">
-                            <option value="${s.id }">${s.name }</option>
-                        </c:if>
-                    </c:forEach>
-                </select>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">性别</label>
+                <div class="layui-input-inline">
+                    <c:if test="${ad.sex=='0' }">
+                        <input type="radio" name="sex" value="1" title="男" >
+                        <input type="radio" name="sex" value="0" title="女" checked>
+                    </c:if>
+                    <c:if test="${ad.sex=='1' }">
+                        <input type="radio" name="sex" value="1" title="男" checked>
+                        <input type="radio" name="sex" value="0" title="女" >
+                    </c:if>
+                   <%-- <c:if test="${ad.sex=='2' }">
+                        <input type="radio" name="sex" value="1" title="男" >
+                        <input type="radio" name="sex" value="0" title="女">
+                        <input type="radio" name="sex" value="2" title="保密" checked>
+                    </c:if>--%>
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item" pane>
-            <label class="layui-form-label css-required">金额是否可见</label>
-            <div class="layui-input-block">
-                <c:if test="${ad.isAmountVisible == '0' }">
-                    <input type="radio" lay-filter="isAmountVisible" name="isAmountVisible" value="0" title="可见" checked>
-                    <input type="radio" lay-filter="isAmountVisible" name="isAmountVisible" value="1" title="不可见">
-                </c:if>
-                <c:if test="${ad.isAmountVisible == '1' }">
-                    <input type="radio" lay-filter="isAmountVisible" name="isAmountVisible" value="0" title="可见" >
-                    <input type="radio" lay-filter="isAmountVisible" name="isAmountVisible" value="1" title="不可见" checked>
-                </c:if>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">金额权限</label>
+                <div class="layui-input-block">
+                    <c:if test="${ad.isAmountVisible == '0' }">
+                        <input type="radio" lay-filter="isAmountVisible" name="isAmountVisible" value="0" title="开启" checked>
+                        <input type="radio" lay-filter="isAmountVisible" name="isAmountVisible" value="1" title="关闭">
+                    </c:if>
+                    <c:if test="${ad.isAmountVisible == '1' }">
+                        <input type="radio" lay-filter="isAmountVisible" name="isAmountVisible" value="0" title="开启" >
+                        <input type="radio" lay-filter="isAmountVisible" name="isAmountVisible" value="1" title="关闭" checked>
+                    </c:if>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">用户状态</label>
+                <div class="layui-input-inline">
+                    <c:choose>
+                        <c:when test="${ad.id != null && ad.id != ''}">
+                            <c:choose>
+                                <c:when test="${ad.isOnJob == 0}">
+                                    <input type="radio" name="isOnJob" value="1" title="有效" >
+                                    <input type="radio" name="isOnJob" value="0" title="失效" checked>
+                                </c:when>
+                                <c:otherwise>
+                                    <input type="radio" name="isOnJob" value="1" title="有效" checked>
+                                    <input type="radio" name="isOnJob" value="0" title="失效">
+                                </c:otherwise>
+                            </c:choose>
+                        </c:when>
+                    </c:choose>
+                </div>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label css-required">联系电话</label>
-            <div class="layui-input-block">
-                <input type="text" name="phone" class="layui-input userName" lay-verify="phone" placeholder="请输入手机号" value="${ad.phone }">
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">用户类型</label>
+                <div class="layui-input-inline">
+                    <c:if test="${ad.userType == '0' }">
+                        <input type="radio" lay-filter="userType" name="userType" value="0" title="内部" checked>
+                        <input type="radio" lay-filter="userType" name="userType" value="1" title="外部">
+                    </c:if>
+                    <c:if test="${ad.userType == '1' }">
+                        <input type="radio" lay-filter="userType" name="userType" value="0" title="内部" >
+                        <input type="radio" lay-filter="userType" name="userType" value="1" title="外部" checked>
+                    </c:if>
+                </div>
+            </div>
+            <div class="layui-inline" id="userDeptsDiv">
+                <label class="layui-form-label css-required">部门</label>
+                <div class="layui-input-inline">
+                    <select name="deptId"  lay-verify="deptId">
+                        <option value="">请选择</option>
+                        <c:forEach items="${depts }" var="d">
+                            <c:if test="${ad.deptId==d.id }">
+                                <option value="${d.id }" selected>${d.name }</option>
+                            </c:if>
+                            <c:if test="${ad.deptId!=d.id }">
+                                <option value="${d.id }">${d.name }</option>
+                            </c:if>
+                        </c:forEach>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline" id="userSuppliersDiv">
+                <label class="layui-form-label css-required">供应商</label>
+                <div class="layui-input-inline">
+                    <select name="supplierId"  lay-verify="supplierId">
+                        <option value="">请选择</option>
+                        <c:forEach items="${suppliers }" var="s">
+                            <c:if test="${ad.supplierId==s.id }">
+                                <option value="${s.id }" selected>${s.name }</option>
+                            </c:if>
+                            <c:if test="${ad.supplierId!=s.id }">
+                                <option value="${s.id }">${s.name }</option>
+                            </c:if>
+                        </c:forEach>
+                    </select>
+                </div>
             </div>
         </div>
-		<div class="layui-form-item">
-			<label class="layui-form-label css-required">电子邮箱</label>
-			<div class="layui-input-block">
-				<input type="text" name="eMail" id="eMail" class="layui-input userName" lay-verify="email" placeholder="请输入邮箱" value="${ad.eMail }">
-			</div>
-		</div>
         <div class="layui-form-item">
-            <label class="layui-form-label css-required">入职日期</label>
-            <div class="layui-input-block">
-                <input type="text" id="entryDate" name="entryDate" class="layui-input userName" lay-verify="required" readonly placeholder="请选择日期" value="${fn:substring(ad.entryDate, 0, 10)}">
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">入职日期</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="entryDate" name="entryDate" class="layui-input userName" lay-verify="required" readonly placeholder="请输入选择日期" value="${fn:substring(ad.entryDate, 0, 10)}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">微信昵称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="wxNick" class="layui-input userName" placeholder="请输入微信昵称" value="${ad.wxNick}">
+                </div>
             </div>
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label css-required">微信昵称</label>
-            <div class="layui-input-block">
-                <input type="text" name="wxNick" class="layui-input userName" placeholder="请输入微信昵称" value="${ad.wxNick}">
-            </div>
-        </div>
-        <div class="layui-form-item" pane>
-            <label class="layui-form-label css-required">用户状态</label>
-            <div class="layui-input-block">
-                <%--<input type="checkbox" name="isOnJob" lay-skin="switch" lay-text="激活|停用" value="${ad.isOnJob}" checked>--%>
-                <c:choose>
-                    <c:when test="${ad.id != null && ad.id != ''}">
-                        <c:choose>
-                            <c:when test="${ad.isOnJob == 0}">
-                                <input type="radio" name="isOnJob" value="1" title="有效" >
-                                <input type="radio" name="isOnJob" value="0" title="失效" checked>
-                            </c:when>
-                            <c:otherwise>
-                                <input type="radio" name="isOnJob" value="1" title="有效" checked>
-                                <input type="radio" name="isOnJob" value="0" title="失效">
-                            </c:otherwise>
-                        </c:choose>
-                    </c:when>
-                </c:choose>
-            </div>
-        </div>
+
         <div class="layui-form-item">
             <label class="layui-form-label css-required">分配角色</label>
             <div class="layui-input-block">

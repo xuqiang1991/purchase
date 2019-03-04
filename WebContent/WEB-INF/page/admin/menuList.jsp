@@ -87,7 +87,7 @@
         		layer.open({
 		    	  type: 2,
 		    	  title:"添加菜单",
-		    	  area: ['470px', '360px'],
+		    	  area: ['500px', '400px'],
 		    	  content:ctx+"/sys/toSaveMenu/"+a //这里content是一个普通的String
 		      })
         	}else{
@@ -111,7 +111,7 @@
         		layer.open({
 		    	  type: 2,
 		    	  title:"编辑菜单",
-		    	  area: ['470px', '360px'],
+                    area: ['500px', '400px'],
 		    	  content:ctx+"/sys/toEditMenu/"+a //这里content是一个普通的String
 		      })
         	

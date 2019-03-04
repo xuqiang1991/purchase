@@ -31,15 +31,17 @@
 		float: none;
 	}
 }
-.css-required:after {
-    content: ' *';
+.css-required:before {
+    content: '*';
     color: red;
     font-size: 150%;
+    display:inline-block;
+    vertical-align:-webkit-baseline-middle;
 }
 </style>
 </head>
 <body class="childrenBody">
-	<form class="layui-form  layui-form-pane" style="width: 80%;">
+	<form class="layui-form" style="width: 90%; padding: 20px 0px 0px 20px">
 		<input type="hidden" id="menuId" name="menuId" value="${menu.menuId }"/>
 		<input type="hidden" id="parentId" name="parentId" value="${menu.parentId }"/>
 		<input type="hidden" name="flag" value="${flag }"/>
