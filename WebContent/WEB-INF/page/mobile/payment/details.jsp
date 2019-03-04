@@ -95,7 +95,7 @@
                 </div>
                 <c:if test="${!empty detailsVo.purchaseNo}">
                     <div class="mui-input-row mui-input-range">
-                        <label>所属合同</label>
+                        <label>合同订单号</label>
                         <label style="width: 50%;padding-left: 0px;">${detailsVo.purchaseNo}</label>
                     </div>
                 </c:if>
@@ -329,7 +329,7 @@
                     </div>
                     <c:if test="${detailsVo.purchaseNo != null}">
                         <div class="mui-input-row mui-input-range">
-                            <label>所属合同</label>
+                            <label>合同订单号</label>
                             <label>${detailsVo.purchaseNo}</label>
                         </div>
                     </c:if>
