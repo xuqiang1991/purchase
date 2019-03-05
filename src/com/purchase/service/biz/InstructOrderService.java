@@ -19,4 +19,18 @@ public interface InstructOrderService {
 
     ResultUtil del(String id);
 
+    /**
+     * 根据ID查询指令单
+     * @param id
+     * @return
+     */
+    BizInstructOrder findById(String id);
+
+    /**
+     * 检查指令单是否唯一
+     * @param instructOrder
+     * @return
+     */
+    boolean checkInstructNo(BizInstructOrder instructOrder);
+
 }

@@ -4,11 +4,14 @@ import com.purchase.annotation.SysLog;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbCustomers;
 import com.purchase.pojo.admin.TbProjectManger;
+import com.purchase.pojo.biz.BizInstructOrder;
 import com.purchase.service.AdminService;
 import com.purchase.service.CustomersService;
 import com.purchase.service.ProjectMangerService;
+import com.purchase.service.biz.InstructOrderService;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.ProjectMangerSearch;
+import com.purchase.vo.biz.InstructOrderSearch;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +40,9 @@ public class ProjectMangerController {
 
 	@Autowired
     private CustomersService customersService;
+
+	@Autowired
+    private InstructOrderService instructOrderService;
 
 	@RequestMapping(value="/projectMangerList")
 	@RequiresPermissions("sys:projectManger:list")
@@ -172,5 +178,63 @@ public class ProjectMangerController {
         }
         return result;
     }*/
+
+    /**
+     * 项目指令数据列表
+     * @return
+     */
+    @SysLog(value="项目指令数据列表")
+    @RequestMapping("/getInstructList")
+    @ResponseBody
+    public ResultUtil getInstructList(Integer page, Integer limit, InstructOrderSearch search) {
+        logger.info("请求项目指令数据");
+        ResultUtil result = new ResultUtil();
+        try {
+            result = instructOrderService.getList(page,limit,search);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+
+    @RequestMapping(value = "/configInstruct")
+    @RequiresPermissions("sys:projectManger:save")
+    public String configInstruct(HttpServletRequest req){
+        BizInstructOrder instructOrder = new BizInstructOrder();
+        try {
+            String id = req.getParameter("id");
+            String pmId = req.getParameter("pmId");
+            if(!StringUtils.isEmpty(id)){
+                instructOrder = instructOrderService.findById(id);
+            }
+            instructOrder.setPmId(pmId);
+            req.setAttribute("instructOrder",instructOrder);
+            List<TbAdmin> admins = adminServiceImpl.getAdmins(1);
+            req.setAttribute("admins",admins);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "page/projectManger/configInstruct";
+    }
+
+    @SysLog(value="添加指令")
+    @RequestMapping("/saveInstruct")
+    @ResponseBody
+    public ResultUtil saveInstruct(BizInstructOrder instructOrder) {
+        //防止浏览器提交
+        boolean flag = instructOrderService.checkInstructNo(instructOrder);
+        if(flag){
+            return new ResultUtil(500,"指令单已存在！");
+        }
+        return instructOrderService.save(instructOrder);
+    }
+
+    @SysLog(value="删除指令")
+    @RequestMapping("/delInstruct")
+    @ResponseBody
+    public ResultUtil delInstruct(String id) {
+        return instructOrderService.del(id);
+    }
 
 }

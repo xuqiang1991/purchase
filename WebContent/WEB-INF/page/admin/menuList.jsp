@@ -83,13 +83,23 @@
         		if(a==undefined){
         			a=0;
         		}
-        		//添加顶级菜单
+        		/*//添加顶级菜单
         		layer.open({
 		    	  type: 2,
 		    	  title:"添加菜单",
 		    	  area: ['500px', '400px'],
 		    	  content:ctx+"/sys/toSaveMenu/"+a //这里content是一个普通的String
-		      })
+		      })*/
+                var index =   layer.open({
+                    type: 2,
+                    title:"添加菜单",
+                    content:ctx+"/sys/toSaveMenu/"+a //这里content是一个普通的String
+                })
+                //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+                $(window).resize(function(){
+                    layui.layer.full(index);
+                })
+                layui.layer.full(index);
         	}else{
         		layer.msg("此菜单不允许操作！",{icon: 5});
         		return;
@@ -108,12 +118,16 @@
         		return;
         	}
         		//添加顶级菜单
-        		layer.open({
+            var index = layer.open({
 		    	  type: 2,
 		    	  title:"编辑菜单",
-                    area: ['500px', '400px'],
 		    	  content:ctx+"/sys/toEditMenu/"+a //这里content是一个普通的String
 		      })
+            //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+            $(window).resize(function(){
+                layui.layer.full(index);
+            })
+            layui.layer.full(index);
         	
         })
         

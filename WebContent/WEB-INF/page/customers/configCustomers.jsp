@@ -26,109 +26,114 @@
 		float: none;
 	}
 }
-.layui-form-pane .layui-form-label{width: 180px;}
-.layui-form-pane .layui-input-block {
-    margin-left: 180px;
-}
-.css-required:after {
-    content: ' *';
+.css-required:before {
+    content: '*';
     color: red;
     font-size: 150%;
+    display:inline-block;
+    vertical-align:-webkit-baseline-middle;
 }
 </style>
 </head>
 <body class="childrenBody">
-	<form class="layui-form layui-form-pane" style="width: 80%;" id="customersForm">
+	<form class="layui-form" style="width: 90%; padding: 20px 0px 0px 20px;" id="customersForm">
         <input type="hidden" name="id" value="${customers.id}">
 		<div class="layui-form-item">
-			<label class="layui-form-label css-required">客户名称</label>
-			<div class="layui-input-block">
-				<input type="text" id="fullName" class="layui-input" lay-verify="required" maxlength="50" placeholder="请输入客户名称" name="fullName" value="${customers.fullName}">
-			</div>
-		</div>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">客户名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="fullName" class="layui-input" lay-verify="required" maxlength="50" placeholder="请输入客户名称" name="fullName" value="${customers.fullName}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">客户简称</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="shortName" class="layui-input" lay-verify="required" maxlength="20" placeholder="请输入客户简称" name="shortName" value="${customers.shortName}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">地区</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="areaName" class="layui-input" lay-verify="required" readonly="readonly" placeholder="请选择地区" name="areaName" value="${!empty customers.areaName ? customers.areaName : ''}">
+                    <input type="hidden" id="areaId" name="area" value="${customers.area }">
+                </div>
+            </div>
+        </div>
 		<div class="layui-form-item">
-			<label class="layui-form-label css-required">客户简称</label>
-			<div class="layui-input-block">
-				<input type="text" id="shortName" class="layui-input" lay-verify="required" maxlength="20" placeholder="请输入客户简称" name="shortName" value="${customers.shortName}">
-			</div>
-		</div>
-		<div class="layui-form-item" pane>
-			<label class="layui-form-label css-required">客户类型</label>
-			<div class="layui-input-block">
-                <c:choose>
-                    <c:when test="${customers.id != null && customers.id != ''}">
-                        <c:choose>
-                            <c:when test="${customers.type == 0}">
-                                <input type="radio" name="type" value="0" title="发展商" checked>
-                                <input type="radio" name="type" value="1" title="委托商">
-                            </c:when>
-                            <c:otherwise>
-                                <input type="radio" name="type" value="0" title="发展商" >
-                                <input type="radio" name="type" value="1" title="委托商" checked>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:when>
-                    <c:otherwise>
-                        <input type="radio" name="type" value="0" title="发展商" checked>
-                        <input type="radio" name="type" value="1" title="委托商">
-                    </c:otherwise>
-                </c:choose>
-			</div>
-		</div>
-		<div class="layui-form-item" pane="">
-			<label class="layui-form-label css-required">是否生效</label>
-			<div class="layui-input-block">
-                <c:choose>
-                    <c:when test="${customers.id != null && customers.id != ''}">
-                        <c:choose>
-                            <c:when test="${customers.isForce == 0}">
-                                <input type="radio" name="isForce" value="1" title="生效" >
-                                <input type="radio" name="isForce" value="0" title="失效" checked>
-                            </c:when>
-                            <c:otherwise>
-                                <input type="radio" name="isForce" value="1" title="生效" checked>
-                                <input type="radio" name="isForce" value="0" title="失效">
-                            </c:otherwise>
-                        </c:choose>
-                    </c:when>
-                    <c:otherwise>
-                        <input type="radio" name="isForce" value="1" title="生效">
-                        <input type="radio" name="isForce" value="0" title="失效" checked>
-                    </c:otherwise>
-                </c:choose>
-			</div>
-		</div>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">是否生效</label>
+                <div class="layui-input-inline">
+                    <c:choose>
+                        <c:when test="${customers.id != null && customers.id != ''}">
+                            <c:choose>
+                                <c:when test="${customers.isForce == 0}">
+                                    <input type="radio" name="isForce" value="1" title="生效" >
+                                    <input type="radio" name="isForce" value="0" title="失效" checked>
+                                </c:when>
+                                <c:otherwise>
+                                    <input type="radio" name="isForce" value="1" title="生效" checked>
+                                    <input type="radio" name="isForce" value="0" title="失效">
+                                </c:otherwise>
+                            </c:choose>
+                        </c:when>
+                        <c:otherwise>
+                            <input type="radio" name="isForce" value="1" title="生效">
+                            <input type="radio" name="isForce" value="0" title="失效" checked>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+		    </div>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">负责人姓名</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="chargeName" class="layui-input" lay-verify="required" maxlength="10" placeholder="请输入负责人姓名" value="${customers.chargeName}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">负责人电话</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="chargePhone" name="chargePhone" class="layui-input" maxlength="20" lay-verify="phone" placeholder="请输入负责人电话" value="${customers.chargePhone}">
+                </div>
+            </div>
+        </div>
 		<div class="layui-form-item">
-			<label class="layui-form-label css-required">负责人姓名</label>
-			<div class="layui-input-block">
-				<input type="text" name="chargeName" class="layui-input" lay-verify="required" maxlength="10" placeholder="请输入负责人姓名" value="${customers.chargeName}">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label css-required">负责人电话</label>
-			<div class="layui-input-block">
-				<input type="text" id="chargePhone" name="chargePhone" class="layui-input" maxlength="20" lay-verify="phone" placeholder="请输入负责人电话" value="${customers.chargePhone}">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label css-required">联系人姓名</label>
-			<div class="layui-input-block">
-				<input type="text" name="linkName" class="layui-input" lay-verify="required" maxlength="10" placeholder="请输入联系人姓名" value="${customers.linkName}">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">联系人电话</label>
-			<div class="layui-input-block">
-				<input type="text" id="linkPhone" class="layui-input " name="linkPhone" lay-verify="phone" maxlength="20" placeholder="请输入联系人电话" value="${customers.linkPhone}">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label css-required">地区</label>
-			<div class="layui-input-block">
-				<input type="text" id="areaName" class="layui-input" lay-verify="required" readonly="readonly" placeholder="请选择地区" name="areaName" value="${!empty customers.areaName ? customers.areaName : ''}">
-				<input type="hidden" id="areaId" name="area" value="${customers.area }">
-			</div>
-		</div>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">客户类型</label>
+                <div class="layui-input-inline">
+                    <c:choose>
+                        <c:when test="${customers.id != null && customers.id != ''}">
+                            <c:choose>
+                                <c:when test="${customers.type == 0}">
+                                    <input type="radio" name="type" value="0" title="发展商" checked>
+                                    <input type="radio" name="type" value="1" title="委托商">
+                                </c:when>
+                                <c:otherwise>
+                                    <input type="radio" name="type" value="0" title="发展商" >
+                                    <input type="radio" name="type" value="1" title="委托商" checked>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:when>
+                        <c:otherwise>
+                            <input type="radio" name="type" value="0" title="发展商" checked>
+                            <input type="radio" name="type" value="1" title="委托商">
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">联系人姓名</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="linkName" class="layui-input" lay-verify="required" maxlength="10" placeholder="请输入联系人姓名" value="${customers.linkName}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">联系人电话</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="linkPhone" class="layui-input " name="linkPhone" lay-verify="phone" maxlength="20" placeholder="请输入联系人电话" value="${customers.linkPhone}">
+                </div>
+            </div>
+
+        </div>
 		<div class="layui-form-item">
 			<label class="layui-form-label css-required">地址</label>
 			<div class="layui-input-block">

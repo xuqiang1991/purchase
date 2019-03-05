@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.purchase.mapper.biz.BizInstructOrderMapper">
+  <resultMap id="BaseResultMap" type="com.purchase.pojo.biz.BizInstructOrder">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="pm_id" jdbcType="VARCHAR" property="pmId" />
+    <result column="instruct_no" jdbcType="VARCHAR" property="instructNo" />
+    <result column="instruct_type" jdbcType="INTEGER" property="instructType" />
+    <result column="instruct_centext" jdbcType="VARCHAR" property="instructCentext" />
+    <result column="command_date" jdbcType="TIMESTAMP" property="commandDate" />
+    <result column="command_user_name" jdbcType="VARCHAR" property="commandUserName" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="create_user" jdbcType="BIGINT" property="createUser" />
+    <result column="edit_date" jdbcType="TIMESTAMP" property="editDate" />
+    <result column="edit_user" jdbcType="BIGINT" property="editUser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, pm_id, instruct_no, instruct_type, instruct_centext, command_date, command_user_name, 
+    create_date, create_user, edit_date, edit_user
+  </sql>
+  <select id="selectByExample" parameterType="com.purchase.pojo.biz.BizInstructOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_instruct_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from biz_instruct_order
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from biz_instruct_order
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.purchase.pojo.biz.BizInstructOrderExample">
+    delete from biz_instruct_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.purchase.pojo.biz.BizInstructOrder">
+    insert into biz_instruct_order (id, pm_id, instruct_no, 
+      instruct_type, instruct_centext, command_date, 
+      command_user_name, create_date, create_user, 
+      edit_date, edit_user)
+    values (#{id,jdbcType=VARCHAR}, #{pmId,jdbcType=VARCHAR}, #{instructNo,jdbcType=VARCHAR}, 
+      #{instructType,jdbcType=INTEGER}, #{instructCentext,jdbcType=VARCHAR}, #{commandDate,jdbcType=TIMESTAMP}, 
+      #{commandUserName,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{createUser,jdbcType=BIGINT}, 
+      #{editDate,jdbcType=TIMESTAMP}, #{editUser,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.purchase.pojo.biz.BizInstructOrder">
+    insert into biz_instruct_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="pmId != null">
+        pm_id,
+      </if>
+      <if test="instructNo != null">
+        instruct_no,
+      </if>
+      <if test="instructType != null">
+        instruct_type,
+      </if>
+      <if test="instructCentext != null">
+        instruct_centext,
+      </if>
+      <if test="commandDate != null">
+        command_date,
+      </if>
+      <if test="commandUserName != null">
+        command_user_name,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="editDate != null">
+        edit_date,
+      </if>
+      <if test="editUser != null">
+        edit_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="pmId != null">
+        #{pmId,jdbcType=VARCHAR},
+      </if>
+      <if test="instructNo != null">
+        #{instructNo,jdbcType=VARCHAR},
+      </if>
+      <if test="instructType != null">
+        #{instructType,jdbcType=INTEGER},
+      </if>
+      <if test="instructCentext != null">
+        #{instructCentext,jdbcType=VARCHAR},
+      </if>
+      <if test="commandDate != null">
+        #{commandDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commandUserName != null">
+        #{commandUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="editDate != null">
+        #{editDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editUser != null">
+        #{editUser,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.purchase.pojo.biz.BizInstructOrderExample" resultType="java.lang.Integer">
+    select count(*) from biz_instruct_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update biz_instruct_order
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pmId != null">
+        pm_id = #{record.pmId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.instructNo != null">
+        instruct_no = #{record.instructNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.instructType != null">
+        instruct_type = #{record.instructType,jdbcType=INTEGER},
+      </if>
+      <if test="record.instructCentext != null">
+        instruct_centext = #{record.instructCentext,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commandDate != null">
+        command_date = #{record.commandDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.commandUserName != null">
+        command_user_name = #{record.commandUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=BIGINT},
+      </if>
+      <if test="record.editDate != null">
+        edit_date = #{record.editDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.editUser != null">
+        edit_user = #{record.editUser,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update biz_instruct_order
+    set id = #{record.id,jdbcType=VARCHAR},
+      pm_id = #{record.pmId,jdbcType=VARCHAR},
+      instruct_no = #{record.instructNo,jdbcType=VARCHAR},
+      instruct_type = #{record.instructType,jdbcType=INTEGER},
+      instruct_centext = #{record.instructCentext,jdbcType=VARCHAR},
+      command_date = #{record.commandDate,jdbcType=TIMESTAMP},
+      command_user_name = #{record.commandUserName,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      create_user = #{record.createUser,jdbcType=BIGINT},
+      edit_date = #{record.editDate,jdbcType=TIMESTAMP},
+      edit_user = #{record.editUser,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.purchase.pojo.biz.BizInstructOrder">
+    update biz_instruct_order
+    <set>
+      <if test="pmId != null">
+        pm_id = #{pmId,jdbcType=VARCHAR},
+      </if>
+      <if test="instructNo != null">
+        instruct_no = #{instructNo,jdbcType=VARCHAR},
+      </if>
+      <if test="instructType != null">
+        instruct_type = #{instructType,jdbcType=INTEGER},
+      </if>
+      <if test="instructCentext != null">
+        instruct_centext = #{instructCentext,jdbcType=VARCHAR},
+      </if>
+      <if test="commandDate != null">
+        command_date = #{commandDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commandUserName != null">
+        command_user_name = #{commandUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="editDate != null">
+        edit_date = #{editDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editUser != null">
+        edit_user = #{editUser,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.purchase.pojo.biz.BizInstructOrder">
+    update biz_instruct_order
+    set pm_id = #{pmId,jdbcType=VARCHAR},
+      instruct_no = #{instructNo,jdbcType=VARCHAR},
+      instruct_type = #{instructType,jdbcType=INTEGER},
+      instruct_centext = #{instructCentext,jdbcType=VARCHAR},
+      command_date = #{commandDate,jdbcType=TIMESTAMP},
+      command_user_name = #{commandUserName,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=BIGINT},
+      edit_date = #{editDate,jdbcType=TIMESTAMP},
+      edit_user = #{editUser,jdbcType=BIGINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

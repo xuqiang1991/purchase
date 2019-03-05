@@ -10,10 +10,12 @@ import com.purchase.service.biz.InstructOrderService;
 import com.purchase.util.ResultUtil;
 import com.purchase.util.WebUtils;
 import com.purchase.vo.biz.InstructOrderSearch;
+import com.purchase.vo.biz.InstructOrderVo;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
@@ -26,6 +28,7 @@ import java.util.List;
  * @author zhoujb
  * @date 2019-03-0411:32
  */
+@Service
 public class InstructOrderServiceImpl implements InstructOrderService {
     private static Logger logger = LoggerFactory.getLogger(InstructOrderServiceImpl.class);
 
@@ -46,8 +49,12 @@ public class InstructOrderServiceImpl implements InstructOrderService {
             criteria.andInstructCentextLike("%"+search.getInstructCentext()+"%");
         }
 
-        List<BizInstructOrder> bmList = instructOrderMapper.selectByExample(example);
-        PageInfo<BizInstructOrder> pageInfo = new PageInfo<>(bmList);
+        if(!StringUtils.isEmpty(search.getPmId())){
+            criteria.andPmIdEqualTo(search.getPmId());
+        }
+
+        List<InstructOrderVo> bmList = instructOrderMapper.selectByExampleExt(example,search);
+        PageInfo<InstructOrderVo> pageInfo = new PageInfo<>(bmList);
         ResultUtil resultUtil = new ResultUtil();
         resultUtil.setCode(0);
         resultUtil.setCount(pageInfo.getTotal());
@@ -74,7 +81,35 @@ public class InstructOrderServiceImpl implements InstructOrderService {
 
     @Override
     public ResultUtil del(String id) {
-        instructOrderMapper.deleteByPrimaryKey(id);
-        return ResultUtil.ok();
+        //检查指令单是否被引用 计量计价单明细表、签证结算单明细表
+        boolean flag = false;
+        if(flag){
+            instructOrderMapper.deleteByPrimaryKey(id);
+            return ResultUtil.ok();
+        }else{
+            return new ResultUtil(500,"指令单已被引用，不能删除！");
+        }
+    }
+
+    @Override
+    public BizInstructOrder findById(String id) {
+        return instructOrderMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public boolean checkInstructNo(BizInstructOrder instructOrder) {
+        BizInstructOrderExample example = new BizInstructOrderExample();
+        BizInstructOrderExample.Criteria criteria = example.createCriteria();
+        criteria.andInstructNoEqualTo(instructOrder.getInstructNo());
+        criteria.andPmIdEqualTo(instructOrder.getPmId());
+        if(instructOrder.getId() != null){
+            criteria.andIdNotEqualTo(instructOrder.getId());
+        }
+        List<BizInstructOrder> list = instructOrderMapper.selectByExample(example);
+        if (list != null && list.size() > 0) {
+            return true;
+        }else{
+            return false;
+        }
     }
 }

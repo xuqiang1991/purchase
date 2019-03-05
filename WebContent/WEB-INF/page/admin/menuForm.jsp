@@ -45,22 +45,52 @@
 		<input type="hidden" id="menuId" name="menuId" value="${menu.menuId }"/>
 		<input type="hidden" id="parentId" name="parentId" value="${menu.parentId }"/>
 		<input type="hidden" name="flag" value="${flag }"/>
-		<div class="layui-form-item">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">菜单名</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="title" class="layui-input userName" lay-verify="required" placeholder="请输入菜单名" name="title" value="${menu.title }">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">图标</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input userName" placeholder="请填写图标代码" name="icon" value="${menu.icon }">
+                    <%--<label>（例：<text>&amp;#xe642;</text>）</label>--%>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">资源路径</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="href" class="layui-input userName" placeholder="请输入资源路径" value="${menu.href }">
+                    <%--<label>（<span style="color: red">*</span>例：log/logList）</label>--%>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">权限标识</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="perms" class="layui-input userName" placeholder="权限标识" value="${menu.perms }">
+                    <%--<label>（例：sys:role:list）</label>--%>
+                </div>
+            </div>
+        </div>
+
+		<%--<div class="layui-form-item">
 			<label class="layui-form-label css-required">菜单名</label>
 			<div class="layui-input-block">
-				<input type="text" id="title" class="layui-input userName"
-					lay-verify="required" placeholder="请输入菜单名" name="title" value="${menu.title }">
+				<input type="text" id="title" class="layui-input userName" lay-verify="required" placeholder="请输入菜单名" name="title" value="${menu.title }">
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">图标</label>
 			<div class="layui-input-block">
-				<input type="text" class="layui-input userName"
-					 placeholder="请填写图标代码" name="icon" value="${menu.icon }">
+				<input type="text" class="layui-input userName" placeholder="请填写图标代码" name="icon" value="${menu.icon }">
 					<label>（例：<text>&amp;#xe642;</text>）</label>
 			</div>
-		</div>
-		<div class="layui-form-item">
+		</div>--%>
+		<%--<div class="layui-form-item">
 			<label class="layui-form-label">资源路径</label>
 			<div class="layui-input-block">
 				<input type="text" name="href" class="layui-input userName"
@@ -75,7 +105,7 @@
 					placeholder="权限标识" value="${menu.perms }">
 				<label>（例：sys:role:list）</label>
 			</div>
-		</div>
+		</div>--%>
 		<div class="layui-form-item">
 			<div class="layui-input-block">
 				<button class="layui-btn" lay-submit="" lay-filter="menuForm">保存</button>
