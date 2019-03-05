@@ -160,7 +160,7 @@ public class AdminServiceImpl implements AdminService {
 		if (list != null && list.size() > 0) {
 			List<TbMenus> menus = adminMenusMapper.getMenus(roleId);
 			for (int i = 0; i < menus.size(); i++) {
-				if (menus.get(i).getParentId() == 0) {
+				if (menus.get(i).getParentId().longValue() == 0l) {
 					Menu menu = new Menu();
 					menu.setTitle(menus.get(i).getTitle());
 					menu.setIcon(menus.get(i).getIcon());
@@ -168,7 +168,7 @@ public class AdminServiceImpl implements AdminService {
 					menu.setSpread(menus.get(i).getSpread());
 					List<Menu> menus2 = new ArrayList<>();
 					for (int j = 0; j < menus.size(); j++) {
-						if (menus.get(j).getParentId() == menus.get(i).getMenuId()) {
+						if (menus.get(j).getParentId().longValue() == menus.get(i).getMenuId().longValue()) {
 							Menu menu2 = new Menu();
 							menu2.setTitle(menus.get(j).getTitle());
 							menu2.setIcon(menus.get(j).getIcon());
@@ -254,33 +254,33 @@ public class AdminServiceImpl implements AdminService {
 				x.setValue(m.getMenuId() + "");
 				//一级菜单选中
 				for (TbMenus mh : menus) {
-					if (mh.getMenuId() == m.getMenuId()) {
+					if (mh.getMenuId().equals(m.getMenuId())) {
 						x.setChecked(true);
 						break;
 					}
 				}
 				List<XtreeData> list2 = new ArrayList<>();
 				for (TbMenus m1 : allMenus) {
-					if (m1.getParentId() == m.getMenuId()) {
+					if (m1.getParentId().equals(m.getMenuId())) {
 						XtreeData x1 = new XtreeData();
 						x1.setTitle(m1.getTitle());
 						x1.setValue(m1.getMenuId() + "");
 						List<XtreeData> list3 = new ArrayList<>();
 						//二级菜单选中
 						for (TbMenus mh : menus) {
-							if (mh.getMenuId() == m1.getMenuId()) {
+							if (mh.getMenuId().equals(m1.getMenuId())) {
 								x1.setChecked(true);
 								break;
 							}
 						}
 						for (TbMenus m2 : allMenus) {
-							if (m2.getParentId() == m1.getMenuId()) {
+							if (m2.getParentId().equals(m1.getMenuId())) {
 								XtreeData x2 = new XtreeData();
 								x2.setTitle(m2.getTitle());
 								x2.setValue(m2.getMenuId() + "");
 								//三级菜单选中
 								for (TbMenus mh1 : menus) {
-									if (mh1.getMenuId() == m2.getMenuId()) {
+									if (mh1.getMenuId().equals(m2.getMenuId())) {
 										x2.setChecked(true);
 										break;
 									}
@@ -291,7 +291,7 @@ public class AdminServiceImpl implements AdminService {
 								list3.add(x2);
 							}
 						}
-						
+
 						x1.setData(list3);
 						list2.add(x1);
 					}
