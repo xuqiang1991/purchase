@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.purchase.mapper.biz.BizOrderMapper" >
+  <sql id="Example_Where_Clause_Ext">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and a.${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and a.${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and a.${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and a.${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(search.createUserName)" >
+          and c.fullname LIKE concat(concat('%',#{search.createUserName}),'%')
+        </if>
+      </foreach>
+        and (a.create_user = #{search.loginId} or a.apply_user = #{search.loginId} or FIND_IN_SET(#{search.loginId}, a.user_item))
+    </where>
+  </sql>
+
+  <resultMap id="BaseResultMapExt" type="com.purchase.vo.biz.BizOrderVo" extends="BaseResultMap">
+      <association property="supplier" javaType="com.purchase.pojo.admin.TbSupplier">
+          <result column="supplier_id" jdbcType="BIGINT" property="id"></result>
+          <result column="supplierName" jdbcType="VARCHAR" property="name"></result>
+      </association>
+      <association property="tpm" javaType="com.purchase.pojo.admin.TbProjectManger">
+          <result column="tpmId" jdbcType="BIGINT" property="id"></result>
+          <result column="tpmName" jdbcType="VARCHAR" property="name"></result>
+      </association>
+      <association property="admin" javaType="com.purchase.pojo.admin.TbAdmin">
+          <result column="admin_id" jdbcType="BIGINT" property="id"></result>
+          <result column="adminFullname" jdbcType="VARCHAR" property="fullname"></result>
+      </association>
+      <association property="auAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
+          <result column="auId" jdbcType="BIGINT" property="id"></result>
+          <result column="auName" jdbcType="VARCHAR" property="fullname"></result>
+      </association>
+      <association property="nextAdmin" javaType="com.purchase.pojo.admin.TbAdmin">
+          <result column="nruId" jdbcType="BIGINT" property="id"></result>
+          <result column="nruFullname" jdbcType="VARCHAR" property="fullname"></result>
+      </association>
+      <association property="nextRole" javaType="com.purchase.pojo.admin.TbRoles">
+          <result column="nrrId" jdbcType="BIGINT" property="roleId"></result>
+          <result column="nrrRoleName" jdbcType="VARCHAR" property="roleName"></result>
+      </association>
+
+      <association property="lastUser" javaType="com.purchase.pojo.admin.TbAdmin">
+          <result column="lruId" jdbcType="BIGINT" property="id"></result>
+          <result column="lruFullname" jdbcType="VARCHAR" property="fullname"></result>
+      </association>
+      <association property="lastRole" javaType="com.purchase.pojo.admin.TbRoles">
+          <result column="lrrId" jdbcType="BIGINT" property="roleId"></result>
+          <result column="lrrRoleName" jdbcType="VARCHAR" property="roleName"></result>
+      </association>
+  </resultMap>
+  <select id="selectByExampleExt" resultMap="BaseResultMapExt">
+    select
+        a.*,
+        b.id as supplier_id, b.name as supplierName,
+        c.id as admin_id, c.fullname as adminFullname,
+        nru.id as nruId, nru.fullname as nruFullname,
+        nrr.role_id as nrrId, nrr.role_name as nrrRoleName,
+        lru.id as lruId, lru.fullname as lruFullname,
+        lrr.role_id as lrrId, lrr.role_name as lrrRoleName,
+        tpm.id as tpmId,tpm.name as tpmName,
+        auAdmin.id as auId,auAdmin.fullname as auName
+    from biz_order a
+      LEFT JOIN tb_supplier b ON (a.supplier_id = b.id)
+      LEFT JOIN tb_admin c ON (a.create_user = c.id)
+      LEFT JOIN tb_admin nru ON (a.next_review_user = nru.id)
+      LEFT JOIN tb_roles nrr ON (a.next_review_role = nrr.role_id)
+      LEFT JOIN tb_admin lru ON (a.last_review_user = lru.id)
+      LEFT JOIN tb_roles lrr ON (a.last_review_role = lrr.role_id)
+      LEFT JOIN tb_project_manger tpm ON (a.project_id = tpm.id)
+      LEFT JOIN tb_admin auAdmin ON (a.apply_user = auAdmin.id)
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause_Ext" />
+    </if>
+    <if test="example.orderByClause != null" >
+      order by ${example.orderByClause}
+    </if>
+  </select>
+
+  <select id="selectByPurchaseNo" resultMap="BaseResultMap">
+    select * from biz_purchase_order where purchase_no = #{purchaseNo}
+  </select>
+</mapper>

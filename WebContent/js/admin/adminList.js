@@ -21,10 +21,10 @@ layui.config({
               ,{field:'sex', title: '性别', width: 60,templet: '#sexTpl'}
               ,{field:'userType', width: 100, title: '用户类型',templet: '#userTypeTpl'}
               ,{field:'deptName', width: 100, title: '所属部门'}
+              ,{field:'supplierName', width: 120, title: '所属供应商'}
               ,{field:'phone', width: 120, title: '联系电话'}
               ,{field:'eMail', width: 150, title: '电子邮箱'}
               ,{field:'roleName', width: 120, title: '角色'}
-              ,{field:'supplierName', width: 120, title: '所属供应商'}
               ,{field:'isOnJob', width: 120, title: '账号状态',templet: '#isOnJobTpl'}
 
 

@@ -2,7 +2,7 @@ package com.purchase.service.biz;
 
 import com.purchase.pojo.biz.BizInstructOrder;
 import com.purchase.util.ResultUtil;
-import com.purchase.vo.biz.InstructOrderSearch;
+import com.purchase.vo.Search.InstructOrderSearch;
 
 /**
  * @author zhoujb

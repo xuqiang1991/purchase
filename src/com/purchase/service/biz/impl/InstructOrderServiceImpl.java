@@ -9,7 +9,7 @@ import com.purchase.pojo.biz.BizInstructOrderExample;
 import com.purchase.service.biz.InstructOrderService;
 import com.purchase.util.ResultUtil;
 import com.purchase.util.WebUtils;
-import com.purchase.vo.biz.InstructOrderSearch;
+import com.purchase.vo.Search.InstructOrderSearch;
 import com.purchase.vo.biz.InstructOrderVo;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -43,17 +44,19 @@ public class InstructOrderServiceImpl implements InstructOrderService {
         //设置按创建时间降序排序
         example.setOrderByClause("edit_date DESC");
         BizInstructOrderExample.Criteria criteria = example.createCriteria();
+        //criteria.andPmIdEqualTo(search.getPmId());
 
         if(!StringUtils.isEmpty(search.getInstructCentext())){
             //注意：模糊查询需要进行拼接”%“  如下，不进行拼接是不能完成查询的哦。
             criteria.andInstructCentextLike("%"+search.getInstructCentext()+"%");
         }
-
+        List<InstructOrderVo> bmList = new ArrayList<>();
         if(!StringUtils.isEmpty(search.getPmId())){
             criteria.andPmIdEqualTo(search.getPmId());
+            bmList = instructOrderMapper.selectByExampleExt(example,search);
         }
 
-        List<InstructOrderVo> bmList = instructOrderMapper.selectByExampleExt(example,search);
+        //List<InstructOrderVo> bmList = instructOrderMapper.selectByExampleExt(example,search);
         PageInfo<InstructOrderVo> pageInfo = new PageInfo<>(bmList);
         ResultUtil resultUtil = new ResultUtil();
         resultUtil.setCode(0);

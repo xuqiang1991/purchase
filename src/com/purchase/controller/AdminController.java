@@ -1080,4 +1080,16 @@ public class AdminController {
 		TbRoles roles = adminServiceImpl.getRoleList(roleId);
 		return ResultUtil.ok(roles);
 	}
+
+    @RequestMapping("/selectAdmin")
+    public String selectAdmin() {
+        return "page/admin/selectAdmin";
+    }
+
+    @RequestMapping("/getSelectAdminByDept")
+    @ResponseBody
+    public ResultUtil getSelectAdminByDept(){
+        List<ChoseAdminVO> list = adminServiceImpl.selectAdmin();
+        return ResultUtil.ok(list);
+    }
 }

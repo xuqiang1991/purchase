@@ -44,9 +44,6 @@
 				</div>
 			</div>
 
-
-
-
 			<shiro:hasPermission name="sys:admin:list">
 				<div class="layui-inline">
 					<a class="layui-btn adminQuery_btn"><i class="layui-icon">&#xe615;</i>查询</a>

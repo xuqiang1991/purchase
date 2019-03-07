@@ -816,6 +816,14 @@ public class TbAdminExample {
             addCriterion("is_on_job =", value, "isOnJob");
             return (Criteria) this;
         }
+        public Criteria andDeptIdEqualTo(Integer value) {
+            addCriterion("dept_id =", value, "deptId");
+            return (Criteria) this;
+        }
+        public Criteria andSupplierIdEqualTo(Integer value) {
+            addCriterion("supplier_id =", value, "supplierId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

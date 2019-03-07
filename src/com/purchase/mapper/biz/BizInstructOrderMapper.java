@@ -2,7 +2,7 @@ package com.purchase.mapper.biz;
 
 import com.purchase.pojo.biz.BizInstructOrder;
 import com.purchase.pojo.biz.BizInstructOrderExample;
-import com.purchase.vo.biz.InstructOrderSearch;
+import com.purchase.vo.Search.InstructOrderSearch;
 import com.purchase.vo.biz.InstructOrderVo;
 import org.apache.ibatis.annotations.Param;
 

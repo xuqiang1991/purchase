@@ -2,9 +2,16 @@ package com.purchase.vo.admin;
 
 public class AdminSearch {
 
+
     private String username;
 
     private String fullname;
+
+    private Long deptId;
+
+    private Long supplierId;
+
+    private String keyWord;
 
     private Integer isOnJob;
 
@@ -22,6 +29,30 @@ public class AdminSearch {
 
     public void setFullname(String fullname) {
         this.fullname = fullname;
+    }
+
+    public Long getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Long deptId) {
+        this.deptId = deptId;
+    }
+
+    public Long getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(Long supplierId) {
+        this.supplierId = supplierId;
+    }
+
+    public String getKeyWord() {
+        return keyWord;
+    }
+
+    public void setKeyWord(String keyWord) {
+        this.keyWord = keyWord;
     }
 
     public Integer getIsOnJob() {

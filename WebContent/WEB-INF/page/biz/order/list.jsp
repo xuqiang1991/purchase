@@ -26,73 +26,131 @@
 	<blockquote class="layui-elem-quote list_search">
         <form class="layui-form">
             <!-- 查询条件块 start -->
-            <div>
-                <div class="layui-input-inline">
-                    <input type="text" id="name" value="" placeholder="请输入项目名称" class="layui-input search_input">
+            <%--单号、订单类型、供应商、所属项目、合同号、开单人、开单日期、单据状态--%>
+            <div class="layui-form-item" style="margin-bottom: 5px">
+                <div class="layui-inline">
+                    <label class="layui-form-label">单号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="orderNo" name="orderNo" value="" placeholder="请输入单号" class="layui-input search_input">
+                    </div>
                 </div>
-                <div class="layui-input-inline layui-form">
-                    <select id="projectManager" name="projectManager" >
-                        <option value="">请选择项目经理</option>
-                        <c:forEach items="${admins }" var="ad">
-                            <option value="${ad.id }">${ad.fullname }</option>
-                        </c:forEach>
-                    </select>
+                <div class="layui-inline">
+                    <label class="layui-form-label css-required">订单类型</label>
+                    <div class="layui-input-inline">
+                        <select id="type" name="type">
+                            <option value="">请选择订单类型</option>
+                            <option value="0">绿化苗木</option>
+                            <option value="1">园建水电</option>
+                            <option value="2">机械租赁</option>
+                            <option value="3">工程分包</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="layui-input-inline layui-form">
-                    <select id="developer" name="developer">
-                        <option value="">请选择发展商</option>
-                        <c:forEach items="${customersList }" var="customers">
-                            <%--<option value="${customers.id }">${customers.fullName } - ${customers.chargeName } - ${customers.chargePhone }</option>--%>
-                            <option value="${customers.id }">${customers.fullName }</option>
-                        </c:forEach>
-                    </select>
+                <div class="layui-inline">
+                    <label class="layui-form-label css-required">所属项目</label>
+                    <div class="layui-input-inline">
+                        <select id="projectManager" name="projectManager" >
+                            <option value="">请选择所属项目</option>
+                            <c:forEach items="${projectMangerList }" var="pm">
+                                <option value="${pm.id }">${pm.name }</option>
+                            </c:forEach>
+                        </select>
+                    </div>
                 </div>
-                <div class="layui-input-inline layui-form">
-                    <select id="consignor" name="consignor">
-                        <option value="">请选择委托商</option>
-                        <c:forEach items="${customersList }" var="customers">
-                            <option value="${customers.id }">${customers.fullName }</option>
-                        </c:forEach>
-                    </select>
-                </div>
-                <div class="layui-input-inline layui-form">
-                    <select id="status" name="status">
-                        <option value="">请选择项目状态</option>
-                        <option value="0">未开工</option>
-                        <option value="1">在建中</option>
-                        <option value="2">验收中</option>
-                        <option value="3">已完工</option>
-                        <option value="4">已停工</option>
-                    </select>
+                <div class="layui-inline">
+                    <label class="layui-form-label css-required">供应商</label>
+                    <div class="layui-input-inline">
+                        <select id="developer" name="developer">
+                            <option value="">请选择供应商</option>
+                            <c:forEach items="${supplierList }" var="supplier">
+                                <option value="${supplier.id }">${supplier.name }</option>
+                            </c:forEach>
+                        </select>
+                    </div>
                 </div>
             </div>
+            <div class="layui-form-item" style="margin-bottom: 5px">
+                <div class="layui-inline">
+                    <label class="layui-form-label">合同号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="contractNo" name="contractNo" value="" placeholder="请输入合同号" class="layui-input search_input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label css-required">开单人</label>
+                    <div class="layui-input-inline">
+                        <select id="createUser" name="createUser">
+                            <option value="">请选择开单人</option>
+                            <c:forEach items="${adminList }" var="ad">
+                                <option value="${ad.id }">${ad.fullname }</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline" style="margin: 5px 0px 5px 0;">
+                    <label class="layui-form-label css-required">开单日期</label>
+                    <div class="layui-input-inline" style="width: 85px;">
+                        <input type="text" id="startCreateTime" name="startCreateTime" value="" placeholder="开始日期" class="layui-input search_input">
+                    </div>
+                    <div class="layui-form-mid">-</div>
+                    <div class="layui-input-inline" style="width: 85px;">
+                        <input type="text" id="endCreateTime" name="endCreateTime" value="" placeholder="开始日期" class="layui-input search_input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label css-required">订单状态</label>
+                    <div class="layui-input-inline">
+                        <select id="status" name="status">
+                            <option value="">请选择订单状态</option>
+                            <option value="0">未提交</option>
+                            <option value="1">已提交</option>
+                            <option value="2">审核中</option>
+                            <option value="3">完结</option>
+                            <option value="4">作废</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
             <!-- 查询条件块 end -->
-           <shiro:hasPermission name="sys:projectManger:query">
+            <div class="layui-inline">
+                <a class="layui-btn query_btn"><i class="layui-icon">&#xe615;</i>查询</a>
+            </div>
+            <div class="layui-inline">
+                <a class="layui-btn add_btn"><i class="layui-icon">&#xe608;</i>添加</a>
+            </div>
+            <div class="layui-inline">
+                <a class="layui-btn update_btn"><i class="layui-icon">&#xe642;</i>编辑</a>
+            </div>
+            <div class="layui-inline">
+                <a class="layui-btn layui-btn-danger del_btn" data-type="delCheckData"><i class="layui-icon">&#xe640;</i>删除</a>
+            </div>
+            <%--<shiro:hasPermission name="sys:order:query">
                <div class="layui-inline">
                    <a class="layui-btn projectMangerQuery_btn"><i class="layui-icon">&#xe615;</i>查询</a>
                </div>
             </shiro:hasPermission>
-            <shiro:hasPermission name="sys:projectManger:save">
+            <shiro:hasPermission name="sys:order:save">
                 <div class="layui-inline">
-                    <a class="layui-btn projectMangerAdd_btn"><i class="layui-icon">&#xe608;</i>添加</a>
+                    <a class="layui-btn add_btn"><i class="layui-icon">&#xe608;</i>添加</a>
                 </div>
             </shiro:hasPermission>
-            <shiro:hasPermission name="sys:projectManger:update">
+            <shiro:hasPermission name="sys:order:update">
                 <div class="layui-inline">
-                    <a class="layui-btn projectMangerUpdate_btn"><i class="layui-icon">&#xe642;</i>编辑</a>
+                    <a class="layui-btn update_btn"><i class="layui-icon">&#xe642;</i>编辑</a>
                 </div>
             </shiro:hasPermission>
-            <shiro:hasPermission name="sys:projectManger:delete">
+            <shiro:hasPermission name="sys:order:delete">
                 <div class="layui-inline">
-                    <a class="layui-btn layui-btn-danger projectMangerDel_btn" data-type="delCheckData"><i class="layui-icon">&#xe640;</i>删除</a>
+                    <a class="layui-btn layui-btn-danger del_btn" data-type="delCheckData"><i class="layui-icon">&#xe640;</i>删除</a>
                 </div>
-            </shiro:hasPermission>
+            </shiro:hasPermission>--%>
         </form>
 	</blockquote>
 	<!-- 数据表格 -->
-	<table id="projectMangerList" class="projectMangerList" lay-filter="projectMangerList"></table>
+	<table id="orderList" class="orderList" lay-filter="orderList"></table>
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>
-	<script type="text/javascript" src="${ctx }/js/projectManger/projectMangerList.js"></script>
+	<script type="text/javascript" src="${ctx }/js/biz/orderList.js?v=12"></script>
 	<script type="text/html" id="barEdit">
 	  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
 	  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>

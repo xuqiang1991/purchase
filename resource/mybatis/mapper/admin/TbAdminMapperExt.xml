@@ -51,6 +51,7 @@
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause_Ext" />
     </if>
+      GROUP BY a.id
     <if test="example.orderByClause != null" >
       order by ${example.orderByClause}
     </if>

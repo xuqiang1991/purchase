@@ -1,4 +1,4 @@
-package com.purchase.vo.biz;
+package com.purchase.vo.Search;
 
 import org.springframework.format.annotation.DateTimeFormat;
 

@@ -88,19 +88,40 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public ResultUtil selAdmins(Integer page, Integer limit, AdminSearch search) {
-		//PageHelper.startPage(page, limit);
+		PageHelper.startPage(page, limit);
 		TbAdminExample example = new TbAdminExample();
         example.setOrderByClause(" a.id asc");
 		TbAdminExample.Criteria criteria = example.createCriteria();
+
+		if(!StringUtils.isEmpty(search.getKeyWord())){
+            if(StringUtils.isEmpty(search.getUsername())){
+                search.setUsername(search.getKeyWord());
+            }
+            if(StringUtils.isEmpty(search.getFullname())){
+                search.setFullname(search.getKeyWord());
+            }
+        }
 		if(!StringUtils.isEmpty(search.getUsername())){
-			criteria.andUsernameLike("%"+search.getUsername()+"%");
+            TbAdminExample.Criteria criteria1 = example.createCriteria();
+			criteria1.andUsernameLike("%"+search.getUsername()+"%");
+			example.or(criteria1);
 		}
 		if(!StringUtils.isEmpty(search.getFullname())){
-			criteria.andFullnameLike("%"+search.getFullname()+"%");
+            TbAdminExample.Criteria criteria2 = example.createCriteria();
+			criteria2.andFullnameLike("%"+search.getFullname()+"%");
+            example.or(criteria2);
 		}
 		if(search.getIsOnJob() != null){
 			criteria.andIsOnJobEqualTo(search.getIsOnJob());
 		}
+
+        if(search.getDeptId() != null){
+            criteria.andDeptIdEqualTo(search.getIsOnJob());
+        }
+
+        if(search.getSupplierId() != null){
+            criteria.andSupplierIdEqualTo(search.getIsOnJob());
+        }
 
 		List<TbAdmin> list = tbAdminMapper.selectByExampleExt(example);
 		Long count = tbAdminMapper.selectByExampleExt_COUNT(example);

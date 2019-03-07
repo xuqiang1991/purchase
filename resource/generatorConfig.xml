@@ -53,21 +53,11 @@
 		<table schema="" tableName="tb_users"></table> -->
 
 		 <!--<table schema="" tableName="tb_department"></table>-->
-        <!--<table schema="" tableName="biz_bidding_management"></table>
-        <table schema="" tableName="biz_contract_apply_money"></table>
-        <table schema="" tableName="biz_contract_apply_money_detail"></table>
-        <table schema="" tableName="biz_payment_order"></table>
-        <table schema="" tableName="biz_programme_acceptance_order"></table>
-        <table schema="" tableName="biz_programme_acceptance_order_detail"></table>
 
-        <table schema="" tableName="biz_uncontract_apply_money_detail"></table>-->
-        <!--<table schema="" tableName="tb_project_manger"></table>-->
-        <!--<table schema="" tableName="biz_contract_apply_money"></table>-->
-        <!--<table schema="" tableName="biz_contract_apply_money_detail"></table>-->
-        <!--<table schema="" tableName="biz_uncontract_apply_money"></table>-->
-        <!--<table schema="" tableName="biz_programme_acceptance_order"></table>-->
-        <!--<table schema="" tableName="biz_programme_acceptance_order_detail"></table>-->
-		<!--<table schema="" tableName="biz_uncontract_apply_money_history"></table>-->
-		<table schema="" tableName="biz_instruct_order"></table>
+		<!--<table schema="" tableName="biz_instruct_order"></table>-->
+        <!--<table schema="" tableName="biz_order"></table>-->
+        <table schema="" tableName="biz_order_detail"></table>
+
+
 	</context>
 </generatorConfiguration>

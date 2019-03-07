@@ -11,7 +11,7 @@ import com.purchase.service.ProjectMangerService;
 import com.purchase.service.biz.InstructOrderService;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.admin.ProjectMangerSearch;
-import com.purchase.vo.biz.InstructOrderSearch;
+import com.purchase.vo.Search.InstructOrderSearch;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -235,6 +235,11 @@ public class ProjectMangerController {
     @ResponseBody
     public ResultUtil delInstruct(String id) {
         return instructOrderService.del(id);
+    }
+
+    @RequestMapping("/selectProjectManger")
+    public String selectProjectManger() {
+        return "page/projectManger/selectProjectManger";
     }
 
 }

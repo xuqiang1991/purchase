@@ -2,7 +2,6 @@ package com.purchase.controller;
 
 import com.purchase.annotation.SysLog;
 import com.purchase.pojo.admin.TbArea;
-import com.purchase.pojo.admin.TbMenus;
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.service.AdminService;
 import com.purchase.service.SupplierService;
@@ -144,5 +143,10 @@ public class SupplierManagementController {
             }
         }
         return suppliers;
+    }
+
+    @RequestMapping("/selectSuppliers")
+    public String selectProjectManger() {
+        return "page/supplier/selectSupplier";
     }
 }
