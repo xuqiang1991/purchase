@@ -175,7 +175,22 @@
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
-                    <table id="orderItem" class="orderItem" lay-filter="orderItem"></table>
+                    <%--<table id="orderItem" class="orderItem" lay-filter="orderItem"></table>--%>
+                    <table id="orderItem" class="orderItem" lay-filter="orderItem">
+                        <%--<thead>
+                            <tr>
+                                <th lay-data="{field:'id',width:60, sort: true}">序号</th>
+                                <th lay-data="{field:'content'}">材料/项目内容</th>
+                                <th lay-data="{field:'model',templet: '#instructType'}">规格型号</th>
+                                <th lay-data="{field:'unit'}">单位</th>
+                                <th lay-data="{field:'price'}">单价</th>
+                                <th lay-data="{field:'amount'}">数量</th>
+                                <th lay-data="{field:'totalPrice'}">金额</th>
+                                <th lay-data="{field:'remark'}">备注</th>
+                                <th lay-data="{field:'right', align:'center', toolbar: '#barItem'}">操作</th>
+                            </tr>
+                        </thead>--%>
+                    </table>
                 </div>
             </div>
         </div>
@@ -186,12 +201,23 @@
     <script type="text/javascript" src="${ctx }/js/projectManger/projectMangerSelect.js"></script>
     <script type="text/javascript" src="${ctx }/js/supplier/supplierSelect.js"></script>
     <script type="text/html" id="bar">
-        <a class="layui-btn instructOrderAdd_btn"><i class="layui-icon">&#xe608;</i>添加</a>
-        <a class="layui-btn instructOrderUpdate_btn"><i class="layui-icon">&#xe642;</i>编辑</a>
-        <a class="layui-btn layui-btn-danger instructOrderDel_btn" data-type="delCheckData"><i class="layui-icon">&#xe640;</i>删除</a>
+        <a class="layui-btn layui-btn-sm add_btn_item" lay-event="add"><i class="layui-icon">&#xe608;</i>增加</a>
+        <a class="layui-btn layui-btn-sm save_btn_item" lay-event="save"><i class="layui-icon">&#xe63c;</i>保存</a>
+        <%--<a class="layui-btn layui-btn-danger layui-btn-sm del_btn_item" data-type="delCheckData"><i class="layui-icon">&#xe640;</i></a>--%>
     </script>
     <script type="text/html" id="barItem">
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        <a class="layui-btn layui-btn-xs save_btn_item" lay-event="save" title="保存"><i class="layui-icon">&#xe63c;</i></a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" title="删除"><i class="layui-icon">&#xe640;</i></a>
     </script>
+    <script type="text/html" id="layIndex">
+        {{#  if(d.LAY_INDEX < 10){ }}
+        00{{d.LAY_INDEX}}
+        {{# }else if(d.LAY_INDEX == 1){ }}
+        0{{d.LAY_INDEX}}
+        {{#  } else{ }}
+        {{d.LAY_INDEX}}
+        {{#  } }}
+    </script>
+
 </body>
 </html>

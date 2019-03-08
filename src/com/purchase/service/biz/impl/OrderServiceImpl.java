@@ -6,6 +6,7 @@ import com.purchase.mapper.biz.BizOrderDetailMapper;
 import com.purchase.mapper.biz.BizOrderMapper;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.biz.BizOrder;
+import com.purchase.pojo.biz.BizOrderDetail;
 import com.purchase.pojo.biz.BizOrderDetailExample;
 import com.purchase.pojo.biz.BizOrderExample;
 import com.purchase.pojo.order.BizPurchaseOrderDetail;
@@ -21,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -163,6 +165,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResultUtil getItemList(BizOrderDetailSearch search) {
-        return null;
+        List<BizOrderDetail> detailList = new ArrayList<>();
+        detailList.add(new BizOrderDetail(WebUtils.generateUUID()));
+        ResultUtil resultUtil = new ResultUtil();
+        resultUtil.setCode(0);
+        resultUtil.setData(detailList);
+        return resultUtil;
     }
 }
