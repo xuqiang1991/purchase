@@ -175,27 +175,120 @@
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
-                    <%--<table id="orderItem" class="orderItem" lay-filter="orderItem"></table>--%>
-                    <table id="orderItem" class="orderItem" lay-filter="orderItem">
-                        <%--<thead>
-                            <tr>
-                                <th lay-data="{field:'id',width:60, sort: true}">序号</th>
-                                <th lay-data="{field:'content'}">材料/项目内容</th>
-                                <th lay-data="{field:'model',templet: '#instructType'}">规格型号</th>
-                                <th lay-data="{field:'unit'}">单位</th>
-                                <th lay-data="{field:'price'}">单价</th>
-                                <th lay-data="{field:'amount'}">数量</th>
-                                <th lay-data="{field:'totalPrice'}">金额</th>
-                                <th lay-data="{field:'remark'}">备注</th>
-                                <th lay-data="{field:'right', align:'center', toolbar: '#barItem'}">操作</th>
-                            </tr>
-                        </thead>--%>
+                    <table cellspacing="0" cellpadding="0" border="0" class="layui-table">
+                        <div class="layui-form layui-border-box layui-table-view">
+                            <div class="layui-table-tool">
+                                <div class="layui-table-tool-temp">
+                                    <a class="layui-btn layui-btn-sm add_btn_item" onclick="add()"><i class="layui-icon"></i>增加</a>
+                                    <a class="layui-btn layui-btn-sm save_btn_item" onclick="save"><i class="layui-icon"></i>保存</a>
+                                </div>
+                            </div>
+                            <div class="layui-table-box">
+                                <div class="layui-table-body layui-table-main">
+                                    <table  id="orderItem" cellspacing="0" cellpadding="0" border="0" class="layui-table">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 50px;">
+                                                    <div class="layui-table-cell"><span>序号</span></div>
+                                                </th>
+                                                <th data-field="content" class="">
+                                                    <div class="layui-table-cell"><span>材料/项目内容</span></div>
+                                                </th>
+                                                <th data-field="model" class="">
+                                                    <div class="layui-table-cell"><span>规格型号</span></div>
+                                                </th>
+                                                <th data-field="unit" class="">
+                                                    <div class="layui-table-cell"><span>单位</span></div>
+                                                </th>
+                                                <th data-field="price" class="">
+                                                    <div class="layui-table-cell"><span>单价</span></div>
+                                                </th>
+                                                <th data-field="amount" class="">
+                                                    <div class="layui-table-cell"><span>数量</span></div>
+                                                </th>
+                                                <th data-field="totalPrice" class="">
+                                                    <div class="layui-table-cell"><span>金额</span></div>
+                                                </th>
+                                                <th data-field="remark" class="">
+                                                    <div class="layui-table-cell"><span>备注</span></div>
+                                                </th>
+                                                <th class="layui-table-col-special">
+                                                    <div class="layui-table-cell" align="center"><span>操作</span></div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="layui-table-cell">001</div>
+                                                </td>
+                                                <td>
+                                                    <input class="layui-input layui-table-edit" name="content" onkeyup="checkContent(this);" />
+                                                </td>
+                                                <td>
+                                                    <input class="layui-input layui-table-edit" name="model" />
+                                                </td>
+                                                <td>
+                                                    <input class="layui-input layui-table-edit" name="unit" />
+                                                </td>
+                                                <td>
+                                                    <input class="layui-input layui-table-edit" onkeyup="reckon(this);" name="price" />
+                                                </td>
+                                                <td>
+                                                    <input class="layui-input layui-table-edit" onkeyup="reckon(this);" name="amount" />
+                                                </td>
+                                                <td>
+                                                    <input class="layui-input layui-table-edit" readonly name="totalPrice" />
+                                                </td>
+                                                <td>
+                                                    <input class="layui-input layui-table-edit" name="remark" />
+                                                </td>
+                                                <td align="center" class="layui-table-col-special">
+                                                    <div class="layui-table-cell">
+                                                        <a class="layui-btn layui-btn-danger layui-btn-xs" onclick="del(this)" title="删除"><i class="layui-icon"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </table>
+                    <style>
+                        .layui-table, .layui-table-view{
+                            margin: 0px 0;
+                        }
+                        .layui-table-tool{
+                            padding: 5px 15px;
+                            position: relative;
+                            z-index: 890;
+                            width: 100%;
+                            min-height: 20px;
+                            line-height: 20px;
+                            border-width: 0px 0px 1px;
+                        }
+                        .layui-table td, .layui-table th {
+                            position: relative;
+                            padding: 5px 15px;
+                            min-height: 20px;
+                            line-height: 20px;
+                            font-size: 14px;
+                        }
+                        .layui-table-cell {
+                            height: 20px;
+                            line-height: 20px;
+                            padding: 0 15px;
+                            position: relative;
+                            box-sizing: border-box;
+                        }
+                    </style>
                 </div>
             </div>
         </div>
 	</form>
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>
+    <script type="text/javascript" src="${ctx }/js/RegExpUtil.js?v=123"></script>
 	<script type="text/javascript" src="${ctx }/js/biz/orderForm.js?v=123"></script>
     <script type="text/javascript" src="${ctx }/js/admin/adminSelect.js"></script>
     <script type="text/javascript" src="${ctx }/js/projectManger/projectMangerSelect.js"></script>
