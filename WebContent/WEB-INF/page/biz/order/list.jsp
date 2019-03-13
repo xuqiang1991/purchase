@@ -156,57 +156,57 @@
 	  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 	</script>
 
-
     <script type="text/html" id="layIndex">
         {{d.LAY_INDEX}}
     </script>
-	<script type="text/html" id="sourceType">
-		{{#  if(d.source == 0){ }}
-		议标
-        {{# }else if(d.source == 1){ }}
-        投标
+	<script type="text/html" id="orderType">
+		{{#  if(d.type == 0){ }}
+        绿化苗木
+        {{# }else if(d.type == 1){ }}
+        园建水电
+        {{# }else if(d.type == 2){ }}
+        机械租赁
         {{#  } else{ }}
-        年度战略
+        工程分包
 		{{#  } }}
 	</script>
-    <script type="text/html" id="natureType">
-        {{#  if(d.nature == 0){ }}
-        地产景观
-        {{# }else if(d.nature == 1){ }}
-        市政公用
-        {{#  } else{ }}
-        旅游度假
+    <script type="text/html" id="supplierIdTpl">
+        {{d.supplier.name}}
+    </script>
+    <script type="text/html" id="projectIdTpl">
+        {{d.tpm.name}}
+    </script>
+    <script type="text/html" id="createUserType">
+        {{d.admin.fullname}}
+    </script>
+    <script type="text/html" id="lastReviewUserType">
+        {{#  if(d.nextAdmin != null){ }}
+            {{d.nextAdmin.fullname}}
         {{#  } }}
     </script>
-
-    <script type="text/html" id="progressPlanType">
-        {{#  if(d.progressPlan == 0){ }}
-        综合方案
-        {{# }else if(d.progressPlan == 1){ }}
-        园建方案
-        {{# }else if(d.progressPlan == 2){ }}
-        水电工程
-        {{# }else if(d.progressPlan == 3){ }}
-        (园建+水电)方案
-        {{#  } else{ }}
-        绿化方案
+    <script type="text/html" id="createTimeType">
+        {{#  if(d.createTime != null){ }}
+            {{dateFtt('yyyy-MM-dd',d.createTime)}}
+        {{#  } }}
+    </script>
+    <script type="text/html" id="lastReviewDateType">
+        {{#  if(d.lastReviewDate != null){ }}
+            {{dateFtt('yyyy-MM-dd',d.lastReviewDate)}}
         {{#  } }}
     </script>
     <script type="text/html" id="statusType">
         {{#  if(d.status == 0){ }}
-        未开工
+        未提交
         {{# }else if(d.status == 1){ }}
-        在建中
+        已提交
         {{# }else if(d.status == 2){ }}
-        验收中
-        {{# }else if(d.status == 3){ }}
-        已完工
+        审核中
         {{#  } else{ }}
-        已停工
+        完结
         {{#  } }}
     </script>
     <script type="text/html" id="radioTpl">
-        <input type="radio" name="projectMangerId" value="{{d.id}}" title=" " lay-filter="radiodemo">
+        <input type="radio" name="id" value="{{d.id}}" title=" " lay-filter="radiodemo">
     </script>
 </body>
 </html>

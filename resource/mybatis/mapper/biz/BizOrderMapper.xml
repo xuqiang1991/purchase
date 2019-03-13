@@ -14,7 +14,7 @@
     <result column="contract_no" property="contractNo" jdbcType="VARCHAR" />
     <result column="contract_sign_date" property="contractSignDate" jdbcType="TIMESTAMP" />
     <result column="contract_money" property="contractMoney" jdbcType="DECIMAL" />
-    <result column="warranty_date" property="warrantyDate" jdbcType="TIMESTAMP" />
+    <result column="warranty_date" property="warrantyDate" jdbcType="VARCHAR" />
     <result column="payment_ratio" property="paymentRatio" jdbcType="DOUBLE" />
     <result column="unsubscribed_amount" property="unsubscribedAmount" jdbcType="DECIMAL" />
     <result column="request_amount" property="requestAmount" jdbcType="DECIMAL" />
@@ -140,7 +140,7 @@
       #{createUser,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{applyUser,jdbcType=BIGINT}, 
       #{applyDate,jdbcType=TIMESTAMP}, #{supplierId,jdbcType=BIGINT}, #{projectId,jdbcType=VARCHAR}, 
       #{contractNo,jdbcType=VARCHAR}, #{contractSignDate,jdbcType=TIMESTAMP}, #{contractMoney,jdbcType=DECIMAL}, 
-      #{warrantyDate,jdbcType=TIMESTAMP}, #{paymentRatio,jdbcType=DOUBLE}, #{unsubscribedAmount,jdbcType=DECIMAL}, 
+      #{warrantyDate,jdbcType=VARCHAR}, #{paymentRatio,jdbcType=DOUBLE}, #{unsubscribedAmount,jdbcType=DECIMAL},
       #{requestAmount,jdbcType=DECIMAL}, #{paymentAmount,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, 
       #{updateDate,jdbcType=TIMESTAMP}, #{summary,jdbcType=VARCHAR}, #{nextReviewUser,jdbcType=BIGINT}, 
       #{nextReviewRole,jdbcType=BIGINT}, #{lastReviewUser,jdbcType=BIGINT}, #{lastReviewRole,jdbcType=BIGINT}, 
@@ -270,7 +270,7 @@
         #{contractMoney,jdbcType=DECIMAL},
       </if>
       <if test="warrantyDate != null" >
-        #{warrantyDate,jdbcType=TIMESTAMP},
+        #{warrantyDate,jdbcType=VARCHAR},
       </if>
       <if test="paymentRatio != null" >
         #{paymentRatio,jdbcType=DOUBLE},
@@ -362,7 +362,7 @@
         contract_money = #{record.contractMoney,jdbcType=DECIMAL},
       </if>
       <if test="record.warrantyDate != null" >
-        warranty_date = #{record.warrantyDate,jdbcType=TIMESTAMP},
+        warranty_date = #{record.warrantyDate,jdbcType=VARCHAR},
       </if>
       <if test="record.paymentRatio != null" >
         payment_ratio = #{record.paymentRatio,jdbcType=DOUBLE},
@@ -425,7 +425,7 @@
       contract_no = #{record.contractNo,jdbcType=VARCHAR},
       contract_sign_date = #{record.contractSignDate,jdbcType=TIMESTAMP},
       contract_money = #{record.contractMoney,jdbcType=DECIMAL},
-      warranty_date = #{record.warrantyDate,jdbcType=TIMESTAMP},
+      warranty_date = #{record.warrantyDate,jdbcType=VARCHAR},
       payment_ratio = #{record.paymentRatio,jdbcType=DOUBLE},
       unsubscribed_amount = #{record.unsubscribedAmount,jdbcType=DECIMAL},
       request_amount = #{record.requestAmount,jdbcType=DECIMAL},
@@ -481,7 +481,7 @@
         contract_money = #{contractMoney,jdbcType=DECIMAL},
       </if>
       <if test="warrantyDate != null" >
-        warranty_date = #{warrantyDate,jdbcType=TIMESTAMP},
+        warranty_date = #{warrantyDate,jdbcType=VARCHAR},
       </if>
       <if test="paymentRatio != null" >
         payment_ratio = #{paymentRatio,jdbcType=DOUBLE},
@@ -541,7 +541,7 @@
       contract_no = #{contractNo,jdbcType=VARCHAR},
       contract_sign_date = #{contractSignDate,jdbcType=TIMESTAMP},
       contract_money = #{contractMoney,jdbcType=DECIMAL},
-      warranty_date = #{warrantyDate,jdbcType=TIMESTAMP},
+      warranty_date = #{warrantyDate,jdbcType=VARCHAR},
       payment_ratio = #{paymentRatio,jdbcType=DOUBLE},
       unsubscribed_amount = #{unsubscribedAmount,jdbcType=DECIMAL},
       request_amount = #{requestAmount,jdbcType=DECIMAL},

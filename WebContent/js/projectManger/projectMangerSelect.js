@@ -14,9 +14,8 @@ function projectMangerSelect(event,hiddenId,textId){
             content:ctx+"/projectManger/selectProjectManger",
             yes: function(index, layero){
                 var select = $(layero).find("iframe").contents().find(".layui-table-click");//find("input[name='id']:checked");
-                console.log(select.find("td:eq(0) >div").text());
                 if(select.length == 1){
-                    var id = select.find("td:eq(0) >div").text();
+                    var id = select.find("td:eq(1)").find(":hidden[name='id']").val();
                     var name = select.find("td:eq(1) >div").text();
                     console.log(id + "---" + name);
                     //$(obj).val(name);

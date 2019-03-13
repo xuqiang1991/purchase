@@ -1,5 +1,8 @@
 package com.purchase.pojo.biz;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -12,10 +15,12 @@ public class BizOrder {
 
     private Long createUser;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date createTime;
 
     private Long applyUser;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date applyDate;
 
     private Long supplierId;
@@ -24,11 +29,12 @@ public class BizOrder {
 
     private String contractNo;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date contractSignDate;
 
     private BigDecimal contractMoney;
 
-    private Date warrantyDate;
+    private String warrantyDate;
 
     private Double paymentRatio;
 
@@ -40,6 +46,7 @@ public class BizOrder {
 
     private Integer status;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date updateDate;
 
     private String summary;
@@ -52,6 +59,7 @@ public class BizOrder {
 
     private Long lastReviewRole;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date lastReviewDate;
 
     private Integer isApproval;
@@ -106,6 +114,7 @@ public class BizOrder {
         this.applyUser = applyUser;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getApplyDate() {
         return applyDate;
     }
@@ -138,6 +147,7 @@ public class BizOrder {
         this.contractNo = contractNo == null ? null : contractNo.trim();
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getContractSignDate() {
         return contractSignDate;
     }
@@ -154,11 +164,11 @@ public class BizOrder {
         this.contractMoney = contractMoney;
     }
 
-    public Date getWarrantyDate() {
+    public String getWarrantyDate() {
         return warrantyDate;
     }
 
-    public void setWarrantyDate(Date warrantyDate) {
+    public void setWarrantyDate(String warrantyDate) {
         this.warrantyDate = warrantyDate;
     }
 
@@ -202,6 +212,7 @@ public class BizOrder {
         this.status = status;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getUpdateDate() {
         return updateDate;
     }
@@ -250,6 +261,7 @@ public class BizOrder {
         this.lastReviewRole = lastReviewRole;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getLastReviewDate() {
         return lastReviewDate;
     }

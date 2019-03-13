@@ -1,13 +1,12 @@
-function supplierSelect(event,hiddenId,textId){
+function toSubmit(event,hiddenId,textId){
     layui.use(['layer','jquery'],function(){
-        var layer = parent.layer === undefined ? layui.layer : parent.layer,
-            $ = layui.jquery;
+        var layer = parent.layer === undefined ? layui.layer : parent.layer,$ = layui.jquery;
         layer.open({
             type: 2,
-            title:"选择供应商",
-            btn: ['确认','取消'],
-            area: ['800px', '635px'],
-            content:ctx+"/supplier/selectSuppliers",
+            title:"提交订单",
+            btn: ['提交','取消'],
+            area: ['500px', '500px'],
+            content:ctx+"/biz/order/toSubmit",
             yes: function(index, layero){
                 var select = $(layero).find("iframe").contents().find(".layui-table-click");//find("input[name='id']:checked");
                 if(select.length == 1){

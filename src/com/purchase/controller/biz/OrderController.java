@@ -1,9 +1,13 @@
 package com.purchase.controller.biz;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.purchase.annotation.SysLog;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbProjectManger;
 import com.purchase.pojo.admin.TbSupplier;
+import com.purchase.pojo.biz.BizOrder;
+import com.purchase.pojo.biz.BizOrderDetail;
 import com.purchase.service.AdminService;
 import com.purchase.service.ProjectMangerService;
 import com.purchase.service.SupplierService;
@@ -18,10 +22,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -90,7 +96,24 @@ public class OrderController {
             e.printStackTrace();
         }
         return "page/biz/order/form";
+    }
 
+    @SysLog(value="保存订单")
+    @RequestMapping("save")
+    @ResponseBody
+    public ResultUtil save(BizOrder order){
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        //search.setLoginId(admin.getId());
+        return orderService.save(order,admin);
+    }
+
+    @SysLog(value="提交订单")
+    @RequestMapping("submit")
+    @ResponseBody
+    public ResultUtil submit(String id, Long userId, Long roleId){
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        //search.setLoginId(admin.getId());
+        return orderService.submit(id,userId,roleId);
     }
 
     @SysLog(value="获取订单明细数据")
@@ -102,5 +125,39 @@ public class OrderController {
         return orderService.getItemList(search);
     }
 
+    @SysLog(value="保存订单明细数据")
+    @RequestMapping("saveItemList")
+    @ResponseBody
+    public ResultUtil saveItemList(@RequestBody String param){
+        logger.info("param:{}", param);
+        JSONObject map = JSON.parseObject(param);
+        ResultUtil result = new ResultUtil();
+        String jsonItem, orderId = "";
+        List<BizOrderDetail> list = new ArrayList<>();
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        try {
+            if(map.containsKey("orderId") && map.containsKey("list")){
+                orderId = map.get("orderId").toString();
+                jsonItem = map.get("list").toString();
+                list = JSON.parseArray(jsonItem,BizOrderDetail.class);
+                logger.info("orderId:{}, jsonItem:{}", orderId,jsonItem);
+            }else{
+                return ResultUtil.error("网络异常，请稍候再试");
+            }
 
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        //search.setLoginId(admin.getId());
+        return orderService.saveItemList(list,orderId,admin);
+    }
+
+
+    @SysLog(value="进入提交订单页面")
+    @RequestMapping("toSubmit")
+    public String toSubmit(HttpServletRequest req){
+        logger.info("进入提交订单页面");
+        return "page/biz/submitOrder";
+    }
 }

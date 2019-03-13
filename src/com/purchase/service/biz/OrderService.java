@@ -2,11 +2,14 @@ package com.purchase.service.biz;
 
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.biz.BizOrder;
+import com.purchase.pojo.biz.BizOrderDetail;
 import com.purchase.pojo.order.BizPurchaseOrderDetail;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.Search.BizOrderDetailSearch;
 import com.purchase.vo.Search.BizOrderSearch;
 import com.purchase.vo.biz.BizOrderVo;
+
+import java.util.List;
 
 /**
  * Created by xuqiang
@@ -30,7 +33,7 @@ public interface OrderService {
      * @Param
      * @return
      **/
-    ResultUtil save(BizOrder order);
+    ResultUtil save(BizOrder order,TbAdmin admin);
 
     /**
      * @Author zhoujb
@@ -113,6 +116,16 @@ public interface OrderService {
      * @return
      **/
     ResultUtil getItemList(BizOrderDetailSearch search);
+
+    /**
+     * @Author zhoujb
+     * @Description 保存详情集合
+     * @Date 2019-03-06 14:17
+     * @Param
+     * @return
+     **/
+    ResultUtil saveItemList(List<BizOrderDetail> list, String orderId,TbAdmin admin);
+
 
 
 }

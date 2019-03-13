@@ -114,8 +114,8 @@
 	<logger name="org.springframework.web" level="DEBUG" />
 	<logger name="org.springframework.web.servlet.mvc.method.annotation" level="DEBUG" />
   <logger name="com.purchase" level="DEBUG" />
-  <logger name="org.mybatis.spring" level="INFO" />
-  <logger name="org.mybatis" level="INFO" />
+  <logger name="org.mybatis.spring" level="DEBUG" />
+  <logger name="org.mybatis" level="DEBUG" />
   <!-- <logger name="com.sunshine.task.biz" level="INFO" >
     <appender-ref ref="purchase_task" />
   </logger> -->

@@ -8,21 +8,21 @@ public class BizOrderDetail {
 
     private String orderId;
 
-    private String content;
+    private String content = "";
 
-    private String model;
+    private String model = "";
 
-    private String unit;
+    private String unit ="";
 
-    private BigDecimal price;
+    private BigDecimal price = new BigDecimal(0.00);
 
-    private Double amount;
+    private Double amount = 0d;
 
-    private BigDecimal totalPrice;
+    private BigDecimal totalPrice = new BigDecimal(0.00);
 
-    private Double settleAmout;
+    private Double settleAmout = 0.00;
 
-    private String remark;
+    private String remark = "";
 
     private Date createTime;
 

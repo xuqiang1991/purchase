@@ -1,28 +1,34 @@
 package com.purchase.service.biz.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.purchase.mapper.admin.TbRolesMapper;
 import com.purchase.mapper.biz.BizOrderDetailMapper;
 import com.purchase.mapper.biz.BizOrderMapper;
+import com.purchase.mapper.order.BizHistoryMapper;
 import com.purchase.pojo.admin.TbAdmin;
+import com.purchase.pojo.admin.TbRoles;
 import com.purchase.pojo.biz.BizOrder;
 import com.purchase.pojo.biz.BizOrderDetail;
 import com.purchase.pojo.biz.BizOrderDetailExample;
 import com.purchase.pojo.biz.BizOrderExample;
+import com.purchase.pojo.order.BizHistory;
+import com.purchase.pojo.order.BizHistoryExample;
 import com.purchase.pojo.order.BizPurchaseOrderDetail;
 import com.purchase.service.biz.OrderService;
-import com.purchase.util.DateUtil;
-import com.purchase.util.PurchaseUtil;
-import com.purchase.util.ResultUtil;
-import com.purchase.util.WebUtils;
+import com.purchase.util.*;
 import com.purchase.vo.Search.BizOrderDetailSearch;
 import com.purchase.vo.Search.BizOrderSearch;
 import com.purchase.vo.biz.BizOrderVo;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -35,12 +41,19 @@ import java.util.List;
  */
 @Service
 public class OrderServiceImpl implements OrderService {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private BizOrderMapper orderMapper;
 
     @Autowired
     private BizOrderDetailMapper orderDetailMapper;
+
+    @Autowired
+    private BizHistoryMapper historyMapper;
+
+    @Autowired
+    private TbRolesMapper rolesMapper;
 
     @Override
     public ResultUtil getList(Integer page, Integer limit, BizOrderSearch search) {
@@ -88,26 +101,32 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public ResultUtil save(BizOrder order) {
+    public ResultUtil save(BizOrder order,TbAdmin admin) {
         Date date = new Date();
         String id = null;
         if(StringUtils.isBlank(order.getId())){
             id = WebUtils.generateUUID();
             order.setId(id);
             //生成合同订单号
-            String prefix = PurchaseUtil.prefix + DateUtil.formatDate(date,DateUtil.DateFormat3);
+            String prefix = OrderUtils.PREFIX_PO + DateUtil.formatDate(date,DateUtil.DateFormat3);
             String pn = orderMapper.selMaxOrderNo(prefix);
             String maxNo = PurchaseUtil.generatePurchaseNo(pn);
             order.setOrderNo(maxNo);
 
             //参数补充
             order.setCreateTime(date);
-            order.setUpdateDate(date);
-
+            order.setCreateUser(admin.getId());
+            order.setStatus(OrderUtils.STATUS_0);
+            order.setLastReviewUser(order.getCreateUser());
+            order.setLastReviewDate(new Date());
+            order.setIsApproval(OrderUtils.IS_APPROVAL_NO);
             orderMapper.insertSelective(order);
         }else {
             id = order.getId();
             order.setUpdateDate(date);
+            order.setStatus(OrderUtils.STATUS_0);
+            order.setLastReviewUser(order.getCreateUser());
+            order.setLastReviewDate(new Date());
             orderMapper.updateByPrimaryKeySelective(order);
         }
         return ResultUtil.ok(id);
@@ -115,7 +134,25 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public BizOrderVo selInfo(String id, Long adminId) {
-        return null;
+        BizOrderSearch search = new BizOrderSearch();
+        search.setLoginId(adminId);
+        BizOrderVo vo = new BizOrderVo();
+        BizOrderExample example = new BizOrderExample();
+        BizOrderExample.Criteria criteria = example.createCriteria();
+        criteria.andIdEqualTo(id);
+        List<BizOrderVo> list = orderMapper.selectByExampleExt(example,search);
+        if(!CollectionUtils.isEmpty(list)){
+            vo = list.get(0);
+
+            BizHistoryExample historyExample = new BizHistoryExample();
+            BizHistoryExample.Criteria historyCriteria = historyExample.createCriteria();
+            historyCriteria.andOrderIdEqualTo(id);
+            List<BizHistory> historyList = historyMapper.selectByExample(historyExample);
+            if(!CollectionUtils.isEmpty(historyList)){
+                vo.setHistoryList(historyList);
+            }
+        }
+        return vo;
     }
 
     @Override
@@ -135,7 +172,42 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResultUtil submit(String id, Long userId, Long roleId) {
-        return null;
+        ResultUtil ru = new ResultUtil();
+        BizOrder order = orderMapper.selectByPrimaryKey(id);
+        if(order == null){
+            ru = ResultUtil.error("订单不存在");
+        }else{
+            TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+            BizOrder tmp = new BizOrder();
+            tmp.setId(order.getId());
+            tmp.setIsApproval(OrderUtils.IS_APPROVAL_YES);
+            tmp.setLastReviewDate(new Date());
+            //tmp.setLastReviewRole(order.getLastReviewRole());
+            tmp.setLastReviewUser(admin.getId());
+            tmp.setNextReviewRole(roleId);
+            tmp.setNextReviewUser(userId);
+            tmp.setUpdateDate(new Date());
+            tmp.setApplyDate(new Date());
+            tmp.setUserItem(OrderUtils.getUserItem(order.getUserItem(),String.valueOf(userId)));
+            orderMapper.updateByPrimaryKeySelective(tmp);
+
+            BizHistory history = new BizHistory();
+            history.setId(WebUtils.generateUUID());
+            history.setIsApproval(OrderUtils.IS_APPROVAL_YES);
+            history.setOrderId(order.getId());
+            history.setApprovalDate(new Date());
+            history.setApprovalUser(admin.getId());
+            history.setApprovalUserName(admin.getFullname());
+            TbRoles roles = rolesMapper.selectByPrimaryKey(order.getLastReviewRole());
+            if(roles != null){
+                history.setApprovalRoleName(roles.getRoleName());
+            }
+            history.setOpinion("提交审核");
+            historyMapper.insert(history);
+            ru = ResultUtil.ok(order);
+        }
+
+        return ru;
     }
 
     @Override
@@ -165,11 +237,46 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResultUtil getItemList(BizOrderDetailSearch search) {
-        List<BizOrderDetail> detailList = new ArrayList<>();
-        detailList.add(new BizOrderDetail(WebUtils.generateUUID()));
+        BizOrderDetailExample example = new BizOrderDetailExample();
+        BizOrderDetailExample.Criteria criteria = example.createCriteria();
+        criteria.andOrderIdEqualTo(search.getOrderId());
+
+        List<BizOrderDetail> detailList = orderDetailMapper.selectByExample(example);
+        if(CollectionUtils.isEmpty(detailList)){
+            detailList.add(new BizOrderDetail(WebUtils.generateUUID()));
+        }
+
         ResultUtil resultUtil = new ResultUtil();
         resultUtil.setCode(0);
         resultUtil.setData(detailList);
         return resultUtil;
+    }
+
+    @Override
+    public ResultUtil saveItemList(List<BizOrderDetail> list, String orderId,TbAdmin admin) {
+        logger.info("list:{}", JSON.toJSONString(list));
+        if(!CollectionUtils.isEmpty(list)){
+            //先删除之前的明细
+            BizOrderDetailExample example = new BizOrderDetailExample();
+            example.createCriteria().andOrderIdEqualTo(orderId);
+            orderDetailMapper.deleteByExample(example);
+
+            //保存此次明细
+            //BigDecimal applyPrice = new BigDecimal(0.00);
+            for (BizOrderDetail detail: list) {
+                detail.setId(WebUtils.generateUUID());
+                detail.setOrderId(orderId);
+                //计算总金额
+                /*if(detail.getTotalPrice() != null){
+                    applyPrice = applyPrice.add(detail.getTotalPrice());
+                }*/
+                orderDetailMapper.insert(detail);
+            }
+
+            /*BizOrder order = orderMapper.selectByPrimaryKey(orderId);
+            orderMapper.updateByPrimaryKeySelective(order);*/
+
+        }
+        return ResultUtil.ok();
     }
 }
