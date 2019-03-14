@@ -116,11 +116,11 @@ public class AdminServiceImpl implements AdminService {
 		}
 
         if(search.getDeptId() != null){
-            criteria.andDeptIdEqualTo(search.getIsOnJob());
+            criteria.andDeptIdEqualTo(search.getDeptId().intValue());
         }
 
         if(search.getSupplierId() != null){
-            criteria.andSupplierIdEqualTo(search.getIsOnJob());
+            criteria.andSupplierIdEqualTo(search.getSupplierId().intValue());
         }
 
 		List<TbAdmin> list = tbAdminMapper.selectByExampleExt(example);

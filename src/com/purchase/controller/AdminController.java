@@ -1082,7 +1082,11 @@ public class AdminController {
 	}
 
     @RequestMapping("/selectAdmin")
-    public String selectAdmin() {
+    public String selectAdmin(HttpServletRequest request) {
+        List<TbDepartment> deptList = adminServiceImpl.selDepartmentByParentId(null);
+        request.setAttribute("deptList", deptList);
+        List<TbSupplier> supplierList = supplierService.selSuppliersAll();
+        request.setAttribute("supplierList", supplierList);
         return "page/admin/selectAdmin";
     }
 

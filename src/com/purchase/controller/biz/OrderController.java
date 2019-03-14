@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.purchase.annotation.SysLog;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.admin.TbProjectManger;
+import com.purchase.pojo.admin.TbRoles;
 import com.purchase.pojo.admin.TbSupplier;
 import com.purchase.pojo.biz.BizOrder;
 import com.purchase.pojo.biz.BizOrderDetail;
@@ -158,6 +159,8 @@ public class OrderController {
     @RequestMapping("toSubmit")
     public String toSubmit(HttpServletRequest req){
         logger.info("进入提交订单页面");
+        List<TbRoles> roleList = adminService.selRoles();
+        req.setAttribute("roleList", roleList);
         return "page/biz/submitOrder";
     }
 }

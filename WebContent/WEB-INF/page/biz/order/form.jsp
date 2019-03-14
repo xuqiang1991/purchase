@@ -33,10 +33,53 @@
     display:inline-block;
     vertical-align:-webkit-baseline-middle;
 }
+
+.layui-form-item{
+    margin-bottom: 0px;
+}
+.layui-form-item .layui-inline{
+    width: 25%;
+}
+.layui-textarea{
+    min-height: 60px;
+}
+.layui-elem-quote{
+    padding:5px 5px;
+    border-left: 5px;
+}
+.layui-form-label{
+    padding: 5px 5px;
+}
+.layui-input, .layui-textarea, .layui-select{
+    height: 30px;
+}
+.layui-input-block{
+    margin-left: 90px;
+}
+.layui-table-cell{
+    height: 25px;
+    line-height: 25px;
+    padding: 0px 0px;
+}
+.layui-table[lay-size="sm"] th, .layui-table[lay-size="sm"] td{
+    padding-bottom: 0px;
+}
+.layui-table[lay-size="sm"] th:first-child, .layui-table[lay-size="sm"] td:first-child{
+    width: 30px;
+}
+.layui-table[lay-size="sm"] th:last-child, .layui-table[lay-size="sm"] td:last-child{
+    width: 50px;
+}
 </style>
 </head>
 <body class="childrenBody">
-	<form class="layui-form" style="width: 90%; padding: 20px 0px 0px 20px;" id="layuiForm">
+	<form class="layui-form" style="" id="layuiForm">
+        <blockquote class="layui-elem-quote">
+            <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="save">保存</button>
+            <button class="layui-btn layui-btn-sm" onclick="submitOrder()">提交</button>
+            <button class="layui-btn layui-btn-sm" onclick="reviewOrder()">审核</button>
+            <button class="layui-btn layui-btn-sm layui-btn-danger" onclick="invalidOrder()">作废</button>
+        </blockquote>
         <input type="hidden" id="orderId" name="id" value="${orderVo.id}">
 		<div class="layui-form-item">
             <div class="layui-inline">
@@ -48,7 +91,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label css-required">订单类型</label>
                 <div class="layui-input-inline">
-                    <select id="type" name="type" lay-verify="required">
+                    <select id="type" name="type" lay-verify="required" lay-search>
                         <option value="">请选择订单类型</option>
                         <option value="0" <c:if test="${orderVo.type == 0}">selected</c:if>>绿化苗木</option>
                         <option value="1" <c:if test="${orderVo.type == 1}">selected</c:if>>园建水电</option>
@@ -64,8 +107,6 @@
                     <input type="hidden" id="projectId" name="projectId" value="${orderVo.projectId}">
                 </div>
             </div>
-        </div>
-		<div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label css-required">供应商</label>
                 <div class="layui-input-inline">
@@ -73,6 +114,9 @@
                     <input type="hidden" id="supplierId" name="supplierId" value="${orderVo.supplier.id}">
                 </div>
             </div>
+        </div>
+		<div class="layui-form-item">
+
             <div class="layui-inline">
                 <label class="layui-form-label css-required">申请人</label>
                 <div class="layui-input-inline">
@@ -94,8 +138,6 @@
                     <input type="text" id="applyDate" name="applyDate" class="layui-input" lay-verify="required" placeholder="请选择申请日期" value="<fmt:formatDate value="${orderVo.applyDate}" pattern="yyyy-MM-dd"/>">
                 </div>
             </div>
-        </div>
-		<div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">合同号</label>
                 <div class="layui-input-inline">
@@ -108,14 +150,14 @@
                     <input type="text" id="contractSignDate" name="contractSignDate" class="layui-input" placeholder="请选择签订时间" value="<fmt:formatDate value="${orderVo.contractSignDate}" pattern="yyyy-MM-dd"/>">
                 </div>
             </div>
+        </div>
+		<div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label css-require">合同总金额</label>
                 <div class="layui-input-inline">
                     <input type="text" id="contractMoney" class="layui-input " name="contractMoney" lay-verify="price" maxlength="20" placeholder="请输入合同总金额" value="${orderVo.contractMoney}">
                 </div>
             </div>
-        </div>
-		<div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label css-required">已付款总额</label>
                 <div class="layui-input-inline">
@@ -134,7 +176,10 @@
                     <input type="text" id="unsubscribedAmount" class="layui-input " name="unsubscribedAmount" readonly placeholder="系统回写" value="${orderVo.unsubscribedAmount}">
                 </div>
             </div>
-		</div>
+        </div>
+		<%--<div class="layui-form-item">
+
+		</div>--%>
         <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label css-required">已请款总额</label>
@@ -156,20 +201,12 @@
 				<textarea type="text" name="summary" class="layui-textarea" maxlength="100" placeholder="请输入摘要">${orderVo.summary}</textarea>
 			</div>
 		</div>
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button class="layui-btn" lay-submit="" lay-filter="save">保存</button>
-                <button class="layui-btn" onclick="submitOrder()">提交</button>
-                <button class="layui-btn" onclick="reviewOrder()">审核</button>
-                <button class="layui-btn layui-btn layui-btn-danger" onclick="invalidOrder()">作废</button>
-            </div>
-        </div>
     </form>
 
     <%--<hr class="layui-bg-gray">--%>
-    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+    <%--<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
         <legend>订单明细及审核流程</legend>
-    </fieldset>
+    </fieldset>--%>
 
 
     <div class="layui-tab layui-tab-brief">
@@ -177,45 +214,80 @@
             <li class="layui-this">订单明细</li>
             <li>审核流程</li>
         </ul>
-        <div class="layui-tab-content" style="padding: 10px 50px;">
+        <div class="layui-tab-content" style="padding: 0px;">
             <div class="layui-tab-item layui-show">
-                <table id="orderItem" class="layui-table" lay-size="sm">
-                    <thead>
-                        <tr>
-                            <th colspan="9">
-                                <a class="layui-btn layui-btn-sm add_btn_item" onclick="add()"><i class="layui-icon"></i>增加</a>
-                                <a class="layui-btn layui-btn-sm save_btn_item" onclick="saveItem()"><i class="layui-icon"></i>保存</a>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th style="width: 50px;"><div class="layui-table-cell"><span>序号</span></div></th>
-                            <th data-field="content"><div class="layui-table-cell"><span>材料/项目内容</span></div></th>
-                            <th data-field="model"><div class="layui-table-cell"><span>规格型号</span></div></th>
-                            <th data-field="unit"><div class="layui-table-cell"><span>单位</span></div></th>
-                            <th data-field="price"><div class="layui-table-cell"><span>单价</span></div></th>
-                            <th data-field="amount"><div class="layui-table-cell"><span>数量</span></div></th>
-                            <th data-field="totalPrice"><div class="layui-table-cell"><span>金额</span></div></th>
-                            <th data-field="remark"><div class="layui-table-cell"><span>备注</span></div></th>
-                            <th class="layui-table-col-special"><div class="layui-table-cell" align="center"><span>操作</span></div></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><div class="layui-table-cell">001</div></td>
-                            <td><input class="layui-input layui-table-edit" name="content" lay-verify="required" onkeyup="checkContent(this);" /></td>
-                            <td><input class="layui-input layui-table-edit" name="model" onkeyup="checkModel(this);" /></td>
-                            <td><input class="layui-input layui-table-edit" name="unit" lay-verify="required" onkeyup="checkUnit(this);" /></td>
-                            <td><input class="layui-input layui-table-edit" name="price" lay-verify="required" onblur="checkPrice(this);" onkeyup="reckon(this);" /></td>
-                            <td><input class="layui-input layui-table-edit" name="amount" lay-verify="required" onblur="checkAmount(this);" onkeyup="reckon(this);" /></td>
-                            <td><input class="layui-input layui-table-edit" readonly name="totalPrice" /></td>
-                            <td><input class="layui-input layui-table-edit" name="remark" lay-verify="required" onkeyup="checkRemark(this);" /></td>
-                            <td align="center" class="layui-table-col-special"><div class="layui-table-cell"><a class="layui-btn layui-btn-danger layui-btn-xs" onclick="del(this)" title="删除"><i class="layui-icon"></i></a></div></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="layui-table-header">
+                    <table cellspacing="0" cellpadding="0" border="0" class="layui-table elec_table" lay-size="sm" style="margin: 0px 0px">
+                        <thead>
+                            <tr>
+                                <th style="padding-bottom: 5px;">
+                                    <a class="layui-btn layui-btn-sm add_btn_item" onclick="add()"><i class="layui-icon"></i>增加</a>
+                                    <a class="layui-btn layui-btn-sm save_btn_item" onclick="saveItem()"><i class="layui-icon"></i>保存</a>
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <table cellspacing="0" cellpadding="0" border="0" class="layui-table elec_table" lay-size="sm" style="margin: 0px 0px">
+                        <thead>
+                            <tr>
+                                <th><div class="layui-table-cell"><span>序号</span></div></th>
+                                <th data-field="content"><div class="layui-table-cell"><span>材料/项目内容</span></div></th>
+                                <th data-field="model"><div class="layui-table-cell"><span>规格型号</span></div></th>
+                                <th data-field="unit"><div class="layui-table-cell"><span>单位</span></div></th>
+                                <th data-field="price"><div class="layui-table-cell"><span>单价</span></div></th>
+                                <th data-field="amount"><div class="layui-table-cell"><span>数量</span></div></th>
+                                <th data-field="totalPrice"><div class="layui-table-cell"><span>金额</span></div></th>
+                                <th data-field="remark"><div class="layui-table-cell"><span>备注</span></div></th>
+                                <th class="layui-table-col-special"><div class="layui-table-cell" align="center"><span>操作</span></div></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+                <div class="layui-table-body layui-table-main" style="height: 320px; margin-top: -11px">
+                    <table id="orderItem" class="layui-table table-body" lay-size="sm">
+                        <tbody>
+                            <tr>
+                                <td><div class="layui-table-cell">001</div></td>
+                                <td><input class="layui-input layui-table-edit" name="content" lay-verify="required" onkeyup="checkContent(this);" /></td>
+                                <td><input class="layui-input layui-table-edit" name="model" onkeyup="checkModel(this);" /></td>
+                                <td><input class="layui-input layui-table-edit" name="unit" lay-verify="required" onkeyup="checkUnit(this);" /></td>
+                                <td><input class="layui-input layui-table-edit" name="price" lay-verify="required" onblur="checkPrice(this);" onkeyup="reckon(this);" /></td>
+                                <td><input class="layui-input layui-table-edit" name="amount" lay-verify="required" onblur="checkAmount(this);" onkeyup="reckon(this);" /></td>
+                                <td><input class="layui-input layui-table-edit" readonly name="totalPrice" /></td>
+                                <td><input class="layui-input layui-table-edit" name="remark" lay-verify="required" onkeyup="checkRemark(this);" /></td>
+                                <td align="center" class="layui-table-col-special"><div class="layui-table-cell"><a class="layui-btn layui-btn-danger layui-btn-xs" onclick="del(this)" title="删除"><i class="layui-icon"></i></a></div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+            <style>
+                .elec_table{
+                    position:relative;
+                    table-layout : fixed;
+                }
+                .table-body{
+                    overflow-y:auto;
+                    overflow-x:hidden;
+                    /*height:150px;*/
+                }
+                /*设置table-layout:fixed固定宽度，表头和表体需要对齐*/
+                table{
+                    table-layout:fixed;
+                }
+                /*设置单元格的宽度，可能会出现内容长需要换行的情况 使用white-space:normal，每个单元格都是一样的宽度*/
+                .elec_table td{
+                    width:20%;
+                    white-space:normal;
+                }
+                .theadstyle thead tr th{
+                    text-align:center;
+                }
+
+            </style>
             <div class="layui-tab-item">
-               <ul class="layui-timeline">
+               <ul class="layui-timeline" style="padding: 20px 50px;">
                    <li class="layui-timeline-item">
                        <i class="layui-icon layui-timeline-axis"></i>
                        <div class="layui-timeline-content layui-text">

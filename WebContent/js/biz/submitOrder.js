@@ -1,3 +1,9 @@
+/**
+ * 提交订单选人
+ * @param event
+ * @param hiddenId
+ * @param textId
+ */
 function toSubmit(event,hiddenId,textId){
     layui.use(['layer','jquery'],function(){
         var layer = parent.layer === undefined ? layui.layer : parent.layer,$ = layui.jquery;

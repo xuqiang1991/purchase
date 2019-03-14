@@ -51,27 +51,33 @@
             <div class="layui-inline">
                 <label class="layui-form-label">所属部门</label>
                 <div class="layui-input-inline">
-                    <select id="deptId" name="deptId">
+                    <select id="deptId" name="deptId" lay-search>
                         <option value="">请选择所属部门</option>
-                        <option value="0">绿化苗木</option>
-                        <option value="1">园建水电</option>
-                        <option value="2">机械租赁</option>
-                        <option value="3">工程分包</option>
+                        <c:if test="${fn:length(deptList) > 0}">
+                            <c:forEach var="dept" items="${deptList}">
+                                <option value="${dept.id}">${dept.name}</option>
+                            </c:forEach>
+                        </c:if>
                     </select>
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">供应商</label>
                 <div class="layui-input-inline">
-                    <select id="supplierId" name="supplierId" >
+                    <select id="supplierId" name="supplierId" lay-search>
                         <option value="">请选择供应商</option>
+                        <c:if test="${fn:length(supplierList) > 0}">
+                            <c:forEach var="supplier" items="${supplierList}">
+                                <option value="${supplier.id}">${supplier.name}</option>
+                            </c:forEach>
+                        </c:if>
                     </select>
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">用户状态</label>
                 <div class="layui-input-inline">
-                    <select id="isOnJob" name="isOnJob">
+                    <select id="isOnJob" name="isOnJob" lay-search>
                         <option value="">请选择用户状态</option>
                         <option value="1">有效</option>
                         <option value="0">失效</option>
