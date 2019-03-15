@@ -187,7 +187,22 @@ function sort(){
             $(item).find("td:first").find("div").text(idxText);
         });
     }
+    exect();
 }
+
+function exect(){
+    var tbody = $("#orderItem").find("tbody >tr").last().find("td");
+    var thead = $("#orderItemThead").find("thead >tr");
+    tbody.each(function(idx,item){
+        var width = $(item).width();
+        var t = $(thead).find("th").eq(idx);
+        $(t).css("width",width);
+        $(item).css("width",width);
+        console.log(t.width() + "--" + width);
+    })
+
+}
+
 //金额计算
 function reckon(event){
     var tr = $(event).parent().parent();
@@ -316,7 +331,8 @@ function saveItem(){
 function submitOrder(){
     var orderId = $("#orderId").val();
     if(orderId != null && orderId != ''){
-        toSubmit(1,1,1);
+        var url = ctx + '/biz/order/submit';
+        toSubmit(orderId,0,url);
         //adminSelect('selectApplyUserEdit','applyUserEdit','selectApplyUserEdit');
 
 
@@ -363,7 +379,50 @@ function submitOrder(){
  * 审核订单
  */
 function reviewOrder(){
+    var orderId = $("#orderId").val();
+    if(orderId != null && orderId != ''){
+        var url = ctx + '/biz/order/submit';
+        toSubmit(orderId,1,url);
+        //adminSelect('selectApplyUserEdit','applyUserEdit','selectApplyUserEdit');
 
+
+
+
+
+
+        /*var msg,flag=false;
+        var url = ctx + '/biz/order/submit?id='+orderId+'&userId=' + userId + '&roleId=' + roleId;
+        var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
+        $.ajax({
+            type: "post",
+            url: url,
+            dataType:"json",
+            contentType : "application/x-www-form-urlencoded",
+            success:function(d){
+                if(d.code==0){
+                    msg="保存成功！";
+                    flag=true;
+                    //$("#auf")[0].reset();
+                }else{
+                    msg=d.msg;
+                }
+            }
+        });
+        setTimeout(function(){
+            top.layer.close(index);
+            if(flag){
+                top.layer.msg(msg,{icon: 1});
+            }else{
+                top.layer.msg(msg,{icon: 5});
+            }
+            //layer.closeAll("iframe");
+            //刷新父页面
+            //parent.location.reload();
+        },2000);
+        return false;*/
+    }else{
+        layer.msg("请先添加订单",{icon: 0});
+    }
 }
 
 /**

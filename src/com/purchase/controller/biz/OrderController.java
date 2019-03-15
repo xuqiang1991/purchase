@@ -157,10 +157,12 @@ public class OrderController {
 
     @SysLog(value="进入提交订单页面")
     @RequestMapping("toSubmit")
-    public String toSubmit(HttpServletRequest req){
+    public String toSubmit(HttpServletRequest req, String id, String type){
         logger.info("进入提交订单页面");
         List<TbRoles> roleList = adminService.selRoles();
         req.setAttribute("roleList", roleList);
+        req.setAttribute("id", id);
+        req.setAttribute("type", type);
         return "page/biz/submitOrder";
     }
 }

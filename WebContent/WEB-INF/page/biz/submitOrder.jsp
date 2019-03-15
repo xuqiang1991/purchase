@@ -16,11 +16,20 @@
 </head>
 <body class="layui-layout-body" style="overflow:auto">
 <form class="layui-form" style="margin: 10px 10px;">
-    <div class="layui-form-item">
+    <input id="id" name="id" type="hidden" value="${id}">
+    <c:if test="${type == 1}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">审核结果</label>
+            <div class="layui-input-block">
+                <input type="checkbox" checked="" id="auditResults" name="auditResults" name="auditResults" lay-skin="switch" lay-filter="auditResults" lay-text="驳回|通过">
+            </div>
+        </div>
+    </c:if>
+    <div class="layui-form-item" id="roleIdDiv">
         <label class="layui-form-label">审批角色</label>
         <div class="layui-input-block">
-            <select name="role" lay-verify="required" lay-search>
-                <option value="请选择审批角色"></option>
+            <select id="roleId" name="roleId" lay-verify="required" lay-search>
+                <option value="">请选择审批角色</option>
                 <c:if test="${fn:length(roleList) > 0}">
                     <c:forEach var="role" items="${roleList}">
                         <option value="${role.roleId}">${role.roleName}</option>
@@ -29,11 +38,14 @@
             </select>
         </div>
     </div>
-    <div class="layui-form-item">
+    <div class="layui-form-item" id="userIdDiv">
         <label class="layui-form-label">审批人</label>
         <div class="layui-input-block">
-            <input type="text" id="selectReviewUserName" readonly lay-verify="required" class="layui-input" placeholder="请选择审批人" value="">
-            <input type="hidden" id="selectReviewUser" name="reviewUser" value="">
+            <%--<input type="text" id="selectReviewUserName" readonly lay-verify="required" class="layui-input" placeholder="请选择审批人" value="">
+            <input type="hidden" id="selectReviewUser" name="reviewUser" value="">--%>
+            <select id="userId" name="userId" lay-verify="required" lay-search>
+                <option value="">请选择审批人</option>
+            </select>
         </div>
     </div>
     <div class="layui-form-item">
@@ -44,12 +56,29 @@
     </div>
 </form>
 <script type="text/javascript" src="${ctx }/layui/layui.js"></script>
-<script type="text/javascript" src="${ctx }/js/admin/adminSelect.js"></script>
 <script type="text/javascript">
     layui.use(['layer','jquery','form'],function(){
-        var layer = parent.layer === undefined ? layui.layer : parent.layer,$ = layui.jquery,form = layui.form;;
-        $("#selectReviewUserName").click(function(){
+        var layer = parent.layer === undefined ? layui.layer : parent.layer,$ = layui.jquery,form = layui.form;
+        /*$("#selectReviewUserName").click(function(){
             adminSelect('selectReviewUserName','reviewUser','selectReviewUserName');
+        });*/
+        form.on('select(reviewUser)', function(data){
+            console.log(data.elem); //得到select原始DOM对象
+            console.log(data.value); //得到被选中的值
+            console.log(data.othis); //得到美化后的DOM对象
+        });
+        form.on('switch(auditResults)', function(data){
+            console.log(data.elem); //得到checkbox原始DOM对象
+            console.log(data.elem.checked); //开关是否开启，true或者false
+            console.log(data.value); //开关value值，也可以通过data.elem.value得到
+            console.log(data.othis); //得到美化后的DOM对象
+            if(data.elem.checked){//通过
+                $("#userIdDiv").show();
+                $("#roleIdDiv").show();
+            }else{
+                $("#userIdDiv").hide();
+                $("#roleIdDiv").hide();
+            }
         });
     })
 

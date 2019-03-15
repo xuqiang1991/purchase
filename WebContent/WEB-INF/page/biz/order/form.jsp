@@ -217,35 +217,29 @@
         <div class="layui-tab-content" style="padding: 0px;">
             <div class="layui-tab-item layui-show">
                 <div class="layui-table-header">
-                    <table cellspacing="0" cellpadding="0" border="0" class="layui-table elec_table" lay-size="sm" style="margin: 0px 0px">
+                    <blockquote class="layui-elem-quote" style="margin-bottom: 0px;">
+                        <a class="layui-btn layui-btn-sm add_btn_item" onclick="add()"><i class="layui-icon"></i>增加</a>
+                        <a class="layui-btn layui-btn-sm save_btn_item" onclick="saveItem()"><i class="layui-icon"></i>保存</a>
+                    </blockquote>
+                    <table id="orderItemThead" cellspacing="0" cellpadding="0" border="0" class="layui-table" lay-size="sm" style="margin: 0px 0px">
                         <thead>
                             <tr>
-                                <th style="padding-bottom: 5px;">
-                                    <a class="layui-btn layui-btn-sm add_btn_item" onclick="add()"><i class="layui-icon"></i>增加</a>
-                                    <a class="layui-btn layui-btn-sm save_btn_item" onclick="saveItem()"><i class="layui-icon"></i>保存</a>
-                                </th>
-                            </tr>
-                        </thead>
-                    </table>
-                    <table cellspacing="0" cellpadding="0" border="0" class="layui-table elec_table" lay-size="sm" style="margin: 0px 0px">
-                        <thead>
-                            <tr>
-                                <th><div class="layui-table-cell"><span>序号</span></div></th>
-                                <th data-field="content"><div class="layui-table-cell"><span>材料/项目内容</span></div></th>
-                                <th data-field="model"><div class="layui-table-cell"><span>规格型号</span></div></th>
-                                <th data-field="unit"><div class="layui-table-cell"><span>单位</span></div></th>
-                                <th data-field="price"><div class="layui-table-cell"><span>单价</span></div></th>
-                                <th data-field="amount"><div class="layui-table-cell"><span>数量</span></div></th>
-                                <th data-field="totalPrice"><div class="layui-table-cell"><span>金额</span></div></th>
-                                <th data-field="remark"><div class="layui-table-cell"><span>备注</span></div></th>
-                                <th class="layui-table-col-special"><div class="layui-table-cell" align="center"><span>操作</span></div></th>
+                                <th>序号</th>
+                                <th data-field="content">材料/项目内容</th>
+                                <th data-field="model">规格型号</th>
+                                <th data-field="unit">单位</th>
+                                <th data-field="price">单价</th>
+                                <th data-field="amount">数量</th>
+                                <th data-field="totalPrice">金额</th>
+                                <th data-field="remark">备注</th>
+                                <th class="layui-table-col-special">操作</th>
                             </tr>
                         </thead>
                     </table>
                 </div>
 
                 <div class="layui-table-body layui-table-main" style="height: 320px; margin-top: -11px">
-                    <table id="orderItem" class="layui-table table-body" lay-size="sm">
+                    <table id="orderItem" class="layui-table" lay-size="sm">
                         <tbody>
                             <tr>
                                 <td><div class="layui-table-cell">001</div></td>
@@ -263,27 +257,27 @@
                 </div>
             </div>
             <style>
-                .elec_table{
+                /*.elec_table{
                     position:relative;
                     table-layout : fixed;
                 }
                 .table-body{
                     overflow-y:auto;
                     overflow-x:hidden;
-                    /*height:150px;*/
+                    !*height:150px;*!
                 }
-                /*设置table-layout:fixed固定宽度，表头和表体需要对齐*/
+                !*设置table-layout:fixed固定宽度，表头和表体需要对齐*!
                 table{
                     table-layout:fixed;
                 }
-                /*设置单元格的宽度，可能会出现内容长需要换行的情况 使用white-space:normal，每个单元格都是一样的宽度*/
+                !*设置单元格的宽度，可能会出现内容长需要换行的情况 使用white-space:normal，每个单元格都是一样的宽度*!
                 .elec_table td{
                     width:20%;
                     white-space:normal;
                 }
                 .theadstyle thead tr th{
                     text-align:center;
-                }
+                }*/
 
             </style>
             <div class="layui-tab-item">

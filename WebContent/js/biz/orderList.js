@@ -81,7 +81,7 @@ layui.config({
 	//添加
 	$(".add_btn").click(function(){
 	    var url = ctx+"/biz/order/toEdit";
-		var index = layui.layer.open({title : false,type : 2,content : url});
+		var index = layui.layer.open({title : false,type : 2, closeBtn : 0,content : url});
 		//改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
 		$(window).resize(function(){
 		    layui.layer.full(index);
@@ -98,7 +98,7 @@ layui.config({
             return;
         }
         var url = ctx+"/biz/order/toEdit?id="+id;
-        var index = layui.layer.open({title : false, type : 2, content:url});
+        var index = layui.layer.open({title : false, type : 2,closeBtn : 0, content:url});
         /*success : function(layero, index){
             layui.layer.tips('点击此处返回项目列表', '.layui-layer-setwin .layui-layer-close', {
                 tips: 3
