@@ -927,5 +927,12 @@ public class AdminServiceImpl implements AdminService {
 	public TbAdmin selectByPrimaryKey(Long id) {
 		TbAdmin admin=tbAdminMapper.selectByPrimaryKey(id);
 		return admin;
-	};
+	}
+
+    @Override
+    public List<TbAdmin> selectAdminByRoleId(Long roleId) {
+        return tbAdminMapper.selectByRolesId(roleId);
+    }
+
+    ;
 }

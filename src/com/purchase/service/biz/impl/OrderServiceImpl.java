@@ -172,7 +172,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResultUtil submit(String id, Long userId, Long roleId) {
-        ResultUtil ru = new ResultUtil();
+        ResultUtil ru = null;
         BizOrder order = orderMapper.selectByPrimaryKey(id);
         if(order == null){
             ru = ResultUtil.error("订单不存在");

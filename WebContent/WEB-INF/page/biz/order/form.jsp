@@ -76,9 +76,9 @@
 	<form class="layui-form" style="" id="layuiForm">
         <blockquote class="layui-elem-quote">
             <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="save">保存</button>
-            <button class="layui-btn layui-btn-sm" onclick="submitOrder()">提交</button>
-            <button class="layui-btn layui-btn-sm" onclick="reviewOrder()">审核</button>
-            <button class="layui-btn layui-btn-sm layui-btn-danger" onclick="invalidOrder()">作废</button>
+            <button class="layui-btn layui-btn-sm" type="button" onclick="submitOrder()">提交</button>
+            <button class="layui-btn layui-btn-sm" type="button" onclick="reviewOrder()">审核</button>
+            <button class="layui-btn layui-btn-sm layui-btn-danger" type="button" onclick="invalidOrder()">作废</button>
         </blockquote>
         <input type="hidden" id="orderId" name="id" value="${orderVo.id}">
 		<div class="layui-form-item">
@@ -239,7 +239,7 @@
                 </div>
 
                 <div class="layui-table-body layui-table-main" style="height: 320px; margin-top: -11px">
-                    <table id="orderItem" class="layui-table" lay-size="sm" style="overflow: hidden;">
+                    <table id="orderItem" class="layui-table" lay-size="sm">
                         <tbody>
                             <tr>
                                 <td><div class="layui-table-cell">001</div></td>
@@ -256,59 +256,10 @@
                     </table>
                 </div>
             </div>
-            <style>
-                /*.elec_table{
-                    position:relative;
-                    table-layout : fixed;
-                }
-                .table-body{
-                    overflow-y:auto;
-                    overflow-x:hidden;
-                    !*height:150px;*!
-                }
-                !*设置table-layout:fixed固定宽度，表头和表体需要对齐*!
-                table{
-                    table-layout:fixed;
-                }
-                !*设置单元格的宽度，可能会出现内容长需要换行的情况 使用white-space:normal，每个单元格都是一样的宽度*!
-                .elec_table td{
-                    width:20%;
-                    white-space:normal;
-                }
-                .theadstyle thead tr th{
-                    text-align:center;
-                }*/
-
-            </style>
             <div class="layui-tab-item">
                <ul class="layui-timeline" style="padding: 20px 50px;">
-                   <li class="layui-timeline-item">
-                       <i class="layui-icon layui-timeline-axis"></i>
-                       <div class="layui-timeline-content layui-text">
-                           <div class="layui-timeline-title">已提交 操作人:谢海龙  <b>2019-03-12</b></div>
-                       </div>
-                   </li>
-                   <li class="layui-timeline-item">
-                       <i class="layui-icon layui-timeline-axis"></i>
-                       <div class="layui-timeline-content layui-text">
-                           <div class="layui-timeline-title">审核通过 操作人:谢海龙  <b>2019-03-12</b></div>
-                           <p>已经通过双方核对，与签订合同内容一致</p>
-                       </div>
-                   </li>
-                   <li class="layui-timeline-item">
-                       <i class="layui-icon layui-timeline-axis"></i>
-                       <div class="layui-timeline-content layui-text">
-                           <div class="layui-timeline-title">审核通过 操作人:李奇  <b>2019-03-12</b></div>
-                           <p>与合同部已经核对，内容相同</p>
-                       </div>
-                   </li>
-                   <li class="layui-timeline-item">
-                       <i class="layui-icon layui-timeline-axis"></i>
-                       <div class="layui-timeline-content layui-text">
-                           <div class="layui-timeline-title">审核生效 操作人:刘成  <b>2019-03-12</b></div>
-                           <p>同意</p>
-                       </div>
-                   </li>
+                   <c:set value="${orderVo.historyList}" var="historyList"/>
+                   <%@ include file="/WEB-INF/page/biz/reviewHistory.jsp"%>
                </ul>
             </div>
         </div>

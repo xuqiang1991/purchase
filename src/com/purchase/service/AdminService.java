@@ -168,4 +168,11 @@ public interface AdminService {
 	boolean checkRoleIsOverRole(Long roleId);
 
 	TbAdmin selectByPrimaryKey(Long id);
+
+    /**
+     * 根据角色查询用户
+     * @return
+     */
+    List<TbAdmin> selectAdminByRoleId(Long roleId);
+
 }

@@ -28,7 +28,7 @@
     <div class="layui-form-item" id="roleIdDiv">
         <label class="layui-form-label">审批角色</label>
         <div class="layui-input-block">
-            <select id="roleId" name="roleId" lay-verify="required" lay-search>
+            <select id="roleId" name="roleId" lay-verify="required" lay-filter="roleId" lay-search>
                 <option value="">请选择审批角色</option>
                 <c:if test="${fn:length(roleList) > 0}">
                     <c:forEach var="role" items="${roleList}">
@@ -43,7 +43,7 @@
         <div class="layui-input-block">
             <%--<input type="text" id="selectReviewUserName" readonly lay-verify="required" class="layui-input" placeholder="请选择审批人" value="">
             <input type="hidden" id="selectReviewUser" name="reviewUser" value="">--%>
-            <select id="userId" name="userId" lay-verify="required" lay-search>
+            <select id="userId" name="userId" lay-verify="required" lay-filter="userId" lay-search>
                 <option value="">请选择审批人</option>
             </select>
         </div>
@@ -66,6 +66,33 @@
             console.log(data.elem); //得到select原始DOM对象
             console.log(data.value); //得到被选中的值
             console.log(data.othis); //得到美化后的DOM对象
+            var params = {};
+            params.roleId = data.value;
+            if(data.value != null){
+                var url = ctx+"/sys/getAdminByRoleId";
+                $.ajax({ type: "post", url: url, data:params, dataType:"json",
+                    success:function(d){
+                        if(d.code==0){
+                            console.log(d.data);
+                            var data = d.data, html = '<option value="">请选择审批人</option>';
+                            if(data.length > 0){
+                                for(var i = 0; i < data.length; i++){
+                                    html += '<option value="'+ data[i].id +'">'+ data[i].fullname +'</option>';
+                                }
+                            }
+                            console.log(html);
+                            $("#userId").html(html);
+                            form.render('select');
+                        }else{
+                            layer.msg("网络异常，请稍候再试",{icon: 1});
+                        }
+
+                    }
+                });
+            }
+
+
+
         });
         form.on('switch(auditResults)', function(data){
             console.log(data.elem); //得到checkbox原始DOM对象

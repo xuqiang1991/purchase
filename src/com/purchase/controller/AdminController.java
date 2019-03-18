@@ -1096,4 +1096,11 @@ public class AdminController {
         List<ChoseAdminVO> list = adminServiceImpl.selectAdmin();
         return ResultUtil.ok(list);
     }
+
+    @RequestMapping("/getAdminByRoleId")
+    @ResponseBody
+    public ResultUtil getAdminByRoleId(Long roleId){
+        List<TbAdmin> list = adminServiceImpl.selectAdminByRoleId(roleId);
+        return ResultUtil.ok(list);
+    }
 }

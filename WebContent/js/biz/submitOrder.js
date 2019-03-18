@@ -10,7 +10,6 @@ function toSubmit(id,type,url){
         var layer = parent.layer === undefined ? layui.layer : parent.layer,$ = layui.jquery;
         var btnArray = type == 0 ? ['提交','取消'] : ['审核','取消'];
         var title = type == 0 ? "提交订单" : "审核订单";
-        var idx = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
         var msg,flag=false;
         layer.open({
             type: 2,
@@ -26,39 +25,23 @@ function toSubmit(id,type,url){
                 var auditOpinion = $(layero).find("iframe").contents().find("#auditOpinion").val();
                 console.log("auditResults:" + auditResults + "   roleId:" + roleId + "    userId:"+ userId + "   auditOpinion:" + auditOpinion);
                 var params = {};
+                params.id = id;
                 params.auditResults = auditResults;
                 params.roleId = roleId;
                 params.userId = userId;
                 params.auditOpinion = auditOpinion;
                 if(type == 0){//提交
-                    layer.msg('提交', {time: 5000, icon:6});
-                    $.ajax({
-                        type: "post",
-                        url: url,
-                        async:false,
-                        data:params,
-                        dataType:"json",
+                    $.ajax({ type: "post", url: url, async:false, data:params, dataType:"json",
                         success:function(data){
                             if(data.code==0){
                                 msg="提交成功！";
                                 flag=true;
-                                //$("#auf")[0].reset();
                             }else{
                                 msg=data.msg;
                             }
+                            layer.msg(msg,{icon: 1});
                         }
                     });
-                    setTimeout(function(){
-                        top.layer.close(index);
-                        if(flag){
-                            top.layer.msg(msg,{icon: 1});
-                        }else{
-                            top.layer.msg(msg,{icon: 5});
-                        }
-                        //layer.closeAll("iframe");
-                        //刷新父页面
-                        //parent.location.reload();
-                    },2000);
                 }else{//审核
                     layer.msg('审核', {time: 5000, icon:6});
                 }
