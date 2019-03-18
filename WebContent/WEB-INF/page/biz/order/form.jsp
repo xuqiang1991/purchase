@@ -239,7 +239,7 @@
                 </div>
 
                 <div class="layui-table-body layui-table-main" style="height: 320px; margin-top: -11px">
-                    <table id="orderItem" class="layui-table" lay-size="sm">
+                    <table id="orderItem" class="layui-table" lay-size="sm" style="overflow: hidden;">
                         <tbody>
                             <tr>
                                 <td><div class="layui-table-cell">001</div></td>
