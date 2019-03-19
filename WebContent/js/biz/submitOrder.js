@@ -19,22 +19,40 @@ function toSubmit(id,type,url){
             content:ctx+"/biz/order/toSubmit?id=" + id + "&type=" + type,
             yes: function(index, layero){
                 var body = layer.getChildFrame('body', index);
-                var auditResults = body.find("#auditResults").val();
-                var roleId = body.find("#roleId >option:selected").val();
-                var userId = body.find("#userId >option:selected").val();
-                var auditOpinion = $(layero).find("iframe").contents().find("#auditOpinion").val();
-                console.log("auditResults:" + auditResults + "   roleId:" + roleId + "    userId:"+ userId + "   auditOpinion:" + auditOpinion);
-                var params = {};
-                params.id = id;
-                params.auditResults = auditResults;
-                params.roleId = roleId;
-                params.userId = userId;
-                params.auditOpinion = auditOpinion;
-                if(type == 0){//提交
+                msg = type == 0?"提交成功！":"审核成功！";
+                var auditResults = body.find("#auditResults");
+                var isReq = true;//检查参数是否完善的提交标识
+                if(type == 0 || (type == 1 && auditResults.is(':checked'))){//提交
+                    var select = body.find("#submitOrReviewForm").find("select");
+                    if(select.length > 0){
+                        select.each(function(){
+                            var event = $(this).find("option:selected");
+                            if(!event.val()){
+                                var text = $(this).parent().parent().find("label").text();
+                                isReq = false;
+                                layer.msg('请选择' + text,{icon: 5});
+                                return false;
+                            }
+                        });
+                    }
+                }else{
+
+                }
+                if(isReq){
+                    var roleId = body.find("#roleId >option:selected");
+                    var userId = body.find("#userId >option:selected");
+                    var auditOpinion = $(layero).find("iframe").contents().find("#auditOpinion");
+                    console.log("auditResults:" + auditResults + "   roleId:" + roleId + "    userId:"+ userId + "   auditOpinion:" + auditOpinion);
+                    var params = {};
+                    params.id = id;
+                    params.auditResults = auditResults.is(':checked');
+                    params.roleId = roleId.val();
+                    params.userId = userId.val();
+                    params.auditOpinion = auditOpinion.val();
+
                     $.ajax({ type: "post", url: url, async:false, data:params, dataType:"json",
                         success:function(data){
                             if(data.code==0){
-                                msg="提交成功！";
                                 flag=true;
                             }else{
                                 msg=data.msg;
@@ -42,30 +60,12 @@ function toSubmit(id,type,url){
                             layer.msg(msg,{icon: 1});
                         }
                     });
-                }else{//审核
-                    layer.msg('审核', {time: 5000, icon:6});
+                    layer.close(index); //如果设定了yes回调，需进行手工关闭
+                    parent.location.reload();
                 }
-                layer.close(index); //如果设定了yes回调，需进行手工关闭
+
+
             }
         })
     })
-}
-
-function submint(url,params){
-    $.ajax({
-        type: "post",
-        url: url,
-        async:false,
-        data:params,
-        dataType:"json",
-        success:function(data){
-            if(data.code==0){
-                msg="保存成功！";
-                flag=true;
-                //$("#auf")[0].reset();
-            }else{
-                msg=d.msg;
-            }
-        }
-    });
 }

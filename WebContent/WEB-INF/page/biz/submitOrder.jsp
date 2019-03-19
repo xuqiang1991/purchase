@@ -15,7 +15,7 @@
 	</script>
 </head>
 <body class="layui-layout-body" style="overflow:auto">
-<form class="layui-form" style="margin: 10px 10px;">
+<form class="layui-form" style="margin: 10px 10px;" id="submitOrReviewForm">
     <input id="id" name="id" type="hidden" value="${id}">
     <c:if test="${type == 1}">
         <div class="layui-form-item">

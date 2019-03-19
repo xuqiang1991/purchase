@@ -17,10 +17,10 @@
 	}
     </style>
     <script src="${ctx }/layui/layui.js"></script>
-    <script>  
-        var ctx = "${ctx}";  
-    </script> 
-    
+    <script>
+        var ctx = "${ctx}";
+    </script>
+
 </head>
 <body class="childrenBody">
 <blockquote class="layui-elem-quote list_search">

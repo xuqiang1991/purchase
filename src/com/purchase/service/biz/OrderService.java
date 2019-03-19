@@ -3,7 +3,6 @@ package com.purchase.service.biz;
 import com.purchase.pojo.admin.TbAdmin;
 import com.purchase.pojo.biz.BizOrder;
 import com.purchase.pojo.biz.BizOrderDetail;
-import com.purchase.pojo.order.BizPurchaseOrderDetail;
 import com.purchase.util.ResultUtil;
 import com.purchase.vo.Search.BizOrderDetailSearch;
 import com.purchase.vo.Search.BizOrderSearch;
@@ -69,7 +68,7 @@ public interface OrderService {
      * @Param
      * @return
      **/
-    ResultUtil review(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion, Long applyRole);
+    ResultUtil review(TbAdmin admin, String id, Boolean auditResults, Long userId, String auditOpinion, Long roleId);
 
     /**
      * @Author zhoujb
@@ -88,7 +87,7 @@ public interface OrderService {
      * @Param
      * @return
      **/
-    ResultUtil saveItem(BizPurchaseOrderDetail order);
+    ResultUtil saveItem(BizOrderDetail orderDetail);
 
     /**
      * @Author zhoujb

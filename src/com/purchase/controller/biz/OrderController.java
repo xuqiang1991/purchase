@@ -117,6 +117,15 @@ public class OrderController {
         return orderService.submit(id,userId,roleId);
     }
 
+    @SysLog(value="审核订单")
+    @RequestMapping("review")
+    @ResponseBody
+    public ResultUtil review(String id, Boolean auditResults, Long userId, String auditOpinion, Long roleId){
+        TbAdmin admin = (TbAdmin) SecurityUtils.getSubject().getPrincipal();
+        //search.setLoginId(admin.getId());
+        return orderService.review(admin,id,auditResults,userId,auditOpinion,roleId);
+    }
+
     @SysLog(value="获取订单明细数据")
     @RequestMapping("getItemList")
     @ResponseBody

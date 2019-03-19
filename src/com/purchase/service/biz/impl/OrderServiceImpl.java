@@ -15,7 +15,6 @@ import com.purchase.pojo.biz.BizOrderDetailExample;
 import com.purchase.pojo.biz.BizOrderExample;
 import com.purchase.pojo.order.BizHistory;
 import com.purchase.pojo.order.BizHistoryExample;
-import com.purchase.pojo.order.BizPurchaseOrderDetail;
 import com.purchase.service.biz.OrderService;
 import com.purchase.util.*;
 import com.purchase.vo.Search.BizOrderDetailSearch;
@@ -146,6 +145,7 @@ public class OrderServiceImpl implements OrderService {
 
             BizHistoryExample historyExample = new BizHistoryExample();
             BizHistoryExample.Criteria historyCriteria = historyExample.createCriteria();
+            historyExample.setOrderByClause("approval_date DESC");
             historyCriteria.andOrderIdEqualTo(id);
             List<BizHistory> historyList = historyMapper.selectByExample(historyExample);
             if(!CollectionUtils.isEmpty(historyList)){
@@ -211,8 +211,44 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public ResultUtil review(TbAdmin admin, String id, Boolean auditResults, Long applyUser, String auditOpinion, Long applyRole) {
-        return null;
+    public ResultUtil review(TbAdmin admin, String id, Boolean auditResults, Long userId, String auditOpinion, Long roleId) {
+        Date date = new Date();
+        BizOrder order = orderMapper.selectByPrimaryKey(id);
+        BizHistory history = new BizHistory();
+        history.setId(WebUtils.generateUUID());
+        //审核不通过
+        if(!auditResults){
+            order.setIsApproval(OrderUtils.IS_APPROVAL_NO);
+            order.setLastReviewRole(null);
+            order.setLastReviewUser(null);
+            order.setNextReviewRole(null);
+            order.setNextReviewUser(order.getCreateUser());//驳回则还原到创建人
+            history.setIsApproval(OrderUtils.IS_APPROVAL_NO);
+        }else{
+            order.setIsApproval(OrderUtils.IS_APPROVAL_YES);
+            order.setLastReviewRole(order.getNextReviewRole());
+            order.setLastReviewUser(admin.getId());
+            order.setNextReviewUser(userId);
+            order.setNextReviewRole(roleId);
+            history.setIsApproval(OrderUtils.IS_APPROVAL_YES);
+        }
+        order.setLastReviewDate(date);
+        order.setUserItem(OrderUtils.getUserItem(order.getUserItem(),String.valueOf(userId)));
+        order.setUpdateDate(date);
+
+        history.setOrderId(order.getId());
+        history.setApprovalDate(new Date());
+        history.setApprovalUser(admin.getId());
+        history.setApprovalUserName(admin.getFullname());
+        TbRoles roles = rolesMapper.selectByPrimaryKey(order.getLastReviewRole());
+        if(roles != null){
+            history.setApprovalRoleName(roles.getRoleName());
+        }
+        history.setOpinion(auditOpinion);
+
+        orderMapper.updateByPrimaryKey(order);
+        historyMapper.insert(history);
+        return ResultUtil.ok(order);
     }
 
     @Override
@@ -221,7 +257,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public ResultUtil saveItem(BizPurchaseOrderDetail order) {
+    public ResultUtil saveItem(BizOrderDetail orderDetail) {
         return null;
     }
 

@@ -75,10 +75,21 @@
 <body class="childrenBody">
 	<form class="layui-form" style="" id="layuiForm">
         <blockquote class="layui-elem-quote">
-            <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="save">保存</button>
-            <button class="layui-btn layui-btn-sm" type="button" onclick="submitOrder()">提交</button>
-            <button class="layui-btn layui-btn-sm" type="button" onclick="reviewOrder()">审核</button>
-            <button class="layui-btn layui-btn-sm layui-btn-danger" type="button" onclick="invalidOrder()">作废</button>
+            <c:choose>
+                <c:when test="${orderVo.id == null || orderVo.status == 0}">
+                    <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="save">保存</button>
+                </c:when>
+                <c:when test="${orderVo.status == 0 && orderVo.createUser == admin.id}">
+                    <button class="layui-btn layui-btn-sm" type="button" onclick="submitOrder()">提交</button>
+                </c:when>
+                <c:when test="${orderVo.nextReviewUser == admin.id && orderVo.status == 1}">
+                    <button class="layui-btn layui-btn-sm" type="button" onclick="reviewOrder()">审核</button>
+                </c:when>
+                <c:when test="${orderVo.id != null}">
+                    <button class="layui-btn layui-btn-sm" type="button" onclick="reviewOrder()">审核</button>
+                </c:when>
+            </c:choose>
+            <%--<button class="layui-btn layui-btn-sm" type="button" onclick="cancel()">关闭</button>--%>
         </blockquote>
         <input type="hidden" id="orderId" name="id" value="${orderVo.id}">
 		<div class="layui-form-item">
@@ -86,18 +97,6 @@
                 <label class="layui-form-label">单号</label>
                 <div class="layui-input-inline">
                     <input type="text" id="orderNo" name="orderNo" value="${orderVo.orderNo}" disabled readonly placeholder="系统自动生成" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label css-required">订单类型</label>
-                <div class="layui-input-inline">
-                    <select id="type" name="type" lay-verify="required" lay-search>
-                        <option value="">请选择订单类型</option>
-                        <option value="0" <c:if test="${orderVo.type == 0}">selected</c:if>>绿化苗木</option>
-                        <option value="1" <c:if test="${orderVo.type == 1}">selected</c:if>>园建水电</option>
-                        <option value="2" <c:if test="${orderVo.type == 2}">selected</c:if>>机械租赁</option>
-                        <option value="3" <c:if test="${orderVo.type == 3}">selected</c:if>>工程分包</option>
-                    </select>
                 </div>
             </div>
             <div class="layui-inline">
@@ -114,9 +113,20 @@
                     <input type="hidden" id="supplierId" name="supplierId" value="${orderVo.supplier.id}">
                 </div>
             </div>
+            <div class="layui-inline">
+                <label class="layui-form-label css-required">订单类型</label>
+                <div class="layui-input-inline">
+                    <select id="type" name="type" lay-verify="required" lay-search>
+                        <option value="">请选择订单类型</option>
+                        <option value="0" <c:if test="${orderVo.type == 0}">selected</c:if>>绿化苗木</option>
+                        <option value="1" <c:if test="${orderVo.type == 1}">selected</c:if>>园建水电</option>
+                        <option value="2" <c:if test="${orderVo.type == 2}">selected</c:if>>机械租赁</option>
+                        <option value="3" <c:if test="${orderVo.type == 3}">selected</c:if>>工程分包</option>
+                    </select>
+                </div>
+            </div>
         </div>
 		<div class="layui-form-item">
-
             <div class="layui-inline">
                 <label class="layui-form-label css-required">申请人</label>
                 <div class="layui-input-inline">
@@ -177,9 +187,6 @@
                 </div>
             </div>
         </div>
-		<%--<div class="layui-form-item">
-
-		</div>--%>
         <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label css-required">已请款总额</label>
@@ -203,12 +210,6 @@
 		</div>
     </form>
 
-    <%--<hr class="layui-bg-gray">--%>
-    <%--<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-        <legend>订单明细及审核流程</legend>
-    </fieldset>--%>
-
-
     <div class="layui-tab layui-tab-brief">
         <ul class="layui-tab-title">
             <li class="layui-this">订单明细</li>
@@ -218,28 +219,27 @@
             <div class="layui-tab-item layui-show">
                 <div class="layui-table-header">
                     <blockquote class="layui-elem-quote" style="margin-bottom: 0px;">
-                        <a class="layui-btn layui-btn-sm add_btn_item" onclick="add()"><i class="layui-icon"></i>增加</a>
-                        <a class="layui-btn layui-btn-sm save_btn_item" onclick="saveItem()"><i class="layui-icon"></i>保存</a>
+                        <c:if test="${orderVo.id != null && orderVo.status == 0}">
+                            <a class="layui-btn layui-btn-sm add_btn_item" onclick="add()"><i class="layui-icon"></i>增加</a>
+                            <a class="layui-btn layui-btn-sm save_btn_item" onclick="saveItem()"><i class="layui-icon"></i>保存</a>
+                        </c:if>
                     </blockquote>
-                    <table id="orderItemThead" cellspacing="0" cellpadding="0" border="0" class="layui-table" lay-size="sm" style="margin: 0px 0px">
+                </div>
+                <div class="layui-table-body layui-table-main" style="height: 340px; margin-top: -11px">
+                    <table id="orderItem" class="layui-table" lay-size="sm">
                         <thead>
                             <tr>
-                                <th>序号</th>
-                                <th data-field="content">材料/项目内容</th>
-                                <th data-field="model">规格型号</th>
-                                <th data-field="unit">单位</th>
-                                <th data-field="price">单价</th>
-                                <th data-field="amount">数量</th>
-                                <th data-field="totalPrice">金额</th>
-                                <th data-field="remark">备注</th>
-                                <th class="layui-table-col-special">操作</th>
+                                <th style="width: 29px;">序号</th>
+                                <th data-field="content" style="width: 122px;">材料/项目内容</th>
+                                <th data-field="model" style="width: 122px;">规格型号</th>
+                                <th data-field="unit" style="width: 122px;">单位</th>
+                                <th data-field="price" style="width: 122px;">单价</th>
+                                <th data-field="amount" style="width: 122px;">数量</th>
+                                <th data-field="totalPrice" style="width: 122px;">金额</th>
+                                <th data-field="remark" style="width: 122px;">备注</th>
+                                <th class="layui-table-col-special" style="width: 50px;">操作</th>
                             </tr>
                         </thead>
-                    </table>
-                </div>
-
-                <div class="layui-table-body layui-table-main" style="height: 320px; margin-top: -11px">
-                    <table id="orderItem" class="layui-table" lay-size="sm">
                         <tbody>
                             <tr>
                                 <td><div class="layui-table-cell">001</div></td>
@@ -253,6 +253,16 @@
                                 <td align="center" class="layui-table-col-special"><div class="layui-table-cell"><a class="layui-btn layui-btn-danger layui-btn-xs" onclick="del(this)" title="删除"><i class="layui-icon"></i></a></div></td>
                             </tr>
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="4" style="width: 29px;"></th>
+                                <th data-field="price" style="width: 122px;">平均价:<span>111</span></th>
+                                <th data-field="amount" style="width: 122px;">总数量:<span>111</span></th>
+                                <th data-field="totalPrice" style="width: 122px;">总金额:<span>111</span></th>
+                                <th data-field="remark" style="width: 122px;"></th>
+                                <th class="layui-table-col-special" style="width: 50px;"></th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -272,6 +282,7 @@
     <script type="text/javascript" src="${ctx }/js/projectManger/projectMangerSelect.js"></script>
     <script type="text/javascript" src="${ctx }/js/supplier/supplierSelect.js"></script>
     <script type="text/javascript" src="${ctx }/js/biz/submitOrder.js?v=123"></script>
+
 
 </body>
 </html>

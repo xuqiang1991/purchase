@@ -1,11 +1,13 @@
 var $;
 var $form;
 var form;
+var parentIndex;
 layui.config({
     base : "js/"
-}).use(['form','layer','jquery','laydate','table','element'],function(){
+}).use(['form','layer','jquery','laydate','table'],function(){
     var layer = parent.layer === undefined ? layui.layer : parent.layer,
-        laypage = layui.laypage,laydate = layui.laydate,table = layui.table,element = layui.element;
+        laypage = layui.laypage,laydate = layui.laydate,table = layui.table;
+    parentIndex = parent.layer.getFrameIndex(window.name);
     $ = layui.jquery;
     form = layui.form;
     laydate.render({elem: '#applyDate',max: 'new Date()'});
@@ -25,7 +27,7 @@ layui.config({
     $("#selectSupplierId").click(function(){
         supplierSelect('selectSupplierId','supplierId','selectSupplierId');
     });
-
+    //console.log("parentIndex:" + parentIndex);
     //加载明细
     loadDetail();
     //保存订单
@@ -63,6 +65,12 @@ layui.config({
         },2000);
         return false;
     })
+
+    /*form.on("submit(cancel)",function(data){
+        console.log(JSON.stringify(data.field));
+        layer.closeAll("iframe");
+    })*/
+
 })
 
 var regExpUtil = new RegExpUtil();
@@ -187,10 +195,10 @@ function sort(){
             $(item).find("td:first").find("div").text(idxText);
         });
     }
-    exect();
+    //exect();
 }
 
-function exect(){
+/*function exect(){
     var tbody = $("#orderItem").find("tbody >tr").last().find("td");
     var thead = $("#orderItemThead").find("thead >tr");
     tbody.each(function(idx,item){
@@ -201,7 +209,7 @@ function exect(){
         console.log(t.width() + "--" + width);
     })
 
-}
+}*/
 
 //金额计算
 function reckon(event){
@@ -221,10 +229,10 @@ function loadDetail(){
     var loadDetailUrl = ctx+"/biz/order/getItemList";
     var data = {orderId:orderId};
     $.getJSON(loadDetailUrl, data, function(json){
-        console.log(JSON.stringify(json.data));
+        //console.log(JSON.stringify(json.data));
         if(json.code == 0){
             var result = json.data;
-            console.log(result.length);
+            //console.log(result.length);
             var html = "";
             for(var i = 0; i < result.length; i++){
                 html += '<tr><td><div class="layui-table-cell">' + i + '</div></td>' +
@@ -333,43 +341,6 @@ function submitOrder(){
     if(orderId != null && orderId != ''){
         var url = ctx + '/biz/order/submit';
         toSubmit(orderId,0,url);
-        //adminSelect('selectApplyUserEdit','applyUserEdit','selectApplyUserEdit');
-
-
-
-
-
-
-        /*var msg,flag=false;
-        var url = ctx + '/biz/order/submit?id='+orderId+'&userId=' + userId + '&roleId=' + roleId;
-        var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
-        $.ajax({
-            type: "post",
-            url: url,
-            dataType:"json",
-            contentType : "application/x-www-form-urlencoded",
-            success:function(d){
-                if(d.code==0){
-                    msg="保存成功！";
-                    flag=true;
-                    //$("#auf")[0].reset();
-                }else{
-                    msg=d.msg;
-                }
-            }
-        });
-        setTimeout(function(){
-            top.layer.close(index);
-            if(flag){
-                top.layer.msg(msg,{icon: 1});
-            }else{
-                top.layer.msg(msg,{icon: 5});
-            }
-            //layer.closeAll("iframe");
-            //刷新父页面
-            //parent.location.reload();
-        },2000);
-        return false;*/
     }else{
         layer.msg("请先添加订单",{icon: 0});
     }
@@ -381,45 +352,8 @@ function submitOrder(){
 function reviewOrder(){
     var orderId = $("#orderId").val();
     if(orderId != null && orderId != ''){
-        var url = ctx + '/biz/order/submit';
+        var url = ctx + '/biz/order/review';
         toSubmit(orderId,1,url);
-        //adminSelect('selectApplyUserEdit','applyUserEdit','selectApplyUserEdit');
-
-
-
-
-
-
-        /*var msg,flag=false;
-        var url = ctx + '/biz/order/submit?id='+orderId+'&userId=' + userId + '&roleId=' + roleId;
-        var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
-        $.ajax({
-            type: "post",
-            url: url,
-            dataType:"json",
-            contentType : "application/x-www-form-urlencoded",
-            success:function(d){
-                if(d.code==0){
-                    msg="保存成功！";
-                    flag=true;
-                    //$("#auf")[0].reset();
-                }else{
-                    msg=d.msg;
-                }
-            }
-        });
-        setTimeout(function(){
-            top.layer.close(index);
-            if(flag){
-                top.layer.msg(msg,{icon: 1});
-            }else{
-                top.layer.msg(msg,{icon: 5});
-            }
-            //layer.closeAll("iframe");
-            //刷新父页面
-            //parent.location.reload();
-        },2000);
-        return false;*/
     }else{
         layer.msg("请先添加订单",{icon: 0});
     }
@@ -429,7 +363,27 @@ function reviewOrder(){
  * 作废订单
  */
 function invalidOrder(){
+    var orderId = $("#orderId").val();
+    if(orderId != null && orderId != ''){
+        layer.confirm('确定作废订单？', function(index){
+            layer.msg("开发中",{icon: 0});
+            layer.close(index);
+        });
 
+    }else{
+        layer.msg("请先添加订单",{icon: 0});
+    }
 }
 
-
+/**
+ * cancel
+ */
+function cancel(){
+    /*//layer.closeAll("iframe");
+    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+    console.log(index);
+    parent.layer.close("layui-layer-iframe1"); //再执行关闭*/
+    //window.location.href = ctx + "/biz/order/list";
+    console.log(parentIndex);
+    parent.layer.close(parentIndex);
+}
